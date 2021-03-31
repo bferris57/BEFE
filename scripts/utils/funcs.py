@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 #coding=utf-8
 from __future__ import print_function
 #==============================================================================
@@ -1827,7 +1827,7 @@ if __name__ == "__main__":
         hosts = parseHosts(args)
         print("hosts = %s"%repr(hosts))
 
-    if False:
+    if True:
         Error("Dude!!!",False)
         Error("Dude2!!!")
 
