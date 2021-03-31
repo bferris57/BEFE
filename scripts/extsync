@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+#================================================================================
+#
+# File:  extsync
+#
+# Usage: Move missing files from USB drive to SD card
+#
+# Notes: This script only works on Linux (intentionally).
+#
+#================================================================================
+
+from   utils.walker import walk
+import os
+import sys
+from   utils.errors import *
+import colr
+from   utils.walker import walk
+
+#---
+#
+# Globals...
+#
+
+debug       = False
+verbose     = False
+veryverbose = True
+
+#---
+#
+# Function: color - Use colr.color if stdout is a tty
+#
+
+def color(*args,**kwargs):
+
+  if not sys.stdout.isatty():
+    return args[0]
+  return colr.color(*args,**kwargs)
+
+#---
+#
+# Function: expand - Expand file/path to full path
+#
+
+def expand(path):
+
+  return os.path.abspath(os.path.expanduser(path))
+
+#--
+#
+# Function: copyOneFile 
+#
+# Usage:    except = copoyOneFile(srcfile,dstfile)
+#
+
+def copyOneFile(srcfile,dstfile):
+
+  sisdir  = os.path.isdir(srcfile)
+  sisfile = os.path.isfile(srcfile)
+  disdir  = os.path.isdir(dstfile)
+  disfile = os.path.isfile(dstfile)
+
+  print('sidir:   '+repr(sisdir))
+  print('sisfile: '+repr(sisfile))
+  print('disdir:  '+repr(disdir))
+  print('disfile: '+repr(disfile))
+
+  sfd = os.open(srcfile,os.O_RDONLY)
+  sstat = os.fstat(sfd)
+  print('ssize:   '+str(sstat.st_size))
+  dfs = os.open(dstfile,os.O_WRONLY|os.O_CREAT)
+
+  result = NotImplementedError("copyOneFile not finished yet")
+
+  return result
+
+#---
+#
+# Main
+#
+
+if __name__ == '__main__':
+
+  file    = 'GloryholeAdmissions.E33.Tiny.Teen.Vixen.Creamed.On.Face.XXx.mp4'
+  srcdir  = expand('~/SRC/bb/_Other')
+  dstdir  = expand('~/DST/bb/_Other')
+  srcfile = expand(srcdir+'/'+file)
+  dstfile = expand(dstdir+'/'+file)
+
+  print('file:    '+file)
+  print('srcfile: '+srcfile)
+  print('dstfile: '+dstfile)
+
+  # TEMP...
+  root = expand('~/SRC/bb/')
+  rlen = len(root)
+  if root[-1] == '/': rlen -= 1
+
+  print(srcdir+' files...')
+
+  files = walk(srcdir)
+  for file in files:
+    print('  '+file[rlen+1:])
+
+
+  sys.exit()
+  # ...TEMP
+
+  result = copyOneFile(srcfile,dstfile)
+  if result:
+    print(color("ERROR: "+str(result),fore='red',style='bright'))
+  print('Finished')
+

@@ -1,0 +1,10 @@
+file:    GloryholeAdmissions.E33.Tiny.Teen.Vixen.Creamed.On.Face.XXx.mp4
+srcfile: /home/bferris57/SRC/bb/_Other/GloryholeAdmissions.E33.Tiny.Teen.Vixen.Creamed.On.Face.XXx.mp4
+dstfile: /home/bferris57/DST/bb/_Other/GloryholeAdmissions.E33.Tiny.Teen.Vixen.Creamed.On.Face.XXx.mp4
+sidir:   False
+sisfile: True
+disdir:  False
+disfile: True
+ssize:   589315903
+ERROR: copyOneFile not finished yet
+Finished

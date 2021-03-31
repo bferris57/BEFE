@@ -1,0 +1,27 @@
+{
+  "data": {
+    "request": {
+      "action": "attested",
+      "attestWrite": true,
+      "hostName": "thorny4",
+      "id": "{b778a1f1-291f-4710-bdea-0f9ee1783406}",
+      "quoteName": "quote#thorny4@2020-01-06T12:54:01.188",
+      "replyTo": "localhost:9997",
+      "requestFrom": "thorny3"
+    },
+    "response": {
+      "attestEnd": "2020-01-06T12:54:21.347",
+      "attestStart": "2020-01-06T12:54:19.284",
+      "bios": true,
+      "heapMemoryEnd": 86069864,
+      "heapMemoryStart": 89213032,
+      "ima": true,
+      "imaExceptions": [],
+      "location": false,
+      "msgQueue.size": 1,
+      "responseFrom": "thorny3",
+      "status": "OK",
+      "vmm": true
+    }
+  }
+}

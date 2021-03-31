@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+#coding=utf-8
+
+b = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+f = open('t.txt','wb')
+for i in range(0,8):
+    f.write(b)
+f.close()
