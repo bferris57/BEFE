@@ -34,13 +34,18 @@ if __name__ == '__main__':
     if not path.exists(file):
       Error("File %s does not exist"%repr(file))
       continue
-    contents = open(file).read()
-    lines = contents.split('\r')
+    contents = open(file,'rb').read()
+    lines = contents.split(b'\r')
     numcr = len(lines)-1
-    Notice("File %s has %d CR in it"%(repr(file),len(lines)-1))
+    Error("len(lines) = %d"%len(lines))
+    Notice("File %s has %d CR-LFs in it"%(repr(file),len(lines)-1))
     if numcr < 1: 
-      Notice("File %s has 0 CRs in it, skipping..."%repr(file))
+      Notice("File %s has 0 CR-LFs in it, skipping..."%repr(file))
       continue
-    contents = open(file).write(lines.join('\n'))
-    Notice("File %s fixed (%d CR%s)"%(repr(file),numcr,'' if numcr == 1 else 's'))
+    contents = b''.join(lines)
+    f = open(file,'wb+')
+    f.write(contents)
+    f.truncate()
+    f.close()
+    Notice("File %s fixed (%d CR-LF%s)"%(repr(file),numcr,'' if numcr == 1 else 's'))
 

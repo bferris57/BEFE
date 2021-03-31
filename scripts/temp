@@ -30,5 +30,8 @@ if False:
 
 if True:
 
-  dirs = walk('.',dirsonly=True)
-  print("dirs = %s"%repr(dirs))
+  x = b'line 1\r\nline 2'
+  x = x.split(b'\r')
+  print('x = %s'%repr(x))
+  x = b''.join(x)
+  print('x = %s'%repr(x))

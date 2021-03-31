@@ -1,4 +1,9 @@
 #!/usr/bin/env python
 #  coding=utf-8
 
-print("__file__ = %s"%repr(__file__))
+x = 'line 1\r\nline 2'
+print('x = %s'%repr(x))
+lines = x.split('\r')
+print('lines = %s'%repr(lines))
+x = ''.join(lines)
+print('x = %s'%repr(x))
