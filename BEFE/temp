@@ -1,0 +1,6 @@
+#!/bin/bash
+
+git rm -rf ./python/100Percent/__pycache__
+git rm -rf ./python/__pycache__
+git rm -rf ./scripts/__pycache__
+git rm -rf ./spider/__pycache__

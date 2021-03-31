@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 #coding=utf-8
 #===============================================================================
 #
@@ -41,13 +41,6 @@ _types_ = {
   'debug'       : bool,
   'bash'        : bool,
 }
-
-# OatConnections...
-oats       = {}
-currentOat = None
-
-# Porridge input line queue...
-g_lineQueue = []
 
 # Stack of global values...
 _stack_ = []

@@ -14,17 +14,13 @@ from __future__ import print_function
 #            Literal            - Print literal message
 #            Debug              - Print debug message (if debug and verbose are set)
 #            NotImp             - Print "Not implemented"
+#            Notice             - Print a notice message
 #            Prefix             - Print string with prefix
 #            findConfigFile     - Find a config file using path described below
 #            deepSearch         - Search directory deep for files
 #
 #            dtNow              - datetime.datetime object for datetime now
-#            dtFromNonce        - datetime.datetime object from Nonce string
-#            dtToNonce          - datetime.datetime object to a Nonce string
 #            dtToReadable       - datetime.datetime object to human readable date @ time
-#            deltaSeconds       - "How old is a datetime object in seconds?"
-#            dtNowNonce         - Return string Timestamp of datetime now
-#            isValidNonce       - "Is this a valid timestamp nonce?"
 #
 #            getHostName        - "What's my machine name?"
 #            myIps              - Return list of my IP addresses
@@ -35,19 +31,10 @@ from __future__ import print_function
 #            hostAlive          - "Is named host alive? (ping it once)"
 #            getPid             - General "find PID of something somewhere"
 #            getPids            - General "Find PID(s) of something somewhere"
-#            getAdminPythonPids - Return Admin      Porridge Python pid (or '' if None)
-#            getOatPythonPids   - Return OAT        Porridge Python pid(s) (or [] if None)
-#            getHyperPythonPid  - Return Hypervisor Porridge Python pid (or '' if None)
-#            getHttpsPythonPid  - Return HTTP       Porridge Python pid (or '' if None)
 #            isValidQuote       - Is this string a valid quote?
-#            quoteAikcert       - Pull AIKcert from quote
-#            quoteNonce         - Pull Nonce from quote
-#            quoteSignature     - Pull Signature from quote
-#            quoteIma           - Pull IMA exceptions from quote
 #            flushout           - Flush stdout and stderr
 #            isInt              - "Is this string a valid integer?"
 #            isFloat            - "Is this string a valid floating point numbere?"
-#            isJsonString       - "Is this string a valid Json string?"
 #            isHexString        - "Is this a hexidecimal string?"
 #            username           - Return current OS user name
 #
@@ -92,6 +79,8 @@ from __future__ import print_function
 #
 #            packages           - Return list of installed packages
 #
+#            color              - Nice replacement for clr.color
+#
 #==============================================================================
 
 import subprocess
@@ -103,10 +92,10 @@ import time
 import json
 import shlex
 import hashlib
-import re
-import jsonFuncs
-
 import globals
+import re
+import colr
+
 
 #------------------------------------------------------------------------------
 #
@@ -208,15 +197,16 @@ def execute(cmd,prefix='',showout=False,showerr=False,env=os.environ,debug=False
 #            Info     - Print info (if verbose set)
 #            Literal  - Print literal message
 #            Debug    - Print debug message (if debug and verbose are set)
+#            Notice   - Print a notice message
 #            NotImp   - Print "Not implemented"
 #
 #            Prefix   - Print string with prefix
 #
 #-------------------------------------------------------------------------------
 
-def Error(msg,nl=True):
+def Error(msg,nl=True,fore='red',style='bright'):
 
-    Prefix("Error: ",msg,nl=nl)
+    Prefix("Error: ",msg,nl=nl,fore=fore,style=style)
 
 def Warning(msg,nl=True):
 
@@ -240,6 +230,11 @@ def Debug(msg,nl=True):
     if globals.debug and globals.verbose:
         Prefix("Debug: ",msg,nl=nl)
 
+def Notice(msg,nl=True):
+
+    if not globals.quiet:
+        Prefix("Notice: ",msg,nl=nl)
+
 def NotImp(item=None,nl=True):
 
     if not item:
@@ -254,7 +249,7 @@ def Deprecated(item=None,nl=True):
     else:
         Error("*** %s Deprecated ***"%repr(item),nl)
 
-def Prefix(prefix,msg,samePrefix=False,nl=True):
+def Prefix(prefix,msg,samePrefix=False,nl=True,fore=None,style=None):
 
     end = '\n' if nl else ''
 
@@ -262,14 +257,16 @@ def Prefix(prefix,msg,samePrefix=False,nl=True):
     thisPrefix = prefix
     if len(msgs) > 1:
         print('')
-        for msg in msgs:
-            print(thisPrefix+msg,end=end)
+        for i in range(0,len(msgs)):
+            msg = thisPrefix+msgs[i]
+            msg = color(msg,fore=fore,style=style)
+            print(msg)
             if not samePrefix:
                 thisPrefix = ' '*len(prefix)
     else:
-        print(thisPrefix+msg)
-    if nl:
-        print('')
+        msg = thisPrefix+msg
+        msg = color(msg,fore=fore,style=style)
+        print(msg)
 
 #-------------------------------------------------------------------------------
 #
@@ -326,23 +323,6 @@ def findConfigFile(filename='porridge.json'):
         return fullpath
 
     return ''
-
-#-------------------------------------------------------------------------------
-#
-# Function: loadPorridgeConfig()
-#
-# Purpose:  Load 'porridge.json' and parse it
-#
-# Usage:    dic = loadPorridgeConfig()
-#
-# Where:    dic - dict: Dictionary containing the following...
-#
-#             [''] -
-#
-
-def loadPorridgeConfig():
-
-    configFile = findConfigFile()
 
 #-------------------------------------------------------------------------------
 #
@@ -526,95 +506,6 @@ def getHostName():
     import socket
     return socket.gethostname()
 
-#------------------------------------------------------------------------------
-#
-# Function: objNameAge - Compute age (in float seconds) of an object's name
-#                         in the form "<prefix>@<timestamp>"
-#
-# Usage:    secs = objNameAge(name)
-#
-# Where:    name - str: Name of object
-#           secs - float: Seconds old (None = "Invalid name")
-#
-
-def objNameAge(name):
-
-    import time
-
-    if type(name) != str and type(name) != globals.unicode: return None
-    parts = name.split('@')
-    if len(parts) != 2: return None
-    s = parts[1].strip()
-
-    # Validate length and delimeters...
-    if len(s) != 23: return -1
-    delims = s[4]+s[7]+s[10]+s[13]+s[16]+s[19]
-    if delims != "--T::.": return None
-
-    # Get parts of second...
-    try:    milliseconds = float(s[-3:])/1000.0
-    except: return None
-
-    # Turn into struct_time...
-    try:
-        st = time.strptime(s[:-4],"%Y-%m-%dT%H:%M:%S")
-    except:
-        return None
-
-    # Figure out age in seconds...
-    now = time.time()
-    then = time.mktime(st) + milliseconds
-
-    return now-then
-
-#------------------------------------------------------------------------------
-#
-# Function: objNameHost - Extract host name from object name
-#
-# Usage:    name = objNameHost(objName)
-#
-# Where:    objName - str: Name of the object
-#           name    - str: Name of the host ('' if no host name in objName)
-#
-
-def objNameHost(objName):
-
-    parts = objName.split('#')
-    host = ''
-    if parts and len(parts) == 2 and parts[0] == 'quote':
-        parts = parts[1].split('@')
-        if parts and len(parts) == 2:
-            host = parts[0]
-    if parts and len(parts) == 2 and parts[0] == 'attest':
-        parts = parts[0]
-
-    return host
-
-def timestampAge(ts):
-
-    s = ts.strip()
-
-    # Validate length and delimeters...
-    if len(s) != 23: return None
-    delims = s[4]+s[7]+s[10]+s[13]+s[16]+s[19]
-    if delims != "--T::.": return None
-
-    # Get parts of second...
-    try:    milliseconds = float(s[-3:])/1000.0
-    except: return None
-
-    # Turn into struct_time...
-    try:
-        st = time.strptime(s[:-4],"%Y-%m-%dT%H:%M:%S")
-    except:
-        return None
-
-    # Figure out age in seconds...
-    now = time.time()
-    then = time.mktime(st) + milliseconds
-
-    return now-then
-
 #-------------------------------------------------------------------------------
 #
 # Function: promptInput - Prompt and get input from <stdin>
@@ -791,138 +682,6 @@ def getPids(lookFor='',host=''):
 
 #-------------------------------------------------------------------------------
 #
-# Functions: getAdminPythonPids - Return host's ADMIN Listener Python PID(s)
-#            getOatPythonPids   - Return host's OAT Python PID(s)
-#            getHyperPythonPid  - Return host's Hypervisor Python PID
-#            getHttpsPythonPid  - Return host's Https Python PID
-#
-# Note: We GUARANTEE return value with be either '' or a valid integer string
-#
-
-def getAdminPythonPids(host=''):
-
-    return getPids(lookFor="adminlisten",host=host)
-
-def getOatPythonPids(host=''):
-
-    return getPids(lookFor="oattimerloop",host=host)
-
-def getHyperPythonPid(host=''):
-
-    return getPid(lookFor="hypervisor loop",host=host)
-
-def getHttpsPythonPid(host=''):
-
-    return getPid(lookFor="httplisten",host=host)
-
-#------------------------------------------------------------------------------
-#
-# Function: isValidQuote - "Is this string a valid quote?"
-#
-# Usage:    valid = isValidQuote(string)
-#
-# Where:    string - str: TrustAgent quote string (UTF-8)
-#           valie  - boolean: True = "Is Valid", False = "Is NOT Valid"
-#
-
-def isValidQuote(string):
-
-    if type(string) is not str: return False
-
-    start = '<client_request>'
-    end   = '</client_request>'
-    sPos = string.find(start)
-    ePos = string.find(end)
-    if sPos < 0 or ePos < 0 or ePos < sPos:
-        return False
-
-    return True
-
-#------------------------------------------------------------------------------
-#
-# Function: quoteAikcert - Pull AIKcert from quote
-#
-# Usage:    cert = quoteAikcert(quote)
-#
-#           Where: quote - str: Quote string
-#                  cert  - str: AIK Certificate part of quote (None = "Malformed")
-#
-
-def quoteAikcert(quote):
-
-    start = "<aikcert>"
-    end   = "</aikcert>"
-    sPos  = quote.find(start)
-    ePos  = quote.find(end)
-
-    if sPos < 0 or ePos < 0 or ePos <= sPos: return None
-
-    cert = quote[sPos+len(start):ePos]
-
-    t = '-----BEGIN CERTIFICATE-----'
-    if cert[0:len(t)] == t:
-        cert = t + '\r\n' + cert[len(t):]
-
-    #cert = ''.join(cert.split('\r'))
-
-    return cert+'\r\n'
-
-#-------------------------------------------------------------------------------
-#
-# Function: quoteNonce - Pull Nonce from quote
-#
-
-def quoteNonce(quote):
-
-    start = "<nonce>"
-    end   = "</nonce>"
-    sPos  = quote.find(start)
-    ePos  = quote.find(end)
-
-    if sPos < 0 or ePos < 0 or ePos <= sPos: return None
-
-    nonce = quote[sPos+len(start):ePos]
-
-    return nonce
-
-#-------------------------------------------------------------------------------
-#
-# Function: quoteSignature - Pull Signature from quote
-#
-
-def quoteSignature(quote):
-
-    start = "<quote>"
-    end   = "</quote>"
-    sPos  = quote.find(start)
-    ePos  = quote.find(end)
-
-    if sPos < 0 or ePos < 0 or ePos <= sPos: return None
-
-    sig = quote[sPos+len(start):ePos]
-
-    return sig
-
-#-------------------------------------------------------------------------------
-#
-# Function: quoteIma - Pull IMA exceptions from quote
-#
-
-def quoteIma(quote):
-
-    start = "<ima>"
-    end   = "</ima>"
-    sPos  = quote.find(start)
-    ePos  = quote.find(end)
-
-    if sPos < 0 or ePos < 0 or ePos <= sPos: return None
-
-    ima = quote[sPos+len(start):ePos]
-
-    return ima
-
-#-------------------------------------------------------------------------------
-#
 # Function: flushOut - Flush stdout and stderr
 #
 
@@ -935,7 +694,6 @@ def flushOut():
 #
 # Functions: isInt        - "Is this string a valid integer?"
 #            isFloat      - "Is this string a valid floating point number?"
-#            isJsonString - "Is this string a valid Json string?"
 #            isHexString  - "Is this string a valid hexidecimal string?"
 #
 
@@ -956,21 +714,6 @@ def isFloat(string):
         return False
 
     return True
-
-def isJsonString(string):
-
-    if type(string) != str or not string:
-        return False
-    string = string.strip()
-    if (string[0] == '{' and string[-1] == '}') or \
-       (string[0] == '[' and string[-1] == ']'):
-        try:
-            import json
-            obj = jsonFuncs.loads(string)
-            return True
-        except:
-            pass
-    return False
 
 def isHexString(string):
 
@@ -1814,6 +1557,17 @@ def packages():
 
   return packs
 
+#---
+#
+# Function: color - Use colr.color if stdout is a tty
+#
+
+def color(*args,**kwargs):
+
+  if not sys.stdout.isatty() or not 'fore' in kwargs:
+    return args[0]
+  return colr.color(*args,**kwargs)
+
 #-------------------------------------------------------------------------------
 #
 # __main__
@@ -1828,7 +1582,7 @@ if __name__ == "__main__":
         print("hosts = %s"%repr(hosts))
 
     if True:
-        Error("Dude!!!",False)
+        Error("Dude!!!\nDude1",nl=False)
         Error("Dude2!!!")
 
     if False:
