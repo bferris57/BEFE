@@ -1,0 +1,67 @@
+//!befe-publish examples
+//----------------------------------------------------------------------
+// File: Main1.cpp - Sample Minimal BEFE Main program
+//----------------------------------------------------------------------
+//
+// This is a sample of a mindlessly simple C++ main application program
+// That uses BEFE for a couple of Typedefs/Classes, and instead of using
+// std::cout, uses BEFE::Cout for output
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011-2012, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+#include "BEFE.h"
+using namespace BEFE;
+
+// The BEFE runtime context (doesn't matter what it's named)...
+Befe theBefe;
+
+// Forward function prototypes
+UInt Fibonacci(UInt n);
+
+//
+// Function: main - C++ Console Application Main
+//
+
+int main(int argc, char **argv) {
+
+  UInt i;
+  UInt fib;
+  
+  Cout << "main starting...\n";
+  
+  for (i=0; i < 10; i++)
+    Cout << i << ": " << Fibonacci(i) << '\n';
+  
+  return 0;
+  
+}
+
+//
+// Function: Fibonacci - Return Nth entry in the Fibonacci series
+//
+
+UInt Fibonacci(UInt n) {
+
+  UInt vals[3];
+
+  if (n == 0)
+    return 0;
+  if (n == 1)
+    return 1;
+    
+  vals[0] = 0;
+  vals[1] = 1;
+
+  do {
+    vals[2] = vals[0] + vals[1];
+    if (n == 2)
+      break;
+    vals[0] = vals[1];
+    vals[1] = vals[2];
+    n--;
+  } while (true);
+  
+  return vals[2];
+  
+}

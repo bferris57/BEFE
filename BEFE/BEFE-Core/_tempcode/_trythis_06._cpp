@@ -1,0 +1,64 @@
+#include "BEFE.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+char const *types[] = {"Empty","Const","ConstLen","ASCII1","ASCII2","ASCII3","ASCII4","UtfInline","Buffer",NULL};
+                    
+Status trythis() {
+
+  String  iString = "0123456789";
+  String  rString;
+  String  sString;
+  String  sString1;
+  String  sString2;
+  void   *ptr;
+  Boolean answer;
+  
+  // Test Get(Range) and Get(Slice)...
+  rString = iString.Get(Range("1..8"));
+  Cout << "iString(Range(\"1..8\"))= '" << rString << "'\n";
+  Cout << "       String.GetType = " << types[rString.GetType()] << '\n';
+  sString = iString.Get(Slice("1:9"));
+  Cout << "iString(Slice(\"1:9\")) = '" << sString << "'\n";
+  Cout << "       String.GetType = " << types[sString.GetType()] << '\n';
+  
+  // Test Case Sensitivity...
+  Cout << '\n';
+  sString1 = "Hi There";
+  sString2 = "hi there";
+  answer = (sString1 == sString2);
+  Cout << "Sensitive   compare: '" << sString1 << "' " << ((answer)?"==":"!=") << " '" << sString2 << "'\n";
+  Cout << "               Hash: 0x" << ToHexString(sString1.Hash(),8) << '\n';
+  sString1.Insensitive();
+  answer = (sString1 == sString2);
+  Cout << "Insensitive compare: '" << sString1 << "' " << ((answer)?"==":"!=") << " '" << sString2 << "'\n";
+  Cout << "               Hash: 0x" << ToHexString(sString1.Hash(),8) << '\n';
+
+  // Test memory validity
+  ptr = 0;
+  answer = TheProcess->AddressIsReadable(ptr);
+  Cout << "         0x" << ToHexString((UInt)ptr,8) << ": " << ((answer)?"IS":"IS NOT") << " readable\n";
+  answer = TheProcess->AddressIsWritable(ptr);
+  Cout << "         0x" << ToHexString((UInt)ptr,8) << ": " << ((answer)?"IS":"IS NOT") << " writable\n";
+  ptr = &sString1;
+  answer = TheProcess->AddressIsReadable(ptr);
+  Cout << "         0x" << ToHexString((UInt)ptr,8) << ": " << ((answer)?"IS":"IS NOT") << " readable\n";
+  answer = TheProcess->AddressIsWritable(ptr);
+  Cout << "         0x" << ToHexString((UInt)ptr,8) << ": " << ((answer)?"IS":"IS NOT") << " writable\n";
+  ptr = (void *)"Some constant string";
+  answer = TheProcess->AddressIsReadable(ptr);
+  Cout << "         0x" << ToHexString((UInt)ptr,8) << ": " << ((answer)?"IS":"IS NOT") << " readable\n";
+  answer = TheProcess->AddressIsWritable(ptr);
+  Cout << "         0x" << ToHexString((UInt)ptr,8) << ": " << ((answer)?"IS":"IS NOT") << " writable\n";
+  
+  return Error::None;
+  
+}
+
+}; // Namespace BEF_NS

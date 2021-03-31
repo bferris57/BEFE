@@ -1,0 +1,152 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2002.10.12.10.22.07;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.12.09.59.37;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@Changed XMLCursor to only access attributes by name
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Bruce Ferris (Personal) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="classes" type="classesType">
+		<xs:annotation>
+			<xs:documentation>Set of classes</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="descriptionType">
+		<xs:annotation>
+			<xs:documentation>Short 1 line description</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="urlType">
+		<xs:annotation>
+			<xs:documentation>Reference to a file</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="api" type="urlType">
+		<xs:annotation>
+			<xs:documentation>Header file</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="description" type="descriptionType">
+		<xs:annotation>
+			<xs:documentation>Short description (1 liner)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="discussion">
+		<xs:annotation>
+			<xs:documentation>Longer discussion</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="implementation" type="urlType">
+		<xs:annotation>
+			<xs:documentation>C++ file</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="classType">
+		<xs:annotation>
+			<xs:documentation>A single class definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="description"/>
+			<xs:element ref="api"/>
+			<xs:element ref="implementation"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="nameType" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="nameType">
+		<xs:annotation>
+			<xs:documentation>The name of something</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="name"/>
+	<xs:complexType name="classesType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="class"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="class" type="classType"/>
+</xs:schema>
+@
+
+
+1.1
+log
+@Started on HTML documentation
+@
+text
+@d4 1
+a4 11
+	<xs:complexType name="classdef"/>
+	<xs:element name="class">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="classdef">
+					<xs:attribute name="name" type="name" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="classes" type="classdef">
+d9 1
+a9 7
+	<xs:simpleType name="name">
+		<xs:annotation>
+			<xs:documentation>Name of something</xs:documentation>
+		</xs:annotation>
+		<xs:restriction/>
+	</xs:simpleType>
+	<xs:simpleType name="description">
+d13 4
+a16 1
+		<xs:restriction/>
+d18 1
+a18 1
+	<xs:simpleType name="url">
+d22 4
+a25 1
+		<xs:restriction/>
+d27 1
+a27 1
+	<xs:element name="api" type="url">
+d32 1
+a32 1
+	<xs:element name="description" type="description">
+d42 1
+a42 1
+	<xs:element name="implementation" type="url">
+d47 27
+@
+

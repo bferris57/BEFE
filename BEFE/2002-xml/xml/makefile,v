@@ -1,0 +1,542 @@
+head	1.8;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.8
+date	2002.11.16.09.42.15;	author Bruce;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.11.16.08.30.27;	author Bruce;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.11.16.07.52.08;	author Bruce;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.11.10.17.09.21;	author Bruce;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.11.10.11.48.32;	author Bruce;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.11.10.08.38.22;	author Bruce;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.11.10.07.41.45;	author Bruce;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.11.08.06.58.06;	author Bruce;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.8
+log
+@More profiling work - 0.00 times, yuck!
+@
+text
+@#-------------------------------------------------------------------------------
+#
+# FILE
+#
+#  makefile - Make everything
+#
+# DESCRIPTION
+#
+#  This file is used to perform various development/build related actions.
+#
+
+#
+# General setup
+#
+
+root     := $(shell 'pwd')/
+modules  := xml general txml html
+libs     := xml general
+exes     := txml html
+
+builddir := build
+
+#
+# Compile/link options
+#
+
+# Compiler
+CC := gcc
+
+# Normal CFLAGS				
+CFLAGS := -g -Wno-deprecated
+
+# Uncomment this for profiling (haven't sorted out 0.00 time problems yet)
+#CFLAGS := $(CFLAGS) -pg
+
+#
+# Variables we need to work
+#
+
+# include directories
+includes := $(addprefix -I,$(modules))
+
+# target executables
+executables := $(addsuffix .exe,$(exes))
+
+# target libraries
+libraries   := $(addsuffix .a,$(libs))
+libraries   := $(addprefix $(builddir)/,$(libraries))
+
+# dependency files
+depends     := $(addsuffix .mak,$(modules))
+depends     := $(foreach dep,$(depends),$(builddir)/$(dep))
+
+# object files
+sources     := $(foreach dir,$(modules),$(wildcard $(dir)/*.cpp))
+
+objects     := $(patsubst %.cpp,%.o,$(sources))
+objects     := $(foreach file,$(objects),$(builddir)/$(notdir $(file)))
+
+# Setup the vpath's for the various types of files
+vpath %.h   $(modules)
+vpath %.cpp $(modules)
+GPATH = $(builddir)
+
+# include the dependency files
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),depend)
+ifneq ($(MAKECMDGOALS),show)
+include $(depends)
+endif
+endif
+endif
+
+# Handy variables for finding .o files that go into a library
+module_lib     = $(0).a
+
+#-------------------------------------------------------------------------------
+#
+# Named targets
+#
+#-------------------------------------------------------------------------------
+
+#
+# Default rule (usage)
+#
+
+
+.PHONY: usage
+
+.DEFAULT: usage
+
+usage:
+	@@echo "Bruce's makefile..."
+	@@echo ""
+	@@echo "Usage: make target"
+	@@echo ""
+	@@echo "Where: target = clean   - Clean up generated files"
+	@@echo "                update  - Update source from cvs"
+	@@echo "                show    - Show make variables (for debugging the make)"
+	@@echo "                depends - Remake all dependency files"
+	@@echo "                modules - Make all module libraries"
+	@@echo "                exes    - Make all executables"
+	@@echo "                all     - Make everything"
+	@@echo "                compile - Compile everything"
+	
+#
+# Target: clean - Get rid of all generated files
+#
+
+.PHONY: clean
+.PHONY: cleanobj
+.PHONY: cleanlib
+.PHONY: cleanexe
+.PHONY: cleandepend
+.PHONY: buildingclean
+
+buildingclean:
+	@@echo ================================
+	@@echo === Cleaning generated files ===
+	@@echo ================================
+	
+clean: buildingclean cleandepend cleanobj cleanlib cleanexe
+	@@echo === Generated files deleted ===
+	
+cleanobj: 
+	@@echo Removing object files...
+	@@-rm -f $(builddir)/*.o
+	
+cleanlib:
+	@@echo Removing library files...
+	@@-rm -f $(builddir)/*.a
+	
+cleanexe:
+	@@echo Removing executables...
+	@@-rm -f $(executables)
+
+cleandepend:
+	@@echo Removing dependency files
+	@@-rm -f $(depends)
+	
+#
+# Target: update - CVS Update
+#
+
+.PHONY: update
+
+update:
+	@@cd $(root)
+	@@cvs update -d
+
+#
+# Target: show - Show make variables
+#
+
+.PHONY: show
+
+show:
+	@@echo ""
+	@@echo "Variables..."
+	@@echo ""
+	@@echo "includes    =" $(includes)
+	@@echo "executables =" $(executables)
+	@@echo "libraries   =" $(libraries)
+	@@echo "depends     =" $(depends)
+	@@echo ""
+	@@echo "modules     =" $(modules)
+	@@echo "libs        =" $(libs)
+	@@echo "exes        =" $(exes)
+	@@echo ""
+	@@echo "sources     =" $(sources)
+	@@echo "objects     =" $(objects)
+				
+#
+# Target: depend - Make dependency files
+#
+
+.PHONY: depend
+.PHONY: buildingdepend 
+
+depend: buildingdepend cleandepend $(depends)
+	@@echo === Dependency files created ===
+
+buildingdepend:
+	@@echo =================================
+	@@echo === Building dependency files ===
+	@@echo =================================
+	
+#
+# Target: modules - Make module libraries
+#
+
+.PHONY: modules buildingmodules
+
+modules: buildingmodules $(libraries) $(executables)
+	@@echo === Finished making libraries ===
+
+buildingmodules:
+	@@echo ==========================
+	@@echo === Building libraries ===
+	@@echo ==========================	
+	
+#
+# Target: exes - Make executables
+#
+
+.PHONY: exes buildingexes
+
+txml.exe: build/txml.o build/txmlutils.o build/xml.a build/general.a
+	$(CC) $(CFLAGS) -o txml.exe build/txml.o build/txmlutils.o build/xml.a build/general.a -lstdc++ -lsupc++ 
+
+exes: buildingexes $(executables)
+	@@echo === Finished building executables ===
+	
+buildingexes:
+	@@echo ============================
+	@@echo === Building executables ===
+	@@echo ============================
+
+#
+# Target: all - Make all libraries and executables
+#
+
+.PHONY: all
+
+all: modules exes
+
+#
+# Target: compile - Compile all objects
+#
+
+.PHONY: compile buildingcompile
+
+compile: buildingcompile $(depends) $(objects)
+	@@echo === Finished compiling ===
+
+buildingcompile:
+	@@echo =================
+	@@echo === Compiling ===
+	@@echo =================
+	
+#-------------------------------------------------------------------------------
+#
+# Named targets
+#
+#-------------------------------------------------------------------------------
+
+#
+# Module names
+#
+
+.PHONY: $(modules)
+$(modules):	
+	@@echo Finished Making module $@@
+	
+#-------------------------------------------------------------------------------
+#
+# File extension based rules
+#
+#-------------------------------------------------------------------------------
+
+#
+# Dependency files
+#
+
+%.mak:
+	@@echo Making $@@...
+	@@cd $(subst .mak,,$(@@F))
+	@@g++ $(includes) -MM $(wildcard $(subst .mak,,$(@@F))/*.cpp) >>$@@
+	@@cd ..
+	@@libdeps.py $(subst .mak,,$(@@F)) $(builddir)
+	 
+#
+# Executables
+#
+
+%.exe:
+	@@echo Making executable $@@...
+		
+#
+# Compiling
+#
+
+$(builddir)/%.o: %.cpp
+	@@echo Making $@@...
+	@@$(CC) $(CFLAGS) $(includes) -c -o $(builddir)/$(@@F) $(filter %/$(notdir $(patsubst %.o,%.cpp,$@@)),$(sources))
+
+#
+# Libbing
+#
+
+ARFLAGS = cr
+#%.a: %.o ; ar cr $(builddir)/$(@@F) $^
+@
+
+
+1.7
+log
+@All working with GNU!
+@
+text
+@d27 8
+a34 3
+				
+CFLAGS = -g -Wno-deprecated
+CC    = gcc
+@
+
+
+1.6
+log
+@Got GNU make working!
+@
+text
+@d28 1
+a28 2
+#COPTS = -Wno-deprecated -mno-cygwin -I/usr/include/mingw
+COPTS = -Wno-deprecated
+d204 1
+a204 1
+	gcc -o txml.exe build/txml.o build/txmlutils.o build/xml.a build/general.a -lstdc++ -lsupc++ 
+d280 1
+a280 1
+	@@g++ $(includes) -c -o $(builddir)/$(@@F) $(filter %/$(notdir $(patsubst %.o,%.cpp,$@@)),$(sources))
+@
+
+
+1.5
+log
+@Makes 'modules' OK, but hard coded paths required
+@
+text
+@d24 9
+d204 3
+d264 1
+a264 1
+	@@gcc $(includes) -MM $(wildcard $(subst .mak,,$(@@F))/*.cpp) >>$@@
+d281 1
+a281 1
+	@@gcc $(includes) -c -o $(builddir)/$(@@F) $(filter %/$(notdir $(patsubst %.o,%.cpp,$@@)),$(sources))
+d287 2
+a288 7
+%.a: $(builddir)/%.o
+	@@echo 1 Libbing $^ into $@@...
+	@@ar cr $(builddir)/$(@@F) $^
+
+$(builddir)/%.a(*.o): %.o
+	@@echo 2 Libbing $^ into $@@...
+	@@ar cr $(builddir)/$(@@F) $^
+@
+
+
+1.4
+log
+@Almost got libraries working, not quite
+@
+text
+@a49 3
+#vpath %.o   $(builddir)
+#vpath %.mak $(builddir)
+#vpath %.a   $(builddir)
+d217 1
+a217 1
+compile: buildingcompile $(depends) $(notdir $(objects))
+d267 1
+a267 1
+%.o: %.cpp
+d275 7
+a281 4
+%.a: %.o
+	@@echo Libbing $^ into $@@...
+	ar cr $(builddir)/$(@@F) $^
+
+@
+
+
+1.3
+log
+@Got make understanding dependencies OK
+@
+text
+@d35 1
+d48 6
+a53 4
+vpath %.h   $(modules) $(exes)
+vpath %.cpp $(modules) $(exes)
+vpath %.o   $(builddir)
+vpath %.mak $(builddir)
+d64 3
+d121 1
+a121 1
+	@@-rm -f $(libraries)
+d162 1
+a162 1
+			
+d182 1
+a182 2
+.PHONY: modules
+.PHONY: buildingmodules
+d184 1
+a184 1
+modules: buildingmodules $(libraries)
+d188 3
+a190 3
+	@@echo =================================
+	@@echo === Building module libraries ===
+	@@echo =================================	
+d196 1
+a196 1
+.PHONY: exes
+a200 1
+.PHONY: buildingexes
+d218 9
+a226 2
+compile: $(notdir $(objects))
+	@@echo Compiling
+a233 4
+# Handy variables for finding .o files that go into a library
+module_objects = $(builddir)/$(patsubst %.cpp,%.o,$(notdir $(wildcard $(0)/*.cpp)))
+module_lib     = $(builddir)/$(0).a
+
+d257 1
+d269 1
+a269 1
+#
+d272 9
+a280 1
+	@@gcc $(includes) -c -o $(builddir)/$@@ $(filter %/$(notdir $(patsubst %.o,%.cpp,$@@)),$(sources))
+@
+
+
+1.2
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@d71 1
+d74 2
+d214 1
+a214 1
+compile: $(objects)
+d224 3
+a226 2
+module_objects = $(0)/$(objdir)/$(patsubst %.cpp,%.o,$(notdir $(wildcard $(0)/*.cpp)))
+module_lib     = $(0)/$(libdir)/$(0).lib
+d231 3
+a233 4
+$(modules):
+	echo "module_objects =" $(module_objects $@@)
+	echo "module_lib     =" $(module_lib $@@)
+	echo Finished Making module $@@
+d262 1
+a262 1
+%.o:
+d264 1
+a264 1
+	@@gcc $(includes) -c -o $@@ $(filter %/$(notdir $(patsubst %.o,%.cpp,$@@)),$(sources))
+@
+
+
+1.1
+log
+@Added initial (mindless) makefile
+@
+text
+@d16 50
+a65 4
+root    = /
+srcdirs = xml general txml html
+libs    = xml general
+exes    = txml html
+d71 2
+d78 8
+a85 2
+	@@echo "Where: target = clean  - Clean up generated files"
+	@@echo "                update - Update source from cvs"
+d91 26
+a116 1
+clean:
+d118 4
+d126 2
+d130 133
+a262 1
+	@@cvs update -d	
+@
+

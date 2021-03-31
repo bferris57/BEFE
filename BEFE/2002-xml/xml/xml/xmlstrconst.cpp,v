@@ -1,0 +1,279 @@
+head	1.6;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.6
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.18.03.05.05;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.12.06.52.12;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.03.22.26.43;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.02.20.59.49;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.6
+log
+@More work on HTML parser
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmlstrconst.cpp - Implementation of the XMLStringConst class
+  DESCRIPTION
+    This file contains the implementation of an XMLString based on a
+    'const char *' string.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmlerrors.h"
+#include "xmlstrconst.h"
+#include <string.h>
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringConst::XMLStringConst  - Constructor (with string)
+//  XMLStringConst::~XMLStringConst - Destructor
+//  XMLStringConst::Length          - Return length of string
+//  XMLStringConst::SubString       - Return substring of string
+//
+
+XMLStringConst::XMLStringConst(const char *string)
+{
+  m_string = string;
+  m_hash   = BADHASH;
+  if (string)
+    m_length = strlen(string);
+  else
+    m_length = 0;
+}
+
+XMLStringConst::~XMLStringConst() {
+}
+
+XMLError XMLStringConst::Length(int *len) {
+  if (!len)
+    return XMLErrorInvalidParameters;
+  *len = m_length;
+  return XMLErrorNone;
+}
+
+XMLError XMLStringConst::SubString(int offset, int len, XMLString **substring) {
+
+  XMLStringConst *newstring;
+
+  // Sanity checks
+  if (offset < 0 || len < 0 || substring == NULL)
+    return XMLErrorInvalidParameters;
+
+  // Make sure substring isn't beyond end of string
+  if (offset + len - 1 > m_length)
+    return XMLErrorOffsetBeyondString;
+        
+  // Create a new string
+  newstring = new XMLStringConst(m_string+offset);
+  if (newstring == NULL)
+    return XMLErrorOutOfMemory;
+    
+  // Hack it's length
+  newstring->m_length = len;
+  
+  // Return it to the caller
+  *substring = newstring;
+  
+  return XMLErrorNone;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringConst::DoesLock
+//  XMLStringConst::GetFragment
+//  XMLStringConst::LockFragment
+//  XMLStringConst::UnlockFragment
+//
+
+int XMLStringConst::DoesLock(void) {
+  return 0;
+}
+
+XMLError XMLStringConst::LockFragment(int offset, byte **pointer, int *availlen) {
+
+  // Sanity checks
+  if (offset < 0)
+    return XMLErrorInvalidParameters;
+  if (offset > m_length)
+    return XMLErrorOffsetBeyondString;
+    
+
+  // Do it...
+  if (pointer)
+    *pointer = (byte *)m_string + offset;
+  if (availlen)
+    *availlen = m_length - offset;
+      
+  return XMLErrorNone;
+}
+
+XMLError XMLStringConst::UnlockFragment(int offset) {
+  if (offset < 0)
+    return XMLErrorInvalidParameters;
+  if (offset > m_length)
+    return XMLErrorOffsetBeyondString;
+  return XMLErrorNone;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringConst::SetValue - Change the const string we're pointing to
+//
+
+XMLError XMLStringConst::SetValue(const char *string) {
+
+  m_string = string;
+  if (m_string)
+    m_length = strlen(string);
+  else
+    m_length = 0;
+  m_hash = BADHASH;
+  
+  return XMLErrorNone;
+}
+@
+
+
+1.5
+log
+@Renamed source files for string implementations
+@
+text
+@d23 1
+a23 1
+//  XMLStringConst::XMLStringConst  - Constructor
+d115 18
+@
+
+
+1.4
+log
+@Implemented SubString() in all string classes
+@
+text
+@d5 1
+a5 1
+    xmlsconst.cpp - Implementation of the XMLStringConst class
+d16 2
+a17 2
+#include "xmlsconst.h"
+#include "string.h"
+@
+
+
+1.3
+log
+@1) Added common class XMLStringHashed (saves rewriting Hash(), GetHash(), etc.)
+2) XMLIOStream to inherit from XMLStringHashed so we can treat the whole
+   stream as a single string.
+@
+text
+@d26 1
+d46 26
+@
+
+
+1.2
+log
+@XMLStringConst and XMLStringHash working - Crap hash though!
+@
+text
+@a87 37
+  
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringConst::IsHashed - "Is this string hashed yet?"
+//  XMLStringConst::Hash     - "Hash this string if not already hashed"
+//  XMLStringConst::GetHash  - Get the string's hash
+//
+
+int XMLStringConst::IsHashed(void) {
+  if (ISBADHASH(m_hash))
+    return 0;
+  return 1;
+}
+
+XMLError XMLStringConst::Hash(void) {
+  XMLError result;
+  if (!ISBADHASH(m_hash))
+    return XMLErrorNone;
+  result = XMLString::GetHash(&m_hash);
+  return result;
+}
+
+XMLError XMLStringConst::GetHash(XMLHash *hash) {
+  XMLError result;
+  if (hash == NULL)
+    return XMLErrorInvalidParameters;
+  if (ISBADHASH(m_hash))
+    result = XMLString::GetHash(&m_hash);
+  else
+    result = XMLErrorNone;
+  *hash = m_hash;
+  return result;
+}
+
+@
+
+
+1.1
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d114 1
+d117 4
+d122 1
+a122 1
+  return XMLErrorNone;
+@
+

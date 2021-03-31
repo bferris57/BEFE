@@ -1,0 +1,57 @@
+//!befe-publish inc
+//----------------------------------------------------------------------
+// File: Args.h - Declarations for the Args Class
+//----------------------------------------------------------------------
+//
+// This class is a <Foundation Class> for command line Argument
+// parsing and execution.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011-2012, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+#ifndef ARGS_H // ARGS_H...
+#define ARGS_H
+
+#include "Primitives.h"
+
+namespace BEFE { // Namespace BEFE...
+
+//----------------------------------------------------------------------
+//
+// Class: Args - Command Line argument Management/Manipulation
+//
+
+class Args {
+
+  public: static String ToString(int argc, char **argv);
+  public: static Status Execute(String const &args,Int &tests,String &outCommand);
+  public: static Status Help(String const &progName);
+
+  // Option recognition and execution
+  public: static Status ExecuteOption(String const &option);
+  public: static Status ExecuteOption(String const &option,Boolean execute);
+  public: static Status ExecuteOption(String const &args, Range part, Boolean execute);
+  
+  // Option: -env[:...]
+  public: static Status ExecuteEnv(String const &arg, Boolean execute);
+  public: static Status ExecuteEnvQuest(String const &arg, Boolean execute);
+  public: static Status ExecuteEnvPlus(String const &arg, Boolean execute);
+  public: static Status ExecuteEnvMinus(String const &arg, Boolean execute);
+  public: static Status ExecuteNameValue(String const &name, String const &value, Boolean execute);
+  
+  // Argument parsing
+  public: static Status Split(String const &args, Strings &parts);
+  public: static Status RangeSplit(String const &args, Ranges &parts);
+  public: static Status Substitute(String &string,
+                                   Strings const &args,
+                                   Char sdelim, Char edelim,
+                                   Char join);
+  public: static Status NameValuePair(String const &part);
+  
+};
+
+} // ...Namespace BEFE
+
+#endif // ...ARGS_H

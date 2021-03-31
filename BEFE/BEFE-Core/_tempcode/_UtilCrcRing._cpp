@@ -1,0 +1,167 @@
+//----------------------------------------------------------------------
+//
+// File: UtilCrcRing.cpp - CrcRing command line utility
+//
+// Usage: ... CrcRing <file> [rinsize]
+//
+// Where: <file> - Text file name to load and analyse
+//        ringsize - Optional ring size (32 default)
+//
+// This utility ... !!! MORE DESCRIPTION NEEDED HERE !!!
+//
+
+#include "BEFE.h"
+#include "Utility.h"
+#include "Crc32.h"
+
+namespace BEF_NS {
+
+Status UtilCrcRing::Help() {
+  Cout <<
+"\n"
+"Usage: CrcRing <file> [ringsize]\n"
+"\n"
+"Where: <file>  - Name of text file to analyse\n"
+"       ringsize - Ring size in bytes (default 32)\n"
+;
+
+}
+
+Status UtilCrcRing::Main(Int argc, Byte **argv, Int startat) {
+
+  Status     result;
+  char      *fname;     // The file name
+  FILE      *file;      // Open file
+  Int        len;       // Number of bytes in file
+  Int        readlen;   // Number of bytes read
+  Byte      *buf;       // File contents
+  UInt8     *bp;        // Pointer to current byte
+  Crc32Ring  ring = Crc32Ring(16);
+  Int        byteno;    // Current byte offset in buffer
+  Int        thebyte;   // Current byte
+  Int        crccount;  // Number of CRCs processed
+  Int        crc;       // A CRC
+  Int        i;         // TEMP: Loop counter
+
+  // Initialise
+  file = NULL;
+  buf  = NULL;
+
+  // Make sure we have a file name
+  if (argc <= (startat + 1)) {
+    goto FILEARGMISSING;
+    return Error::None;
+  }
+
+  // Open and get the file's length
+  fname = (char *)argv[startat+1];
+  file = fopen(fname,"rb");
+  if (file == NULL) goto OPENERROR;
+  if (fseek(file,0,SEEK_END) != 0)
+    goto SEEKERROR;
+  len = ftell(file);
+
+  // Display result
+  Cout << "File is " << len << " bytes long" << endl;
+
+  // Allocate the buffer
+  buf = MemoryAllocRaw(len);
+  if (buf == NULL) goto OUTOFMEMORY;
+
+  // Read the file
+  if (fseek(file,0,SEEK_SET) != 0)
+    goto SEEKERROR;
+  readlen = fread(buf,1,len,file);
+  if (readlen != len) goto READFAILED;
+
+  // Close the file
+  fclose(file);
+  file = NULL;
+
+  //
+  // Process each byte
+  //
+
+  bp = (UInt8 *)buf;
+  byteno = 0;
+  crccount = 0;
+
+  if (gVerbose) {
+    Cout << indent << "Crc        Len      Offset\n";
+    Cout << indent << "---------- -------- --------\n";
+  }
+
+  while (byteno < len) {
+
+    // Get the byte
+    thebyte = *bp;
+
+    // If we handle this byte...
+    if ((thebyte >= 'a' && thebyte <= 'z') ||
+        (thebyte >= 'A' && thebyte <= 'Z') ) {
+
+      // Push the byte into the ring
+      ring.Push(thebyte);
+      crccount += ring.GetDepth();
+
+      // Print them if verbose
+      if (gVerbose) {
+        for (i=ring.GetDepth()-1; i >= 0; i--) {
+          crc = ring.GetCrc(i);
+          printf("0x%08x,%8d,%8d\n",crc,i+1,byteno-i);
+        }
+      }
+
+    }
+
+    // Didn't want this character, clear the CrcRing...
+    else {
+      ring.Clear();
+    }
+
+    // Get ready for next byte
+    bp++;
+    byteno++;
+  }
+
+  // Say what we did
+  Cout << crccount << " Crcs processed" << endl;
+
+  goto OK;
+
+OK:
+  result = Error::None;
+  goto DONE;
+FILEARGMISSING:
+  Cout << "Command argument <file> missing\n";
+  result = Error::UtilityFailed;
+  goto  FAILED;
+OPENERROR:
+  Cout << "!!!Error opening file '" << fname << "'" << endl;
+  goto  FAILED;
+SEEKERROR:
+  Cout << "***Error seeking to end of file" << endl;
+  goto  FAILED;
+OUTOFMEMORY:
+  Cout << "***Out of memory" << endl;
+  goto  FAILED;
+READFAILED:
+  Cout << "***Read failed" << endl;
+  goto FAILED;
+FAILED:
+  result = Error::UtilityFailed;
+  goto DONE;
+DONE:
+
+  // Clean up
+  if (file != NULL)
+    fclose(file);
+  if (buf != NULL)
+    MemoryFreeRaw(buf);
+
+  return result;
+
+}
+
+}; // Namespace BEF_NS
+

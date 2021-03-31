@@ -1,0 +1,659 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.3
+date	2002.10.26.09.10.30;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.19.23.06.38;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.05.22.02.12;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@XMLManager didn't register the writer, destructor didn't check for no cursors
+@
+text
+@<breakfast_menu>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+</breakfast_menu>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TVSCHEDULE [<!ELEMENT TVSCHEDULE (CHANNEL+)>
+<!ELEMENT CHANNEL (BANNER,DAY+)>
+<!ELEMENT BANNER (#PCDATA)>
+<!ELEMENT DAY (DATE,(HOLIDAY|PROGRAMSLOT+))+>
+<!ELEMENT HOLIDAY (#PCDATA)>
+<!ELEMENT DATE (#PCDATA)>
+<!ELEMENT PROGRAMSLOT (TIME,TITLE,DESCRIPTION?)>
+<!ELEMENT TIME (#PCDATA)>
+<!ELEMENT TITLE (#PCDATA)> 
+<!ELEMENT DESCRIPTION (#PCDATA)>
+
+<!ATTLIST TVSCHEDULE NAME CDATA #REQUIRED>
+<!ATTLIST CHANNEL CHAN CDATA #REQUIRED>
+<!ATTLIST PROGRAMSLOT VTR CDATA #IMPLIED>
+<!ATTLIST TITLE RATING CDATA #IMPLIED>
+<!ATTLIST TITLE LANGUAGE CDATA #IMPLIED>
+
+]>
+<!-- This is a comment -->
+<![CDATA[This is some CDATA And so is this]]>
+<breakfast_menu>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+</breakfast_menu>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TVSCHEDULE [<!ELEMENT TVSCHEDULE (CHANNEL+)>
+<!ELEMENT CHANNEL (BANNER,DAY+)>
+<!ELEMENT BANNER (#PCDATA)>
+<!ELEMENT DAY (DATE,(HOLIDAY|PROGRAMSLOT+))+>
+<!ELEMENT HOLIDAY (#PCDATA)>
+<!ELEMENT DATE (#PCDATA)>
+<!ELEMENT PROGRAMSLOT (TIME,TITLE,DESCRIPTION?)>
+<!ELEMENT TIME (#PCDATA)>
+<!ELEMENT TITLE (#PCDATA)> 
+<!ELEMENT DESCRIPTION (#PCDATA)>
+
+<!ATTLIST TVSCHEDULE NAME CDATA #REQUIRED>
+<!ATTLIST CHANNEL CHAN CDATA #REQUIRED>
+<!ATTLIST PROGRAMSLOT VTR CDATA #IMPLIED>
+<!ATTLIST TITLE RATING CDATA #IMPLIED>
+<!ATTLIST TITLE LANGUAGE CDATA #IMPLIED>
+
+]>
+<!-- This is a comment -->
+<![CDATA[This is some CDATA And so is this]]>
+<breakfast_menu>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+</breakfast_menu>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TVSCHEDULE [<!ELEMENT TVSCHEDULE (CHANNEL+)>
+<!ELEMENT CHANNEL (BANNER,DAY+)>
+<!ELEMENT BANNER (#PCDATA)>
+<!ELEMENT DAY (DATE,(HOLIDAY|PROGRAMSLOT+))+>
+<!ELEMENT HOLIDAY (#PCDATA)>
+<!ELEMENT DATE (#PCDATA)>
+<!ELEMENT PROGRAMSLOT (TIME,TITLE,DESCRIPTION?)>
+<!ELEMENT TIME (#PCDATA)>
+<!ELEMENT TITLE (#PCDATA)> 
+<!ELEMENT DESCRIPTION (#PCDATA)>
+
+<!ATTLIST TVSCHEDULE NAME CDATA #REQUIRED>
+<!ATTLIST CHANNEL CHAN CDATA #REQUIRED>
+<!ATTLIST PROGRAMSLOT VTR CDATA #IMPLIED>
+<!ATTLIST TITLE RATING CDATA #IMPLIED>
+<!ATTLIST TITLE LANGUAGE CDATA #IMPLIED>
+
+]>
+<!-- This is a comment -->
+<![CDATA[This is some CDATA And so is this]]>
+<breakfast_menu>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+	<food>
+		<name>Belgian Waffles hyphenated-name</name>
+		<price>$5.95&nbsp;</price>
+		<description>Belgian waffles</description>
+		<calories>650</calories>
+	</food>
+</breakfast_menu>
+@
+
+
+1.2
+log
+@Completely loads and parses big.xml!
+@
+text
+@a0 21
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TVSCHEDULE [<!ELEMENT TVSCHEDULE (CHANNEL+)>
+<!ELEMENT CHANNEL (BANNER,DAY+)>
+<!ELEMENT BANNER (#PCDATA)>
+<!ELEMENT DAY (DATE,(HOLIDAY|PROGRAMSLOT+))+>
+<!ELEMENT HOLIDAY (#PCDATA)>
+<!ELEMENT DATE (#PCDATA)>
+<!ELEMENT PROGRAMSLOT (TIME,TITLE,DESCRIPTION?)>
+<!ELEMENT TIME (#PCDATA)>
+<!ELEMENT TITLE (#PCDATA)> 
+<!ELEMENT DESCRIPTION (#PCDATA)>
+
+<!ATTLIST TVSCHEDULE NAME CDATA #REQUIRED>
+<!ATTLIST CHANNEL CHAN CDATA #REQUIRED>
+<!ATTLIST PROGRAMSLOT VTR CDATA #IMPLIED>
+<!ATTLIST TITLE RATING CDATA #IMPLIED>
+<!ATTLIST TITLE LANGUAGE CDATA #IMPLIED>
+
+]>
+<!-- This is a comment -->
+<![CDATA[This is some CDATA And so is this]]>
+@
+
+
+1.1
+log
+@Added some new sample xml files
+@
+text
+@d22 1
+a22 1
+<xsl:breakfast_menu>
+d171 1
+a171 1
+<xsl:breakfast_menu>
+d320 1
+a320 1
+<xsl:breakfast_menu>
+d469 1
+a469 1
+<xsl:breakfast_menu>
+@
+

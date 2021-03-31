@@ -1,0 +1,2683 @@
+head	1.37;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.37
+date	2002.10.27.07.07.31;	author bferris;	state Exp;
+branches;
+next	1.36;
+
+1.36
+date	2002.10.22.14.57.11;	author bferris;	state Exp;
+branches;
+next	1.35;
+
+1.35
+date	2002.10.22.07.25.47;	author bferris;	state Exp;
+branches;
+next	1.34;
+
+1.34
+date	2002.10.22.07.09.00;	author bferris;	state Exp;
+branches;
+next	1.33;
+
+1.33
+date	2002.10.21.10.41.21;	author bferris;	state Exp;
+branches;
+next	1.32;
+
+1.32
+date	2002.10.21.08.11.08;	author bferris;	state Exp;
+branches;
+next	1.31;
+
+1.31
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.30;
+
+1.30
+date	2002.10.21.05.41.43;	author bferris;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	2002.10.20.13.13.52;	author bferris;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2002.10.20.11.26.54;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.20.07.43.32;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.20.06.58.06;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.19.23.06.38;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.19.14.37.34;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.19.12.26.01;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.18.05.07.54;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.18.05.02.13;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.16.04.34.02;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.14.21.15.44;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.14.06.06.38;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.13.11.23.14;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.13.10.15.22;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.13.09.00.14;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.13.08.46.04;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.13.08.25.31;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.12.06.52.11;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.06.23.31.13;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.06.09.09.43;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.06.06.12.20;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.05.19.11.00;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.05.05.01.28;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.04.17.35.44;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.03.22.26.43;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.02.20.59.49;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.01.21.48.23;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.01.19.11.57;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.01.06.04.41;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.37
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xml.cpp - Implementation of the Base XML classes
+  DESCRIPTION
+    This file contains the default implementation of the Base XML classes.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmldocmem.h"
+#include "xmlmanager.h"
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLObject::XMLObject - Constructor for all XML objects
+//
+// DESCRIPTION
+//
+//  Normally this doesn't do anything.  If, however, DEBUGGING (see xml.h) is
+//  set, we suffer the overhead of a single word per object to keep track of
+//  which object it is.
+//
+
+#if DEBUGGING
+int globalsequence = 0; // Sequence number for each allocated XML object
+#endif
+  
+XMLObject::XMLObject() {
+#if DEBUGGING
+  sequence = ++globalsequence;
+#endif
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XML::CreateManager - CLASS: Create a new manager instance
+//
+// DESCRIPTION
+//
+//  This function creates a new XML manager instance.  You can't create one
+//  without calling this because XMLManager is abstract.
+//
+
+XMLError XML::CreateManager(XMLManager **themanager) {
+
+  // Sanity checks
+  if (themanager == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Create it
+  *themanager = new XMLManagerBase;
+  if (*themanager == NULL)
+    return XMLErrorOutOfMemory;
+    
+  return XMLErrorNone;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManager::~XMLManager - Default manager destructor
+//
+
+XMLManager::~XMLManager() {
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLString::XMLString  - Constructor
+//  XMLString::~XMLString - Destructor
+//
+
+XMLString::XMLString() {
+}
+
+XMLString::~XMLString() {
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocument::~XMLDocument - Destructor
+//
+
+XMLDocument::~XMLDocument() {
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLLocation::XMLLocation - Constructors
+//  XMLLocation::IsKnown     - "Is location known?"
+//  XMLLocation::Unknown     - Location is not known
+//
+  
+XMLLocation::XMLLocation() {
+  
+  Unknown();
+}
+
+XMLLocation::XMLLocation(const XMLLocation &copyof) {
+
+  this->operator =(copyof);  
+}
+
+XMLLocation::XMLLocation(int poffset, int pline, int pcolumn) {
+
+  offset = poffset;
+  line   = pline;
+  column = pcolumn;
+}
+
+XMLLocation &XMLLocation::operator =(const XMLLocation &copyof) {
+
+  offset = copyof.offset;
+  line   = copyof.line;
+  column = copyof.column;
+  
+  return *this;
+}
+
+int XMLLocation::IsKnown(void) {
+
+  return (offset < 0) ? 0 : 1;
+}
+
+void XMLLocation::Unknown(void) {
+  offset = -1;
+  line   = 0;
+  column = 0;
+}
+
+
+@
+
+
+1.36
+log
+@Debugged XMLManager
+@
+text
+@d21 23
+@
+
+
+1.35
+log
+@Got XMLManager working
+@
+text
+@d48 10
+@
+
+
+1.34
+log
+@Implemented XMLManager
+@
+text
+@d21 1
+a21 1
+//  XMLManager::CreateManager - CLASS: Create a new manager instance
+d29 1
+a29 1
+XMLError XMLManager::CreateManager(XMLManager **themanager) {
+@
+
+
+1.33
+log
+@Added GetParseError() to doc and cursor and tester
+@
+text
+@d15 1
+d21 6
+a26 2
+//  XMLString::XMLString  - Constructor
+//  XMLString::~XMLString - Destructor
+d29 12
+a40 1
+XMLString::XMLString() {
+a42 2
+XMLString::~XMLString() {
+}
+d48 2
+a49 5
+//  XMLDocument::CreateInMemory - Factory for XMLDocumentMem
+//
+// DESCRIPTION
+//
+//  This function creates a new in-memory editable XML document.
+d52 2
+a53 1
+XMLError XMLDocument::CreateInMemory(XMLDocument **thedoc, int optimalnodes) {
+d55 1
+a55 14
+  XMLError result;
+  
+  // Sanity checks
+  if (thedoc == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Create it
+  *thedoc = new XMLDocumentMem(optimalnodes);
+  
+  // Handle out of memory
+  if (*thedoc == NULL)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorNone;
+@
+
+
+1.32
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d88 1
+a88 1
+XMLLocation::XMLLocation(int offset, int line, int column) {
+d90 3
+a92 3
+  m_offset = offset;
+  m_line   = line;
+  m_column = column;
+d97 3
+a99 3
+  m_offset = copyof.m_offset;
+  m_line   = copyof.m_line;
+  m_column = copyof.m_column;
+d106 1
+a106 1
+  return (m_offset < 0) ? 0 : 1;
+d110 3
+a112 3
+  m_offset = -1;
+  m_line   = 0;
+  m_column = 0;
+@
+
+
+1.31
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@a13 1
+#include "xmldocbase.h"
+a14 7
+#include "xmlcsrbase.h"
+#include "xmlcsrparser.h"
+#include "xmlcsrfree.h"
+#include "xmlsmem.h"
+#include "miscellaneous.h"
+#include <string.h>
+#include <memory.h>
+d20 1
+d24 1
+a24 504
+XMLString::~XMLString() {}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLString::IsMutable - "Is this string mutable?"
+//  XMLString::Truncate  - Clear contents of string
+//  XMLString::Append    - Append to contents of the string
+//
+// DESCRIPTION
+//
+//  These methods are used to change the contents of a string.  Implementations
+//  of XMLString will have to override these function is they allow string
+//  mutation.
+//
+// NOTES
+//
+//  Default behaviour is "No mutation".
+//
+
+int XMLString::IsMutable(void) {
+  return 0;
+}
+
+XMLError XMLString::Truncate(void) {
+  return XMLErrorStringNotMutable;
+}
+
+XMLError XMLString::Append(byte *buf, int bufl) {
+  if (buf == NULL || bufl < 0)
+    return XMLErrorInvalidParameters;
+  return XMLErrorStringNotMutable;
+}
+
+XMLError XMLString::Append(char *buf, int bufl) {
+  if (buf && bufl < 0)
+    return Append((byte *)buf,strlen(buf));
+  return Append((byte *)buf,bufl);
+}
+
+XMLError XMLString::Append(XMLString *string) {
+
+  XMLError  result;   // Return result
+  int       reml;     // Remaining length
+  int       fragoff;  // Current fragment's offset
+  int       fraglen;  // Current fragment's length
+  byte     *frag;     // Current fragment
+  
+  // Sanity checks
+  if (string == NULL) goto BADPARAMETERS;
+  
+  // Can't do it if we're not mutable
+  if (!IsMutable()) goto NOTMUTABLE;
+  
+  // Get the string's length
+  result = string->Length(&reml);
+  if (result) goto ERROR;
+  
+  // Until we've appended all fragments
+  for (fragoff = 0; reml; ) {
+
+    // Get the fragment
+    result = string->LockFragment(fragoff, &frag, &fraglen);
+    if (result) goto ERROR;
+    
+    // Append it and unlock it...
+    result = Append(frag,fraglen);
+    UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // Get ready for next fragment
+    reml    -= fraglen;
+    fragoff += fraglen;
+  }
+
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NOTMUTABLE:
+  result = XMLErrorStringNotMutable;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLString::GetValue     - Copy the entire string into the caller's buffer
+//  XMLString::GetSubstring - Copy part of a string into the caller's buffer
+//
+// DESCRIPTION
+//
+//  These functions copy the string data into the caller's buffer.
+//
+// NOTES
+//
+//  If the string value is bigger than the caller's buffer an error is returned.
+//
+//  When calling GetValue(), if the caller doesn't want to know how long the
+//  string really is they don't need to pass the len paramameter.
+//
+
+XMLError XMLString::GetValue(byte *buf, int maxbufl, int *len) {
+
+  XMLError result;                                  // Return code
+  int      vallen;                                  // Current remaining length of value
+  int      fragoff;                                 // Offset of current fragment
+  int      fraglen;                                 // Length of current fragment
+  byte    *frag;                                    // Pointer to fragment's data
+  
+  // Sanity checks
+  if (buf == NULL || maxbufl <= 0) goto BADPARAMETERS;
+  
+  // Tell the caller we haven't moved anything...
+  if (len)
+    *len = 0;
+    
+  // Get the string length
+  result = Length(&vallen);
+  if (result) goto ERROR;
+  
+  // Make sure we have enough room in the caller's buffer...
+  if (vallen > maxbufl) goto BUFFEROVERFLOW;
+  
+  // Until we run out of buffer
+  fragoff = 0;
+  while (vallen > 0) {
+    
+    // Lock the fragment
+    result = LockFragment(fragoff,&frag,&fraglen);
+    if (result) break;
+    
+    // If we have a fragment, move to caller's buffer
+    if (fraglen)
+      memcpy((void *)buf,(void *)frag,(size_t)fraglen);
+      
+    // Unlock the fragment
+    result = UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // If we don't have a length, internal error
+    if (fraglen == 0) goto INTERNALERROR;
+    
+    // Increment stuff
+    buf     += fraglen;
+    fragoff += fraglen;
+    vallen  -= fraglen;
+    if (len)
+      *len += fraglen;    
+  }
+
+  goto OK;    
+
+//
+// Finished
+//
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+BUFFEROVERFLOW:
+  result = XMLErrorStringTruncated;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+DONE:
+  return result; 
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLString::Equals - "Are two strings equal?"
+//  XMLString::Compare - Lexical string compare with another string (answer -1,0,1 = "<,=,>")
+//
+// DESCRIPTION
+//
+//  These functions are the commonly inherited behaviour of all XMLStrings.
+//
+// NOTES
+//
+
+
+XMLError XMLString::Equals(XMLString *that,int *answer) {
+
+  XMLError result;
+  XMLHash  hash[2];
+  int      len[2];
+  
+  // Sanity checks
+  if (that == NULL || answer == NULL) goto BADPARAMETERS;
+  
+  // Quick hash equality check
+  if (IsHashed() && that->IsHashed()) {
+    
+    // Get the hashes
+    result = GetHash(&hash[0]);
+    if (result) goto ERROR;
+    result = that->GetHash(&hash[1]);
+    if (result) goto ERROR;
+    
+    // If they're different they're not equal
+    if (hash[0] != hash[1]) {
+      *answer = 0;
+      goto OK;
+    }
+    
+  }
+
+  // Quick length equality check
+  result = Length(&len[0]);
+  if (result) goto ERROR;
+  result = that->Length(&len[1]);
+  if (result) goto ERROR;
+  if (len[0] != len[1]) {
+    *answer = 0;
+    goto OK;
+  }
+  
+  // Potentially slower compare  
+  result = Compare(that,answer);
+  if (result) goto ERROR;
+  
+  // Turn -1,0,1 into "Is Equal" answer
+  if (*answer)
+    *answer = 0;
+  else
+    *answer = 1;
+    
+  goto DONE;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;  
+}
+
+XMLError XMLString::Compare(XMLString *that, int *answer) {
+
+  XMLError   result;                                // Return code
+  XMLError   tresult;                               // TEMP: Candidate return code
+  XMLString *strings[2];                            // The XMLStrings
+  int        remlen[2];                             // Fragment remaining lengths to compare
+  int        fragoff[2];                            // Fragment offset
+  byte      *frag[2];                               // Fragment pointers
+  int        fraglen[2];                            // Fragment lengths
+  int        fraglck[2];                            // Fragment lock offsets (<0 = "Not locked")
+  int        comparelen;                            // Current compare length
+  int        compareresult;                         // String comparison result (strncmp() may not return -1,0,1!)
+  int        i;                                     // TEMP: Loop counter
+  
+  // Sanity checks
+  if (that == NULL || answer == NULL) goto BADPARAMETERS;
+
+  // Get the lengths
+  result = Length(&remlen[0]);
+  if (result) goto ERROR;
+  result = that->Length(&remlen[1]);
+  if (result) goto ERROR;
+
+  // Prime the fragment info
+  strings[0] = this;
+  strings[1] = that;
+  for (i=1;i>=0;i--) {
+    fragoff [i] = 0;
+    fraglen [i] = 0;
+    fraglck [i] = -1;
+  }
+    
+  // Until we run out of fragments or we detect an inequality...  
+  for (;;) {
+
+    // If either/both remaining lengths are 0 we know the answer...
+    if (remlen[0] == 0) {
+      if (remlen[1])
+        *answer = -1;
+      else
+        *answer = 0;
+      break;
+    }
+    else if (remlen[1] == 0) {
+      *answer = 1;
+      break;
+    }
+    
+    // Get data from fragments if we need to...
+    for (i=1;i>=0;i--) {
+    
+      // If no data left in this fragment...
+      if (fraglen[i] == 0) {
+      
+        // Unlock previous fragment if locked
+        if (fraglck[i] >= 0) {
+          result = strings[i]->UnlockFragment(fraglck[i]);
+          if (result) goto ERROR;
+        }
+        
+        // Lock this fragment
+        result = strings[i]->LockFragment(fragoff[i],&frag[i],&fraglen[i]);
+        if (result) goto ERROR;
+        fraglck[i] = fragoff[i];
+      }
+      
+    }
+    
+    // Compute compare length (the min of the two fragment lengths)
+    comparelen = fraglen[0];
+    if (comparelen > fraglen[1])
+    comparelen = fraglen[1];
+
+    // If first fragment is exhausted answer is "<"
+    if (fraglen[0] == 0) {
+      *answer = -1;
+      break;
+    }
+    
+    // If second fragment is exhausted answer is ">"
+    else if (fraglen[1] == 0) {
+      *answer = 1;
+      break;
+    }
+    
+    // Compare the two fragments
+    compareresult = strncmp((char *)frag[0],(char *)frag[1],(size_t)comparelen);
+    if (compareresult < 0) {
+      *answer = -1;
+      break;
+      }
+    else if (compareresult > 0) {
+      *answer = 1;
+      break;
+    }
+            
+    // These two fragments are the same, adjust fragment offsets and remaining lengths
+    for (i=1;i>=0;i--) {
+      remlen  [i] -= comparelen;
+      frag    [i] += comparelen;
+      fragoff [i] += comparelen;
+      fraglen [i] -= comparelen;
+    }
+    
+  }
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+
+  // Unlock anything needing unlocking (if we don't have an error so far, 
+  // do our best to return, at least, the first error encountered when
+  // we unlock.
+  for (i=1;i>=0;i--) {
+    if (fraglck[i] >= 0) {
+      tresult = strings[i]->UnlockFragment(fraglck[i]);
+      if (tresult && !result)
+        result = tresult;
+    }
+  }
+  
+  // Whew!  Return the error code
+  
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLString::IsHashed - "Is this string hashed?" (implies intent to call GetHash())
+//  XMLString::Hash     - Hash the string NOW
+//  XMLString::GetHash  - Get the string's hash (implies IsHashed() != 0 has been called)
+//
+
+int XMLString::IsHashed(void) {
+  return 1;
+}
+
+XMLError XMLString::Hash(void) {
+  return XMLErrorNone;
+}
+
+XMLHash XMLString::GetHash(XMLHash *hash) {
+
+  XMLError result;                                  // Return code
+  int      len;                                     // Entire length of the value  
+  XMLHash  curhash;                                 // Current hash value
+  int      fragoff;                                 // Current offset into the fragment
+  int      fraglen;                                 // Length of the current fragment
+  byte    *frag;                                    // Current fragment
+  int      reml;                                    // Remaining length (after this fragment)
+  XMLHash  thash;                                   // Local hash value
+  int      i;                                       // Temp: Loop counter
+  
+  // Sanity checks
+  if (hash == NULL) goto BADPARAMETERS;
+
+  // Assume we failed
+  *hash = BADHASH;
+      
+  // Initialise
+  result = Length(&len);  
+  if (result) goto ERROR;
+  
+  // Until we've exhausted the string...
+  fragoff = 0;
+  thash   = (XMLHash)crc32(NULL,0);
+  for (reml=len;reml;)  {
+  
+    // Lock the fragment
+    result = LockFragment(fragoff,&frag,&fraglen);
+    if (result) goto ERROR;
+    
+    // Add this stuff to the hash
+    thash = (XMLHash)crc32((char *)frag,fraglen,(unsigned long)thash);
+      
+    // Unlock the fragment
+    result = UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // Consume the fragment
+    fragoff += fraglen;
+    reml    -= fraglen;
+    
+  }
+  
+  // Finish off the hash and return it to the caller
+  *hash = PROPERHASH(thash);
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringHashed::XMLStringHashed - Constructor
+//  XMLStringHashed::IsHashed        - "Is this string hashed?" (implies intent to call GetHash())
+//  XMLStringHashed::Hash            - Hash the string NOW
+//  XMLStringHashed::GetHash         - Get the string's hash
+//
+
+XMLStringHashed::XMLStringHashed() {
+  m_hash = BADHASH;
+}
+
+int XMLStringHashed::IsHashed(void) {
+  if (ISBADHASH(m_hash))
+    return 0;
+  return 1;
+}
+
+XMLError XMLStringHashed::Hash(void) {
+  XMLError result;
+  if (!ISBADHASH(m_hash))
+    return XMLErrorNone;
+  result = XMLString::GetHash(&m_hash);
+  return result;
+d27 1
+a27 10
+XMLError XMLStringHashed::GetHash(XMLHash *hash) {
+  XMLError result;
+  if (hash == NULL)
+    return XMLErrorInvalidParameters;
+  if (ISBADHASH(m_hash))
+    result = XMLString::GetHash(&m_hash);
+  else
+    result = XMLErrorNone;
+  *hash = m_hash;
+  return result;
+@
+
+
+1.30
+log
+@Implemented XMLDocumentBase
+@
+text
+@a591 297
+//  XMLElement::XMLElement           - Constructor
+//  XMLElement::~XMLElement          - Destructor
+//  XMLElement::GetType              - Get the element's type
+//  XMLElement::SetType              - Set the element's type
+//  XMLElement::IsMutable            - "Is this element mutable?"
+//  XMLElement::GetValidity          - Get the element's validity
+//  XMLElement::SetValidity          - Set the element's validity
+//  XMLElement::GetName              - Get the element's name
+//  XMLElement::SetName              - Set the element's name
+//  XMLElement::EqualsName           - Does element's name equal string contents?
+//  XMLElement::GetNAttributes       - Get number of attributes
+//  XMLElement::FindAttribute        - Find an attribute
+//  XMLElement::CreateAttribute      - Create an attribute
+//  XMLElement::DeleteAttribute      - Delete given attribute
+//  XMLElement::DeleteAttributes     - Delete all attributes
+//  XMLElement::GetValue             - Get the element's value
+//  XMLElement::SetValue             - Set the element's value
+//  XMLElement::FirstChild           - Get first child element
+//  XMLElement::NextSibling          - Get next sibling
+//  XMLElement::EventRemoved         - Event: Removed from document
+//  XMLElement::EventParented        - Event: You've been parented
+//  XMLElement::EventChangedSiblings - Event: You're siblings have changed
+//  XMLElement::EventAddedChild      - Event: You've got a new child
+//  XMLElement::EventRemovedChild    - Event: A child has been removed
+//  XMLElement::GetLocation          - Get the element's location
+//  XMLElement::SetLocation          - Set the element's location
+//  XMLElement::OwnedSetName         - Set element's name with owned string
+//  XMLElement::OwnedCreateAttribute - Create attribute with owned strings
+//  XMLElement::OwnedSetValue        - Set element's value with owned string
+//
+// DESCRIPTION
+//
+//  These functions provide the default behaviour for all XMLElements.
+//
+// NOTE
+//
+//  The default implementation of XMLElement assumes the element is not
+//  mutable and has no children.
+//
+//  It also assumes the implementation does not care about structure
+//  change events except for sibling relationships.
+//
+
+XMLElement::XMLElement(XML::Type type) {
+
+  // Element chain
+  m_prevsibling = NULL;
+  m_nextsibling = NULL;
+  
+  // Element info
+  m_type     = type;
+  m_validity = XML::ValidityUnknown;  
+  
+}
+
+XMLElement::~XMLElement() {
+
+  // Remove from chain if in it
+  if (m_nextsibling)
+    m_nextsibling->m_prevsibling = m_prevsibling;
+  if (m_prevsibling)
+    m_prevsibling->m_nextsibling = m_nextsibling;
+    
+}
+
+XML::Type XMLElement::GetType(void) {
+  return m_type;
+}
+
+XMLError XMLElement::SetType(XML::Type type) {
+
+  // Sanity checks
+  if (type < XML::TypeUnknown || type >= XML::TypeMAX)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorXMLNotMutable;
+}
+
+int XMLElement::IsMutable(void) {
+  return 0;
+}
+    
+XML::Validity XMLElement::GetValidity(void) {
+  
+  return m_validity;
+}
+
+XMLError XMLElement::SetValidity(XML::Validity validity) {
+
+  // Sanity checks
+  if (validity < XML::ValidityUnknown || validity >= XML::ValidityMAX)
+    return XMLErrorInvalidParameters;
+  
+  // Set it
+  m_validity = validity;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElement::GetName(XMLString **name) {
+
+  if (name == NULL)
+    return XMLErrorInvalidParameters;
+  *name == NULL;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElement::SetName(XMLString *name) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLElement::EqualsName(XMLString *string, int *equals) {
+
+  if (equals == NULL || string == NULL)
+    return XMLErrorInvalidParameters;
+    
+  *equals = 0;
+
+  return XMLErrorNone;
+}
+
+XMLError XMLElement::GetNAttributes(int *numattributes) {
+
+  if (numattributes == NULL)
+    return XMLErrorInvalidParameters;
+  
+  *numattributes = 0;
+  
+  return XMLErrorNone;
+  
+}
+
+XMLError XMLElement::FindAttribute(XMLString *name, XMLString **value) {
+
+  if (name == NULL || value == NULL)
+    return XMLErrorInvalidParameters;
+    
+  *value = NULL;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElement::CreateAttribute(XMLString *name, XMLString *value) {
+
+  if (name == NULL)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorXMLNotMutable;  
+}
+
+XMLError XMLElement::DeleteAttribute(XMLString *name) {
+
+  if (name == NULL)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLElement::DeleteAttributes(void) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLElement::GetValue(XMLString **value) {
+
+  if (value == NULL)
+    return XMLErrorInvalidParameters;
+    
+  *value = NULL;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElement::SetValue(XMLString *value) {
+
+  return XMLErrorXMLNotMutable;  
+}
+
+#pragma argsused
+
+XMLError XMLElement::FirstChild(XMLElement **child) {
+  // Sanity checks
+  if (child == NULL)
+    return XMLErrorInvalidParameters;
+  
+  // Assume we have no children (specialisations will implement them if required)  
+  *child = NULL;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElement::NextSibling(XMLElement **sibling) {
+
+  // Sanity checks
+  if (sibling == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Return it
+  *sibling = m_nextsibling;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElement::EventRemoved() {
+
+  // Clear our siblings
+  m_nextsibling = NULL;
+  m_prevsibling = NULL;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElement::EventParented(XMLElement *parent) {
+  return XMLErrorNone;
+}
+
+XMLError XMLElement::EventChangedNextSibling(XMLElement *nextsibling) {
+
+  // Set sibling
+  m_nextsibling = nextsibling;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElement::EventChangedPreviousSibling(XMLElement *prevsibling) {
+
+  // Set sibling
+  m_prevsibling = prevsibling;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElement::EventAddedChild(XMLElement *child) {
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElement::EventRemovedChild(XMLElement *child) {
+  return XMLErrorNone;
+}
+
+XMLError XMLElement::GetLocation(XMLLocation *location) {
+
+  // Sanity checks
+  if (location == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Set it
+  location->Unknown();
+
+  return XMLErrorNone;    
+}
+
+#pragma argsused
+
+XMLError XMLElement::SetLocation(const XMLLocation &location) {
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElement::OwnedSetName(XMLString *name) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+#pragma argsused
+
+XMLError XMLElement::OwnedCreateAttribute(XMLString *name, XMLString *value) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+#pragma argsused
+
+XMLError XMLElement::OwnedSetValue(XMLString *value) {
+
+  return XMLErrorXMLNotMutable;
+}
+ 
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+@
+
+
+1.29
+log
+@Destructor working, walked big.xml 700K memory, 30 sec!
+@
+text
+@d14 2
+d553 1
+a553 310
+//  XMLDocument::XMLDocument  - Constructor
+//  XMLDocument::~XMLDocument - Destructor
+//
+//
+
+XMLDocument::XMLDocument() {
+
+  // Document root
+  m_root    = NULL;
+  m_url     = NULL;
+  m_version = NULL;
+    
+  // Cursor list
+  m_firstcursor = NULL;
+  m_lastcursor = NULL;
+
+  // Constructor/destructor cursors
+  m_constructor = NULL;
+  m_destructor  = NULL;
+  
+  // Source string
+  m_source    = NULL;
+  
+  // Clear statistics
+  m_nodecount = 0;
+  m_nodetotal = 0;
+  m_highwidth = 0;
+  m_highdepth = 0;
+
+}
+
+XMLDocument::~XMLDocument() {
+
+  XMLError result;
+  
+  // Remove root if we have one
+  if (m_root)
+    delete m_root;
+  if (m_url)
+    delete m_url;
+  if (m_version)
+    delete m_version;
+
+  // Remove cursors from document
+  result = XMLErrorNone;
+  while (m_firstcursor && result == XMLErrorNone)
+    result = RemoveCursor(m_firstcursor);
+
+  // Remove constructor/destructor cursors
+  if (m_constructor)
+    delete m_constructor;
+  if (m_destructor)
+    delete m_destructor;
+              
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocument::GetURL      - Get URL
+//  XMLDocument::SetURL      - Set URL
+//  XMLDocument::GetVersion  - Get version string
+//  XMLDocument::SetVersion  - Set version string
+//  XMLDocument::NewCursor   - Create new cursor on the document
+//
+//
+
+XMLError XMLDocument::GetURL(XMLString **url) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+
+  // Sanity checks
+  if (url == NULL) goto BADPARAMETERS;
+    
+  // If no URL, it's easy
+  if (m_url == NULL) {
+  
+    // Return no URL
+    *url = NULL;
+    goto OK;
+  
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_url);
+  if (result) goto ERROR;
+  
+  // Give new string to caller
+  *url = newstring;
+  newstring = NULL;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+
+}
+  
+XMLError XMLDocument::SetURL(XMLString *url) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+  
+  // If no URL, it's easy
+  if (url == NULL) {
+  
+    // Delete current URL (if any)
+    if (m_url)
+      delete m_url;
+      
+    // Clear the current URL
+    m_url = NULL;
+    goto OK;
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(url);
+  if (result) goto ERROR;
+  
+  // Delete current URL (if any)
+  if (m_url)
+    delete m_url;
+    
+  // Save new URL
+  m_url = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+}
+
+XMLError XMLDocument::GetVersion(XMLString **version) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+
+  // Sanity checks
+  if (version == NULL) goto BADPARAMETERS;
+    
+  // If no version, it's easy
+  if (m_version == NULL) {
+  
+    // Return no URL
+    *version = NULL;
+    goto OK;
+  
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_version);
+  if (result) goto ERROR;
+  
+  // Give new string to caller
+  *version = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+    
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+
+}
+  
+XMLError XMLDocument::SetVersion(XMLString *version) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+  
+  // If no version, it's easy
+  if (version == NULL) {
+  
+    // Delete current version (if any)
+    if (m_version)
+      delete m_version;
+      
+    // Clear the current version
+    m_version = NULL;
+    goto OK;
+  }
+
+  // Have version, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_version);
+  if (result) goto ERROR;
+  
+  // Delete current version (if any)
+  if (m_version)
+    delete m_version;
+    
+  // Save new version
+  m_version = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+}
+
+XMLError XMLDocument::NewCursor(XMLCursor **cursor) {
+
+  // Sanity checks
+  if (cursor == NULL)
+    return XMLErrorInvalidParameters;
+  
+  // Create a new generic cursor
+  *cursor = new XMLCursorBase(this);
+  if (*cursor == NULL)
+    return XMLErrorOutOfMemory;
+        
+  return XMLErrorNone;
+  
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocument::EventRemovedElement - Handle "removed element" event
+d557 1
+a557 2
+//  This function handles the "removed element" event by decrementing the
+//  number of elements.
+d560 1
+a560 1
+XMLError XMLDocument::EventRemovedElement(XMLElement *element) {
+d565 2
+a566 11
+  if (element == NULL) goto BADPARAMETERS;
+    
+  // Decrement node count
+  if (m_nodecount)
+    m_nodecount--;
+  
+  // If we've removed the root...
+  if (element == m_root) {
+  
+    // Clear the root element
+    m_root = NULL;
+d568 2
+a569 63
+  }
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocument::NodeCount    - Return current node count (current count)
+//  XMLDocument::NodeTotal    - Return total nodes (lifetime count)
+//  XMLDocument::HighestWidth - Maximum child width
+//  XMLDocument::HighestDepth - Maximum depth
+//
+// DESCRIPTION
+//
+//  These functions return document statistics.
+//
+
+int XMLDocument::NodeCount(void) {
+  return m_nodecount;
+}
+
+int XMLDocument::NodeTotal(void) {
+  return m_nodetotal;
+}
+
+int XMLDocument::HighestWidth(void) {
+  return m_highwidth;
+}
+
+int XMLDocument::HighestDepth(void) {
+  return m_highdepth;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocument::SetSourceXML - Set the XML input (to be parsed)
+//
+// DESCRIPTION
+//
+//  This function sets the source string or parsed XML.
+//
+
+XMLError XMLDocument::SetSourceXML(XMLString *input) {
+
+  XMLCursorBase *parser;
+d571 2
+a572 2
+  // Sanity checks
+  if (input == NULL)
+a574 18
+  // If we already have a source...
+  if (m_source) 
+    return XMLErrorDocSourceAlreadySet;
+    
+  // If we already have contents, error
+  if (m_root)
+    return XMLErrorDocSourceHasContents;
+
+  // No contents, create a parsing cursor
+  m_constructor = new XMLCursorParser(this,input);
+  if (m_constructor == NULL)
+    return XMLErrorOutOfMemory;
+
+  // Create a destructor while we're at it
+  m_destructor = new XMLCursorFree(this);
+  if (m_destructor == NULL) 
+    return XMLErrorOutOfMemory;
+            
+a576 57
+    
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocument::GetRootElement - Get the root element
+//  XMLDocument::SetRootElement - Set the root element
+//
+
+XMLError XMLDocument::GetRootElement(XMLElement **root) {
+
+  XMLError result;
+    
+  // Sanity checks
+  if (root == NULL) goto BADPARAMETERS;
+  
+  // Do it
+  *root = m_root;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLDocument::SetRootElement(XMLElement *element) {
+
+  XMLError result;
+  
+  // Remove existing root if any
+  if (m_root) {
+    delete m_root;
+    m_root = NULL;
+  }
+  
+  // Tie it in
+  m_root = element;
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+d582 1
+a582 13
+//  XMLDocument::RemoveCursor   - Remove cursor from cursor chain
+//  XMLDocument::AddCursor      - Add cursor to cursor chain
+//  XMLDocument::LeastCursor    - Return least cursor
+//  XMLDocument::GetConstructor - Get the document's constructor
+//  XMLDocument::SetConstructor - Set the document's constructor
+//  XMLDocument::GetDestructor  - Get the document's destructor
+//  XMLDocument::SetDestructor  - Set the document's destructor
+//
+// DESCRIPTION
+//
+//  These functions perform maintanence on the document's cursor chain.
+//
+// NOTES
+a583 2
+//  Since we know all cursors are, at least, an XMLCursorBase, we do some
+//  dirty casting.
+d585 1
+a585 187
+XMLError XMLDocument::RemoveCursor(XMLCursor *cursor) {
+
+  XMLError       result;
+  XMLCursorBase *cursorbase;
+  
+  // Sanity checks
+  if (cursor == NULL) goto BADPARAMETERS;
+  
+  // Dirty casting
+  cursorbase = (XMLCursorBase *)cursor;
+  
+  // Make sure the cursor belongs to this document
+  if (cursorbase->m_document != this) goto NOTTHISDOCUMENT;
+
+  // Remove it...
+  if (cursorbase->m_nextcursor)
+    cursorbase->m_nextcursor->m_prevcursor = cursorbase->m_prevcursor;
+  else
+    m_lastcursor = cursorbase->m_prevcursor;
+  if (cursorbase->m_prevcursor)
+    cursorbase->m_prevcursor->m_nextcursor = cursorbase->m_nextcursor;
+  else
+    m_firstcursor = cursorbase->m_nextcursor;
+  cursorbase->m_document = NULL;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NOTTHISDOCUMENT:
+  result = XMLErrorDocCursorNotMine;
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;      
+}
+
+XMLError XMLDocument::AddCursor(XMLCursor *cursor) {
+
+  XMLError       result;
+  XMLCursorBase *cursorbase;
+  
+  // Sanity checks
+  if (cursor == NULL) goto BADPARAMETERS;
+  
+  // Dirty casting
+  cursorbase = (XMLCursorBase *)cursor;
+  
+  // Remove it from previous owner if any
+  if (cursorbase->m_document) {
+    result = cursorbase->m_document->RemoveCursor(cursorbase);
+    if (result) goto ERROR;
+  }
+  
+  // Add it to the beginning
+  cursorbase->m_document = this;
+  cursorbase->m_prevcursor = NULL;
+  cursorbase->m_nextcursor = m_firstcursor;
+  if (cursorbase->m_nextcursor)
+    cursorbase->m_nextcursor->m_prevcursor = cursorbase;
+  else
+    m_lastcursor = cursorbase;
+  m_firstcursor = cursorbase;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+XMLError XMLDocument::LeastCursor(XMLCursor **least) {
+
+  XMLError       result;
+  XMLCursorBase *cursor;
+  XMLCursorBase *nextcursor;
+  int            comparison;
+  
+  // Sanity checks
+  if (least == NULL) goto BADPARAMETERS;
+  
+  // Assume it's the first one
+  cursor = (XMLCursorBase *)m_firstcursor;
+  
+  // Until we've looked at all cursors
+  nextcursor = cursor;
+  while (nextcursor->m_nextcursor) {
+  
+    // Position to next cursor
+    nextcursor = (XMLCursorBase *)nextcursor->m_nextcursor;
+    
+    // Compare the two
+    result = nextcursor->Compare(cursor,&comparison);
+    if (result) goto ERROR;
+    
+    // If next is less, that's the one we want
+    if (comparison < 0)
+      cursor = nextcursor;
+  }
+  
+  // If we don't have one, assume it's the constructor (if there is any)
+  if (cursor == NULL)
+    cursor = m_constructor;
+    
+  // Return it to the caller
+  *least = cursor;
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+XMLCursor *XMLDocument::GetConstructor(void) {
+  return m_constructor;
+}
+
+XMLError XMLDocument::SetConstructor(XMLCursor *constructor) {
+
+  // If we already have a constructor...
+  if (m_constructor) {
+   
+    // If caller specified a non-NULL constructor, error
+    if (constructor)
+      return XMLErrorDocHasConstructor;
+      
+    // Delete current constructor
+    delete m_constructor;
+  }
+  
+  // Set the new constructor
+  m_constructor = (XMLCursorBase *)constructor;
+  
+  return XMLErrorNone;
+}
+
+XMLCursor *XMLDocument::GetDestructor(void) {
+  return m_destructor;
+}
+
+XMLError XMLDocument::SetDestructor(XMLCursor *destructor) {
+
+  // If we already have a destructor...
+  if (m_destructor) {
+   
+    // If caller specified a non-NULL destructor, error
+    if (destructor)
+      return XMLErrorDocHasDestructor;
+      
+    // Delete current destructor
+    delete m_destructor;
+  }
+  
+  // Set the new destructor
+  m_destructor = (XMLCursorBase *)destructor;
+  
+  return XMLErrorNone;
+@
+
+
+1.28
+log
+@Added XMLCursorFree - Almost working
+@
+text
+@d860 48
+d979 1
+a979 1
+//  XMLDocument::NewRootElement - Set the root element
+@
+
+
+1.27
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@d16 1
+d917 6
+a922 1
+        
+d1122 4
+@
+
+
+1.26
+log
+@Added node counts to and LeastCursor() to document
+@
+text
+@d569 10
+d855 30
+@
+
+
+1.25
+log
+@Completely loads and parses big.xml!
+@
+text
+@d600 5
+a604 5
+//  XMLDocument::GetURL     - Get URL
+//  XMLDocument::SetURL     - Set URL
+//  XMLDocument::GetVersion - Get version string
+//  XMLDocument::SetVersion - Set version string
+//  XMLDocument::NewCursor  - Create new cursor on the document
+d943 1
+d1029 50
+@
+
+
+1.24
+log
+@Ready to test parser for real!
+@
+text
+@a395 1
+      frag    [i] += comparelen;
+@
+
+
+1.23
+log
+@All parsing functions except cursor new after/below written
+@
+text
+@d1323 1
+a1323 1
+XMLError XMLElement::EventChangedSiblings(XMLElement *prevsibling, XMLElement *nextsibling) {
+d1325 9
+a1333 1
+  // Set siblings
+a1334 1
+  m_nextsibling = nextsibling;
+@
+
+
+1.22
+log
+@Skeleton of TestXMLDocumentMem works
+@
+text
+@d1106 1
+d1123 3
+d1212 10
+d1361 22
+a1382 1
+  
+@
+
+
+1.21
+log
+@Added TestXMLDocumentMem to test suite
+@
+text
+@d842 1
+a842 1
+  return XMLErrorNotImplemented;
+@
+
+
+1.20
+log
+@Changed Iterate() to Walk(), ready to write parser
+@
+text
+@d836 6
+a841 1
+      
+@
+
+
+1.19
+log
+@More XMLCursor behaviour - won't compile yet
+@
+text
+@d939 4
+a942 2
+//  XMLDocument::GetConstructor - Get constructor cursor
+//  XMLDocument::GetDestructor  - Get destructing cursor
+d1042 23
+d1069 17
+a1085 2
+XMLCursor *XMLDocument::GetConstructor(void) {
+  return m_constructor;
+@
+
+
+1.18
+log
+@Implemented most of XMLCursorBase
+@
+text
+@d15 1
+d567 3
+d588 7
+a594 1
+          
+d845 35
+d937 4
+a940 2
+//  XMLDocument::RemoveCursor - Remove cursor from cursor chain
+//  XMLDocument::AddCursor    - Add cursor to cursor chain
+d1038 8
+@
+
+
+1.17
+log
+@Implemented XMLElementParent
+@
+text
+@d14 1
+d899 4
+d906 2
+a907 1
+  XMLError     result;
+d912 3
+d916 1
+a916 1
+  if (cursor->m_document != this) goto NOTTHISDOCUMENT;
+d919 2
+a920 2
+  if (cursor->m_nextcursor)
+    cursor->m_nextcursor->m_prevcursor = cursor->m_prevcursor;
+d922 3
+a924 3
+    m_lastcursor = cursor->m_prevcursor;
+  if (cursor->m_prevcursor)
+    cursor->m_prevcursor->m_nextcursor = cursor->m_nextcursor;
+d926 2
+a927 2
+    m_firstcursor = cursor->m_nextcursor;
+  cursor->m_document = NULL;
+d950 3
+a952 2
+  XMLError result;
+
+d956 3
+d960 2
+a961 2
+  if (cursor->m_document) {
+    result = cursor->m_document->RemoveCursor(cursor);
+d966 5
+a970 5
+  cursor->m_document = this;
+  cursor->m_prevcursor = NULL;
+  cursor->m_nextcursor = m_firstcursor;
+  if (cursor->m_nextcursor)
+    cursor->m_nextcursor->m_prevcursor = cursor;
+d972 2
+a973 2
+    m_lastcursor = cursor;
+  m_firstcursor = cursor;
+@
+
+
+1.16
+log
+@Implemented XMLElementMem and XMLElementText
+@
+text
+@d984 25
+a1008 23
+//  XMLElement::XMLElement        - Constructor
+//  XMLElement::~XMLElement       - Destructor
+//  XMLElement::GetType           - Get the element's type
+//  XMLElement::SetType           - Set the element's type
+//  XMLElement::IsMutable         - "Is this element mutable?"
+//  XMLElement::GetValidity       - Get the element's validity
+//  XMLElement::SetValidity       - Set the element's validity
+//  XMLElement::GetName           - Get the element's name
+//  XMLElement::SetName           - Set the element's name
+//  XMLElement::GetNAttributes    - Get number of attributes
+//  XMLElement::FindAttribute     - Find an attribute
+//  XMLElement::CreateAttribute   - Create an attribute
+//  XMLElement::DeleteAttribute   - Delete given attribute
+//  XMLElement::DeleteAttributes  - Delete all attributes
+//  XMLElement::GetValue          - Get the element's value
+//  XMLElement::SetValue          - Set the element's value
+//  XMLElement::FirstChild        - Get first child element
+//  XMLElement::NextSibling       - Get next sibling
+//  XMLElement::AppendChild       - Append a child to end of children
+//  XMLElement::AppendChildBefore - Append a child before a given child
+//  XMLElement::AppendChildAfter  - Append a child after a given child
+//  XMLElement::GetLocation       - Get the element's location
+//  XMLElement::SetLocation       - Set the element's location
+d1019 3
+d1181 10
+a1190 1
+XMLError XMLElement::AppendChild(XMLElement *newlastchild) {
+d1192 2
+a1193 4
+  if (newlastchild == NULL)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorXMLNotMutable;
+d1196 5
+a1200 1
+XMLError XMLElement::AppendChildBefore(XMLElement *before,XMLElement *newchild) {
+d1202 1
+a1202 4
+  if (before == NULL || newchild == NULL)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorXMLNotMutable;
+d1205 1
+a1205 1
+XMLError XMLElement::AppendChildAfter(XMLElement *after, XMLElement *newchild) {
+d1207 2
+a1208 4
+  if (after == NULL || newchild == NULL)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorXMLNotMutable;
+d1211 5
+a1215 11
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElement::GetLocation - Get the element's location
+//  XMLElement::SetLocation - Set the element's location
+//
+// NOTES
+//
+//  The default implementation doesn't retain the location.
+//
+@
+
+
+1.15
+log
+@Added XMLLocation class and location calls to XMLElement
+@
+text
+@d984 27
+a1010 8
+//  XMLElement::XMLElement  - Constructor
+//  XMLElement::~XMLElement - Destructor
+//  XMLElement::GetType     - Get the element's type
+//  XMLElement::SetType     - Set the element's type
+//  XMLElement::IsMutable   - "Is this element mutable?"
+//  XMLElement::GetValidity - Get the element's validity
+//  XMLElement::SetValidity - Set the element's validity
+//  XMLElement::FirstChild  - Get first child element (
+d1074 79
+a1153 1
+
+d1174 24
+@
+
+
+1.14
+log
+@More work on base XML classes
+@
+text
+@d1079 11
+d1091 18
+d1118 1
+a1118 1
+XMLLocation() {
+d1123 3
+a1125 5
+XMLLocation(const XMLLocation &copyof) {
+  
+  m_offset = copyof.m_offset;
+  m_line   = copyof.m_line;
+  m_column = copyof.m_column;
+d1128 1
+a1128 1
+XMLLocation(int offset, int line, int column) {
+d1135 10
+a1144 1
+int IsKnown(void) {
+d1149 1
+a1149 1
+void Unknown(void) {
+@
+
+
+1.13
+log
+@More work on base XML classes
+@
+text
+@d1078 42
+@
+
+
+1.12
+log
+@1) Added common class XMLStringHashed (saves rewriting Hash(), GetHash(), etc.)
+2) XMLIOStream to inherit from XMLStringHashed so we can treat the whole
+   stream as a single string.
+@
+text
+@d14 1
+d68 57
+d545 533
+@
+
+
+1.11
+log
+@Reworked xml.h and XMLPath to be more APIish and semi-marshallable
+@
+text
+@d447 39
+@
+
+
+1.10
+log
+@Added mutable calls to XMLString
+@
+text
+@a446 47
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElement::GetValidity - Return the element's validity
+//
+
+XMLError XMLElement::GetValidity(XML::Validity *validity) {
+  if (validity == NULL)
+    return XMLErrorInvalidParameters;
+  return XML::ValidityUnknown;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLPath::NewXMLElement   - Create a new compatible XMLElement
+//  XMLPath::NewXMLAttribute - Create a new compatible XMLAttribute
+//  XMLPath::NewXMLString    - Create a new compatible XMLString
+//  XMLPath::NewXMLPath      - Create a new compatible XMLPath
+//
+
+XMLError XMLPath::NewXMLElement(XMLElement **element) {
+  if (element == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLPath::NewXMLAttribute(XMLAttribute **attribute) {
+  if (attribute == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLPath::NewXMLString(XMLString **string) {
+  if (string == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLPath::NewXMLPath(XMLPath **path) {
+  if (path == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorXMLNotMutable;
+}
+
+@
+
+
+1.9
+log
+@Moved factory and editing functions to XMLPath
+@
+text
+@d27 40
+@
+
+
+1.8
+log
+@Added default factory code for XML elements (returns NotMutable)
+@
+text
+@a411 2
+//  XMLElement::NewXMLAttribute - Create a new compatible XMLAttribute
+//  XMLElement::NewXMLString    - Create a new compatible XMLString
+a419 26
+XMLError XMLElement::NewXMLAttribute(XMLAttribute **attribute) {
+  if (attribute == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLElement::NewXMLString(XMLString **string) {
+  if (string == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorXMLNotMutable;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLAttribute::NewXMLString - Create a new compatible XMLString
+//
+
+XMLError XMLAttribute::NewXMLString(XMLString **string) {
+  if (string == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorXMLNotMutable;
+}
+
+ 
+d424 4
+a427 4
+//  XMLDocument::NewXMLElement   - Create a new compatible XMLElement
+//  XMLDocument::NewXMLAttribute - Create a new compatible XMLAttribute
+//  XMLDocument::NewXMLString    - Create a new compatible XMLString
+//  XMLDocument::NewXMLPath      - Create a new compatible XMLPath
+d430 1
+a430 1
+XMLError XMLDocument::NewXMLElement(XMLElement **element) {
+d436 1
+a436 1
+XMLError XMLDocument::NewXMLAttribute(XMLAttribute **attribute) {
+d442 1
+a442 1
+XMLError XMLDocument::NewXMLString(XMLString **string) {
+d448 1
+a448 1
+XMLError XMLDocument::NewXMLPath(XMLPath **path) {
+@
+
+
+1.7
+log
+@Ready to test XMLIOString (code written)
+@
+text
+@d7 1
+a7 1
+    This file contains the implementation of the Base XML classes.
+d405 75
+@
+
+
+1.6
+log
+@Added CRC32 algorithm to compute string hash
+@
+text
+@d25 1
+a25 2
+XMLString::~XMLString() {
+};
+@
+
+
+1.5
+log
+@XMLStringConst and XMLStringHash working - Crap hash though!
+@
+text
+@d14 1
+d371 1
+a371 1
+  thash   = 0;
+d379 1
+a379 2
+    for (i=fraglen;i;i--)
+      thash = (thash << 1) + *frag++;
+d392 1
+a392 2
+  thash = (thash << 1) + len;
+  *hash = thash;
+@
+
+
+1.4
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d138 1
+d149 1
+a149 1
+    result = GetHash(&hash[1]);
+d160 10
+d174 1
+a174 1
+  // Set the answer
+d179 1
+a179 1
+  
+d356 1
+d369 2
+d378 2
+a379 2
+    for (;fraglen;fraglen--,frag++)
+      thash = (thash << 1) + *frag;
+@
+
+
+1.3
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d62 1
+a62 1
+  result = GetLength(&vallen);
+d161 7
+d201 1
+a201 1
+  result = GetLength(&remlen[0]);
+d203 1
+a203 1
+  result = that->GetLength(&remlen[1]);
+d210 1
+d353 1
+a353 1
+  result = GetLength(&len);  
+@
+
+
+1.2
+log
+@Finished base implementation of XMLString
+@
+text
+@d1 1
+a1 1
+ /* Copyright (C) 2002, Bruce Ferris */
+d21 12
+a32 1
+//  XMLString::GetValue    - Copy the entire string into the caller's buffer
+d315 1
+d321 4
+@
+
+
+1.1
+log
+@Initial base functionality added for XMLString class
+@
+text
+@d15 92
+d113 1
+a113 1
+//  XMLString::Compare - Compare with another string (answer -1,0,1 = "<,=,>")
+a120 19
+//  We've separated Equals() from Compare() because...
+//
+//    1) Assertion: A high proportion of string comparison calls are 
+//                  made to test string equality (except when the
+//                  caller is binary searching an ordered list.)
+//    2) Assertion: When a lot of strings are used, the majority of
+//                  strings are "not equal".
+//    3) Fact:      Examining a full string MAY be costly. What if,
+//                  for example, the strings are spread over several
+//                  disk blocks?
+//    4) Fact:      If a string is hashed and the hashes are NOT equal,
+//                  the strings are not equal.
+//
+//  This subtle argument lets us implement a much faster string compare!
+//
+//  Two empty strings are treated as "equals" (is the caller wishes to
+//  implement "NULL semantics" they will have to suffer the burden of
+//  comparing the lengths before comparing.)
+//
+d126 1
+d133 9
+a141 1
+    if (GetHash() != that->GetHash()) {
+d145 1
+d156 2
+d167 11
+a177 7
+  XMLError  result;                                 // Return code
+  int       remlen[2];                              // remaining lengths to compare
+  int       fragoffset[2];                          // Fragment offsets
+  byte     *fragpointer[2];                         // Fragment pointers
+  int       fraglen[2];                             // Fragment lengths
+  int       comparelen;                             // Current compare length
+  int       compareresult;                          // String comparison result (strncmp() may not return -1,0,1!)
+d188 9
+a196 5
+  // Prime the fragments
+  fragoffset[0] = 0;
+  fragoffset[1] = 0;
+  
+  // Until we run out of fragments or we detect an inequality...
+d211 12
+d224 7
+a230 5
+    // Get the fragments
+    result = GetFragment(fragoffset[0],remlen[0],&fragpointer[0],&fraglen[0]);
+    if (result) goto ERROR;
+    result = GetFragment(fragoffset[1],remlen[1],&fragpointer[1],&fraglen[1]);
+    if (result) goto ERROR;
+d235 1
+a235 1
+      comparelen = fraglen[1];
+d250 1
+a250 1
+    compareresult = strncmp((char *)fragpointer[0],(char *)fragpointer[1],(size_t)comparelen);
+d259 1
+a259 1
+    
+d261 7
+a267 4
+    fragoffset[0] += comparelen;
+    remlen[0]     -= comparelen;
+    fragoffset[1] += comparelen;
+    remlen[1]     -= comparelen;
+d270 1
+a270 1
+  
+d282 14
+a302 1
+//  XMLString::CanHash  - "Can this string be hashed?" (polite test of ability)
+a303 1
+//  XMLString::Hash     - Hash the string (can deny request by returning error)
+d307 1
+a307 1
+int XMLString::CanHash(void) {
+d311 58
+a368 2
+int XMLString::IsHashed(void) {
+  return 0;
+a370 3
+XMLError XMLString::Hash(void) {
+  return XMLErrorNone;
+}
+a371 3
+XMLHash XMLString::GetHash(void) {
+  return (XMLHash)-1;
+}
+@
+

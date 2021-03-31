@@ -1,0 +1,189 @@
+#!Befe type=Type publish=metadata
+#-----------------------------------------------------------------------
+# File: Primitives.txt - Declarations of the BEFE Primitive Types
+#-----------------------------------------------------------------------
+#
+# This single source contains both the Enumeration and Type declarations
+# for the BEFE primitive types.
+#
+# Although there's no clash between the Enumeration names and their
+# associated type names, the intent is to maintain the Enumerations
+# so they EXACTLY match up with any implemented/used base Primitive
+# Types and are BOTH declared in a single place to make this match-up
+# easy to maintain.
+#
+# This approach greatly eases and adds to the readibility of and the
+# implementation of the Type Model in whatever target language.
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+
+#!Include Type, TypeInt
+         
+#
+# First, the Enumeration...
+#
+# Note: You'll see below the first place we illustrate why Storage Sizes are
+#       in Bits not Bytes.
+#
+# Note: We've chosen to name Signed vs Unsigned here even though there's no
+#       distinction between one's complement and two's complement signed
+#       at this point in the declarations.
+#
+#       This distinction is covered elsewhere.
+#
+
+Enum ePrimitives...
+
+  eUnknown
+  
+  # Less than Specifically sized bit length Integers
+  eBit               // You'll see how elsewhere how this, once qualified, is quite useful
+  
+  # 4 bit Integers (Hexidecimal digits mostly)
+  eInt4              // .5 bytes, Unqualified
+  eSInt4             // .5 bytes, Signed
+  eUInt4             // .5 bytes, Signed
+  
+  # 8 bit Integers
+  eInt8              // 1 byte, Unqualified
+  eSInt8             // 1 byte, Signed
+  eUInt8             // 1 byte, Unsigned
+  
+  # 12 bit Integers (haven't found a common use of these yet)
+  eInt12             // 1.5 bytes, Unqualified
+  eSInt12            // 1.5 bytes, Signed
+  eUInt12            // 1.5 bytes, Unsigned
+  
+  # 16 bit Integers
+  eInt16             // 2 bytes, Unqualified
+  eSInt16            // 2 byte2, Signed
+  eUInt16            // 2 bytes, Unsigned
+
+  # 20-24 Integers (uncommon, and seldom used)
+  eInt20             // 2.5 bytes, Unqualified
+  eSInt20            // 2.5 bytes, Signed
+  eUInt20            // 2.5 bytes, Unsigned (Useful for Unicode Characters)
+  eInt24             // 3 bytes, Unqualified
+  eSInt24            // 3 bytes, Signed
+  eUInt24            // 3 bytes, Unsigned
+  
+  # 32 bit Integers
+  eInt32             // 4 bytes, Unqualified
+  eSInt32            // 4 bytes, Signed
+  eUInt32            // 4 bytes, Unsigned
+
+  # 64 bit Integers
+  eInt64             // 8 bytes, Unqualified
+  eSInt64            // 8 bytes, Signed
+  eUInt64            // 8 bytes, Unsigned
+  
+  # Longer Integers (***not yet used***)
+  eInt128            // Maybe for security?
+  eInt256            // 256 bits, 32 bytes, AM registers?
+  
+  # Floating Point
+  eFloat
+  eDouble
+
+  #
+  # Aliased Primitives  
+  #
+
+  eByte    = eInt8
+  eShort   = eSInt16
+  eUShort  = eUInt16
+  eSShort  = eUInt16
+  eChar    = eUInt32 // Unsigned Unicode Character (0x000000..0x10ffff)
+  eInt     = eSInt32
+  eUInt    = eUInt32
+
+...ePrimitives
+
+#
+# Primitive Type
+#
+
+Type Primitive...
+
+  Attributes...
+    i'Value': {Physical: value=false}
+  ...Attributes
+  
+  Abstract Attributes...
+    i'SuperType':
+    i'Size':
+  ...Attributes
+  
+  Capabilities...
+    i'Composite': value=False
+    i'Null':      value=True
+  ...Capabilities  
+
+...Primitive
+
+Type _UnsignedInt...
+
+..._UnsignedInt
+
+#
+# Now, the Primitive Types themselves...
+#
+
+Primitives...
+
+  Int8:   superType = _SignedInt,   size = 8
+  SInt8:  superType = _SignedInt,   size = 8
+  UInt8:  superType = _UnsignedInt, size = 8
+
+  Int16:  superType = _SignedInt,   size = 16
+  SInt16: superType = _SignedInt,   size = 16
+  UInt16: superType = _UnsignedInt, size = 16
+
+  Int32:  superType = _SignedInt,   size = 32
+  SInt32: superType = _SignedInt,   size = 32
+  UInt32: superType = _UnsignedInt, size = 32
+
+  Int64:  superType = _SignedInt,   size = 64
+  SInt64: superType = _SignedInt,   size = 64
+  UInt64: superType = _UnsignedInt, size = 64
+
+...Primitives
+
+#
+# "Aliased" Generic types
+#
+# Note: For now, we're aliasing them here although they should be
+#       Platform dependent.  But, as of time of writing we haven't
+#       modelled  Platform specific stuff so, this is the best place
+#       to put it -- again ***FOR NOW***.
+#
+# Note: Also, we've put the equivalent GNU C++ declarations as
+#       applied to our first 32-bit ports.  This will, clearly, get
+#       cleaned up in future versions, like when we get to 64-bit
+#       ports, etc.
+#
+
+Types...
+
+  Boolean: superType = UInt8
+  
+  Int8:    superType = SInt8
+  Byte:    superType = UInt8
+  
+  Int16:   superType = SInt16
+  Short:   superType = SInt16
+  UShort:  superType = UInt16
+  
+  Int32:   superType = SInt32
+  Int:     superType = SInt32
+  UInt:    superType = UInt32
+
+  Int64:   superType = SInt64
+  Long:    superType = SInt64
+  ULong:   superType = UInt64
+  
+...Types

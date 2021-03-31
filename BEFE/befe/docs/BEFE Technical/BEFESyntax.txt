@@ -1,0 +1,171 @@
+#----------------------------------------------------------------------
+# File: BEFESyntax.txt - Overview of the BEFE Language Syntax
+#----------------------------------------------------------------------
+#
+#  Currently this is an informal place to collect my thoughts on how
+#  we're going to proceed with the BEFE Language itself.
+#
+#----------------------------------------------------------------------
+# Copyright (©) 2011, Bruce Ferris (UK)
+#----------------------------------------------------------------------
+
+Modifiers:  [not] <modifier>   // ◄─── Applicable to many (but not all) of the below...
+
+            fixedLen[gth]      // ◄─┬─ *** Exclusive???
+            var[iable]Len[gth] // ◄─┘
+            
+            dynamic            // ◄─── Means semantics are applied at "run time"
+            bounded            // ◄─── Means index space has boundary limit(s)
+            mutable            // *** Need to decide what about "first time", "final" perhaps?
+            nullable           // ◄─── Means, along with value, can be Null/NaN
+            infinite           // ◄─── Means, along with value, can be Infinity
+            
+            array              // ◄─── Means "contiguous" index space
+            sparse             // ◄─── Means "sparse" index space
+            map                // ◄─── Means "mapped" index space
+            distinct           // ◄─── Means the index space does not allow duplicates
+            contiguous         // ◄─── Means "physically" contiguous
+            fragmented         // ◄─── Means "physically" broken into fragments       
+                               
+            scalar             // ◄── Some number
+            signed             // ◄── Signed number
+            compound           // ◄── Flat linear list of members/methods/attributes, etc.
+            struct[ured]       // ◄── Hierarchical list of members/methods/attributes, etc.
+            ref[erence]        // ◄── Reference to something
+            ordered            // ◄── Compound/structured order matters
+            sens[itiv]e        // ◄── For Strings
+            persistent         // ◄── Need to be more specific about kinds of persistence
+            transient          // ◄── Not identifiable/referencable other than by "where it is"
+
+            method             // ◄─┬─ Synonymous
+            operator           //   │    (Need to add model semantics)
+            function           // ◄─┘  (although we'll tighten up on "function" limitations)
+
+            member             // ◄─┬─ Synonymous
+            attribute          //   │
+            property           // ◄─┘
+
+            hide[s]            // ◄─┬─ For inheritence specification
+            override[s]        //   │
+            special[ise[s]]    //   │
+            replace[s]         // ◄─┘
+            
+            *** Not sure whether or not to model unions.  Because, this has
+            *** to do with how type is determined except in the fairly rare
+            *** case of when used to contain ALL types of things you're
+            *** concerned with and limiting it to those specific types
+            
+Specifiers: Func[tion]
+            Class
+            Type
+            Method
+            Member
+            Att[ribute]
+            Prop[erty]
+            Namespace
+            Primitive
+            
+Types:      Boolean
+            Int[eger]
+            Id[entifier]
+              o Local
+              o ...
+              o Global
+            Float[ing[Point]]
+            Char[acter]
+            String
+            Array
+            Map
+            Type
+              o Class
+              o Structure
+              o Method
+              o Member
+            Reference
+            Address
+            Pointer
+
+Access:     Name
+            Index
+            Relative
+            Complex (programmatic)
+
+Values:     Null
+            NaN
+            Inf[inity]
+            Empty          // ???
+            
+Statements: <Command> [<arg>...]
+            [<modifier>...] class[ '[' <alloc> ']' ][<storageAlloc>] [<modifier>..] <name>
+            Class [<modifier>...] <className>[(<class>)][<storageAlloc>] [<modifier>...] [<classDeclarations>]
+            <qualifiedName>['['<index>']'] = <expression>
+            
+Clauses:    <classDeclarations> := ('...'  <declarations> '...'[<className>]) |
+                                   ('{'    <declarations>   '}'[<className>]) |
+
+Operators:  ->
+            <-
+            
+            =
+            <=
+            =>
+            
+            +
+            -
+            *
+            /
+            **
+            
+            <<
+            >>
+            >>>            // Just to make Java happy (sheesh!!!)
+            &
+            |
+            ~
+            ^
+            
+            <
+            <=
+            =
+            ==
+            >=
+            >
+            !=
+            <>
+            !
+            &&
+            ||
+            
+            ::
+            .
+            
+            (
+            )
+            [
+            ]
+            {
+            }
+            
+            $
+            #
+            @
+            ;
+            :
+            ?
+            
+            ..
+            ...
+            
+            `
+            ¬
+            
+            in
+            contains
+            
+            and
+            or
+            not
+            xor
+            is
+
+            

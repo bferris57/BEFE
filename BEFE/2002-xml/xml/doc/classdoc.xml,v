@@ -1,0 +1,32 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2002.10.12.09.59.37;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Started on HTML documentation
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Bruce Ferris (Personal) -->
+<classes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="classdoc.xsd">
+	<class name="XMLAttribute">
+		<description>An XML Attribute</description>
+		<api>xml.h</api>
+		<implementation>xml.cpp</implementation>
+	</class>
+</classes>
+@

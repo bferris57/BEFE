@@ -1,0 +1,31 @@
+//----------------------------------------------------------------------------
+//
+// File: BEFE.befe - Prototype usage of BEFE language basics
+//
+// Note: Basic building-block physical constructs are...
+//
+//         type   - Definition of a physically implemented datatype
+//         struct - Structured data by physical value (default 'public' access)
+//         class  - Structured data by physical value (default 'private' access)
+//         enum   - Ordered and physically valued names
+//         union  - Ordered and, optionally discriminated, layouts
+//
+
+  cout << (++this.a[0..10:2]) ** - \
+  (that.b.d+other.c) << '\n'; \
+a = *b; \
+a = .b  \
+a = b.
+
+if a == b: c = (d;) e = f
+else: g = h
+for i in 1..10:
+  print i
+  for (i=0;i<10;i++) {
+    print i
+  }
+do {
+  wtf?;
+  wtf2?;
+  }
+while x == None

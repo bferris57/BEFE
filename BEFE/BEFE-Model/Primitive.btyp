@@ -1,0 +1,24 @@
+#!Befe Type=Type, Publish=metadata
+#──────────────────────────────────────────────────────────────────────
+# File: Primitive.btyp - Declarations for the BEFE Primitive Type
+#──────────────────────────────────────────────────────────────────────
+#
+# *** See technical documentation for a more detailed description ***
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011-2012, Bruce Ferris (UK)
+#──────────────────────────────────────────────────────────────────────
+
+# Empty declarations (just in case)
+__type__ vi'Type':
+__expr__ vi'Expr[ession]':
+
+#
+# Type Primitive
+#
+
+Type vi'Primitive':
+
+  UInt       size:                 // Size in Bits
+  Expression v'def[ault]Val[ue]':  // Default Value
+  Literal    v'nullVal[ue]':       // Null Value

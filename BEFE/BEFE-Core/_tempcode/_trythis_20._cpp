@@ -1,0 +1,225 @@
+//!befe-publish src
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// So, the following command line should invoke this function...
+//
+//   befe +tests trythis
+//
+//     or
+//
+//   befe +tests t
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// We've provided it here in the delivered examples so you can
+// plug your own stuff into the Unit Tests and try them from
+// "inside BEFE" instead of "outside BEFE".
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011-2012, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "BEFEMacros.h"
+#include "BEFEWrappers.h"
+#include "ToStrings.h"
+#include "UTF8.h"
+using namespace BEFE;
+
+#ifdef BEFE_PortLinux // BEFE_PortLinux...
+  //#include <signal.h>     // For SIGINT etc.
+  #include <termios.h>    // For tcgetattr(), tcsetattr(), etc.
+  #include <unistd.h>
+  #include <iostream>     // For cin, cout, etc.
+  #include <sys/ioctl.h>  // For ioctl, etc.
+  #include <sys/kd.h>     // For ioctl KD... stuff
+  #include <string.h>     // For strerror, etc.
+//  #include <ncurses.h>    // For ncurses stuff
+  struct termios origTermSettings;
+  
+  #include "Linux32xterm.h"
+
+#endif // ...BEFE_PortLinux
+
+#ifdef BEFE_PortWindows // BEFE_PortWindows...
+  #include "Win32xterm.h"
+#endif // ...BEFE_PortWindows
+
+namespace BEFE { // Namespace BEFE...
+
+// The GetLineCallback (if Linux) actually is in CommandShell.cpp now...
+#ifdef BEFE_PortLinux // BEFE_PortLinux...
+  extern Linux32xterm *theXterm;
+  extern Status GetLineCallback(String &line);  
+#endif // ...BEFE_PortLinux
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+
+Status trythis() {
+
+  Status  status;
+  Int     theCase;
+  
+  // COMMENT... Comment these lines when you put your code in
+  UInt fg;
+  fg = Cout.GetForegroundColour();
+  //Cout << "*** Nothing for trythis() to do at the moment ***\n";
+  // ...COMMENT
+
+  status = Error::None;
+  
+  // YOUR trythis code...
+  //
+
+  // thecase = 0; // Case 0: Test out Linux32xterm
+  //theCase = 1; // Case 1: Output a BEL to Cout
+  theCase = 2; // Case 2: Test out <port>32xterm on its own
+  //theCase = 3; // Case 3: Do Linux32xterm.LearnKeys
+  //theCase = 4; // Case 4: Display raw input until \n
+  status  = Error::None;
+  switch (theCase) {
+
+    // Case 0: Test out <port>32xterm...
+    case 0: {
+
+			Status       status;
+      String       line;
+      
+			Cout << "trythis: Case 0...\n";
+			do {
+			  Cout << "Enter line> ";
+				status = Cin.GetLine(line);
+				if (status) break;
+				Cout << "      line: " << line << '\n';
+			} while (line.Trim().Length());
+
+      break;
+			
+    }
+
+    // Case 1: Output a BEL to Cout
+    case 1: {
+      //Status status;
+      String s;
+      Cout << "Press <return> to continue...\007";
+      Cout.Flush();
+      /*status =*/ Cin.GetLine(s);
+      break;
+    }
+    
+    // Case 2: Test out <port>32xterm on its own...
+    case 2: {
+
+			Status       status;
+			#ifdef BEFE_PortLinux
+      Linux32xterm xterm;
+			#endif
+			#ifdef BEFE_PortWindows
+			Win32xterm   xterm;
+			#endif
+			Coord        screenSize;
+      String       line;
+      Int          i;
+      
+			// TEMP...
+			xterm.ClearScreen();
+			// ...TEMP
+			Cout << "trythis: Case 4...\n";
+			screenSize = xterm.GetScreenSize();
+			Cout << "Screen Size (X/Y) = " << screenSize.x << '/' << screenSize.y << '\n';
+			do {
+				status = xterm.GetLine("Enter line> ", line);
+				if (status) break;
+				Cout << "      line: " << line << '\n';
+			} while (line.Trim().Length());
+
+      if (xterm.history.Length() == 0)
+        Cout << "***History Empty***\n";
+      else for (i=0; i < (Int)xterm.history.Length(); i++)
+        Cout << "history[" << i << "] = " << xterm.history.Get(i) << '\n';
+      Cout << '\n';
+      
+      break;
+			
+    }
+
+#ifdef BEFE_PortLinux // BEFE_PortLinux...
+
+    // Case 3: Do Linux32xterm.LearnKeys...
+    case 3: {
+
+      Linux32xterm xterm;
+			Status       status;
+      String       termType;
+      NamedStrings keys;
+
+      status = xterm.LearnKeys(termType, keys);
+			if (status) break;
+
+      break;
+			
+    }
+
+    // Case 4: Display raw input until \n...
+    case 4: {
+
+			Linux32xterm xterm;
+      Byte         byte;
+      String       termType;
+
+      xterm.EnterRawMode();
+      termType = xterm.GetTerminalType();
+      Cout << "termType = " << termType << '\n';
+      Cout << "Enter Keys: ";
+      for (;;) {
+        Cout.Flush();
+        byte = xterm.GetByte();
+        if (byte == '\n')
+          break;
+        if (byte)
+          (Cout << ToHexString((Int)byte,2)).Flush();
+      }
+      Cout << '\n';
+      xterm.ExitRawMode();
+      
+      break;
+			
+    }
+#endif // ...BEFE_PortLinux
+    
+    default: break;
+  
+  } // ...switch (theCase)
+
+  // Handle errors
+  if (status)
+    ERROR("trythis",status);
+  
+  //
+  // ...YOUR trythis code
+  
+  // COMMENT... Comment this, perhaps, when you put your code in
+  Cout.SetForegroundColour(fg);
+  // ...COMMENT
+
+  return status;
+  
+}
+
+} // Namespace BEFE

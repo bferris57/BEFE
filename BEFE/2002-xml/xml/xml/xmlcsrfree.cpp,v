@@ -1,0 +1,314 @@
+head	1.6;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.6
+date	2002.10.24.02.54.49;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.22.07.09.01;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.21.05.41.43;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.20.13.13.52;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.20.11.26.54;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.6
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlcsrfree.cpp - Implementation of the XMLCursorFree
+  DESCRIPTION
+    
+    This file contains the implementation of a XML in-memory
+    freeing cursor.  
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xmlcsrfree.h"
+#include "xmlelmbase.h"
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorFree::XMLCursorFree  - Constructor
+//  XMLCursorParser::~XMLCursorFree - Destructor
+//
+
+XMLCursorFree::XMLCursorFree(XMLDocumentBase *doc)
+  : XMLCursorBase(NULL)
+{
+
+  // Set our document
+  m_document = doc;
+  
+  // Register with the document
+  if (doc)
+    RegisterAsDestructor();
+  
+}
+
+XMLCursorFree::~XMLCursorFree() {
+
+  // Unregister from the document
+  if (m_document)
+    UnregisterAsDestructor();
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorParser::Walk - The XML parser
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to free as much as we can.
+//
+
+XMLError XMLCursorFree::Walk(void) {
+
+  XMLError        result;      // Return code
+  StackEntry     *tos;         // Current top of stack
+  int             comparison;  // Result from cursor compare
+  XMLElementBase *firstchild;  // Current element's first child
+  XMLElementBase *nextsibling; // Next sibling to one we removed
+  XMLCursorBase  *least;       // Least cursor
+  int             commondepth; // Depth in common with least cursor
+
+  // Sanity checks
+  if (m_document == NULL) goto NODOC;
+  
+  // If the stack's empty...
+  if (m_stacksize == 0) {
+    // Walk down until we're at leaf
+    do
+      result = Down();
+    while (result == XMLErrorNone);
+
+    // If we've got an error, return it
+    if (result && result != XMLErrorCsrAtLeaf) goto ERROR;
+        
+  }
+  
+  // Get the cursor at the least position in the document
+  result = m_document->LeastCursor(&least);
+  if (result) goto ERROR;
+  
+  // Until finished...
+  for (;;) {
+  
+    // Until we're at the bottom (can't call Down() because it may construct!)
+    for (;;) {
+    
+      // Get top entry
+      tos = TOS();
+
+      // Get the first child
+      result = tos->element->FirstChild(&firstchild);
+      if (result) goto ERROR;
+      
+      // If no first child, we're there...
+      if (firstchild == NULL)
+        break;
+        
+      // Push this one
+      result = Push(firstchild,1);
+      if (result) goto ERROR;
+    }
+        
+    // If no top entry, nothing to do
+    if (tos == NULL) break;
+      
+    // If we have a least cursor...
+    if (least) {
+    
+      // Compare with least cursor
+      result = Compare(least,&comparison);
+      if (result) goto ERROR;
+      
+      // If we're greater or equal, we're finished
+      if (comparison >= 0)
+        break;
+        
+      // We're less, get common depth
+      result = CommonWith(least,&commondepth);
+      if (result) goto ERROR;
+      
+      // If common depth is our depth we can't destroy yet
+      if (commondepth == m_stacksize)
+        break;    
+    }
+  
+    // Find next sibling
+    result = tos->element->NextSibling(&nextsibling);
+    if (result) goto ERROR;
+    
+    // Tell next sibling (if any) we've changed it's previous sibling
+    if (nextsibling) {
+      result = nextsibling->EventChangedPreviousSibling(NULL);
+      if (result) goto ERROR;
+    }
+    
+    // Tell the parent (if any) we've removed it's first child
+    if (m_stacksize > 1) {    
+      result = (tos-1)->element->EventRemovedChild(tos->element);
+      if (result) goto ERROR;
+    }
+    
+    // Tell the element it's been removed
+    result = tos->element->EventRemoved();
+    if (result) goto ERROR;
+    
+    // Tell the document we've removed an element
+    result = m_document->EventRemovedElement(tos->element);
+    if (result) goto ERROR;
+    
+    // Delete the element
+    delete tos->element;
+    
+    // Position cursor to next sibling
+    tos->element = nextsibling;
+    tos->entryno++;
+    
+    // If no next sibling, pop stack
+    if (nextsibling == NULL) {
+      result = Pop();
+      if (result) goto ERROR;
+    }
+    
+  }
+  
+  goto OK;
+  
+NODOC:
+  result = XMLErrorCsrNoDocument;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+    
+DONE:
+
+  return result;
+}
+
+
+@
+
+
+1.5
+log
+@Implemented XMLManager
+@
+text
+@d67 1
+d123 8
+@
+
+
+1.4
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@d66 1
+a66 1
+  XMLCursor      *least;       // Least cursor
+@
+
+
+1.3
+log
+@Implemented XMLDocumentBase
+@
+text
+@d17 1
+d61 6
+a66 6
+  XMLError    result;      // Return code
+  StackEntry *tos;         // Current top of stack
+  int         comparison;  // Result from cursor compare
+  XMLElement *firstchild;  // Current element's first child
+  XMLElement *nextsibling; // Next sibling to one we removed
+  XMLCursor  *least;       // Least cursor
+@
+
+
+1.2
+log
+@Destructor working, walked big.xml 700K memory, 30 sec!
+@
+text
+@d26 1
+a26 1
+XMLCursorFree::XMLCursorFree(XMLDocument *doc)
+@
+
+
+1.1
+log
+@Added XMLCursorFree - Almost working
+@
+text
+@d63 1
+d70 12
+d89 2
+a90 10
+    // Walk down until we're at leaf
+    do
+      result = Down();
+    while (result == XMLErrorNone);
+    
+    // If we've got an error, return it
+    if (result && result != XMLErrorCsrAtLeaf) goto ERROR;
+    
+    // Get top entry
+    tos = TOS();
+d92 16
+d144 1
+a144 1
+    result = m_document->EventRemovedElement();
+@
+

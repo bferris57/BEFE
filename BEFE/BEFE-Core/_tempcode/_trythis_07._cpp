@@ -1,0 +1,152 @@
+#include "BEFE.h"
+#include "Token.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+Status trythis() {
+
+  Status  status; 
+  
+  String  fileName;
+  File    file;
+  Bytes   contents;
+  UInt    fileSize;
+  UInt    numRead;
+  
+  Byte   *buf;
+  UInt    numBytes;
+  String  tokName;
+  String  indent;
+  Token   prevTok;
+  Token   nextTok;
+  
+  Time    timeStart;
+  Time    timeFinish;
+  UInt    numTokens;
+  UInt    lastNumLines;
+  UInt    numLines;
+  
+  //
+  // Load the input file...
+  //
+  
+  //fileName = "c:/cloud/dropbox/svn/bferris/c++/test/trythis.cpp";
+  //fileName = "c:/cloud/dropbox/svn/bferris/c++/main.cpp";
+  fileName = "c:/cloud/dropbox/svn/bferris/c++/number/Integer.cpp";
+  //fileName = "c:/befe/big.xml";
+  //fileName = "c:/befe/t.befe++";
+  Cout << "Input file: " << fileName << "...\n";
+
+  if (!TheOS->Exists(fileName)) goto NOTEXIST;
+  else if (!TheOS->IsFile(fileName)) goto NOTFILE;
+
+  timeStart.Set();
+  status = file.SetName(fileName);
+  if (status) goto SOMEERROR;
+
+  fileSize = file.Size();
+  if (fileSize == UNaN) goto BADSIZE;
+
+  status = contents.SetSize(fileSize); // ◄── This only allocated the bytes, it doesn't set UsedBytes
+  if (status) goto SOMEERROR;
+  contents.BufAndSize(buf,numBytes);
+  if (buf == NULL) goto EMPTY;
+  status = file.Read(0,buf,fileSize,numRead);
+  if (status) goto READERROR;
+  if (numRead != fileSize) goto TRUNCATED;
+  status = contents.SetSize(0);        // ◄── This sets UsedBytes = 0
+  if (status) goto SOMEERROR;
+  status = contents.SetSize(fileSize); // ◄── This sets UsedBytes = filesize
+  if (status) goto SOMEERROR;
+  contents.BufAndSize(buf,numBytes);
+  if (buf == NULL) goto EMPTY;
+  
+  //
+  // Process the input tokens...
+  //
+
+  // Initialise counters
+  numTokens = 0;
+  numLines  = (numBytes) ? 1 : 0;
+  lastNumLines = 0;
+  
+  // For each token  
+  do {
+    prevTok = nextTok;
+    status = Token::Next(buf,numBytes,prevTok,nextTok);
+    if (status) goto SOMEERROR;
+    switch(nextTok.type) {
+      case TokenType::Null:            tokName  = "Null";          break;
+      case TokenType::BeginString:     tokName  = "String...";     break;
+      case TokenType::Comment:         tokName  = "Comment";       break;
+      case TokenType::WhiteSpace:      tokName  = "WhiteSpace";    break;
+      case TokenType::Alpha:           tokName  = "Alpha";         break;
+      case TokenType::Operator:        tokName  = "Operator";      break;
+      case TokenType::Numeric:         tokName  = "Numeric";       break;
+      case TokenType::BracketDelim:    tokName  = "BrackDelim";    break;
+      case TokenType::NonBracketDelim: tokName  = "NonBrackDelim"; break;
+      case TokenType::StringLiteral:   tokName  = "StringLiteral"; break;
+      case TokenType::EndOfLine:       tokName  = "Eol";           break;
+      case TokenType::Unknown:         tokName  = "Unknown";       break;
+      case TokenType::EndString:       tokName  = "...String";     break;
+      default:                         tokName  = "**Unknown 0x";
+                                       tokName += ToHexString(nextTok.type,2);
+                                       break;
+    }
+    
+    numTokens++;
+    lastNumLines = numLines;
+    numLines += nextTok.numLines;
+    if (!gQuiet && gVeryVerbose) {
+      if (nextTok.type == TokenType::BeginString || nextTok.type == TokenType::EndString) {
+        Cout << "Token: " << tokName;
+      }
+      else {
+        Cout << "Token: " << nextTok.range.ToHexString().Pad(22) << " " << tokName.Pad(15);
+        if (nextTok.range.Length() > 0 && nextTok.type != TokenType::EndOfLine)
+          Cout << " = " << String((char const *)(buf+nextTok.range.idx1),nextTok.range.Length());
+      }
+      Cout << '\n';
+    }
+    
+    // See if we're finished
+    if (nextTok.type == TokenType::EndString) break;
+
+  } while (true);
+  
+  // Display stats
+  timeFinish.Set();
+  Cout << "  Bytes:   " << numBytes << '\n';
+  Cout << "  Lines:   " << numLines << '\n';
+  Cout << "  Tokens:  " << numTokens << '\n';
+  Cout << "  Elapsed: " << ToString(timeStart,timeFinish) << '\n';
+  
+  //
+  // Handle any errors
+  //
+  
+  status = Error::None;
+  while (false) {
+    NOTEXIST:  WARN("Input file does not exist");           status = Error::None;           break;
+    NOTFILE:   WARN("Input file exists but is not a file"); status = Error::None;           break;
+    BADSIZE:   WARN("Cannot determine input file size");    status = Error::None;           break;
+    EMPTY:     WARN("Input file empty, nothing to do");     status = Error::None;           break;
+    READERROR: WARN("Error reading file");                                                  break;
+    TRUNCATED: WARN("Input file truncated");                status = Error::ValueTruncated; break;
+    SOMEERROR:                                                                              break;
+  }
+  
+  if (status)
+    Cout << "Error: " << ErrorString(status) << '\n';
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

@@ -1,0 +1,81 @@
+#
+# File: BEFE.bnf - BNF description of the BEFE language
+#
+# These are predefined %type names...
+#   WHITE, COMMENT, OPERATOR, DQUOTE, SQUOTE,
+#   INT,   HEX,     NAME,     QNAME,  ACTION,
+#   RANGE, EOL,     EOF
+#
+  TYPE ::= /*WHITE COMMENT*/ OPERATOR /*BQUOTE DQUOTE SQUOTE INT HEX NAME QNAME ACTION RANGE EOL EOF*/
+
+// Basic operators (context dependent meaning)
+<ampersand>      = OPERATOR:'&'
+<comma>          = OPERATOR:','
+<left paren>     = OPERATOR:'('
+<right paren>    = OPERATOR:')'
+<left bracket>   = OPERATOR:'['
+<right bracket>  = OPERATOR:']'
+<percent>        = OPERATOR:'%'
+<dot>            = OPERATOR:'.'
+<dot dot>        = OPERATOR:'..'
+<ellipsis>       = OPERATOR:'...'
+<plus>           = OPERATOR:'+'
+<minus>          = OPERATOR:'-'
+<star>           = OPERATOR:'*'
+<star star>      = OPERATOR:'**'
+<slash>          = OPERATOR:'/'
+<ampersand>      = OPERATOR:'&'
+<colon>          = OPERATOR:':'
+<question>       = OPERATOR:'?'
+<equals>         = OPERATOR:'='
+<or>             = OPERATOR:'||'
+<and>            = OPERATOR:'&&'
+<not>            = OPERATOR:'!'
+<xor>            = OPERATOR:'^'
+<equals equals>  = OPERATOR:'=='
+<not equals>     = OPERATOR:'!='
+<less equals>    = OPERATOR:'<='
+<greater equals> = OPERATOR:'>='
+<less greater>   = OPERATOR:'<>'
+<greater less>   = OPERATOR:'><'
+<less>           = OPERATOR:'<'
+<greater>        = OPERATOR:'>'
+<colon equals>   = OPERATOR:':='  |
+                   OPERATOR '::='
+// Reserved words
+<reserved>      =
+  "if"    "then"  "else"
+  "start" "begin" "finish" "end"
+  "and"   "or"    "not"    "[e]x[lusive]or"
+  "for"   "each"  "in"
+  "is"
+  "method"  "member"     "function"
+  "class"   "struct"     "enum[eration]"
+  "strict"  "loose"      "relaxed"
+  "extends" "implements" "throws"
+  "throw"   "raise"      "catch"          "finally"
+  "while"   "do"
+  "static"  "dynamic"    "abstract"
+  "public"  "private"    "protected"      "friend"
+
+  "signed" "unsigned"                  
+  "bit"    "byte"     "char[acter]" "int[eger]" "long" "float[ing][point]" "double"
+  "array"  "list"     "map"
+
+// Statements
+<statement name> =
+  "if"
+  "start" 
+// Unicode operators (not needed because text alternatives, but available)
+<plus minus>    = OPERATOR:'±'
+<infinity>      = OPERATOR:'∞'
+<pi>            = OPERATOR:'π'
+<sum>           = OPERATOR:'∑'
+/*
+<type spec>  = [<ampersand>] <qualified type name> [<dimension spec>] [<precision spec>]
+<name>       = NAME
+<dimension spec> = <leftParen> INT [<comma> INT] <rightParen>
+
+*/
+
+

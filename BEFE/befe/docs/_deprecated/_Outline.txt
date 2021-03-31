@@ -1,0 +1,28 @@
+Basic outline of this document...
+
+ 0 - Introduction
+ 1 - Design Metaphysics
+ 2 - Design Concepts, Terminology, and Approach
+ 3 - Values and other Atomic data
+ 4 - IDs, Addresses, Spaces, Indexes, and Slices
+ 5 - Null, NaN, NUL, Inf, and Inv
+ 6 - Strings, Chars, Names, and other Symbols
+ 7 - Names and Namespaces (URLs, Paths, etc.)
+ 8 - Types
+ 9 - Functions
+10 - Environments
+       Platforms
+	   Production Environments (based on Skill sets)
+	   Runtime Environments
+	   Communication
+11 - Languages
+       Human
+	   Data
+	   Procedural
+12 - BEFE Implementations
+     13.1 - C++ Implementation
+     13.2 - Java Implementation
+     13.3 - Python Implementation
+13 - Conclusion (and "is 13 an unlucky number?")
+Appendix A: Glossary
+Appendix B: Contributors

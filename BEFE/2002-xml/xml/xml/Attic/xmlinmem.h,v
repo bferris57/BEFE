@@ -1,0 +1,398 @@
+head	1.5;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.5
+date	2002.10.12.17.48.43;	author bferris;	state dead;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.12.16.24.31;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.06.09.09.43;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.05.22.06.16;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.05.22.01.22;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.5
+log
+@Renamed xmlinmem to xmldocmem and wrote XMLDocumentMem
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlinmem.h - Definitions for the implementation of in-memory XML classes
+  
+  DESCRIPTION
+    
+    This file contains the definitions for an in-memory implementation of
+    the abstract XML classes.
+    
+    These classes can be used to build an entire or partial XML document.
+    
+    They can also be used in conjunction with stream based implementations
+    to provide the holding place for edits and modifications.
+        
+  NOTES
+
+    The current implementation is a bit rough because it simply uses
+    XMLHeap::Allocate() to get memory for the entire string.  We expect
+    this to get a bit more efficient in the future.
+*/
+
+#ifndef _xmlinmem_h
+
+#define _xmlinmem_h
+
+#include "xml.h"
+#include "xmlbase.h"
+
+// Forward classes
+class XMLElementMem;
+class XMLDocumentMem;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLDocument - An in-memory XML document
+//
+// DESCRIPTION
+//
+//  This class represents a single XML document.  
+//
+
+class XMLDocumentMem : public XMLDocument {
+  friend XMLElementMem;
+  //
+  // Public member functions
+  //
+public:
+  
+  // Constructors/destructors
+  virtual XMLDocumentMem();
+  virtual ~XMLDocumentMem();
+  virtual XML::Type GetType(void);
+  virtual XMLError  SetType(XML::Type type);
+
+  // Capability
+  virtual int       IsMutable(void);
+    
+  // Validity
+  virtual XMLError  GetValidity(XML::Validity *validity);
+  virtual XMLError  SetValidity(XML::Validity *validity);
+    
+  // Atomic
+  virtual XMLError  GetName(XMLString **name);
+  virtual XMLError  SetName(XMLString *name);
+  virtual XMLError  GetValue(XMLString **value);
+  virtual XMLError  SetValue(XMLString *value);
+  
+  // Attributes
+  virtual XMLError  GetNAttributes(int *numattributes);
+  virtual XMLError  FindAttribute(XMLString *name, XMLString **value);
+  virtual XMLError  CreateAttribute(XMLString *name, XMLString *value);
+  virtual XMLError  DeleteAttribute(XMLString *name);
+  virtual XMLError  DeleteAttributes(void);
+  
+  // Positioning
+  virtual XMLError  FirstChild(XMLElement **child);
+  virtual XMLError  NextSibling(XMLElement **sibling);
+    
+  // Contents
+  virtual XMLError  AppendChild(XMLElement **newlastchild);
+  virtual XMLError  AppendChildBefore(XMLElement *before,XMLElement **newchild);
+  virtual XMLError  AppendChildAfter(XMLElement *after, XMLElement **newchild);
+  
+  //
+  // Protected members
+  //
+protected:
+  // Document root
+  XMLElement *m_root;
+  // Constructor/destructor cursors
+  XMLCursor  *m_constructor;
+  XMLCursor  *m_destructor;
+  // Cursor list
+  XMLCursor  *m_firstcursor;
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElementMem - An in-memory XMLElement
+//
+// DESCRIPTION
+//
+//  This class implements a mutable XML element in memory.
+//
+
+class XMLElementMem : public XMLElement {
+  //
+  // Protected member functions
+  //
+protected:
+  // Constructors/destructors
+  XMLElementMem(void);
+  virtual ~XMLElementMem();
+  
+  // Type
+  virtual XML::Type GetType(void);
+  virtual XMLError  SetType(XML::Type type);
+
+  // Capability
+  virtual int       IsMutable(void);
+    
+  // Validity
+  virtual XMLError  GetValidity(XML::Validity *validity);
+  virtual XMLError  SetValidity(XML::Validity *validity);
+    
+  // Atomic
+  virtual XMLError  GetName(XMLString **name);
+  virtual XMLError  SetName(XMLString *name);
+  virtual XMLError  GetValue(XMLString **value);
+  virtual XMLError  SetValue(XMLString *value);
+  
+  // Attributes
+  virtual XMLError  GetNAttributes(int *numattributes);
+  virtual XMLError  FindAttribute(XMLString *name, XMLString **value);
+  virtual XMLError  CreateAttribute(XMLString *name, XMLString *value);
+  virtual XMLError  DeleteAttribute(XMLString *name);
+  virtual XMLError  DeleteAttributes(void);
+  
+  // Positioning
+  virtual XMLError  FirstChild(XMLElement **child);
+  virtual XMLError  NextSibling(XMLElement **sibling);
+    
+  // Contents
+  virtual XMLError  AppendChild(XMLElement **newlastchild);
+  virtual XMLError  AppendChildBefore(XMLElement *before,XMLElement **newchild);
+  virtual XMLError  AppendChildAfter(XMLElement *after, XMLElement **newchild);
+}; 
+
+#endif // _xmlinmem_h
+@
+
+
+1.4
+log
+@Removed xmlbase.h and finalised doc/elem/cursor
+@
+text
+@@
+
+
+1.3
+log
+@Added mutable calls to XMLString
+@
+text
+@d30 1
+a32 1
+class XMLStringMem;
+a33 1
+class XMLAttributeMem;
+a34 1
+class XMLPathMem;
+d40 1
+a40 1
+//  XMLStringMem - An editable in-memory string
+d44 1
+a44 1
+//  This class allows the caller to manipulate XML strings.
+d47 2
+a48 2
+class XMLStringMem : public XMLString {
+  
+d53 1
+d55 33
+a87 18
+  XMLStrinMem();
+  virtual ~XMLString();
+  // Get the value/len of the string
+  virtual XMLError Length(int *len);
+  virtual XMLError GetValue(byte *buf, int maxbufl, int *len = NULL);
+  // Fragments
+  virtual int      DoesLock(void);                   // "Does LockFragment() actualy lock the fragment?"
+  virtual XMLError LockFragment(int offset, byte **pointer, int *availlen);
+  virtual XMLError UnlockFragment(int offset);
+  // Hashing
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+
+  // Methods for manipulating the string
+  virtual int      IsMutable(void);
+  virtual XMLError Truncate(void);
+  virtual XMLError Append(byte *buf, int bufl);
+a91 1
+
+d93 8
+a100 5
+
+  byte    *m_string;
+  int      m_length;
+  XMLHash  m_hash;
+};
+d115 1
+a115 1
+  // Public member functions
+d117 1
+a117 1
+public:
+d119 1
+a119 1
+  XMLElementMem();
+a121 4
+  //
+  // Inherited overrides
+  //
+  
+d124 9
+a132 1
+  
+d134 4
+a137 4
+  virtual XMLError GetTypeName(XMLString **name);
+  virtual XMLError SetTypeName(XMLString **name);
+  virtual XMLError GetValue(XMLString **value);
+  virtual XMLError SetValue(XMLString *value);
+d140 14
+a153 79
+  virtual XMLError GetNAttributes(int *numattributes);
+  virtual XMLError GetAttribute(int attrno,XMLAttribute **attr);
+  virtual XMLError FindAttribute(XMLString *name,int *attrno);
+  virtual XMLError AddAttribute(XMLAttribute *attribute);
+  virtual XMLError DeleteAttribute(attrno);
+  virtual XMLError DeleteAttributes(void);
+  
+  // Elements
+  virtual XMLError GetNElements(void);
+  virtual XMLError GetElement(int elemno,XMLElement *elem);
+  
+  virtual XMLError RemoveElement(int elemno);
+  virtual XMLError AppendElement(XMLElement *theelement);
+  virtual XMLError InsertElementBefore(int elemno,XMLElement *theelement);
+  virtual XMLError InsertElementAfter(int elemno,XMLElement *theelement);
+
+  // Factory functions
+  virtual XMLError NewXMLAttribute(XMLAttribute **attribute);
+  virtual XMLError NewXMLString(XMLString **string);
+  
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLAttributeMem - An in-memory XMLAttribute
+//
+// DESCRIPTION
+//
+//  This class implements a single in-memory XML element attribute.  
+//
+
+class XMLAttributeMem : XMLAttribute {
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLAttribute() = 0;
+  // Getters
+  virtual XMLError GetName(XMLString *name);
+  virtual XMLError SetName(XMLString *name);
+  virtual XMLError GetValue(XMLString *value);
+  virtual XMLError SetValue(XMLString *value);
+  // Factory functions
+  virtual XMLError NewXMLString(XMLString **string);
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLDocument - An in-memory XML document
+//
+// DESCRIPTION
+//
+//  This class represents a single XML document.  
+//
+
+class XMLDocumentMem : public XMLDocument {
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLDocument() = 0;
+  // Fixed attributes
+  virtual ~XMLDocument() = 0;
+  // Setters/getters
+  virtual XMLError GetURL(XMLString **url);
+  virtual XMLError SetURL(XMLString *url);
+  virtual XMLError GetVersion(XMLString **version);
+  virtual XMLError SetVersion(XMLString *version);
+  // Factory functions
+  virtual XMLError NewXMLElement(XMLElement **element);
+  virtual XMLError NewXMLAttribute(XMLAttribute **attribute);
+  virtual XMLError NewXMLString(XMLString **string);
+  virtual XMLError NewXMLPath(XMLPath **path);
+@
+
+
+1.2
+log
+@Changed mind... instead of xmlmem.h it should be xmlinmem.h
+@
+text
+@d70 2
+a71 1
+  // Added methods for manipulating the string
+@
+
+
+1.1
+log
+@Added in-memory (xmlmem.h) definitions for in-memory implementation
+@
+text
+@d6 1
+a6 1
+    xmlmem.h - Definitions for the implementation of in-memory XML classes
+d25 1
+a25 1
+#ifndef _xmlmem_h
+d27 1
+a27 1
+#define _xmlmem_h
+d200 1
+a200 1
+#endif // _xmlmem_h
+@
+

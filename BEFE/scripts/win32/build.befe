@@ -1,0 +1,19 @@
+#!befe -echo +et
+#----------------------------------------------------------------
+# File: build.befe - Build BEFE
+#----------------------------------------------------------------
+?header
+echo "***build.befe***"
+
+os
++vv
+#+v
+build all
+#build all-svn-pubdoc
+#build init+val+zip
+#build all-debug-pubdoc-zip
+..
+
+?footer
+
+exit

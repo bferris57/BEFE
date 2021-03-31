@@ -1,0 +1,40 @@
+#----------------------------------------------------------------------
+# File: LexNotes.txt - Lexical Analysis notes
+#----------------------------------------------------------------------
+
+Note: Each Lexical analyser works off of a set of state tables.  The
+      state tables contain 128 entries, one for each ASCII character.
+	  The entry in each of these 128 indicates an entry index into
+	  a state action table.  
+	  
+Note: A state action table is, basically, a switch statement, where
+      the 0x00 action is the "default" of the switch.
+
+#----------------------------------------------------------------------
+# Example state table...
+#----------------------------------------------------------------------
+
+static Byte cpp[128] = {
+  
+  /*              00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F                             */
+  /* 00..0F: */    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, /* 00..0F NUL..SI          */
+  /* 10..1F: */    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /* 10..1F DLE..US          */
+  /* 20..2F: */    1, 6, 8, 2, 2, 2, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, /* 20..2F  !"#$%&'()*+,-./ */
+  /* 30..3F: */    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, /* 30..3F 0123456789:;<=>? */
+  /* 40..4F: */    1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 40..4F @ABCDEFGHIJKLMNO */
+  /* 50..5F: */    4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 5, 2, 2, 4, /* 50..5F PQRSTUVWXYZ[\]^_ */
+  /* 60..6F: */    2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 60..6F `abcdefghijklmno */
+  /* 70..7F: */    4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2, 2, /* 70..7F pqrstuvwxyz{|}~¦ */
+  /*              00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F                             */
+ 
+  };
+
+State: 0 - Handle UTF...
+       1 - Whitespace
+	   2 - Operator
+	   3 - Number
+	   4 - Name
+	   5 - Escape
+	   6 - Start Quote
+	   7 - EOL
+	   8 - Start Line Comment

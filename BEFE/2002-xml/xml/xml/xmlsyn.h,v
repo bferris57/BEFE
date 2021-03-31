@@ -1,0 +1,444 @@
+head	1.12;
+access;
+symbols
+	start:1.1.1.1 bruce:1.1.1;
+locks; strict;
+comment	@ * @;
+
+
+1.12
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.11.04.06.50.29;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.19.11.33.48;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.19.07.52.34;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.19.07.15.33;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.18.03.57.53;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.17.05.50.10;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.17.05.08.50;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.28.06.34.10;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.24.19.15.38;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches
+	1.1.1.1;
+next	;
+
+1.1.1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.12
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlsyn.h - Definitions for the XMLSyn class
+  
+  DESCRIPTION
+    
+    This file contains the class and other declarations for the
+    XMLSyn class.  This class is responsible for generating a 
+    stream of XMLSynToken tokens.
+    
+    When errors are encountered (error code in token), subsequent calls to
+    NextToken() will attempt to continue parsing.  This lets the caller
+    decide whether to abort (in the case of XML) or continue.
+    
+  NOTES
+
+    Since the syntactical analyser doesn't verify matching start/end tags
+    (that's up to the semantic analyser) it can also be used to parse HTML.
+    
+    We also allow text, whitespace and/or entities (&...;) to preceed the
+    first tag (HTML allows it!) so it's up to the caller to catch that
+    XML error.
+    
+    Element/attribute names are NOT validated (e.g. start with a proper
+    character, etc.), that's up to the caller.
+    
+    WhiteSpace tokens will only be returned outside of tags.
+*/
+
+#ifndef _xmlsyn_h
+
+# define _xmlsyn_h
+
+#include "xml.h"
+#include "xmlerrors.h"
+#include "xmllex.h"
+
+//------------------------------------------------------------------------------
+//
+// Enums and typedefs
+//
+
+// Syntax Token Type
+
+enum XMLSynTokenType {
+   xmlsyn_TokenNull                                 // No operation (may have error code)
+   // Data tokens
+  ,xmlsyn_TokenProcessingInstruction                // Processing instruction (with name)
+  ,xmlsyn_TokenProcessingText                       // Text part of processing instruction
+  ,xmlsyn_TokenProcessingEnd                        // End of processing instruction
+  ,xmlsyn_TokenDTD                                  // DTD
+  ,xmlsyn_TokenElementOpen                          // Start a new element definition
+  ,xmlsyn_TokenElementClose                         // Close an element/processing-instruction
+  ,xmlsyn_TokenElementAttributeName                 // Here comes an attribute's name
+  ,xmlsyn_TokenElementAttributeValue                // Here comes an attribute's value
+  ,xmlsyn_TokenElementContents                      // Start of element contents (no more <attr>=<value> will be returned)
+  ,xmlsyn_TokenText                                 // Here comes some text
+  ,xmlsyn_TokenWhite                                // White space
+  ,xmlsyn_TokenEntity                               // Entity
+  ,xmlsyn_TokenComment                              // Comment
+  ,xmlsyn_TokenCDATA                                // CDATA
+  // Control tokens
+  ,xmlsyn_TokenNeedMoreData                         // "Need some more stream data"
+  ,xmlsyn_TokenEndOfStream                          // "End of the data stream"
+  ,xmlsyn_TokenMAX                                  // Highest valid type (+1)
+};
+
+  
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLSynToken - XML Syntax token
+//
+// DESCRIPTION
+//
+//  This class represents a single syntactical token in an XML stream.
+//
+ 
+class XMLSynToken {
+  //
+  // Public members
+  //
+public:
+  XMLSynTokenType type;                             // The token
+  XMLError        error;                            // Error code (0 = None)
+  int             startoff;                         // Start offset in stream (0..n)
+  int             startline;                        // Start line (1..n)
+  int             startcol;                         // Start column (1..n)
+  int             length;                           // Length of syntactical element
+  //
+  // Public member functions
+  //
+public:
+  const char *GetTypeName(void);                    // Get text representation of the type's name
+  int         GetMaxTypeNameLength(void);           // Get maximum length of a type's name
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLSyn - XML Syntactical Analyser
+//
+// DESCRIPTION
+//
+//  This class is responsible for breaking a stream of XML source
+//  into syntactical tokens.
+//
+ 
+class XMLSyn {
+  
+  //
+  // Public member functions
+  //
+
+public:
+  
+  // Constructor/Destructor
+  XMLSyn();
+
+  // Set strictness options
+  void StrictQuotes(int option);
+  void StrictValues(int option);
+  
+  // Tell the analyser "We're starting from the beginning"
+  void Rewind();
+  
+  // Tell the analyser "Here's some data"
+  void MoreData(byte *buf, int len);
+  
+  // Get next token
+  XMLSynToken NextToken();
+
+  //
+  // Private members
+  //
+private:
+
+  // State
+  
+  enum {                                            // Current state...
+   State_Ready                                         // Initial state
+  ,State_StartOfTag                                    // At beginning of tag, expect <name> or '/'
+  ,State_StartPI                                       // Have a start of processing instruction
+  ,State_ExpectPIText                                  // Handling processing instruction text
+  ,State_EndPI                                         // Have end of processing instruction
+  ,State_ExpectElementName                             // Expect a element name or '/'
+  ,State_ExpectAttribute                               // Expect <attr>=<value> or '/'
+  ,State_ExpectEquals                                  // Expect =<value>
+  ,State_ExpectValue                                   // Expect <value>
+  ,State_ContinueValue                                 // Continue with <value> (non-strict quotes)
+  ,State_ExpectEndOfTag                                // Expect '>'
+  ,State_SkippingDTD                                   // Skipping DTD tokens
+  } m_state;
+  
+  // Other stuff
+  
+  XMLLex      m_lex;                                // Our lexical analyser
+  XMLLexToken m_lextok;                             // Current lexical token
+  unsigned    m_reuselextok:1;                      // "Reuse buffered lexical token?"
+  unsigned    m_inendtag:1;                         // "Are we in an end tag?"
+  
+  // Buffered token (when combining lexical elements while skipping)
+  XMLSynToken m_buftok;                             // Used for PI, DTD, non-strict attr values
+  
+  // DTD skipping stuff
+  unsigned    m_DTD:1;                              // "Are we skipping DTD tokens?"
+  int         m_DTDlevel;                           // DTD skipping level
+
+  // Strict parsing flags (relaxed for HTML)
+  unsigned    m_strictquotes:1;                     // "Enforce quotes on attribute values?"
+  unsigned    m_strictvalues:1;                     // "Enforce 'attributes need values'?"
+    
+};
+
+#endif // _xmlsyn_h
+@
+
+
+1.11
+log
+@More work on HTMLTidy and HTML parsing
+@
+text
+@d133 1
+a133 1
+  void MoreData(char *buf, int len);
+@
+
+
+1.10
+log
+@More work on HTML parser
+@
+text
+@d125 1
+a125 1
+  // Set "Strict quotes" option
+d127 1
+d176 1
+@
+
+
+1.9
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@d125 3
+a139 1
+
+d154 1
+d163 1
+d167 1
+a167 1
+  XMLSynToken m_buftok;                             // Used for PI and DTD
+d172 4
+a175 1
+  
+@
+
+
+1.8
+log
+@Separate DTD syntax token (contains whole contents)
+@
+text
+@d53 1
+d68 1
+@
+
+
+1.7
+log
+@Skeleton parser passing through simple.xml OK without errors
+@
+text
+@d53 1
+d160 2
+a161 2
+  // Processing Instruction Stuff
+  XMLSynToken m_PIText;                             // Processing instruction text
+@
+
+
+1.6
+log
+@Added PI tokens to syntax analyser
+@
+text
+@d51 1
+a51 1
+  ,xmlsyn_TokenProcessingOpen                       // Start a new processing instruction
+a52 1
+  ,xmlsyn_TokenProcessingClose                      // End of processing instruction
+d142 1
+a142 1
+  ,State_StartPIText                                   // Begin processing instruction text
+d144 1
+a144 1
+  ,State_HaveEndPI                                     // Have end of processing instruction
+a157 1
+  unsigned    m_inPI:1;                             // "Are we in a processing instruction tag?"
+@
+
+
+1.5
+log
+@Some bare bones in XMLParser::Walk
+@
+text
+@d52 1
+d143 3
+d160 3
+@
+
+
+1.4
+log
+@Added 'processing instruction' to lex/syn
+@
+text
+@d51 2
+a53 1
+  ,xmlsyn_TokenProcessingOpen                       // Start a new processing instruction
+@
+
+
+1.3
+log
+@Moved error codes from local .h to xmlerrors.h
+@
+text
+@d50 1
+a50 1
+  // Data tokens
+d52 2
+a53 2
+  ,xmlsyn_TokenSpecialOpen                          // Start a new special element definition
+  ,xmlsyn_TokenElementClose                         // Close an element/special
+d154 1
+a154 1
+  unsigned    m_inspecial:1;                        // "Are we in a special (<?...?>) tag?"
+@
+
+
+1.2
+log
+@Added code to skip DTD
+@
+text
+@d37 2
+a66 16
+// Syntax errors
+enum XMLSynError {
+  xmlsyn_ErrorNone,
+  xmlsyn_ErrorWhiteSpaceNotAllowed,                 // Whitespace not allowed here
+  xmlsyn_ErrorLiteralNotTerminated,                 // Quoted literal not terminated properly
+  xmlsyn_ErrorEntityNotTerminated,                  // Entity (&...;) not terminated properly
+  xmlsyn_ErrorExpectedStartOfTag,                   // Expected '<'
+  xmlsyn_ErrorExpectedEndOfTag,                     // Expected '>'
+  xmlsyn_ErrorExpectedElementName,                  // Expected <name>[:<name>[...]]
+  xmlsyn_ErrorExpectedAttribute,                    // Expected <attr>=<value>, '/', or '>'
+  xmlsyn_ErrorExpectedValue,                        // Expected <value>
+  xmlsyn_ErrorExpectedEquals,                       // Expected '='
+  xmlsyn_ErrorDTDNotImplementedYet,                 // DTD not implemented yet (skipping)
+  xmlsyn_ErrorInternal                              // Internal error
+};
+
+d85 5
+a89 5
+  XMLSynError error;                                // Error code (0 = None)
+  int         startoff;                             // Start offset in stream (0..n)
+  int         startline;                            // Start line (1..n)
+  int         startcol;                             // Start column (1..n)
+  int         length;                               // Length of syntactical element
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d77 1
+d160 1
+d169 4
+@
+
+
+1.1.1.1
+log
+@Start
+@
+text
+@@

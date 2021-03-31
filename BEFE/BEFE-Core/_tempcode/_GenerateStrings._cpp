@@ -1,0 +1,133 @@
+//----------------------------------------------------------------------
+//
+// Method: GenerateStrings - Generate the strings
+//
+
+Status VarTerm::GenerateStrings() {
+
+  Status     status;
+
+  TermEntry *tempEntries;
+  TermEntry *tempEntry;
+  Int        numEntries;
+  Int        entryIdx;
+
+  Int        maxDepth;
+  Int        curDepth;
+  UInt       reqBits;
+  UInt       numReq;
+  UInt       curReq;
+  UInt       optBits;
+  UInt       numOpt;
+  UInt       curOpt;
+  UInt       curReqMask;
+  UInt       curOptMask;
+  UInt       curOptVal;
+  UInt       optMax;
+  String     string;
+  String     tempString;
+  Int        foundIdx;
+
+  theStrings.Clear();
+
+  numEntries  = theEntries.Length();
+  tempEntries = (TermEntry *)theEntries.GetAddress();
+  maxDepth    = GetMaxDepth();
+
+  //
+  // For each depth...
+  //
+
+  for (curDepth=0; curDepth <= maxDepth; curDepth++) { // For each depth...
+
+    // Get the required/optional bits
+    status = GetDepthMasks(curDepth,reqBits,optBits);
+    if (status) goto SOMEERROR;
+
+    //
+    // Generate the required one...
+    //
+
+    curReqMask = reqBits;
+    tempEntry = tempEntries;
+    string.Clear();
+    while (curReqMask) {
+      if (curReqMask&1) {
+        // Get the fragment string
+        tempString = theString.GetSlice(Slice(tempEntry->range));
+        // Append it
+        string += tempString;
+      }
+      curReqMask >>= 1;
+      tempEntry++;
+    }
+
+    // See if we've alreach output it...
+    for (foundIdx=theStrings.Length()-1; foundIdx >= 0; foundIdx--) {
+      tempString = theStrings.Get(foundIdx);
+      if (tempString == string) break;
+    }
+
+    // Append it to the list if it's not already there...
+    if (foundIdx < 0) {
+      status = theStrings.Append(string);
+      if (status) goto SOMEERROR;
+    }
+
+    //
+    // Generate the possiblities...
+    //
+
+    string.Clear();
+    optMax = IntBitMax(IntBitCount(optBits));
+    for (curOptVal=0; curOptVal <= optMax; curOptVal++) { // For each possibility...
+
+      tempEntry = tempEntries;
+      curOptMask = reqBits | IntBitScatter(curOptVal,optBits);
+      string.Clear();
+
+      while (curOptMask) { // Each curOptMask bit...
+
+        if (curOptMask&1) { // If this bit is set...
+
+          // Get the fragment string
+          tempString = theString.GetSlice(Slice(tempEntry->range));
+          // Append it
+          string += tempString;
+        } // ...If this bit is set
+
+        curOptMask >>= 1;
+        tempEntry++;
+
+      } // ...Each curOptMask bit
+
+      // See if we've alreach output it...
+      for (foundIdx=theStrings.Length()-1; foundIdx >= 0; foundIdx--) {
+        tempString = theStrings.Get(foundIdx);
+        if (tempString == string) break;
+      }
+
+      // Append it to the list if it's not already there...
+      if (foundIdx < 0) {
+        status = theStrings.Append(string);
+        if (status) goto SOMEERROR;
+      }
+
+    }  // ...For each possibility
+
+  }  // ...For each depth
+
+  goto OK;
+
+SOMEERROR:
+  goto DONE;
+OK:
+  status = Error::None;
+  goto DONE;
+
+DONE:
+
+  return status;
+
+}
+

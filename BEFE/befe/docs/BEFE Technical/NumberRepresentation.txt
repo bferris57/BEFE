@@ -1,0 +1,84 @@
+Header... Numbers versus their Representaion
+
+Defines...
+<Numbers>
+<Representations>
+<Symbols>
+<Notations>
+...Defines
+
+...Header
+
+The fact that modern computers store simply representations of numbers and
+not "the numbers themselves" seems to be overlooked by even the many a diligent
+software developer and, even more likely, by most of the general public.
+
+Computers do NOT store numbers.  They store their representations.
+
+They can also be used, as is plainly clear, to manipulate and store
+representations of just about anything you wish.
+
+The distinction between a number and a representaion of he number is a subtle
+one but worth elaborating on here.
+
+Numbers do not have an identity.  A number is a concept.  A number is not a
+physical reality.  Nobody every saw or touched THE number TWO.  Humans only dealt
+with the concept of two by inventing a <Symbol>, or <representation>, to denote
+the number in order to communicate ideas with other humans.
+
+Numbers did not exist before humans, they will not exist after them.  And, as
+has already been pointed out -- they don't exist at all.
+
+The universe does NOT run mechanically by numbers.  It runs "the way it runs".
+
+However, as historians and archeologists tend to focus on, representaions
+can live on if they remain intact.  The intent of the researcher is to figure
+out what they think the representations are "of".
+
+Humans have found it extremely simple and convenient to express and examine the
+universe by using numeric representations because of the beautiful way that numbers
+related to each other.  The beauty is in their simplicity and, conversely, their
+astounding complexity.  Such is the realm of numbers.
+
+This is why we have representations... for recording, communicating, and transmiting
+thoughts.  Through the standard of <representation> we enable, or promote, a shared
+human understanding or viewpoint.
+
+The number <two> has a fairly standardised representation using the digit '2', whether
+if be carved, on paper, in a computer, or elsewhere.  The importance of the representation
+is that it's standardised.
+
+The number ten has a standard two digit representation of '10'.
+
+However, the representation '10' is ambiguous since this combinations of sequenced
+digits, or '<symbols>', may also used to represent any number expressed in its own
+base number system.  The number sixteen is '10' in hexidecimal notation.
+
+Getting back to the main point here, storage and communication media doesn't store and
+transmit/receive numbers.  Instead, they deal with fixed length "clumps" of sequential, and
+consistent, combinations of two distinct states.  And, what makes them powerful is they
+do this in a fairly reliable fashion.
+
+These fixed length "clumps" of states have been called <bits>, <bytes>, <octets>, and
+various <words>.  Other naming standards have been applied to these clumps for the purposes
+of computer programming languages.  Reserved names such as "char", "int", "float", and double.
+
+In fact, the inventors of computer languages come up with an astounding set of conflicting
+notational representations to allow expression of intent.
+
+Computers themselves only deal with the state clumps.  They don't deal with numbers or
+ideas.  Humans deal with numbers and ideas, not computers.
+
+By intentional design, computer processors also provide built-in mechanisms to perform
+operations on the state clumps for easy manipulation.  If you wish to think of these
+state combinations as representing numbers, fine.  So, processors provide ADD,
+SUBTRACT, and other number operations on these clumps of states simply because humans
+find it so such a powerful mechanism.
+
+We typically call the fastest state clump storage mechanism "<Memory>", just as we tend
+to call slower storage mechanisms "<Disk>", "<Memory Sticks>", or a slew of other names.
+
+And, what's in a name?  It doesn't matter what you call them.  What matters is their
+behaviour and, quite often, how effectively you can use their behaviour to accomplish
+your goals.
+

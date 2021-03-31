@@ -1,0 +1,74 @@
+#-----------------------------------------------------------------------
+#
+# File: Primitives.befe - Primitive value type declarations
+#
+# This document provides BEFE declarations of the primitive datatypes
+# for BEFE in general supported third part programming languages.
+#
+# NOTE: In BEFE, the basic in-built value types are "none",
+#       "every"/"all", and "number".
+#
+#       The basic in-built value modifiers are:
+#
+#         o discrete                           // Default
+#         o signed (-all..all)                 // Default
+#         o continuous
+#
+#       The only in-built composite structural types are:
+#
+#         o atomic                // Default
+#         o structural            //
+#           - sequence (array)    //
+#           - mapping
+#
+#       The only in-built value comparison constraint specifiers
+#       (all operate on values and result in booleans) are:
+#
+#         o equals                // <-- NOTE: Unlike C, these are equivalent
+#         o less than
+#         o greater than
+#         o in                    // Sequence membership (sequence)
+#
+#       The only in-built boolean comparison constraint specifiers
+#       (all operate on values and result in booleans) are:
+#
+#         o and                   // Infix
+#         o or                    // Infix
+#         o not                   // Prefix
+#       
+#       Procedural functions (depending on context)...
+#
+#         o plus                  // Addition
+#         o minus                 // Subtraction
+#         o over                  // Division
+#         o times                 // Multiplication
+#         o exponent              // Exponentiation (e.g., "A to the B")
+#         o modulus               // Modulus ("A - A/B*B)
+#
+#       Semantic in-builts...
+#
+#         o equivalent            // Infix
+#         o contains...           // Prefix
+#         o ...contains           // Postfix
+#         o addition              // 
+#         o implies
+#
+#-----------------------------------------------------------------------
+
+syntax {
+  "::= " equivalent <equivalent>
+  
+}
+
+value += {
+
+  "Null"        <=> null
+  "NaN"         <=> Null
+  "natural"     <=> [1:]
+  "positive"    <=> [0:]
+  "negative"    <=> [:0]
+  "is even"     <=> boolean constraint (a,b) { ( a - (a/b*b)) == 0 }
+  "is not even" <=> 
+  "is odd"   <=> 
+  
+}

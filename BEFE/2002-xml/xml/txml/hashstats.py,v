@@ -1,0 +1,165 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2002.10.04.16.58.37;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Added python prototype to test hashing algorithms
+@
+text
+@#------------------------------------------------------------------------------
+#
+# FILE
+#
+#  hashstats.py - Test viability of various string hashing algorithms
+#
+# DESCRIPTION
+#
+#  This program is a mindless prototype to test the behaviour of severl
+#  possible string hashing algorithms.  Basically, add new algorithms
+#  and add them to the list.  Then adjust the hash bucket size (sorry
+#  no prime number stuff yet.)
+#
+
+#
+# FUNCTION
+#
+#  stats - Compute statistics for a set of numbers
+#
+
+def stats(numlist):
+  import math
+  n = float(len(numlist))
+  sum = 0.
+  sum2 = 0.
+  minimum = None
+  maximum = None
+  n = 0.
+  for num in numlist:
+    if num != None:
+      n = n+1
+      num = float(num)
+      sum = sum+num
+      sum2 = sum2+num*num
+      if minimum == None or num < minimum: minimum = num
+      if maximum == None or num > maximum: maximum = num
+  
+  avg = sum/n
+  var = 0.
+  for num in numlist:
+    if num != None:
+      num = float(num)
+      var = var + (num-avg)*(num-avg)  
+  var = var/(n-1)
+  stddev = math.sqrt(abs(var))
+
+  dict = {'count':n,
+          'avg':avg,
+          'min':float(minimum),
+          'max':float(maximum),
+          'std':stddev,
+          'var':var}
+
+  return dict
+
+#
+# Algorithms
+#
+
+def alg1(str):
+  slen = len(str)
+  seed = 0
+  for i in range(0,slen):
+    seed = (seed*2 + ord(str[i])) & 0xffffff
+  #seed = seed + slen+1
+  return seed
+
+def alg2(str):
+  slen = len(str)
+  seed = 71
+  for i in range(0,slen):
+    seed = (seed*64 + ord(str[i])%71) & 0xffffff
+  #seed = seed + slen+1
+  return seed
+
+def alg3(str):
+  import zlib
+  return zlib.crc32(str)
+
+def alg4(str):
+  import zlib
+  return zlib.adler32(str)
+
+def alg5(str):
+  import whrandom
+  return whrandom.randint(0,0x7fff)
+
+#
+# FUNCTION
+#
+#  main - Main program (not really a function)
+#
+
+strings = ['twas','brillig','and','the','slithy',
+           'toves','did','gyre','gimble','in','wabe']
+
+algs = (alg1,alg2,alg3,alg4,alg5)
+tabsize = 23
+
+if __name__ == '__main__':
+
+  # Build empty list of numbers
+  zerolist = []
+  for i in range(0,tabsize): zerolist.append(0)
+
+  # For each algorithm
+  for i in range(0,len(algs)):
+
+    alg = algs[i]
+    hashtab = list(zerolist)
+
+    # For each string, get it's hash and increment the list's
+    for s in strings:
+      hash = alg(s) % len(hashtab)
+      hashtab[hash] = hashtab[hash]+1
+
+    # Copy the hash table and, in the copy, put None where 0 is
+    hashtab2 = list(hashtab)
+    for j in range(0,len(hashtab2)):
+      if hashtab2[j] == 0: hashtab2[j] = None
+
+    # Get the 2 sets of statistics
+    stats1 = stats(hashtab)
+    stats1['type'] = 'All'
+    stats2 = stats(hashtab2)
+    stats2['type'] = 'Non Zero'
+
+    # Dump the stats
+    print ""
+    print "*** Algorithm %d"%(i+1)
+    print ""
+    print "Type     Count Min      Max      Average  StdDev"
+    print "----     ----- -------- -------- -------- --------"
+    for stat in [stats1,stats2]:
+      t   = stat['type']
+      c   = stat['count']
+      min = stat['min']
+      max = stat['max']
+      avg = stat['avg']
+      std = stat['std']
+      line = "%8s %5d %4f %4f %8.6f %8.6f" % (t,c,min,max,avg,std)
+      print line
+@

@@ -1,0 +1,31 @@
+//!befe -echo
+//!befe -head
+//!befe -indent
+#//!befe -cUtf-8
+//---------------------------------------------------------------------
+//
+// dir.bef - BEFE stdin redirection and test script
+//
+// Usage: befe <dir.bef
+//
+//          ...or...
+//
+//        befe dir
+//
+//---------------------------------------------------------------------
+
+//!befe ?header
+echo
+echo Script: dir.bef - Test BEFE input redirection and scripting
+echo
+echo ────────────────────────────────────────────────────────────
+#echo ------------------------------------------------------------
+
+# Ask OS Command to do a 'dir'
+os
+dir
+..
+
+//!befe ?footer
+
+exit

@@ -1,0 +1,1159 @@
+//----------------------------------------------------------------------
+// File: Args.cpp - Implementaion of the Args class
+//----------------------------------------------------------------------
+//
+// The Command class is responsible for parsing and executing BEFE
+// command line arguments.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011-2012, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "BEFEMacros.h"
+#include "BEFEWrappers.h"
+#include "Args.h"
+#include "cmdutils.h"
+#include "Test.h"
+#include "UTF8.h"
+#include "Help.h"
+
+namespace BEFE { // Namespace BEFE...
+
+//----------------------------------------------------------------------
+//
+// Function: Args.ToString - Form C/C++ command arguments into a String
+//
+
+String Args::ToString(int argc, char **argv) {
+
+  String argString;
+  String anArg;
+  Int    argNo;
+  Byte  *arg;
+
+  argString = "args";
+
+  for (argNo=1;argNo<argc;argNo++) {
+
+    // Form the arg
+    arg = (Byte *)argv[argNo];
+    if (Strchr(arg,' ') || Strchr(arg,'\t')) {
+      anArg = '"';
+      anArg.Append((char *)arg);
+      anArg += '"';
+    }
+    else
+      anArg = (char *)arg;
+
+    // Append to command line
+    argString += ' ';
+    argString += anArg;
+  }
+
+  return argString.Consumable();
+
+}
+
+//----------------------------------------------------------------------
+//
+// help - Display help options
+//
+
+Status Args::Help(String const &progName) {
+
+  BEFE::Help("Command");
+  
+  return Error::None;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Execute - Parse and execute options
+//
+
+Status Args::Execute(String const &line, Int &tests, String &outCommand) {
+
+  Byte    arg[128];
+  UInt    arglen;
+  Status  status;
+  Ranges  args;
+  UInt    numArgs;
+  Range   range;
+  UInt    argNo;
+  String  curArg;
+  String  progName;
+  Strings scriptExts;
+  String  scriptName;
+  Boolean found;
+  String  localOut;
+
+  tests = 0;
+
+  status = RangeSplit(line,args);
+  if (status) goto SOMEERROR;
+  numArgs = args.Length();
+
+  progName = "Befe";
+
+  for (argNo=1; argNo < numArgs; argNo++) {
+
+    // Get the arg
+    range = args.Get(argNo);
+    curArg = line.Get(range);
+
+    // Remove any surrounding single/double quotes
+    if ((curArg.Get(0) == '\'' || curArg.Get(0) == '"' || curArg.Get(0) == '`') && curArg.Get(0) == curArg.Get(-1)) {
+      range.idx1++;
+      range.idx2--;
+      curArg = line.Get(range);
+    }
+    
+    // See if it's an option first
+    status = ExecuteOption(line,range,true);
+    if (status == Error::None) continue;
+    if (status != Error::UnknownOption) goto SOMEERROR;
+
+    // Get Byte version of current argument
+    status = curArg.ToBytes(arg,sizeof(arg),arglen);
+    if (status) goto ARGTOOLONG;
+
+    //
+    // See if it's a help option...
+    //
+
+    if (Strcmpi(arg,"--help") == 0 ||
+        Strcmpi(arg,"h")      == 0 ||
+        Strcmpi(arg,"help")   == 0 ||
+        Strcmp(arg,"?")       == 0 ||
+        Strcmp(arg,"/?")      == 0
+        ) {
+      Help(progName);
+      continue;
+    }
+
+    // If it starts with '+' or '-', it's an unknown option at this point
+    if (arg[0] == '+' || arg[0] == '-') goto UNKNOWNOPT;
+    
+    //
+    // See if it's a test option...
+    //
+
+    if (gCommandTests) { // Check for Test names...
+
+      if (Strcmpi(arg,"A")          == 0) {tests |= TestType::All;      continue;}
+      if (Strcmpi(arg,"Al")         == 0) {tests |= TestType::All;      continue;}
+      if (Strcmpi(arg,"All")        == 0) {tests |= TestType::All;      continue;}
+      if (Strcmpi(arg,"Cur")        == 0) {tests |= TestType::Current;  continue;}
+      if (Strcmpi(arg,"Current")    == 0) {tests |= TestType::Current;  continue;}
+      if (Strcmpi(arg,"None")       == 0) {tests |= TestType::None;     continue;}
+      if (Strcmpi(arg,"Core")       == 0) {tests |= TestType::Core;     continue;}
+      if (Strcmpi(arg,"Time")       == 0) {tests |= TestType::Time;     continue;}
+      if (Strcmpi(arg,"Num")        == 0) {tests |= TestType::Number;   continue;}
+      if (Strcmpi(arg,"Number")     == 0) {tests |= TestType::Number;   continue;}
+      if (Strcmpi(arg,"UTF")        == 0) {tests |= TestType::UTF8;     continue;}
+      if (Strcmpi(arg,"UTF8")       == 0) {tests |= TestType::UTF8;     continue;}
+      if (Strcmpi(arg,"UTF-8")      == 0) {tests |= TestType::UTF8;     continue;}
+      if (Strcmpi(arg,"Lex")        == 0) {tests |= TestType::Lexicon;  continue;}
+      if (Strcmpi(arg,"Lexicon")    == 0) {tests |= TestType::Lexicon;  continue;}
+      if (Strcmpi(arg,"Seq")        == 0) {tests |= TestType::Sequence; continue;}
+      if (Strcmpi(arg,"Sequence")   == 0) {tests |= TestType::Sequence; continue;}
+      if (Strcmpi(arg,"Array")      == 0) {tests |= TestType::Array;    continue;}
+      if (Strcmpi(arg,"String")     == 0) {tests |= TestType::String;   continue;}
+      if (Strcmpi(arg,"Null")       == 0) {tests |= TestType::Null;     continue;}
+      if (Strcmpi(arg,"Contains")   == 0) {tests |= TestType::Contains; continue;}
+      if (Strcmpi(arg,"Stream")     == 0) {tests |= TestType::Stream;   continue;}
+      if (Strcmpi(arg,"File")       == 0) {tests |= TestType::File;     continue;}
+      if (Strcmpi(arg,"Con")        == 0) {tests |= TestType::Console;  continue;}
+      if (Strcmpi(arg,"Console")    == 0) {tests |= TestType::Console;  continue;}
+      if (Strcmpi(arg,"Msg")        == 0) {tests |= TestType::Message;  continue;}
+      if (Strcmpi(arg,"Message")    == 0) {tests |= TestType::Message;  continue;}
+      if (Strcmpi(arg,"Cache")      == 0) {tests |= TestType::Cache;    continue;}
+      if (Strcmpi(arg,"Caching")    == 0) {tests |= TestType::Cache;    continue;}
+      if (Strcmpi(arg,"UUID")       == 0) {tests |= TestType::UUID;     continue;}
+      if (Strcmpi(arg,"MinExp")     == 0) {tests |= TestType::MinExp;   continue;}
+      if (Strcmpi(arg,"MD5")        == 0) {tests |= TestType::MD5;      continue;}
+      if (Strcmpi(arg,"Bcmd")       == 0) {tests |= TestType::Bcmd;     continue;}
+      
+      if (Strcmpi(arg,"Id")         == 0) {tests |= TestType::IdSpace;  continue;}
+      if (Strcmpi(arg,"IdSpace")    == 0) {tests |= TestType::IdSpace;  continue;}
+      if (Strcmpi(arg,"Morph")      == 0) {tests |= TestType::Morphing; continue;}
+      if (Strcmpi(arg,"Morphing")   == 0) {tests |= TestType::Morphing; continue;}
+      
+      if (Strcmpi(arg,"TryThis")    == 0) {tests |= TestType::TryThis;  continue;}
+      if (Strcmpi(arg,"t")          == 0) {tests |= TestType::TryThis;  continue;}
+      if (Strcmpi(arg,"c")          == 0) {tests |= TestType::Current;  continue;}
+
+    } // ...Check for Test names
+
+    //
+    // See if it's a script...
+    //
+
+    found = false;
+    while (gCommandScripts && !found) { // Check for script name...
+
+      // See if we can find it...
+      scriptExts = String(".bef,.befe").SplitToStrings(',');
+      status = TheBefe->TheOS->FindInSearchPath(curArg,scriptExts,scriptName);
+      if (status) break;
+
+      // Build the output command
+      localOut = "run";
+
+      do { // Append each arg...
+
+        range = args.Get(argNo);
+        curArg = line.Get(Slice(range));
+        localOut += ' ';
+        localOut += curArg;
+
+      } while (++argNo < args.Length());
+
+      found = true;
+
+    } // ...Check for script name
+
+    if (found) continue;
+
+    //
+    // Unknown argument
+    //
+
+    goto UNKNOWNARG;
+
+  } // for...
+
+  // Set the return argument
+  outCommand = localOut.Consumable();
+  
+  //
+  // Handle errors
+  //
+
+  status = Error::None;
+  while (false) {
+    ARGTOOLONG: BEFE_WARN("Argument too long (128 max)\n");
+                status = Error::Failed;
+                break;
+    UNKNOWNARG: BEFE_WARN( String("Unknown argument '")+curArg+'\'' );
+                status = Error::CommandUnknownArg;
+                break;
+    UNKNOWNOPT: BEFE_WARN( String("Unknown option '")+curArg << '\'' );
+                status = Error::UnknownOption;
+                break;
+    SOMEERROR:  break;
+  }
+  if (status)
+    tests = 0;
+
+  return status;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Functions: ExecuteOption - Execute/validate given option
+//
+
+Status Args::ExecuteOption(String const &opt) {
+  return ExecuteOption(opt, true);
+}
+
+Status Args::ExecuteOption(String const &opt, Boolean execute) {
+
+  Status status;
+  Char   c;
+  String firstPart;
+
+  // Special case for standalone markers
+  if (opt == '?' || opt == '!' || opt == '+' || opt == '-') goto OK;
+  
+  //
+  // Special case for "env" options...
+  //
+
+  c = opt.Get(0);
+  firstPart = opt.Get(Range(1,3));
+  if ((c == '?' || c == '-' || c == '+') &&
+      firstPart == "env" &&
+      (opt.Length() == 4 || opt.Get(4) == ':')) {
+    status = ExecuteEnv(opt, execute);
+    if (status) goto SOMEERROR;
+    goto OK;
+  }
+  
+  //
+  // Process the option
+  //
+
+  #define DONE goto OK;
+  
+  if      (opt == "x!")      {if (execute) { goto DOEXIT;} DONE }
+  if (opt == "!x")           {if (execute) { goto DOEXIT;} DONE }
+
+  if (opt == "+q")           {if (execute) { gQuiet       = true;
+                                             gVerbose     = false;
+                                             gVeryVerbose = false;} DONE }
+  if (opt == "-q")           {if (execute) { gQuiet               = false;} DONE }
+
+  if (opt == "+v")           {if (execute) { gVerbose             = true; } DONE }
+  if (opt == "-v")           {if (execute) { gVerbose             = false;
+                                             gVeryVerbose         = false;
+                                             gVeryVeryVerbose     = false;} DONE }
+  if (opt == "+vv")          {if (execute) { gVerbose             = true;
+                                             gVeryVerbose         = true; } DONE }
+  if (opt == "-vv")          {if (execute) { gVeryVerbose         = false;
+                                             gVeryVeryVerbose     = false;} DONE }
+  if (opt == "+vvv")         {if (execute) { gVerbose             = true;
+                                             gVeryVerbose         = true;
+                                             gVeryVeryVerbose     = true; } DONE }
+  if (opt == "-vvv")         {if (execute) { gVeryVeryVerbose     = false;} DONE }
+
+  if (opt == "+et")          {if (execute) { gShowElapsed         = true; } DONE }
+  if (opt == "-et")          {if (execute) { gShowElapsed         = false;} DONE }
+  if (opt == "+ts")          {if (execute) { gShowTimeStamps      = true; } DONE }
+  if (opt == "-ts")          {if (execute) { gShowTimeStamps      = false;} DONE }
+  if (opt == "+localtime")   {if (execute) { gShowLocalTime       = true; } DONE }
+  if (opt == "-localtime")   {if (execute) { gShowLocalTime       = false;} DONE }
+  if (opt == "+dep")         {if (execute) { gShowDeprecated      = true; } DONE }
+  if (opt == "+deprecate")   {if (execute) { gShowDeprecated      = true; } DONE }
+  if (opt == "-dep")         {if (execute) { gShowDeprecated      = false;} DONE }
+  if (opt == "-deprecate")   {if (execute) { gShowDeprecated      = false;} DONE }
+  if (opt == "+w")           {if (execute) { gShowWarnings        = true; } DONE }
+  if (opt == "+warn")        {if (execute) { gShowWarnings        = true; } DONE }
+  if (opt == "+warning")     {if (execute) { gShowWarnings        = true; } DONE }
+  if (opt == "+warnings")    {if (execute) { gShowWarnings        = true; } DONE }
+  if (opt == "-w")           {if (execute) { gShowWarnings        = false;} DONE }
+  if (opt == "-warn")        {if (execute) { gShowWarnings        = false;} DONE }
+  if (opt == "-warning")     {if (execute) { gShowWarnings        = false;} DONE }
+  if (opt == "-warnings")    {if (execute) { gShowWarnings        = false;} DONE }
+  if (opt == "+info")        {if (execute) { gShowInfo            = true; } DONE }
+  if (opt == "+information") {if (execute) { gShowInfo            = true; } DONE }
+  if (opt == "-info")        {if (execute) { gShowInfo            = false;} DONE }
+  if (opt == "-information") {if (execute) { gShowInfo            = false;} DONE }  
+  if (opt == "+d")           {if (execute) { gShowDebug           = true; } DONE }
+  if (opt == "+debug")       {if (execute) { gShowDebug           = true; } DONE }
+  if (opt == "-d")           {if (execute) { gShowDebug           = false;} DONE }
+  if (opt == "-debug")       {if (execute) { gShowDebug           = false;} DONE }
+  if (opt == "+head")        {if (execute) { gShowHeaders         = true; } DONE }
+  if (opt == "-head")        {if (execute) { gShowHeaders         = false;} DONE }
+  if (opt == "+header")      {if (execute) { gShowHeaders         = true; } DONE }
+  if (opt == "-header")      {if (execute) { gShowHeaders         = false;} DONE }
+  if (opt == "+headers")     {if (execute) { gShowHeaders         = true; } DONE }
+  if (opt == "-headers")     {if (execute) { gShowHeaders         = false;} DONE }
+
+  if (opt == "+echo")        {if (execute) { gCommandEcho         = true; } DONE }
+  if (opt == "-echo")        {if (execute) { gCommandEcho         = false;} DONE }
+  if (opt == "+indent")      {if (execute) { gCommandIndent       = true; } DONE }
+  if (opt == "-indent")      {if (execute) { gCommandIndent       = false;} DONE }
+  if (opt == "+script")      {if (execute) { gCommandScripts      = true; } DONE }
+  if (opt == "+scripts")     {if (execute) { gCommandScripts      = true; } DONE }
+  if (opt == "-script")      {if (execute) { gCommandScripts      = false;} DONE }
+  if (opt == "-scripts")     {if (execute) { gCommandScripts      = false;} DONE }
+  if (opt == "+t")           {if (execute) { gCommandTests        = true; } DONE }
+  if (opt == "+test")        {if (execute) { gCommandTests        = true; } DONE }
+  if (opt == "+tests")       {if (execute) { gCommandTests        = true; } DONE }
+  if (opt == "-t")           {if (execute) { gCommandTests        = false;} DONE }
+  if (opt == "-test")        {if (execute) { gCommandTests        = false;} DONE }
+  if (opt == "-tests")       {if (execute) { gCommandTests        = false;} DONE }
+
+  if (opt == "+es")          {if (execute) { gCommandEnvSubst     = true; } DONE }
+  if (opt == "-es")          {if (execute) { gCommandEnvSubst     = false;} DONE }
+  if (opt == "+envs")        {if (execute) { gCommandEnvSubst     = true; } DONE }
+  if (opt == "-envs")        {if (execute) { gCommandEnvSubst     = false;} DONE }
+  if (opt == "+esubst")      {if (execute) { gCommandEnvSubst     = true; } DONE }
+  if (opt == "-esubst")      {if (execute) { gCommandEnvSubst     = false;} DONE }
+  if (opt == "+envsubst")    {if (execute) { gCommandEnvSubst     = true; } DONE }
+  if (opt == "-envsubst")    {if (execute) { gCommandEnvSubst     = false;} DONE }
+  
+  if (opt == "+k")           {if (execute) { gKeepTemporaryFiles  = true; } DONE }
+  if (opt == "+keep")        {if (execute) { gKeepTemporaryFiles  = true; } DONE }
+  if (opt == "-k")           {if (execute) { gKeepTemporaryFiles  = false;} DONE }
+  if (opt == "-keep")        {if (execute) { gKeepTemporaryFiles  = false;} DONE }
+  if (opt == "+a")           {if (execute) { gShowHiddenFiles = true;  gShowHiddenDirectories = true; } DONE }
+  if (opt == "+all")         {if (execute) { gShowHiddenFiles = true;  gShowHiddenDirectories = true; } DONE }
+  if (opt == "-a")           {if (execute) { gShowHiddenFiles = false; gShowHiddenDirectories = false;} DONE }
+  if (opt == "-all")         {if (execute) { gShowHiddenFiles = false; gShowHiddenDirectories = false;} DONE }
+  if (opt == "+af")          {if (execute) { gShowHiddenFiles     = true; } DONE }
+  if (opt == "-af")          {if (execute) { gShowHiddenFiles     = false;} DONE }
+  if (opt == "+allf")        {if (execute) { gShowHiddenFiles     = true; } DONE }
+  if (opt == "-allf")        {if (execute) { gShowHiddenFiles     = false;} DONE }
+  if (opt == "+afiles")      {if (execute) { gShowHiddenFiles     = true; } DONE }
+  if (opt == "-afiles")      {if (execute) { gShowHiddenFiles     = false;} DONE }
+  if (opt == "+allfiles")    {if (execute) { gShowHiddenFiles     = true; } DONE }
+  if (opt == "-allfiles")    {if (execute) { gShowHiddenFiles     = false;} DONE }
+  if (opt == "+ad")          {if (execute) { gShowHiddenDirectories = true; } DONE }
+  if (opt == "-ad")          {if (execute) { gShowHiddenDirectories = false;} DONE }
+  if (opt == "+alld")        {if (execute) { gShowHiddenDirectories = true; } DONE }
+  if (opt == "-alld")        {if (execute) { gShowHiddenDirectories = false;} DONE }
+  if (opt == "+adirs")       {if (execute) { gShowHiddenDirectories = true; } DONE }
+  if (opt == "-adirs")       {if (execute) { gShowHiddenDirectories = false;} DONE }
+  if (opt == "+alldirs")     {if (execute) { gShowHiddenDirectories = true; } DONE }
+  if (opt == "-alldirs")     {if (execute) { gShowHiddenDirectories = false;} DONE }
+    
+  if (opt == "+UF")             {if (execute) { UTF8::UnicodeFoldingOn();  } DONE }
+  if (opt == "+UnicodeF")       {if (execute) { UTF8::UnicodeFoldingOn();  } DONE }
+  if (opt == "+UfoldingF")      {if (execute) { UTF8::UnicodeFoldingOn();  } DONE }
+  if (opt == "+UnicodeFolding") {if (execute) { UTF8::UnicodeFoldingOn();  } DONE }
+  if (opt == "-UF")             {if (execute) { UTF8::UnicodeFoldingOff(); } DONE }
+  if (opt == "-UnicodeF")       {if (execute) { UTF8::UnicodeFoldingOff(); } DONE }
+  if (opt == "-UFolding")       {if (execute) { UTF8::UnicodeFoldingOff(); } DONE }
+  if (opt == "-UnicodeFolding") {if (execute) { UTF8::UnicodeFoldingOff(); } DONE }
+  if (opt == "+UT")             {if (execute) { UTF8::TurkishFoldingOn();  } DONE }
+  if (opt == "+UnicodeT")       {if (execute) { UTF8::TurkishFoldingOn();  } DONE }
+  if (opt == "+UTurkish")       {if (execute) { UTF8::TurkishFoldingOn();  } DONE }
+  if (opt == "+UnicodeTurkish") {if (execute) { UTF8::TurkishFoldingOn();  } DONE }
+  if (opt == "-UT")             {if (execute) { UTF8::TurkishFoldingOff(); } DONE }
+  if (opt == "-UnicodeT")       {if (execute) { UTF8::TurkishFoldingOff(); } DONE }
+  if (opt == "-UTurkish")       {if (execute) { UTF8::TurkishFoldingOff(); } DONE }
+  if (opt == "-UnicodeTurkish") {if (execute) { UTF8::TurkishFoldingOff(); } DONE }
+
+  if (opt == "+m")           {if (execute) { gLogMemory           = true;} DONE }
+  if (opt == "-m")           {if (execute) { gLogMemory           = false; gLogMemoryAllocSizes = false;} DONE }
+  if (opt == "+ma")          {if (execute) { gLogMemoryAlloc      = true;} DONE }
+  if (opt == "-ma")          {if (execute) { gLogMemoryAlloc      = false;} DONE }
+  if (opt == "+mf")          {if (execute) { gLogMemoryFree       = true;} DONE }
+  if (opt == "-mf")          {if (execute) { gLogMemoryFree       = false;} DONE }
+
+  if (opt == "+maf")         {if (execute) { gLogMemoryAlloc  = true;  gLogMemoryFree   = true; } DONE }
+  if (opt == "-maf")         {if (execute) { gLogMemoryAlloc  = false; gLogMemoryFree   = false;} DONE }
+
+  if (opt == "+ms")          {if (execute) { gShowMemoryStats = true;  gLogMemory       = true;} DONE }
+  if (opt == "-ms")          {if (execute) { gShowMemoryStats = false;} DONE }
+
+  if (opt == "+mas")         {if (execute) { gLogMemoryAllocSizes = true;
+                                                  gShowMemoryStats     = true;
+                                                  gLogMemory           = true;  } DONE }
+  if (opt == "-mas")         {if (execute) { gLogMemoryAllocSizes = false; } DONE }
+  if (opt == "+mv")          {if (execute) { gMemoryValidate      = true;  } DONE }
+  if (opt == "-mv")          {if (execute) { gMemoryValidate      = false; } DONE }
+  if (opt == "+mva")         {if (execute) { gMemoryValidate = true;  gMemoryValidateAbort = true;  } DONE }
+  if (opt == "-mva")         {if (execute) { gMemoryValidate = false; gMemoryValidateAbort = false; } DONE }
+  if (opt == "+lem")         {if (TheBefe) TheBefe->LoadErrorMessages();   DONE }
+  if (opt == "-lem")         {if (TheBefe) TheBefe->UnloadErrorMessages(); DONE }
+  
+  if (opt == "?os")          {if (execute) { OutputOSInfo();} DONE }
+  if (opt == "?net")         {if (execute) { OutputNetworkInfo();} DONE }
+  if (opt == "?network")     {if (execute) { OutputNetworkInfo();} DONE }
+  if (opt == "?platform")    {if (execute) { OutputPlatformInfo();} DONE }
+  if (opt == "?process")     {if (execute) { OutputProcessInfo();} DONE }
+  if (opt == "?processor")   {if (execute) { OutputProcessorInfo();} DONE }
+  if (opt == "?cpu")         {if (execute) { OutputProcessorInfo();} DONE }
+
+  if (opt == "?head")        {if (execute) { OutputHeader();} DONE }
+  if (opt == "?header")      {if (execute) { OutputHeader();} DONE }
+  if (opt == "?foot")        {if (execute) { OutputFooter();} DONE }
+  if (opt == "?footer")      {if (execute) { OutputFooter();} DONE }
+  if (opt == "?trail")       {if (execute) { OutputFooter();} DONE }
+  if (opt == "?trailer")     {if (execute) { OutputFooter();} DONE }
+
+  if (opt == "?sw")          {if (execute) { OutputSwitches(); } DONE }
+  if (opt == "?switch")      {if (execute) { OutputSwitches(); } DONE }
+  if (opt == "?switches")    {if (execute) { OutputSwitches(); } DONE }
+  if (opt == "?opt")         {if (execute) { OutputSwitches(); } DONE }
+  if (opt == "?opts")        {if (execute) { OutputSwitches(); } DONE }
+  if (opt == "?option")      {if (execute) { OutputSwitches(); } DONE }
+  if (opt == "?options")     {if (execute) { OutputSwitches(); } DONE }
+  if (opt == "?env")         {if (execute) { NameValuePair(""); } DONE }
+  if (opt == "?environ")     {if (execute) { NameValuePair(""); } DONE }
+  if (opt == "?environment") {if (execute) { NameValuePair(""); } DONE }
+  
+  if (opt == "+cc")          {if (execute) { gConsoleColour       = true; } DONE }
+  if (opt == "-cc")          {if (execute) { gConsoleColour       = false;} DONE }
+  if (opt == "+ccolour")     {if (execute) { gConsoleColour       = true; } DONE }
+  if (opt == "-ccolour")     {if (execute) { gConsoleColour       = false;} DONE }
+  if (opt == "+ci")          {if (execute) { gConsoleColour       = true; } DONE }
+  if (opt == "+cintense")    {if (execute) { gConsoleIntensity    = true; } DONE }
+  if (opt == "-ci")          {if (execute) { gConsoleColour       = false;} DONE }
+  if (opt == "-cintense")    {if (execute) { gConsoleIntensity    = false;} DONE }
+  if (opt == "+cu")          {if (execute) { gConsoleUTF8         = true; } DONE }
+  if (opt == "+cutf")        {if (execute) { gConsoleUTF8         = true; } DONE }
+  if (opt == "+cutf8")       {if (execute) { gConsoleUTF8         = true; } DONE }
+  if (opt == "+cutf-8")      {if (execute) { gConsoleUTF8         = true; } DONE }
+  if (opt == "-cu")          {if (execute) { gConsoleUTF8         = false;} DONE }
+  if (opt == "-cutf")        {if (execute) { gConsoleUTF8         = false;} DONE }
+  if (opt == "-cutf8")       {if (execute) { gConsoleUTF8         = false;} DONE }
+  if (opt == "-cutf-8")      {if (execute) { gConsoleUTF8         = false;} DONE }
+  if (opt == "+cb")          {if (execute) { gConsoleBeep         = true; } DONE }
+  if (opt == "+cbeep")       {if (execute) { gConsoleBeep         = true; } DONE }
+  if (opt == "-cb")          {if (execute) { gConsoleBeep         = false;} DONE }
+  if (opt == "-cbeep")       {if (execute) { gConsoleBeep         = false;} DONE }
+  
+  #undef DONE
+  
+  else goto UNKNOWNOPT;
+
+  //
+  // Handle errors
+  //
+
+  status = Error::None;
+  while (false) {
+    UNKNOWNOPT: status = Error::UnknownOption; break;
+    OK:         status = Error::None;          break;
+    DOEXIT:     status = Error::CommandExit;   break;
+    SOMEERROR:                                 break;
+  }
+
+  return status;
+
+}
+
+Status Args::ExecuteOption(String const &args, Range range, Boolean execute) {
+
+  Status status;
+
+  status = ExecuteOption(args.Get(Slice(range)), execute);
+
+  return status;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Option: -env[:...]
+//
+
+Status Args::ExecuteEnv(String const &arg, Boolean execute) {
+  
+  Status status;
+  Int    colon;
+  String firstPart;
+
+  // Find the ':'...
+  colon = -1;
+  do {
+    colon = arg.Find(':', Span(colon+1, NaN));
+    if (IsNull(colon) || colon == 0) break;
+    if (arg.Get(colon-1) != '\\') break;
+  } while (true);
+
+  // Sanity check
+  if (arg.Get(Span(1,colon)) != "env") goto UNKOPT;
+  
+  //
+  // Handle each specific case...
+  //
+    
+  firstPart = arg.Get(Range(0,3));
+  if      (firstPart == "?env")
+    status = ExecuteEnvQuest(arg, execute);
+  else if (firstPart == "-env")
+    status = ExecuteEnvMinus(arg, execute);
+  else if (firstPart == "+env")
+    status = ExecuteEnvPlus(arg, execute);
+  else
+    goto UNKOPT;
+    
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    UNKOPT:    status = Error::UnknownOption; break;
+  }
+
+  return status;
+  
+}
+
+Status Args::ExecuteEnvPlus(String const &arg, Boolean execute) {
+
+  Status status;
+  String parms;
+  String name;
+  Int    equals;
+
+  parms = arg.Get(Span(4,NaN));
+
+  // Handle "+env" and "+env:"...
+  if (IsNull(parms) || parms == ":") goto MALFORMED;
+  
+  // Find the '='...
+  equals = parms.Find('=');
+  if (parms.Get(0) != ':' || IsNull(equals)) goto MALFORMED;
+  
+  // Handle "+env:<name>=<value>"...
+  status = NameValuePair(parms.Get(Span(1,NaN)));
+  if (status) goto SOMEERROR;
+  
+  // Handle errors
+  while (false) {
+    MALFORMED: status = Error::CommandOptionSyntax; break;
+    SOMEERROR:                                      break;
+  }
+  
+  return status;
+  
+}
+
+Status Args::ExecuteEnvMinus(String const &arg, Boolean execute) {
+
+  Status status;
+  String parms;
+  String name;
+  Int    equals;
+
+  parms = arg.Get(Span(4,NaN));
+  
+  // Handle "-env"...
+  if (IsNull(parms)) {
+    status = TheBefe->ClearEnvironment();
+    if (status) goto SOMEERROR;
+    goto OK;
+  }
+  
+  // Handle "-env:"...
+  if (parms == ":") {
+    status = TheBefe->RefreshEnvironment();
+    if (status) goto SOMEERROR;
+    goto OK;
+  }
+  
+  // Find the '='...
+  equals = parms.Find('=');
+  if (parms.Get(0) != ':' || !IsNull(equals)) goto MALFORMED;
+  
+  // Handle "-env:<name>"...
+  status = TheBefe->RemoveEnvironmentName(parms.Get(Span(1,NaN)));
+  
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    OK:        status = Error::None;                break;
+    MALFORMED: status = Error::CommandOptionSyntax; break;
+    SOMEERROR:                                      break;
+  }
+  
+  return status;
+  
+}
+
+Status Args::ExecuteEnvQuest(String const &arg, Boolean execute) {
+
+  Status status;
+  String parms;
+  String name;
+  Int    equals;
+
+  parms = arg.Get(Span(4,NaN));
+  
+  // Handle "?env" and "?env:"...
+  if (IsNull(parms) || parms == ":") {
+    status = NameValuePair("");
+    if (status) goto SOMEERROR;
+    goto OK;
+  }
+  
+  // Find the '='...
+  equals = parms.Find('=');
+  if (parms.Get(0) != ':' || !IsNull(equals)) goto MALFORMED;
+  
+  // Handle "?env:<name>"...
+  status = NameValuePair(parms.Get(Span(1,NaN)));
+  if (status) goto SOMEERROR;
+  
+  // Handle errors
+  while (false) {
+    OK:        status = Error::None;                break;
+    MALFORMED: status = Error::CommandOptionSyntax; break;
+    SOMEERROR:                                      break;
+  }
+  
+  return status;
+  
+}
+
+Status Args::ExecuteNameValue(String const &name, String const &value, Boolean execute) {
+
+  Status status;
+  Char   c;
+  
+  c = name.Get(0);
+  if (c != '-') goto UNKOPT;
+
+  // Handle '-env[:[<name>[=[<value>]]]]'...
+  if (name == "-env") {
+    if (execute) {
+      status = NameValuePair(value);
+      if (status) goto SOMEERROR;
+    }
+    goto OK;
+  }
+  
+  // Unknown option
+  goto UNKOPT;
+  
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    UNKOPT:    status = Error::UnknownOption; break;
+    OK:        status = Error::None;          break;
+    SOMEERROR:                                break;
+  }
+  
+  return status;
+  
+}
+
+//----------------------------------------------------------------------
+//
+// Functions: Split      - Split argument line into separate arguments
+//            RangeSplit - Split argument line into separate URanges
+//
+
+Status Args::Split(String const &line, Strings &args) {
+
+  Status  status;
+  Span    span;
+  UInt    lineLen;
+  UInt    numArgs;
+  UInt    curIdx;
+  Char    pc;
+  Char    c;
+  Char    qChar;
+  Boolean inWhite;
+  UInt    pass;
+  String  arg;
+  UInt    argLen;
+  
+  lineLen = line.Length();
+  
+  //
+  // Two passes...
+  //
+  //   Pass 1: Count number of arguments (so we do ONE ALLOCATION of the returned args)
+  //   Pass 2: Pull the arguments apart
+  //
+  
+  numArgs = 0;
+
+  for (pass=0; pass < 2; pass++) { // For each pass...
+
+    // Initialise pass state...
+    curIdx  = 0;
+    c       = NUL;
+    qChar   = NUL;
+    inWhite = true;
+    argLen  = 0;
+    arg.Reset();
+    
+    while (curIdx < lineLen) { // For each Char...
+
+      // Get the character
+      pc = c;
+      c = line.Get(curIdx);
+      curIdx++;
+
+      // Skip if in whitespace and still whitespace...
+      if (inWhite) {
+        if (c <= SP && pc != '\\')
+          continue;
+        inWhite = false;
+      }
+      
+      // If whitespace...
+      if (c <= SP && pc != '\\' && qChar == NUL) {
+        // Append the argument (if any)
+        if (pass == 1 && arg.Length() != 0) {
+          //status = arg.Unescape(arg);
+          //if (status) goto SOMEERROR;
+          status = args.Append(arg);
+          if (status) goto SOMEERROR;
+          arg.Reset();
+        }
+        // We're "in whitespace" now
+        inWhite = true;
+        continue;
+      }
+
+      if (qChar == NUL) { // Not in quote character sequence...
+        if (c <= SP && pc != '\\') { // Found whitespace...
+          inWhite = true;
+          continue;
+        }
+        else if (pc != '\\' && (c == '"' || c == '\'' || c == '`')) // Found quote
+          qChar = c;
+      }
+      else { // In quote character sequence...
+        if (c == qChar && pc != '\\') // End of quote
+          qChar = NUL;
+      } // ...In quote character sequence
+
+      // If first one, we've got another arg
+      if (argLen++ == 0)
+        numArgs++;
+
+      // Append to arg
+      argLen++;
+      if (pass == 1) {
+        status = arg.Append(c);
+        if (status) goto SOMEERROR;
+      }
+
+    } // ...For each Char
+
+    // Append last arg
+    if (pass == 1 && arg.Length() != 0) {
+      //status = arg.Unescape(arg);
+      //if (status) goto SOMEERROR;
+      status = args.Append(arg);
+      if (status) goto SOMEERROR;
+    }
+    
+  } // ...For each pass
+  
+  //
+  // Handle errors
+  //
+
+  status = Error::None;  
+  while (false) {
+    SOMEERROR: break;
+  }
+
+  return status;
+
+}
+
+Status Args::RangeSplit(String const &line, Ranges &ranges) {
+
+  Status status;
+  Byte  *buf;
+  UInt   bufSize;
+  UInt   bufPos;
+  UInt   bufRem;
+  Char   prevChar;
+  Char   theChar;
+  UInt   charPos;
+  UInt   theCharLen;
+  Range  theRange;
+  Char   quoteChar;
+
+  ranges.Reset();
+
+  line._BufAndSize(buf,bufSize);
+  if (bufSize == 0) goto OK;
+
+  bufRem    = bufSize;
+  bufPos    = 0;
+  charPos   = 0;
+  quoteChar = NUL;
+  theRange  = Range(NaN, NaN);
+ 
+  while (bufRem) {
+
+    // Skip leading spaces if we're supposed to
+    if ( IsNull(theRange.idx1) ) {
+      while (bufRem && (buf[bufPos] == ' ' || buf[bufPos] == '\t')) {
+        bufPos++;
+        charPos++;
+        bufRem--;
+      }
+      if (bufRem == 0) break;
+    }
+
+    // Get the current character
+    theCharLen = UTF8::GetCharSize(buf[bufPos]);
+    theChar = Char(buf[bufPos]);
+
+    // If first one in Range...
+    if ( IsNull(theRange.idx1) ) {
+
+      // Flush current Range if any...
+      if ( !IsNull(theRange.idx2) ) {
+        status = ranges.Append(theRange);
+        if (status) goto SOMEERROR;
+      }
+
+      // Set the Range Start and clear the end
+      theRange.idx1 = charPos;
+      theRange.idx2 = NaN;
+
+      // If it starts with a quotation mark or apostrophe...
+      if ((theChar == '\'' || theChar == '"' || theChar == '`') && prevChar != '\\')
+        quoteChar = theChar;
+
+    }
+
+    // Else, not first one in Range...
+    else { // Not first Char in Range...
+
+      // If we're quoting...
+      if (quoteChar != NUL) {
+
+        // If we hit an end quote...
+        if (theChar == quoteChar && prevChar != '\\')
+          theRange.idx2 = charPos;
+
+      }
+
+      // Else, not quoting...
+      else {
+
+        // If we hit a single or double quotation mark...
+        if ((theChar == '\'' || theChar == '"' || theChar == '"' || theChar == '`') && prevChar != '\\')
+          quoteChar = theChar;
+
+        // If we hit whitespace
+        if (theChar == ' ' || theChar == '\t') {
+          theRange.idx2 = charPos-1;
+        }
+
+      }
+
+      // Flush Range if time...
+      if ( !IsNull(theRange.idx2) ) {
+        status = ranges.Append(theRange);
+        if (status) goto SOMEERROR;
+        theRange = Range(NaN,NaN);
+      }
+
+
+    } // ...Not first Char in Range
+
+    // Position to next character
+    prevChar = theChar;
+    bufRem  -= theCharLen;
+    bufPos  += theCharLen;
+    charPos += 1;
+
+  }
+
+  // Flush last range if any
+  if ( !IsNull(theRange.idx1) ) {
+    theRange.idx2 = charPos-1;
+    status = ranges.Append(theRange);
+    if (status) goto SOMEERROR;
+  }
+
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    SOMEERROR:                       break;
+    OK:        status = Error::None; break;
+  }
+
+  return status;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Function: Substitute - String/Argument substitution
+//
+// Usage:    Substitute(string,argss)
+//
+// Where:    string - InOut: String to perform substitution on
+//           parts  - In:    Arguments to substitute
+//           sdelim - In:    Substitution start delimeter
+//           edelim - In:    Substitution end delimeter
+//           join   - In:    Join Char for multiple arguments in Slice
+//
+// This function takes a string and substitutes identified arguments
+// into it at the appropriate places.
+//
+// The arguments are identified in each string as follows...
+//
+//   @<slice>@
+//
+// Where <slice> is a valid Slice specification string.
+//
+// The following args are used for the examples...
+//
+//  [0] = "Hi"
+//  [1] = "there"
+//  [2] = "how"
+//  [3] = "are"
+//  [4] = "you?"
+//
+// If the input string is "abc <0><1><2>", the start delimeter
+// is '<' and the end delimeter is '>', and the join character
+// is ' ', the resulting string would be "abc Hitherehow".
+//
+// If the input string is "abc <0:>" the resulting string would
+// be "abc Hi there how are you"
+//
+// If the input string is "abc<-1::-1> the resulting string
+// would be "Hi you are how there"
+//
+// And so on...
+//
+// Note: Currently only a single pass if made over the input
+//       string so, if the arguments contained other references
+//       to argument substitution strings, it is up to the caller
+//       do perform this if required.
+//
+//       However, if you do this, make sure you handle circular
+//       substitutions!!!
+//
+
+Status Args::Substitute(String &string, Strings const &args, Char sdelim, Char edelim, Char join) {
+
+  BEFE_WARN("Args.Substitute not implemented yet");
+
+  return Error::NotImplemented;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Function: NameValuePair - Parse and execute a name/value pair
+//
+// Usage:    NameValuePair(part)
+//
+// Where:    part  - In: Name value pair to parse
+//
+// The name/value pair is expected to have no whitespace before or after
+// the =' since the places it appears is in the'-env:[<name>[=<value>]]'
+// switch or as part of the 'set [<name>[=<value>]]' command.
+//
+// Note: This may, at first, seem like a bit of a odd specification for
+//       a function but, if we introduce possible whitespace into the
+//       parsing here we start having to introduce all kinds of other
+//       semantic issues like what to do with string literals, et cetera,
+//       and all that syntactic coating and other bother isn't needed
+//       just to get the job done in this specific case.
+//
+
+Status Args::NameValuePair(String const &pPart) {
+
+  Status        status;       // Return status
+  String        part;         // Our adjusted (variable substitution) part
+  Strings       theKeys;      // The Names in the map
+  UInt          i;            // TEMP: Loop counter
+  UInt          maxLen;       // Maximum name length (for formatting)
+  String        name;         // The Name
+  UInt          equals;       // Offset of  the '='
+  String        value;        // The Value
+  Char          quote;        // The quotation character
+  NamedStrings *theMap;       // The Name/Value map
+  Boolean       wasMutable;   // "Was the map mutable?"
+  String        substBegin;   // Variable substitution Begin String
+  String        substEnd;     // Variable substitution End String
+  String        leadIn;       // String lead in marker
+  String        leadOut;      // String lead out marker
+  
+  if (IsNull(TheBefe)) goto NOBEFE;
+  
+  // Setup the map...
+  theMap  = (NamedStrings *)TheBefe->GetEnvironmentValues();
+  if (IsNull(theMap))
+    wasMutable = true;
+  else
+    wasMutable = theMap->IsMutable();
+    
+  // Setup variable substitution Begin and End strings
+  substBegin = GetEnvironmentValue("BEFE_SubstBegin");
+  substEnd   = GetEnvironmentValue("BEFE_SubstEnd");
+  if (substBegin.Length() == 0) substBegin = "${";
+  if (substEnd.Length()   == 0) substEnd   = '}';
+  
+  // Setup leadIn and leadOut in case we're displaying
+  leadIn  = GetEnvironmentValue("BEFE_QuoteLeadIn");
+  leadOut = GetEnvironmentValue("BEFE_QuoteLeadOut");
+  if (leadIn.Length()  == 0) leadIn  = (gConsoleUTF8) ? "▸┨" : "->|";
+  if (leadOut.Length() == 0) leadOut = (gConsoleUTF8) ? "┠◂" : "|<-";
+
+  // Do variable substitution if needed
+  part = pPart;
+  status = BEFE::Substitute(part, *theMap, substBegin, substEnd, part);
+  if (status) goto SOMEERROR;
+  
+  //
+  // Handle empty name/value pair...
+  //
+  
+  if (part.Length() == 0) {
+    theKeys = TheBefe->GetEnvironmentNames();
+    if (theKeys.Length() == 0)
+      Cout << "***No BEFE Environment Variables Set***\n";
+    else {
+      Cout << "BEFE Environment Variables...\n\n";
+      maxLen = 0;
+      for (i=0; i < theKeys.Length(); i++)
+        maxLen = Max(maxLen, theKeys.Get(i).Length());
+      for (i=0; i < theKeys.Length(); i++) {
+        value = TheBefe->GetEnvironmentValue(theKeys.Get(i));
+        //value = value.Escape();
+        Cout << theKeys.Get(i).Pad(maxLen) << " = " << leadIn << value << leadOut << "\n";
+      }
+    }
+    goto OK;
+  }
+  
+  //
+  // Handle '<name>[=<value>]'...
+  //
+
+  // Find first non-escaped '='...
+  for (equals=0; equals < part.Length(); equals++) {
+    if (part.Get(equals) != '=') continue;
+    if (equals && part.Get(equals-1) == '\\') continue;
+    break;
+  }
+  
+  // If no unescaped '=', show the variable
+  if (equals >= part.Length()) {
+    name = part;
+    name = name.Unescape();
+    if (IsNull(theMap) || !theMap->HasKey(name))
+      goto VARNOTSET;
+    value = TheBefe->GetEnvironmentValue(name);
+    //value = value.Escape();
+    Cout << name << " = " << leadIn 
+         << value
+         << leadOut << "\n";
+    goto OK;
+  }
+  
+  //
+  // Get the name and the value
+  //
+  
+  name  = part.Get(Span(0,equals));
+  name = name.Unescape();
+  value = part.Get(Span(equals+1,NaN));
+  quote = value.Get(0);
+  if (quote == '\'' || quote == '"' || quote == '`') {
+    value = value.Get(Span(1,NaN));
+    if (value.Get(-1) == quote && value.Get(-2) != '\\')
+      value = value.Get(Span(0,-1));
+  }
+  else
+    value = value.Unescape();
+
+  //
+  // Have value, set it...
+  //
+
+  if (!wasMutable) {
+    status = theMap->MakeMutable();
+    if (status) goto SOMEERROR;
+  }
+  status = theMap->Set(name, value);
+  if (status) goto SOMEERROR;
+  if (!wasMutable) {
+    status = theMap->MakeImmutable();
+    if (status) goto SOMEERROR;
+  }
+  
+  //
+  // Handle errors
+  //
+  
+  while (false) {
+    NOBEFE:    status = Error::NoBefe; break;
+    OK:        status = Error::None;   break;
+    SOMEERROR:                         break;
+    VARNOTSET: BEFE_WARN(String("Environment variable '")+name+"' not set (check case perhaps?)");
+               status = Error::None;
+               break;
+  }
+
+  return status;
+
+}
+
+} // ...Namespace BEFE

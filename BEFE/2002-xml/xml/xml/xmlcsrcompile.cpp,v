@@ -1,0 +1,2139 @@
+head	1.11;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.11
+date	2002.11.03.00.53.11;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.11.02.17.30.17;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.11.01.06.04.12;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.31.06.03.13;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.30.06.18.10;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.27.11.10.13;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.26.19.08.40;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.26.09.02.44;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.26.06.28.35;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.11
+log
+@Found speed problem, Rehash() rehashing too much!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlcsrcompile.cpp - Implementation of the compiled XML Write/Read classes
+  DESCRIPTION
+    
+    This file contains the implementation of a compiled XML write/read classes.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xmlcsrcompile.h"
+#include "xmlelmbase.h"
+#include "xmlstrmem.h"
+#include "xmlbitmapstr.h"
+#include "xmlheap.h"
+#include "memory.h"
+
+// Current compiler version
+#define VERSION 1
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorTextCompileReader::XMLCursorCompileReader  - Constructor
+//  XMLCursorTextCompileReader::~XMLCursorCompileReader - Destructor
+//
+// NOTES
+//
+//  XMLCursorCompileReader() does NOT take ownership of the string so
+//  ~XMLCursorCompileReader() will NOT delete it.
+//
+
+XMLCursorCompileReader::XMLCursorCompileReader(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorReader(doc,string)
+{
+
+  // Initialise string fragment
+  m_frag      = NULL;
+  m_fragoff   = 0;
+  m_fraglen   = 0;
+
+  // Initialise string position
+  m_stringoff = 0;
+  if (string)
+    string->Length(&m_stringlen);
+  else
+    m_stringlen = 0;
+      
+  // Initialise state
+  m_state   = State_Begin;
+  
+  // Initialise creation direction
+  m_createdown = 0;
+  
+  // Initialise token table
+  m_tokens     = NULL;
+  
+  // Text string for next token
+  m_text    = NULL;
+    
+  // Register the input string
+  RegisterInputString(string);
+    
+}
+
+XMLCursorCompileReader::~XMLCursorCompileReader() {
+
+  // Remove the text we're building if required
+  if (m_text)
+    delete m_text;
+    
+  // Unlock the fragment if we've locked it
+  if (m_frag)
+    m_string->UnlockFragment(m_fragoff);
+    
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileReader::Top  - Position to top element
+//  XMLCursorCompileReader::Up   - Position up one element
+//  XMLCursorCompileReader::Down - Position to first child element
+//  XMLCursorCompileReader::Next - Position to next sibling element
+//
+// DESCRIPTION
+//
+//  These functions override the default positioning behaviour of a cursor
+//  because they don't make sense when reading.
+//
+
+XMLError XMLCursorCompileReader::Top(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorCompileReader::Up(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorCompileReader::Down(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorCompileReader::Next(void) {
+  return XMLErrorCsrNotCapable;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileReader::Walk - The XML parser
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to construct one more XMLElement from the
+//  'compiled' input stream.
+//
+
+XMLError XMLCursorCompileReader::Walk(void) {
+
+  XMLError    result;     // Return code
+  StackEntry *tos;        // Current top of stack
+  XML::Class  eclass;     // An element class
+  int         operation;  // Current operation
+  XMLToken    token;      // The current token number
+  int         isentity;   // "Is this token for an entity?"
+  
+  // Clear parse error
+  m_parseerror = XMLErrorNone;
+  
+  // Until we've created something or have an error
+  for (;;) {
+
+    // Get the next operation
+    result = ReadOp(&m_op);
+    if (result) goto ERROR;
+    
+    // If we're in State_Begin, make sure it's opVersion/op
+    if (m_state == State_Begin) {
+    
+      // If opDocument...
+      if (m_op == opDocument) {
+      
+        // Change state
+        m_state = State_Normal;
+        
+        continue;
+      }
+      
+      // Make sure it's a version
+      if ( (m_op & 0xE0) == opVersion) {
+      
+        // Make sure it's the right version
+        if ( (m_op & 0x1f) != VERSION) goto BADVERSION;
+        
+        continue;
+      }
+      
+      // Unexpected
+      goto MALFORMED;
+      
+    }
+      
+    // If we're finished (end of document)...
+    if (m_op == opDocument+1) {
+    
+      // If we're supposed to create "down", error
+      if (m_createdown) goto UNTERMINATED;
+
+      // If we've got more than one on the stack...
+      if (m_stacksize > 1) {
+      
+        // Pop the stack
+        result = Pop();
+        if (result) goto ERROR;
+        
+        // This one hasn't been terminated
+        goto UNTERMINATED;
+      }
+      
+      // Time to commit suicide because our job is finished
+      result = UnregisterAsConstructor();
+      if (result) goto ERROR;
+      delete this;
+                  
+      goto ENDOFDOC;
+      
+    }
+    
+    // If this is a creating operation...
+    if (m_op != opComplex + 1) {
+    
+      // Make sure it's one that really creates
+      switch (m_op) {
+      
+      case opPI:
+        eclass = XML::ClassPI;
+        break;
+      
+      case opDTD:
+        eclass = XML::ClassDTD;
+        break;
+      
+      case opSimple:
+        eclass = XML::ClassSimple;
+        break;
+
+      case opComplex:
+        eclass = XML::ClassComplex;
+        break;
+              
+      case opComment:
+        eclass = XML::ClassComment;
+        break;
+        
+      case opCDATA:
+        eclass = XML::ClassCDATA;
+        break;
+        
+      default:
+      
+        // Check for opTokenX
+        if (m_op > opToken0 && m_op <= opToken4) {
+        
+          // Get the token
+          result = ReadToken();
+          if (result) goto ERROR;
+
+          // Change op to be opToken0 (for switching, easy checking, etc.)
+          m_op = opToken0;          
+
+          // Set class based on whether it's text or an entity...
+          eclass = (m_isentity) ? XML::ClassEntity : XML::ClassText;
+                    
+          break;
+        }
+        
+        // Don't know what it is...
+        goto MALFORMED;
+      }
+      
+      // Create the new element (down or after)
+      if (m_createdown)
+        result = NewElementBelow(eclass,NULL);
+      else
+        result = NewElementAfter(eclass,NULL);
+      if (result) goto ERROR;
+      
+      // Force our create direction to be 'Create After'
+      m_createdown = 0;
+      
+    }
+    
+    // Process the operation
+    result = ProcessOperation();
+    if (result) goto ERROR;
+
+    break;    
+  }
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+
+BADVERSION:
+  result = XMLErrorCompileUnknownVersion;
+  goto DONE;
+
+MALFORMED:
+  result = XMLErrorCompileMalformed;
+  goto DONE;
+      
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+UNEXPECTEDEOS:
+  result = XMLErrorUnexpectedEndOfInput;
+  goto DONE;
+
+UNTERMINATED:
+  result = XMLErrorUnterminatedElement;
+  goto DONE;
+
+ENDOFDOC:
+  result = XMLErrorCsrEndOfDocument;
+  goto DONE;
+          
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+DONE:
+
+  // Save last parse error
+  m_parseerror = result;
+  
+  // Set parse location if we have an error
+  if (result != XMLErrorNone) {
+    m_parselocation.column = 0;
+    m_parselocation.line   = 0;
+    m_parselocation.offset = m_stringoff;
+  }
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileReader::ProcessOperation - Perform the operation
+//
+// DESCRIPTION
+//
+//  This function handles compiled operations while in the State_Normal state.
+//
+
+XMLError XMLCursorCompileReader::ProcessOperation(void) {
+
+  XMLError        result;    // Return code
+  StackEntry     *tos;       // Current stack entry
+  XML::Class      eclass;    // An element class
+  XMLElementBase *element;   // An element
+  XMLToken        attrname;  // Token for attribute's name
+  XMLToken        attrvalue; // Token for attribute's value
+  
+  // Get current stack entry
+  tos = TOS();
+  if (tos == NULL) goto INTERNALERROR;
+  
+  // Based on the operation type...
+  switch (m_op) {
+    
+  // Have a new processing instruction
+  case opPI:      
+
+    // Next operation is a token for the PI's type, read the operation
+    result = ReadOp(&m_op);
+    if (result) goto ERROR;
+    
+    // Read the token
+    result = ReadToken();
+    if (result) goto ERROR;
+        
+    // Set the PI's type
+    result = tos->element->SetType(m_token);
+    if (result) goto ERROR;
+
+    // Next operation is token for the PI's value, read the operation    
+    result = ReadOp(&m_op);
+    if (result) goto ERROR;
+    
+    // Read the token
+    result = ReadToken();
+    if (result) goto ERROR;
+        
+    // Set the value
+    result = tos->element->SetValue(m_token);
+    if (result) goto ERROR;
+            
+    break;
+    
+  // Have a DTD token
+  case opDTD:
+  
+    // Next operation is a token for the DTD's text value, read the operation
+    result = ReadOp(&m_op);
+    if (result) goto ERROR;
+    
+    // Read the token
+    result = ReadToken();
+    if (result) goto ERROR;
+        
+    // Set the value
+    result = tos->element->SetValue(m_token);
+    if (result) goto ERROR;
+            
+    break;
+      
+  // Have a new simple/complex element
+  case opSimple:
+  case opComplex:
+  
+    // Next operation is a token for the element's type, read the operation
+    result = ReadOp(&m_op);
+    if (result) goto ERROR;
+    
+    // Read the token
+    result = ReadToken();
+    if (result) goto ERROR;
+        
+    // Set the element's type
+    result = tos->element->SetType(m_token);
+    if (result) goto ERROR;
+
+    // Until we've exhausted the attributes...
+    for (;;) {
+    
+      // Read the next operation
+      result = ReadOp(&m_op);
+      if (result) goto ERROR;
+      
+      // If it's opSimple end or opContents, we're done with attributes
+      if (m_op == opSimple+1 || m_op == opContents)
+        break;
+        
+      // Get the attributes name
+      result = ReadToken();
+      if (result) goto ERROR;
+      attrname = m_token;
+      
+      // Get the attributes value
+      result = ReadOp(&m_op);
+      if (result) goto ERROR;      
+      result = ReadToken();
+      if (result) goto ERROR;
+      attrvalue = m_token;
+      
+      // Create the attribute
+      result = tos->element->CreateAttribute(attrname,attrvalue);
+      if (result) goto ERROR;
+      
+    }
+    
+    // If op is opContents...
+    if (m_op == opContents) {
+    
+      // Tell ourselves to create the next one under this one
+      m_createdown = 1;
+    }
+
+    break;
+
+  // Have end of a complex element
+  case opComplex+1:  
+    
+    // If we're supposed to create "down"...
+    if (m_createdown) {
+    
+      // Simply say to "do NOT create down"
+      m_createdown = 0;
+    }
+      
+    // If we're not supposed to create "down"...
+    else {
+    
+      // Have to go up one
+      result = Pop();
+      if (result) goto ERROR;
+    }
+  
+    break;
+    
+  // Have a token...
+  case opToken0:
+    
+    // Set the element's value
+    result = tos->element->SetValue(m_token);
+    if (result) goto ERROR;
+    
+    break;
+    
+  // Have a comment or CDATA...
+  case opComment:
+  case opCDATA:
+  
+    // Read the next operation
+    result = ReadOp(&m_op);
+    if (result) goto ERROR;
+      
+    // Get the attributes name
+    result = ReadToken();
+    if (result) goto ERROR;
+      
+    // Set the element's value
+    result = tos->element->SetValue(m_token);
+    if (result) goto ERROR;
+
+    break;    
+
+  // Some other token
+  default:
+  
+    goto INTERNALERROR;
+  }
+      
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+    
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileReader::ReadByte  - Read a single byte from the input string
+//  XMLCursorCompileReader::ReadOp    - Read a single op from the input string
+//  XMLCursorCompileReader::ReadToken - Read next token from the input string
+//
+// DESCRIPTION
+//
+//  These functions read from the input string.
+//
+//  Depending on which one is called various error checking is performed.
+//
+//  For example, ReadToken() consumes opText bytes before it returns a token.
+//  If the operation isn't an opTokenX it returns an error.
+//
+
+XMLError XMLCursorCompileReader::ReadByte(byte *thebyte, int peekonly) {
+
+  XMLError result;
+  
+  // If we've exhausted the current fragment
+  if (m_fraglen <= 0) {
+    
+    // If the fragment's locked...
+    if (m_frag) {
+      
+      // Unlock it
+      result = m_string->UnlockFragment(m_fragoff);
+      if (result) goto ERROR;
+        
+      // We don't have a fragment now
+      m_frag = NULL;
+    }
+      
+    // Position to next fragment
+    m_fragoff = m_stringoff;
+      
+    // If we've exhausted the string, error
+    if (m_stringoff >= m_stringlen) goto UNEXPECTEDEOS;
+      
+    // Lock the next fragment
+    result = m_string->LockFragment(m_fragoff, &m_frag, &m_fraglen);
+    if (result) goto ERROR;
+  }
+
+  // Have a locked fragment, get the byte
+  *thebyte = m_frag[m_stringoff - m_fragoff];
+  
+  // If we're not just peeking
+  if (!peekonly) {
+  
+    // Consume the byte
+    m_stringoff++;
+    m_fraglen--;
+  }
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+
+UNEXPECTEDEOS:
+  result = XMLErrorUnexpectedEndOfInput;
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLCursorCompileReader::ReadOp(int *theop, int peekonly) {
+
+  XMLError result;
+  byte     thebyte;
+  
+  // Get the next byte
+  result = ReadByte(&thebyte, peekonly);
+  if (result) goto ERROR;
+  
+  // Return it to the caller
+  *theop = (int)thebyte;
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLCursorCompileReader::ReadToken() {
+
+  XMLError   result; // Return result
+  int        op;     // The current operation
+  XMLToken   token;  // The current token
+  byte       abyte;  // An input byte
+  XMLString *string; // A string
+  int        length; // Text length
+  XMLToken   doctok; // Document's token
+
+  // Initialise
+  string = NULL;
+  
+  // Assume it's not an entity
+  m_isentity = 0;
+    
+  // The first op has already been read... Make sure it's a token
+  if (m_op < opToken0 || m_op > opToken4)
+    goto MALFORMED;
+  op = m_op;
+  
+  // Handle opToken0
+  if (op >= opToken0 && op < opToken1) {
+  
+    token = op & 0x3f;
+  }
+  
+  // Handle opToken1
+  else if (op == opToken1) {
+  
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token = (int)abyte;    
+  }
+  
+  // Handle opToken2
+  else if (op == opToken2) {
+    
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token = (int)abyte << 8;
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token |= (int)abyte;
+  }
+  
+  // Handle opToken3
+  else if (op == opToken3) {
+    
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token = (int)abyte << 16;
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token |= (int)abyte << 8;
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token |= (int)abyte;
+  }
+  
+  // Handle opToken4
+  else if (op == opToken4) {
+    
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token = (int)abyte << 24;
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token |= (int)abyte << 16;
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token |= (int)abyte << 8;
+    result = ReadByte(&abyte);
+    if (result) goto ERROR;
+    token |= (int)abyte;
+  }
+
+  // Handle unexpected operation
+  else
+    goto EXPECTEDTOKEN;
+
+  // If token 0, we're finished
+  if (token == 0) goto OK;
+  
+  // If no string table...
+  if (m_tokens == NULL) {
+  
+    // Create it
+    m_tokens = new XMLStringTable();
+    if (m_tokens == NULL) goto OUTOFMEMORY;
+  }
+
+  // See if token is in the table
+  result = m_tokens->FindString(token,&string);
+  if (result && result != XMLErrorStringBadIndex) goto ERROR;
+    
+  // If token was in the table...
+  if (string != NULL) {
+
+    // Find the string in document's token table
+    result = ResolveString(string,&doctok);
+    if (result) goto ERROR;
+    
+    // We don't own the string
+    string = NULL;  
+  }
+  
+  // If token wasn't in the table...
+  else {
+  
+    // Get the first text op...
+    result = ReadOp(&op);
+    if (result) goto ERROR;
+    
+    // Handle opText0
+    if (op >= opText0 && op < opText1) {
+    
+      length = op & 0x7f;
+    }
+    
+    // Handle opText1
+    else if (op == opText1) {
+    
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length = (int)abyte;
+    }
+    
+    // Handle opText2
+    else if (op == opText2) {
+      
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length = (int)abyte << 8;
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length |= (int)abyte;
+    }
+    
+    // Handle opText3
+    else if (op == opText3) {
+      
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length = (int)abyte << 16;
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length |= (int)abyte << 8;
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length |= (int)abyte;
+    }
+    
+    // Handle opText4
+    else if (op == opText4) {
+      
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length = (int)abyte << 24;
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length |= (int)abyte << 16;
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length |= (int)abyte << 8;
+      result = ReadByte(&abyte);
+      if (result) goto ERROR;
+      length |= (int)abyte;
+    }
+    
+    // Otherwise we expected text
+    else
+      goto EXPECTEDTEXT;
+
+    // Create a substring
+    result = m_string->SubString(m_stringoff, length, &string);
+    if (result) goto ERROR;
+    
+    // Add it to the token table
+    result = m_tokens->NewIndex((int)token,string,0);
+    if (result) goto ERROR;
+
+    // Update current string/fragment position
+    m_stringoff += length;
+    m_fraglen -= length;
+
+    // Create the new document token
+    result = NewToken(string,&doctok);
+    if (result) goto ERROR;
+  
+    // We don't own the string now
+    string = NULL;
+
+  }
+
+  // Return the document's token to the caller
+  m_token = doctok;
+  
+  // Peek at next op
+  result = ReadOp(&op,1);
+  if (result) goto ERROR;
+  
+  // If next op is an opEntity
+  if (op == opEntity) {
+  
+    // Consume it
+    result = ReadOp(&op);
+    if (result) goto ERROR;
+    
+    // Set "Is Entity" flag
+    m_isentity = 1;
+  }
+    
+  goto OK;
+
+MALFORMED:
+  result = XMLErrorCompileMalformed;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+EXPECTEDTOKEN:
+  result = XMLErrorCompileExpectedToken;
+  goto DONE;
+  
+EXPECTEDTEXT:
+  result = XMLErrorCompileExpectedText;
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  // Release the temp string if we still have it
+  if (string)
+    delete string;
+      
+  return result;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileWriter::XMLCursorCompileWrite  - Constructor
+//  XMLCursorCompileWriter::~XMLCursorCompileWrite - Destructor
+//
+
+XMLCursorCompileWriter::XMLCursorCompileWriter(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorWriter(doc,string)
+{
+}
+
+XMLCursorCompileWriter::~XMLCursorCompileWriter() {
+          
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileWriter::Write - Write compiled XML representing current element
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to append compiled XML to a string.
+//
+// NOTES
+//
+//  If this function returns an error, the appended contents of the
+//  string are in an indeterminate state.
+//
+
+XMLError XMLCursorCompileWriter::Write(void) {
+
+  XMLError    result;        // Return code
+  int         m_startdepth;  // Depth we started at
+  StackEntry *tos;           // Current top of stack
+  XML::Class  eclass;        // An element type
+  byte        op;            // Current op to output
+  XMLToken    token;         // Current token
+  XMLToken    token2;        // Another token
+  int         nattributes;   // Number of attributes
+  int         i;             // TEMP: Loop counter
+  int         next;          // "Should we position to next one?"
+    
+  // Initialise
+  m_visitedstring = NULL;
+  m_visited       = NULL;
+  
+  // Sanity checks
+  if (m_document == NULL) goto NODOCUMENT;
+  if (m_string   == NULL) goto NOSTRING;
+
+  // Save current stack depth
+  m_startdepth = m_stacksize;
+
+  // Create string for use by m_visited
+  m_visitedstring = new XMLStringMem();
+  if (m_visitedstring == NULL) goto OUTOFMEMORY;
+  
+  // Create the m_visited bitmap
+  m_visited = new XMLBitMapString(m_visitedstring);
+  if (m_visited == NULL) goto OUTOFMEMORY;
+    
+  // Output version
+  result = EmitOperation(opVersion+VERSION);
+  if (result) goto ERROR;
+  
+  // Output "Begin document"
+  result = EmitOperation(opDocument);
+  if (result) goto ERROR;
+
+  // If we're not positioned anywhere in the document
+  if (m_startdepth == 0) {
+  
+    // Simply walk once and we'll get the first one
+    result = Walk();
+    if (result && result != XMLErrorCsrEndOfDocument)
+      goto ERROR;
+      
+  }
+  
+  // For each element
+  while (result != XMLErrorCsrEndOfDocument && m_stacksize > m_startdepth) {
+
+    // Get TOS
+    tos = TOS();
+
+    // Get current element's class
+    eclass = tos->element->GetClass();
+
+    // Assume we'll position to next one
+    next = 1;
+        
+    // Based on current element class...
+    switch (eclass) {
+
+    // Complex/simple elements...    
+    case XML::ClassComplex:
+    case XML::ClassSimple:
+
+      // Emit simple/complex operation
+      if (eclass == XML::ClassComplex)
+        result = EmitOperation(opComplex);
+      else
+        result = EmitOperation(opSimple);
+      if (result) goto ERROR;
+          
+      // Get and emit the element's type
+      result = tos->element->GetType(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      // Get number of attributes
+      result = tos->element->GetNAttributes(&nattributes);
+      if (result) goto ERROR;
+      
+      // For each attribute...
+      for (i = 0; i < nattributes;  i++) {
+      
+        // Get the attribute name and value
+        result = tos->element->GetAttribute(i,&token,&token2);
+        if (result) goto ERROR;
+        
+        // Emit them
+        result = EmitToken(token);
+        if (result) goto ERROR;
+        result = EmitToken(token2);
+        if (result) goto ERROR;
+      }
+      
+      // If simple class...
+      if (eclass == XML::ClassSimple) {
+      
+        // Emit end simple
+        result = EmitOperation(opSimple + 1);
+        if (result) goto ERROR;
+      }
+      
+      // If complex class...
+      else {
+      
+        // Emit contents
+        result = EmitOperation(opContents);
+        if (result) goto ERROR;
+
+        // Try going down
+        result = Down();
+        if (result && result != XMLErrorCsrAtLeaf) goto ERROR;
+        
+        // If nothing down there...
+        if (result == XMLErrorCsrAtLeaf) {
+        
+          // Emit 'end complex'
+          result = EmitOperation(opComplex + 1);
+          if (result) goto ERROR;
+        }
+        
+        // If something down there...
+        else {
+        
+          // Don't position to next
+          next = 0;
+        }
+      }
+      
+      break;
+      
+    // PCDATA
+    case XML::ClassPCDATA:
+
+      // Emit PCDATA
+      result = EmitOperation(opPCDATA);
+      if (result) goto ERROR;
+
+      // Try going down
+      result = Down();
+      if (result && result != XMLErrorCsrAtLeaf) goto ERROR;
+      
+      // If nothing down there...
+      if (result == XMLErrorCsrAtLeaf) {
+      
+        // Emit 'end PCDATA'
+        result = EmitOperation(opPCDATA + 1);
+        if (result) goto ERROR;
+      }
+        
+      // If something down there...
+      else {
+      
+        // Don't position to next
+        next = 0;
+      }
+      
+      break;
+                
+    // Text
+    case XML::ClassText:
+    case XML::ClassEntity:
+
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      break;
+            
+    // CDATA
+    case XML::ClassCDATA:
+
+      // Emit the operation
+      result = EmitOperation(opCDATA);
+      if (result) goto ERROR;
+          
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      break;
+            
+    // Comment
+    case XML::ClassComment:
+
+      // Emit the operation
+      result = EmitOperation(opComment);
+      if (result) goto ERROR;
+          
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      break;
+                
+    // Processing Instruction
+    case XML::ClassPI:
+    
+      // Emit the operation
+      result = EmitOperation(opPI);
+      if (result) goto ERROR;
+
+      // Get and emit the type
+      result = tos->element->GetType(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      break;
+      
+    // DTD
+    case XML::ClassDTD:
+    
+      // Emit the operation
+      result = EmitOperation(opDTD);
+      if (result) goto ERROR;
+
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      break;
+      
+    default:
+      
+      goto UNKNOWNCLASS;      
+    }
+
+    // Position to next element if we're supposed to
+    while (next) {
+    
+      // Try positioning to next
+      result = Next();
+      
+      // If we've reached the end of the document, we're finished
+      if (result == XMLErrorCsrEndOfDocument)
+        break;
+        
+      // If we got error other than Last Child...
+      if (result && result != XMLErrorCsrAtLastChild) goto ERROR;
+
+      // Assume we're not going to keep trying
+      next = 0;
+            
+      // If nothing there...
+      if (result == XMLErrorCsrAtLastChild) {
+      
+        // Assumption wrong, we'll keep trying next
+        next = 1;
+        
+        // Try up
+        result = Up();
+        if (result) goto ERROR;
+        
+        // If we're at the starting depth, we're finished
+        if (m_stacksize == m_startdepth)
+          break;
+          
+        // Get the TOS
+        tos = TOS();
+        
+        // Get the element's class
+        eclass = tos->element->GetClass();
+        if (result) goto ERROR;
+        
+        // If it's complex...
+        if (eclass == XML::ClassComplex) {
+        
+          // Emit end of complex
+          result = EmitOperation(opComplex+1);
+          if (result) goto ERROR;
+        }
+        
+        // If it's PCDATA...
+        else if (eclass == XML::ClassPCDATA) {
+        
+          // Emit end of PCDATA
+          result = EmitOperation(opPCDATA+1);
+          if (result) goto ERROR;
+        } 
+      }      
+    }
+  }
+  
+  // We've reached the end of the doc, until back at original start node...
+  for (;;) {
+  
+    // Pop the stack
+    result = Pop();
+    if (result) goto ERROR;
+    
+    // Get top entry
+    tos = TOS();
+
+    // If we've run out, we're at the top of the document
+    if (tos == NULL)
+      break;
+      
+    // Get the element's class
+    eclass = tos->element->GetClass();
+    
+    // Based on the class...
+    switch (eclass) {
+    
+    // It's complex...
+    case XML::ClassComplex:
+    
+      // Emit 'End of complex'
+      result = EmitOperation(opComplex + 1);
+      if (result) goto ERROR;
+      break;
+      
+    // It's PCDATA...
+    case XML::ClassPCDATA:
+    
+      // Emit 'End of PCDATA'
+      result = EmitOperation(opPCDATA + 1);
+      if (result) goto ERROR;
+      break;
+      
+    // Don't know what it is...
+    default:
+    
+      goto INTERNALERROR;
+    }
+    
+    // If we're at original depth, we're finished
+    if (m_stacksize <= m_startdepth)
+      break;
+  }
+  
+  // Output "End document"
+  result = EmitOperation(opDocument + 1);
+  if (result) goto ERROR;
+    
+  goto OK;
+    
+NODOCUMENT:
+  result = XMLErrorCompileNoDocument;
+  goto DONE;
+  
+NOSTRING:
+  result = XMLErrorCompileNoString;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+UNKNOWNCLASS:
+  result = XMLErrorCompileUnknownClass;
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Release anything we've got left hanging about
+  if (m_visited) {
+    delete m_visited;
+    m_visited = NULL;
+  }
+  if (m_visitedstring) {
+    delete m_visitedstring;
+    m_visitedstring = NULL;
+  }
+        
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileWriter::EmitOperation - Emit an operation
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to output a single operation.
+//
+
+XMLError XMLCursorCompileWriter::EmitOperation(int op) {
+
+  XMLError result;
+  byte     thebyte;
+  
+  thebyte = (byte)op;
+  result = Emit(&thebyte);
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileWriter::EmitToken - Emit a token
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to output a single token.
+//
+//  If this is the first time we've output the token we have to output
+//  the token value first and then map it to a local token number.
+//
+//  If the string has been output, we simply output the local token
+//  associated with it.
+//
+
+XMLError XMLCursorCompileWriter::EmitToken(XMLToken token) {
+
+  XMLError   result;   // Return code
+  XMLToken   newtoken; // New token (mapped from old one)
+  XMLString *string;   // String to output
+  int        slength;  // Current string's length
+  byte       abyte;    // A byte to output
+  
+  // If the visited bitmap isn't big enough for this token...
+  if (m_visited->Length() <= (int)token) {
+  
+    // Expand it some (to keep from having to reallocate all the time)
+    result = m_visited->Set(token + 800, 0);
+    if (result) goto ERROR;
+  }
+  
+  // Emit the token
+  result = EmitMulti(opToken0, (int)token);
+  if (result) goto ERROR;
+  
+  // If token specified and hasn't been visited...
+  if (token != 0 && m_visited->Test(token) == 0) {
+  
+    // Flag that we have visited now
+    result = m_visited->Set(token,1);
+    if (result) goto ERROR;
+         
+    // Get the token value string
+    result = ResolveToken(token,&string);
+    if (result) goto ERROR;
+    
+    // Get the string's length
+    result = string->Length(&slength);
+    if (result) goto ERROR;
+
+    // Emit the length
+    result = EmitMulti(opText0,slength);
+    if (result) goto ERROR;
+    
+    // Emit the value
+    result = Emit(string);
+    if (result) goto ERROR;
+    
+  }
+  
+  goto OK;
+    
+ERROR:
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorCompileWrite::EmitMulti - Emit a multi-byte integer
+//
+// DESCRIPTION
+//
+//  Given a multi-byte operation, this function emits the operation and,
+//  if needed, the subsequent integer value bytes.
+//
+// NOTES
+//
+//  This function only knows about multi-byte ops opToken0 and opText0.
+//  If the operation it returns an error.
+//
+
+XMLError XMLCursorCompileWriter::EmitMulti(int op, int length) {
+
+  XMLError result;
+  int      minlen;
+  int      op1;
+  int      op2;
+  int      op3;
+  int      op4;
+  
+  // Compute the minimum length
+  if (op == opToken0) {
+    minlen = 59;
+    op1 = opToken1;
+    op2 = opToken2;
+    op3 = opToken3;
+  }
+  else if (op == opText0) {
+    minlen = 123;
+    op1    = opText1;
+    op2    = opText2;
+    op3    = opText3;
+  }
+  else
+    goto INTERNALERROR;
+    
+  // If the length fits in an op0...
+  if (length <= minlen) {
+    
+      // Output an op0
+      result = EmitOperation(op + length);
+      if (result) goto ERROR;
+    }
+    
+  // Else if the string fits in an op1...
+  else if (length <= 0xff) {
+    
+      // Output an op1
+      result = EmitOperation(op1);
+      if (result) goto ERROR;
+      
+      // Output the single byte length
+      result = EmitOperation(length);
+      if (result) goto ERROR;
+    }
+    
+  // Else if the string fits in an op2...
+  else if (length <= 0xffff) {
+      
+    // Output an op2
+    result = EmitOperation(op2);
+    if (result) goto ERROR;
+      
+    // Output the 2 byte length
+    result = EmitOperation(length >> 8);
+    if (result) goto ERROR;
+    result = EmitOperation(length & 0xff);
+    if (result) goto ERROR;
+  }
+    
+  // Else if the string fits in an op3
+  else if (length <= 0xffffff) {
+    
+    // Output an op3
+    result = EmitOperation(op3);
+    if (result) goto ERROR;
+      
+    // Output the 3 byte length
+    result = EmitOperation(length >> 16);
+    if (result) goto ERROR;
+    result = EmitOperation( (length >> 8) & 0xff);
+    if (result) goto ERROR;
+    result = EmitOperation( length & 0xff);
+    if (result) goto ERROR;
+  }    
+  
+  // Else, it MUST fit in an op4
+  else {
+    
+    // Output an op4
+    result = EmitOperation(op4);
+    if (result) goto ERROR;
+      
+    // Output the 4 byte length
+    result = EmitOperation( length >> 24);
+    if (result) goto ERROR;
+    result = EmitOperation( (length >> 16) & 0xff);
+    if (result) goto ERROR;
+    result = EmitOperation( (length >>8) & 0xff);
+    if (result) goto ERROR;
+    result = EmitOperation( length & 0xff);
+    if (result) goto ERROR;
+  }
+  
+  goto OK;
+    
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+@
+
+
+1.10
+log
+@Read compiled works, need to figure out why it's slower than text!
+@
+text
+@a896 4
+#if DEBUGGING
+int itercount = 0;
+#endif
+
+a949 4
+#if DEBUGGING
+    itercount++;
+#endif
+  
+@
+
+
+1.9
+log
+@Finished compile reader, ready to test
+@
+text
+@d55 1
+a55 1
+  m_state   = State_Normal;
+d159 1
+a159 1
+      if (m_op & 0xE0 == opVersion) {
+d162 1
+a162 1
+        if (m_op & 0x3f != VERSION) goto BADVERSION;
+d239 4
+a242 1
+          
+d423 2
+d434 7
+d447 2
+a448 2
+    // Don't create down
+    m_createdown = 0;
+d450 6
+a455 3
+    // Have to go up one
+    result = Pop();
+    if (result) goto ERROR;
+d457 5
+d463 1
+a463 1
+  
+d472 4
+d477 14
+d538 1
+a538 1
+  if (m_fraglen == 0) {
+d625 1
+d639 1
+a639 1
+  if (op >= opToken0 && op <= opToken1) {
+d685 1
+a685 1
+    token = (int)abyte << 16;
+a711 1
+  string = NULL;
+d714 1
+a714 1
+  if (result == XMLErrorNone) {
+d716 2
+a717 2
+    // Find the string in our token table
+    result = m_tokens->FindString(token,&string);
+d719 3
+a721 1
+      
+d732 1
+a732 1
+    if (op >= opText0 && op <= opText1) {
+a800 1
+    m_fragoff += length;
+d803 7
+d812 2
+a813 9
+  // We know the string now, find it in the document's table...
+  result = NewToken(string,&token);
+  if (result) goto ERROR;
+    
+  // We don't own the string now
+  string = NULL;
+
+  // Return the token to the caller
+  m_token = token;
+d1056 1
+a1056 1
+        // Emit 'end complex'
+@
+
+
+1.8
+log
+@More work on compile reader
+@
+text
+@a62 5
+  // Initialise multi-byte operation
+  m_multiop  = 0;
+  m_multival = 0;
+  m_multirem = 0;
+
+d133 2
+d141 7
+a147 3
+  
+    // If we've exhausted the current fragment
+    if (m_fraglen == 0) {
+d149 2
+a150 2
+      // If the fragment's locked...
+      if (m_frag) {
+d152 2
+a153 3
+        // Unlock it
+        result = m_string->UnlockFragment(m_fragoff);
+        if (result) goto ERROR;
+d155 1
+a155 2
+        // We don't have a fragment now
+        m_frag = NULL;
+d158 2
+a159 20
+      // Position to next fragment
+      m_fragoff = m_stringoff;
+      
+      // If we've exhausted the string, error
+      if (m_stringoff >= m_stringlen) goto UNEXPECTEDEOS;
+      
+      // Lock the next fragment
+      result = m_string->LockFragment(m_fragoff, &m_frag, &m_fraglen);
+      if (result) goto ERROR;
+    }
+
+    // If we need to get the operation...
+    if (m_multiop == 0 || m_multirem) {
+    
+      // Get the byte 
+      operation = m_frag[m_stringoff - m_fragoff];
+      m_fraglen--;
+      
+      // If it's a token, start the multi-op...
+      if (operation >= opToken0 && operation <= opToken4) {
+d161 2
+a162 2
+        // Set the multi-op
+        m_multiop = opToken0;
+d164 1
+a164 16
+        // If we have full token here...
+        if (operation < opToken1) {
+        
+          // Save the token
+          m_multival = operation & 0x3f;
+          m_multirem = 0;
+        }
+        
+        // Don't have full token...
+        else {
+        
+          m_multival = 0;
+          m_multirem = operation - opToken1 + 1;
+          
+          continue;
+        }
+d167 2
+a168 2
+      // If it's text, start the multi-op...
+      else if (operation >= opText0 && operation <= opText4) {
+a169 20
+        // Set the multi-op
+        m_multiop = opText0;
+        
+        // If we have full length here...
+        if (operation < opText1) {
+        
+          // Save the length
+          m_multival = operation & 0x7f;
+          m_multirem = 0;
+        }
+        
+        // Don't have full length...
+        else {
+        
+          m_multival = 0;
+          m_multirem = operation - opText1 + 1;
+          
+          continue;
+        }
+      }      
+d171 3
+d175 5
+a179 5
+    // If we're in a multi-op...
+    if (m_multiop) {
+    
+      // If we want need more bytes...
+      if (m_multirem) {
+d181 7
+a187 2
+        // Add it to the value
+        m_multival  = (m_multival << 8) + operation;
+d189 6
+a194 5
+        // We need one less now
+        m_multirem--;
+      
+        continue;
+      }
+a195 2
+      // We've got the entire operation now
+      operation = m_multiop;
+d198 2
+a199 2
+    // If operation is text...
+    if (operation == opText0) {
+d201 2
+a202 3
+      // Create a substring of the input string
+      result = m_string->SubString(m_stringoff, m_multival, &m_text);
+      if (result) goto ERROR;
+d204 3
+a206 3
+      // Clear the multi-op
+      m_multiop = 0;
+      m_multirem = 0;
+d208 3
+a210 2
+      continue;
+    }
+d212 17
+a228 5
+    // else if operation is token...
+    else if (operation == opToken0) {
+    
+      // If we've got a new text string...
+      if (m_text) {
+d230 2
+a231 2
+        // If we don't have a token table yet...
+        if (m_tokens == NULL) {
+d233 8
+a240 3
+          // Create one
+          m_tokens = new XMLStringTable();
+          if (m_tokens == NULL) goto OUTOFMEMORY;
+d243 2
+a244 10
+        // Add the string to the token table (the table doesn't own the string)
+        result = m_tokens->NewIndex(m_multival,m_text,0);
+        if (result) goto ERROR;
+        
+        // Add give the string to the document (we don't care about the token right now)
+        result = NewToken(m_text);
+        if (result) goto ERROR;
+        
+        // We don't own the string anymore
+        m_text = NULL;
+d247 9
+a255 2
+      // Have a token, 
+      // ???
+d258 6
+a263 4
+        
+    // If we're in state 'normal' we're finished
+    if (m_state == State_Normal)
+      break;
+d268 5
+a272 2
+OK:
+  result = XMLErrorNone;
+d275 4
+d287 4
+d295 2
+a296 1
+ERROR:
+d298 1
+a298 5
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+    
+d318 163
+d495 1
+a495 1
+XMLError XMLCursorCompileReader::ReadByte(byte *thebyte) {
+d527 7
+a533 3
+  // Consume the byte
+  m_stringoff++;
+  m_fraglen--;
+d553 1
+a553 1
+XMLError XMLCursorCompileReader::ReadOp(int *theop) {
+d559 1
+a559 1
+  result = ReadByte(&thebyte);
+d579 1
+a579 1
+XMLError XMLCursorCompileReader::ReadToken(XMLToken *thetoken) {
+d590 3
+d594 4
+a597 3
+  // Get the next op
+  result = ReadOp(&op);
+  if (result) goto ERROR;
+d774 16
+a789 1
+  *thetoken = token;
+d793 4
+@
+
+
+1.7
+log
+@Started on compile reader
+@
+text
+@d339 321
+d1151 4
+a1178 4
+  
+  // Emit the token
+  result = EmitMulti(opToken0, (int)token);
+  if (result) goto ERROR;
+@
+
+
+1.6
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@d29 310
+@
+
+
+1.5
+log
+@Text writer working, don't like speed though
+@
+text
+@d29 2
+a30 2
+//  XMLCursorCompileWrite::XMLCursorCompileWrite  - Constructor
+//  XMLCursorCompileWrite::~XMLCursorCompileWrite - Destructor
+d33 2
+a34 2
+XMLCursorCompileWrite::XMLCursorCompileWrite(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorBase(NULL)
+a35 7
+
+  // Initialise string
+  m_string    = (XMLStringBase *)string;
+  
+  // Set our document
+  m_document = doc;
+  
+d38 1
+a38 1
+XMLCursorCompileWrite::~XMLCursorCompileWrite() {
+d46 1
+a46 1
+//  XMLCursorCompileWrite::Write - Write compiled XML representing current element
+d62 1
+a62 1
+XMLError XMLCursorCompileWrite::Write(void) {
+d469 1
+a469 1
+//  XMLCursorCompileWrite::EmitOperation - Emit an operation
+d476 1
+a476 1
+XMLError XMLCursorCompileWrite::EmitOperation(int op) {
+d482 1
+a482 1
+  result = m_string->Append(&thebyte,1);
+d491 1
+a491 1
+//  XMLCursorCompileWrite::EmitToken - Emit a token
+d504 1
+a504 1
+XMLError XMLCursorCompileWrite::EmitToken(XMLToken token) {
+d540 1
+a540 1
+    result = m_string->Append(string);
+d580 1
+a580 1
+XMLError XMLCursorCompileWrite::EmitMulti(int op, int length) {
+@
+
+
+1.4
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d65 1
+d67 1
+d122 3
+a124 1
+itercount++;
+@
+
+
+1.3
+log
+@Compiled XML writer almost working
+@
+text
+@d65 2
+d119 2
+@
+
+
+1.2
+log
+@XMLCursorCompileWrite written, ready to test
+@
+text
+@d79 2
+a80 1
+  m_tokenmap      = NULL;
+d88 8
+a95 7
+  
+  // Get highest token in the document
+  result = HighestToken(&m_dochightoken);
+  if (result) goto ERROR;
+  
+  // If document has tokens...
+  if (m_dochightoken) {
+a96 8
+    // Allocate the old -> new token map array
+    result = XMLHeap::Allocate( (m_dochightoken+1) * sizeof(XMLToken), (byte **)&m_tokenmap);
+    if (result) goto ERROR;
+    
+    // Clear it
+    memset((void *)m_tokenmap,0,sizeof(int)*(m_dochightoken+1));
+  }
+  
+d108 2
+a109 2
+    // Simply do down and we'll get the first one
+    result = Down();
+d177 1
+a177 1
+        result = EmitOperation(opContents + 1);
+d318 6
+a334 4
+        // If we're at the top, don't go up
+        if (m_stacksize == m_startdepth)
+          break;
+          
+d339 4
+d369 47
+d441 4
+d452 7
+a458 3
+  if (m_tokenmap) {
+    XMLHeap::Free((byte *)m_tokenmap);
+    m_tokenmap = NULL;
+d511 2
+a512 2
+  // Make sure it's not out of bounds
+  if (token < 0 || token > m_dochightoken) goto OUTOFBOUNDS;
+d514 4
+a517 2
+  // Get new token number
+  newtoken = m_tokenmap[token];
+d519 2
+a520 2
+  // If newtoken is zero and old one wasn't...
+  if (newtoken == 0 && token != 0) {
+d522 4
+a525 6
+    // Allocate a new local token 
+    newtoken = ++m_usedtokens;
+   
+    // Update the map
+    m_tokenmap[token] = newtoken;
+     
+d545 1
+a545 1
+  result = EmitMulti(opToken0, (int)newtoken);
+a549 4
+OUTOFBOUNDS:
+  result = XMLErrorInternal;
+  goto ERROR;
+  
+@
+
+
+1.1
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d20 1
+a70 2
+  XMLToken    hightoken;     // Highest token
+  int         usedtokens;    // Number of used tokens
+a78 2
+  m_visitedstring = NULL;
+  m_visited       = NULL;
+d89 1
+a89 1
+  result = HighestToken(&hightoken);
+d92 10
+a101 14
+  // Get the number of used tokens in the document
+  usedtokens = UsedTokens();
+  
+  // Create the visited token bitmap (and auto-extend it to proper length)
+  m_visitedstring = new XMLStringMem();
+  if (m_visitedstring == NULL) goto OUTOFMEMORY;
+  m_visited = new XMLBitMapString(m_visitedstring);
+  if (m_visited) goto OUTOFMEMORY;
+  result = m_visited->Set(hightoken,0);
+  if (result) goto ERROR;
+  
+  // Allocate the old -> new token map array
+  result = XMLHeap::Allocate( (usedtokens+1) * sizeof(int), (byte **)&m_tokenmap);
+  if (result) goto ERROR;    
+a400 8
+  if (m_visited) {
+    delete m_visited;
+    m_visited = NULL;
+  }
+  if (m_visitedstring) {
+    delete m_visitedstring;
+    m_visitedstring = NULL;
+  }
+d409 229
+@
+

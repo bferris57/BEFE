@@ -1,0 +1,53 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    portkit.h - Port specific declarations
+  
+  DESCRIPTION
+    
+    This file contains the port specific declarations.
+    
+*/
+
+#ifndef _portkit_h
+
+#define _portkit_h
+
+// Commonly used types
+typedef unsigned char byte;
+
+// Integer -> ascii
+void itoa(int theint, char *buf, int bufmaxl);
+
+// Strangeness for CYGWIN
+#ifdef __CYGWIN__
+#include <iostream>
+using std::cout;
+#endif
+
+#endif // _miscellaneous_h
+@

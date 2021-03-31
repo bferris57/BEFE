@@ -1,0 +1,315 @@
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "BEFEWrappers.h"
+#include "_GlobalMacros.h"
+#include "Build.h"
+#include "LexFileInfo.h"
+#include "PersistHead.h"
+#include "ToStrings.h"
+#include "FileStream.h"
+#include "Crypt.h"
+
+namespace BEF_NS {
+
+extern Status Win32UUIDRandom(UUID &uuid);
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+
+Status trythis() {
+
+  Status      status;
+  String      befeSvn;
+  String      fileName;
+  Build       theBuild;
+  UInt        svnHead;
+  LexFileInfo fInfo;
+  PersistHead pHead;
+  UInt        mode;
+  UUID        uuid;
+  Time        st;
+  Time        et;
+  Int         i;
+  FileStream  file;
+  String      tString;
+  Byte       *tBuf;
+  UInt        tSize;
+  CryptKey    cryptKey;
+  
+  enum {
+    TestLexFileInfo,
+    TestPersistHead,
+    TestCreateUUID,
+    TestPersistKey,
+    TestCrypt,
+    TestCryptKeyFile,
+    TestCryptFile,
+    numTests
+  };
+  
+  //UInt fg;  
+  //fg = Cout.GetForegroundColour();
+  //Cout << "*** Nothing for trythis() to do at the moment ***\n";
+  
+  // TEMP...
+  { String _TryThis;
+    Char    egypt;
+    egypt = 0x130B8u;
+    _TryThis = GetEnvironmentValue("_TryThis");
+    Cout << "trythis: _TryThis = '" << _TryThis << "'\n";
+    Cout << "Unicode 0x130B8: " << egypt << "\n";
+  }
+  // ...TEMP
+
+  //mode = TestPersistHead;
+  //mode = TestCreateUUID;
+  //mode = TestPersistKey;
+  //mode = TestCryptKeyFile;
+  mode = TestCryptFile;
+  
+  switch (mode) {
+  
+  //
+  // Test LexFileInfo...
+  //
+  
+  case TestLexFileInfo:
+    befeSvn = TheBefe->GetEnvironmentValue("BEFE_SVN");
+    if (IsNull(befeSvn)) goto NOSVN;
+    status = TheBefe->TheOS->PathToGeneric(befeSvn);
+    if (status) goto SOMEERROR;
+    if (befeSvn.Get(-1) != '/') befeSvn += '/';
+    //status = fInfo.LoadFile(befeSvn+"c++/test/TestString.cpp");
+    //status = fInfo.LoadFile(befeSvn+"c++/string/String.h");
+    //status = fInfo.LoadFile(befeSvn+"c++/test/trythis.cpp");
+    status = fInfo.LoadFile("c:/befe/big.xml");
+    if (status) goto SOMEERROR;
+
+    Cout << "fInfo.fileName  = '"  << fInfo.fileName << "'\n";
+    Cout << "fInfo.length    = "   << fInfo.length << '\n';
+    Cout << "fInfo.size      = "   << fInfo.size << '\n';
+    Cout << "fInfo.time      = "   << ToString(fInfo.time, Time::Milliseconds) << '\n';
+    Cout << "fInfo.crc       = 0x" << ToHexString(fInfo.crc,8) << '\n';
+    Cout << "fInfo.numLines  = "   << fInfo.numLines << '\n';
+    Cout << "fInfo.numTokens = "   << fInfo.numTokens << '\n';
+  
+    break;
+  
+  //
+  // Test PersistHead...
+  //
+  
+  case TestPersistHead:
+
+    status = pHead.SetTypeName("EKY0");
+    if (status) goto SOMEERROR;
+    Cout << "pHead.ToString() = '" << pHead.ToString() << "'\n";
+  
+    break;
+  
+  //
+  // Test CreateUUID...
+  //
+  
+  case TestCreateUUID:
+
+    if (uuid.IsValid())
+      WARN("trythis: Initial UUID is VALID, shouldn't be!!!");
+    status = TheBefe->TheOS->NewRandomUUID(uuid);
+    if (status) goto SOMEERROR;
+    if (!uuid.IsValid())
+      WARN("trythis: First new UUID is INVALID, shouldn't be!!!");
+      
+    st.Set();
+    for (i=0; i<10000000; i++) {
+      status = TheBefe->TheOS->NewRandomUUID(uuid);
+      if (status) goto SOMEERROR;
+    }
+    et.Set();
+    Cout << "Elapsed Time: " << ToString(st, et) << " for " << i << " UUIDs\n";
+    Cout << "Last UUID =   " << uuid.ToString() << '\n';
+    //Cout << "Last UUID memory...\n\n";
+    //DisplayMemory((Byte *)&uuid, 16, 2);
+    
+    break;
+  
+  //
+  // Test PersistKey...
+  //
+  
+  case TestPersistKey:
+
+    fileName = file.GetName();
+    Cout << "Writing to file '" << fileName << "'...\n";
+    status = pHead.SetTypeName("Key0");
+    if (status) goto SOMEERROR;
+    status = pHead.WriteTo(file);
+    if (status) goto SOMEERROR;
+    status = uuid.NewRandom();
+    if (status) goto SOMEERROR;
+    status = uuid.WriteTo(file);
+    if (status) goto SOMEERROR;
+    status = file.Flush();
+    if (status) goto SOMEERROR;
+    Cout << "  Wrote pHead = " << pHead.ToString() << '\n';
+    Cout << "  Wrote UUID  = " << uuid.ToString() << '\n';
+    status = file.SetPos(0);
+    Cout << "Reading from file...\n";
+    status = pHead.ReadFrom(file);
+    if (status) goto SOMEERROR;
+    status = uuid.ReadFrom(file);
+    if (status) goto SOMEERROR;
+    Cout << "  Read  pHead = " << pHead.ToString() << '\n';
+    Cout << "  Read  UUID  = " << uuid.ToString() << '\n';
+    
+    break;
+  
+  //
+  // Test Crypt0...
+  //
+  
+  case TestCrypt:
+  
+    tString = "The quick brown fox jumped over the lazy dog!";
+    status = tString.MakeMutable();
+    if (status) goto SOMEERROR;
+    tString._BufAndSize(tBuf, tSize);
+    status = uuid.NewRandom();
+    if (status) goto SOMEERROR;
+    Cout << "Key...\n";
+    DisplayMemory((Byte *)&uuid, 16, 0, 2);
+    Cout << "tString Before Encrypt...\n";
+    DisplayMemory(tBuf, tSize, 0, 2);
+    status = CryptEncrypt_0(uuid, tString);
+    if (status) goto SOMEERROR;
+    Cout << "tString After Encrypt...\n";
+    DisplayMemory(tBuf, tSize, 0, 2);
+    status = CryptDecrypt_0(uuid, tString);
+    if (status) goto SOMEERROR;
+    Cout << "tString After Decrypt...\n";
+    DisplayMemory(tBuf, tSize, 0, 2);
+
+    break;
+    
+  //
+  // Test CryptKeyFile...
+  //
+  
+  case TestCryptKeyFile:
+  
+    // Start with a temp file...
+    fileName = GetTempFileName();
+    fileName = fileName + ".key";
+    Cout << "Ceating Key File '"<< fileName << "...\n";
+    status = CreateKeyFile(fileName);
+    if (status) goto SOMEERROR;
+    status = ReadKeyFile(fileName, cryptKey);
+    if (status) goto SOMEERROR;
+    Cout << "  Key = '" << ToString(cryptKey) << "'\n";
+    if (!gKeepTemporaryFiles) {
+      status = File(fileName).Delete();
+      if (status) goto SOMEERROR;
+    }
+    
+    // Now, try a fixed file...
+    fileName = "TestCryptKeyFile.key";
+    status = cryptKey.NewRandom();
+    if (status) goto SOMEERROR;
+    Cout << "Fixed fileName = '" << fileName << '\n';
+    Cout << "  Key to Write = '" << ToString(cryptKey) << "'\n";
+    status = CreateKeyFile(fileName, cryptKey);
+    if (status) goto SOMEERROR;
+    status = cryptKey._SetNull();
+    if (status) goto SOMEERROR;
+    status = ReadKeyFile(fileName, cryptKey);
+    if (status) goto SOMEERROR;
+    Cout << "  Key Read     = '" << ToString(cryptKey) << "'\n";
+    
+    break;
+    
+  //
+  // Test CryptFile...
+  //
+  
+  case TestCryptFile:
+  
+    // Get the input file name...
+    fileName = GetEnvironmentValue("BEFE_TestData");
+    if (fileName.Length() == 0) goto NOBEFETESTDATA;
+    if (!Exists(fileName)) goto TESTDATANOTEXIST;
+    if (!IsDirectory(fileName)) goto TESTDATANOTPATH;
+    status = PathToGeneric(fileName);
+    if (status) goto SOMEERROR;
+    if (fileName.Get(-1) != '/') fileName += '/';
+    fileName += "TestCrypt.txt";
+    if (!Exists(fileName)) goto TESTFILENOTEXIST;
+    if (!IsFile(fileName)) goto TESTFILENOTFILE;
+
+    // Encrypt it...
+    Cout << "Encrypting file '" << fileName << "'...\n";
+    status = EncryptFile(fileName);
+    if (status) goto SOMEERROR;    
+    Cout << "Encryption Worked!!!\n";
+    
+    // Decrypt it...
+    Cout << "Decrypting file '" << fileName << "'...\n";
+    status = DecryptFile(fileName);
+    if (status) goto SOMEERROR;
+
+    break;
+    
+  //
+  // Test ???...
+  //
+  
+  default:
+
+    Cout << "*** Don't know what to do here!!!\n";
+    break;
+  }
+  
+  //
+  // Handle errors  
+  //
+  
+  status = Error::None;
+  while (false) {
+    OK:               status = Error::None;       break;
+    NOSVN:            status = Error::NoBEFE_SVN; break;
+    SOMEERROR:                                    break;
+    NOBEFETESTDATA:   WARN("BEFE_TestData is not set");                status = Error::Failed; break;
+    TESTDATANOTEXIST: WARN("BEFE_TestData path does not exist");       status = Error::Failed; break;
+    TESTDATANOTPATH:  WARN("BEFE_TestData path not a directory");      status = Error::Failed; break;
+    TESTFILENOTEXIST: WARN(String("Test File '")+fileName+"' does not exist"); status = Error::Failed; break;
+    TESTFILENOTFILE:  WARN(String("Test File '")+fileName+"' is not a file");  status = Error::Failed; break;
+  }
+  
+  if (status) ERROR("trythis",status);
+  
+  //Cout.SetForegroundColour(fg);
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

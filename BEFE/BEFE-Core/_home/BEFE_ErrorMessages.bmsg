@@ -1,0 +1,940 @@
+#!befe-publish home
+#──────────────────────────────────────────────────────────────────────
+# File: BEFE_ErrorMessages.txt - BEFE Standard English Message Strings
+#──────────────────────────────────────────────────────────────────────
+#
+# This file contains the default BEFE standard Error and Warning
+# Message strings in English and containing UTF-8 characters.
+#
+# *** See technical documentation for a more detailed description ***
+#
+# If the environment variable BEFE_Home is set to indicate a directory
+# contains this file, these strings will be available at appropriate
+# places for all BEFE based applications.
+#
+# Note: To use these messages, invoke the ErrorString() function with
+#       the appropriate Status value and the string will be retrieved.
+#
+# Note: If you do not like the wording in these messages, feel free
+#       to alter them to your liking or, if you wish, just don't set
+#       BEFE_Home, or remove this file entirely.
+#
+# NOTE: The format of this file is subject to change without notice,
+#       entirely at the whim of the BEFE development team, and will be
+#       updated and adjusted for each formal release of BEFE.
+#
+#       As such, it is ENTIRELY your choice and AT YOUR OWN RISK if you
+#       decide you want to edit the contents of this file in your
+#       BEFE installation.
+#
+# Note: Notice the similarity between this file and the BEFE header
+#       file "Error.h".  This is entirely intentional and these two
+#       files are kept in synch between BEFE releases.
+#       *** We're not telling, but one might be generated from the
+#       *** other, and it might not.
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011-2017, Bruce Ferris (UK), all rights reserved
+#──────────────────────────────────────────────────────────────────────
+
+MessageBase...
+
+  // First Level (core) Error Bases...
+  General    = 0x00000000..0x000000FF, GEN
+  Befe       = 0x00000100..0x000001FF, BEF
+  Buffer     = 0x00000200..0x000002FF, BUF
+  Sequence   = 0x00000300..0x000003FF, SEQ
+  Number     = 0x00000400..0x000004FF, NUM
+  Encode     = 0x00000500..0x000005FF, ENC
+  Array      = 0x00000600..0x000006FF, ARR
+  String     = 0x00000700..0x000007FF, STR
+  Stream     = 0x00000800..0x000008FF, STM
+  File       = 0x00000900..0x000009FF, FIL
+  Persist    = 0x00000A00..0x00000AFF, PIO
+  Cache      = 0x00000B00..0x00000BFF, BLK
+  Match      = 0x00000C00..0x00000CFF, MAT
+  GlobStr    = 0x00000D00..0x00000DFF, GST
+  GlobOpt    = 0x00000E00..0x00000EFF, GLB
+  Id         = 0x00008100..0x000081FF, IDS
+  Address    = 0x00008200..0x000082FF, ADD
+
+  // Second level bases...
+  Command    = 0x00010000..0x000100FF, CMDS    // BEFE Command Shell
+    CmdLayer = 0x00010100..0x000101FF, CMDL    // BEFE Command Layer
+    CmdBEFE  = 0x00010200..0x000102FF, CBEF    // CommandLayer_BEFE Errors
+    CmdOS    = 0x00010300..0x000103FF, COS     // CommandLayer_OS   Errors
+    CmdLang  = 0x00010400..0x000104FF, CLNG    // CommandLayer_Lang Errors
+    CmdGlob  = 0x00010500..0x000105FF, CGLB    // CommandShell Global On/Off Messages
+  Crypt      = 0x00020000..0x000200FF, CRYP    // Security
+  CryptKey   = 0x00020100..0x000201FF, CKEY    // EnCRYPTion/DeCRYPTion Keys
+  Language   = 0x00030000..0x000300FF, LANG    // General Language Based Services
+  LangBefe   = 0x00030100..0x000301FF, BEFE    // .befe Language Errors
+  LangCpp    = 0x00030200..0x000302FF, CPP     // C++ Language Errors
+  Lexicon    = 0x00040000..0x000400FF, LEX     // Lexical Analysis
+  
+  // "Port specific" error bases
+  PortWin32   = 0x01000000..0x010000FF, W32
+  PortLinux32 = 0x02000000..0x020000FF, L32
+  
+  // Utility errors
+  Utility     = 0x80000000..0x8000FFFF, UTL     // BEFE Utilities
+  UtilBuild   = 0x80010000..0x8001FFFF, UBL     // BEFE Build Utility
+	UtilLex     = 0x80020000..0x8002FFFF, ULX     // BEFE Lex Utility
+  UtilUnused  = 0x80030000..0x80FFFFFF, "UT???" // Utility Unused
+	
+	// Reserved Error Range 1...
+	Reserved1   = 0x81FFFFFF..0xFEFFFFFF, "??1"
+
+  // Application Errors...
+	Application = 0xFF000000..0xFF00FFFF, APP
+
+  // Reserver Error Range 2...
+	Reserved2   = 0xFF01FFFF..0xFFFDFFFF, "??2"
+	
+  // Internal errors
+  Internal    = 0xFFFE0000..0xFFFEFFFF, 'ARSE!'
+
+  // Internal "Commands"
+  Commands    = 0xFFFF0000..0xFFFFFFFF, 'Commands'
+	
+  
+...MessageBase
+
+#
+# General Errors...
+#
+
+General...
+
+  None                         = 'No Error'
+  Failed                       = 'Failed to perform requested operation'
+  Cancelled                    = 'User or System cancelled requested operation'
+  OSError                      = 'OS Specific Error occurred'
+  NoBefe                       = 'No Befe currently allocated'
+  StartUpFailed                = 'BEFE Process start up failed!!!!'
+  NoClassStartUp               = 'A ClassStartUp method has not been called'
+  AlreadyClassStartUp          = 'A ClassStartUp method has already been called'
+  AlreadyClassShutDown         = 'A ClassShutDown method has already been called'
+  NoClassShutDown              = 'A ClassShutDown method has not been called'
+  NotFound                     = 'Requested item not found'
+  AlreadyExists                = 'Requested item already exists'
+  NotImplemented               = 'Requested action not implemented yet'
+  NotCapable                   = 'Implementation not capable of requested action'
+  NotApplicable                = 'Requested action not applicable'
+  PlatformNotCapable           = 'Platform not capable of requested action'
+  PlatformNotApplicable        = 'Requestion action not applicable on this Platform'
+  AccessDenied                 = 'Requested action denied on Security/Integrity Grounds'
+  OutOfMemory                  = 'Out of physical memory'
+  InvalidParameter             = 'Invalid parameter passed'
+  IndexOutOfRange              = 'Specified index is out of valid range'
+  IndexNotFound                = 'Specified index does not exist'
+  IndexNotDistinct             = 'Specified index is not distinct'
+  NoValue                      = 'No value at specified index'
+  CompositeValue               = 'Cannot treat composite value as scalar'
+  NotMutable                   = 'Requested value is not mutable'
+  ValueTruncated               = "Requested value was truncated in caller's buffer"
+  WouldOverflow                = 'Buffer would overflow'
+  SizeFixed                    = 'Size/Length is fixed'
+  BadUnicodeCodePoint          = 'Invalid Unicode code point character specified'
+  OperatingSystemNotSet        = 'No "current" operating system'
+  OperatingSystemError         = 'Operating system error'
+  NotFullPath                  = 'Specified path is not a full path'
+  NotRelativePath              = 'Specified path is not relative'
+  PathDepthMismatch            = 'Specified relative path cannot be applied to path'
+  UnknownOption                = 'Unknown option specified'
+  InvalidNumberDigit           = 'Invalid digit in number'
+  InvalidNumber                = 'Invalid number'
+  InvalidInteger               = 'Invalid integer'
+  IntegerOverflow              = 'Integer overflow'
+  DivideByZero                 = 'Divide by Zero'
+  InvalidUUID                  = 'Invalid UUID'
+  InvalidDate                  = 'Invalid Year, Month, Day combination'
+  InvalidYear                  = 'Invalid Year (-9999..9999)'
+  InvalidMonthOfYear           = 'Invalid Month of year (1..12)'
+  InvalidDayOfMonth            = 'Invalid Day of month (1..29 or 1..31 depending on month)'
+  InvalidHourOfDay             = 'Invalid Hour (0..23)'
+  InvalidMinuteOfHour          = 'Invalid Minute (0..59)'
+  InvalidSecondOfMinute        = 'Invalid Second (0..59)'
+  InvalidMillisecond           = 'Invalid Millisecond (0..999)'
+  InvalidOffset                = 'Invalid Offset'
+  MinExpStackEmpty             = "MinExp stack empty"
+  MinExpStackExpected1         = "MinExp expected stack to have only 1 entry"
+  MinExpStackExpected2         = "MinExp expected stack to have at least 2 entries"
+  MinExpStackExpectedOpenGroup = "MinExp expected stack to have at least 1 'Open Group'"
+  UnknownTest                  = 'Unknown Test'
+
+...General
+
+#
+#  Befe errors
+#
+
+Befe...
+
+  BefeNone             = '***This message should not appear***'
+  NoBEFE_Temp               = 'BEFE_Temp Environment Variable not set'
+  NoBEFE_Root               = 'BEFE_Root Environment Variable not set'
+  NoBEFE_Path               = 'BEFE_Path Environment Variable not set'
+  NoBEFE_SVN                = 'BEFE_SVN  Environment Variable not set'
+  NoBEFE_TestData           = 'BEFE_TestData Environment Variable not set'
+  NoBEFE_Build              = 'BEFE_Build Environment Variable not set'
+  BadBEFE_Temp              = 'BEFE_Temp Environment Variable is invalid Path'
+  BadBEFE_Root              = 'BEFE_Root Environment Variable is invalid Path'
+  BadBEFE_Path              = 'BEFE_Path Environment Variable is invalid Path'
+  BadBEFE_SVN               = 'BEFE_SVN  Environment Variable is invalid Path'
+  BadBEFE_TestData          = 'BEFE_TestData Environment Variable is invalid Path'
+  BadBEFE_Build             = 'BEFE_Build Environment Variable is invalid Path'
+  BEFECallbackIsRegistered  = 'BEFE Callback already registered'
+  BEFECallbackNotRegistered = 'BEFE Callback not registered'
+  BEFEMessagesAlreadyLoaded = 'BEFE Messages Already Loaded'
+  
+...Befe
+
+#
+#  Buffer errors
+#
+
+Buffer...
+
+  BufferNone           = '***This message should not appear***'
+  BufferNotAllocated     = 'Buffer Not Allocated'
+  BufferAlreadyAllocated = 'Request Denied, Buffer is Already Allocated'
+
+...Buffer
+    
+#
+#  Sequence errors
+#
+
+Sequence...
+
+  SeqNone              = '***This message should not appear***'
+  SeqRangeNotResolved    = 'Invalid operation requested on Unresolved Range'
+  SeqBadRange            = 'Invalid/malformed Range specification'
+  SeqRangeBadString      = 'Invalid primitive Range string specification'
+  SeqRangeBadNumber      = 'Invalid primitive Range string number'
+  SeqSpanNotResolved     = 'Invalid operation requested on Unresolved Span'
+  SeqBadSpan             = 'Invalid/malformed Span specification'
+  SeqSpanBadString       = 'Invalid primitive Span string specification'
+  SeqSpanBadNumber       = 'Invalid primitive Span string number'
+  SeqSliceNotResolved    = 'Invalid operation requested on Unresolved Slice'
+  SeqBadSlice            = 'Invalid/malformed Slice specification'
+  SeqSliceBadString      = 'Invalid primitive Slice string specification'
+  SeqSliceBadNumber      = 'Invalid primitive Slice string number'
+  SeqBadAlloc            = 'Invalid/malformed Alloc specification'
+  SeqBadAllocMin         = 'Invalid AllocMin specification'
+  SeqBadAllocMax         = 'Invalid AllocMax specification'
+  SeqBadAllocInc         = 'Invalid AllocInc specification'
+  SeqBadAllocDec         = 'Invalid AllocDec specification'
+
+...Sequence
+
+#
+#  Number errors
+#
+
+Number...
+
+  NumberNone         = '***This message should not appear***'
+  NumberInvalid          = 'Invalid number'
+  NumberBadExponent      = 'Invalid/malformed exponent'
+  NumberBadMantissa      = 'Invalid/malformed mantissa'
+
+...Number
+    
+#
+# UTF-8 Errors
+#
+
+Encode...
+
+  UTF8None           = '***This message should not appear***'
+  UTF8InvalidChar        = 'Not a valid Unicode Character (0x00..0x10FFFF)'
+  UTF8InvalidSeq         = 'Not a valid UTF-8 Byte Sequence'
+  UTF8InvalidCodePoint   = 'Not a valid UTF-8 Code Point'
+  UTF8NotFound           = 'No Character at Specified Position'
+
+...Encode
+
+#
+# Array Errors
+#
+# Note: This includes Sparse and Map errors as well
+#
+
+Array...
+
+  ArrayNone          = '***This message should not appear***'
+  ArraySizeFixed         = 'Array/Sparse/Map size is fixed'
+  ArrayNotEmpty          = 'Array/Sparse/Map not empty'
+  ArrayEmpty             = 'array/Sparse/Map is empty'
+  MapNotIntIndexed       = 'Map not Int Indexed'
+  MapNotStringIndexed    = 'Map not String Indexed'
+
+...Array
+
+#
+# String Errors
+#
+
+String...
+
+  StringNone         = '***This message should not appear***'
+  StringNotMutable       = 'Cannot perform requested action because String IS NOT mutable'
+  StringIsMutable        = 'Cannot perform requested action because String IS mutable'
+  StringSizeFixed        = "Cannot change the string's size"
+  StringEmpty            = 'String is Empty'
+  StringNotEmpty         = 'String is not Empty'
+  StringTruncated        = 'String was truncated'
+  StringRemoveInvalid    = 'Range/Span for Remove either Invalid or Ambiguous'
+
+...String
+
+#
+# Stream Errors
+#
+
+Stream...
+
+  StreamNone         = '***This message should not appear***'
+  StreamAtEnd           = 'Positioned at End of Stream'
+  StreamAtBeginning     = 'Positioned at Beginning of Stream'
+
+...Stream
+
+#
+# File Errors
+#
+
+File...
+
+  FileNone            = '***This message should not appear***'
+  FileNotFound          = 'Specified File not found'
+  FileInvalidFileName   = 'Invalid File Name specified'
+  FileInvalidPathName   = 'Invalid File Path specified'
+  FileNotPath           = 'Is not Path'
+  FileIsPath            = 'Is Path'
+  FileNotFullPath       = 'Is not Full Path'
+  FileIsFullPath        = 'Is Full Path'
+  FileNoName            = 'No File Name specified'
+  FileNameTooLong       = 'File Name too long'
+  FileNoDirectory       = 'No Directory specified'
+  FileContentsTooLong   = 'File length too long, exceeds 2GB'
+  FileInvalidAccessMode = 'Invalid File Access Mode specified'
+  FileNameIsNotDir      = 'Specified Name is not a Directory'
+  FileNameIsNotFile     = 'Specified Name is not a File'
+  FilePathIsNotDir      = 'Specified Path is not a Directory'
+  FilePathIsNotFile     = 'Specified Path is not a File'
+  FileDirDoesNotExist   = 'Specified Directory does not exist'
+	FileDirAlreadyExists  = 'Specified Directory already exists'
+  FileDoesNotExist      = 'Specified File does not exist'
+  FileAlreadyExists     = 'Specified File already exists'
+  FileAlreadyOpen       = 'Specified File already open'
+  FileDeleteFailed      = 'Failed to Delete File'
+  FileIsOpen            = 'File IS Open'
+  FileNotOpen           = 'File IS NOT Open'
+  FileOpenFailed        = 'File Open failed'
+  FileNotOpenForRead    = 'File is not Open for Read'
+  FileReadFailed        = 'File Read failed'
+  FileNotOpenForWrite   = 'File is not Open for Write'
+  FileWriteFailed       = 'File Write failed'
+  FileNotOpenForAppend  = 'File is not Open for Append'
+  FileAppendFailed      = 'File Append failed'
+  FileGetSizeFailed     = 'File GetSize failed'
+  FileSetSizeFailed     = 'File SetSize failed'
+  FileBadAddress        = 'Specified Address is not in File'
+  FileWildCardsNotValid = "Wildcards ('*') not valid here"
+  FilePathsDoNotMatch   = 'Paths do not match'
+  FileBadInitialBOM     = 'Initial Unicode BOM not implemented (use UTF-8)'
+
+...File
+
+#
+# Persistent I/O Errors
+#
+
+Persist...
+
+  PersistNone         = '***This message should not appear***'
+  PersistNotBEFE        = 'Not BEFE Header'
+  PersistBadTypeName    = 'Invalid PersistHead Type Name (should be 1..4 Bytes)'
+
+...Persist
+
+#
+# Cache I/O Errors
+#
+
+Cache...
+
+  CacheNone           = '***This message should not appear***'
+  CacheNoOwningCache       = "!!!Owning Cache not set!!!"
+  CacheBlkSizeNotSet       = "!!!Block Size not set!!!"
+  CacheBlkNumberNotSet     = "!!!Block Number not set!!!"
+  CacheBadMaxBlocks        = "!!!Invalid maximum Blocks!!!"
+  CacheFileBadIdx          = "!!!Invalid File Index!!!"
+  CacheFileNotFree         = "!!!Not in Free Chain!!!"
+  CacheFileNotUsed         = "!!!Not in Used Chain!!!"
+  CacheFileNoFreeFiles     = "!!!No Free Cached Files available!!!"
+  CacheBlockBadIdx         = "!!!Invalid Block Index!!!"
+  CacheBlockIsChained      = "!!!Block Already in Free/Used Chain!!!"
+  CacheBlockNotChained     = "!!!Block is Already Unchained!!!"
+  CacheBlockUsedEmpty      = "!!!Block Used Chain is Empty!!!"
+  CacheBlockFreeEmpty      = "!!!Block Free Chain is Empty!!!"
+  CacheBlockIsFileChained  = "!!!Block is Already File Chained!!!"
+  CacheBlockNotFileChained = "!!!Block is not File Chained!!!"
+  CacheBlockNotFree        = "!!!Not in Free Chain!!!"
+  CacheBlockNotUsed        = "!!!Not in Used Chain!!!"
+  CacheBlockNotFile        = "!!!Not in File Chain!!!"
+  CacheBlockUnknownFileId  = "!!!Unknown File Id in Block!!!"
+  CacheBlockDisowned       = "!!!Block disowned by Cache!!!"
+  CacheBlockReadFailed     = "!!!Cache Block Read Failed!!!"
+  CacheBlockWriteFailed    = "!!!Cache Block Write Failed!!!"
+  CacheNoFileName          = 'No File Name specified'
+  CacheExpectedFullPath    = 'Specified File Name is not a Full Path'
+  CacheFileNullId          = 'Null File Id specified'
+  CacheFileNotCached       = 'Specified File not in Cache'
+  CacheFileAlreadyCached   = 'File is already being cached'
+  CacheInvalidFileId       = 'Invalid (future) File Id'
+  CacheFileIdStale         = 'Stale (dead) File Id'
+  CacheBadBlockNo          = 'Invalid File Block Number'
+  CacheBadSpan             = 'Bad Span, not in File'
+  CacheBadRange            = 'Bad Range, not in File'
+  
+...Cache
+
+#
+# Match errors
+#
+
+Match...
+
+  MatchNone           = '***This message should not appear***'
+  MatchInvalidNode           = 'Invalid MatchNode'
+  MatchInvalidNodeIndex      = 'Invalid MatchNode Index'
+  MatchInvalidNodeType       = 'Invalid MatchNode Type'
+  MatchInvalidNodeSpan       = 'Invalid MatchNode Char-Range/NodeArray-Span'
+  MatchInvalidNodeMinMax     = 'Invalid MatchNode Occurrences Min/Max'
+  MatchNodeTypeNotLeaf       = 'MatchNode Type not TypeLeaf'
+  MatchNodeTypeNotStructural = 'MatchNode Type not TypeNonLeaf'
+  MatchNodesNotMutable       = 'MatchNodes not mutable'
+  MatchNodesFull             = 'MatchNodes full'
+  MatchNodesEmpty            = 'MatchNodes empty'
+  MatchNodesMultipleRoots    = 'MatchNodes has multiple root Nodes'
+  MatchNodesNoRoot           = 'MatchNodes has no root Node'
+  
+...Match
+
+#
+# Global Strings
+#
+
+GlobStr...
+
+  GlobStrNone        = '***This message should not appear***'
+
+  GlobStrStartedUTC            = "BEFE...   Started at: ${String}"
+  GlobStrStartedLocal          = "          Started at: ${String}"
+  GlobStrElapsed               = "             Elapsed: ${String}"
+  GlobStrConfig                = "Configurable Settings..."
+  GlobStrNonConfig             = "Non-Configurable Settings..."
+  GlobStrBufferSize            = "  Default Buffer Size.............: ${String}"
+  GlobStrDefaultMaxUnfold      = "  Unicode Default Max Unfold Chars: ${String}"
+  GlobStrCurrentMaxUnfold      = "  Unicode Current Max Unfold Chars: ${String}"
+  
+...GlobStr
+
+#
+# Global Options
+#
+
+GlobOpt...
+
+  GlobOptNone        = '***This message should not appear***'
+  
+  GlobOpt_q                    = "${flag}q¶ - ${OnOff}:¶ 'Quiet Mode' for output"
+  GlobOpt_v                    = "${flag}v¶ - ${OnOff}:¶ 'Verbose Mode' for output"
+  GlobOpt_vv                   = "${flag}vv¶ - ${OnOff}:¶ 'Very Verbose Mode' for output"
+  GlobOpt_vvv                  = "${flag}vvv¶ - ${OnOff}:¶ 'Very Very Verbose Mode' for output"
+  GlobOpt_et                   = "${flag}et¶ - ${OnOff}:¶ 'Show elapsed time' for output"
+  GlobOpt_ts                   = "${flag}ts¶ - ${OnOff}:¶ 'Show time stamps' for output"
+  GlobOpt_localtime            = "${flag}localtime¶ - ${OnOff}:¶ 'Show local not UTC time' for output"
+  GlobOpt_dep                  = "${flag}dep[recate]¶ - ${OnOff}:¶ 'Show deprecated calls' for output"
+  GlobOpt_w                    = "${flag}w[arn[ing[s]]]¶ - ${OnOff}:¶ 'Show runtime warnings' for output"
+  GlobOpt_info                 = "${flag}info[rmation]¶ - ${OnOff}:¶ Turn On/Off all 'Show runtime information' for output"
+  GlobOpt_debug                = "${flag}d[ebug]¶ - ${OnOff}:¶ 'Show Debug messages' for output"
+  GlobOpt_head                 = "${flag}head[er[s]]¶ - ${OnOff}:¶  'Show BEFE Header/Traler' for output"
+  GlobOpt_keep                 = "${flag}k[eep]¶ - ${OnOff}:¶ 'Keep Temporary Files' flag"
+  GlobOpt_allfiles             = "${flag}a[ll]f[iles]¶ - ${OnOff}:¶ 'Show ALL files' flag"
+  GlobOpt_alldirs              = "${flag}a[ll]d[irs]¶ - ${OnOff}:¶ 'Show ALL directories' flag"
+  GlobOpt_ufolding             = "${flag}u[nicode]f[olding]¶ - ${OnOff}:¶ 'Use Unicode Folding'"
+  GlobOpt_uturkish             = "${flag}u[nicode]t[urkish]¶ - ${OnOff}:¶ 'Use Turkish Unicode Folding'"
+  GlobOpt_m                    = "${flag}m¶ - ${OnOff}:¶ 'Log Memory'"
+  GlobOpt_ma                   = "${flag}ma¶ - ${OnOff}:¶ 'Log Memory Allocations'"
+  GlobOpt_ms                   = "${flag}ms¶ - ${OnOff}:¶ 'Log Memory Allocation Sizes'"
+  GlobOpt_mf                   = "${flag}mf¶ - ${OnOff}:¶ 'Log Memory Frees'"
+  GlobOpt_mfill                = "${flag}mfill¶ - ${OnOff}:¶ 'Log Memory Fills'"
+  GlobOpt_mcopy                = "${flag}mcopy¶ - ${OnOff}:¶ 'Log Memory Copies'"
+  GlobOpt_mv                   = "${flag}mv¶ - ${OnOff}:¶ 'Memory Validate'"
+  GlobOpt_mva                  = "${flag}mva¶ - ${OnOff}:¶ 'Memory Validate AND Abort'"
+  GlobOpt_indent               = "${flag}indent¶ - ${OnOff}:¶ Command indentation"
+  GlobOpt_envsubst             = "${flag}e[nv]s[ubst]¶ - ${OnOff}:¶ Command Line Environment Variable Substitution"
+  GlobOpt_cc                   = "${flag}CC[olour]¶ - ${OnOff}:¶ Console 'Colour' extensions"
+  GlobOpt_ci                   = "${flag}CI[ntense]¶ - ${OnOff}:¶ Console 'Intense Colour' extensions"
+  GlobOpt_cutf                 = "${flag}CUTF[-]8¶ - ${OnOff}:¶ Console 'UTF-8' extensions"
+  GlobOpt_cb                   = "${flag}CB[eep]¶ - ${OnOff}:¶ Console 'beep'"
+  GlobOpt_cint                 = "${flag}Cint[eractive]¶ - ${OnOff}:¶ Console Interactive"
+  GlobOpt_pyout                = "${flag}PyOut¶ - ${OnOff}¶: Python friendly output (where implemented)"
+...GlobOpt
+
+#
+# Id and IdSpace errors
+#
+
+Id...
+
+  IdNone             = '***This message should not appear***'
+  IdSpaceNotInitialised  = 'IdSpace Class not initialised'
+  IdSpaceFull            = 'IdSpace is full'
+  IdUnknown              = 'Unknown Id'
+
+...Id
+
+#
+# Command processor Errors
+#
+
+Command...
+
+  CommandNone       = '***This message should not appear***'
+  CommandAlreadyRegistered     = '!!!Command Is Already Registered!!!'
+  CommandUnknownCommand        = "Unknown Command '${String}'"
+  CommandUnknownArgument       = "Unknown Command Argument '${String}'"
+  CommandMissing               = 'Command Missing'
+  CommandOptionSyntax          = 'Illegal Switch/Option syntax'
+  CommandUnknownShell          = '!!!Unknown Shell!!!'
+  CommandArgsZeroOrOne         = 'Expected 0 or 1 command argument'
+  CommandArgsOneOnly           = 'Expected at least one (and ONLY one) argument'
+  CommandArgsTwoOnly           = 'Expected two and ONLY two arguments'
+  CommandHelpFileNotSet        = 'No Help file specified'
+  CommandHelpFileNotFound      = 'Help file not found'
+  
+  // For formatting BcmdCommand error/warning messages
+  CommandErrorHead             = "Error "
+  CommandWarningHead           = "Warning "
+  CommandFileHead              = "File '${String}' "
+  CommandStringHead            = "<Str> '${String}' "
+  CommandConsoleHead           = "<Cin> "
+  CommandArgHead               = "Argument ${UInt}: "
+  CommandLineColHead           = "(${UInt1}/${UInt2}): "
+  CommandUnknownOptionFlag     = "Internal: Invalid Option Indicator Char"
+  CommandUnknownOption         = "Unknown option '${String}'"
+  CommandBoolHasValue          = "Option value invalid here"
+  CommandExpectedEnvName       = "Expected environment variable name"
+  CommandUnexpectedEnvValue    = "Environment variable value not applicable here"
+  CommandExpectedEnvValue      = "Expected environment variable value"
+  CommandUnknownEnv            = "Environment variable '${String}' does not exist"
+  CommandUnexpectedQValue      = "Unexpected option value '${String}'"
+  CommandUnknownQOption        = "Unknown query option '?${String}'"
+  CommandMalformedMessage      = "Internal: Malformed Global (GlobOpt_<xxx>) Message"
+  CommandUnexpectedEquals      = "'=' not expected in Query"
+  CommandEnvNotExist           = "Environment variable '${String}' is not set"
+  CommandNoEnvSet              = "No environment variable set!!!"
+  CommandEnvUnexpectedValue    = "Value not applicable with '!env' option"
+    
+...Command
+
+CmdLayer...
+
+  CmdLayerNone     = '***This message should not appear***'
+  CmdLayerNoShell              = 'Internal: No CommandShell registered with CommandLayer'
+  
+...CmdLayer
+
+CmdBEFE...
+
+  CmdBEFENone      = '***This message should not appear***'
+  CmdBEFE_Local                = "Local   Date/Time: "
+  CmdBEFE_GMTUTC               = "UTC/GMT Date/Time: "
+  CmdBEFEUnknownOption         = "Unknown option '${String}'"
+  CmdBEFERunWhat               = "Run what?"
+  CmdBEFEUnknownHelp           = "Unknown Help topic '${String}'"
+  CmdBEFEUnknownTest           = "Unknown Test '${String}'"
+  
+...CmdBEFE
+
+CmdOS...
+
+  CmdOSNone        = '***This message should not appear***'
+  CmdOS_CurDir                 = "Current directory: ${String}"
+  CmdOS_ExpectedWorkDir        = "Expected one and only one argument, the new Working Directory"
+  CmdOS_DirNotExist            = "'${String}' does not exist"
+  CmdOS_DirExists              = "'${String}' already exists"
+  CmdOS_DirNotDir              = "'${String}' exists but isn't a directory"
+  CmdOS_ApplyRelativePath      = "Error from OperatingSystem.ApplyRelativePath: ${Status}"
+  CmdOS_DirNotFullOrRelative   = "Directory '${String}' is not a Full or Relative path"
+  CmdOS_ls_OnlyOneArg          = "Expected at most one argument, the directory/file to list"
+  CmdOS_ls_DirIsEmpty          = "Directory '${String}' is empty"
+  CmdOS_ls_Directories         = "Directories..."
+  CmdOS_ls_DirectoriesNone     = "Directories... **None**"
+  CmdOS_ls_Files               = "Files..."
+  CmdOS_ls_FilesNone           = "Files... **None**"
+  CmdOS_mkdir_ExpectedDir      = "Expected new directory path"
+  CmdOS_rmdir_ExpectedDir      = "Expected existing directory path"
+  CmdOS_mv_Expected2           = "Expected two and only two arguments (<src> <dst>)"
+  CmdOS_mv_SrcNotExist         = "Source '${String}' does not exist"
+  CmdOS_mv_DstDoesExist        = "Destination '${String}' already exists"
+  CmdOS_cp_Expected2           = "Command 'cp' expected to arguments (<src> <dst>)"
+  CmdOS_cp_SrcNotExist         = "Source '${String}' does not exist"
+  CmdOS_cp_DstDoesExist        = "Destination '${String}' already exists"
+  CmdOS_cp_DirNotImplemented   = "Copy not implemented with directory as source"
+  CmdOS_rm_Expected1           = "Remove command expects one argument (<file>)"
+  CmdOS_rm_NotExist            = "File '${String}' does not exist"
+  CmdOS_rm_NotFile             = "<file> '${String}' exists but is not a file"
+  CmdOS_path_Expected0         = "Path command expects no arguments"
+  CmdOS_path_NoPath            = "No path available, not even the current working directory!!!"
+  CmdOS_which_Expected1        = "Command expects one and only one argument (<file>)"
+  CmdOS_which_NotFound         = "File '${String}' not found in search path"
+  CmdOS_which_Found            = "Found at '${String}'"
+  CmdOS_cat_Expected1          = "Command expects one and only one argument (<file>)"
+  CmdOS_cat_EmptyFileName      = "Command expects non-empty file name"
+  CmdOS_cat_NotExist           = "File '${String}' does not exist"
+  CmdOS_cat_NotFile            = "'${String}' is not a file"
+  CmdOS_MD5_Expected1          = "Command expects one and only one argument (<file>)"
+  CmdOS_MD5_EmptyFileName      = "Command expects non-empty file name"
+  CmdOS_MD5_NotExist           = "File '${String}' does not exist"
+  CmdOS_MD5_NotFile            = "'${String}' is not a file"
+  CmdOS_MD5_CheckSum           = "MD5 Checksum = 0x${String}"
+  CmdOS_Query_Expected1        = "Query expected at least one argument"
+  CmdOS_Query_IsDevice         = "IS a Device Name"
+  CmdOS_Query_IsNotDevice      = "IS NOT a Device Name"
+  CmdOS_Query_IsPath           = "IS a valid Path Name"
+  CmdOS_Query_IsNotPath        = "IS NOT a valid Path Name"
+  CmdOS_Query_IsFile           = "IS a valid File Name"
+  CmdOS_Query_IsNotFile        = "IS NOT a valid File Name"
+  CmdOS_Query_IsFullPath       = "IS a Full Path"
+  CmdOS_Query_IsNotFullPath    = "IS NOT a Full Path"
+  CmdOS_Query_IsRelPath        = "IS a Relative Path"
+  CmdOS_Query_IsNotRelPath     = "IS NOT a Relative Path"
+  CmdOS_Query_Exists           = "DOES Exist"
+  CmdOS_Query_NotExist         = "DOES NOT Exist"
+  CmdOS_Query_Invalid          = "Internal: Invalid query type ${Int}"
+  CmdOS_Query_AndIsFile        = ", and is a File"
+  CmdOS_Query_AndIsDirectory   = ", and is a Directory"
+
+...CmdOS
+
+CmdLang... // CmdLang Messages...
+
+  CmdLangNone      = '***This message should not appear***'
+  CmdLang_NoWorkspace          = 'No LexWorkspace specified'
+  CmdLang_WorkspaceIsOpen      = 'Workspace is already open'
+  CmdLang_WorkspaceNotOpen     = 'Workspace is not open'
+  CmdLang_ExpectedNoArgs       = 'No arguments expected'
+  CmdLang_ExpectedOneFile      = 'Expected only one argument only (Workspace File Name)'
+  CmdLang_ExpectedOneBlockNo   = 'Expected only one argument (block number)'
+  CmdLang_ExpectedOneLang      = 'Expected only one argument (language name)'
+  CmdLang_ExpectedOneMatchType = 'Expected one argument (Match Type)'
+  CmdLang_ExpectedOnePat       = 'Expected one argument (pattern)'
+  CmdLang_ExpectedOneArg       = 'Expected at least one argument'
+  CmdLang_ExpectedOneOrTwo     = 'Expected one, or at the most two, arguments'
+  CmdLang_ExpectedOneExpr      = 'Expected one and only one expression'
+  CmdLang_CantDisplayWhat      = "Don't know how to display '${String}'"
+  CmdLang_NoLanguages          = 'No Languages configured'
+  CmdLang_LanguageNotFound     = 'Language not Registered'
+  CmdLang_NoCurrentLanguage    = 'No Current Language Set'
+  CmdLang_NoExpression         = 'No Expression specified'
+  CmdLang_UnknownMatchType     = "Unknown Match type (expected 'Star', 'MinExp', 'SQL', 'BRE', 'ERE')"
+  CmdLang_NoCurrentMatch       = 'No current Match pattern configured'
+  CmdLang_MissingPattern       = 'Missing Match Pattern'
+
+...CmdLang
+
+#
+# EnCRYPTion/DeCRYPTion Key Errors...
+#
+
+CryptKey...
+
+  CryptKeyNone                  = '***This message should not appear***'
+  CryptKeyNoBEFEKeyFile         = 'BEFE_KeyFile environment variable not set'
+  CryptKeyKeyFileNotSpecified   = 'No Key File specified'
+  CryptKeyKeyFileNotExist       = 'Key File file does not exist'
+  CryptKeyKeyFileNotFile        = 'Key File exists but is not a file'
+  CryptKeyKeyFileExists         = 'Key File file already exists'
+  CryptKeyEncryptFailed         = 'Encryption Failed'
+  CryptKeyDecryptFailed         = 'Decryption Failed'
+  CryptKeyEmptyKey              = 'Empty/Null encryption key'
+  CryptKeyNotKeyFile            = 'File is not a valid BEFE Encryption Key File'
+  CryptKeyKeyFileCorrupt        = 'Encryption Key File is corrupt!!!'
+  CryptKeyUnknownKeyType        = 'Unknown Encryption Key Type'
+  CryptKeyUnknownKeyRev         = 'Unknown Encryption Key Revision'
+  CryptKeyInvalidKey            = 'Invalid/Corrupt Encryption Key'
+  CryptFileNotEligible          = 'File not eligible for encrypt/decrypt'
+  CryptFileNotEncrypted         = 'File is not a BEFE Encrypted File'
+  CryptFileCorrupt              = 'Encrypted File Corrupt, SORRY!!!'
+  CryptFileWrongKey             = 'Wrong Encryption Key for File'
+
+...CryptKey
+
+#
+# Language Errors
+#
+
+# General Language Errors
+
+Language...
+
+  LangNone                      = '***This message should not appear***'
+  LangNoInputSpecified          = 'No input (file/string) specified'
+
+...Language
+
+# .befe Language Errors
+LangBefe...
+
+  LangBefeNone                  = '***This message should not appear***'
+  LangBefeEndOfStream           = 'At end of Input Stream'
+  LangBefeInvalidTokenType      = 'Invalid BmsgToken type'
+  LangBefeUnexpectedCharacter   = 'Unexpected Character'
+  LangBefeUnexpectedToken       = "Unexpected Lexical Token '${String}'"
+  LangBefeUntermStringLiteral   = 'Unterminated String Literal'
+  LangBefeUntermMultiQuote      = 'Unterminated Multi-Quote Literal'
+  LangBefeUntermComment         = 'Unterminated Comment'
+  LangBefeExpectedErrorOrWarn   = 'Internal: Expected Error or Warning BcmdArg'
+  LangBefeConsoleNotInteractive = 'Internal: Console Not Interactive'
+  LangBefeNoConsolePrompt       = 'Internal: No Console prompt set'
+
+  // These "aren't really errors" and should be separated out of here...
+  LangBefeHeadFileLineCol       = "ERROR in File '${file}' (${line}/${col}): "
+  LangBefeHeadStringLineCol     = "ERROR in <String> (${line}/${col}): "
+  LangBefeHeadConsoleLineCol    = "ERROR from <Console> (${line}/${col}): "
+
+...LangBefe
+
+#
+# Lexical Analysis Errors
+#
+
+Lexicon...
+
+  LexNone                       = '***This message should not appear***'
+  LexLangSpecErrors             = 'Error(s) in Language Specification'
+  LexLangIdAlreadySet           = 'Language Id Already Set'
+  LexActionNotExist             = 'Specified LexAction does not exist'
+  LexStateNotExist              = 'Specified LexState does not exist'
+  LexLangNotRegistered          = 'Specified LexLanguage is not registered'
+  LexLangIsRegistered           = 'Specified LexLanguage is already registered'
+  LexLangNoName                 = 'Specified LexLanguage name is empty'
+  LexActionNotRegistered        = 'Specified LexAction not registered (is language specific)'
+  LexStateNotRegistered         = 'Specified LexState does registered (is language specific)'
+  LexStateIncomplete            = 'Incomplete state transition table declared'
+  LexStateDuplicateName         = 'Duplicate LexState name'
+  LexInvalidTokenType           = 'Invalid LexToken type'
+  
+	LexInvalidWhite               = "Invalid WhiteSpace Character '${char}' (expected ASCII special or CTRL chars)"
+  LexDuplicateWhite             = "Duplicate WhiteSpace Character '${char}'"
+	LexBadNameChar                = "Invalid Name Character '${char}' (already used)"
+  LexDuplicateName              = "Duplicate Name Character '${char}'"
+  LexInvalidOperator            = "Invalid Operator Character '${char}' (expected ASCII special chars)"
+  LexBadOperatorSize            = "Invalid Operator '${string}' Length (should be 1 to 4 special chars)"
+  LexBadOperatorChar            = "Invalid Operator '${string}' Character(s) (expected ASCII special chars)"
+  LexDupOperator                = "Duplicate Operator '${string}'"
+  LexDupOperatorChar            = "Operator '${string}' first Character already used"
+  LexInvalidComment             = "Invalid Comment Character '${char}' (expected ASCII special chars)"
+  LexBadCommentSize             = "Invalid Comment '${string}' Length (should be 1 to 4 special chars)"
+  LexBadCommentChar             = "Invalid Comment '${string}' Character(s) (expected ASCII special chars)"
+  LexDupComment                 = "Duplicate Comment '${string}' (check operators)"
+  LexDupCommentChar             = "Comment '${string}' first Character already used"
+  LexDupPreprocessorChar        = "Duplicate Preprocessor Char '${char}'"
+  LexBadPairSize                = "Bad Bracket Pair Size '${string}' (expected two ASCII chars)"
+  LexBadPairChar                = "Invalid Pair Character '${char}' (expected ASCII special chars)"
+  LexDupPairChar                = "Pair Character '${char}' already used"
+  LexBadSepChar                 = "Invalid Separator Character '${char}' (expected ASCII special chars)"
+  LexDupSepChar                 = "Separator Character '${char}' already used"
+  LexBadQuoteChar               = "Quote Separator Character '${char}' (expected ASCII special chars)"
+  LexDupQuoteChar               = "Quote Character '${char}' already used"
+  LexBadUTFChar                 = 'Invalid UTF-8 Character'
+  LexUnexpectedChar             = "Unexpected Character '${char}'"
+
+  LexStateTooMany               = 'Too many States (0x7f maximum)'
+  LexStateIdNull                = 'Expected non-Null LexState.id'
+  LexStateIdNotNull             = 'Expected Null LexState.id'
+  LexStateExists                = 'Specified LexState already exists'
+  LexStateNoName                = 'Specified LexState name is empty'
+  LexActionTooMany              = 'Too many Actions (0x7f maximum)'
+  LexActionIdNull               = 'Expected non-Null LexAction.id'
+  LexActionIdNotNull            = 'Expected Null LexState.id'
+  LexActionMissingName          = 'Specified LexState.name not set'
+  LexActionExists               = 'Specified LexState already exists'
+  LexActionNotHandled           = 'Specified LexAction has no handler'
+ 
+  LexStreamNotAttached          = 'LexStream is not Attached to a Lex instance'
+  LexStreamIsAttached           = 'LexStream is already Attached'
+  LexStreamAttachedOther        = 'Stream Attached to a different Lex instance'
+  LexStreamAtEnd                = 'Stream is at end'
+  LexStreamBadType              = 'Stream Input Type not set'
+  LexStreamInputEmpty           = 'Input is empty'
+  LexStreamNoFileName           = 'Specified LexStream File Name not set'
+  LexStreamNoLangName           = 'Specified LexStream Language Name not set'
+  LexStreamMissingState         = 'Missing LexState (not configured properly)'
+  LexStreamMissingAction        = 'Missing LexAction (not configured properly)'
+
+  LexWorkspaceNotAttached       = 'Workspace is not Attached'
+  LexWorkspaceIsAttached        = 'Workspace is already Attached'
+  LexWorkspaceAttachedOther     = 'Stream Attached to a different Lex'
+  LexWorkspaceNoFileName        = 'Workspace File Name not set'
+  LexIdOverflow                 = 'LexWs: Id overflow'
+  
+  LexWsNullBlockHeader          = 'LexWs: Null Block Header'
+  LexWsInvalidBlockType         = 'LexWs: Invalid Workspace File Block Type'
+  LexWsBlockNotFree             = 'LexWs: Supposedly Free block is not actually Free'
+  LexWsBlockIsFree              = 'LexWs: Block is already Free'
+  LexWsBlockWrongType           = 'LexWs: Block is wrong type'
+  LexWsBlockWrongLevel          = 'LexWs: Block is wrong level (should be bottom level)'
+  LexWsBadEntryIdx              = 'LexWs: Invalid Block Entry Index'
+  LexWsBadBlockOffset           = 'LexWs: Invalid Block Offset'
+  LexWsBlobNotFound             = 'LexWs: Specified Blob not found'
+
+...Lexicon
+
+#
+# Win32 Platform Errors
+#
+
+PortWin32...
+
+  Win32None                     = '***This message should not appear***'
+  Win32RegInvalidKey            = 'Invalid/Malformed Windows Registry Key specified'  // W32+1
+  Win32RegErrorReading          = 'Error reading Windows Registry'                    // W32+2
+  Win32RegInvalidRoot           = 'Invalid Windows Registry Root Key'                 // W32+3
+  Win32RegNoWalker              = 'No Registry Walker specified'                      // W32+4
+  Win32RegTooDeep               = 'Too Deep into Windows Registry ***Report This***'  // W32+5
+  Win32RegNoRoot                = 'No Windows Registry Root Key specified'            // W32+6
+  Win32RegEmptyKey              = 'Empty Windows Registry Key specified'              // W32+7
+  Win32RegKeyTooLong            = 'Windows Registry Key too long'                     // W32+8
+  Win32RegKeyRootUnknown        = 'Unknown Windows Registry Root Key'                 // W32+9
+  Win32RegValueMissingFromKey   = 'Value Missing from specified Windows Registry Key' // W32+10
+  Win32RegKeyNotFound           = 'Windows Registry Key not found'                    // W32+11
+  Win32RegValueNotFound         = 'Windows Registry Value not found'                  // W32+12
+  Win32RegValueNotCompatible    = 'Windows Registry Value type not handled by BEFE'   // W32+13
+  Win32FailedToInvokeProcess    = 'Failed to Invoke Process'                          // W32+14
+  Win32OLEError                 = 'Received OLE error (bad HRESULT)'                  // W32+15
+  Win32UnknownAction            = 'Unknown Win32xterm action'                         // W32+16
+  Win32ConsoleNotInteractive    = 'Console is not interactive'                        // W32+17
+	
+...PortWin32
+
+#
+# Linux32 Platform Errors
+#
+
+PortLinux32...
+
+  Linux32None                   = '***This message should not appear***'
+  Linux32NotTTY                 = "Either stdin or stdout not a valid 'tty' device"
+  Linux32UnknownTermType        = 'Unknown Terminal Type (expected TERM=linux or TERM=xterm)'
+  Linux32UnconfiguredTermType   = 'Terminal Type not configured (eg, VT102, VT220, etc.)'
+  Linux32MissingConfiguration   = "Terminal configuration file 'BEFE_xtermStrings.txt' not found"
+  Linux32MissingEquals          = 'Expected <key> = <seq>'
+  Linux32UntermString           = 'Unterminated String Literal'
+  Linux32UntermTerm             = 'Unterminated Terminal Configuration'
+  Linux32MissingEndTerm         = 'Missing End of Terminal Configuration'
+  Linux32MissingAction          = 'Missing Terminal Action name'
+  Linux32MissingSequence        = 'Missing Terminal Action Sequence'
+  Linux32MalformedSequence      = 'Malformed Terminal Action Sequence'
+  Linux32DuplicateAction        = 'Duplicate Terminal Action'
+  Linux32DuplicateSequence      = 'Duplicate Terminal Action Sequence'
+  Linux32MissingTermConfig      = 'Missing/empty Terminal Configuration'
+  Linux32InvalidCoordinate      = 'Invalid Screen coordinate'
+
+...PortLinux32
+
+#
+# Utility Errors
+#
+
+Utility...
+
+  UtilityNone             = '***This message should not appear***'
+  UtilityFailed           = 'General Utility failure'
+  UtilityNotFound         = 'Named Utility unknown'
+  UtilityHelpNotAvailable = 'Help not available for this utility'
+
+...Utility
+
+#
+# Utility Build Errors
+#
+
+UtilBuild...
+
+  UtilBuildNone              = '***This message should not appear***'
+  UtilBuildFailed            = 'Build Failed'
+  UtilBuildNotValid          = 'Not a valid BEFE Build Machine'
+  UtilBuildUnknownPort       = 'Unknown build platform'
+  UtilBuildSVNNotExist       = 'BEFE_SVN directory does not exist'
+  UtilBuildSVNNotDir         = 'BEFE_SVN is not a directory'
+  UtilBuildBuildNotSet       = 'BEFE_Build environment variable is not set'
+  UtilBuildBuildNotExist     = 'BEFE_Build directory does not exist'
+  UtilBuildBuildNotDir       = 'BEFE_Build is not a directory'
+  UtilBuildTempNotSet        = 'BEFE_Temp environment variable is not set'
+  UtilBuildTempNotPath       = 'BEFE_Temp is not a valid path'
+  UtilBuildTempNotExist      = 'BEFE_Temp directory does not exist'
+  UtilBuildTempNotDir        = 'BEFE_Temp path is not a directory'
+  UtilBuildExecutableMissing = 'Required external binary Executable missing'
+  UtilBuildUnknownTarget     = 'Unknown Build Target'
+  UtilBuildBadArgument       = "Error in argument '<arg>'"
+  UtilBuildUnknownOption     = "Unknown Build Option '<option>'"
+  
+...UtilBuild
+
+#
+# Internal errors
+#
+
+Internal...
+
+  InternalBase            = '***This message should not appear***'
+  Internal                = '!!!General Internal Error detected!!!'
+  InternalIntegrity       = '!!!Internal Integrity Check Failed!!!'
+  InternalRecursive       = '!!!Possible infinite recursive detected!!!'
+  InternalNullPointer     = '!!!Unexpected NULL Address Pointer!!!'
+  InternalBaseCallInvalid = "!!!Invalid call to base Class's method, use this Class's extended ones instead!!!"
+  InternalNegativeAlloc   = '!!!Invalid negative allocation size!!!'
+  InternalZeroLength      = '!!!Expected non-zero Length!!!'
+  InternalMutating        = '!!!Data unexpectedly Mutating!!!'
+  InternalOutOfRange      = '!!!Index not in expected Range!!!'
+  InternalNoTheBefe       = '!!!No TheBefe!!!'
+  InternalNoTheOS         = '!!!No TheBefe->TheOS initialised!!!'
+  InternalNoThePlatform   = '!!!No TheBefe->ThePlatform initialised!!!'
+  InternalNoTheProcess    = '!!!No TheBefe->TheProcess initialised!!!'
+  InternalNoTheProcessor  = '!!!No TheBefe->TheProcessor initialised!!!'
+  InternalNoTheNetwork    = '!!!No TheBefe->TheNetwork initialised!!!'
+  InternalBadFilePos      = '!!!Unexpected current position in File/Stream!!!'
+  
+...Internal
+
+/***Not Implemented Yet***...
+#
+# Masks...
+#
+
+Masks...
+
+  MaskType  = 0xFFFFFF00, 'For Getting error base'
+  MaskCode  = 0x000000FF, 'For Getting error code within base'
+
+...Masks
+
+#
+# "Commands"...
+#
+
+Commands...
+
+  CommandExit = 0xFFFFFFFF, 'For telling CommandShell, or whoever, to just exit'
+
+...Commands
+
+...***Not Implemented Yet***/

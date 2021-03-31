@@ -1,0 +1,107 @@
+#include "BEFE.h"
+#include "utils/Utility.h"
+
+namespace BEF_NS {
+
+Status Utility::Find(String &name,Utility **newutility) {
+
+  Status result;
+
+  if (newutility)
+    *newutility = NULL;
+
+  //if (name == "win32drives") {
+  //  if (newutility != NULL) *newutility = new UtilWin32Drives();
+  //}
+  //else
+    goto NOTFOUND;
+
+  goto OK;
+
+OK:
+  result = Error::None;
+  goto DONE;
+NOTFOUND:
+  result = Error::UtilityNotFound;
+  goto DONE;
+
+DONE:
+
+  if (result && newutility != NULL)
+    *newutility = NULL;
+
+  return result;
+
+}
+
+Status Utility::Run(String &name, Int argc, Byte *argv[], Int startat) {
+
+  Status result;
+  Utility *theutility;
+
+  theutility = NULL;
+  result = Find(name,&theutility);
+
+  if (result == Error::None && theutility != NULL)
+    result = theutility->Main(argc,argv,startat);
+
+  if (theutility != NULL)
+    delete theutility;
+
+  return result;
+}
+
+Status Utility::Help(String &name) {
+
+  Status result;
+  Utility *theutility;
+
+  theutility = NULL;
+  result = Find(name,&theutility);
+
+  if (result == Error::None && theutility != NULL)
+    result = theutility->Help();
+
+  if (theutility != NULL)
+    delete theutility;
+
+  return result;
+}
+
+//----------------------------------------------------------------------
+//
+// Instance method default behaviour
+//
+
+Utility::~Utility() {}
+
+Status Utility::Help() {
+  Byte buf[256];
+  name.ToEllipsis(buf,sizeof(buf)-1);
+  Cout << "Help not available for utility '" << buf << "'" << endl;
+  return Error::UtilityHelpNotAvailable;
+}
+
+Status Utility::Main(Int argc, Byte **argv, Int startat) {
+
+  Int i;
+
+  Cout << "*** Utility,Main() should have been overridden and wasn't" << endl;
+  if (gVerbose) {
+    Cout << "    Oh well, " << argc-startat << " arguments passed" << endl;
+    for (i=startat; i < argc; i++) {
+      Cout << "    Argument " << i-startat << ": ";
+      if (argv[i] == NULL)
+        Cout << "NULL!!!";
+      else
+        Cout << argv[i];
+      Cout << endl;
+    }
+  }
+
+  return Error::NotImplemented;
+
+}
+
+
+}; // Namespace BEF_NS

@@ -1,0 +1,772 @@
+head	1.10;
+access;
+symbols
+	start:1.1.1.1 bruce:1.1.1;
+locks; strict;
+comment	@// @;
+
+
+1.10
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.28.04.43.33;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.27.07.07.32;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.26.19.08.41;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.24.02.54.50;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.20.01.09.23;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.17.05.08.50;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.24.19.15.38;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches
+	1.1.1.1;
+next	;
+
+1.1.1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.10
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@ /* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmllex.cpp - Implementation of the XMLLex class
+  DESCRIPTION
+    This file contains the implementation of the XMLLex and related classes.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xmllex.h"
+#include <string.h>
+
+//
+// Parsing string and definitions
+//
+
+// Token start chars (used to scan to 
+static char *specialchars = " \n\r\t<>/\"'=&?";
+  
+static char *whitespace   = " \n\r\t";
+
+// Token text...
+
+struct sTokenString {
+  char            *string;                          // The token string
+  XMLLexTokenType  type0;                           // Associated token type if opencount==0
+  XMLLexTokenType  type;                            // Associated token type
+  int              len;                             // String len (so we don't have to strlen() all the time)
+  int              fulltoken;                       // 0 = "Token continues", !0 = "Token is fully qualified"
+  int              opencount;                       // Amount to add to open count
+};
+
+typedef struct sTokenString TokenString;
+
+TokenString tokenstrings[] = {
+   {" ",         xmllex_TokenWhite,          xmllex_TokenWhite,           1 , 0,  0}
+  ,{"\n",        xmllex_TokenWhite,          xmllex_TokenWhite,           1 , 0,  0}
+  ,{"\r",        xmllex_TokenWhite,          xmllex_TokenWhite,           1 , 0,  0}
+  ,{"\t",        xmllex_TokenWhite,          xmllex_TokenWhite,           1 , 0,  0}
+  ,{"<!--",      xmllex_TokenComment,        xmllex_TokenComment,         4 , 0,  1}
+  ,{"<![CDATA[", xmllex_TokenCDATA,          xmllex_TokenCDATA,           9 , 0,  1}
+  ,{"<!DOCTYPE", xmllex_TokenDTD,            xmllex_TokenDTD,             9 , 0,  1}
+  ,{"<?",        xmllex_TokenOpenProcessing, xmllex_TokenOpenProcessing,  2 , 1,  1}
+  ,{"<",         xmllex_TokenOpen,           xmllex_TokenOpen,            1 , 1,  1}
+  ,{"?>",        xmllex_TokenWord,           xmllex_TokenCloseProcessing, 2 , 1, -1}
+  ,{">",         xmllex_TokenWord,           xmllex_TokenClose,           1 , 1, -1}
+  ,{"/",         xmllex_TokenWord,           xmllex_TokenEnd,             1 , 1,  0}
+  ,{"\"",        xmllex_TokenWord,           xmllex_TokenLiteralDouble,   1 , 0,  0}
+  ,{"\'",        xmllex_TokenWord,           xmllex_TokenLiteralSingle,   1 , 0,  0}
+  ,{"=",         xmllex_TokenWord,           xmllex_TokenEquals,          1 , 1,  0}
+  ,{"&",         xmllex_TokenEntity,         xmllex_TokenEntity,          1 , 0,  0}
+  ,{0,           (XMLLexTokenType)0,         (XMLLexTokenType)0,          0 , 1,  0}
+  };
+
+// MAXOPLEN - Maximum look-ahead characters needed (multiple character tokens)
+//            Needs to be set to the maximum multiple character token length
+#define MAXOPLEN 9
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLLex::XMLLex - Class Constructor
+//
+//
+
+XMLLex::XMLLex() {
+  Rewind();
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLLex::Rewind - Rewind (initialise) an XMLLex class
+//
+// DESCRIPTION
+//
+//  This function initialises an XMLLex class to a known, good, start state
+//
+
+void XMLLex::Rewind() {
+
+  // Flags
+  m_state = State_Ready;
+  
+  // Open/close count
+  m_opencount        = 0;
+  
+  // Current token
+  m_curtok.type      = xmllex_TokenUnknown;
+  m_curtok.startline = 0;
+  m_curtok.startcol  = 0;
+  m_curtok.startoff  = 0;
+  m_curtok.length    = 0;
+  
+  // The local buffer
+  m_buf  = &m_localbuf[0];
+  m_bufl = 0;
+  
+  // Caller's buffer
+  m_callerbuf  = 0;
+  m_callerbufl = 0;
+
+  // Current position
+  m_curline = 1;
+  m_curcol  = 1;
+  m_curoff  = 0;
+  
+  // Tab size
+  m_tabsize = 2;
+
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLLex::MoreData - Give the Lexical Analyser more data
+//
+// DESCRIPTION
+//
+//  This function is used to give the Lexical Analyser more data from the
+//  stream.
+//
+// NOTES
+//
+//  Never call this function unless a previous call to XMLLex::NextToken()
+//  produced a token of type xmllex_TokenNeedMoreData.
+//
+
+void XMLLex::MoreData(byte *buf, int len) {
+
+  m_callerbuf = buf;
+  if (len >= 0)
+    m_callerbufl = len;
+  else
+    m_callerbufl = 0;
+
+  if (m_callerbufl > 0 && m_callerbuf)
+    m_state = State_Ready;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLLex::NextToken - Get next token
+//
+// DESCRIPTION
+//
+//  This function is used to return the next token in the Lexical token stream.
+//
+// NOTES
+//
+//  If more data is required, the returned token will be a
+//  xmllex_TokenNeedMore.  If, after asking for more and no call to
+//  XMLLex::MoreData() is called, subsequent calls will return a
+//  xmllex_TokenEndOfStream until XMLLex::Rewind() or XMLLex::MoreData() is
+//  called.
+//
+//
+
+XMLLexToken XMLLex::NextToken() {
+
+//
+// Local declarations
+//
+
+  XMLLexToken  result;                              // Token to return
+  char        *next;                                // TEMP: Position of next interesting thing (white, op, etc.)
+  int          reml;                                // TEMP: Remaining length of buffer
+  int          endoftoken;                          // "Are we at the end of the current token?"
+  TokenString *tokdef;                              // TEMP: Token string definition we're looking at
+  int          eatchar;                             // "Should we eat the current character?"
+  int          movlen;                              // TEMP: Number of bytes to move
+  int          reallen;                             // Real length of bytes in m_localbuf
+  char        *whichspecial;                        // Which special character found
+    
+//
+// Start of code
+//
+
+  // Until we're finished...
+  
+  for (;;) {
+  
+    // If we need more data...
+    if (m_bufl <= MAXOPLEN) {
+
+      // First, shift remaining data in m_localbuf to the beginning...
+      reallen = (int)(m_buf - &m_localbuf[0]) + m_bufl;
+      if (reallen != m_bufl)
+        memcpy((void *)&m_localbuf[0],(void *)m_buf,m_bufl);
+      m_buf = &m_localbuf[0];
+
+      // If we have something left in the caller's buffer, use it...
+      if (m_callerbuf && m_callerbufl) {
+        
+        // Now, fill the remaining part of m_localbuf with data from the caller's buffer...                
+        movlen = m_callerbufl;
+        if (m_callerbufl > (int)sizeof(m_localbuf) - m_bufl)
+          movlen = sizeof(m_localbuf) - m_bufl;
+        memcpy((void *)&m_localbuf[m_bufl],(void *)m_callerbuf,(size_t)movlen);
+        m_callerbuf  += movlen;
+        m_callerbufl -= movlen;
+        m_bufl += movlen;
+        continue;
+      }
+          
+      // Initialise return line, col, and offset
+      result.startoff  = m_curoff;
+      result.startline = m_curline;
+      result.startcol  = m_curcol;
+      result.length    = 0;
+
+      // Based on what's gone on before...
+      switch (m_state) {
+      
+      // We haven't asked yet...
+      case State_Ready:
+        m_state = State_NeedMore;
+        result.type = xmllex_TokenNeedMoreData;
+        goto DONE;
+      
+      // We've already asked or we're already at the end of the stream...
+      case State_NeedMore:
+        m_state = State_AtEos;
+        break;
+      case State_AtEos:
+        if (m_bufl <= 0) {
+          result.type = xmllex_TokenEndOfStream;
+          goto DONE;
+        }
+        break;
+      }
+
+    }
+    
+    //
+    // We've got all the characters we're going to get and we have at least one.
+    //
+
+    // Process current character based on the current partial token type...
+    
+    endoftoken = 0;                                 // Assume we won't detect the end of token
+    eatchar    = 0;                                 // Assume we're not going to eat the character
+          
+    switch (m_curtok.type) {
+
+    // If we're in the middle of whitespace...
+    case xmllex_TokenWhite:
+
+      // This isn't whitespace, start new token...
+      if (!strchr(whitespace,(int)*m_buf))
+        endoftoken = 1;
+      else
+        eatchar = 1;
+        
+      break;
+
+    // If we're in the middle of a comment...
+    case xmllex_TokenComment:
+    
+      // If not '-->', just eat it...
+      if (m_bufl <3 || strncmp((char *)m_buf,"-->",3)) {
+        eatchar = 1;
+        break;
+      }
+      
+      // Handle comment termination
+      m_curcol        += 3;
+      m_curoff        += 3;
+      m_buf           += 3;
+      m_bufl          -= 3;
+      m_curtok.length += 3;
+      endoftoken       = 1;
+      m_opencount--;
+      
+      break;
+
+    // If we're in the middle of CDATA...
+    case xmllex_TokenCDATA:
+
+      // If not ']]>', just eat it...
+      if (m_bufl <3 || strncmp((char *)m_buf,"]]>",3)) {
+        eatchar = 1;
+        break;
+      }
+      
+      // Handle CDATA termination
+      m_curtok.startcol += 9;
+      m_curtok.startoff += 9;
+      m_curtok.length   -= 9;  // Don't put ]]> on end
+      m_curcol        += 3;
+      m_curoff        += 3;
+      m_buf           += 3;
+      m_bufl          -= 3;
+      endoftoken       = 1;
+      
+      m_opencount--;
+      
+      break;
+            
+    // If we're in the middle of a '...' or "..."
+    case xmllex_TokenLiteralSingle:
+      if (*m_buf == '\'' && (m_bufl < 2 || m_buf[1] != '\''))
+        endoftoken = 1;
+      eatchar = 1;
+      break;
+    case xmllex_TokenLiteralDouble:
+      if (*m_buf == '\"'  && (m_bufl < 2 || m_buf[1] != '\"'))
+        endoftoken = 1;
+      eatchar = 1;
+      break;
+
+    // If we're in the middle of a '&...;'
+    case xmllex_TokenEntity:
+      if (*m_buf == ';' || strchr(specialchars,(int)*m_buf))    
+        endoftoken = 1;
+      eatchar = 1;
+      break;
+      
+    // No partial token yet...
+    
+    default:
+
+      // If we've already started a token, we're at a new token if special or white
+      // character is found...    
+      if (m_curtok.type != xmllex_TokenUnknown) {
+      
+        if (strchr(specialchars,(int)*m_buf))
+          endoftoken = 1;
+        else
+          eatchar = 1;
+        
+        break;      
+      
+      }
+      
+      // We haven't started a token, determine which token to start based
+      // on what we see here...
+
+      m_curtok.startcol  = m_curcol;
+      m_curtok.startline = m_curline;
+      m_curtok.startoff  = m_curoff;
+      
+      // If it's a special character, start the proper token...
+      if (strchr(specialchars,(int)*m_buf)) {
+      
+        // Find the token ...
+        for (tokdef = tokenstrings; tokdef->string; tokdef++) {
+          if (tokdef->len == 1) {
+            if (*tokdef->string == *m_buf)          
+              break;
+          }
+          else
+            if (strncmp(tokdef->string,(char *)m_buf,tokdef->len)==0)
+              break;
+        }
+
+        // If token found...
+        if (tokdef->string) {
+        
+          // Initialise the token
+          m_curtok.type   = tokdef->type;
+          m_curtok.length = tokdef->len;
+
+          // If opencount is zero, user type0
+          if (m_opencount == 0)
+            m_curtok.type = tokdef->type0;
+
+          // Adjust open count
+          if (m_opencount || tokdef->opencount > 0)
+            m_opencount += tokdef->opencount;
+                      
+          // Adjust stream buffer
+          m_buf    += tokdef->len;
+          m_bufl   -= tokdef->len;
+          m_curcol += tokdef->len;
+          m_curoff += tokdef->len;
+          
+          // If fully qualified, we've already eaten current char, otherwise eat it...
+          if (tokdef->fulltoken)
+            endoftoken = 1;
+
+          break;
+        
+        }
+        
+        // Token not found, must be a word
+        
+      }
+                  
+      // It's not a special character, must be a word...
+      m_curtok.type   = xmllex_TokenWord;
+      
+      eatchar = 1;
+       
+      break;      
+       
+    }
+
+    // Eat the current character (or not)...
+    if (eatchar) {
+    
+      // Adjust the current token length...
+      m_curtok.length++;
+        
+        
+      // Bump current column
+      m_curcol++;
+
+      // If we're at a tab, adjust to next tab-stop      
+      if (*m_buf == '\t')
+        m_curcol = ((m_curcol-1) / m_tabsize + 1) * m_tabsize + 1;
+      
+      // Bump current offset...
+      m_curoff++;
+    
+      // If we're at a newline, update current line/col
+      if (*m_buf == '\n') {
+        m_curline++;
+        m_curcol = 1;
+      }
+    
+      // Skip over the character
+      m_buf++;
+      m_bufl--;
+    
+    }
+    
+    // If we're at the end of the current token, return the current token...
+    if (endoftoken) {
+    
+      result = m_curtok;
+      m_curtok.type = xmllex_TokenUnknown;
+      m_curtok.startline = m_curline;
+      m_curtok.startcol  = m_curcol;
+      m_curtok.startoff  = m_curoff;
+      m_curtok.length    = 0;
+      
+      goto DONE;
+      
+    }
+
+  }
+  
+//  
+// We're finished
+//
+
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLLexToken::GetTypeName - Get text representation of a lex token's type
+//  XMLLexToken::GetMaxTypeNameLength - Get maximum length of a lex token's type name
+//
+
+const char *XMLLexToken::GetTypeName() {
+
+  const char *tokenrepr;                            // Token representation
+    
+  // Get the token type
+  switch (type) {
+  case xmllex_TokenUnknown:         tokenrepr = "Unknown"      ; break;
+  case xmllex_TokenWhite:           tokenrepr = "White"        ; break;
+  case xmllex_TokenOpen:            tokenrepr = "Open"         ; break;
+  case xmllex_TokenClose:           tokenrepr = "Close"        ; break;
+  case xmllex_TokenOpenProcessing:  tokenrepr = "OpenPI"       ; break;
+  case xmllex_TokenCloseProcessing: tokenrepr = "ClosePI"      ; break;
+  case xmllex_TokenEnd:             tokenrepr = "End"          ; break;
+  case xmllex_TokenWord:            tokenrepr = "Word"         ; break;
+  case xmllex_TokenNeedMoreData:    tokenrepr = "NeedMoreData" ; break;
+  case xmllex_TokenEndOfStream:     tokenrepr = "EndOfStream"  ; break;
+  case xmllex_TokenLiteralSingle:   tokenrepr = "LiteralSingle"; break;
+  case xmllex_TokenLiteralDouble:   tokenrepr = "LiteralDouble"; break;
+  case xmllex_TokenEquals:          tokenrepr = "Equals"       ; break;
+  case xmllex_TokenEntity:          tokenrepr = "Entity"       ; break;
+  case xmllex_TokenComment:         tokenrepr = "Comment"      ; break;
+  case xmllex_TokenCDATA:           tokenrepr = "CDATA"        ; break;
+  default:                          tokenrepr = "?"            ; break;
+  }
+
+  return tokenrepr;
+  
+}
+
+int XMLLexToken::GetMaxTypeNameLength(void) {
+  XMLLexTokenType oldtype;
+  int             len;
+  
+  oldtype = type;
+  type    = xmllex_TokenLiteralDouble; // <--- This is the longest one
+  len = strlen(GetTypeName());
+  type = oldtype;
+
+  return len;
+
+}
+@
+
+
+1.9
+log
+@Couple of cleanups in text writer
+@
+text
+@d135 1
+a135 1
+void XMLLex::MoreData(char *buf, int len) {
+d270 1
+a270 1
+      if (m_bufl <3 || strncmp(m_buf,"-->",3)) {
+d290 1
+a290 1
+      if (m_bufl <3 || strncmp(m_buf,"]]>",3)) {
+d362 1
+a362 1
+            if (strncmp(tokdef->string,m_buf,tokdef->len)==0)
+@
+
+
+1.8
+log
+@Text writer working, don't like speed though
+@
+text
+@d298 1
+a298 1
+      m_curtok.length   -= 12;  // Don't put ]]> on end
+@
+
+
+1.7
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@d298 1
+a298 1
+      m_curtok.length   -= 9;  // 9+3 
+@
+
+
+1.6
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d54 1
+a54 1
+  ,{"&",         xmllex_TokenWord,           xmllex_TokenEntity,          1 , 0,  0}
+d282 2
+d304 3
+d378 2
+a379 1
+          m_opencount += tokdef->opencount;
+d428 1
+a428 1
+        m_curcol = 0;
+@
+
+
+1.5
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@d29 1
+d33 1
+d39 17
+a55 17
+   {" ",         xmllex_TokenWhite,           1 , 0}
+  ,{"\n",        xmllex_TokenWhite,           1 , 0}
+  ,{"\r",        xmllex_TokenWhite,           1 , 0}
+  ,{"\t",        xmllex_TokenWhite,           1 , 0}
+  ,{"<!--",      xmllex_TokenComment,         4 , 0}
+  ,{"<![CDATA[", xmllex_TokenCDATA,           9 , 0}
+  ,{"<!DOCTYPE", xmllex_TokenDTD,             9 , 0}
+  ,{"<?",        xmllex_TokenOpenProcessing,  2 , 1}
+  ,{"<",         xmllex_TokenOpen,            1 , 1}
+  ,{"?>",        xmllex_TokenCloseProcessing, 2 , 1}
+  ,{">",         xmllex_TokenClose,           1 , 1}
+  ,{"/",         xmllex_TokenEnd,             1 , 1}
+  ,{"\"",        xmllex_TokenLiteralDouble,   1 , 0}
+  ,{"\'",        xmllex_TokenLiteralSingle,   1 , 0}
+  ,{"=",         xmllex_TokenEquals,          1 , 1}
+  ,{"&",         xmllex_TokenEntity,          1 , 0}
+  ,{0,           (XMLLexTokenType)0,          0 , 1}
+d90 3
+d343 1
+a343 1
+      m_curtok.startcol = m_curcol;
+d367 8
+a374 1
+          
+@
+
+
+1.4
+log
+@All parsing OK, lex problem was TABs!
+@
+text
+@d193 1
+a193 1
+        memcpy((void *)&m_localbuf[0],(void *)&m_localbuf[reallen-m_bufl],m_bufl);
+@
+
+
+1.3
+log
+@Added 'processing instruction' to lex/syn
+@
+text
+@d107 3
+d396 2
+a397 1
+      // Bump current column and offset...
+d399 6
+@
+
+
+1.2
+log
+@Added code to skip DTD
+@
+text
+@d37 17
+a53 17
+   {" ",         xmllex_TokenWhite,          1 , 0}
+  ,{"\n",        xmllex_TokenWhite,          1 , 0}
+  ,{"\r",        xmllex_TokenWhite,          1 , 0}
+  ,{"\t",        xmllex_TokenWhite,          1 , 0}
+  ,{"<!--",      xmllex_TokenComment,        4 , 0}
+  ,{"<![CDATA[", xmllex_TokenCDATA,          9 , 0}
+  ,{"<!DOCTYPE", xmllex_TokenDTD,            9 , 0}
+  ,{"<?",        xmllex_TokenOpenSpecial,    2 , 1}
+  ,{"<",         xmllex_TokenOpen,           1 , 1}
+  ,{"?>",        xmllex_TokenCloseSpecial,   2 , 1}
+  ,{">",         xmllex_TokenClose,          1 , 1}
+  ,{"/",         xmllex_TokenEnd,            1 , 1}
+  ,{"\"",        xmllex_TokenLiteralDouble,  1 , 0}
+  ,{"\'",        xmllex_TokenLiteralSingle,  1 , 0}
+  ,{"=",         xmllex_TokenEquals,         1 , 1}
+  ,{"&",         xmllex_TokenEntity,         1 , 0}
+  ,{0,           (XMLLexTokenType)0,         0 , 1}
+d448 17
+a464 17
+  case xmllex_TokenUnknown:        tokenrepr = "Unknown"      ; break;
+  case xmllex_TokenWhite:          tokenrepr = "White"        ; break;
+  case xmllex_TokenOpen:           tokenrepr = "Open"         ; break;
+  case xmllex_TokenClose:          tokenrepr = "Close"        ; break;
+  case xmllex_TokenOpenSpecial:    tokenrepr = "OpenSpecial"  ; break;
+  case xmllex_TokenCloseSpecial:   tokenrepr = "CloseSpecial" ; break;
+  case xmllex_TokenEnd:            tokenrepr = "End"          ; break;
+  case xmllex_TokenWord:           tokenrepr = "Word"         ; break;
+  case xmllex_TokenNeedMoreData:   tokenrepr = "NeedMoreData" ; break;
+  case xmllex_TokenEndOfStream:    tokenrepr = "EndOfStream"  ; break;
+  case xmllex_TokenLiteralSingle:  tokenrepr = "LiteralSingle"; break;
+  case xmllex_TokenLiteralDouble:  tokenrepr = "LiteralDouble"; break;
+  case xmllex_TokenEquals:         tokenrepr = "Equals"       ; break;
+  case xmllex_TokenEntity:         tokenrepr = "Entity"       ; break;
+  case xmllex_TokenComment:        tokenrepr = "Comment"      ; break;
+  case xmllex_TokenCDATA:          tokenrepr = "CDATA"        ; break;
+  default:                         tokenrepr = "?"            ; break;
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+/* Copyright (C) 2002, Bruce Ferris */
+d43 1
+@
+
+
+1.1.1.1
+log
+@Start
+@
+text
+@@

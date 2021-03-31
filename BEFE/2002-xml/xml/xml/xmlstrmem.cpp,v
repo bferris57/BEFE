@@ -1,0 +1,664 @@
+head	1.10;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.10
+date	2002.10.25.08.57.07;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.25.08.31.33;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.21.12.05.00;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.21.08.11.08;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.18.03.05.05;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.12.07.08.09;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.10.19.46.29;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.10.19.35.39;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.10.19.30.49;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.10
+log
+@XMLBitMapString works
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+ FILE
+    
+  xmlstrmem.cpp - Implementation of the XMLStringMem class
+  
+ DESCRIPTION
+  
+  This file contains the implementation of the memory based XMLString class.
+
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmlstrmem.h"
+#include "xmlheap.h"
+#include <memory.h>
+#include <string.h>
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringMem::XMLStringMem  - Constructors
+//  XMLStringMem::~XMLStringMem - Destructor
+//  XMLStringMem::Length        - Return the length of the string
+//  XMLStringMem::SubString     - Return substring of the string
+//  XMLStringMem::DoesLock      - "Does LockFragment() actually lock?" (YES)
+//
+
+XMLStringMem::XMLStringMem(XMLString *copyof)
+  : XMLStringHashed()
+{
+
+  // Initialise stuff
+  m_length = 0;
+  m_buf    = NULL;
+  
+  // Copy from source string if one passed (no way of returning any error)
+  if (copyof) {
+  
+    // Truncate and append
+    Truncate();
+    Append(copyof);
+    
+  }
+  
+}
+
+XMLStringMem::XMLStringMem(char *str) {
+
+  // Initialise stuff
+  m_length = 0;
+  m_buf    = NULL;
+  
+  // Truncate and append
+  Truncate();
+  Append(str);
+    
+}
+
+XMLStringMem::~XMLStringMem() {
+
+  // Truncate() will clear everything
+  Truncate();
+  
+}
+
+XMLError XMLStringMem::Length(int *len) {
+  if (len == NULL)
+    return XMLErrorInvalidParameters;
+  *len = m_length;
+  return XMLErrorNone;
+}
+
+XMLError XMLStringMem::SubString(int offset, int len, XMLString **substring) {
+
+  XMLStringMem *newstring;
+
+  // Sanity checks
+  if (offset < 0 || len < 0 || substring == NULL)
+    return XMLErrorInvalidParameters;
+
+  // Make sure substring isn't beyond end of string
+  if (offset + len - 1 > m_length)
+    return XMLErrorOffsetBeyondString;
+        
+  // Create a new string
+  newstring = new XMLStringMem((char *)m_buf);
+  if (newstring == NULL)
+    return XMLErrorOutOfMemory;
+    
+  // Hack it's length
+  newstring->m_length = len;
+  
+  // Return it to the caller
+  *substring = newstring;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLStringMem::DoesLock(void) {
+  return 0;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringMem::LockFragment       - Lock a given fragment
+//  XMLStringMem::UnlockFragment     - Unlock a given fragment
+//  XMLStringMem::LockUnlockFragment - Lock/Unlock buffer for a fragment
+//
+// DESCRIPTION
+//
+//  These functions manage the locking/unlocking of a fragment.
+//
+//  The LockUnlockFragment() does all the sanity checks and performs
+//  the lock or unlock.
+//
+
+XMLError XMLStringMem::LockFragment(int offset, byte **pointer, int *availlen) {
+  
+  XMLError     result;                               // Return code
+  
+  // Sanity checks (LockUnlockFragment checks offset and stream)
+  if (pointer == NULL || availlen == NULL || offset < 0) goto BADPARAMETERS;
+
+  // Make sure offset is within the string
+  if (offset >= m_length) goto BEYONDSTRING;
+
+  // OK, return the pointer and length
+  *pointer  = m_buf + offset;
+  *availlen = m_length - offset;
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+BEYONDSTRING:
+  result = XMLErrorOffsetBeyondString;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLStringMem::UnlockFragment(int offset) {
+  XMLError     result;                               // Return code
+
+  // Sanity checks (LockUnlockFragment checks offset and stream)
+  if (offset < 0) goto BADPARAMETERS;
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+OK: 
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLString::IsMutable - "Is this string mutable?"
+//  XMLString::Truncate  - Clear contents of string
+//  XMLString::Append    - Append to contents of the string
+//
+//
+  
+int XMLStringMem::IsMutable(void) {
+  return 1;
+}
+
+XMLError XMLStringMem::Truncate(void) {
+
+  XMLError result;     /* Return code */
+  
+  // Initialise easy stuff
+  m_length = 0;
+  m_hash   = BADHASH;
+  
+  // Release the buffer if we've got one
+  if (m_buf) {
+    result = XMLHeap::Free(m_buf);
+    if (result) goto ERROR;
+  }
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+
+}
+      
+XMLError XMLStringMem::Append(byte *buf, int bufl) {
+
+  XMLError  result;
+  byte     *newbuf;
+  // Sanity checks
+  if (buf == NULL || bufl < 0) goto BADPARAMETERS;
+
+  // If no buffer length, nothing to do
+  if (bufl == 0) goto OK;
+  
+  // Allocate a new buffer
+  result = XMLHeap::Allocate(m_length+bufl,&newbuf);
+  if (result) goto ERROR;
+  
+  // Move old contents into buffer (if any)
+  if (m_length)
+    memcpy((void *)newbuf,(void *)m_buf,(size_t)m_length);
+  
+  // Move new contents into buffer
+  memcpy((void *)(newbuf+m_length),(void *)buf,(size_t)bufl);
+  
+  // Free old buffer (save result for later)
+  if (m_length) {
+    result = XMLHeap::Free(m_buf);
+    if (result) {
+      XMLHeap::Free(newbuf);
+      goto ERROR;
+    }
+  }
+      
+  // Save new buffer and length
+  m_buf = newbuf;
+  m_length += bufl;
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+  
+}
+
+XMLError XMLStringMem::Append(char *buf, int bufl) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (buf == NULL) goto BADPARAMETERS;
+  
+  // Compute length if we haven't got one
+  if (bufl < 0)
+    bufl = strlen(buf);
+
+  // Do the append
+  result = Append((byte *)buf,bufl);
+  
+  goto DONE;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+DONE:
+  return result;    
+}
+
+XMLError XMLStringMem::Append(XMLString *appendfrom) {
+
+  XMLError       result;    // Return code
+  XMLStringBase *from;      // Dirty casted source string
+  int            stringlen; // Remaining length of string
+  int            fragoff;   // Offset of current fragment
+  byte          *frag;      // Address of fragment
+  int            fraglen;   // Available length of fragment
+
+  // Sanity checks
+  if (appendfrom == NULL) goto BADPARAMETERS;
+
+  // Initialise
+  from = (XMLStringBase *)appendfrom;
+  
+  // Compute total string length  
+  result = from->Length(&stringlen);
+  if (result) goto ERROR;
+  
+  // For each fragment...
+  for (fragoff = 0; stringlen; fragoff += fraglen, stringlen -= fraglen) {
+    
+    // Lock the fragment
+    result = from->LockFragment(fragoff, &frag, &fraglen);
+    if (result) goto ERROR;
+    
+    // Append the fragment
+    result = Append(frag,fraglen);
+    if (result) goto ERROR;
+    
+  }
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringMem::SetLength - Truncate/Extend the string
+//
+// DESCRIPTION
+//
+//  This function truncates or extends the string to a given length.  
+//
+//  If the string is bigger, it is filled with the contents of the
+//  fillwith parameter.
+//
+// NOTES
+//
+//  It is dangerous to call this if the string has any locked fragments.
+//  We would like to detect this but that means an extra 4 byte overhead
+//  in the string just to keep the lock count.
+//
+//  If this call is successful, any locked fragments in the string are
+//  invalid and should be discarded.
+//
+
+XMLError XMLStringMem::SetLength(int newlen, byte fillwith) {
+
+  XMLError  result;   // Return code
+  int       deltalen; // Difference in length (<0 means truncate)
+  byte     *newbuf;   // Newly allocated buffer
+  int       movlen;   // Number of bytes to move from old to new
+  
+  // Initialise
+  newbuf = NULL;
+  
+  // Sanity checks
+  if (newlen < 0) goto BADPARAMETERS;
+  
+  // Compute size delta
+  deltalen = newlen - m_length;
+  
+  // If it's the same length, don't do anything
+  if (deltalen == 0) goto OK;
+  
+  // Allocate a new buffer the right size
+  if (newlen)
+    newbuf = new byte[newlen];
+    
+  // Calculate number of bytes to move
+  movlen = m_length;
+  if (deltalen < 0)
+    movlen += deltalen;
+
+  // Move old contents to new contents
+  if (movlen)
+    memcpy((void *)newbuf,(void *)m_buf,movlen);
+    
+  // If bigger, fill
+  if (deltalen > 0)
+    memset((void *)(newbuf+m_length),(int)fillwith,deltalen);
+
+  // Release old contents
+  if (m_buf)
+    delete[] m_buf;
+    
+  // Save new info
+  m_length += deltalen;
+  m_buf     = newbuf;
+  
+  // We don't own the new buffer anymore
+  newbuf = NULL;
+  
+  goto OK;
+      
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Release the allocated buffer if we still have it
+  if (newbuf)
+    delete[] newbuf;
+    
+  return result;
+}
+
+@
+
+
+1.9
+log
+@Finished XMLBitMapString, ready to test
+@
+text
+@d369 1
+a369 1
+  if (deltalen) goto OK;
+@
+
+
+1.8
+log
+@Worked on Cursor::GetURI, fixed GetName() not returning copy
+@
+text
+@d329 96
+@
+
+
+1.7
+log
+@Renamed source files for string implementations
+@
+text
+@d134 2
+a135 1
+  // OK, return the length
+d303 1
+a303 1
+  for (fragoff = 0; stringlen; fragoff += fraglen) {
+@
+
+
+1.6
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d6 1
+a6 1
+  xmlsmem.cpp - Implementation of the XMLStringMem class
+d17 1
+a17 1
+#include "xmlsmem.h"
+@
+
+
+1.5
+log
+@Implemented SubString() in all string classes
+@
+text
+@d284 6
+a289 5
+  XMLError  result;        // Return code
+  int       stringlen;     // Remaining length of string
+  int       fragoff;       // Offset of current fragment
+  byte     *frag;          // Address of fragment
+  int       fraglen;       // Available length of fragment
+d294 3
+d298 1
+a298 1
+  result = appendfrom->Length(&stringlen);
+d305 1
+a305 1
+    result = appendfrom->LockFragment(fragoff, &frag, &fraglen);
+@
+
+
+1.4
+log
+@Changed XMLStringMemory to inherit from XMLStringHashed
+to reuse the Hashing code.
+@
+text
+@d28 3
+a30 2
+//  XMLStringMem::GetLength    - Return the length of the string
+//  XMLStringMem::DoesLock     - "Does LockFragment() actually lock?" (YES)
+d75 26
+@
+
+
+1.3
+log
+@Finished (and tested) XMLStringMem
+@
+text
+@d32 3
+a34 1
+XMLStringMem::XMLStringMem(XMLString *copyof) {
+a294 47
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringMem::IsHashed - "Is the string hashed yet?"
+//  XMLStringMem::Hash     - Compute the hash of the string
+//  XMLStringMem::GetHash  - Get the string's hash
+//
+
+int XMLStringMem::IsHashed(void) {
+  return (ISBADHASH(m_hash)) ? 0 : 1;
+}
+
+XMLError XMLStringMem::Hash(void) {
+
+  XMLError result;
+  XMLHash  hash;
+  
+  // Only hash it if not already hashed
+  if (ISBADHASH(m_hash)) {
+    result = XMLString::GetHash(&hash);
+    if (result == XMLErrorNone)
+      m_hash = hash;
+  }
+  
+  // Was already hashed
+  else
+    result = XMLErrorNone;
+    
+  return result;
+   
+}
+  
+XMLError XMLStringMem::GetHash(XMLHash *hash) {
+
+  XMLError result;
+  
+  result = Hash();
+  if (result)
+    return result;
+    
+  if (hash)
+    *hash = m_hash;
+  
+  return XMLErrorNone;
+@
+
+
+1.2
+log
+@Added (char *) constructor to XMLStringMem
+@
+text
+@d34 4
+d51 4
+d103 1
+a103 1
+  if (offset < m_length) goto BEYONDSTRING;
+d238 1
+a238 1
+  if (bufl == 0)
+@
+
+
+1.1
+log
+@Added XMLStringMem class
+@
+text
+@d26 1
+a26 1
+//  XMLStringMem::XMLStringMem  - Constructor
+d43 8
+@
+

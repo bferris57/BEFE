@@ -1,0 +1,334 @@
+#-----------------------------------------------------------------------
+#
+# File: Thoughts.txt - Weakly formatted random thoughts
+#
+# This file contains a historical record of random thoughts.  Each
+# thought is delimied with begin and end line.
+#
+# The BEGIN line is of the format...
+#
+#   <type>...
+#
+# End END line is of the format...
+#
+#  ...<type>
+#
+# These lines are always in column 1.  The thoughts themselves are in
+# between the two enclosing lines.
+#
+# The format of the BEGIN <type>... itself, is up to the specific
+# type and isn't rigourously enforced at the moment except that it
+# starts in column 1.
+#
+# The format of the END ...<type> line is literally "...<type>" in
+# column 1.
+#
+# We'll see how this goes
+#
+
+Thought... 2011-06-11: Datatype primitives
+
+  It seems there are the following basic underlying "scalar/atomic value distinctions"...
+  
+    Number                - Has no intrinsic meaning, is Atomic
+    Null/Unknown/NaN/Inf  - Has specific meaning, is Atomic
+    Boolean               - Has specific meaning, is Atomic
+	Operation             - Has specific meaning, is Atomic
+	Symbol                - Has specific meaning, is Atomic, is a reference to something Atomic or Combound
+	                          and may be ambiguous (e.g. a single thing may be called different things)
+	
+    With the following primitive attributes...
+  
+	Mutable
+    Signable
+	Integrality (Integer/Real/Imaginary)
+	Rational/Irrational (all integers all rational, not all real numbers are)
+	Zeroable (like "Natural numbers" sometimes aren't)
+	Infintisable (Infinity and approaching)
+	Nullable (Can it be Unkown and still be "valid"?)
+	
+  Then, there's sets, Compount and with the following attributes...
+  
+	Meaning
+	Ordered/Unordered/directed
+	Constrained/Unconstrained
+    Countability (like rational numbers are, irrational numbers aren't)
+	Enumerability (sort of like countability but more from an action aspect)
+	Circularity (like: "Can it contain itself?", etc.)
+	
+  Comparitive concept...
+	
+	Identity/Distinction
+	Equality/Inequality
+	Exclusivity (like true/false, Null and Not Null, etc.)
+	Type/Subtype
+	Scale/Size/Length/Magnitude
+	Unit (has to do with Scale/Size, etc.)
+	Absolute Order (ascending, descending, etc.)
+	Relative Order (before, after, less than, greater than)
+	Direction (forward, backward, up, down, left, right, in, out, etc.)
+	
+	Set member comparitive concepts...
+	
+	Location(like: "Where is X in the set?")
+	Containment (like: "Is X in the set?" etc.)
+	
+  Value behaviour/limiting/constraining concepts...
+
+    Zeroable/Nullable/Empty/Non-Empty
+	Set membership (e.g. "X must be in this set", "X must never be in this set", etc.)
+    Minimum value (for enumerability)
+	Maximum value (for enumerability)
+	Precision
+	
+  Set behaviour limiting/constraining concepts...
+	
+	Fixed Length (Number of members, "Occurs...", meaning completely subjective based on type)
+	Variable Length ("Occurs 0...")
+    Minimum members
+	Maximum members
+	Member type
+	Member type in a set
+	Size (Unsignable physical size in, let's say, bits)
+	
+  Complex constraints...
+  
+    Determinate
+	Indeterminate
+
+  Hmmmmmm..........
+  
+ ...Thought
+ 
+Thought... 2011-06-13: File signatures
+  Had a cool thought... If you put an 8 byte signature, like 0xbefef00d followed by a binary UUID,
+  as a signature that's 20 bytes.  The UUID can be used to determine EXACTLY what file type it is.
+  Now, 20 may seem like a weird size but what's way cool is that in base64 encoding (you choose
+  the alphabet) making it readable without a hex editor, that's 32 bytes of text.  Cool, eh?
+...Thought
+
+Thought... 2011-06-14: "indirect" concept for instance methods
+  If this was implemented in C++ it would give you the ability to change "this".  What it means
+  is that this method may need to reallocate the object and, doing so, needs to update "this".
+  So, it can't be called on local variable instances...  But, if it is called through a pointer,
+  you can essentially change &this to something and the pointer will be updated.
+...Thought
+
+Thought... 2011-06-19: Hierarchies, the good the bad and the downright ugly
+  I find it intriguing how many times I've witnessed near blow and, at least, bad feelings
+  being thrown around in our industry in the arguments about "relational" and "structured"
+  data.  Both sides of the argument have their adherents, and detractors.
+  
+  This ongoing, let's put it nicely, "discussion" has good arguments on both sides.  What I
+  have seen is an almost 
+...Thought
+
+Thought... 2011-06-19: Minimalist relational implementation of any hierarchy.
+  Tree Items
+    Id          - Number, NOT NULL  <-- "this"
+    Value       - Number            <-- Value ID
+	
+  That's it.  Now, for constraints...
+  
+    Tree Items...
+      Id is distinct
+      	 
+...Thought
+
+Thought... 2011-06-20: ID spaces and Address spaces
+
+  ID spaces are sets of distinct values
+  
+    o You can implement it as simply as having a counter that only gets larger.
+	o Given an ID, you can test for set membership
+	o Comparing two IDs can test only for equality or inequality, (no "<" or ">", "+", "-", etc.)
+	o Or maybe "<", ">", "<=", and ">=" can be used to imply time semantics?
+	  - [LEN::] means "After NOW"?
+	  - [-1::] means "The most recent on"?
+	o An identity is distinct for the lifetime of the ID space
+	
+  Address spaces are ordered sets of arbitrairy, possibly duplicate, values
+  
+    o Relative address spaces, relative to zero (<0 = "Before", >0 = "After")
+	o Absolute, possibly limited bounds "<lower>..<upper>"
+	
+	o Given an Address, you can test for "in address space"
+	o Given two Addresses, you can test for <, <=, ==, >=, >, !=, <>
+	o Given two Addresses, you can perform "+","-", "*", /
+	
+  If you combine the following concepts AND throw in "locking" into the works,
+  I figure there's something beautiful that may result...
+  
+    o Ids and Id Spaces
+	o Addresses and Address Spaces
+	o Indices
+	o Slices
+	
+  Perhaps, Id spaces have TIME and EXISTENCE semantics whereas Address
+  spaces have SPACE and LOCATION semantics?
+  
+  If you apply Id spaces with Address spaces, you get Einstein's
+  SPACE TIME, don't you?  So, A()[] means "A's contents through all time".
+  And, A[]() means ???
+
+  Especially if you, somehow, indicate "action" semantics vs. "declaration" 
+  semantics, because A() could mean an action or it could mean a declaration.
+  
+  Hee hee...
+  
+  Perhaps we can make "tuples" (...) indicate SPACE where [...] indicates
+  CONTENT?  If so, we could
+  
+  Food for thought regarding locks and resolved vs. unresolved if you
+  introduce the concept of TIME into Id spaces...
+  
+    o Does [::] mean "the whole lot" or "Forever", or...
+	o Maybe A means "the variable and it's contents" but A[] means "A's contents only, not A itself"?
+	o Is [N::] the same as [N], or is [N:N+1:] the same as [N]?
+	o Ids...
+	  - Does [N::] mean "from time N, inclusive, on..."
+	    but [N] mean "only N"?
+	o Same for Address spaces
+	o Does [N::2] mean "every other one", or "The odd/even things"?
+	o And, how about [N::<prime>]?
+	o Or, [<prime>:<prime+1}:]?
+	o Does [::] unresolved mean "the whole lot?"
+	o Does [::] mean "the whole lot?" or "the whole future"?
+	o Maybe Id "Create and lock" with [-1::] means
+	    "Create one, and lock it and each subsequently created one until released"
+	o Subtle difference between [0::] and [::]?
+	o Subtle difference between NaN, [], and [::]?
+	o Subtle difference between NaN, [::-1] and [::1]?
+	o etc...
+	
+  This may be fun, introducing TIME into unresolved Slices in locking!!!!!!!
+  
+  In fact, if we throw in "unit" and "constraint" notation along with TIME and SPACE,
+  we may be on to something.!!!!!
+  
+...Thought
+
+Thought...
+
+  "Notation      ... is another way of saying ABNF stuff.
+  "Action"       ... "Doing" like "result = myfunc(c);"
+  "Function"     ... "Doing" like "a = myfunc(b)", same as action but without checking result validity
+  "Symbol"       ... An ID In a symbol space, means something distinct (convention tells you what!)
+  "Symbol Space" ... The space of valid, distinct, semantic meaningful symbols
+  "Name"         ... Like a meaningless symbol, "Known by some as", can be ambiguous
+  "Name Space"   ... Like a symbol space but without distinct meaning, like someone's surname
+  
+  Claimant       ... Something that, given and something will answer "yes" to the
+                    "do you claim this?" question
+  
+  Resolver       ... Something that claims something and, given that something, will attempt to
+                     resolve it into some atomic or composite thing they're willing to assign a
+                     resolution Id (number) to.
+  
+  
+...Thought
+
+Actualisation...
+
+  Another epiphany that was easy to put into practice.  The problem
+  lies with C++ copy constructors and the operator= assumes value
+  not object (weird for an object oriented language, eh?)  Anyway,
+  to get around it I recommend the following for class <yourclass>...
+       
+    void Init();                       <-- Construct from "nothing"
+    void Finish();                     <-- Prepare to go into "nothingness"
+    void MoveTo(<yourclass> &that);    <-- Move home from one address to another
+    void MoveFrom(<yourclass> &that);  <-- Move home to another address
+         
+  Then, the following should work (I implemented it and it DOES work!)...
+     
+    String s1 = "String 1";
+    String s2 = "String 2";
+    ...
+    s1.MoveTo(s2);
+        
+    // Now, s1 is empty and s2 == "String 1" and no dangling pointers
+    // or extra memory allocations.  Just a single MemoryCopyRaw!
+      
+  Easy peasy, eh?
+
+  Now, your "identity" is preserved but your address has moved.
+  
+  "What about this you point to that point back?" you may well ask.  
+  Well, the official BEFE take on that is that's one of the fundamental
+  the problems most developers miss about address vs. identity.  Sure,
+  addresses (pointers) are useful because if someone has a pointer to
+  you they "just go there".  The problem is, that means if you really
+  need to move, because that's the kind of guy you are, then it all
+  falls apart with these dangling pointers.
+  
+  Think of it this way... If you gave one of your closest friends a key
+  to your house, would you move without telling them?  If you didn't, the
+  new residents after you move might be perfectly in their rights to
+  shoot him when he just innocently used his key to enter what is now
+  "their house".  Just think about it.  Sure, sometimes you only leave
+  forwarding addresses with the post office for a limited time.  But,
+  after that time expires nobody that has your address can contact you.
+  So, clearly, you'd tell your close friends, especially the ones with
+  the keys, right?
+  
+  Don't get me wrong.  Sometimes, for speed's sake, you have to have
+  back pointers.  But, I maintain that with those back pointers comes
+  the moral obligation to implement a mechanism of notification.
+  Otherwise, you're just shooting yourself in the foot, or you could
+  be shooting your "friend" in the foot.
+  
+...Actualisation
+
+Thought...
+
+  Datatypes (type) come in several flavours...
+  
+    o Continuous
+    o Discrete
+
+  Datatypes are for values.
+
+  Classes are for objects.
+
+  Values are instances of datatypes.
+  
+    Values without units can have primitive operations
+    applied to them.  But, without the unit or applied
+    action, the values themselves are without meaning.
+  
+    Values do not have an identity.  They can be
+    compared.
+    
+    Values can be atomic or composite.
+    
+    Composite values do not necessarily have "structure".
+    
+  Objects are instances of classes.
+  
+  Values can't have IDs, objects can.
+
+  Values can have addresses but don't know them.
+  
+  Values have no inate meaning.  They only start having a 
+  meaning when associated with a unit like seconds, glyphs,
+  etc.
+
+  Instances can have addresses and know them.
+
+  Objects have IDs, and know them.
+  
+  Where do symbols fit in?  I suspect they're the odd case
+  of values with meaning.  Maybe not.  Maybe they're a cross-over?
+  Maybe a symbol is somehow like a semantic unit?  So, it's
+  primitive meaning + value.
+  
+...Thought
+
+Firefox...
+
+  URL: about:plugin(s)
+  
+  There's something here that effects Flash.  Not sure what yet.
+  
+...Firefox

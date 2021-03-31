@@ -1,0 +1,69 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.3
+date	2002.11.16.10.04.02;	author Bruce;	state dead;
+branches;
+next	1.2;
+
+1.2
+date	2002.11.04.06.15.10;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.21.08.28.46;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@Removed old borland make files
+@
+text
+@@@echo off
+rem
+rem FILE
+rem
+rem   link.bat - Create executables
+rem
+
+set LOPTS=-v -M-
+
+
+rem Link txml
+bcc32 %LOPTS% -etxml.exe txml\obj\*.obj xml\obj\*.obj general\obj\*.obj
+
+rem Link htmltidy
+bcc32 %LOPTS% -ehtmltidy.exe html\obj\*.obj xml\obj\*.obj general\obj\*.obj
+
+@
+
+
+1.2
+log
+@Created HTMLTidy exe, redid how compile/link works
+@
+text
+@@
+
+
+1.1
+log
+@Renamed source files for string implementations
+@
+text
+@d12 4
+a15 1
+bcc32 %LOPTS% -etxml.exe obj\*.obj
+@
+

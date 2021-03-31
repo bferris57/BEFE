@@ -1,0 +1,58 @@
+#!BefeType: <Core>
+#-----------------------------------------------------------------------
+# File: TypeCore.txt - Declarations for the Core BEFE Types
+#-----------------------------------------------------------------------
+#
+# This document doesn't actually declare much about each Type, it is
+# mainly a place where they're all listed together.
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011-2012, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+
+#
+# Primitive types
+#
+
+Type Primitive:
+Type Byte:
+Type Short:
+Type Int:
+Type Long:
+Type Float:
+Type Double:
+
+#
+# Value types
+#
+
+Type Value:
+Type Scalar:    superType = Value
+Type Struct:    superType = Value
+
+#
+# Type types
+#
+
+Type Type:
+Type Class:
+Type Id:
+Type Id32:      superType = Id
+Type Id64:      superType = Id
+Type Id128:     superType = Id
+
+#
+# Object types
+#
+
+Type Object:
+  Attributes: 
+Type Class:
+
+#
+# Implementation types
+#
+
+

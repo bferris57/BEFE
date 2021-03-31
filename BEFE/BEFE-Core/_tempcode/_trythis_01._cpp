@@ -1,0 +1,44 @@
+#include "BEFE.h"
+#include "ToStrings.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// Function: trythis - Our "trythis" main function
+//
+
+Status trythis() {
+
+  Status   status;
+  Strings  exts;
+  String   fName;
+  String   found;
+  Strings  infos;
+  FileInfo info;
+  UInt     strNo;
+  String   line;
+
+  //fName = "d:/befe/out.txt";
+  //fName = "D:/Program Files/Mozilla Firefox/firefox.exe";
+  fName = "dir";
+  exts.Append(".bef");
+  exts.Append(".befe");
+  exts.Append(".txt");
+
+  status = TheOS->FindInSearchPath(fName,exts,found);
+  if (status)
+    ERROR("OperatingSystem.FindInFiles",status);
+  else {
+    infos = ToStrings(TheOS->GetFileInfo(found));
+    for (strNo=0; strNo < infos.Length(); strNo++) {
+      line = infos.Get(strNo);
+      Cout << line << '\n';
+    }
+  }
+
+  return Error::None;
+
+}
+
+}; // Namespace BEF_NS

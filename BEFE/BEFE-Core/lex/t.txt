@@ -1,0 +1,163 @@
+------------------------------------------------------------------------
+r3715 | bferris57 | 2017-05-27 13:23:10 +0100 (Sat, 27 May 2017) | 1 line
+
+WIP
+------------------------------------------------------------------------
+r3707 | bferris57 | 2017-05-22 12:00:04 +0100 (Mon, 22 May 2017) | 1 line
+
+WIP
+------------------------------------------------------------------------
+r3659 | bferris57 | 2017-02-19 18:08:00 +0000 (Sun, 19 Feb 2017) | 1 line
+
+Updated copyright
+------------------------------------------------------------------------
+r3202 | bferris57 | 2016-06-14 14:47:01 +0100 (Tue, 14 Jun 2016) | 1 line
+
+Updated copyright dates
+------------------------------------------------------------------------
+r3191 | bferris57 | 2015-01-31 08:05:22 +0000 (Sat, 31 Jan 2015) | 1 line
+
+Various clean up and minor bug fixes
+------------------------------------------------------------------------
+r3190 | bferris57 | 2015-01-29 07:39:13 +0000 (Thu, 29 Jan 2015) | 1 line
+
+After copyright notice change
+------------------------------------------------------------------------
+r3101 | bferris57 | 2012-07-19 11:01:11 +0100 (Thu, 19 Jul 2012) | 2 lines
+
+Moved BcmdArg and BcmdCommand into BcmdArg.h and BcmdCommand.h
+and tidied up a few typedefs for LexTokenType and BcmdArgType.
+------------------------------------------------------------------------
+r3098 | bferris57 | 2012-07-18 12:05:03 +0100 (Wed, 18 Jul 2012) | 7 lines
+
+Added status to LexToken/BcmdArg for use by token types Error
+and Warning.  It's a little overhead, but it lets the caller
+decide whether or not to use the computed string or reformat it
+using ErrorString instead.
+*** This will be needed if the Lex stuff is passed over the
+*** network because formatted error messages are really more
+*** a client function NOT a server function.  ;-)
+------------------------------------------------------------------------
+r3031 | bferris57 | 2012-06-04 12:00:35 +0100 (Mon, 04 Jun 2012) | 2 lines
+
+Wrote LexActionPythonQuote and LexActionPythonCheckEOQ and
+ready to plug it into LexLangBefe
+------------------------------------------------------------------------
+r3030 | bferris57 | 2012-06-03 22:03:06 +0100 (Sun, 03 Jun 2012) | 2 lines
+
+Got '\n' handled correctly with token.lineNo and token.colNo
+plus "Unexpecte Character" (UTF) works properly now.
+------------------------------------------------------------------------
+r3023 | bferris57 | 2012-06-03 09:14:28 +0100 (Sun, 03 Jun 2012) | 4 lines
+
+Rejigged BEFE-Core/language to be the following two instead...
+
+  o BEFE-Core/lang - All the "language" related stuff
+  o BEFE-Core/lex  - All the Lexical related stuff
+------------------------------------------------------------------------
+r3022 | bferris57 | 2012-06-03 09:08:56 +0100 (Sun, 03 Jun 2012) | 1 line
+
+Rejigging BEFE-Core/language to be BEFE-Core/lang and BEFE-Core/lex
+------------------------------------------------------------------------
+r3008 | bferris57 | 2012-06-01 19:07:31 +0100 (Fri, 01 Jun 2012) | 5 lines
+
+Moved EVERYTHING from BEFE-Lex (except main.cpp) into BEFE-Core
+in the BEFE-Core/language directory.
+*** Quite a bit of work to get the 'namespace BEFE' and other
+*** stuff sorted out but it all glues together now (and builds).
+*** ;-)
+------------------------------------------------------------------------
+r3006 | bferris57 | 2012-06-01 10:45:23 +0100 (Fri, 01 Jun 2012) | 1 line
+
+Moved all BEFE-Lex stuff into BEFE-Core/language (except for main.cpp)
+------------------------------------------------------------------------
+r2991 | bferris57 | 2012-05-31 04:24:57 +0100 (Thu, 31 May 2012) | 5 lines
+
+Added lineCount back into LexToken so we can handle embedded
+multi-line comments/literals properly down at the low LexToken
+level where we won't have to get the whole /*...\n...\n...*/
+or '''...\n...\n...''' string again until we really need it
+(in the case of /*...\n...\n...*/ we'll probably just discard it.  ;-)
+------------------------------------------------------------------------
+r2987 | bferris57 | 2012-05-29 19:00:35 +0100 (Tue, 29 May 2012) | 2 lines
+
+Got BMsgStream._GetLexTokens working properly.  Now, to get
+BMsgStream._NextBmsgToken working for the next higher level...
+------------------------------------------------------------------------
+r2983 | bferris57 | 2012-05-28 10:04:04 +0100 (Mon, 28 May 2012) | 1 line
+
+Added Bmsg.h and initial BmsgToken and BmsgStream implementations.
+------------------------------------------------------------------------
+r2977 | bferris57 | 2012-05-27 12:09:22 +0100 (Sun, 27 May 2012) | 4 lines
+
+Added preprocessor character the LexLanguage, set it in C/C++ and
+.befe, and handle separately from comments (unless it's also in
+the comment strings.
+
+------------------------------------------------------------------------
+r2847 | bferris57 | 2012-05-02 16:21:09 +0100 (Wed, 02 May 2012) | 3 lines
+
+LEX: Changed default actions to populate LexStream.curTok.value up
+to 4 characters in all cases, regardless of type.  This caused
+it to slightly slow down for 307 files (from 1s400ms to 1s490ms).
+------------------------------------------------------------------------
+r2824 | bferris57 | 2012-04-24 06:46:27 +0100 (Tue, 24 Apr 2012) | 1 line
+
+LEX: Still tweeking, almost there but not quite...
+------------------------------------------------------------------------
+r2802 | bferris57 | 2012-04-16 01:22:20 +0100 (Mon, 16 Apr 2012) | 1 line
+
+More LEX work
+------------------------------------------------------------------------
+r2799 | bferris57 | 2012-04-15 17:50:30 +0100 (Sun, 15 Apr 2012) | 1 line
+
+Quote and Comment actions now need to be plugged into LexLangCpp
+------------------------------------------------------------------------
+r2794 | bferris57 | 2012-04-14 15:54:33 +0100 (Sat, 14 Apr 2012) | 2 lines
+
+Win32xterm starting to work again, this time with proper scrolling.
+*** Not quite there yet though, as BS doesn't work yet...
+------------------------------------------------------------------------
+r2790 | bferris57 | 2012-04-13 08:50:10 +0100 (Fri, 13 Apr 2012) | 2 lines
+
+LEX: Getting through the first block now.  Now we have to
+rejig how we handle the 2nd block...
+------------------------------------------------------------------------
+r2786 | bferris57 | 2012-04-10 16:00:50 +0100 (Tue, 10 Apr 2012) | 9 lines
+
+LEX/BEFE: Working on a weird one where LexLanguage.NewState adds
+LexState "Op=" to LexLanguage.stateName2Id, but when it comes
+time to find it in LexStream.NextToken, it doesn't find it.
+*** The Hashes seem to be the same both times
+*** The Map LexLanguage.stateName2Id is bigger the 2nd time but
+***   that's because it's not the last state added
+*** LexLanguage.CopyFrom seems to copy LexLanguage.stateName2Id
+***   intact, so that's probably not it.
+*** Hmmmm....
+------------------------------------------------------------------------
+r2781 | bferris57 | 2012-04-10 07:54:52 +0100 (Tue, 10 Apr 2012) | 1 line
+
+Ready to start debugging LexStream.NextToken
+------------------------------------------------------------------------
+r2779 | bferris57 | 2012-04-10 01:19:55 +0100 (Tue, 10 Apr 2012) | 4 lines
+
+Only two LexStream methods left to write...
+  o _PopulateBuffer
+  o NextToken
+
+------------------------------------------------------------------------
+r2746 | bferris57 | 2012-03-31 21:21:14 +0100 (Sat, 31 Mar 2012) | 1 line
+
+Rejigged Lex.h and got LexState primitive Struct starting to work.  ;-)
+------------------------------------------------------------------------
+r2742 | bferris57 | 2012-03-31 14:00:40 +0100 (Sat, 31 Mar 2012) | 1 line
+
+Major thinking and reorganising of Lex in progress.  Think it's starting to shape into something reasonable comprehensive now.
+------------------------------------------------------------------------
+r2736 | bferris57 | 2012-03-30 20:32:50 +0100 (Fri, 30 Mar 2012) | 1 line
+
+Various Lex anal cleaning up operations and "thinking out loud" but in the source.
+------------------------------------------------------------------------
+r2735 | bferris57 | 2012-03-30 13:50:01 +0100 (Fri, 30 Mar 2012) | 1 line
+
+Started breaking apart LexStream into separate C++ files and got LexToken declared more like a proper BEFE Primitive (plus, now LexTo

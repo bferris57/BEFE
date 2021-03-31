@@ -1,0 +1,120 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.3
+date	2002.10.25.09.23.15;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.25.08.31.33;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.24.12.50.14;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@Added optional 'countto' parameter to XMLBitMap::Count()
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlbitmap.h - Definitions for the abstract XML Bitmap class
+  
+  DESCRIPTION
+
+    The XMLBitMap class implements a string of bits.
+
+*/
+
+#ifndef _xmlbitmap_h
+
+#define _xmlbitmap_h
+
+#include "xml.h"
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLBitMap - Manage an arbitrarily large set of bits
+//
+// DESCRIPTION
+//
+//  This class defines the abstract interface to a general bitmap
+//  class.
+//
+//  Instances of this class are responsible for manipulating and searching
+//  a set of bits.
+//
+// NOTES
+// 
+//  Bits are numbered 0..Length()-1
+//
+//  We assume zero semantics (e.g. you're looking for '1' not '0', and
+//  new bits added in-between or after the string are '0'.)  If the
+//  consumer wants one's semantics they'll have to apply inverse semantics.
+//
+
+class XMLBitMap : public XMLObject {
+  
+  //
+  // Public member functions
+  //
+
+public:
+  
+  // BitMap-wise operations
+  virtual int      Length(void) = 0;
+  virtual XMLError Count(int *count, int onoff = 1, int counto = -1) = 0;
+
+  // Bit Testing/setting
+  virtual int      Test(int index) = 0;
+  virtual XMLError Set(int index, int value = 1) = 0;
+  
+};
+
+#endif // _xmlbitmap_h
+@
+
+
+1.2
+log
+@Finished XMLBitMapString, ready to test
+@
+text
+@d52 1
+a52 1
+  virtual XMLError Count(int *count, int onoff = 1) = 0;
+@
+
+
+1.1
+log
+@Initial XMLBitMapString implementation and test - Need Test() and Set()
+@
+text
+@d56 1
+a56 5
+  virtual XMLError Set(int index) = 0;
+  
+  // Bit Searching
+  virtual XMLError Next(int *index, int startoff = -1) = 0;
+  virtual XMLError Previous(int *index, int startoff = -1) = 0;
+@
+

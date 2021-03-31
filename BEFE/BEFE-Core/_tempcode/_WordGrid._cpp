@@ -1,0 +1,130 @@
+#include "BEFE.h"
+#include "WordGrid.h"
+
+namespace BEF_NS {
+
+// Forward class references
+class CRCRing;
+
+//----------------------------------------------------------------------
+//
+// Methods:  WordGrid() - Constructor
+//          ~WordGrid() - Destructor
+//
+//----------------------------------------------------------------------
+
+WordGrid::WordGrid() {
+
+  dict   = NULL; // Word dictionary
+  grid   = NULL; // X/Y grid
+
+  Reset();
+}
+
+WordGrid::~WordGrid() {
+
+  // Release allocated memory
+  Reset();
+
+}
+
+//----------------------------------------------------------------------
+//
+// Methods: PrintStatistics() - Print information about word list
+//
+//----------------------------------------------------------------------
+
+void WordGrid::PrintStatistics() {
+
+  Cout << "WordGrid statistics not available yet" << endl;
+
+  return;
+}
+
+//----------------------------------------------------------------------
+//
+// Methods: Reset()      - Reset to initial state and release memory
+//          Setup()      - Setup given dictionary, width and height
+//          FillRandom() - Fill grid with random characters
+//
+//----------------------------------------------------------------------
+
+void WordGrid::Reset() {
+
+  // Release grid
+  if (grid != NULL) {
+    MemoryFreeBytes(grid);
+    grid = NULL;
+  }
+
+  // Clear other stuff
+  width  = 0;
+  height = 0;
+  MemoryCopyRaw((Byte *)counts,0,sizeof(counts));
+
+  return;
+}
+
+Status WordGrid::Setup(WordList *newdict, Int newwidth, Int newheight) {
+
+  Status result;
+
+  // Make sure valid dimensions are specified
+  if (newwidth < 0 || newwidth > 20000 || newheight < 0 || newheight > 20000)
+    goto INVALIDDIMENSION;
+
+  Reset();
+
+  // Set the dictionary
+  if (newdict != NULL)
+    dict = newdict;
+
+  // Allocate the grid
+  if (newwidth && newheight) {
+    grid = new Byte[newwidth*newheight];
+    if (grid == NULL) goto OUTOFMEMORY;
+    MemoryFillRaw(grid,' ',newwidth*newheight);
+  }
+
+  goto OK;
+
+OK:
+
+  result = ErrorNone;
+  goto DONE;
+
+OUTOFMEMORY:
+  result = ErrorOutOfMemory;
+  goto DONE;
+
+INVALIDDIMENSION:
+  result = ErrorInvalidDimension;
+  goto DONE;
+
+DONE:
+
+  return result;
+
+}
+
+Status WordGrid::FillRandom() {
+
+  Int   reml;
+  Byte *curpos;
+
+  // Nothing to do if no grid
+  if (width == 0 || height == 0 || grid == NULL) goto DONE;
+
+  // Populate with random 'a'-'z' values
+  curpos = grid;
+  Srand(-1);
+  for (reml=width*height; reml; reml--)
+    *(curpos++) = 'a' + Rand()%26;
+
+DONE:
+
+  return ErrorNone;
+}
+
+
+} // Namespace BEF_NS

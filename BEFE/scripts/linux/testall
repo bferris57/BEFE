@@ -1,0 +1,13 @@
+#!/usr/bin/befe
+#
+#  File: t.befe - Execute all BEFE Tests
+#
+-echo
+?head
++ms
++vv
+tests all
+?foot
+
+exit
+

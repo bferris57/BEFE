@@ -1,0 +1,43 @@
+#--------------------------------------------------------------------
+# File: ReuildWindows.txt - Build Notes for Rebuilding a Windows Platform
+#--------------------------------------------------------------------
+
+Applications Uninstalled...
+
+  MacAfee
+  Norton Online Backup
+  
+Applications downloaded and installed in this order...
+
+  Firefox
+  GodMode
+  Firefox Tab-Mix-Plus plugin
+  Skype
+  DropBox
+  SugarSync 
+  ZoneAlarm
+  AVG
+  SpyBot
+  TeamViewer
+  TortoiseSVN
+  NotePad++
+  MinGW and MinGW-msys
+  SlikSVN
+  CodeLite
+  HxD
+  WinAmp
+  Spotify
+  LibreOffice
+  Acronis
+  
+Manual PATH additions...
+
+  C:\MinGW\bin
+  C:\MinGW\msys\1.0\bin
+  C:\BEFE\bin
+  ...
+  
+Files...
+
+  C:\users\bruce\.beferc
+  

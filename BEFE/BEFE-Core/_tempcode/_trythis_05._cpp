@@ -1,0 +1,77 @@
+#include "BEFE.h"
+#include "ToStrings.h"
+#include "trythis.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+Status trythis() {
+
+  Status  status;
+  String  fileName;
+  Bytes   bytes;
+  String  contents;
+  Strings lines;
+  UInt    numLines;
+  UInt    lineNo;
+  Time    t1;
+  Time    t2;
+  String  tString;
+  
+  // Start Timer
+  t1.Set();
+  
+  // Get the contents as a single String
+  fileName = "c:/befe/t.txt";
+  status = File(fileName).ReadContents(bytes);
+  if (status) goto READFAILED;
+  contents = bytes.MorphToString(false);
+  numLines = contents.Count('\n');
+  if (contents.Get(-1) != '\n')
+    numLines++;
+  status = lines.SetLength(numLines);
+  if (status) goto SETLENGTHFAILED;
+  
+  // Get the lines
+  status = contents.SplitToConstStrings('\n',lines);
+  if (status) goto SPLITFAILED;
+
+  // Trim each of them
+  for (lineNo=0; lineNo < numLines; lineNo++) {
+    tString = lines.Get(lineNo);
+    tString = tString.Trim();
+    status = lines.Set(lineNo,tString);
+    if (status) goto TRIMFAILED;
+  }
+  
+  // End Timer
+  t2.Set();
+  
+  // Display elapsed time
+  Cout << "contents.GetType   = " << contents.GetType() << '\n';
+  Cout << "contents.IsMutable = " << ToString(contents.IsMutable()) << '\n';
+  Cout << '\n';
+  Cout << numLines << " lines in '" << fileName << "'\n";  
+  Cout << '\n';
+  Cout << "Elapsed time: " << ToString(t1,t2) << '\n';
+  
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    READFAILED:      ERROR("File.ReadContents",status);    break;
+    SETLENGTHFAILED: ERROR("Strings.SetLength",status);    break;
+    SPLITFAILED:     ERROR("String.SplitToRanges",status); break;
+    TRIMFAILED:      ERROR("Strings.Set",status);          break;
+    OK:                                                    break;
+  }
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

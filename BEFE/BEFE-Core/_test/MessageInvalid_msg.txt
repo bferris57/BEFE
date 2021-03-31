@@ -1,0 +1,69 @@
+#──────────────────────────────────────────────────────────────────────
+# File: MessageInvalid_msg.txt - BEFE Invalid Message Test
+#──────────────────────────────────────────────────────────────────────
+#
+# This file contains the test data for making sure we detect all
+# invalid BEFE Message File illegal syntax.
+#
+# Each non-blank line below should produce a distinct and properly
+# indicated Error Status.
+#
+# *** See technical documentation for a more detailed description ***
+#
+# Note: For valid messages, see ErrorMessages_msg.txt delivered as part
+#       of the standard BEFE Installation.
+#       
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011, Bruce Ferris (UK), all rights reserved
+#──────────────────────────────────────────────────────────────────────
+
+#
+# First Level Errors
+#
+
+..
+xxx
+0x12345
+0x12345...
+xxx xxx
+...
+... 0x123
+... xxx yyy
+name =                     // No arguments
+name = ,                   // Dangling ','
+name = , xxx               // Missing Range
+name = xxx,                // Dangling ','
+name = 0x01..              // Missing 2nd part of Range
+name = 0x01..xxx           // Invalid 2nd part of Range (not number)
+name = 0x01 ..xxx          // Leading'..'
+name = 0x01.. xxx          // Open ended Range
+name = 0x01.. 0x02         // Invalid syntax because '..' needs to be contiguous
+
+#
+# Second level errors
+#
+
+...MessageBase             // Should already be in MessageBase but we're not.  ;-)
+MessageBase...             // ***No Error*** (it's the next one that should cough)...
+  name = 'xxx'             // Should be expecting a Range not a StringLiteral
+  abc = 0x00..0x01 ABC     // ***No Error***
+...Messagebase             // ***No Error***
+MessageBase...             // Nested declarations not allowed
+...xxx                     // Expected '...MessageBase'
+  base = 0x01..0x02 xxx    // Should be okay
+  base = 0x02..0x03 xxx    // Duplicate 'base'
+  aaaa = 0x02..0x03 xxx    // Range Clash
+  bbbb = 0x04..0x06 xxx    // ***No Error***
+name = 0x10..0x20 0x03     // ***No Error*** Even though trailing '0x03' seems dodgy
+...Messagebase             // Mismatched or out of context
+
+abc...                     // ***No Error***
+  firstOne  = 'hi there'   // ***No Error***
+  firstOne  = 'Duplicate'  // Duplicate Message Name
+  secondOne = 'Hello'      // ***No Error***
+  thirdOne  = 'Fail'       // Message Range Full
+...abc                     // ***No Error***
+abc...                     // MessageRange already specified
+def...                     // MessageBase 'def' not defined
+...aaa                     // No Begin Range
+aaa...                     // MessageRange 'aaa' not defined

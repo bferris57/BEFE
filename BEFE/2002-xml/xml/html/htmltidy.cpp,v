@@ -1,0 +1,304 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.4
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.11.04.06.50.29;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.11.04.06.30.18;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.11.04.06.15.11;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    txml.cpp - Text the XML parser
+  DESCRIPTION
+    This source file contains the XML parser tester
+    
+*/
+
+#include "xml.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+
+// Globals
+char *progname;
+int   indent      = 2;
+
+// Function prototypes
+int  main(int argc, char **argv);
+void usage(void);
+void error(char *message);
+void xmlerror(XMLError stat, char *message);
+void parseerror(XMLDocument *doc);
+int  TidyHTML(char *filename);
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  main - Main program
+//
+// DESCRIPTION
+//
+//  This function calls TidyHTML for each source file.
+//
+
+int main(int argc, char **argv) {
+
+//
+// Local declarations
+//
+  
+  int          result;    // Return code from tester
+  char        *filename;  // File to tidy
+  
+//
+// Start of code
+//
+
+  cout << "Tidy HTML - Copyright (c) 2002, Bruce Ferris\n";
+  progname = argv[0];
+  argv++;
+  argc--;
+
+  // Handle '?'
+  if (argc && strcmp(argv[0],"?") == 0) {
+    usage();
+    exit(0);
+  }
+      
+  // Handle -<xxx>
+  while (argc && argv[0][0] == '-') {
+    argv++;
+    argc--;
+  }
+
+  // Get filename
+  if (argc) {
+    filename = argv[0];
+  }
+  else
+    usage();
+
+  // Tidy it
+  result = TidyHTML(filename);
+  if (result) {
+    cout << "Error " << result << "\n";
+    cout.flush();
+  }
+  
+  exit(0);
+      
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  error      - Display error and quit
+//  xmlerror   - Display XML error and quit
+//  parseerror - Display parsing error and quit
+//
+// DESCRIPTION
+//
+//  These functions display an error messages and quit.
+//
+// NOTES
+//
+//  parseerror() will return if there is no parse error.
+//
+
+void error(char *message) {
+
+  if (message)
+    cout << message;
+    
+  exit(1);
+}
+
+void xmlerror(XMLError stat, char *message) {
+
+  char buf[1024];
+  sprintf(buf,message,stat);
+  cout << buf << "\n";
+  exit(1);
+}
+
+void parseerror(XMLDocument *doc) {
+
+  XMLError stat;
+  XMLLocation location;
+  
+  if (doc == NULL)
+    return;
+  
+  stat = doc->GetLastParseError(&location);
+  
+  if (stat == XMLErrorNone)
+    return;
+  
+  if (location.line == 0)
+    cout << "  Parse error " << stat
+         << " at offset "    << location.offset
+         << "\n";
+  else  
+    cout << "  Parse error " << stat
+         << " at line " << location.line
+         << " column " << location.column
+         << "\n";
+  exit(1);
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  usage - Display usage
+//
+// DESCRIPTION
+//
+//  This function calls each tester
+//
+
+void usage(void) {
+
+  cout << "\n\n";
+  cout << "Usage: " << progname << " <inputfile>\n";
+  cout << "\n";
+  cout << "Where:  <inputfile> = HTML file to read\n";
+  cout << "\n";
+  
+  exit(1);
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TidyHTML - Tidy 1 HTML file
+//
+// DESCRIPTION
+//
+//  This function reads and writes an HTML file.
+//
+
+int TidyHTML(char *filename) {
+
+  XMLManager     *manager;    // XML manager
+  XMLError        result;     // return code
+  XMLDocument    *doc;        // The document
+  XMLCursor      *cursor;     // Cursor into the document
+  XMLString      *uri;        // The current URI
+  char            uribuf[80]; // Copy of the URI string
+  int             urilen;     // Length of the URI
+
+  // Create the XML manager
+  result = XML::CreateManager(&manager);
+  if (result)
+    xmlerror(result,"Error %d creating XMLManager");
+
+  // Copy the filename and append '.htm'
+  strcpy(uribuf,filename);
+  strcat(uribuf,".htm");
+      
+  // Load the document
+  result = manager->Load(filename,&doc,XML::FileTypeHTML);
+  if (result)
+    xmlerror(result,"Error %d loading from file");
+  
+  // Open a cursor on it
+  result = doc->NewCursor(&cursor);
+  if (result)
+    xmlerror(result,"Error %d from NewCursor()");
+
+  // Save it XML/compiled
+  result = manager->Save(doc,uribuf);
+  if (result) {
+    parseerror(doc);
+    xmlerror(result,"Error %d saving HTML");
+  }
+      
+  // Free the manager
+  delete manager;
+    
+  return 0;    
+}
+
+
+@
+
+
+1.3
+log
+@More work on HTMLTidy and HTML parsing
+@
+text
+@a14 2
+#include <iostream.h>
+#include <fstream.h>
+@
+
+
+1.2
+log
+@Made HTMLTidy show parse error
+@
+text
+@a209 10
+  // Walk the cursor until finished
+  for (;;) {
+    result = cursor->Walk();
+    if (result && result != XMLErrorCsrEndOfDocument) {
+      parseerror(doc);
+      xmlerror(result,"Error %d from cursor.Walk()");
+    }
+    if (result) break;
+  }
+
+d212 5
+a216 3
+  if (result)
+    xmlerror(result,"Error %d saving XML");
+    
+@
+
+
+1.1
+log
+@Created HTMLTidy exe, redid how compile/link works
+@
+text
+@d205 15
+@
+

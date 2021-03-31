@@ -1,0 +1,897 @@
+// Copyright (©) 2016, Bruce Ferris (UK), all rights reserved
+package BNF;
+
+import java.nio.file.*; // For File, Path, etc.
+import java.io.*;       // For PrintStream, etc.
+import java.util.*;     // For ArrayList, List, Map, etc.
+import BEFE.*;
+import BEFE.Error;
+import BEFE.SyntaxError;
+import BEFE.InternalError;
+import BEFE.Stack;
+import BEFE.out;        // For proper output
+import BEFE.Debug;      // For debug output
+
+public class Rules {
+
+  private enum   State {
+                        /** NULL State, is able to process more files */
+                        NULL,
+                        /** ERROR State, Rules has Errors and is finished processing, can't go any further */
+                        ERROR,
+                        /** SYNTAX State, Rules have been Syntax Checked */
+                        SYNTAX,
+                        /** ANONYMISED State, Rules have been anonymised */
+                        ANONYMISED,
+                        /** RESOLVED, Rules is finished, resolved, and ready to be used */
+                        RESOLVED,
+                       }
+  
+  // Statics...
+  private static String startOps = "([{";
+  private static String endOps   = ")]}";
+  
+  // Members...
+  private Map<String,Rule> rules;
+  private List<Error>      errors;
+  private boolean          isValid;
+  private State            state;   
+  private List<String>     files;
+  private int              anonID = 0;
+  
+  //
+  // Constructors
+  //
+  
+  public Rules() {
+    rules   = new HashMap<String,Rule>();
+    errors  = new ArrayList<Error>();
+    isValid = false;
+    state   = State.NULL;
+    files   = new ArrayList<String>();
+    
+  }
+  
+  //
+  // Utility methods
+  //
+  
+  private void postError(Error err) {
+    errors.add(err);
+  }
+  private void postError(String msg) {
+    errors.add(new Error(msg));
+  }
+  private void postError(String fileName, String msg) {
+    errors.add(new Error(fileName,msg));
+  }
+  public void postError(LineCol lineCol, String msg) {
+    errors.add(new SyntaxError(lineCol, msg));
+  }
+  public void postError(String fileName, LineCol lineCol, String msg) {
+    errors.add(new SyntaxError(fileName, lineCol, msg));
+  }
+  public void postError(Word word, String msg) {
+    errors.add(new SyntaxError(word.fileName, word.lineCol, msg));
+  }
+
+  public void printErrors(String prefix) {
+    Error[] errs = errors.toArray(new Error[errors.size()]);
+    utils.printErrors(prefix,errs);
+  }
+  
+  /**
+  Processes Word[] array and returns list of Rule Spans in the array.
+  */
+  private Span[] getRuleSpans(Word[] words) {
+    
+    List<Span>    spans = new ArrayList<Span>();
+    Span          span = new Span(0,words.length,1);
+    Word          word;
+    int           pos;
+    int           expDepth = 0; // Expression depth
+    
+    if (words == null)
+      return null;
+
+    for (pos = 0; pos < words.length; pos++) {
+      word = words[pos];
+      if (word.type == Word.Type.OPERATOR) {
+
+        // Manage expression counter...
+        if (word.value.equals("{") ||
+            word.value.equals("(") || 
+            word.value.equals("[")) {
+          expDepth++;
+          continue;
+        }
+        if (word.value.equals("}") ||
+            word.value.equals(")") || 
+            word.value.equals("]")) {
+          expDepth--;
+          continue;
+        }
+
+        //  ";" and "::=" rules only apply if not within expression...
+        if (expDepth >= 1)
+          continue;          
+        
+        if (word.value.equals(";")) {
+          span.end = pos;
+          if (span.end > span.start)
+            spans.add(new Span(span));
+          pos++;
+          span.start = pos;
+          span.end = words.length;
+          continue;
+        }
+        
+        //
+        if (word.value.equals("::=")) {
+          span.end = pos - 1;
+          if (span.end > span.start) {
+            spans.add(new Span(span));
+          }
+          span.start = pos-1;
+          span.end = words.length;
+          continue;
+        }
+      }
+    }
+
+    // Add last one
+    span.end = pos;
+    if (span.start < words.length && span.end > span.start)
+      spans.add(span);      
+    
+    // Get return value
+    Span[] result = new Span[spans.size()];
+    result = spans.toArray(result);
+    
+    return result;
+      
+  }
+
+  /**
+  Determines if a given Rule name is Anonymous
+  */
+  boolean isAnonymous(String name) {
+    if (name == null)
+      return false;
+    // Find last non-digit
+    int lnd;
+    for (lnd=name.length()-1; lnd >= 0; lnd--) {
+      char c = name.charAt(lnd);
+      if (c < '0' || c > '9')
+        break;
+    }
+    // Check it...
+    String anon = "_anon_";
+    if (lnd != 5 || !name.regionMatches(0,anon,0,anon.length()))
+      return false;
+    return true;
+  } 
+  
+  /**
+  Determines if a given Rule is anonymous AND was (...)
+  */
+  boolean isParen(String ruleName) {
+    if (isAnonymous(ruleName) && rules.containsKey(ruleName)) {
+      Rule that = rules.get(ruleName);
+      if (that.minOccur == 1 && that.maxOccur == null)
+        return true;
+    }
+    return false;
+  }
+  
+  /**
+  Determines if a given Rule is anonymous AND was (...)
+  */
+  boolean isBracket(String ruleName) {
+    if (isAnonymous(ruleName) && rules.containsKey(ruleName)) {
+      Rule that = rules.get(ruleName);
+      if (that.minOccur == 0 && that.maxOccur == 1)
+        return true;
+    }
+    return false;
+  }
+  
+  //
+  // Query methods
+  //
+  
+  public Error[] getErrors() {
+    if (errors.size() == 0)
+      return null;
+    Error errs[] = errors.toArray(new Error[errors.size()]);
+    return errs;
+  }
+
+  public boolean hasErrors() {
+    return (errors != null && errors.size() != 0);
+  }  
+
+  //
+  // Print methods
+  //
+
+  public void printRules(String prefix) {
+    printRules(prefix,false);
+  }
+  
+  public void printRules(String prefix,boolean verbose) {
+    
+    String[] keys = new String[0];
+    
+    if (rules == null) {
+      out.println(prefix+"***No Rules***");
+      return;
+    }
+    
+    // Get longest rule name...
+    int maxLen = 0;
+    for (String key : rules.keySet())
+      maxLen = Math.max(maxLen,key.length());
+    
+    // Get the list of keys and sort it
+    keys = rules.keySet().toArray(keys);
+    Arrays.sort(keys);
+
+    // Print them...
+    for (String key : keys) {
+
+      String output = key;
+      Rule   rule;
+      Span   occur;
+
+      rule = rules.get(key);
+
+      output += utils.replicateChar(' ',maxLen-key.length());
+      output += ": ";
+      occur = new Span(rule.minOccur,rule.maxOccur);
+      output += rule.type;
+      output += " ("+occur+") ";
+      for (int i = 0; i < rule.words.length; i++) {
+        Word word = rule.words[i];
+        if (i != 0)
+          output += " ";
+        if (word.type == Word.Type.DQUOTE || word.type == Word.Type.SQUOTE) {
+          if (word.value.equals("'"))
+            output += "'''";
+          else if (word.value.equals("\""))
+            output += "\"\"\"";
+          else
+            output += "\"" + utils.javaStringLiteral(word.value) + "\"";
+        }
+        else
+          output += word.value;
+      }
+      out.println(prefix+output);
+
+      // If verbose, detail the words...
+      if (verbose) {
+        String[] lines = Word.outputWordsFiltered(rule.words,new Word.OptionsNominal());
+        for (String line : lines)
+          out.println("         "+line);
+      }
+
+    } 
+    
+  }
+  
+  //
+  // Syntax Methods
+  //
+  
+  /**
+  Checks Syntax recording any malformed Rule declarations for a given rule.
+  
+  Return true if syntax okay and false if syntax not okay.
+  */
+  private boolean syntax(Rule rule) {
+
+    Word[]      words        = rule.words;
+    Stack<Word> stack        = new Stack<Word>();
+    int         startErrors  = errors.size();
+    String[][]  matching     = {{"(",")"},
+                                {"[","]"},
+                                {"{","}"}
+                               };
+    String[]    startOps     = {"(","[","{",};
+
+    class BREAK extends Exception {BREAK(){}} // Sneeky bollocks for flow control
+    BREAK Break = new BREAK();
+    
+    try { // For flow control NOT exceptions...
+    
+      if (state != State.NULL) {
+        String msg = "Rules.syntax cannot be called unless in the NULL State";
+        if (rule == null || rule.words == null || rule.words.length == 0)
+          postError(new InternalError(msg));
+        else
+          postError(rule.words[0].lineCol,msg);
+        throw Break;
+      }
+      
+      // Validate it's not a reserved name form...
+      if (isAnonymous(rule.name)) {
+        postError(new SyntaxError(rule.lineCol, "Anonymous name form reserved"));
+        throw Break;
+      }
+
+      for (int wordIdx = 0; wordIdx < words.length; wordIdx++) { // For each Word
+        
+        Word word = words[wordIdx];
+        
+        // We're only interested in OPERATOR Words here
+        if (word.type != Word.Type.OPERATOR) {
+          if (word.type == Word.Type.NAME && isAnonymous(word.value))
+            postError(word,"Name form 'anonymous' reserved for internal use");
+          continue;
+        }
+
+        // Validate '..' Ranges
+        if (word.value.equals("..")) { // Range Checks...
+          Word prevWord = (wordIdx == 0)              ? null : words[wordIdx-1];
+          Word nextWord = (wordIdx+1 >= words.length) ? null : words[wordIdx+1];
+
+          if (prevWord == null)
+            postError(word,"Expected word before '..'");
+          else if (prevWord.type != Word.Type.HEX    &&
+                   prevWord.type != Word.Type.INT    &&
+                   prevWord.type != Word.Type.DQUOTE &&
+                   prevWord.type != Word.Type.SQUOTE)
+            postError(prevWord,"Expected hex or single character string literal here");
+          else if (prevWord.type != Word.Type.HEX && prevWord.type != Word.Type.INT && prevWord.len != 1)
+            postError(prevWord,"Expected single character string literal here");
+
+          if (nextWord == null)
+            postError(word,"Expected word after '::='");
+          else if (nextWord.type == Word.Type.HEX    &&
+                   nextWord.type == Word.Type.INT    &&
+                   nextWord.type != Word.Type.DQUOTE &&
+                   nextWord.type != Word.Type.SQUOTE)
+            postError(nextWord,"Expected hex or single character string literal here");
+          else if (nextWord.type != Word.Type.HEX &&
+                   nextWord.type != Word.Type.INT &&
+                   nextWord.len != 1)
+            postError(nextWord,"Expected single character string literal here");
+          
+          continue;
+        } // ...Range Checks
+        
+        // Push onto stack if '(', '[' and '{'...
+        if (Arrays.asList(startOps).contains(word.value)) {
+          stack.push(word);
+          continue;
+        }
+        
+        // Handle '|'...
+        if (word.value.equals("|")) {
+          if (wordIdx == 0) {
+            postError(word,"Expected something before '|'");
+            continue;
+          }
+          if (wordIdx == words.length-1) {
+            postError(word,"Expected something after '|'");
+            continue;
+          }
+          Word prevWord = words[wordIdx-1];
+          Word nextWord = words[wordIdx+1];
+          String badOpBefore = "([{|::=";
+          if (prevWord.type == Word.Type.OPERATOR && badOpBefore.contains((CharSequence)prevWord.value) ) {
+            postError(word,"'|' not valid after '"+prevWord.value+"'");
+            continue;
+          }
+          continue;
+        }
+        
+        // Handle mismatched parens...
+                                     
+        boolean foundEndParen = false;
+        
+        for (String[] check : matching) {
+          
+          String end   = check[1];
+          String start = check[0];
+          Word   TOS   = stack.TOS();
+          
+          if (word.value.equals(end)) {
+            foundEndParen = true;
+            if (TOS == null)
+              postError(word,"'"+end+"' without matching '"+start+"'");
+            else if (!TOS.value.equals(start))
+              postError(word,"'"+end+"' conflicts with preceeding '"+TOS.value+"' at "+TOS.lineCol.to1String());
+            else {
+              if (stack.size() <= 1 && TOS.fileSeq == word.fileSeq-1)
+                postError(TOS,"Empty expression");
+              stack.pop();
+              break;
+            }
+          }
+        }
+        
+      } // ...For each Word
+      
+      // Handle unterminated parens
+      if (stack.size() != 0) {
+        for (int i = stack.size()-1; i >= 0; i--) {
+          Word word = stack.get(i);
+          postError(word,"Unterminated '"+word.value+"'");
+        } 
+      }
+
+      throw Break;
+
+    } // ...For flow control NOT exceptions
+    catch (BREAK b) {}
+    
+    return (errors.size() == startErrors);
+    
+  }
+
+  /**
+  Anonymise all rules by turning multiple Word expressions into separate, anonymous, rules
+  named "_anon_<N>" where <N> is a unique number.
+  <p>Note: Puts Rules into the ANONYMISED state.
+  <p>Note: Previous calls to syntax() ensure all expressions ( (...), [...], and {...}) 
+  are terminatesd and non-empty AND all '|' occurrences are not empty on the left and right.
+  */  
+  private void anonymise() {
+    
+    ArrayList<String> ruleNames;
+    
+    class Expression {
+      char      value;  // Expression start character (0 = Beginning of Words)
+      int       start;  // Index (in ArrayList<Word>) of start of this expression)
+      boolean   hasOR;  // Current expression contains '|'
+      public Expression(char value, int start) {
+        this.value  = value;
+        this.start  = start;
+        this.hasOR  = false;
+      }
+    };
+    Stack<Expression> stack = new Stack<Expression>();
+    
+    if (state != State.NULL) {
+      postError(new InternalError("Rules.anonymise cannot be called unless in the NULL State"));
+      return;
+    }
+
+    // Put all the rule names into the list...
+    ruleNames = new ArrayList<String>(rules.keySet());
+
+    // For each rule...
+    for (String ruleName : ruleNames) { // For each Rule...
+      
+      Rule              rule    = rules.get(ruleName);
+      Stack<Expression> spans   = new Stack<Expression>();
+      boolean           changed = false;
+      int               curPos  = 0;
+      int               actionCounter = 0;
+
+      // Initialise stack
+      stack.clear();
+      stack.push(new Expression((char)0x00,0));
+
+      while (curPos < rule.words.length) { // For each Word...
+      
+        Expression TOS  = stack.TOS();        
+        Word       word = rule.words[curPos];
+        Rule       anon;
+        
+        if (word.type == Word.Type.OPERATOR) { // OPERATOR...
+          
+          Span rSpan = new Span(TOS.start,curPos+1); // Word Span to remove
+          Span wSpan = new Span(TOS.start+1,curPos); // Word Span to anonymise
+          char curChar = word.value.charAt(0);
+          Span occur;
+          
+          // Handle actions seperately...
+          if (curChar == '{' && actionCounter == 0) {
+             stack.push(new Expression('{',curPos));
+             actionCounter++;
+             curPos++;
+             continue;
+          }
+        
+          // If in action...
+          if (actionCounter != 0) {
+            if (curChar == '{')
+              actionCounter++;
+            else if (curChar == '}')
+              actionCounter--;
+            if (actionCounter == 0) {
+              occur = new Span(1,1);
+              anon = newAnon(rule,new LineCol(rule.words[TOS.start].lineCol),occur,wSpan,rSpan);
+            }
+            curPos = rSpan.start + 1;
+            continue;
+
+          }
+          
+          // Handle end of expressions...            
+          if (curChar == ')' || curChar == ']') {
+                          
+            // Build anonymous Rule...
+            if (curChar == ')') {
+              occur = new Span(1,null);
+              // If matching '(' preceeded by range, use that as occurs...
+              if (TOS.start > 0 && rule.words[TOS.start-1].type == Word.Type.RANGE) {
+                // TEMP... (because forgot to check-in Range.java
+                //???Range range = new Range(rule.words[TOS.start-1].value);
+                String val = rule.words[TOS.start-1].value;
+                String[] parts = val.split("..");
+                val = "";
+                for (int i=0; i < parts.length; i++) {
+                  if (i > 0)
+                    val += ":";
+                  val += parts[i];
+                }                
+                Span range = new Span(val);
+                // ...TEMP
+                
+                occur.start = range.start;
+                occur.end   = range.end;
+                rSpan.start--;
+              }
+              
+            }
+            else
+              occur = new Span(0,1);
+            
+            // Normal case...
+            if (rSpan.size() < rule.words.length || stack.size() < 3) { // Anonymise if only part of the words or single (...)/[...]
+              if (rSpan.size() == rule.words.length) { // Expression entire...
+                rule.words = Word.slice(rule.words,wSpan);
+                rule.minOccur = occur.start;
+                rule.maxOccur = occur.end;
+              }
+              else { // Expression part of words...
+                anon = newAnon(rule,new LineCol(rule.words[TOS.start].lineCol),occur,wSpan,rSpan);
+              }
+              curPos = rSpan.start;
+            }
+            else { // It's the whole words, substitute instead of anonymising...
+              if (stack.size() > 3) {
+                postError(new SyntaxError(rule.words[0].lineCol,"Nested '([...' and '[(...' only allowed two deep"));
+                break;
+              }
+              // Compute combined minOccur/maxOccur
+              char c1 = stack.get(1).value;
+              char c0 = stack.get(0).value;
+              if (c1 == c0) { // Sanity check
+                postError(new SyntaxError(rule.words[0].lineCol, "Multiple nesting of '"+c1+"' achieves nothing"));
+                break;
+              }
+              rule.minOccur = 0;
+              rule.maxOccur = null;
+              // Replace words with inner content
+              rule.words = Word.slice(rule.words,wSpan);
+            }
+              
+            changed = true;
+
+            // Get rid of TOS 
+            stack.pop();
+            
+          }
+          
+          // Handle beginnig of expression...
+          else if (curChar == '(' || curChar == '[' || curChar == '{') {
+            Expression exp = new Expression(curChar,curPos);
+            stack.push(exp);
+          }
+          
+          // Handle '|'
+          else if (curChar == '|') {
+            TOS.hasOR = true;
+            // Anonymise to the left if more than one term...
+            if (stack.size() == 1 || TOS.start == 0)
+              wSpan.start = 0;
+            anon = newAnon(rule,new LineCol(rule.words[TOS.start].lineCol),new Span(1,1),wSpan,rSpan);
+            TOS.start = rSpan.start + 1;
+            curPos    = rSpan.start;
+            changed   = true;
+          }
+          
+          // Handle '..' ...
+          else if (word.value.equals("..")) {
+            Word newWord = new Word(rule.words[curPos-1]);
+            newWord.value    += "..";
+            newWord.value    += rule.words[curPos+1].value;
+            newWord.span.end  = rule.words[curPos+1].span.end;
+            newWord.len       = newWord.value.length();
+            newWord.type      = Word.Type.RANGE;
+            rSpan = new Span(curPos-1,curPos+2);
+            rule.words = Word.ArrayRemove(rule.words,rSpan);
+            rule.words = Word.ArrayInsert(rule.words,newWord,curPos-1);
+            curPos = curPos-1;
+          }
+          
+        } // ...OPERATOR
+
+        // Validate it's not a reserved name form...
+        if (word.type == Word.Type.NAME) {
+          if (isAnonymous(word.value)) {
+            postError(new SyntaxError(word.lineCol, "Name form 'anonymous' reserved for internal use"));
+            break;
+          }
+        }
+        
+        curPos++;
+          
+      } // ...For each Word
+      
+      // Update Rule type
+      if (stack.TOS().hasOR) {
+        Expression TOS = stack.TOS();
+        rule.type = Rule.Type.OR;
+
+        // Anonymise remainder if more than one word...
+        if (rule.words.length - TOS.start > 1 && TOS.start != 0) {
+          Span wSpan = new Span(TOS.start,rule.words.length);
+          Span rSpan = new Span(TOS.start,rule.words.length);
+          Rule anon = newAnon(rule,new LineCol(rule.words[TOS.start].lineCol),new Span(1,1),wSpan,rSpan);
+          changed = true;
+        }
+      }
+      else if (rule.type == null)
+        rule.type = Rule.Type.AND;
+
+      // Update the map if it changed...
+      if (changed)
+        rules.put(ruleName,rule);
+      
+    } // ...For each Rule
+    
+    // We're anonymised now
+    state = State.ANONYMISED;
+
+    return;
+    
+  }
+
+  /**
+  Resolve all Rule.referenceBy and Rule..
+  
+  Note: May only be called in the ANONYMISED state.
+  */
+  
+  void calculateReferences() {
+    
+  }
+  
+  /**
+   Creates a new anonymous Rule based on word span and startChar.
+  
+   Note: keepSpan and removeSpan are EXCLUSIVE   
+  */  
+  private Rule newAnon(Rule rule,LineCol lineCol,Span occur,Span wordSpan,Span removeSpan) {
+
+    if (wordSpan == null       ||
+        rule == null           ||
+        rule.words == null     ||
+        rule.words.length == 0 ||
+        lineCol == null        || 
+        wordSpan == null       ||
+        removeSpan == null
+       )
+      return null;
+    
+    Rule anon  = new Rule();
+    Span wSpan = new Span(wordSpan).normalise();
+    Span rSpan = new Span(removeSpan).normalise();
+    
+    
+    anon.name = "_anon_"+(anonID++);
+    anon.fileName = rule.words[0].fileName;
+    anon.type = Rule.Type.AND;
+    if (occur != null) {
+      anon.minOccur = occur.start;
+      anon.maxOccur = occur.end;
+    }
+    else {
+      anon.minOccur = 1;
+      anon.maxOccur = 1;
+    }
+    
+    anon.words = Word.ArrayGetSpan(rule.words,wSpan);
+    
+    // Special check for actions (was easiest to put it here)
+    // Note: Did this so, later, ACTION rules exist and "unresolved" isn't applied to contents
+    if (rSpan != null && rSpan.start >= 0                  &&
+        rSpan.start < rule.words.length                    &&
+        rule.words[rSpan.start].type == Word.Type.OPERATOR &&
+        rule.words[rSpan.start].value.equals("{")
+       )
+      anon.type = Rule.Type.ACTION;
+    
+    // Create the anonymous rule
+    rules.put(anon.name,anon);
+
+    Word newWord    = new Word();
+    newWord.type    = Word.Type.NAME;
+    newWord.lineCol = new LineCol(lineCol);
+    newWord.len     = anon.name.length();
+    newWord.value   = new String(anon.name);
+    
+    if (removeSpan != null)
+      rule.words = Word.ArrayRemove(rule.words,rSpan);
+    rule.words = Word.ArrayInsert(rule.words,newWord,rSpan.start);
+    
+    return anon;
+    
+  }
+
+  /**
+  Check for unresolved rules
+  */
+  private void checkUnresolved() {
+    
+    // For each rule...
+    String[] ruleNames = rules.keySet().toArray(new String[0]);
+    Arrays.sort(ruleNames);
+    
+    for (String ruleName : ruleNames) {
+      Rule rule = rules.get(ruleName);
+      if (rule.type == Rule.Type.ACTION)
+        continue;
+      for (Word word : rule.words) {
+        if (word.type != Word.Type.NAME)
+          continue;
+        if (!rules.containsKey(word.value))
+          postError(word.fileName,word.lineCol,"Rule '"+word.value+"' not declared");
+      }      
+    }
+    
+  }
+  //
+  // Processing Methods
+  //
+  
+  public Error[] processFile(String fileName) {
+
+    byte[] data;
+    Word[] words;
+    Word[] ruleWords;
+    
+    if (state != State.NULL) {
+      postError(new InternalError("Rules.processFile: Can only be invoked in NULL state"));
+      return getErrors();
+    }
+    if (fileName == null) {
+      postError("Rules.processFile() expected file name, got null");
+      return getErrors();
+    }
+    
+    // Get the file contents
+    {
+      Path path = Paths.get(fileName);
+      if (!Files.exists(path))
+        postError("File \""+fileName+"\" does not exist");
+      else if (!Files.isReadable(path))
+        postError("File \""+fileName+"\" cannot be read");
+      else if (!Files.isRegularFile(path))
+        postError("File \""+fileName+"\" is not a file");
+      if (errors.size() != 0)
+        return getErrors();      
+      data = utils.fileReadBytes(fileName);
+    }
+
+    // Save this file name
+    if (!files.contains(fileName))
+      files.add(fileName);
+    
+    // Get the Rule words...
+    { // Get Rule Words...
+      FileWords fw = new FileWords(fileName);
+      String    ruleName;
+      Word[]    wds;
+      Span[]    spans; // Rule Spans
+      Rule      rule;
+      
+      words = fw.getWords();
+      if (fw.hasErrors()) {
+        Error[] errs;
+        errs = fw.getErrors();
+        for (Error e : errs) errors.add(e);
+        return getErrors();        
+      }
+      // Get the Rule Spans....
+      spans = getRuleSpans(words);
+      if (spans == null)
+        return getErrors();
+ 
+      // For each Rule Span...
+      for (Span span : spans) { // For each Rule...
+
+        Word word;
+        
+        if (span.size() <= 0) {
+          postError(fileName,"***Unexpected empty Span("+span+").size()="+span.size()+" ***");
+          continue;
+        }
+        if (span.size() < 2) {
+          postError(fileName,words[span.start].lineCol,"Invalid Syntax");
+          continue;
+        }
+        word = words[span.start];
+        if (word.type != Word.Type.NAME && word.type != Word.Type.QNAME) {
+          postError(fileName,word.lineCol,"Expected name here");
+          continue;
+        }
+        word = words[span.start+1];
+        if (word.type != Word.Type.OPERATOR && !word.value.equals("::=")) {
+          postError(fileName,word.lineCol,"Expected \"::=\" here");
+          continue;
+        }
+        if (span.size() == 2) {
+          postError(fileName,words[span.start+1].lineCol,"Empty Rule");
+          continue;
+        }
+        
+        // Make sure it's not already defined...
+        word = words[span.start];
+        ruleName = word.value;
+        if (rules != null && rules.containsKey(ruleName)) {
+          String msg = "Rule '"+ruleName+"' already declared at";
+          Rule that = rules.get(ruleName);
+          if (that.fileName != fileName)
+            msg += that.fileName+" ";
+          msg += " line/col "+that.lineCol.to1String();
+          postError(fileName,word.lineCol,msg);
+          continue;
+        }
+
+        // Create the rule...
+        rule = new Rule();
+        rule.name     = ruleName;
+        rule.fileName = fileName;
+        rule.minOccur = 1;
+        rule.maxOccur = 1;
+        rule.lineCol  = words[span.start].lineCol;
+        rule.words    = Word.ArrayGetSpan(words,new Span(span.start+2,span.end));
+        if (rules == null)
+          rules = new HashMap<String,Rule>();
+        
+        // Add to Rule Map if no initial syntax errors...
+        boolean syntaxOkay = syntax(rule);
+        if (syntaxOkay)
+          rules.put(ruleName,rule);
+        
+      } // ...For each Rule
+    } // ...Get Rule Words
+
+    return getErrors();
+
+  }
+
+  public Error[] finishProcessing() {
+  
+    if (state != State.NULL) {
+      postError("Rules.finishProcessing() not in NULL state");
+    }
+    
+    // Check unresolved references...
+    checkUnresolved();
+    if (hasErrors())
+      return getErrors();    
+    
+    // Anonymise the rules...
+    Debug.println("finishProcessing: anonymising...");
+    anonymise();
+    Debug.println("finishProcessing: hasErrors() = "+hasErrors());
+    if (hasErrors())
+      return getErrors();
+
+    // Resolve all rereferences...
+    Debug.println("finishProcessing: state = "+state);
+    calculateReferences();
+    if (hasErrors())
+      return getErrors();
+    
+    return null;
+    
+  }
+}

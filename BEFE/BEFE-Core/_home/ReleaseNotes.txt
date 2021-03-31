@@ -1,0 +1,403 @@
+#!befe-publish home
+#──────────────────────────────────────────────────────────────────────
+# File: ReleaseNotes.txt - BEFE 0.4 Release Notes
+#──────────────────────────────────────────────────────────────────────
+#
+# This file contains a quick overview of what's delivered in BEFE-0.4
+# including full ZIP file overview.
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011-2017, Bruce Ferris (UK)
+#──────────────────────────────────────────────────────────────────────
+
+This file gives a brief overview of what's in the current BEFE release,
+the directory structure and ZIP file contents.
+
+For more information, try any or all of the web links below...
+
+  o BEFE Home Page - http://www.bferris.co.uk/befe
+  
+  o BEFE Twitter   - http://twitter.com/BEFESoftware
+  o BEFE Facebook  - http://facebook.com/BEFESoftware
+  o BEFE Blog      - http://befe-software-library.blogspot.com
+
+If you prefer Google+ to Facebook -- although I haven't tried it much
+because I've been busy -- you could add 'befe@bferris.co.uk' to your
+Google+ circles somewhere if you wish.  If I see that you have, I'll 
+make sure to post any news there along with Twitter and Facebook.
+
+If you have any further questions, would like further explanation of
+what BEFE is about, or just want to shoot the breeze about programming
+in general, please feel free to try any of the following methods to
+contact me and I'll respond as soon as I can...
+
+  o Email: befe@bferris.co.uk
+  o Skype: BEFESoftware 
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Overview
+#
+
+This release is delivered in a single .ZIP file for Windows only.
+The contents of the .ZIP are described briefly below.
+
+BEFE is currently C++ only and Windows only.  In the near future we'll
+also have an Ubuntu port and we'll be porting to other platforms as
+and when possible or needed.
+
+In order to use BEFE in ernest, you will have to have MinGW installed
+on your Windows machine.  I currently use MinGW-3.20 but newer versions
+may be available.  You can get MinGW at the following web address...
+
+  http://mingw.org
+  
+In case you're not used to MinGW, it's not the same thing as Cygwin, is
+smaller (from my understanding) and is meant more as a tool to be invoked
+from cmd.exe instead of Cygwin -- which is made for those Unix thinking
+guys who can't allow themselves to get "dirtied" by Microsoft Windows too
+much.
+
+MinGW uses GNU's gcc to compile stuff and gcc is delivered as part of
+MinGW, at least if you install their 'MSYS' option.
+
+As far as an IDE is concerned, BEFE doesn't require an IDE, especially
+since it builds itself (see below) but I happen to use CodeLite which
+is available at http://www.codelite.org because a) it's not an overblown
+mess like Eclipse or Microsoft's offerings, and b) it's also available on
+Ubuntu.  But you're welcome to venture into the unknown and try BEFE
+in some other IDE but that's your problem to deal with, not mine!!!
+
+In the longer term we expect to be providing BEFE in different forms
+in Java and Python as well.  But we don't at the moment because you
+have to start somewhere and that "somewhere" must be a fast and
+efficient form like C++ or else I wouldn't feel like it was worth
+the bother.
+
+#──────────────────────────────────────────────────────────────────────
+#
+# What's missing in this release
+#
+#──────────────────────────────────────────────────────────────────────
+
+Firstly, another port is missing.  That'll be coming in BEFE-0.3 when
+I finish porting it to Ubuntu.
+
+Another thing that's missing is complete documentation.  I figure that
+I don't need an official release for that and will deliver it online
+whenever I finish writing bits of it.
+
+When I do so I'll mention it on the BEFE Twitter and Facebook pages
+so you'll be notified if you follow BEFE there (or possibly if you put
+my 'befe@bferris.co.uk' email into your Google+ circles somewhere).
+
+The final thing that's missing is I've found a couple of cases in the
+VarTerm class that fail abysmally, meaning it doesn't generate all the
+possible options for things like 'U[niversal]T[ext]F[ormat][[-]8]' where
+it doesn't recognize "UTF-8" as an option even though it accepts "UTF".
+DDDDDDDDOOOOOOOOOOOOOOHHHHHHHHHHHHHH!!!!
+
+    Note: If you run "befe +vv +tests lex" you'll see a couple of
+          other bad ones in VarTerm.  Ignore those for now because
+          it's not hurting much and I'm fixing it soon.
+          
+But the VarTerm thing isn't a show stopper because I need to rewrite it
+properly anyway since I'd already changed my mind on how to best 
+present it to the outside world.  So, I'll probably slide that into
+BEFE-0.3 while I'm porting to Ubuntu.
+
+As far as longer term "What's Missing?", here's a quick summary in no
+specific order or importance...
+
+  o Microsoft CL compiled .OBJ and .LIB files (coming soon)
+  o Various minor...
+    + Command-line completion in Console device
+    + Array.Find methods
+  o Rationalised Sorting/Compare methods (***Work In Progress***)
+  o General Data Formatting (better than printf is easy, Java/Python harder...)
+  o ISO Time Strings
+  o Primitive Int based Statistical Functions like STD (***Work In Progress***)
+  o Detailed OS FileSystem analysis (***Work In Progress***)
+  o Choosing Sort algorithm where it's implemented (***Work In Progress***)
+  o Full and proper Lexical Analysis
+  o Process Model
+  o Object Model (to fit into current Type, Value, and Primitive models)
+  o Network Communication
+  o Haven't finished Integer/Number/OraNumber implementations
+  o Serialisation and Persistence (coming soon)
+  o Security for Serialisation/Persistence/Communication
+  o Industry standard (SSL/TLS, SHA-2, etc.) Cryptography implementation
+  
+***See the BEFE Road Map below***
+
+#──────────────────────────────────────────────────────────────────────
+#
+# BEFE Release History (to date)
+#
+#──────────────────────────────────────────────────────────────────────
+
+BEFE 0.4: Focusing on Lexical Analysis, Persistence, and Caching
+          giving us a memory/data model for reading, parsing, and 
+		  manipulating code written in the following programming
+		  languages...
+          
+            o BEFE-Wiki (more on that later)
+            o C
+            o C++
+            o Java
+            o Python
+            o Json
+
+		  What's new in BEFE-0.4...
+		  
+		    o Put Cache and wrappers into Befe Class to aid file block I/O
+			o Basic C++ Lexical Analysis working
+			
+BEFE 0.3: Same as Release 0.2 but with addition of Linux (Ubuntu) port
+
+BEFE-0.2: This is the first "public release" and, although it doesn't
+          look like much at first glance, it was a lot of hard work and
+          set the stage for where I'm planning to take BEFE in the future.
+          
+          The salient capabilities are (see Grey Papers for more info)...
+          
+            o Native UTF-8 String class
+            o Array, Sparse, and Map implementation Classes/Templates
+            o Platform Neutral Abstraction layer Classes...
+                + OperatingSystem
+                + Process
+                + Processor
+                + Network
+                + Platform
+                + File
+                + Console
+            o BEFE Primitive Types (including Int, Short, Byte, Long, Int32, etc.)
+            o BEFE Implementation of "general purpose" Classes including...
+                + Stream
+                + Time
+                + FileStream
+                + Range (sequence inclusive range)
+                + Span (sequence exclusive range)
+                + Slice (like Python's Slice)
+                + Alloc (general sequence allocation specifier)
+                + Integer ***Work In Progress***
+            o BEFE Value Lifecycle including...
+                + StartUp and ShutDown
+                + Copy and Move
+                + Reset and Clear
+                + Null
+                + Empty
+                + Consumability
+                + Mutability
+                + Length and Size
+            o Beginnings of....
+                + Lexical Analysis
+                + In-memory Disk Read/Write Cache
+                + Dictionary
+
+BEFE-0.1: This wasn't really a release.  I was developing on Windows
+          Vista at the time and just released this to make sure it would
+          work on other Win32 ports.  Some of it did and some of it didn't
+          but I cleared that up and keep on chugging away at it...
+
+#──────────────────────────────────────────────────────────────────────
+#
+# BEFE Road Map (the future)
+#
+# Note: These are just "stakes in the ground" as far as my current
+#       intent and precedence.  Any adjusting of priorities is possible
+#       given reasonable incentive but, unless a REAL BIG INCENTIVE is
+#       given, I'm only inclined to honour that for releases after
+#       the point indicated below.
+#
+#──────────────────────────────────────────────────────────────────────
+
+#
+# Note: ***Adjustable from here on***
+#
+# Note: Up to this point, I've only
+#       focused on single threaded
+#       processes INTENTIONALLY!!!
+#
+
+BEFE 0.5: Focusing on various other things including...
+            o Process Model including...
+              + Shared Memory
+              + IPC
+              + Threads
+              + Massively Parallel Processing
+              + Distributed Processing
+            o Network Communication Model
+            o Network Communication Clients...
+              + HTTP
+              + FTP
+              + SVN (possibly)
+              + SMB (possibly)
+
+BEFE 0.6: Focusing on two main things...
+            o BEFE GUI Model
+            o BEFE Object Model
+
+#──────────────────────────────────────────────────────────────────────
+#
+# .ZIP File Contents
+#
+# Note: This is a quick summary of the contents of the ZIP file
+# containing the current release...
+#
+#──────────────────────────────────────────────────────────────────────
+
+ReleaseNotes.txt - This File
+
+Directory: bin - BEFE Executables (Windows only for this release)
+---------------------------------
+bin/Befe.exe      - BEFE Command Shell (no Debug Symbols)
+bin/BefeDebug.exe - BEFE Command Shell (Debug with GDB)
+
+Directory: doc - Published BEFE "Grey Papers"
+---------------------------------------------
+doc/BEFE-Class_String.pdf             - ***Look For Yourself***
+doc/BEFE-Introduction.pdf             - ***Look For Yourself***
+doc/BEFE-Lifecycle.pdf                - ***Look For Yourself***
+doc/BEFE-Types-Classes-Procedures.pdf - ***Look For Yourself***
+
+Directory: home - Set BEFE_Home=<this directory>
+------------------------------------------------
+home/BEFE_CaseFolding.txt   - Unicode Consortium Case Folding rules
+home/BEFE_Dictionary.txt    - Sample dictionary (Webster's 2nd edition, 1934)
+home/BEFE_ErrorMessages.txt - BEFE Error message strings
+home/BEFE_ShellHelp.txt     - BEFE Command Shell help text
+
+Directory: inc - Published BEFE C++ Headers
+-------------------------------------------    
+inc/Alloc.h
+inc/Args.h             - Helpful if you want to pull apart command line parameters
+inc/Array.h
+inc/Arrays.h
+inc/BEFE.h             - ***Should be about the only one you'll normally need!!!***
+inc/BEFEMacros.h       - In case you don't mind C preprocessor Macros
+inc/BEFEWrappers.h     - Gives you BEFE Procedures to commonly used functionality
+inc/Buffer.h
+inc/BufferStream.h
+inc/Build.h
+inc/Bytes.h
+inc/Cache.h
+inc/CacheBlock.h
+inc/CacheBlockInfo.h
+inc/CacheFile.h
+inc/CacheFileInfo.h
+inc/CacheInfo.h
+inc/Char.h             - You may want to get your head around this teeny class
+inc/Class.h
+inc/Command.h
+inc/CommandLex.h
+inc/CommandOS.h
+inc/CommandShell.h
+inc/Console.h          - You'll probably be wanting this one (Cout/Cin are Consoles)
+inc/Coord.h
+inc/Crypt.h
+inc/CryptKey.h
+inc/Cycle.h
+inc/Dictionary.h
+inc/Error.h            - Contains all BEFE Error codes
+inc/File.h             - You'll probably want to play with this one, it's pretty easy!!!
+inc/FileInfo.h
+inc/FileStream.h
+inc/FormatOut.h
+inc/Globals.h          - BEFE Globals declared here (see TheBefe->TheGlobals)
+inc/Id.h
+inc/IdInfo.h
+inc/IdSpace.h
+inc/IdSpaceInfo.h
+inc/Integer.h          - ***Work In Progress***
+inc/IntFuncs.h
+inc/LifeCycle.h
+inc/Lines.h            - This one can come in handy when reading text/source files, etc.
+inc/Map.h
+inc/MemoryStats.h
+inc/MemoryUtils.h
+inc/Message.h
+inc/Network.h
+inc/Nominal.h
+inc/Null.h
+inc/Number.h           - ***Work In Progress***
+inc/Numbers.h          - ***Work In Progress***
+inc/OperatingSystem.h
+inc/OraNumber.h        - ***Work In Progress***
+inc/Persist.h
+inc/Platform.h
+inc/Primitives.h       - You will do yourself a favour to get your head around what's in here
+inc/Process.h
+inc/Processor.h
+inc/Range.h
+inc/SBuffer.h
+inc/Sequence.h
+inc/Slice.h
+inc/Sort.h
+inc/Span.h
+inc/Sparse.h
+inc/Storage.h
+inc/Stream.h
+inc/String.h           - A really important one to get your head around (it's big but well worth it!!!)
+inc/StringGeneral.h
+inc/Strings.h
+inc/Test.h
+inc/TestArray.h
+inc/TestCache.h
+inc/TestContains.h
+inc/TestLexicon.h
+inc/TestNull.h
+inc/TestNumber.h
+inc/TestSequence.h
+inc/TestString.h
+inc/TestUTF8.h
+inc/Time.h
+inc/ToString.h
+inc/ToStrings.h
+inc/trythis.h
+inc/URange.h
+inc/USpan.h
+inc/UTF8.h
+inc/UUID.h
+inc/VarTerm.h
+inc/_GlobalMacros.h    - Sort of "BEFE use only" but you can use it to get at "globals" easily
+inc/_SanityCheck.h
+
+Directory: lib - Published BEFE Libraries
+-----------------------------------------    
+lib/libBEFE-0.2.a      - BEFE Library (no debug symbols)
+lib/libBEFE-0.2Debug.a - BEFE Library (debug symbols)
+
+Directory: inc - Published BEFE C++ Headers
+-------------------------------------------    
+src/Build.cpp          ◄─┐
+src/BuildDisplay.cpp     │
+src/BuildFiles.cpp       ├─ Provided as example of how BEFE builds itself
+src/BuildMisc.cpp        │  and how it's not really a whole lot harder than
+src/BuildSettings.cpp    │  writing a bloody shell script.  ;-)
+src/BuildZip.cpp       ◄─┘
+src/CommandOSBuild.cpp ◄─── Provided to show how Build Command plugs into BEFE Command shell
+
+src/Dictionary.cpp     - Sample Dictionary Class (***Work In Progress*** but it works)
+src/Globals.cpp        - BEFE Globals (startup default settings here)
+
+src/main.cpp           - Sample C++ main (the actual one used for BEFE Command Shell executable)
+
+src/Test.cpp           - BEFE Unit Tests: Main Test class
+src/TestArray.cpp      - BEFE Test Array classes
+src/TestCache.cpp      - BEFE Test Cache class
+src/TestConsole.cpp    - BEFE Test Console class
+src/TestContains.cpp   - BEFE Test Contains methods in various places
+src/TestFile.cpp       - BEFE Test File class
+src/TestIdSpace.cpp    - BEFE Test IdSpace class (***Work In Progress***)
+src/TestLexicon.cpp    - BEFE Test Lexical analysis (***Work In Progress***)
+src/TestMessage.cpp    - BEFE Test Message class (BEFE Error messages)
+src/TestMorphing.cpp   - BEFE Test String ――► Bytes ――► String
+src/TestNull.cpp       - BEFE Test various IsNull and SetNull implementations
+src/TestNumber.cpp     - BEFE Test Number class (***Work In Progress***)
+src/TestSequence.cpp   - BEFE Test various sequence related things (like Range, Span, etc.)
+src/TestStream.cpp     - BEFE Test Stream class
+src/TestString.cpp     - BEFE Test String class (a biggie!!!)
+src/TestTime.cpp       - BEFE Test Time class
+src/TestUTF8.cpp       - BEFE Test UTF-8 low level procedures
+src/trythis.cpp        - ◄── REALLY, READ THIS AND TRY THIS!!! ***DIY plugin to the test harness***

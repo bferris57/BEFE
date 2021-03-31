@@ -1,0 +1,8 @@
+#--------------------------------------------------------------------
+# File: BuildWindows.txt - Build Notes for Windows Platform
+#--------------------------------------------------------------------
+
+g++: -g -O0 -Wall -std=c++0x -fno-exceptions -finline-functions -nodefaultlibs -fno-rtti
+
+zip: Had to download Info-Zip's zip.exe from - http://stahlworks.com/dev/index.php?tool=zipunzip
+     *** Put it in D:\BEFE\utils

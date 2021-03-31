@@ -1,0 +1,112 @@
+//------------------------------------------------------------------------------
+//
+// File: BEFE.type.befe - Prototype usage of BEFE numeric declarations
+//
+// Note: Basic numeric types are...
+//
+//         numeric - Common base type
+//         bit     - Single bit
+//         byte    - 8 bits
+//         short   - 16 bits
+//         int     - 32 bits
+//         long    - 64 bits
+//
+
+namespace BEFE...
+
+//
+// Numeric types
+//
+
+// Base type
+type numeric:
+
+  member signed boolean   = false
+  member size   long      = 0 
+  member value  union:
+    member bits  bit[size]
+    member bytes byte[size>>3]
+
+  method numeric(val) // Needs to be implemented soon to handle all primitive types or throw error
+  method isNull()  const returns boolean
+  method getNull() const
+  
+// Char (special case)...
+type char extends numeric:
+
+  member size = 21
+  method isValid() const return boolean/*:
+    return false if (
+                     (value >= 0xD800 && thechar.value <= 0xDFFF) ||
+                     (thechar.value >= 0xFFFE && thechar.value <= 0xFFFF) ||
+                     thechar.value >= 0x110000
+     )
+     else true
+     */
+  
+type byte extends numeric:
+
+  member size = 8
+  member value = 0
+  
+  method byte():                         .value = 0
+  method byte(val byte):                 .value = val
+  method byte(val):                      .value = val
+  method isNull() const returns boolean: return value == 0xFF
+  
+type ubyte byte
+type sbyte extends byte:
+  member signed = true
+  method isNull(): return value == 0x8000
+
+type short extends numeric:
+
+  member size   = 16
+  member signed = true
+  
+  member value short
+  
+  method isNull() const returns boolean: return value == 0xFFff
+  
+type ubyte byte
+type sbyte extends byte:
+
+  member signed bit = true
+
+type `int` extends numeric:
+
+  member size   = 32
+  member signed = true
+  member value int = 0x80000000
+ 
+  method isNull() const returns boolean: return value == 0x80000000
+  
+type uint extends int:
+  member signed = false
+  member value  = 0xffffffff
+  method isNull() const returns boolean: return value == 0xffffffff
+   
+type long extends numeric:
+
+  member size   = 64
+  member signed = true
+  member value  = 0x8000000000000000  
+  method isNull() const returns boolean: return value == 0x8000000000000000
+
+type ulong extends long:
+  member signed = false
+  member value  = 0xffffffffffffffff
+  method isNull() const returns boolean: return value == 0xffffffffffffffff
+  
+// Handy and useful common alias types...
+// Note: Maybe these should go in a separate BEFE.typeAbbreviations or something
+//       instead of enforcing them automatically???
+typealias bool   boolean
+typealias int8   sbyte
+typealias uint8  ubyte
+typealias int16  sshort
+typealias uint16 ushort
+typealias int32  sint
+typealias uint32 uint
+
+...namespace

@@ -1,0 +1,115 @@
+#ifndef UTILITY_H
+#define UTILITY_H
+
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+//
+//
+// File: Utility.h - Generic Utility program class declarations
+//
+// NOTE: The "real" implementation of this class is up to each
+//       command line utility to implement.
+//
+//
+// The idea here is that we'll be writing tons of command line like
+// utilities which are passed argc and argv, are supposed to do some
+// work and return.
+//
+// So, we've updated main to know about the different utilities and
+// invoke them.
+//
+// What you have to do to write another utility is to subclass the
+// Utility class, implement the few virtual functions, and go for it.
+//
+// The only difference between a "normal" main and the main in this
+// class is that earlier arguments have already been parsed so the
+// main here is passed an extra "startat" integer which identifies
+// the argv offset of the utility's first parameter.  argv[startat]
+// will point to the utility name (equivalent to the normal argv[0]).
+// So, start at argv[startoff+0] instead.
+//
+// We could have made it look like a normal Main() but I felt this
+// was obfuscation for no benefit.
+//
+// Note: The heap, globals (like gQuiet, gVerbose) and the current
+//       process, etc. have already been initialised by main.
+//
+// Note: If you want the utility to perform its actions and return to
+//       Main(), don't call Exit()... return to the caller.  But if
+//       you really want to exit or abort everything, feel free to
+//       call Exit() or Abort.
+//
+//----------------------------------------------------------------------
+//
+//                              HAVE FUN!!!
+//
+//----------------------------------------------------------------------
+
+#include "primitives.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// Class: Utility - General purpose command line utility class
+//
+//----------------------------------------------------------------------
+
+class Utility {
+
+//
+// Protected members
+//
+
+protected:
+
+  String name;
+
+//
+// Public class (static) methods/members
+//
+
+public:
+
+  static Status   Find(String &name,Utility **newutility);
+  static Status    Run(String &name, Int argc, Byte *argv[], Int startat);
+  static Status   Help(String &name);
+
+//
+// Public instance methods
+//
+
+public:
+
+  // Members
+  Stream      out;
+  const char *indent;
+
+  // Constructors/destructors
+
+  Utility() : out(),indent("") {};
+  virtual ~Utility();
+
+  // Override these
+  virtual Status Main(Int argc, Byte **argv, Int startat);
+  virtual Status Help();
+
+};
+
+//----------------------------------------------------------------------
+//
+// Implemented utility clases
+//
+
+class UtilCrcRing : public Utility {virtual Status Main(Int argc, Byte **argv, Int startat);
+                                    virtual Status Help();
+                                  };
+
+//class UtilWin32Drives : public Utility {virtual Status Main(Int argc, Byte **argv, Int startat);
+//                                    virtual Status Help();
+//                                  };
+
+
+}; // Namespace BEF_NS
+
+#endif // UTILITY_H

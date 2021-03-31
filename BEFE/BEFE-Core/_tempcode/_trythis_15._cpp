@@ -1,0 +1,141 @@
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "Build.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// SVNHead - Return latest SVN revision
+//
+
+UInt SVNHead() {
+  
+  Status           status;
+  UInt             fg;
+  OperatingSystem *os;
+  UInt             head;
+  String           befeSVN;
+  String           tempFileName;
+  File             tempFile;
+  String           cmd;
+  Lines            svnOutput;
+  UInt             lineNo;
+  String           line;
+  
+  fg = Cout.GetForegroundColour();
+  
+  befeSVN = TheBefe->TheProcess->GetEnvironmentValue("Befe_SVN");
+  if (befeSVN.Length() == 0) goto NOSVN;
+  os = TheBefe->TheOS;
+  status = os->PathToGeneric(befeSVN);
+  if (!os->Exists(befeSVN)) goto SVNNOTEXIST;
+  if (!os->IsDirectory(befeSVN)) goto SVNNOTDIR;
+  tempFileName = os->GetTempFileName();
+  head = UNaN;
+  //cmd = String("svn log -r HEAD");
+  cmd = String("svn --version");
+  
+  Cout << "BEFE_SVN      = '" << befeSVN      << "'\n";
+  Cout << "SVN Temp File = '" << tempFileName << "'\n";  
+  Cout << "cmd           = '" << cmd          << "'\n";
+  status = TheBefe->TheProcess->Invoke(cmd, befeSVN, NamedStrings(), String(), tempFileName, String());
+  if (status) goto SOMEERROR;
+  
+  // Get the file contents
+  status = svnOutput.Load(tempFileName);
+  if (status) goto SOMEERROR;
+  Cout << "tempFile has " << svnOutput.Length() << " lines...\n";
+  for (lineNo=0; lineNo < svnOutput.Length();lineNo++) {
+    line = svnOutput.GetLine(lineNo);
+    Cout.SetForegroundColour(Console::Cyan);
+    Cout << ToString(lineNo+1, 3) << ": ";
+    Cout.SetForegroundColour(Console::Yellow);
+    Cout << line << '\n';
+  }
+  
+  // Handle Errors
+  while (false) {
+    NOSVN:       ERROR("SVNHead",Error::UtilBuildNoBEFE_SVN); break;
+    SVNNOTEXIST: ERROR("SVNHead",Error::FileDirDoesNotExist); break;
+    SVNNOTDIR:   ERROR("SVNHead",Error::FileIsNotDir);        break;
+    SOMEERROR:   ERROR("SVNHead",status);                     break;
+  }
+  
+  // Clean up
+  if (TheBefe->TheOS->Exists(tempFileName)) {
+    tempFile.SetName(tempFileName);
+    status = tempFile.Delete();
+  }
+
+  Cout.SetForegroundColour(fg);
+  
+  return head;
+  
+}
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+
+Status trythis() {
+
+  Status status;
+  String fileName;
+  Build  theBuild;
+  UInt   svnHead;
+  
+  //UInt fg;  
+  //fg = Cout.GetForegroundColour();
+  //Cout << "*** Nothing for trythis() to do at the moment ***\n";
+
+  svnHead = SVNHead();
+  Cout << "Latest revision = " << svnHead << '\n';
+  goto OK;
+  
+  // Initialse and display settings...
+  Cout << "Initial Build Settings...\n";
+  status = theBuild.DefaultSettings();
+  if (status) goto SOMEERROR;
+  status = theBuild.DisplaySettings("  ");
+  if (status) goto SOMEERROR;
+  
+  // Load the file
+  fileName = "x.befe";
+  status = theBuild.LoadFile(fileName);
+  if (status) goto SOMEERROR;
+
+  // Handle errors  
+  while (false) {
+    SOMEERROR:                       break;
+    OK:        status = Error::None; break;
+  }
+  
+  if (status) ERROR("trythis",status);
+  
+  //Cout.SetForegroundColour(fg);
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

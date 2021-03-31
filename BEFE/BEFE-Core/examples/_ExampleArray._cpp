@@ -1,0 +1,365 @@
+//----------------------------------------------------------------------
+// File: ExampleArray.cpp - Example for creating Array Specialisations
+//----------------------------------------------------------------------
+//
+// This example function (Example_Array), declares the following
+// structs/classes...
+//
+//   o Info  - A C++ Struct containing some Variable Length data
+//   o Infos - A C++ Class which implements an Array of Info
+//
+// The reason we've given this example is to illustrate the "proper"
+// way of implementing an array of structures that contain variable
+// length data.
+//
+// This is important because, for Arrays of structures that only contain
+// Fixed Length data, it's quite easy... Just override or define your
+// own versions of Array Get/Set/Insert/Append, etc.
+//
+// However, when the structures contain Variable Length data, other
+// issues arise and we illustrate how to properly address the issues.
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "Array.h"
+using namespace BEF_NS;
+
+//----------------------------------------------------------------------
+//
+// Struct: Info - The Struct we're making an Array of
+//
+
+struct Info {
+ 
+  String string1;
+  String string2;
+
+  Info();
+  Info(Info const &that);
+  ~Info();
+  Info &operator=(Info const &that);
+
+  Status StartUp();
+  Status ShutDown();
+
+};
+
+Info::Info() {
+  StartUp();
+}
+
+Info::Info(Info const &that) {
+  StartUp();
+  *this = that;
+}
+
+Info::~Info() {
+  ShutDown();
+}
+
+Info &Info::operator=(Info const &that) {
+  if (this != &that) {
+    string1 = that.string1;
+    string2 = that.string2;
+  }
+  return *this;
+}
+
+Status Info::StartUp() {
+
+  Status retStatus;
+  Status status;
+
+  retStatus = Error::None;
+  status = string1.StartUp();
+  if (!retStatus && status) retStatus = status;
+  status = string2.StartUp();
+  if (!retStatus && status) retStatus = status;
+
+  return retStatus;
+
+}
+
+Status Info::ShutDown() {
+
+  Status retStatus;
+  Status status;
+
+  retStatus = Error::None;
+  status = string1.ShutDown();
+  if (!retStatus && status) retStatus = status;
+  status = string2.ShutDown();
+  if (!retStatus && status) retStatus = status;
+  status = StartUp();
+  if (!retStatus && status) retStatus = status;
+
+  return retStatus;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Struct: Infos - An Array of Info Structs
+//
+
+class Infos : public Array {
+
+  public: Infos();
+  public: virtual ~Infos();
+
+  // High level Buffer additional methods
+  public: Info   Get(Int index) const;
+  public: Status Get(Int index,Info &info) const;
+  public: Status Set(Int index, Info const &info);
+  public: Status Append(Info const &info);
+  public: Status Insert(Int index, Info const &info);
+
+  // Specialisation Lifecycle Methods (only invoked if isspecialised == true)
+  protected: virtual Status  ElementStartUp  (Int newindex, Byte *newelm);
+  protected: virtual Status  ElementCopy     (Int oldindex, Byte *oldelm, Int newindex, Byte *newelm);
+  protected: virtual Status  ElementShutDown (Int oldindex, Byte *theelm);
+
+};
+
+Infos::Infos() {
+  StartUp(sizeof(Info));
+  isSpecialised = true;
+}
+
+Infos::~Infos() {
+  ShutDown();
+}
+
+Info Infos::Get(Int index) const  {
+
+  Status status;
+  Info   ourInfo;
+
+  if (gShowDebug)
+    Cout << "Infos.Get called\n";
+
+  status = Get(index, ourInfo);
+
+  ourInfo.string1.Consume();
+  ourInfo.string2.Consume();
+
+  return ourInfo;
+
+}
+
+Status Infos::Get(Int index,Info &info) const  {
+
+  Status  status;
+  Info   *ourInfo;
+
+  if (gShowDebug)
+    Cout << "Infos.Get called\n";
+
+  ourInfo = (Info *)Array::GetAddress(index);
+
+  status = Error::None;
+  if (ourInfo)
+    info = *ourInfo;
+  else
+    status = Error::IndexOutOfRange;
+
+  return status;
+
+}
+
+Status Infos::Set(Int index, Info const &info) {
+
+  Status  status;
+  Info   *theInfo;
+
+  if (gShowDebug)
+    Cout << "Infos.Set called\n";
+
+  theInfo = (Info *)Array::GetAddress(index);
+  if (!theInfo) goto ERROROutOfBounds;
+  *theInfo = info;
+
+  status = Error::None;
+
+  // Handle errors
+  while (false) {
+    ERROROutOfBounds: status = Error::IndexOutOfRange; break;
+  }
+
+  return status;
+
+}
+
+Status Infos::Append(Info const &info) {
+
+  Status status;
+  Info   ourInfo;
+
+  if (gShowDebug)
+    Cout << "Infos.Append called\n";
+
+  ourInfo = info;
+  status = Array::Append((Byte *)&ourInfo);
+  if (!status)
+    ourInfo.StartUp();
+
+  return status;
+
+}
+
+Status Infos::Insert(Int index, Info const &info) {
+
+  Status status;
+  Info   ourInfo;
+
+  if (gShowDebug)
+    Cout << "Infos.Info called\n";
+
+  ourInfo = info;
+  ourInfo.string1.Consume();
+  ourInfo.string2.Consume();
+  status = Array::Insert(index, (Byte *)&ourInfo);
+  if (!status)
+    ourInfo.StartUp();
+
+  status = Error::None;
+
+  return status;
+
+}
+
+Status Infos::ElementStartUp(Int newindex, Byte *newelm) {
+
+  Status status;
+
+  if (gShowDebug)
+    Cout << "Infos.ElementStartUp called\n";
+  if (IsNull(newelm)) goto ERRORNullPointer;
+
+  status = ((Info *)newelm)->StartUp();
+  if (status) goto ERRORSomething;
+
+  // Handle Errors
+  while (false) {
+    ERRORSomething:                                         break;
+    ERRORNullPointer: status = Error::InternalNULLPointer;  break;
+  }
+
+  return status;
+
+}
+
+Status Infos::ElementCopy(Int oldindex, Byte *oldelm, Int newindex, Byte *newelm) {
+
+  Status status;
+  Info   *that1;
+  Info   *that2;
+
+  if (gShowDebug)
+    Cout << "Infos.ElementCopy called\n";
+  if (IsNull(oldelm) || IsNull(newelm)) goto ERRORNullPointer;
+
+  that1 = (Info *)oldelm;
+  that2 = (Info *)newelm;
+  that2->StartUp();
+  *that2 = *that1;
+
+  // Handle Errors
+  status = Error::None;
+  while (false) {
+    ERRORNullPointer: status = Error::InternalNULLPointer;  break;
+  }
+
+  return status;
+
+}
+
+Status Infos::ElementShutDown(Int oldindex, Byte *theelm) {
+  if (gShowDebug)
+    Cout << "Infos.ElementShutDown called\n";
+  if (theelm)
+    ((Info *)theelm)->ShutDown();
+  return Error::None;
+}
+
+//----------------------------------------------------------------------
+//
+// Function: Example_Array - Our Main Function
+//
+
+Status Example_Array() {
+
+  Status status;
+  Info   info1;
+  Info   info2;
+  Info   info;
+  Infos  array;
+  Infos  array_copy;
+  UInt   elmIdx;
+  UInt   numElm;
+
+  // Append some elements
+  numElm = 10;
+  for (elmIdx=0; elmIdx < numElm; elmIdx++) {
+    info1.string1  = "String 1 from Info1[";
+    info1.string1 += elmIdx;
+    info1.string1 += ']';
+    info1.string2 = "String 2 from Info1[";
+    info1.string2 += elmIdx;
+    info1.string2 += ']';
+    status = array.Append(info1);
+    if (status) goto ERRORAppend;
+  }
+
+  // Remove an element
+  status = array.Remove(5);
+  if (status) goto ERRORRemove;
+
+  // Insert an element
+  info2.string1 = "String 1 from Info2";
+  info2.string2 = "String 2 from Info2";
+  status = array.Insert(5,info2);
+  if (status) goto ERRORInsert;
+
+  // Set element 8...
+  info1.string1 = "String 1 from modified index 8";
+  info1.string2 = "String 2 from modified index 8";
+  status = array.Set(8,info1);
+  if (status) goto ERRORSet;
+
+  // Take a copy of it...
+  array_copy = array;
+
+  // Display the elements
+  for (elmIdx=0; elmIdx < array.Length(); elmIdx++) {
+    info1 = array.Get(elmIdx);
+    info2 = array_copy.Get(elmIdx);
+    Cout << "        Array[" << elmIdx << "].string1 = '" << info1.string1 << "'\n";
+    Cout << "        Array[" << elmIdx << "].string2 = '" << info2.string2 << "'\n";
+    Cout << "Copy of Array[" << elmIdx << "].string1 = '" << info1.string1 << "'\n";
+    Cout << "Copy of Array[" << elmIdx << "].string2 = '" << info2.string2 << "'\n";
+  }
+
+  // Clear only one of them (to make sure their destructors work with/without clearing)
+  status = array.Clear();
+  if (status) goto ERRORClear;
+  //status = array_copy.Clear();
+  //if (status) goto ERRORClear;
+
+  Cout << "\n";
+  CONGRATS("Infos Array specialisation didn't blow up!!!");
+
+  // Handle errors
+  while (false) {
+    ERRORAppend: ERROR("trythis(Infos.Append)",status); break;
+    ERRORRemove: ERROR("trythis(Infos.Remove)",status); break;
+    ERRORInsert: ERROR("trythis(Infos.Insert)",status); break;
+    ERRORSet:    ERROR("trythis(Infos.Set)"   ,status); break;
+    ERRORClear:  ERROR("trythis(Infos.Clear)" ,status); break;
+  };
+
+  return status;
+
+}

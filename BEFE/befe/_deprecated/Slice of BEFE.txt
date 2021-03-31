@@ -1,0 +1,52 @@
+#
+# Slice of BEFE - The language
+#
+#
+
+Terminology...
+
+  slice
+  tuple
+  sequence
+  list
+  array
+  
+The major concept here is having a slice be the most used literary construct.
+
+One can think of it as a 0..3 element tuple...
+
+  '(' [ <start> [ ',' [ <finish> ]  [ ',' [ <repeat> ] ] ] ] ')'
+
+ Or, less formally...
+ 
+  '(' <start at> ')'
+  '(' <start at> ',' <finish at> ')'
+  '(' <start at> ',' <finish at> ',' <repeat> ')'
+  
+Where <start at>, <finish at>, and <repeat> may be Null/NaN.
+
+So, the three Null/NaN forms...
+
+  ()
+  (,)
+  (,,)
+
+With any missing elements taking the Null/NaN form.  So...
+
+  ()         <=> (NaN, NaN, NaN)
+  (5)        <=> (  5, NaN, NaN)  
+  (,abc)     <=> (NaN, abc, NaN)
+  (,,repeat) <=> (NaN, NaN, repeat)
+  
+Or, with slightly modified symantics of the Python slice syntax...
+
+  <start> [ ':' [<finish>]  [ ':' [<repeat>] ] ]
+  
+With any missing elements taking hthe Null/NaN form.  So...
+
+  []         <=> [NaN, NaN, NaN]
+  [5)        <=> [  5, NaN, NaN]  
+  [,abc]     <=> [NaN, abc, NaN]
+  [,,repeat] <=> [NaN, NaN, repeat]
+
+  

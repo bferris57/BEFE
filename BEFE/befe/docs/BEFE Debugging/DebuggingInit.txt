@@ -1,0 +1,103 @@
+Header... Debugging BEFE Inititialisation problems
+
+Defines...
+<Debugging Init>
+...Defines
+
+References...
+...References
+
+Formatting...
+<Mono></Mono>
+...Formatting
+
+...Header
+
+You may run across a case where BEFE doesn't even initialise and, instead
+does the "nasty GPF thing".
+
+I'm trying to keep these at a minimum for obvious reasons.  But, it can
+happen when you dick about with the fundamentals used during startup.
+
+In C++, this includes the following...
+
+  o Anything "general" (BEFE.h)
+  o Anything "primitive" (primitives.h and Primitives.cpp)
+  o The ByteBuffer class (ByteBuffer.h and ByteBuffer.cpp)
+  o The Char class (Char.h and Char.cpp)
+  o The Array class (Array.h and Array.cpp)
+  o The Strings class (Strings.h and Strings.cpp)
+  
+  And sometimes, other stuff in <BEFE core> that you're not likely to be messing
+  about with, including...
+  
+  o Memory allocation
+  o Basic low level I/O
+
+The reason I started this section was because I was messing about with, and
+cleaning up, all those things at once in <BEFE core>. So, not surprisingly,
+I had to do a little trick in order to figure out what was happening.
+
+I kept getting a GPF in ByteBuffer.  Even though I used the "-ma -mf" options, I couldn't
+get any output telling me what the hell was causing it.  It was quite a few memory
+allocatioins downline tha blew up so I needed the memory allocation/free info given by
+these options.
+
+When I ran the <BEFE main> with those options, all I got was no output and a GPF.  Grrrrr.
+
+So, I went into "globals.cpp" and changed the following lines...
+
+  Boolean gLogMemory           = false;
+  Boolean gLogMemoryAlloc      = false;
+  Boolean gLogMemoryFree       = false;
+
+To...
+
+  Boolean gLogMemory           = true;
+  Boolean gLogMemoryAlloc      = true;
+  Boolean gLogMemoryFree       = true;
+
+Then, I recompiled and ran it.  I then got the following console output...
+
+  <Mono>
+  00000001: MemoryAllocRaw: Address=0x00a60e70 (size=0x00000060)
+  00000002: MemoryAllocRaw: Address=0x01fb1050 (size=0x00001010)
+  00000003: MemoryAllocRaw: Address=0x00a61788 (size=0x00000020)
+  00000004: MemoryAllocRaw: Address=0x00a6fcb0 (size=0x00000030)
+  00000005: MemoryAllocRaw: Address=0x00a6fcf0 (size=0x00000090)
+  00000006: MemoryAllocRaw: Address=0x00a6fd90 (size=0x00000030)
+  00000004: MemoryFreeRaw:  Count=1 Address=0x00a6fcb8
+  00000007: MemoryAllocRaw: Address=0x00a6fcb0 (size=0x00000020)
+  00000008: MemoryAllocRaw: Address=0x00a6fdd0 (size=0x00000020)
+  00000007: MemoryFreeRaw:  Count=2 Address=0x00a6fcb8
+  00000009: MemoryAllocRaw: Address=0x00a6fcb0 (size=0x00000020)
+  0000000a: MemoryAllocRaw: Address=0x00a6fe00 (size=0x00000020)
+  00000009: MemoryFreeRaw:  Count=3 Address=0x00a6fcb8
+  0000000b: MemoryAllocRaw: Address=0x00a6fcb0 (size=0x00000020)
+  0000000c: MemoryAllocRaw: Address=0x00a6fe30 (size=0x00000020)
+  0000000b: MemoryFreeRaw:  Count=4 Address=0x00a6fcb8
+  0000000d: MemoryAllocRaw: Address=0x00a6fcb0 (size=0x00000020)
+  0000000e: MemoryAllocRaw: Address=0x00a6fe60 (size=0x00000020)
+  0000000d: MemoryFreeRaw:  Count=5 Address=0x00a6fcb8
+  00000006: MemoryFreeRaw:  Count=6 Address=0x00a6fd98
+  00a6fcb0: MemoryFreeRaw:  Count=7 Address=0x00a6fd98
+  00a6fcb0: MemoryFreeRaw:  Count=8 Address=0x00a6fd98
+  00a6fcb0: MemoryFreeRaw:  Count=9 Address=0x00a6fd98
+  00000003: MemoryFreeRaw:  Count=10 Address=0x00a61790
+  00a6fcb0: MemoryFreeRaw:  Count=11 Address=0x00a6fd98
+  0000000e: MemoryFreeRaw:  Count=12 Address=0x00a6fe68
+  0000000c: MemoryFreeRaw:  Count=13 Address=0x00a6fe38
+  *** ABORTING: !!! ByteBuffer::Free called too many times !!!
+  </Mono>
+  
+Hurrah!  Now, since the first part of each of these lines is supposed to be
+the sequential allocated block number (never reused), it told me clearly
+that just after the 6th call to <MemoryFreeRaw>, something screwed up BIG TIME
+because the "sequential allocation counts" suddenly started becoming addresses
+not a counter.  So, something walked over memory.
+
+From there it was a simple matter of catching the bastard in his tracks by stepping
+through what happens after the 6th call to <MemoryFreeRaw>.
+
+Hopefully you won't be faced with a similar situation but I thought I'd
+pass it on in case you find yourself stumped sometime (like I did!)

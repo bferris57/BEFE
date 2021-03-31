@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="BEFE_Dev" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+    <Plugin Name="CMakePlugin">
+      <![CDATA[[{
+  "name": "Debug",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }]]]>
+    </Plugin>
+  </Plugins>
+  <Reconciliation>
+    <Regexes/>
+    <Excludepaths/>
+    <Ignorefiles/>
+    <Extensions>
+      <![CDATA[cpp;c;h;hpp;xrc;wxcp;fbp]]>
+    </Extensions>
+    <Topleveldir>../../../BEFE_Core</Topleveldir>
+  </Reconciliation>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="_main">
+    <File Name="../../../BEFE-Core/main.cpp"/>
+    <File Name="../../../BEFE-Core/readme.txt"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="array">
+    <File Name="../../../BEFE-Core/array/_ArrayBase.cpp"/>
+    <File Name="../../../BEFE-Core/array/_MapBase.cpp"/>
+    <File Name="../../../BEFE-Core/array/_SparseBase.cpp"/>
+    <File Name="../../../BEFE-Core/array/Array.h"/>
+    <File Name="../../../BEFE-Core/array/ArrayPrimitive.h"/>
+    <File Name="../../../BEFE-Core/array/Arrays.h"/>
+    <File Name="../../../BEFE-Core/array/ArrayValue.h"/>
+    <File Name="../../../BEFE-Core/array/Bytes.cpp"/>
+    <File Name="../../../BEFE-Core/array/Bytes.h"/>
+    <File Name="../../../BEFE-Core/array/Map.h"/>
+    <File Name="../../../BEFE-Core/array/Numbers.cpp"/>
+    <File Name="../../../BEFE-Core/array/Numbers.h"/>
+    <File Name="../../../BEFE-Core/array/Sparse.h"/>
+    <File Name="../../../BEFE-Core/array/Strings.cpp"/>
+    <File Name="../../../BEFE-Core/array/Strings.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="cache">
+    <File Name="../../../BEFE-Core/cache/Cache.cpp"/>
+    <File Name="../../../BEFE-Core/cache/Cache.h"/>
+    <File Name="../../../BEFE-Core/cache/CacheBlock.cpp"/>
+    <File Name="../../../BEFE-Core/cache/CacheBlock.h"/>
+    <File Name="../../../BEFE-Core/cache/CacheBlockInfo.cpp"/>
+    <File Name="../../../BEFE-Core/cache/CacheBlockInfo.h"/>
+    <File Name="../../../BEFE-Core/cache/CacheChain.cpp"/>
+    <File Name="../../../BEFE-Core/cache/CacheFile.cpp"/>
+    <File Name="../../../BEFE-Core/cache/CacheFile.h"/>
+    <File Name="../../../BEFE-Core/cache/CacheFileInfo.cpp"/>
+    <File Name="../../../BEFE-Core/cache/CacheFileInfo.h"/>
+    <File Name="../../../BEFE-Core/cache/CacheFormat.cpp"/>
+    <File Name="../../../BEFE-Core/cache/CacheInfo.cpp"/>
+    <File Name="../../../BEFE-Core/cache/CacheInfo.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="command">
+    <File Name="../../../BEFE-Core/command/Args._cpp"/>
+    <File Name="../../../BEFE-Core/command/Args._h"/>
+    <File Name="../../../BEFE-Core/command/cmdutils.cpp"/>
+    <File Name="../../../BEFE-Core/command/cmdutils.h"/>
+    <File Name="../../../BEFE-Core/command/Command_Analyse.cpp"/>
+    <File Name="../../../BEFE-Core/command/Command_Build.cpp"/>
+    <File Name="../../../BEFE-Core/command/Command_Crypt.cpp"/>
+    <File Name="../../../BEFE-Core/command/CommandDecl.cpp"/>
+    <File Name="../../../BEFE-Core/command/CommandDecl.h"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer.cpp"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer.h"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer_BEFE.cpp"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer_BEFE.h"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer_Lang.cpp"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer_Lang.h"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer_OS.cpp"/>
+    <File Name="../../../BEFE-Core/command/CommandLayer_OS.h"/>
+    <File Name="../../../BEFE-Core/command/Commands.h"/>
+    <File Name="../../../BEFE-Core/command/CommandShell.cpp"/>
+    <File Name="../../../BEFE-Core/command/CommandShell.h"/>
+    <File Name="../../../BEFE-Core/command/Help.cpp"/>
+    <File Name="../../../BEFE-Core/command/Help.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="core">
+    <File Name="../../../BEFE-Core/core/_Buffer._cpp"/>
+    <File Name="../../../BEFE-Core/core/_BufferLow._cpp"/>
+    <File Name="../../../BEFE-Core/core/_BufferLow._h"/>
+    <File Name="../../../BEFE-Core/core/_GlobalMacros.h"/>
+    <File Name="../../../BEFE-Core/core/_SanityCheck.cpp"/>
+    <File Name="../../../BEFE-Core/core/_SanityCheck.h"/>
+    <File Name="../../../BEFE-Core/core/_String.h"/>
+    <File Name="../../../BEFE-Core/core/BEFE.cpp"/>
+    <File Name="../../../BEFE-Core/core/BEFE.h"/>
+    <File Name="../../../BEFE-Core/core/BEFECallbacks.cpp"/>
+    <File Name="../../../BEFE-Core/core/BEFEEnviron.cpp"/>
+    <File Name="../../../BEFE-Core/core/BEFEMacros.h"/>
+    <File Name="../../../BEFE-Core/core/BEFEWrappers.cpp"/>
+    <File Name="../../../BEFE-Core/core/BEFEWrappers.h"/>
+    <File Name="../../../BEFE-Core/core/Buffer.cpp"/>
+    <File Name="../../../BEFE-Core/core/Buffer.h"/>
+    <File Name="../../../BEFE-Core/core/BufferLow.cpp"/>
+    <File Name="../../../BEFE-Core/core/BufferLow.h"/>
+    <File Name="../../../BEFE-Core/core/Error.cpp"/>
+    <File Name="../../../BEFE-Core/core/Error.h"/>
+    <File Name="../../../BEFE-Core/core/Globals.cpp"/>
+    <File Name="../../../BEFE-Core/core/Globals.h"/>
+    <File Name="../../../BEFE-Core/core/LifeCycle.h"/>
+    <File Name="../../../BEFE-Core/core/Network.cpp"/>
+    <File Name="../../../BEFE-Core/core/Network.h"/>
+    <File Name="../../../BEFE-Core/core/Null.h"/>
+    <File Name="../../../BEFE-Core/core/OperatingSystem.cpp"/>
+    <File Name="../../../BEFE-Core/core/OperatingSystem.h"/>
+    <File Name="../../../BEFE-Core/core/Platform.cpp"/>
+    <File Name="../../../BEFE-Core/core/Platform.h"/>
+    <File Name="../../../BEFE-Core/core/Primitives.h"/>
+    <File Name="../../../BEFE-Core/core/Process.cpp"/>
+    <File Name="../../../BEFE-Core/core/Process.h"/>
+    <File Name="../../../BEFE-Core/core/Processor.cpp"/>
+    <File Name="../../../BEFE-Core/core/Processor.h"/>
+    <File Name="../../../BEFE-Core/core/SBuffer.cpp"/>
+    <File Name="../../../BEFE-Core/core/SBuffer.h"/>
+    <File Name="../../../BEFE-Core/core/String.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringAppend.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringBuild.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringCompare.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringConstruct.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringFind.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringFolding.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringFormat.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringGeneral.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringGeneral.h"/>
+    <File Name="../../../BEFE-Core/core/StringGet.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringInsert.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringJoin.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringManip.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringOperator.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringPersist.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringQuery.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringRemove.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringReplace.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringReverse.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringSplit.cpp"/>
+    <File Name="../../../BEFE-Core/core/StringSubscript.cpp"/>
+    <File Name="../../../BEFE-Core/core/Time.cpp"/>
+    <File Name="../../../BEFE-Core/core/Time.h"/>
+    <File Name="../../../BEFE-Core/core/UTF8.cpp"/>
+    <File Name="../../../BEFE-Core/core/UTF8.h"/>
+    <File Name="../../../BEFE-Core/core/UTF8Fold.cpp"/>
+    <File Name="../../../BEFE-Core/core/UUID.cpp"/>
+    <File Name="../../../BEFE-Core/core/UUID.h"/>
+    <File Name="../../../BEFE-Core/core/VarTerm.cpp"/>
+    <File Name="../../../BEFE-Core/core/VarTerm.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="crypt">
+    <File Name="../../../BEFE-Core/crypt/Crypt.cpp"/>
+    <File Name="../../../BEFE-Core/crypt/Crypt.h"/>
+    <File Name="../../../BEFE-Core/crypt/Crypt0.cpp"/>
+    <File Name="../../../BEFE-Core/crypt/CryptFileHead.cpp"/>
+    <File Name="../../../BEFE-Core/crypt/CryptFileHead.h"/>
+    <File Name="../../../BEFE-Core/crypt/CryptKey.cpp"/>
+    <File Name="../../../BEFE-Core/crypt/CryptKey.h"/>
+    <File Name="../../../BEFE-Core/crypt/sha256._c"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="datamodel">
+    <File Name="../../../BEFE-Core/datamodel/Class.cpp"/>
+    <File Name="../../../BEFE-Core/datamodel/Class.h"/>
+    <File Name="../../../BEFE-Core/datamodel/Id.h"/>
+    <File Name="../../../BEFE-Core/datamodel/IdInfo.h"/>
+    <File Name="../../../BEFE-Core/datamodel/Ids.cpp"/>
+    <File Name="../../../BEFE-Core/datamodel/Ids.h"/>
+    <File Name="../../../BEFE-Core/datamodel/IdSpace.cpp"/>
+    <File Name="../../../BEFE-Core/datamodel/IdSpace.h"/>
+    <File Name="../../../BEFE-Core/datamodel/IdSpaceInfo.h"/>
+    <File Name="../../../BEFE-Core/datamodel/IdSpaceInfoExt.cpp"/>
+    <File Name="../../../BEFE-Core/datamodel/IdSpaceInfoExt.h"/>
+    <File Name="../../../BEFE-Core/datamodel/StringSpace.cpp"/>
+    <File Name="../../../BEFE-Core/datamodel/StringSpace.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="devices">
+    <File Name="../../../BEFE-Core/devices/Console.cpp"/>
+    <File Name="../../../BEFE-Core/devices/Console.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="examples">
+    <File Name="../../../BEFE-Core/examples/.beferc"/>
+    <File Name="../../../BEFE-Core/examples/_ExampleArray._cpp"/>
+    <File Name="../../../BEFE-Core/examples/analyse.befe"/>
+    <File Name="../../../BEFE-Core/examples/BSTT_Template.txt"/>
+    <File Name="../../../BEFE-Core/examples/dir.befe"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="format">
+    <File Name="../../../BEFE-Core/format/FormatOut.cpp"/>
+    <File Name="../../../BEFE-Core/format/FormatOut.h"/>
+    <File Name="../../../BEFE-Core/format/LexFormat.h"/>
+    <File Name="../../../BEFE-Core/format/LexFormatOut.cpp"/>
+    <File Name="../../../BEFE-Core/format/ToAscii.cpp"/>
+    <File Name="../../../BEFE-Core/format/ToAscii.h"/>
+    <File Name="../../../BEFE-Core/format/ToString.cpp"/>
+    <File Name="../../../BEFE-Core/format/ToString.h"/>
+    <File Name="../../../BEFE-Core/format/ToStrings.cpp"/>
+    <File Name="../../../BEFE-Core/format/ToStrings.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="lang">
+    <File Name="../../../BEFE-Core/lang/Bcmd.cpp"/>
+    <File Name="../../../BEFE-Core/lang/Bcmd.h"/>
+    <File Name="../../../BEFE-Core/lang/BcmdArg.cpp"/>
+    <File Name="../../../BEFE-Core/lang/BcmdArg.h"/>
+    <File Name="../../../BEFE-Core/lang/BcmdCommand.cpp"/>
+    <File Name="../../../BEFE-Core/lang/BcmdCommand.h"/>
+    <File Name="../../../BEFE-Core/lang/Blang.cpp"/>
+    <File Name="../../../BEFE-Core/lang/Blang.h"/>
+    <File Name="../../../BEFE-Core/lang/Bmsg.cpp"/>
+    <File Name="../../../BEFE-Core/lang/Bmsg.h"/>
+    <File Name="../../../BEFE-Core/lang/BmsgLine.cpp"/>
+    <File Name="../../../BEFE-Core/lang/BmsgToken.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="lex">
+    <File Name="../../../BEFE-Core/lex/Lex.cpp"/>
+    <File Name="../../../BEFE-Core/lex/Lex.h"/>
+    <File Name="../../../BEFE-Core/lex/LexAction.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexAction.h"/>
+    <File Name="../../../BEFE-Core/lex/LexFuncs.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexLang.h"/>
+    <File Name="../../../BEFE-Core/lex/LexLangActions.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexLangBefe.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexLangCpp.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexLanguage.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexLanguage.h"/>
+    <File Name="../../../BEFE-Core/lex/LexRange.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexRange.h"/>
+    <File Name="../../../BEFE-Core/lex/LexState.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexState.h"/>
+    <File Name="../../../BEFE-Core/lex/LexStream.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexStream.h"/>
+    <File Name="../../../BEFE-Core/lex/LexToken.cpp"/>
+    <File Name="../../../BEFE-Core/lex/LexToken.h"/>
+    <File Name="../../../BEFE-Core/lex/Match.cpp"/>
+    <File Name="../../../BEFE-Core/lex/Match.h"/>
+    <File Name="../../../BEFE-Core/lex/MatchNode.cpp"/>
+    <File Name="../../../BEFE-Core/lex/MatchNode.h"/>
+    <File Name="../../../BEFE-Core/lex/MatchNodes.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="message">
+    <File Name="../../../BEFE-Core/message/Message.cpp"/>
+    <File Name="../../../BEFE-Core/message/Message.h"/>
+    <File Name="../../../BEFE-Core/message/MessageMessages.cpp"/>
+    <File Name="../../../BEFE-Core/message/MessageRange.cpp"/>
+    <File Name="../../../BEFE-Core/message/MessageRanges.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="number">
+    <File Name="../../../BEFE-Core/number/_Aladdin.h"/>
+    <File Name="../../../BEFE-Core/number/Char.cpp"/>
+    <File Name="../../../BEFE-Core/number/Char.h"/>
+    <File Name="../../../BEFE-Core/number/Coord.h"/>
+    <File Name="../../../BEFE-Core/number/Crc32.cpp"/>
+    <File Name="../../../BEFE-Core/number/Crc32.h"/>
+    <File Name="../../../BEFE-Core/number/Integer.cpp"/>
+    <File Name="../../../BEFE-Core/number/Integer.h"/>
+    <File Name="../../../BEFE-Core/number/IntegerDigit.cpp"/>
+    <File Name="../../../BEFE-Core/number/IntegerFull.cpp"/>
+    <File Name="../../../BEFE-Core/number/IntegerOperator.cpp"/>
+    <File Name="../../../BEFE-Core/number/IntFuncs.cpp"/>
+    <File Name="../../../BEFE-Core/number/IntFuncs.h"/>
+    <File Name="../../../BEFE-Core/number/MD5.cpp"/>
+    <File Name="../../../BEFE-Core/number/MD5.h"/>
+    <File Name="../../../BEFE-Core/number/MD5Calc.cpp"/>
+    <File Name="../../../BEFE-Core/number/Number.cpp"/>
+    <File Name="../../../BEFE-Core/number/Number.h"/>
+    <File Name="../../../BEFE-Core/number/OraNumber.cpp"/>
+    <File Name="../../../BEFE-Core/number/OraNumber.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="persist">
+    <File Name="../../../BEFE-Core/persist/LexWorkspace.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWorkspace.h"/>
+    <File Name="../../../BEFE-Core/persist/LexWorkspaceBlob.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWorkspaceFile.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWorkspaceIdEntry.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWorkspaceString.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWs.h"/>
+    <File Name="../../../BEFE-Core/persist/LexWsArrayHead.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWsBlob.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWsBlockHead.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWsFile.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWsHead.cpp"/>
+    <File Name="../../../BEFE-Core/persist/LexWsString.cpp"/>
+    <File Name="../../../BEFE-Core/persist/Persist.cpp"/>
+    <File Name="../../../BEFE-Core/persist/Persist.h"/>
+    <File Name="../../../BEFE-Core/persist/PersistAnon.cpp"/>
+    <File Name="../../../BEFE-Core/persist/PersistAtomic.cpp"/>
+    <File Name="../../../BEFE-Core/persist/PersistHead.cpp"/>
+    <File Name="../../../BEFE-Core/persist/PersistHead.h"/>
+    <File Name="../../../BEFE-Core/persist/PersistNamed.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="platform">
+    <VirtualDirectory Name="win32">
+      <File Name="../../../BEFE-Core/platform/win32/_Iphlpapi.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/_Kernel32.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/_Ole32.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/_Psapi.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Port.h"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32.h"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32Console.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32Console.h"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32File.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32File.h"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32Network.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32OperatingSystem.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32Platform.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32Process.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32Processor.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/win32reg.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/win32utils.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32WCHAR.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32WCHAR.h"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32xterm.cpp"/>
+      <File Name="../../../BEFE-Core/platform/win32/Win32xterm.h"/>
+      <File Name="../../../BEFE-Core/platform/win32/WinMain._cpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="seq">
+    <File Name="../../../BEFE-Core/seq/Alloc.cpp"/>
+    <File Name="../../../BEFE-Core/seq/Alloc.h"/>
+    <File Name="../../../BEFE-Core/seq/Cycle.cpp"/>
+    <File Name="../../../BEFE-Core/seq/Cycle.h"/>
+    <File Name="../../../BEFE-Core/seq/Range.cpp"/>
+    <File Name="../../../BEFE-Core/seq/Range.h"/>
+    <File Name="../../../BEFE-Core/seq/Sequence.h"/>
+    <File Name="../../../BEFE-Core/seq/Slice.cpp"/>
+    <File Name="../../../BEFE-Core/seq/Slice.h"/>
+    <File Name="../../../BEFE-Core/seq/Sort.h"/>
+    <File Name="../../../BEFE-Core/seq/SortBubble.cpp"/>
+    <File Name="../../../BEFE-Core/seq/SortInsertion.cpp"/>
+    <File Name="../../../BEFE-Core/seq/SortMerge.cpp"/>
+    <File Name="../../../BEFE-Core/seq/SortSelection.cpp"/>
+    <File Name="../../../BEFE-Core/seq/Span.cpp"/>
+    <File Name="../../../BEFE-Core/seq/Span.h"/>
+    <File Name="../../../BEFE-Core/seq/URange.cpp"/>
+    <File Name="../../../BEFE-Core/seq/URange.h"/>
+    <File Name="../../../BEFE-Core/seq/USpan.cpp"/>
+    <File Name="../../../BEFE-Core/seq/USpan.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="storage">
+    <File Name="../../../BEFE-Core/storage/BufferStream.cpp"/>
+    <File Name="../../../BEFE-Core/storage/BufferStream.h"/>
+    <File Name="../../../BEFE-Core/storage/File.cpp"/>
+    <File Name="../../../BEFE-Core/storage/File.h"/>
+    <File Name="../../../BEFE-Core/storage/FileInfo.cpp"/>
+    <File Name="../../../BEFE-Core/storage/FileInfo.h"/>
+    <File Name="../../../BEFE-Core/storage/FileStream.cpp"/>
+    <File Name="../../../BEFE-Core/storage/FileStream.h"/>
+    <File Name="../../../BEFE-Core/storage/Lines.cpp"/>
+    <File Name="../../../BEFE-Core/storage/Lines.h"/>
+    <File Name="../../../BEFE-Core/storage/MemoryStats.cpp"/>
+    <File Name="../../../BEFE-Core/storage/MemoryStats.h"/>
+    <File Name="../../../BEFE-Core/storage/MemoryUtils.cpp"/>
+    <File Name="../../../BEFE-Core/storage/MemoryUtils.h"/>
+    <File Name="../../../BEFE-Core/storage/Storage.h"/>
+    <File Name="../../../BEFE-Core/storage/Stream.cpp"/>
+    <File Name="../../../BEFE-Core/storage/Stream.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="test">
+    <File Name="../../../BEFE-Core/test/Test.cpp"/>
+    <File Name="../../../BEFE-Core/test/Test.h"/>
+    <File Name="../../../BEFE-Core/test/TestArray.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestArray.h"/>
+    <File Name="../../../BEFE-Core/test/TestBcmd.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestBcmd.h"/>
+    <File Name="../../../BEFE-Core/test/TestCache.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestCache.h"/>
+    <File Name="../../../BEFE-Core/test/TestConsole.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestContains.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestContains.h"/>
+    <File Name="../../../BEFE-Core/test/TestFile.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestIdSpace.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestLexicon.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestLexicon.h"/>
+    <File Name="../../../BEFE-Core/test/TestMD5.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestMessage.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestMorphing.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestNull.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestNull.h"/>
+    <File Name="../../../BEFE-Core/test/TestNumber.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestNumber.h"/>
+    <File Name="../../../BEFE-Core/test/TestSequence.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestSequence.h"/>
+    <File Name="../../../BEFE-Core/test/TestStream.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestString.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestString.h"/>
+    <File Name="../../../BEFE-Core/test/TestTime.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestUTF8.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestUTF8.h"/>
+    <File Name="../../../BEFE-Core/test/TestUUID.cpp"/>
+    <File Name="../../../BEFE-Core/test/TestVarTerm.cpp"/>
+    <File Name="../../../BEFE-Core/test/trythis.cpp"/>
+    <File Name="../../../BEFE-Core/test/trythis.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="various">
+    <File Name="../../../BEFE-Core/various/_BuildLex._cpp"/>
+    <File Name="../../../BEFE-Core/various/_BuildLex._h"/>
+    <File Name="../../../BEFE-Core/various/Build.cpp"/>
+    <File Name="../../../BEFE-Core/various/Build.h"/>
+    <File Name="../../../BEFE-Core/various/BuildDisplay.cpp"/>
+    <File Name="../../../BEFE-Core/various/BuildFiles.cpp"/>
+    <File Name="../../../BEFE-Core/various/BuildMisc.cpp"/>
+    <File Name="../../../BEFE-Core/various/BuildSettings.cpp"/>
+    <File Name="../../../BEFE-Core/various/BuildZip.cpp"/>
+    <File Name="../../../BEFE-Core/various/Dictionary.cpp"/>
+    <File Name="../../../BEFE-Core/various/Dictionary.h"/>
+    <File Name="../../../BEFE-Core/various/FuelGauge.h"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-Wall;-std=c++0x;-fno-exceptions;-finline-functions;-nodefaultlibs;-fno-rtti" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="$(INC)/array"/>
+        <IncludePath Value="$(INC)/cache"/>
+        <IncludePath Value="$(INC)/command"/>
+        <IncludePath Value="$(INC)/core"/>
+        <IncludePath Value="$(INC)/crypt"/>
+        <IncludePath Value="$(INC)/datamodel"/>
+        <IncludePath Value="$(INC)/devices"/>
+        <IncludePath Value="$(INC)/format"/>
+        <IncludePath Value="$(INC)/lang"/>
+        <IncludePath Value="$(INC)/lex"/>
+        <IncludePath Value="$(INC)/message"/>
+        <IncludePath Value="$(INC)/number"/>
+        <IncludePath Value="$(INC)/persist"/>
+        <IncludePath Value="$(INC)/platform/win32"/>
+        <IncludePath Value="$(INC)/seq"/>
+        <IncludePath Value="$(INC)/storage"/>
+        <IncludePath Value="$(INC)/test"/>
+        <IncludePath Value="$(INC)/various"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/befe-dev" IntermediateDirectory="./Debug" Command="../../CodeLite/BEFE/BEFE_Dev/Debug/befe-dev.exe" CommandArguments="-cutf8 -d" UseSeparateDebugArgs="yes" DebugArguments="-cutf8 +d" WorkingDirectory="c:/befe/BEFE-Core/_home" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>

@@ -1,0 +1,278 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.7
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.30.04.41.50;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.27.07.07.32;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.24.03.31.29;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.23.09.05.50;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.22.23.45.40;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlstrtable.h - Definitions for the XML String table
+  
+  DESCRIPTION
+
+    The XMLStringTable class implements a hashed/index table for XMLStrings.
+  
+*/
+
+#ifndef _xmlstrtable_h
+
+#define _xmlstrtable_h
+
+#include "xml.h"
+#include "xmlhashtable.h"
+
+// Forward class prototypes
+
+class XMLStringTable;
+class XMLStringTableEntry;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLStringTable - Manage a set of XMLStringTableEntry instances.
+//
+// DESCRIPTION
+//
+//  This class implements an in-memory indexed/hashed table to find any
+//  number of XMLString instances.
+//
+
+class XMLStringTable : public XMLHashTable {
+  
+  //
+  // Public member functions
+  //
+
+public:
+  
+  // Constructor/destructor
+  XMLStringTable(int allocinc = 100, int optbucketsize = 0, int minincrement = 0);
+  virtual ~XMLStringTable();
+  
+  // Configuration
+  virtual XMLError DiscardUnusedStrings(void);
+  virtual XMLError KeepUnusedStrings(void);
+  
+  // Query
+  virtual XMLError LastIndex(int *last);
+  
+  // Find
+  virtual XMLError FindIndex(XMLString *lookfor, int *index);
+  virtual XMLError FindString(int index, XMLString **found);
+  
+  // Add a new one by name/index
+  virtual XMLError AddReference(XMLString *string, int *index = NULL, int *wasfound = NULL, int owned = 1);
+  virtual XMLError NewIndex(int index, XMLString *string, int owned = 1);
+  
+  // Delete an existing one by name/reference
+  virtual XMLError RemoveReference(XMLString *lookfor);
+  virtual XMLError RemoveReference(int index);
+
+  //
+  // Protected member functions
+  //
+protected:
+    
+  // Entry alloc/free
+  virtual XMLError NewEntry(XMLHashTableEntry **entry, XMLString *string, int owned);
+  virtual XMLError DelEntry(XMLHashTableEntry *entry);
+  
+  // Allocate, potentially sparse, chunk
+  virtual XMLError AllocateChunk(int index);
+  
+  //
+  // Protected members
+  //
+protected:
+
+  // Configuration
+  unsigned m_keepunused : 1;          // Should we keep unused strings?
+  
+  // Our list (of chunks of XMLStringTableEntries)
+  int                   m_chunksize;  // Chunk allocation increment
+  int                   m_tablesize;  // Number of chunks in table
+  int                   m_tablehigh;  // Highest allocated chunk
+  int                   m_tableinc;   // Table allocation increment
+  XMLStringTableEntry **m_table;      // List of chunks
+
+  // Free chain
+  XMLStringTableEntry *m_firstfree;  // First free entry
+  XMLStringTableEntry *m_lastfree;   // Last free entry
+  
+  // Hack: to pass last added index to ourselves
+  int                  m_lastindex;  // Index of last one added
+
+#if DEBUGGING  
+  // Debugging
+  int                  m_highindex;  // Highest index allocated so far (1..n)
+#endif
+    
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLStringTableEntry - A single entry in an XMLStringTable table
+//
+// DESCRIPTION
+//
+//  Each instance of this class represents a single string in the string table.
+//
+//  This class is pretty mindless since it's only used to maintain the hash
+//  forward/backward chains and a pointer to the string.
+//
+
+class XMLStringTableEntry : public XMLHashTableEntry {
+
+  friend class XMLStringTable;
+  
+  //
+  // Protected member functions
+  //
+
+protected:
+
+  XMLStringTableEntry();
+  
+  //
+  // Protected members
+  //
+  
+protected:
+    
+  int index;  // Index into table (0..n)
+  int count;  // Reference count
+    
+};
+
+#endif // _xmlstringtable_h
+@
+
+
+1.6
+log
+@Added NewIndex() to XMLStringTable
+@
+text
+@d125 1
+a125 1
+  friend XMLStringTable;
+@
+
+
+1.5
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@d60 1
+a60 1
+  // Add a new one 
+d62 3
+a64 2
+
+  // Delete an existing one by name
+a65 2
+    
+  // Remove an existing one by index
+d76 3
+@
+
+
+1.4
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d17 1
+d99 5
+@
+
+
+1.3
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d52 3
+@
+
+
+1.2
+log
+@Added token table to XMLDocumentBase - Not used yet
+@
+text
+@d48 4
+d79 3
+@
+
+
+1.1
+log
+@Coded XMLStringTable
+@
+text
+@d50 1
+d53 1
+a53 2
+  virtual XMLError Add(XMLString *string, int owned = 1);
+  virtual XMLError Add(XMLString *string, int *index, int owned = 1);
+d56 1
+a56 1
+  virtual XMLError Remove(XMLString *lookfor);
+d59 1
+a59 1
+  virtual XMLError Remove(int index);
+@
+

@@ -1,0 +1,134 @@
+#!befe-publish home
+#──────────────────────────────────────────────────────────────────────
+# File: BEFE_xtermStrings.txt - BEFE Linux32xterm Terminal Strings
+#──────────────────────────────────────────────────────────────────────
+#
+# This file contains the definitions of the escape sequences used to
+# control each different kind of Linux terminal we've come across.
+#
+# *** See technical documentation for a more detailed description ***
+#
+# Note: These are used by the Linux32xterm driver in BEFE and is loaded
+#       and used when required.
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2012-2017, Bruce Ferris (UK), all rights reserved
+#──────────────────────────────────────────────────────────────────────
+
+#
+# Unknown - This is used for CodeLite debugging
+#
+
+Unknown...
+
+  // Special sequences
+  BS     = BS
+  BEL    = BEL
+  DEL    = DEL
+  BadEsc = BadEsc
+   
+  // Keys
+  Down  = Down
+  Up    = Up
+  Left  = Left
+  Right = Right
+
+  Home  = Home
+  End   = End
+
+  PgUp  = PgUp
+  PgDn  = PgDn
+
+...Unknown
+
+#
+# VT102...
+#
+
+VT102...
+
+   // Special sequences
+   BEL    = "\x07"
+   BS     = "\x08"
+   DEL    = "\x7f"
+   BadEsc = "\x2593"
+   EraseToEOL = "\e[0K"
+   EraseToEOS = "\e[J"
+   
+   // Special substitution strings
+   Left{n}        = "\e[{n}D"
+   Right{n}       = "\e[{n}C"
+   Goto{row}{col} = "\e[{row};{col}H"
+      
+   // Backspace is a special case
+   BS_Key  = "\x7f"
+
+   // Key/Action Pairs
+   Del_Key = "\e[3~"
+   Del     = "\e[P"
+   Ins_Key = "\e[2~"
+   Ins     = "\e[@"
+   Home_Key  = "\e[1~"
+   Home      = ""
+   End_Key   = "\e[4~"
+   End       = ""
+   PgUp_Key  = "\e[5~"
+   PgUp      = ""
+   PgDn_Key  = "\e[6~"
+   PgDn      = ""
+   Down_Key  = "\e[B"
+   Down      = "\e[B"
+   Up_Key    = "\e[A"
+   Up        = "\e[A"
+   Left_Key  = "\e[D"
+   Left      = "\e[D"
+   Right_Key = "\e[C"
+   Right     = "\e[C"
+   
+...VT102
+
+#
+# VT220
+#
+
+VT220...
+
+   // Special sequences
+   BEL        = "\x07"
+   BS         = "\x08"
+   DEL        = "\x7f"
+   BadEsc     = "\x2593"
+   EraseToEOL = "\e[0K"
+   EraseToEOS = "\e[J"
+   
+   // Special substitution strings
+   Left{n}        = "\e[{n}D"
+   Right{n}       = "\e[{n}C"
+   Goto{row}{col} = "\e[{row};{col}H"
+   
+   // Backspace is a special case
+   BS_Key  = "\x7f"
+
+   // Key/Action Pairs
+   Del_Key = "\e[3~"
+   Del     = "\e[P"
+   //Ins_Key = "\e[2~"
+   Ins     = "\e[@"
+   Home_Key  = "\e[1~"
+   Home      = ""
+   End_Key   = "\e[4~"
+   End       = ""
+   PgUp_Key  = "\e[5~"
+   PgUp      = ""
+   PgDn_Key  = "\e[6~"
+   PgDn      = ""
+   Down_Key  = "\e[B"
+   Down      = "\e[B"
+   Up_Key    = "\e[A"
+   Up        = "\e[A"
+   Left_Key  = "\e[D"
+   Left      = "\e[D"
+   Right_Key = "\e[C"
+   Right     = "\e[C"
+   
+...VT220

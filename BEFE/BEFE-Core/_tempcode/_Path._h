@@ -1,0 +1,297 @@
+#ifndef PATH_H
+#define PATH_H
+
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+//
+// File: Path.h - Declarations for the Path class
+//
+// The Path class is responsible for providing services and functions
+// related to abstract and native file/path names.
+//
+// Paths are the way to locate files.  A FILE is a named container of
+// bytes.  What the bytes mean or their content is of no concern for
+// this class's purposes.  What this class is concerned with is
+// locating files by name, in some kind of hierarchical namespace.
+//
+// Typically the namespace is a directory structure on some host's
+// file system.
+//
+// A path is the string used to locate the file in the namespace.
+//
+// So, abstractly, we've arbitrarily decided to formulate describe
+// paths as the following...
+//
+//   [<device>][/dir[/dir...]]/<file>
+//
+// Where '/' is some separator.  The abstract file separator is
+// '/'.  This is different on different host file systems.
+//
+// Note that a properly formed path contains at least one separator.
+// Typically it's a leading separator.  On some hosts, it is
+// preceeded by an optional device name.
+//
+// NOTE: We DO NOT handle relative paths (like '../../t.txt') here.
+//       That's a concept that belongs somewhere else entirely because
+//       it's a structure walking feature NOT a name/address/path feature.
+//
+//       So, DON'T EVEN THINK ABOUT IT using it here!!!
+//
+// Abstract paths
+//
+// I don't know about you, but I'm getting pretty sick of how people
+// implement various file/path functions/methods.  It seems they take
+// the attitude that since whatever O/S the file's destined for takes
+// charge of the "end product" and inflicts differing constraints on
+// file and directory names, structure, and such things, then we have
+// to just live with it and let them tell us how to think about it.
+//
+// Well, I figure that's a defeatist and way of looking at the problem.
+// All a file/directory path specification IS, and MEANS, is an ordered
+// list of hierarchically named things separated by some separator
+// character, end of story.  Pretty straight forward, eh?
+//
+// So, why should we have have all the bother of manipulating such
+// simple crap all the time?  We don't!  What we'll do is consider
+// a "path" a compound/atomic name of something somewhere in a
+// namespace.
+//
+// NOTE: This first implementation is Operating System based.  But,
+//       clearly, if done properly, can be sub-classed into URLs,
+//       C/C++ variable names, or whatever.  But, for now, we'll
+//       stick to the O/S idea until it's completely written,
+//       debugged, working, and proves the abstraction was worth the
+//       bother in the first place.
+//
+// So, what we've done here is implement a Path class that clearly
+// separates the abstract and native features of file/path manipulation
+// and lets us just get on with our work.
+//
+// *** File/Path names ***
+//
+// The problem really lies in the way different operating systems let
+// you specify file/directory names.  For example, on unix the '/'
+// character is the standard path separator whereas on Windows it's the
+// '\' character (which, as you know, sucks for C/C++ coders because
+// you have to escape it, never mind...), whereas on the Macintosh,
+// at least in the early days, they use the ':' character.
+//
+// *** Device names ***
+//
+// Then there's device names and how you specify them in file/path
+// form...
+//
+// In Unix there's no distinction, in the naming convention, between a
+// file and a device.  For example, "/dev/null" could indicate a device
+// or it could indicate a file.  You can't really tell by looking at
+// it on the written page, you'd "have to be there" to figure out what
+// the name resolved to on that Unix system.
+//
+// In Windows, there's a hodge podge of "standards"...  For example,
+// is "C:" a "device"?  Not really, it's a logical area of
+// "persistent storage".  In actual fact, it may cross several physical
+// disks, a disk may not even be involved (like with a memory stick),
+// or there may be several "devices" on a physical disk.  Then there's
+// non-disk devices like the "console", "printer", and Microsoft's
+// silly network devices with the disgusting "\\" naming convention.
+//
+// Then, on the old Macs (before OS X) they had a weird but workable
+// ":" mechanism whereby file/directory names were separated by the ':'
+// character and a leading ':' meant the root directory.  I forget
+// what their standard was on network names, but you get the idea.
+//
+// *** So what we do instead ***
+//
+// Okay, enough of that bollocks, now for the real thing.
+//
+// What we've provided here is a fairly cross-platform way of handling
+// LOCAL file/directory names in either an "abstract" or "native"
+// form.  The only distinction between a "file" and a "directory"
+// is that a file HAS to be a leaf node in the directory hierarchy
+// (meaning its content structure naming is NOT part of the path
+// handled here) and a directory DOES NOT have to be a leaf node but
+// can be.  Basically, directories have named contents and file doesn't,
+// at least not in the naming convention handled here.
+//
+// You, the caller, can set which mode the Path instance is being
+// manipulated in by setting the Abstract/Native mode in their
+// respective calls.
+//
+// The path separator may switch when the abstract/native mode is
+// changed by you, the caller.  So, if things don't work properly,
+// just blame yourself because YOU DID IT!!!
+//
+// NOTE: Having just said that, it's worth remembering that if you
+//       pass a full path name to this class's constructor it
+//       doesn't give you an option of which mode you mean.  So, at
+//       construct time, the path must be specified, if specified,
+//       in "abstract" mode (e.g. with the '/' separator).
+//
+//       Just WARNING YOU!!!
+//
+// Regardless of the mode, a single path separator is used to split
+// the "full name" into its constituent parts.
+//
+// These parts can be manipulated as part of a list.  They can be
+// inserted, deleted, appended, and changed in value.
+//
+// You can reassemble a "full name" after manipulating the parts.
+//
+// You can start with the parts and assemble a "full name" or you can
+// start with a "full name" and start messing with the parts.  This
+// class doesn't give a toss which way you want to think of it.  Instead,
+// it just gets on with manipulating your path.
+//
+// Then, given a full path, in whatever mode you placed the Path
+// instance in when you specified the path, you can test for its
+// existence on the "real" operating system, in the way the operating
+// system wants.
+//
+// This means that the parts will have to be reassembled into a
+// single string, in the native form, which is then passed to the
+// operating system to see if it exists, if it's a file or a directory,
+// or whatever.
+//
+// So, when these existence methods or manipulation methods are called,
+// the Path instances switches internally into "native" mode while
+// talking to the operating system.  However, it DOES NOT, modify the
+// contents of what you were building so don't worry about it.
+//
+// Anyway, have fun!
+//
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+
+#include "primitives.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// Class: Path - The path/file name manipulation class
+//
+// This is a general not fully function insterface class.  It is
+// expected to be rounded out by operating system specific functionality.
+// So, use the OperatingSystem class to get a properly functioning Path
+// instance.
+//
+// All the path manipulation methods are independent of operating system
+// dependency.  However, the existence, creation/deletion of paths and
+// files, requires an OperatingSystem, so these methods on the
+// base Path class are redirected to the current OperatingSystem's
+// implementation of Path.
+//
+
+class Path {
+
+//
+// Public Instance ("this") methods
+//
+
+public:
+
+  // Constructors/Destructors - !!!ALL CONSTRUCTOR PATHS ARE IN ABSTRACT FORM!!!
+  //                            !!!The instance will stay in ABSTRACT mode   !!!
+  //                            !!!unless a call to "SetNative" is used.     !!!
+  //                            !!!Just a word of warning.  ;-)              !!!
+
+  Path();                         // Empty constructor
+  Path(Path const &that);         // Copy constructor
+  Path(const char *pathname);     // String literal constructor (abstract)
+  Path(char *pathname);           // String literal constructor (abstract)
+  Path(String &pathname);         // String constructor (abstract)
+  virtual ~Path();
+
+  // Operator =
+  //   Implemented in PathOperator.cpp
+  Path &operator=  (String const &name);
+  Path &operator=  (char const *name);
+  Path &operator=  (char *name);
+  Path &operator=  (Strings const &parts);
+
+  // Operator +=
+  //   Implemented in PathOperator.cpp
+  Path &operator+= (String const &fileordir);
+  Path &operator+= (char const *fileordir);
+  Path &operator+= (char *fileordir);
+
+  // Operator +
+  //   Implemented in PathOperator.cpp
+  Path &operator+ (String const &fileordir);
+  Path &operator+ (char const *fileordir);
+  Path &operator+ (char *fileordir);
+
+  // Manipulation - Full Name or each Part
+  //   Implemented in PathManip.cpp
+  String &GetFullName();                // Get full path name
+  Status SetFullName(const char *fullname);
+  Status SetFullName(String &fullname); // Set full path name
+  Int    Parts();                       // Number of parts in the path name
+  Int    Length();                      // Length of the full name in characters
+  Status GetPart(Int index,String &part);
+  Status SetPart(Int index,String &part);
+  Status AppendPart(String &part);
+  Status RemovePart(Int index);
+  // Abstract vs. Real paths
+  //   Implemented in Path.cpp
+  virtual Boolean IsValid();            // "Is valid atomic/compound directory/file name?"
+  virtual Boolean IsRelative();         // "Is this a relative path?" (if so, it's going to be flagged as error)
+  virtual void    SetNative();          // Set "native" mode
+  virtual void    SetAbstract();        // Set "abstract" mode
+
+  // Existence/maintenance
+  //  Implemented in PathMaint.cpp
+  virtual Char    Separator();          // Abstract Path separator
+  virtual Char    NativeSeparator();    // Native Path separator
+  virtual Char    ExtensionSeparator(); // File/Extension separator (Typically '.', depends on Mode)
+  virtual Char    ListSeparator();      // Path List separator (Abstract ';', Native sometimes ',' or ':')
+
+/*
+  virtual Boolean Exists();             // "Does Native file/directory exist?"
+  virtual Boolean IsDevice();           // "Is this a Native device?"
+  virtual Boolean IsDirectory();        // "Is this a Native directory that exists?"
+  virtual Boolean IsFile();             // "Is this a Native file that exists?"
+  virtual Status  Create();             // Create Native file/directory (deep) if it doesn't exist
+  virtual Status  Remove();             // Only for files, or empty directories
+  virtual Status  Remove(Boolean deep); // Careful!  If deep=true, can really rape stuff!
+  virtual Status  GetContents(Strings &contents); // For directories only
+*/
+
+//
+// Protected Instance ("this") members
+//
+
+protected:
+
+  Boolean isNativeMode:1;       // 1 = "We're in native mode as far as the caller's concerned"
+  Boolean isPartsFocus:1;       // 1 = "parts was the last focus", 0 = "fullname was the last focus"
+  Boolean isModified:1;         // 1 = "Whatever has focus was modified"
+  String  fullname;             // Full name in caller's mode
+  Strings parts;                // Path parts
+  Char    separators[2];        // Abstract/Native pathseparators [0] = Abstract, [1] = Native
+  Char    extsep;               // Extension separator
+  Char    listsep;              // List separator
+
+//
+// Protected Instance ("this") methods
+//
+
+protected:
+
+  // Low level utility methods
+  virtual void    StartUp();
+  virtual void    ShutDown();
+  virtual void    FocusOnName();
+  virtual void    FocusOnParts();
+
+  // Low level implemented by OperatingSystem
+  virtual Boolean IsDirectory(String &somename);
+  virtual Boolean IsFile     (String &somename);
+  virtual Boolean Exists     (String &that);
+  virtual Status  Create     (String &that);
+
+};
+
+}; // Namespace BEF_NS
+
+#endif // PATH_H

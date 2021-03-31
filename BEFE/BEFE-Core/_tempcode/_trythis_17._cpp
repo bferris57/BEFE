@@ -1,0 +1,189 @@
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "BEFEMacros.h"
+#include "BEFEWrappers.h"
+#include "_GlobalMacros.h"
+#include "Build.h"
+#include "Cache.h"
+#include "CacheBlock.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+
+Status trythis() {
+
+  Status   status;
+  String   befeSvn;
+  String   fileName;
+  Id       fileId;
+  Build    theBuild;
+  UInt     svnHead;
+  Cache    cache;
+  UInt     mode;
+  
+  enum {
+    //TestLexFileInfo,
+    //TestLexCache,
+    TestCache,
+    numTests
+  };
+  
+  //UInt fg;  
+  //fg = Cout.GetForegroundColour();
+  //Cout << "*** Nothing for trythis() to do at the moment ***\n";
+  
+  //mode = TestLexFileInfo;
+  //mode = TestLexCache;
+  mode = TestCache;
+  
+  switch (mode) {
+  
+  //
+  // Test LexCache...
+  //
+  
+  /*
+  case TestLexCache:
+    befeSvn = TheBefe->GetEnvironmentValue("BEFE_SVN");
+    if (IsNull(befeSvn)) goto NOSVN;
+    status = TheBefe->TheOS->PathToGeneric(befeSvn);
+    if (status) goto SOMEERROR;
+    if (befeSvn.Get(-1) != '/') befeSvn += '/';
+
+    fileName = "TestLex.bef";
+    Cout << "Creating LexCache file '" << fileName <<"'...\n";
+    status = cache.CreateCacheFile(fileName);
+    if (status) goto SOMEERROR;
+    
+    //status = fInfo.LoadFile(befeSvn+"c++/test/TestString.cpp");
+    //status = fInfo.LoadFile(befeSvn+"c++/string/String.h");
+    //status = fInfo.LoadFile(befeSvn+"c++/test/trythis.cpp");
+    //status = fInfo.LoadFile("c:/befe/big.xml");
+    //if (status) goto SOMEERROR;
+
+    //Cout << "fInfo.fileName  = '"  << fInfo.fileName << "'\n";
+    //Cout << "fInfo.length    = "   << fInfo.length << '\n';
+    //Cout << "fInfo.size      = "   << fInfo.size << '\n';
+    //Cout << "fInfo.time      = "   << ToString(fInfo.time, Time::Milliseconds) << '\n';
+    //Cout << "fInfo.crc       = 0x" << ToHexString(fInfo.crc,8) << '\n';
+    //Cout << "fInfo.numLines  = "   << fInfo.numLines << '\n';
+    //Cout << "fInfo.numTokens = "   << fInfo.numTokens << '\n';
+  
+    break;
+  */
+  
+  //
+  // Test Cache...
+  //
+  
+  case TestCache: {
+
+    char const *fileNames[] = {
+      "trythis.cpp",
+      "Test.h",
+      "TestArray.cpp",
+      NULL};
+    UInt curIdx;
+      
+    befeSvn = TheBefe->GetEnvironmentValue("BEFE_SVN");
+    if (IsNull(befeSvn)) goto NOSVN;
+    status = TheBefe->TheOS->PathToGeneric(befeSvn);
+    if (status) goto SOMEERROR;
+    if (befeSvn.Get(-1) != '/') befeSvn += '/';
+    Cout << "BEFE_SVN = '" << befeSvn << "'\n";
+    Cout << "  Exists       = " << ((Exists(befeSvn))?"True":"False")      << '\n';
+    Cout << "  Is Directory = " << ((IsDirectory(befeSvn))?"True":"False") << '\n';
+    
+    // Register the files...
+    /*
+    for (curIdx=0; fileNames[curIdx]; curIdx++) {
+      fileName = befeSvn + "c++/test/" + fileNames[curIdx];
+      //Cout << "Caching file '" << fileName << "'...\n";    
+      status = cache.StartCacheFile(fileName);
+      if (status) {
+        Cout << "Error Caching file '" << fileName << "'...\n";
+        goto SOMEERROR;
+      }
+    }
+    */
+    
+    // Try allocating the blocks
+    if (gVeryVerbose) {
+      Cout << "Allocating Blocks...\n";
+      status = cache._AllocateBlocks();
+      if (status) goto SOMEERROR;
+    }
+    
+    // Display the Cache Info...
+    Cout << '\n';
+    Cout << "***Cache Information***\n\n";
+    status = cache.DisplayOverview(2);
+    if (status) goto SOMEERROR;
+    Cout << '\n';
+    status = cache.DisplayFiles(2);
+    if (status) goto SOMEERROR;
+    Cout << '\n';
+    status = cache.DisplayUsedBlocks(2);
+    if (status) goto SOMEERROR;
+    Cout << '\n';
+    status = cache.DisplayFreeBlocks(2);
+    if (status) goto SOMEERROR;
+    
+    break;
+  
+    }
+  
+  //
+  // Test ???...
+  //
+  
+  default:
+
+    Cout << "*** Don't know what to do here!!!\n";
+    break;
+  }
+  
+  //
+  // Handle errors  
+  //
+  
+  status = Error::None;
+  while (false) {
+    OK:               status = Error::None;       break;
+    NOSVN:            status = Error::NoBEFE_SVN; break;
+    SOMEERROR:                                    break;
+  }
+  
+  if (status) ERROR("trythis",status);
+  
+  //Cout.SetForegroundColour(fg);
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

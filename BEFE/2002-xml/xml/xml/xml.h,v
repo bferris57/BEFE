@@ -1,0 +1,2843 @@
+head	1.74;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.74
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.73;
+
+1.73
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.72;
+
+1.72
+date	2002.11.03.08.24.56;	author bferris;	state Exp;
+branches;
+next	1.71;
+
+1.71
+date	2002.11.01.06.16.24;	author bferris;	state Exp;
+branches;
+next	1.70;
+
+1.70
+date	2002.10.27.11.10.12;	author bferris;	state Exp;
+branches;
+next	1.69;
+
+1.69
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.68;
+
+1.68
+date	2002.10.27.07.07.31;	author bferris;	state Exp;
+branches;
+next	1.67;
+
+1.67
+date	2002.10.26.19.08.40;	author bferris;	state Exp;
+branches;
+next	1.66;
+
+1.66
+date	2002.10.25.21.40.07;	author bferris;	state Exp;
+branches;
+next	1.65;
+
+1.65
+date	2002.10.25.08.31.32;	author bferris;	state Exp;
+branches;
+next	1.64;
+
+1.64
+date	2002.10.24.08.42.46;	author bferris;	state Exp;
+branches;
+next	1.63;
+
+1.63
+date	2002.10.24.05.28.24;	author bferris;	state Exp;
+branches;
+next	1.62;
+
+1.62
+date	2002.10.24.03.31.28;	author bferris;	state Exp;
+branches;
+next	1.61;
+
+1.61
+date	2002.10.23.13.05.43;	author bferris;	state Exp;
+branches;
+next	1.60;
+
+1.60
+date	2002.10.23.07.42.41;	author bferris;	state Exp;
+branches;
+next	1.59;
+
+1.59
+date	2002.10.22.14.57.11;	author bferris;	state Exp;
+branches;
+next	1.58;
+
+1.58
+date	2002.10.22.07.25.47;	author bferris;	state Exp;
+branches;
+next	1.57;
+
+1.57
+date	2002.10.22.07.09.00;	author bferris;	state Exp;
+branches;
+next	1.56;
+
+1.56
+date	2002.10.22.04.09.58;	author bferris;	state Exp;
+branches;
+next	1.55;
+
+1.55
+date	2002.10.21.12.05.37;	author bferris;	state Exp;
+branches;
+next	1.54;
+
+1.54
+date	2002.10.21.12.04.59;	author bferris;	state Exp;
+branches;
+next	1.53;
+
+1.53
+date	2002.10.21.10.41.21;	author bferris;	state Exp;
+branches;
+next	1.52;
+
+1.52
+date	2002.10.21.08.11.08;	author bferris;	state Exp;
+branches;
+next	1.51;
+
+1.51
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.50;
+
+1.50
+date	2002.10.21.05.41.43;	author bferris;	state Exp;
+branches;
+next	1.49;
+
+1.49
+date	2002.10.20.13.13.52;	author bferris;	state Exp;
+branches;
+next	1.48;
+
+1.48
+date	2002.10.20.11.26.54;	author bferris;	state Exp;
+branches;
+next	1.47;
+
+1.47
+date	2002.10.20.07.43.32;	author bferris;	state Exp;
+branches;
+next	1.46;
+
+1.46
+date	2002.10.20.06.58.06;	author bferris;	state Exp;
+branches;
+next	1.45;
+
+1.45
+date	2002.10.19.14.37.35;	author bferris;	state Exp;
+branches;
+next	1.44;
+
+1.44
+date	2002.10.19.12.26.01;	author bferris;	state Exp;
+branches;
+next	1.43;
+
+1.43
+date	2002.10.19.11.33.47;	author bferris;	state Exp;
+branches;
+next	1.42;
+
+1.42
+date	2002.10.18.05.02.13;	author bferris;	state Exp;
+branches;
+next	1.41;
+
+1.41
+date	2002.10.18.04.10.13;	author bferris;	state Exp;
+branches;
+next	1.40;
+
+1.40
+date	2002.10.18.03.05.04;	author bferris;	state Exp;
+branches;
+next	1.39;
+
+1.39
+date	2002.10.17.05.12.12;	author bferris;	state Exp;
+branches;
+next	1.38;
+
+1.38
+date	2002.10.16.04.34.02;	author bferris;	state Exp;
+branches;
+next	1.37;
+
+1.37
+date	2002.10.15.06.13.26;	author bferris;	state Exp;
+branches;
+next	1.36;
+
+1.36
+date	2002.10.14.22.10.17;	author bferris;	state Exp;
+branches;
+next	1.35;
+
+1.35
+date	2002.10.14.21.15.44;	author bferris;	state Exp;
+branches;
+next	1.34;
+
+1.34
+date	2002.10.14.20.05.55;	author bferris;	state Exp;
+branches;
+next	1.33;
+
+1.33
+date	2002.10.14.06.06.38;	author bferris;	state Exp;
+branches;
+next	1.32;
+
+1.32
+date	2002.10.13.11.23.14;	author bferris;	state Exp;
+branches;
+next	1.31;
+
+1.31
+date	2002.10.13.10.15.22;	author bferris;	state Exp;
+branches;
+next	1.30;
+
+1.30
+date	2002.10.13.09.00.14;	author bferris;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	2002.10.13.08.46.04;	author bferris;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2002.10.13.08.25.31;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.12.17.48.42;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.12.16.24.31;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.12.10.22.13;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.12.06.52.11;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.08.05.43.42;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.06.23.40.00;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.06.23.31.13;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.06.09.09.43;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.06.06.12.21;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.05.22.01.21;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.05.18.56.34;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.05.17.47.03;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.05.17.25.05;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.05.05.01.28;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.04.17.35.44;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.03.05.57.17;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.02.20.59.49;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.01.21.48.23;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.01.19.11.57;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.01.06.04.41;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.09.29.07.30.50;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.09.28.08.35.35;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.09.28.06.34.10;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.27.05.42.13;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.26.05.53.18;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.25.05.57.56;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.25.05.17.53;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.74
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xml.h - Definitions for the XML API classes
+  
+  DESCRIPTION
+    
+    This file contains the definitions for high level abstract classes
+    used to manipulate XML documents.
+
+    We've attempted to keep the high level API to a minimum so the 
+    only header files required to understand it will be:
+    
+      xml.h       - High level API
+      xmlerrors.h - Error codes returned by all XML functions
+          
+    The following main types are declared here:
+    
+      XML             - Namespace for various enums etc.
+      XMLError        - Error code returned by all (well most) functions
+      XMLObject       - Base class for all implementations
+      XMLManager      - XML document manager and factory
+      XMLString       - General string (many implementations)
+      XMLDocument     - An XML document
+      XMLCursor       - A cursor into an XML document
+      XMLLocation     - Location in an XML document (offset, line, col)
+      XMLIOStatistics - I/O statistics
+      
+    Other definitions:
+    
+      byte       - Unsigned char (use instead of char when manipulating bytes)
+      XMLHash    - Used or string hashs
+      
+          
+  NOTES
+
+    While stub implementations of these classes are implemented in xml.c,
+    sub-classes of these classes need to be written for these classes to
+    be useful.
+
+    The default behaviour of these function is to return an error 
+    indicating that the element, document, etc. is not mutable.
+*/
+
+#ifndef _xml_h
+
+#define _xml_h
+
+#include "portkit.h"
+#include "xmlerrors.h"
+
+// Forward classes
+class XMLObject;
+class XMLManager;
+class XMLString;
+class XMLDocument;
+class XMLCursor;
+class XMLLocation;
+class XMLIOStatistics;
+
+//------------------------------------------------------------------------------
+//
+// Enums and typedefs
+//
+
+// General XML error code
+typedef int XMLError;
+
+// Internal string token
+typedef int XMLToken;
+
+#define XMLTOKENNONE 0
+
+// Commonly used macros
+#ifndef NULL
+#  define NULL 0
+#endif
+
+// For debugging purposes
+#define DEBUGGING 1
+ 
+// Hash (can't be negative)
+//
+// PROPERHASH turns a possibly negative hash into a non-negative one
+// BADHASH    tests for a negative hash
+
+typedef int XMLHash;
+#define PROPERHASH(h) ((XMLHash)(h) & 0x7fffffffl )
+#define ISBADHASH(h)    ((h) < 0)
+#define BADHASH       (XMLHash)0xffffffffl;
+
+//
+// Public typedefs and enums
+//
+  
+namespace XML {
+
+  // Element validity
+  typedef enum {
+     ValidityUnknown     // Not known (yet)
+    ,ValidityInvalid     // Not a valid document
+    ,ValidityBasic       // XML'ish (like XHTML)
+    ,ValidityWellFormed  // Well formed (valid XML)
+    ,ValidityDTD         // Valid (conforms to it's DTD)
+    ,ValidityXSchema     // Valid (conforms to it's XSchema)
+    ,ValidityMAX         // Highest validity + 1
+  } Validity;
+  
+  // Element class
+  typedef enum {
+     ClassUnknown         // Class isn't established
+    ,ClassComplex         // It's a complex element
+    ,ClassSimple          // It's a simple element
+    ,ClassPCDATA          // It's Parsed Character Data (may have entities)
+    ,ClassText            // Text (part of PCDATA)
+    ,ClassEntity          // It's an entity (part of PCDATA)
+    ,ClassCDATA           // Non-parsed character data
+    ,ClassComment         // It's a comment
+    ,ClassPI              // It's a processing instruction
+    ,ClassDTD             // It's some DTD
+    ,ClassMAX             // Highest class + 1
+  } Class;
+  
+  // File formats
+  typedef enum {
+     FileTypeXML          // Text XML source
+    ,FileTypeCompiled     // Compiled XML/HTML/XHTML source
+    ,FileTypeXHTML        // Text XHTML source
+    ,FileTypeHTML         // Text HTML source
+    ,FileTypeMAX
+  } FileType;
+  
+  // XML Manager factory
+  XMLError CreateManager(XMLManager **themanager);
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLObject - A general XML object 
+//
+// DESCRIPTION
+//
+//  This class represents a single XML string.  
+//
+
+class XMLObject {
+  //
+  // Public members
+  //
+public:
+#if DEBUGGING
+  int sequence; // Object's sequence number (no two the same)
+#endif
+
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+protected:
+  XMLObject();
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLString - A general string
+//
+// DESCRIPTION
+//
+//  This class represents a single XML string.  
+//
+
+class XMLString : public XMLObject {  
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLString() = 0;
+  
+  // Get the value/len of the string
+  virtual XMLError Length(int *len) = 0;
+  virtual XMLError GetValue(byte *buf, int maxbufl, int *len = NULL) = 0;
+  
+  // Substringing
+  virtual XMLError SubString(int offset, int len, XMLString **substring) = 0;
+  
+  // Comparisons
+  virtual XMLError Equals(XMLString *that,int *answer) = 0;
+  virtual XMLError Compare(XMLString *that, int *answer) = 0;
+  
+  // Mutable calls
+  virtual int      IsMutable(void) = 0;
+  virtual XMLError Truncate(void) = 0;
+  virtual XMLError SetLength(int newlen, byte fillwith = 0x20) = 0;
+  virtual XMLError Append(byte *buf, int bufl) = 0;
+  virtual XMLError Append(char *buf, int bufl = -1) = 0;
+  virtual XMLError Append(XMLString *string) = 0;
+  virtual XMLError Lower(void) = 0;
+  virtual XMLError Upper(void) = 0;
+  
+  // Hashing
+  virtual int      IsHashed(void) = 0;
+  virtual XMLError Hash(void) = 0;
+  virtual XMLError GetHash(XMLHash *hash) = 0;
+
+  //
+  // Protected member functions
+  //
+protected:
+  XMLString();
+  
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLManager - XML Document Manager and Factory
+//
+// DESCRIPTION
+//
+//  This class manages XML Documents and creates XML objects for the caller.
+//
+
+class XMLManager : public XMLObject {
+
+  //
+  // Public member functions
+  //
+public:
+  
+  // Constructor/destructor
+  virtual ~XMLManager();
+  
+  // IO Statistics
+  virtual void GetIOStatistics(XMLIOStatistics *stats) = 0;
+  
+  // XML Document factories
+  virtual XMLError CreateEmpty(XMLDocument **thedoc) = 0;
+  
+  // XML Document loading
+  virtual XMLError Load(char *url, XMLDocument **thedoc, XML::FileType type = XML::FileTypeXML) = 0;
+  virtual XMLError Load(XMLString *url, XMLDocument **thedoc, XML::FileType type = XML::FileTypeXML) = 0;
+  
+  // XML Document saving
+  virtual XMLError Save(XMLDocument *thedoc, char *url, int compiled = 0) = 0;
+  virtual XMLError Save(XMLDocument *thedoc, XMLString *url, int compiled = 0) = 0;
+  
+  // XML Strings
+  virtual XMLError NewString(XMLString **string, const char *staticstring) = 0;
+  virtual XMLError NewString(XMLString **string, char *createfrom = NULL, int len = -1) = 0;
+  
+};
+  
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLDocument - XML Document
+//
+// DESCRIPTION
+//
+//  This class represents a single XML document.  
+//
+
+class XMLDocument : public XMLObject {
+
+  //
+  // Public member functions
+  //
+public:
+  
+  // Constructors/destructors
+  virtual ~XMLDocument() = 0;
+  
+  // Cursors
+  virtual XMLError NewCursor(XMLCursor **cursor) = 0;
+
+  // Statistics
+  virtual int NodeCount(void) = 0;
+  virtual int NodeTotal(void) = 0;
+  virtual int HighestWidth(void) = 0;
+  virtual int HighestDepth(void) = 0;
+  virtual int DistinctStrings(void) = 0;
+  
+  // Parse error
+  virtual XMLError GetLastParseError(XMLLocation *location = NULL) = 0;
+  
+  // Tuning
+  virtual XMLError SetOptimalNodes(int optimalnodes) = 0;
+  
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLCursor - A Position in an XML document
+//
+// DESCRIPTION
+//
+//  This class represents a single position in an XML document (quite
+//  similiar to an XPath path).
+//
+
+class XMLCursor : public XMLObject {
+  
+  //
+  // Public member functions
+  //
+public:
+  // Positioning
+  virtual XMLError Top(void) = 0;
+  virtual XMLError Up(void) = 0;
+  virtual XMLError Down(void) = 0;
+  virtual XMLError Next(void) = 0;
+  
+  // Walking
+  virtual XMLError Walk(void) = 0;
+  
+  // Position query
+  virtual XMLError GetURI(XMLString **uri) = 0;
+  virtual XMLError Count(int *count) = 0;
+  virtual XMLError GetDepth(int *depth) = 0;
+  virtual XMLError GetElementNumber(int *elemno,int *depth = NULL) = 0;
+
+  // Element query (current element)
+  virtual XMLError GetElementClass(XML::Class *eclass) = 0;
+  virtual XMLError GetElementType(XMLString **name) = 0;
+  virtual XMLError GetElementValidity(XML::Validity *validity) = 0;
+  virtual XMLError GetElementValue(XMLString **value) = 0;
+  
+  // Attribute query (current element)
+  virtual XMLError GetAttributeCount(int *count) = 0;
+  virtual XMLError FindAttribute(XMLString *name) = 0;
+  virtual XMLError GetAttributeValue(XMLString *name, XMLString **value) = 0;
+  
+  // Parse error (if parsing cursor)
+  virtual XMLError GetLastParseError(XMLLocation *location) = 0;
+  
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLLocation - A location in an XML stream (offset, line, col)
+//
+// DESCRIPTION
+//
+//  This scalar class is used to describe the location of XML elements in
+//  the XML stream.
+//
+
+class XMLLocation {
+
+  //
+  // Public member functions
+  //
+public:
+  XMLLocation();
+  XMLLocation(const XMLLocation &copyof);
+  XMLLocation(int offset, int line, int column);
+  // Assignment
+  XMLLocation & operator =(const XMLLocation &copyof);
+  // Query
+  int IsKnown(void);
+  // Setting
+  void Unknown(void);
+  
+  //
+  // Public members
+  //
+public:
+  int offset;  // Offset into stream (<0 = Unknown)
+  int line;    // Line (1..n)
+  int column;  // Column (1..n)
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLIOStatistics - A set of I/O statistics
+//
+// DESCRIPTION
+//
+//  This class is used to maintain, sum and deliver I/O statistics.
+//
+
+class XMLIOStatistics {
+
+  //
+  // Public member functions
+  //
+public:
+
+  // Constructor
+  XMLIOStatistics(void);
+  
+  // Maintaining
+  void Reset(void);
+  void Add(XMLIOStatistics *that);
+  void Negate(void);
+  
+  //
+  // Public members
+  //
+public:
+
+  // IO Buffers
+  int buffersallocated;       // Allocated IO buffers
+  int buffersize;             // IO buffer size
+  int buffersfreed;           // Freed IO buffers
+  int buffersused;            // Used IO buffers
+  int buffersunused;          // Unused IO buffers
+  int buffersinlimbo;         // Buffers in indeterinate state
+  int bufferslocked;          // Locked IO buffers (used)
+  int bufferbytesphysical;    // Physical bytes (used+unused+limbo)*size
+  int bufferbyteslogical;     // Logical bytes (phy-log shows wastage)
+  
+  // Streams
+  int streamtotal;            // Total streams
+  int streamopenread;         // Streams open read only
+  int streamopenwrite;        // Streams open write only
+  int streamopenreadandwrite; // Streams open read and write
+  int streamclosed;           // Streams closed
+    
+  // IO
+  int physicalreads;          // Physical read() calls
+  int bytesreadphysical;      // Physical bytes read
+  int bytesreadlogical;       // Logical bytes read
+  int physicalwrites;         // Physical write() calls
+  int byteswritephysical;     // Physical bytes written
+  int byteswritelogical;      // Logical bytes written
+  
+  // Seek/Tell calls
+  int seekcallslogical;       // Calls to seek() in stream
+  int seekcallsphysical;      // Physical calls to seek()
+  int tellcallslogical;       // Calls to tell() in stream
+  int tellcallsphysical;      // Physical calls to tell()
+  
+  // Locks
+  int lockcalls;              // Number of buffer lock requests
+  int unlockcalls;            // Number of buffer unlock requests
+    
+};
+
+
+#endif // _xml_h
+@
+
+
+1.73
+log
+@More work on HTML parser
+@
+text
+@d51 1
+a74 3
+
+// Commonly used types
+typedef unsigned char byte;
+@
+
+
+1.72
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@d188 1
+d192 1
+d195 1
+d199 1
+d207 3
+@
+
+
+1.71
+log
+@Added 'compiled' option to manager load, added read test to txml
+@
+text
+@d128 9
+d244 2
+a245 2
+  virtual XMLError Load(char *url, XMLDocument **thedoc, int compiled = 0) = 0;
+  virtual XMLError Load(XMLString *url, XMLDocument **thedoc, int compiled = 0) = 0;
+@
+
+
+1.70
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@d235 2
+a236 2
+  virtual XMLError Load(char *url, XMLDocument **thedoc) = 0;
+  virtual XMLError Load(XMLString *url, XMLDocument **thedoc) = 0;
+@
+
+
+1.69
+log
+@Text writer working, don't like speed though
+@
+text
+@d84 1
+a84 1
+#define DEBUGGING 0
+@
+
+
+1.68
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@d235 2
+a236 2
+  virtual XMLError LoadFrom(char *url, XMLDocument **thedoc) = 0;
+  virtual XMLError LoadFrom(XMLString *url, XMLDocument **thedoc) = 0;
+d239 2
+a240 4
+  virtual XMLError Save(XMLDocument *thedoc, char *url) = 0;
+  virtual XMLError Save(XMLDocument *thedoc, XMLString *url) = 0;
+  virtual XMLError SaveCompiled(XMLDocument *thedoc, char *url) = 0;
+  virtual XMLError SaveCompiled(XMLDocument *thedoc, XMLString *url) = 0;
+@
+
+
+1.67
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d83 3
+a129 2
+  
+
+a142 2
+#define DEBUGGING 1
+ 
+d145 8
+a156 4
+#if DEBUGGING
+  int sequence;
+  XMLObject() {static int globalsequence = 0; sequence = ++globalsequence;}
+#else
+d158 1
+a158 2
+  XMLObject() {};
+#endif
+@
+
+
+1.66
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d142 1
+a142 1
+#define DEBUGGING 0
+@
+
+
+1.65
+log
+@Finished XMLBitMapString, ready to test
+@
+text
+@d231 2
+d235 6
+@
+
+
+1.64
+log
+@Complete IO stats - We're reading 2 times what we should!
+@
+text
+@d188 1
+@
+
+
+1.63
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d396 3
+d403 1
+a403 1
+  int bufferbytesphysical;    // Physical bytes (used+unused)*size
+d407 1
+a407 1
+  int streamopentotal;        // Total open streams
+d411 2
+a412 1
+  
+d414 1
+d417 1
+d420 6
+@
+
+
+1.62
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d21 9
+a29 8
+      XML         - Namespace for various enums etc.
+      XMLError    - Error code returned by all (well most) functions
+      XMLObject   - Base class for all implementations
+      XMLManager  - XML document manager and factory
+      XMLString   - General string (many implementations)
+      XMLDocument - An XML document
+      XMLCursor   - A cursor into an XML document
+      XMLLocation - Location in an XML document (offset, line, col)
+d60 1
+d225 3
+d363 58
+@
+
+
+1.61
+log
+@All tokenised, ready to test
+@
+text
+@d263 1
+@
+
+
+1.60
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d68 5
+@
+
+
+1.59
+log
+@Debugged XMLManager
+@
+text
+@d103 1
+a103 1
+  // Element type
+d105 12
+a116 18
+     TypeUnknown         // Type isn't established
+    ,TypeComplex         // It's a complex element
+    ,TypeSimple          // It's a simple element
+    ,TypePCDATA          // It's Parsed Character Data (may have entities)
+    ,TypeText            // Text (part of PCDATA)
+    ,TypeEntity          // It's an entity (part of PCDATA)
+    ,TypeCDATA           // Non-parsed character data
+    ,TypeComment         // It's a comment
+    ,TypePI              // It's a processing instruction
+    ,TypeDTD             // It's some DTD
+    ,TypeMAX             // Highest type + 1
+  } Type;
+  
+  // Content type
+  typedef enum {
+     ContentSimple       // Contains nothing
+    ,ContentComplex      // Contains 1 or more elements
+  } ContentType;
+d301 2
+a302 2
+  virtual XMLError GetElementType(XML::Type *type) = 0;
+  virtual XMLError GetElementName(XMLString **name) = 0;
+@
+
+
+1.58
+log
+@Got XMLManager working
+@
+text
+@d221 3
+@
+
+
+1.57
+log
+@Implemented XMLManager
+@
+text
+@d60 26
+d124 4
+a131 26
+// Enums and typedefs
+//
+
+// General XML error code
+typedef int XMLError;
+
+// Commonly used types
+typedef unsigned char byte;
+
+// Commonly used macros
+#ifndef NULL
+#  define NULL 0
+#endif
+
+// Hash (can't be negative)
+//
+// PROPERHASH turns a possibly negative hash into a non-negative one
+// BADHASH    tests for a negative hash
+
+typedef int XMLHash;
+#define PROPERHASH(h) ((XMLHash)(h) & 0x7fffffffl )
+#define ISBADHASH(h)    ((h) < 0)
+#define BADHASH       (XMLHash)0xffffffffl;
+
+//------------------------------------------------------------------------------
+//
+a219 3
+  
+  // XML Manager factory
+  static XMLError CreateManager(XMLManager **themanager);
+@
+
+
+1.56
+log
+@Moved string discussion from .h into .html
+@
+text
+@d24 1
+d54 1
+d203 32
+d248 1
+a248 2
+  // Factories
+  static XMLError CreateInMemory(XMLDocument **thedoc,int optimalnodes = 0);
+d251 1
+a251 7
+  // Setters/getters
+  virtual XMLError GetURL(XMLString **url) = 0;
+  virtual XMLError SetURL(XMLString *url) = 0;
+  virtual XMLError GetVersion(XMLString **version) = 0;
+  virtual XMLError SetVersion(XMLString *version) = 0;
+  // Parsing
+  virtual XMLError SetSourceXML(XMLString *input) = 0;
+d263 3
+@
+
+
+1.55
+log
+@Turned object debugging off
+@
+text
+@a161 69
+//  Data that can act like a "string" may or may not...
+//
+//    a) be contiguous in memory
+//    b) permanently reside in memory (e.g. may be on disk)
+//    c) be capable of writing
+//
+//  Still, normal string operations like the following may still be performed...
+//
+//    a) Equality comparison
+//    b) Lexical comparison (less, equal, greater)
+//    c) Searching
+//    d) Retrieval (into caller's memory)
+//    e) Obtaining length of string
+//    f) Obtaining the string's hash key
+//
+//  FRAGMENTS AND OFFSETS
+//
+//  So, we treat strings in general as broken into 0 or more logically
+//  contiguous FRAGMENTs, each identified by a distinct OFFSET. 
+//  A string's offset is in the range 0 to stringlen-1.
+//
+//  In order to safely access the fragments of all strings we've implemented
+//  the concept of FRAGMENT LOCKING.  Basically, you can retrieve fragments
+//  into your own buffer without worrying about locking.  But if you want
+//  a memory pointer to the fragment you'll have to use the LockFragment() and
+//  UnlockFragment() methods.  We've provided the DoesLock() method to let the
+//  caller know if they have to call UnlockFragment() after calling
+//  LockFragment().  It is always safe to call UnlockFragment() even if the
+//  string implementation does not require locking.
+//
+//  The basic idea is to implement as much as possible in the base class
+//  and let the specific implementations only worry about implementing the
+//  abstract primitives.
+//
+//  HASHING
+//
+//  The base class can compute all string hashes based on the string's value.
+//  Sub-classes must NOT produce their own hashs because we ensure that
+//  two strings with exactly the same value cannot have different hashs.  This
+//  lets us do equality checks much faster.
+//
+//  Some sub-classes may wish to cache their hash because the expense of
+//  obtaining the hash (you have to walk the entire string to obtain the
+//  string's hash).  With that in mind we've provided the hash function BUT
+//  the caller may wish to override the IsHashed() and GetHash() functions
+//  to cache the hash in a local variable.  If the sub-class does this,
+//  however, they MUST call XMLString::GetHash() to calculate the hash value.
+//
+//  EQUALS vs. COMPARE
+//
+//  We've separated Equals() from Compare() because...
+//
+//    1) Assertion: A high proportion of string comparison calls are 
+//                  made to test string equality (except when the
+//                  caller is binary searching an ordered list.)
+//    2) Assertion: When a lot of strings are used, the majority of
+//                  strings are "not equal".
+//    3) Fact:      Examining a full string MAY be costly. What if,
+//                  for example, the strings are spread over several
+//                  disk blocks?
+//    4) Fact:      If a string is hashed and the hashes are NOT equal,
+//                  the strings are not equal.
+//
+//  This argument leads us implement a much faster string compare!
+//
+//  Two empty strings are treated as equal.  If the caller wishes to
+//  implement "NULL semantics" they will have to suffer the burden of
+//  comparing the lengths before calling Equals().
+//
+@
+
+
+1.54
+log
+@Worked on Cursor::GetURI, fixed GetName() not returning copy
+@
+text
+@d135 1
+a135 1
+#define DEBUGGING 1
+@
+
+
+1.53
+log
+@Added GetParseError() to doc and cursor and tester
+@
+text
+@d134 2
+d143 7
+a149 2
+  //XMLObject();
+  //~XMLObject();
+@
+
+
+1.52
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d296 3
+d345 3
+d382 3
+a384 3
+  int m_offset;  // Offset into stream (<0 = Unknown)
+  int m_line;    // Line (1..n)
+  int m_column;  // Column (1..n)
+@
+
+
+1.51
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@a53 1
+class XMLStringHashed;
+a55 1
+class XMLCursorBase;
+a57 5
+// External classes
+class XMLCursorParser;
+class XMLCursorBase;
+class XMLCursorFree;
+
+d218 1
+a218 1
+//  This subtle argument lets us implement a much faster string compare!
+d234 1
+a234 1
+  virtual XMLError GetValue(byte *buf, int maxbufl, int *len = NULL);
+a236 4
+  // Fragments
+  virtual int      DoesLock(void) = 0;                   // "Does LockFragment() actualy lock the fragment?"
+  virtual XMLError LockFragment(int offset, byte **pointer, int *availlen) = 0;
+  virtual XMLError UnlockFragment(int offset) = 0;
+d238 2
+a239 2
+  virtual XMLError Equals(XMLString *that,int *answer);
+  virtual XMLError Compare(XMLString *that, int *answer);
+d241 5
+a245 5
+  virtual int      IsMutable(void);
+  virtual XMLError Truncate(void);
+  virtual XMLError Append(byte *buf, int bufl);
+  virtual XMLError Append(char *buf, int bufl = -1);
+  virtual XMLError Append(XMLString *string);
+d247 3
+a249 5
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+
+};
+a250 12
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLStringHashed - An XMLString that retains it's hash value.
+//
+// DESCRIPTION
+//
+//  It's so common to have the same set of IsHashed(), Hash(), GetHash()
+//  implementations that we've created this class so it's only done once.
+//
+class XMLStringHashed : public XMLString {  
+d252 1
+a252 11
+  // Public member functions
+  //
+public:
+  // Constructor
+  XMLStringHashed();
+  // Hashing
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+  //
+  // Protected members
+d255 2
+a256 1
+  XMLHash m_hash;
+a311 2
+  friend XMLDocument;
+ 
+@
+
+
+1.50
+log
+@Implemented XMLDocumentBase
+@
+text
+@a55 1
+class XMLElement;
+a335 93
+//  XMLElement - XML Element
+//
+// DESCRIPTION
+//
+//  This class represents a single XML element.  It is only used internally
+//  by the implementation since all query is done through an XMLCursor.
+//
+
+class XMLElement : public XMLObject {
+  friend XMLDocument;
+  friend XMLCursor;
+  friend XMLCursorBase;
+  friend XMLCursorParser;
+  friend XMLCursorFree;
+
+public:
+  //
+  // Member functions
+  //
+  // Constructors/destructors
+  XMLElement(XML::Type type = XML::TypeUnknown);
+  virtual ~XMLElement();
+  
+  // Type
+  virtual XML::Type GetType(void);
+  virtual XMLError  SetType(XML::Type type);
+
+  // Capability
+  virtual int       IsMutable(void);
+    
+  // Validity
+  virtual XML::Validity GetValidity(void);
+  virtual XMLError      SetValidity(XML::Validity validity);
+    
+  // Element info
+  virtual XMLError  GetName(XMLString **name);
+  virtual XMLError  SetName(XMLString *name);
+  virtual XMLError  EqualsName(XMLString *name,int *equals);
+  
+  // Attributes
+  virtual XMLError  GetNAttributes(int *numattributes);
+  virtual XMLError  FindAttribute(XMLString *name, XMLString **value);
+  virtual XMLError  CreateAttribute(XMLString *name, XMLString *value);
+  virtual XMLError  DeleteAttribute(XMLString *name);
+  virtual XMLError  DeleteAttributes(void);
+
+  // Simple types  
+  virtual XMLError  GetValue(XMLString **value);
+  virtual XMLError  SetValue(XMLString *value);
+  
+  // Positioning
+  virtual XMLError  FirstChild(XMLElement **child);
+  virtual XMLError  NextSibling(XMLElement **sibling);
+    
+  // Location
+  virtual XMLError  GetLocation(XMLLocation *location);
+  virtual XMLError  SetLocation(const XMLLocation &location);
+
+  //
+  // Protected member functions
+  //
+protected:
+
+  // Owned strings (copies aren't made)
+  virtual XMLError  OwnedSetName(XMLString *name);
+  virtual XMLError  OwnedCreateAttribute(XMLString *name, XMLString *value);
+  virtual XMLError  OwnedSetValue(XMLString *value);
+  
+  // Event Notification (from constructor cursors)
+  virtual XMLError  EventRemoved();
+  virtual XMLError  EventRemovedChild(XMLElement *child);
+  virtual XMLError  EventParented(XMLElement *parent);
+  virtual XMLError  EventChangedNextSibling(XMLElement *nextsibling);  
+  virtual XMLError  EventChangedPreviousSibling(XMLElement *newprevsibling);
+  virtual XMLError  EventAddedChild(XMLElement *child);
+  
+  //
+  // Protected members
+  //
+protected:
+  // Element chain
+  XMLElement    *m_prevsibling;  // Next sibling element
+  XMLElement    *m_nextsibling;  // Previous sibling element
+  
+  // Element info
+  XML::Type      m_type;         // Element type
+  XML::Validity  m_validity;     // Element validity
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+a377 4
+  // Adding to structure
+  virtual XMLError NewElementAfter(XML::Type type, XMLElement **element) = 0;
+  virtual XMLError NewElementBelow(XML::Type type, XMLElement **element) = 0;
+
+@
+
+
+1.49
+log
+@Destructor working, walked big.xml 700K memory, 30 sec!
+@
+text
+@a306 4
+  friend XMLCursor;
+  friend XMLCursorBase;
+  friend XMLCursorFree;
+  
+a309 2
+  // NOTE: Strings copied
+  //
+d311 2
+d314 1
+a314 2
+  XMLDocument();
+  virtual ~XMLDocument();
+d316 4
+a319 4
+  virtual XMLError GetURL(XMLString **url);
+  virtual XMLError SetURL(XMLString *url);
+  virtual XMLError GetVersion(XMLString **version);
+  virtual XMLError SetVersion(XMLString *version);
+d321 1
+a321 1
+  virtual XMLError SetSourceXML(XMLString *input);
+d323 1
+a323 1
+  virtual XMLError NewCursor(XMLCursor **cursor);
+d326 4
+a329 30
+  virtual int NodeCount(void);
+  virtual int NodeTotal(void);
+  virtual int HighestWidth(void);
+  virtual int HighestDepth(void);
+  
+  //
+  // Protected member functions
+  //
+  // NOTE: Strings passed by reference NOT value.
+  //
+protected:
+  // Root element
+  virtual XMLError   GetRootElement(XMLElement **root);
+  virtual XMLError   SetRootElement(XMLElement *element);
+
+  // Cursors 
+  virtual XMLError   RemoveCursor(XMLCursor *cursor);
+  virtual XMLError   AddCursor(XMLCursor *cursor);
+  virtual XMLError   LeastCursor(XMLCursor **cursor);
+  virtual XMLCursor *GetConstructor(void);
+  virtual XMLError   SetConstructor(XMLCursor *cursor);
+  virtual XMLCursor *GetDestructor(void);
+  virtual XMLError   SetDestructor(XMLCursor *cursor);
+  
+  // Factories (to create friendly related classes)
+  virtual XMLError   NewString(XMLString **string) = 0;
+  virtual XMLError   NewElement(XML::Type type,XMLElement **element) = 0;
+  
+  // Event notification
+  virtual XMLError   EventRemovedElement(XMLElement *element);
+a330 27
+  //
+  // Protected members
+  //
+protected:
+  
+  // Document root
+  XMLElement *m_root;
+  XMLString  *m_url;
+  XMLString  *m_version;
+  
+  // Cursor list
+  XMLCursorBase *m_firstcursor;
+  XMLCursorBase *m_lastcursor;
+
+  // Special cursors
+  XMLCursorBase *m_constructor;
+  XMLCursorBase *m_destructor;
+  
+  // Source XML
+  XMLString     *m_source;
+  
+  // Statistics 
+  int m_nodecount;  // Current number of nodes
+  int m_nodetotal;  // Total number of nodes (life total)
+  int m_highwidth;  // Maximum children
+  int m_highdepth;  // Maximum depth
+
+@
+
+
+1.48
+log
+@Added XMLCursorFree - Almost working
+@
+text
+@d360 1
+a360 1
+  virtual XMLError   EventRemovedElement(void) = 0;
+@
+
+
+1.47
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@d64 1
+d309 1
+d359 3
+d408 1
+d533 1
+a533 1
+   
+@
+
+
+1.46
+log
+@Added node counts to and LeastCursor() to document
+@
+text
+@d328 6
+d377 7
+@
+
+
+1.45
+log
+@Ready to test parser for real!
+@
+text
+@d341 1
+@
+
+
+1.44
+log
+@All parsing functions except cursor new after/below written
+@
+text
+@d63 1
+d387 1
+d447 2
+a448 1
+  virtual XMLError  EventChangedSiblings(XMLElement *prevsibling, XMLElement *nextsibling);  
+d511 2
+a512 2
+  virtual XMLError NewElementAfter(XML::Type type, XMLElement **element);
+  virtual XMLError NewElementBelow(XML::Type type, XMLElement **element);
+@
+
+
+1.43
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@a410 1
+  virtual XMLError  CompareName(XMLString *name,int *compare);
+@
+
+
+1.42
+log
+@Added TestXMLDocumentMem to test suite
+@
+text
+@d61 3
+d72 7
+a78 7
+     ValidityUnknown                                // Not known (yet)
+    ,ValidityInvalid                                // Not a valid document
+    ,ValidityBasic                                  // XML'ish (like XHTML)
+    ,ValidityWellFormed                             // Well formed (valid XML)
+    ,ValidityDTD                                    // Valid (conforms to it's DTD)
+    ,ValidityXSchema                                // Valid (conforms to it's XSchema)
+    ,ValidityMAX                                    // Highest validity + 1
+d83 11
+a93 10
+     TypeUnknown                                    // Type isn't established
+    ,TypeComplex                                    // It's a complex element
+    ,TypeSimple                                     // It's a simple element
+    ,TypePCDATA                                     // It's Parsed Character Data (may have entities)
+    ,TypeText                                       // Text (part of PCDATA)
+    ,TypeEntity                                     // It's an entity (part of PCDATA)
+    ,TypeCDATA                                      // Non-parsed character data
+    ,TypeComment                                    // It's a comment
+    ,TypeProcessingInstruction                      // It's a processing instruction
+    ,TypeMAX                                        // Highest type + 1
+d98 2
+a99 2
+     ContentSimple                                  // Contains nothing
+    ,ContentComplex                                 // Contains 1 or more elements
+d386 1
+d410 2
+d432 10
+d497 1
+a497 1
+  // Element query
+d503 1
+a503 1
+  // Attribute query
+d507 4
+@
+
+
+1.41
+log
+@Added PI tokens to syntax analyser
+@
+text
+@d318 2
+a322 3
+  // Input
+  virtual XMLError SetSourceXML(XMLString *input);
+    
+d363 1
+a363 1
+  // Source (parsing) XML string
+a364 1
+  
+@
+
+
+1.40
+log
+@Implemented SubString() in all string classes
+@
+text
+@d88 1
+@
+
+
+1.39
+log
+@Added XML::TypeComment element type
+@
+text
+@d236 2
+@
+
+
+1.38
+log
+@Changed Iterate() to Walk(), ready to write parser
+@
+text
+@d87 1
+@
+
+
+1.37
+log
+@Added XMLCursorParser and constructor registration functions
+@
+text
+@d470 1
+a470 1
+  virtual XMLError Iterate(void) = 0;
+@
+
+
+1.36
+log
+@More traversing behaviour in XMLCursorBase, calls parser now
+@
+text
+@d333 2
+d336 1
+a336 1
+  virtual XMLCursor *GetConstructor(void);
+@
+
+
+1.35
+log
+@More XMLCursor behaviour - won't compile yet
+@
+text
+@d468 1
+a468 1
+  virtual XMLError Itterate(void) = 0;
+@
+
+
+1.34
+log
+@Finished XMLCursorBase initial implementation
+@
+text
+@d316 4
+a319 1
+  
+d323 1
+a323 1
+  // NOTE: Caller owns the strings
+d327 2
+a328 2
+  virtual XMLError GetRootElement(XMLElement **root);
+  virtual XMLError SetRootElement(XMLElement *element);
+d331 4
+a334 2
+  virtual XMLError RemoveCursor(XMLCursor *cursor);
+  virtual XMLError AddCursor(XMLCursor *cursor);
+d337 2
+a338 2
+  virtual XMLError NewString(XMLString **string) = 0;
+  virtual XMLError NewElement(XML::Type type,XMLElement **element) = 0;
+d344 1
+d349 1
+d351 10
+a360 2
+  XMLCursorBase  *m_firstcursor;
+  XMLCursorBase  *m_lastcursor;
+d463 1
+a464 1
+  virtual XMLError Up(void) = 0;
+d474 1
+a474 1
+  virtual XMLError GetElementNumber(int *elemno,int depth = -1) = 0;
+@
+
+
+1.33
+log
+@Implemented most of XMLCursorBase
+@
+text
+@d441 1
+a441 1
+  
+@
+
+
+1.32
+log
+@Implemented XMLElementParent
+@
+text
+@d58 1
+d298 1
+d344 2
+a345 2
+  XMLCursor  *m_firstcursor;
+  XMLCursor  *m_lastcursor;
+d446 5
+a450 2
+  // Constructors/destructors
+  virtual ~XMLCursor();
+d452 2
+a453 5
+  // Positioning
+  virtual XMLError Top(void);
+  virtual XMLError Down(void);
+  virtual XMLError Up(void);
+  virtual XMLError Next(void);
+d456 4
+a459 4
+  virtual XMLError GetURI(XMLString *uri);
+  virtual XMLError Count(int *count);
+  virtual XMLError GetDepth(int *depth);
+  virtual XMLError GetElementNumber(int *elemno,int depth = -1);
+d462 4
+a465 4
+  virtual XMLError GetElementType(XML::Type *type);
+  virtual XMLError GetElementName(XMLString **name);
+  virtual XMLError GetElementValidity(XML::Validity *validity);
+  virtual XMLError GetElementValue(XMLString **value);
+d468 3
+a470 20
+  virtual XMLError GetAttributeCount(int *count);
+  virtual XMLError FindAttribute(XMLString *name);
+  virtual XMLError GetAttributeValue(XMLString *name, XMLString **value);
+
+  //
+  // Protected member functions
+  //
+  
+protected:
+  // Constructor
+  XMLCursor();
+  
+  //
+  // Protected members
+  //
+protected:
+  // Document's cursor chain
+  XMLDocument *m_document;
+  XMLCursor   *m_nextcursor;
+  XMLCursor   *m_prevcursor;
+@
+
+
+1.31
+log
+@Implemented XMLElementMem and XMLElementText
+@
+text
+@d361 2
+d364 1
+a364 1
+  // Public member functions
+a365 1
+public:
+d367 1
+a368 6
+  //
+  // Protected member functions
+  //
+protected:
+  // Constructor
+  XMLElement(XML::Type type = XML::TypeUnknown);
+a399 5
+  // Contents
+  virtual XMLError  AppendChild(XMLElement *newlastchild);
+  virtual XMLError  AppendChildBefore(XMLElement *before,XMLElement *newchild);
+  virtual XMLError  AppendChildAfter(XMLElement *after, XMLElement *newchild);
+
+d403 7
+@
+
+
+1.30
+log
+@Added XMLLocation class and location calls to XMLElement
+@
+text
+@d80 2
+a81 2
+    ,TypeDocument                                   // It's a document
+    ,TypeElement                                    // It's an element
+d386 2
+a387 2
+  virtual XMLError  GetName(XMLString **name) = 0;
+  virtual XMLError  SetName(XMLString *name) = 0;
+d390 5
+a394 5
+  virtual XMLError  GetNAttributes(int *numattributes) = 0;
+  virtual XMLError  FindAttribute(XMLString *name, XMLString **value) = 0;
+  virtual XMLError  CreateAttribute(XMLString *name, XMLString *value) = 0;
+  virtual XMLError  DeleteAttribute(XMLString *name) = 0;
+  virtual XMLError  DeleteAttributes(void) = 0;
+d397 2
+a398 2
+  virtual XMLError  GetValue(XMLString **value) = 0;
+  virtual XMLError  SetValue(XMLString *value) = 0;
+d405 3
+a407 3
+  virtual XMLError  AppendChild(XMLElement *newlastchild) = 0;
+  virtual XMLError  AppendChildBefore(XMLElement *before,XMLElement *newchild) = 0;
+  virtual XMLError  AppendChildAfter(XMLElement *after, XMLElement *newchild) = 0;
+@
+
+
+1.29
+log
+@More work on base XML classes
+@
+text
+@d411 1
+a411 1
+  virtual XMLErorr  SetLocation(const XMLLocation &location);
+d513 1
+a513 1
+  operator =(const XMLLocation &copyof);
+@
+
+
+1.28
+log
+@More work on base XML classes
+@
+text
+@d27 1
+d58 1
+d409 4
+d418 2
+a419 2
+  XMLElement    *m_prevsibling;
+  XMLElement    *m_nextsibling;
+d422 2
+a423 2
+  XML::Type      m_type;
+  XML::Validity  m_validity;  
+d490 37
+@
+
+
+1.27
+log
+@Renamed xmlinmem to xmldocmem and wrote XMLDocumentMem
+@
+text
+@d72 1
+d84 1
+d293 3
+d303 2
+a304 1
+  virtual ~XMLDocument() = 0;
+d306 7
+a312 5
+  virtual XMLError GetURL(XMLString **url) = 0;
+  virtual XMLError SetURL(XMLString *url) = 0;
+  virtual XMLError GetVersion(XMLString **version) = 0;
+  virtual XMLError SetVersion(XMLString *version) = 0;
+  virtual XMLError NewXMLCursor(XMLCursor **cursor) = 0;
+d320 2
+a321 2
+  virtual XMLError GetRootElement(XMLElement **root) = 0;
+  virtual XMLError SetRootElement(XMLElement *element) = 0;
+d323 4
+d328 14
+a341 2
+  virtual XMLError NewXMLString(XMLString **string) = 0;
+  virtual XMLError NewXMLElement(XMLElement **element) = 0;
+d364 1
+a364 1
+  virtual ~XMLElement() = 0;
+d369 3
+d373 2
+a374 2
+  virtual XML::Type GetType(void) = 0;
+  virtual XMLError  SetType(XML::Type type) = 0;
+d380 2
+a381 2
+  virtual XMLError  GetValidity(XML::Validity *validity) = 0;
+  virtual XMLError  SetValidity(XML::Validity *validity) = 0;
+d383 1
+a383 1
+  // Atomic
+a385 2
+  virtual XMLError  GetValue(XMLString **value) = 0;
+  virtual XMLError  SetValue(XMLString *value) = 0;
+d393 4
+d399 2
+a400 2
+  virtual XMLError  FirstChild(XMLElement **child) = 0;
+  virtual XMLError  NextSibling(XMLElement **sibling) = 0;
+d403 15
+a417 3
+  virtual XMLError  AppendChild(XMLElement **newlastchild) = 0;
+  virtual XMLError  AppendChildBefore(XMLElement *before,XMLElement **newchild) = 0;
+  virtual XMLError  AppendChildAfter(XMLElement *after, XMLElement **newchild) = 0;
+d434 2
+a442 6
+  // Initialisation
+  virtual XMLError SetDocument(XMLDocument *document);
+  virtual XMLError GetDocument(XMLDocument **document);
+  
+  // Capability
+  
+a443 2
+  virtual XMLError GoToURI(char *uri, int uril = -1);
+  virtual XMLError GoToURI(XMLString *uri);
+a460 6
+  // Element editing
+  virtual XMLError SetElementType(XML::Type type);
+  virtual XMLError SetElementName(XMLString *name);
+  virtual XMLError SetElementValue(char *value, int vall = -1);
+  virtual XMLError SetElementValue(XMLString *value);
+
+d465 4
+d470 3
+a472 2
+  // Attribute editing
+  virtual XMLError SetAttributeValue(XMLString *name, XMLString *value);
+d474 8
+a481 8
+  // Structure editing  
+  virtual XMLError DeleteElement(void);
+  virtual XMLError DeleteElements(void);
+  virtual XMLError CreateElement(int *elemno);
+  
+  virtual XMLError DeleteAttribute(attrno);
+  virtual XMLError DeleteAttributes(void);
+  virtual XMLError CreateAttribute(XMLString *name);
+a482 3
+  // Inter-path operations
+  virtual XMLError Compare(XMLCursor *cursor, int *depth, int *comparison);
+ 
+@
+
+
+1.26
+log
+@Removed xmlbase.h and finalised doc/elem/cursor
+@
+text
+@d242 1
+d294 2
+d308 2
+a312 1
+  virtual XMLError NewRootElement(XMLElement **newroot) = 0;
+a314 4
+  // Destructor/constructor cursor
+  virtual XMLError GetDestructorCursor(XMLCursor **destructor) = 0;
+  virtual XMLError GetConstructorCursor(XMLCursor **constructor) = 0;
+    
+d336 6
+a344 3
+  // Constructors/destructors
+  virtual ~XMLElement() = 0;
+  
+d398 1
+a398 1
+  virtual ~XMLCursor() = 0;
+d401 2
+a402 2
+  virtual XMLError SetDocument(XMLDocument *document) = 0;
+  virtual XMLError GetDocument(XMLDocument **document) = 0;
+d407 1
+a407 1
+  virtual XMLError GoToURI(char *uri, int uril = -1) = 0;
+d409 4
+a412 4
+  virtual XMLError Top(void) = 0;
+  virtual XMLError Down(void) = 0;
+  virtual XMLError Up(void) = 0;
+  virtual XMLError Next(void) = 0;
+d415 4
+a418 4
+  virtual XMLError GetURI(XMLString *uri) = 0;
+  virtual XMLError Count(int *count) = 0;
+  virtual XMLError GetDepth(int *depth) = 0;
+  virtual XMLError GetElementNumber(int *elemno,int depth = -1) = 0;
+d421 4
+a424 4
+  virtual XMLError GetElementType(XML::Type *type) = 0;
+  virtual XMLError GetElementName(XMLString **name) = 0;
+  virtual XMLError GetElementValidity(XML::Validity *validity) = 0;
+  virtual XMLError GetElementValue(XMLString **value) = 0;
+d427 4
+a430 4
+  virtual XMLError SetElementType(XML::Type type) = 0;
+  virtual XMLError SetElementName(XMLString *name) = 0;
+  virtual XMLError SetElementValue(char *value, int vall = -1) = 0;
+  virtual XMLError SetElementValue(XMLString *value) = 0;
+d433 3
+a435 3
+  virtual XMLError GetAttributeCount(int *count) = 0;
+  virtual XMLError FindAttribute(XMLString *name) = 0;
+  virtual XMLError GetAttributeValue(XMLString *name, XMLString **value) = 0;
+d438 1
+a438 1
+  virtual XMLError SetAttributeValue(XMLString *name, XMLString *value) = 0;
+d441 7
+a447 7
+  virtual XMLError DeleteElement(void) = 0;
+  virtual XMLError DeleteElements(void) = 0;
+  virtual XMLError CreateElement(int *elemno) = 0;
+  
+  virtual XMLError DeleteAttribute(attrno) = 0;
+  virtual XMLError DeleteAttributes(void) = 0;
+  virtual XMLError CreateAttribute(XMLString *name) = 0;
+@
+
+
+1.25
+log
+@Changed XMLCursor to only access attributes by name
+@
+text
+@d26 1
+a26 1
+      XMLPath     - A path, or 'cursor', into a document
+d55 2
+a56 1
+class XMLPath;
+d80 2
+a81 1
+    ,TypeEntity                                     // It's an entity
+d87 2
+a88 5
+     ContentEmpty                                   // Contains nothing
+    ,ContentsAtomic                                 // Contains a single string (PCDDATA, Entity, CDATA)
+    ,ContentSimple                                  // Contains 1 or more text elements (PCDATA/CDATA)
+    ,ContentMixed                                   // Contains mixed text and elements
+    ,ContentElement                                 // Contains only elements
+d301 14
+d317 57
+a373 1
+  virtual XMLError NewXMLPath(XMLPath **path) = 0;
+d399 1
+a409 1
+  virtual XMLError Previous(void) = 0;  
+d447 1
+a447 6
+  virtual XMLError AbovePath(XMLPath *path);
+  virtual XMLError BelowPath(XMLPath *path);
+  virtual XMLError CommonWithPath(XMLPath *path, int *depth);
+  virtual XMLError LessThanPath(XMLPath *path);
+  virtual XMLError GreaterThanPath(XMLPath *path);
+  virtual XMLError EqualToPath(XMLPath *path);
+@
+
+
+1.24
+log
+@1) Added common class XMLStringHashed (saves rewriting Hash(), GetHash(), etc.)
+2) XMLIOStream to inherit from XMLStringHashed so we can treat the whole
+   stream as a single string.
+@
+text
+@d362 2
+a363 2
+  virtual XMLError FindAttribute(XMLString *name, int *attrno) = 0;
+  virtual XMLError GetAttributeValue(XMLString **value) = 0;
+d366 1
+a366 2
+  virtual XMLError SetAttributeName(int attrno, XMLString *name) = 0;
+  virtual XMLError SetAttributeValue(int attrno, XMLString *value) = 0;
+d375 1
+a375 1
+  virtual XMLError CreateAttribute(int *attrno) = 0;
+@
+
+
+1.23
+log
+@Changed XMLPath to XMLCursor
+@
+text
+@d53 1
+d248 29
+@
+
+
+1.22
+log
+@More API tweaks
+@
+text
+@d281 1
+a281 1
+//  XMLPath - A Position in an XML document
+d289 1
+a289 1
+class XMLPath : public XMLObject {
+d296 1
+a296 1
+  virtual ~XMLPath() = 0;
+@
+
+
+1.21
+log
+@Reworked xml.h and XMLPath to be more APIish and semi-marshallable
+@
+text
+@d272 3
+a312 1
+  virtual XMLError GetURI(char *uri, int maxuril, int *uril = NULL) = 0;
+a319 1
+  virtual XMLError GetElementName(char *name, int namemaxl, int *namel = NULL) = 0;
+a321 1
+  virtual XMLError GetElementValue(char *value, int valmaxl, int *vall = NULL) = 0;
+a325 1
+  virtual XMLError SetElementName(int elemno, char *name, int namel = -1) = 0;
+a331 1
+  virtual XMLError FindAttribute(char *name, int namel, int *attrno) = 0;
+a332 1
+  virtual XMLError GetAttributeValue(char *value, int valmaxl, int *vall = NULL) = 0;
+a335 1
+  virtual XMLError SetAttributeName(int attrno, char *name, int namel = -1) = 0;
+a336 1
+  virtual XMLError SetAttributeValue(int attrno, char *value, int vall = -1) = 0;
+@
+
+
+1.20
+log
+@Added mutable calls to XMLString
+@
+text
+@d6 1
+a6 1
+    xml.h - Definitions for the abstract XML related classes
+d12 17
+d30 6
+a38 2
+    
+  NOTES
+a39 5
+    Applicable factory calls are available for many XML document related
+    objects.  This allows a general parser, consumer, etc. ask the
+    classes to create compatable XML objects for modifying the document,
+    elements, etc.  
+    
+d51 2
+a52 2
+class XMLElement;
+class XMLAttribute;
+d101 8
+a118 18
+// Commonly used types
+typedef unsigned char byte;
+
+// Commonly used macros
+#ifndef NULL
+#  define NULL 0
+#endif
+
+#ifndef MIN
+#  define MIN(a,b) ( ((a)<=(b))?(a):(b) )
+#endif
+#ifndef MAX
+#  define MAX(a,b) ( ((a)<=(b))?(b):(a) )
+#endif
+#ifndef ABS
+#  define ABS(a)   ( ((a)<0) ? (-a):(a) )
+#endif
+
+d220 1
+a220 2
+class XMLString : public XMLObject {
+  
+a236 4
+  // Hashing
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+d242 4
+a252 71
+//  XMLElement - XML Element
+//
+// DESCRIPTION
+//
+//  This class represents a single XML element.  
+//
+
+class XMLElement : public XMLObject {
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLElement() = 0;
+  
+  // Type
+  virtual XML::Type GetType(void) = 0;
+
+  // Capability
+  virtual int       IsMutable(void);
+    
+  // Validity
+  virtual XMLError  GetValidity(XML::Validity *validity) = 0;
+  
+  // Atomic
+  virtual XMLError GetTypeName(XMLString **name) = 0;
+  virtual XMLError SetTypeName(XMLString **name) = 0;
+  virtual XMLError GetValue(XMLString **value) = 0;
+  virtual XMLError SetValue(XMLString *value) = 0;
+  
+  // Attributes
+  virtual XMLError GetNAttributes(int *numattributes) = 0;
+  virtual XMLError GetAttribute(int attrno,XMLAttribute **attr) = 0;
+  virtual XMLError FindAttribute(XMLString *name,int *attrno) = 0;
+  
+  // Elements
+  virtual XMLError GetNElements(void) = 0;
+  virtual XMLError GetElement(int elemno,XMLElement *elem) = 0;
+  
+
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLAttribute - XML Element attribute
+//
+// DESCRIPTION
+//
+//  This class represents a single XML element attribute.  
+//
+
+class XMLAttribute : XMLObject {
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLAttribute() = 0;
+  // Getters/setters
+  virtual XMLError GetName(XMLString *name) = 0;
+  virtual XMLError SetName(XMLString *name) = 0;
+  virtual XMLError GetValue(XMLString *value) = 0;
+  virtual XMLError SetValue(XMLString *value) = 0;
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+d260 1
+a260 1
+class XMLDocument : public XMLElement {
+a296 1
+  virtual XMLError SetXPath(XMLString *path);
+d298 14
+a311 3
+  // XPath query
+  virtual XMLError Rewind(void) = 0;
+  virtual XMLError NextNode(XMLElement *nextelement) = 0;
+a312 2
+  
+  // Positioning and position query
+d315 39
+a353 5
+  virtual XMLError Down(XMLElement *firstchild) = 0;
+  virtual XMLError Up(XMLElement *parent) = 0;
+  virtual XMLError Next(XMLElement *nextsibling) = 0;
+  
+  // Path relative queries
+a359 15
+ 
+  // Factories
+  virtual XMLError NewXMLElement(XMLElement **element);
+  virtual XMLError NewXMLAttribute(XMLAttribute **attribute);
+  virtual XMLError NewXMLString(XMLString **string);
+  virtual XMLError NewXMLPath(XMLPath **path);
+
+  // Editing current position contents
+  virtual XMLError AddAttribute(XMLAttribute *attribute);
+  virtual XMLError DeleteAttribute(attrno);
+  virtual XMLError DeleteAttributes(void);
+  virtual XMLError RemoveElement(int elemno);
+  virtual XMLError AppendElement(XMLElement *theelement);
+  virtual XMLError InsertElementBefore(int elemno,XMLElement *theelement);
+  virtual XMLError InsertElementAfter(int elemno,XMLElement *theelement);
+@
+
+
+1.19
+log
+@Moved factory and editing functions to XMLPath
+@
+text
+@d236 6
+a241 1
+  
+@
+
+
+1.18
+log
+@Added in-memory (xmlmem.h) definitions for in-memory implementation
+@
+text
+@a276 3
+  virtual XMLError AddAttribute(XMLAttribute *attribute) = 0;
+  virtual XMLError DeleteAttribute(attrno) = 0;
+  virtual XMLError DeleteAttributes(void);
+a281 4
+  virtual XMLError RemoveElement(int elemno) = 0;
+  virtual XMLError AppendElement(XMLElement *theelement) = 0;
+  virtual XMLError InsertElementBefore(int elemno,XMLElement *theelement) = 0;
+  virtual XMLError InsertElementAfter(int elemno,XMLElement *theelement) = 0;
+a282 4
+  // Factory functions
+  virtual XMLError NewXMLAttribute(XMLAttribute **attribute);
+  virtual XMLError NewXMLString(XMLString **string);
+  
+d303 1
+a303 1
+  // Getters
+d305 1
+a306 2
+  // Setters
+  virtual XMLError SetName(XMLString *name) = 0;
+a307 2
+  // Factory functions
+  virtual XMLError NewXMLString(XMLString **string);
+d328 5
+a332 8
+  // Fixed attributes
+  virtual XMLError GetURL(XMLString *url) = 0;
+  virtual XMLError GetVersion(XMLString *version) = 0;
+  // Factory functions
+  virtual XMLError NewXMLElement(XMLElement **element);
+  virtual XMLError NewXMLAttribute(XMLAttribute **attribute);
+  virtual XMLError NewXMLString(XMLString **string);
+  virtual XMLError NewXMLPath(XMLPath **path);
+d379 16
+a394 1
+  
+@
+
+
+1.17
+log
+@Added factory calls to XML objects
+@
+text
+@d260 4
+a263 1
+  
+d269 3
+a271 2
+  virtual XMLError GetValue(int elemno,XMLString **value) = 0;  
+  virtual XMLError GetEncoding(XMLString **encoding) = 0;
+@
+
+
+1.16
+log
+@Added initial XMLPath class spec
+@
+text
+@d18 8
+a25 1
+  
+d286 4
+d311 2
+a312 2
+  XMLError GetName(XMLString *name);
+  XMLError GetValue(XMLString *value);
+d314 4
+a317 2
+  XMLError SetName(XMLString *name);
+  XMLError SetValue(XMLString *value);
+d341 5
+@
+
+
+1.15
+log
+@More frigging with the abstract element types
+@
+text
+@d31 1
+a31 1
+class XMLValidator;
+a248 1
+  XMLElement();
+d298 1
+a298 2
+  XMLAttribute();
+  ~XMLAttribute();
+a319 4
+  // Public typedefs and enums
+  //
+  
+  //
+a323 1
+  XMLDocument();
+d328 47
+@
+
+
+1.14
+log
+@Ready to test XMLIOString (code written)
+@
+text
+@d10 1
+a10 1
+    This file contains the definitions for high level abstract XML classes
+a18 2
+    We didn't make these classes 'abstract' because that demands virtual
+    functions that impose unnecessary runtime memory requirements.
+a29 2
+class XMLAttributes;
+class XMLContents;
+d31 38
+a244 31
+  // Public typedefs and enums
+  //
+  
+  // Element type
+  typedef enum {
+     TypeElement                                    // It's an element
+    ,TypePCDATA                                     // It's Parsed Character Data (may have entities)
+    ,TypeCDATA                                      // Non-parsed character data
+  } Type;
+  
+  // Content type
+  typedef enum {
+     ContentEmpty                                   // Contains nothing
+    ,ContentSimple                                  // Contains 1 or more text elements (PCDATA/CDATA)
+    ,ContentMixed                                   // Contains mixed text and elements
+    ,ContentElement                                 // Contains only elements
+  } Contents;
+  
+  // Position (in document hierarchy)
+  
+  typedef enum {
+     PosLimbo
+    ,PosDocument
+    ,PosOnlyChild
+    ,PosFirstChild
+    ,PosLastChild
+    ,PosMiddleChild
+  } Position;
+  
+  
+  //
+d250 2
+a251 1
+  ~XMLElement();
+d253 10
+a262 1
+  Type     GetType(void);
+d264 7
+a270 3
+  int      GetNAttributes(void);
+  XMLError GetAttribute(int attrno,XMLAttribute *attr);
+  XMLError FindAttribute(char *name,int len,int *attrno);
+d272 2
+a273 2
+  int      GetNElements(void);
+  XMLError GetElement(int elemno,XMLElement *elem);
+d275 4
+a278 4
+  //
+  // Protected members
+  //
+protected:
+a279 21
+  // Main information
+  XMLElement *parent;
+  Type        type;
+  Contents    contents;
+  Position    position;
+  
+  //
+  // Protected member functions
+  //
+protected:
+ 
+  // Positioning operations
+  XMLError Remove(void);                            // Place in 'limbo' position
+  XMLError Below(XMLElement *parent);               // Place as first child of element (NULL="You are a root")
+  XMLError Before(XMLElement *younger);             // Place before a given sibling
+  XMLError After(XMLElement *older);                // Place after a given sibling
+
+  // Attributes
+  XMLError AddAttribute(char *name, int namel, XMLAttribute *attribute);
+  XMLError DeleteAttribute(char *name, int namel);
+  
+d301 1
+a301 1
+  // Name
+a302 1
+  // Value
+d304 3
+a324 9
+  // Document validity
+  typedef enum {
+     ValidityInvalid                                // Not a valid document
+    ,ValidityBasic                                  // XML'ish (like XHTML)
+    ,ValidityWellFormed                             // Well formed (valid XML)
+    ,ValidityDTD                                    // Valid (conforms to it's DTD)
+    ,ValidityXSchema                                // Valid (conforms to it's XSchema)
+  } Validity;
+  
+d331 1
+a331 3
+  ~XMLDocument();
+  // Validity
+  XMLError GetValidity(Validity *validity);
+d333 2
+a334 3
+  XMLError GetURL(XMLString *url);
+  XMLError GetVersion(XMLString *version);
+  XMLError GetEncoding(XMLString *encoding);
+@
+
+
+1.13
+log
+@Added CRC32 algorithm to compute string hash
+@
+text
+@d180 1
+a180 1
+  virtual ~XMLString();
+@
+
+
+1.12
+log
+@Added initial, mindless, test for XMLStringHash
+@
+text
+@d50 1
+a50 1
+#define PROPERHASH(h) ((XMLHash)(x) & 0x7fffffffl )
+@
+
+
+1.11
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d32 2
+@
+
+
+1.10
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d60 10
+d180 1
+a180 1
+  virtual XMLError GetLength(int *len) = 0;
+@
+
+
+1.9
+log
+@Finished base implementation of XMLString
+@
+text
+@d168 1
+a168 1
+  virtual ~XMLString() = 0;
+a173 1
+  virtual XMLError GetFragment(int offset, byte *buf, int maxbufl, int *movedlen) = 0;
+@
+
+
+1.8
+log
+@Initial base functionality added for XMLString class
+@
+text
+@d48 3
+a50 2
+#define PROPERHASH(h) ((XMLHash)(x) & 0x7fffffffL )
+#define BADHASH(h)    ((h) < 0)
+d91 70
+a160 1
+ 
+a169 1
+  virtual XMLError GetValue(char *buf, int *maxbufl) = 0;
+d171 6
+a176 1
+  virtual XMLError GetFragment(int offset, int len, byte **pointer, int *availlen) = 0;
+a180 1
+  virtual int      CanHash(void);
+d183 1
+a183 1
+  virtual XMLHash  GetHash(void);
+@
+
+
+1.7
+log
+@Reworked xmlio for hashing etc.
+@
+text
+@a29 1
+class XMLString;
+d42 5
+a46 1
+// Hash
+d48 2
+a97 2
+  XMLString();
+  XMLString(const char *value,int len=0);
+d102 9
+a110 2
+  // Hash it
+  virtual XMLHash GetHash();  
+a111 6
+  //
+  // Protected member functions
+  //
+protected:
+  // Internal use: Get fixed memory address of value (used by GetHash())
+  virtual const char *GetPointer(void);
+@
+
+
+1.6
+log
+@More work on IO manager
+@
+text
+@d71 2
+a72 2
+  XMLObject();
+  ~XMLObject();
+@
+
+
+1.5
+log
+@Moved error codes from local .h to xmlerrors.h
+@
+text
+@a26 1
+#include "xmlheap.h"
+d48 26
+@
+
+
+1.4
+log
+@Added XMLIOStream and XMLIOManager
+@
+text
+@d28 1
+d46 3
+@
+
+
+1.3
+log
+@Added xmlheap.h and xmlio.h
+@
+text
+@d112 12
+d145 22
+a166 1
+  unsigned char  type;
+@
+
+
+1.2
+log
+@More classes added to xml.h
+@
+text
+@d27 2
+d57 2
+a58 1
+class XMLString {
+d66 1
+a66 1
+  ~XMLString();
+d68 2
+a69 2
+  XMLError GetValue(char *buf, int *maxbufl);
+  XMLError GetLength(int *len);
+d71 8
+a78 1
+  XMLHash GetHash();  
+d92 1
+a92 1
+class XMLElement {
+d99 3
+a101 3
+     TypeElement
+    ,TypePCDATA
+    ,TypeCDATA
+d104 8
+d147 1
+a147 1
+class XMLAttribute {
+@
+
+
+1.1
+log
+@Stub for xml.h
+@
+text
+@d11 5
+a15 2
+    used to manipulate XML documents.  Sub-classes of these classes need to
+    adhere to these definitions.
+d19 2
+d27 6
+d38 6
+d57 75
+a131 1
+  // Public members
+d134 34
+d172 10
+a181 1
+};
+@
+

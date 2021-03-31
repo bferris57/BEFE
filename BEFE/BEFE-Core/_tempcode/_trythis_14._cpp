@@ -1,0 +1,70 @@
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "_GlobalMacros.h"
+#include "Null.h"
+#include "Message.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+
+Status trythis() {
+
+  Status  status;
+  SInt32  i;
+  
+  //UInt fg;  
+  //fg = Cout.SetForegroundColour(Console::Yellow);
+  //Cout << "*** Nothing for trythis() to do at the moment ***\n";
+  //Cout.SetForegroundColour(fg);
+  
+  Cout << "IsNull(0)         = " << ((IsNull(0)        )?CONSTR_True:CONSTR_False) << '\n';
+  Cout << "IsNull(SInt32NaN) = " << ((IsNull(SInt32NaN))?CONSTR_True:CONSTR_False) << '\n';
+  Cout << "IsNull(i=0)       = " << ((IsNull(i=0)      )?CONSTR_True:CONSTR_False) << '\n';
+  Cout << "IsNull(i=NaN)     = " << ((IsNull(i=NaN)    )?CONSTR_True:CONSTR_False) << '\n';
+  i = 0;
+  Cout << "IsNull(i) i=0     = " << ((IsNull(i)        )?CONSTR_True:CONSTR_False) << '\n';
+  i = NaN;
+  Cout << "IsNull(i) i=NaN   = " << ((IsNull(i)        )?CONSTR_True:CONSTR_False) << '\n';
+
+  Cout << "IsNaN (0)         = " << ((IsNaN (0)        )?CONSTR_True:CONSTR_False) << '\n';
+  Cout << "IsNaN (SInt32NaN) = " << ((IsNaN (SInt32NaN))?CONSTR_True:CONSTR_False) << '\n';
+  Cout << "IsNaN (i=0)       = " << ((IsNaN (i=0)      )?CONSTR_True:CONSTR_False) << '\n';
+  Cout << "IsNaN (i=NaN)     = " << ((IsNaN (i=NaN)    )?CONSTR_True:CONSTR_False) << '\n';
+  i = 0;
+  Cout << "IsNull(i) i=0     = " << ((IsNaN (i)        )?CONSTR_True:CONSTR_False) << '\n';
+  i = NaN;
+  Cout << "IsNull(i) i=NaN   = " << ((IsNaN (i)        )?CONSTR_True:CONSTR_False) << '\n';
+  
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    SOMEERROR: ERROR("trythis",status); break;
+  }
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

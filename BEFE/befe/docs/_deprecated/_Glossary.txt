@@ -1,0 +1,149 @@
+#-----------------------------------------------------------------------
+#
+# File: _Glossary.txt - Formal BEFE Glossary in informal text form
+#
+# Basically, this file contains the starting definitions for the terms
+# we use across all BEFE documentation, both in the code and in the
+# more formal documents.
+#
+# These will probably be discussed in more detail elsewhere but this
+# is the starting place for all of them.
+#
+
+#
+# Formal concepts
+#
+
+Id:
+
+Id_Space:
+
+#
+# Formal value types
+#
+
+Array:   A sequential list of values in order of, and accessible by, an Index value
+         (see Index definition).
+
+Bit:     A single digit in base 2, containing the value 0 or 1.  Unlike a boolean,
+         on its own it has no inherent meaning, it's simply a number 0 or 1.
+		 
+Boolean: A two member set of exclusive non-Null values.  Typically, this is used to
+         indicate "true" and "false" although it can also be used to represent any
+		 two distinguished and exclusive values.  It is completely unrealistic in
+		 the physical sense (more on that below).  But, it IS extremely useful in,
+		 and in fact required by, any metaphysical or philosophical sense.
+		 
+		 Without a Boolean involved, one may be able to "quantify" but is not able
+		 to "distinguish" or "qualify".
+
+		 The introduction of the Boolean concept satisfies the basic human need for
+		 thought and analysis but cannot be shown to exist fundamentaly in the
+		 physical world.  I say this because as far as I'm aware nobody's ever
+		 seen a Boolean or held one in their hands but they seem perfectly happy
+		 running with the concept.  Some may disagree with that basic assertion or
+		 statement but they're using a Boolean in their heads to come to that
+		 point of disagreement, but they're not using a physical Boolean they can
+		 show you like they could show you a hammer or a rock.  ;-) 
+		 
+Byte:    Sometimes also called an Octet, it's simply an ordered collection of 
+         8 Bits (typically indexed by 0..7, with bit 0 being the most significant
+		 bit).  It is, by convention, the basic unit of storage for modern
+		 binary computers.  It is typically represented in one of the following
+		 forms...
+		 
+		   o 0..255
+		   o -128..+127
+		   o NaN, -127..+127
+           o 0x00..0xFF
+		   o ASCII: %00..%ff, where %20 represents the SPACE character
+		   o ASCII: '.' or other "printable" characters between 0x20 and 0x7f
+		   
+Char:
+
+Ellipsis: This is a representation of the "there's more" or "and them some" ideas.
+          Typically there are two distinct forms of ellipsis: embedded and  trailing.
+		  
+		  A trailing ellipsis is the most prevalent use in the "outside world".
+		  
+		  Here, at BEFE, we use it extensively in the embedded form to represent
+		  ranges.  For example: "10..20" means "10 through 20".
+
+File:    A file is a sequentially ordered list of indexed bytes.  Files are the
+         basic unit of storage for file systems.  The number of bytes in a file may be
+		 zero to a maximum imposed by the File system responsible for maintaining
+		 it.  All file systems are responsible for maintaining the size of the file
+		 and making it readily knowable.  Some file systems maintain other information
+		 about the file such as "file type", "last modified date", "last accessed date"
+		 and so on.  It is also the responsibility of most respectable file systems
+		 to maintain access rights to the file (e.g., enforce "readability" and
+		 "writeability", and security restrictions).  Some file systems have the
+		 "readability" enforced on THEM by the media the file is stored on (e.g. for
+		 CDs and DVDs, and such like).
+		 
+		 Other file systems maintain a fairly loose knowledge of the type of
+		 compound data contained in the file and make this knowledge available 
+		 through different non-standard mechanisms.  Sometimes, this "compound data
+		 type" is exposed niavely through access mechanisms such as "text" or
+		 "binary" modes.  Historically, compound data types like MIME are a hacked
+		 together non-standard add-on but the MIME type is becoming more available
+		 through time as a result of the reliance on MIME for internet data
+		 management.
+		 
+		 Regardless, the underlying file simply remains an ordered set of bytes.
+		 
+		 As with any ordered set of bytes, internal byte consistency starts becoming
+		 an issue when accessed by multiple non-communicating processes.  The most
+		 course mechanism typically provided by a file system (or operating system)
+		 is exclusive "lock" of the entire contents which denies concurrent access
+		 until the lock is released.  More finely granulated consistency mechanisms
+		 are many, varied, and completely non-standardised.  As with all other
+		 byte access mechanisms, this quickly becomes the bane of most programmers
+		 and is a subject mechanised by BEFE as well.
+		 
+Index:   This is a number value used to locate a value (or not) in a known address
+         or Array space.  In BEFE, an index comes in two flavours:
+		 
+		   o Forward
+		   o Backward
+		   
+		 Forward indexes start at zero and are valid up to, but not including, the
+		 Array length.
+		 
+		 Backward indexes (thank you Python!) are added to the Array length and,
+		 therefore, indicate bytes with forward indexes of length-1 through zero.
+		 So, backward indexes are in the range -1..-length are are valid 
+		 IF, AND ONLY IF, the Array has a non-zero length (because there's no such
+		 thing as negative zero).
+
+Int:
+
+Long:
+
+Name:
+
+Number:
+
+Path:
+
+Port:
+
+Process: 
+
+Short:
+
+String:
+
+Subscript: Seldom used in BEFE, but is a commonly used term meaning the same thing
+           as "Index".
+
+UTF-8:
+
+Thread:
+
+Value:
+
+# Longer ones we don't want cluttering up the formatting above
+Executable:
+OperatingSystem:
+Platform:  xx

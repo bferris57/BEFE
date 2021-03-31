@@ -1,0 +1,4146 @@
+head	1.59;
+access;
+symbols
+	start:1.1.1.1 bruce:1.1.1;
+locks; strict;
+comment	@// @;
+
+
+1.59
+date	2002.11.16.09.42.15;	author Bruce;	state Exp;
+branches;
+next	1.58;
+
+1.58
+date	2002.11.16.08.30.27;	author Bruce;	state Exp;
+branches;
+next	1.57;
+
+1.57
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.56;
+
+1.56
+date	2002.11.03.08.24.56;	author bferris;	state Exp;
+branches;
+next	1.55;
+
+1.55
+date	2002.11.03.00.56.03;	author bferris;	state Exp;
+branches;
+next	1.54;
+
+1.54
+date	2002.11.03.00.53.11;	author bferris;	state Exp;
+branches;
+next	1.53;
+
+1.53
+date	2002.11.02.17.30.16;	author bferris;	state Exp;
+branches;
+next	1.52;
+
+1.52
+date	2002.11.01.06.16.24;	author bferris;	state Exp;
+branches;
+next	1.51;
+
+1.51
+date	2002.10.31.06.03.13;	author bferris;	state Exp;
+branches;
+next	1.50;
+
+1.50
+date	2002.10.30.04.41.50;	author bferris;	state Exp;
+branches;
+next	1.49;
+
+1.49
+date	2002.10.29.06.12.50;	author bferris;	state Exp;
+branches;
+next	1.48;
+
+1.48
+date	2002.10.28.06.04.14;	author bferris;	state Exp;
+branches;
+next	1.47;
+
+1.47
+date	2002.10.27.09.32.32;	author bferris;	state Exp;
+branches;
+next	1.46;
+
+1.46
+date	2002.10.27.07.07.31;	author bferris;	state Exp;
+branches;
+next	1.45;
+
+1.45
+date	2002.10.26.19.08.40;	author bferris;	state Exp;
+branches;
+next	1.44;
+
+1.44
+date	2002.10.26.09.02.44;	author bferris;	state Exp;
+branches;
+next	1.43;
+
+1.43
+date	2002.10.26.06.28.34;	author bferris;	state Exp;
+branches;
+next	1.42;
+
+1.42
+date	2002.10.25.08.57.07;	author bferris;	state Exp;
+branches;
+next	1.41;
+
+1.41
+date	2002.10.24.12.50.14;	author bferris;	state Exp;
+branches;
+next	1.40;
+
+1.40
+date	2002.10.24.08.42.46;	author bferris;	state Exp;
+branches;
+next	1.39;
+
+1.39
+date	2002.10.24.05.28.23;	author bferris;	state Exp;
+branches;
+next	1.38;
+
+1.38
+date	2002.10.24.03.31.28;	author bferris;	state Exp;
+branches;
+next	1.37;
+
+1.37
+date	2002.10.24.02.54.49;	author bferris;	state Exp;
+branches;
+next	1.36;
+
+1.36
+date	2002.10.23.09.05.49;	author bferris;	state Exp;
+branches;
+next	1.35;
+
+1.35
+date	2002.10.23.07.42.40;	author bferris;	state Exp;
+branches;
+next	1.34;
+
+1.34
+date	2002.10.23.06.40.19;	author bferris;	state Exp;
+branches;
+next	1.33;
+
+1.33
+date	2002.10.23.00.14.26;	author bferris;	state Exp;
+branches;
+next	1.32;
+
+1.32
+date	2002.10.22.15.12.56;	author bferris;	state Exp;
+branches;
+next	1.31;
+
+1.31
+date	2002.10.22.07.25.46;	author bferris;	state Exp;
+branches;
+next	1.30;
+
+1.30
+date	2002.10.22.07.09.00;	author bferris;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	2002.10.21.12.04.59;	author bferris;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2002.10.21.10.41.21;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.21.05.41.42;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.20.13.13.52;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.20.07.43.25;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.20.06.58.06;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.20.01.09.23;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.19.07.15.32;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.19.05.50.21;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.18.05.02.13;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.12.07.04.20;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.11.17.59.37;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.10.19.46.29;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.10.19.35.39;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.07.00.03.55;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.06.23.51.29;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.06.08.45.31;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.05.16.09.54;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.05.06.42.09;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.05.05.01.28;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.04.05.32.44;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.03.06.07.31;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.03.05.57.16;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.02.20.59.43;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.30.06.46.23;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.30.06.10.30;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.30.05.08.27;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches
+	1.1.1.1;
+next	;
+
+1.1.1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.59
+log
+@More profiling work - 0.00 times, yuck!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    txml.cpp - Text the XML parser
+  DESCRIPTION
+    This source file contains the XML parser tester
+    
+*/
+
+#include "miscellaneous.h"
+#include "xmlstrconst.h"
+#include "xmlstrmem.h"
+#include "xmlhashtable.h"
+#include "xmlstrtable.h"
+#include "xmllex.h"
+#include "xmlsyn.h"
+#include "xmlio.h"
+#include "xmlbitmapstr.h"
+
+#include "txmlutils.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+
+// Globals
+char *progname;
+int   indent  = 2;
+int   oneonly = 1;
+
+// Testing context
+typedef struct {
+  int   verbose;
+  int   quiet;
+  int   indent;
+  int   iostats;
+  int   oneonly;
+  int   timing;
+  char *filename;
+  int   otherinfo;
+} TestContext;
+
+// Tester
+typedef int (*Tester)(TestContext *context);
+
+// Function prototypes
+int  main(int argc, char **argv);
+int  TestCRC32(TestContext *ctx);
+int  TestXMLIORead(TestContext *ctx);
+int  TestXMLIOWrite(TestContext *ctx);
+int  TestXMLLex(TestContext *ctx);
+int  TestXMLSyn(TestContext *ctx);
+int  TestXMLStringConst(TestContext *ctx);
+int  TestXMLStringMem(TestContext *ctx);
+int  TestXMLHashTable(TestContext *ctx);
+int  TestXMLStringTable(TestContext *ctx);
+int  TestXMLIOString(TestContext *ctx);
+int  TestXMLIOCon(TestContext *ctx);
+int  TestXMLBitMapString(TestContext *ctx);
+int  TestXMLRead(TestContext *ctx);
+int  TestXMLSave(TestContext *ctx);
+
+// 
+// Test definitions
+//
+
+typedef struct {
+  
+  int     curtest;
+  int     needsfilename;
+  int     onlyifverbose;
+  char   *name;
+  Tester  func;
+  int     otherinfo;
+  
+} TestDef;
+
+TestDef tests[] = {
+
+   {0, 0, 0, "CRC32"           ,TestCRC32           , 0 }
+  ,{0, 1, 0, "XMLIORead"       ,TestXMLIORead       , 0 }
+  ,{0, 1, 0, "XMLIOWrite"      ,TestXMLIOWrite      , 0 }
+  ,{0, 1, 0, "XMLLex"          ,TestXMLLex          , 0 }
+  ,{0, 1, 0, "XMLSyn"          ,TestXMLSyn          , 0 }
+  ,{0, 0, 0, "XMLStringConst"  ,TestXMLStringConst  , 0 }
+  ,{0, 0, 0, "XMLStringMem"    ,TestXMLStringMem    , 0 }
+  ,{0, 0, 0, "XMLHashTable"    ,TestXMLHashTable    , 0 }
+  ,{0, 0, 0, "XMLStringTable"  ,TestXMLStringTable  , 0 }
+  ,{0, 1, 0, "XMLIOString"     ,TestXMLIOString     , 0 }
+  ,{0, 0, 1, "XMLIOCon"        ,TestXMLIOCon        , 0 }
+  ,{0, 0, 0, "XMLBitMapString" ,TestXMLBitMapString , 0 }
+  ,{1, 1, 0, "XMLReadText"     ,TestXMLRead         , (int)XML::FileTypeXML }
+  ,{0, 1, 0, "XMLSaveText"     ,TestXMLSave         , 0 }
+  ,{1, 1, 0, "XMLSaveCompiled" ,TestXMLSave         , 1 }
+  ,{1, 1, 0, "XMLReadCompiled" ,TestXMLRead         , (int)XML::FileTypeCompiled }
+  ,{0, 1, 0, "XMLReadHTML"     ,TestXMLRead         , (int)XML::FileTypeHTML }
+  ,{0, 0, 0, (char *)0         ,(Tester)0           , 0 }
+};
+
+// Handy macros
+#define VERBOSE ctx->verbose
+#define QUIET   ctx->quiet
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  main - Main program
+//
+// DESCRIPTION
+//
+//  This function calls each tester
+//
+
+int main(int argc, char **argv) {
+
+//
+// Local declarations
+//
+  
+  TestContext  context;   // Test context
+  TestDef     *curtest;   // Current test
+  int          result;    // Return code from tester
+  double       ptimes[2]; // Processor timing info
+  
+//
+// Start of code
+//
+
+  cout << "XML Parser Tester\n";
+  progname = argv[0];
+  argv++;
+  argc--;
+
+  // Initialise test context
+  context.verbose = 0;
+  context.quiet   = 0;
+  context.indent  = indent;
+  context.iostats = 0;
+  context.oneonly = oneonly;
+  context.timing  = 0;
+  
+  // Handle '?'
+  if (argc && strcmp(argv[0],"?") == 0) {
+    usage();
+    exit(0);
+  }
+      
+  // Handle -<xxx>
+  while (argc && argv[0][0] == '-') {
+    argv[0]++;
+    if (argv[0][0] == 'q')
+      context.quiet = 1;
+    else if (argv[0][0] == 'v')
+      context.verbose = 1;
+    else if (strcmpi(argv[0],"io") == 0)
+      context.iostats = 1;
+    else if (argv[0][0] == 'a')
+      context.oneonly = 0;
+    else if (argv[0][0] == 't')
+      context.timing = 1;
+    else {
+      usage();
+      exit(0);
+    }
+    argv++;
+    argc--;
+  }
+
+  // Get filename
+  if (argc) {
+    context.filename = argv[0];
+  }
+  else
+    context.filename = NULL;
+
+  //
+  // Tests
+  //
+  
+  for (curtest = tests; curtest->name; curtest++) {
+  
+    // Skip if it needs filename and we haven't got one
+    if (curtest->needsfilename && context.filename == NULL)
+      continue;
+      
+    // Skip if it needs verbose and it's not set
+    if (curtest->onlyifverbose && !context.verbose)
+      continue;
+      
+    // Skip if we're only running current test and this one isn't it
+    if (context.oneonly && !curtest->curtest)
+      continue;
+      
+    // Display banner
+    cout << "Testing " << curtest->name << "...\n";
+    cout.flush();
+    
+    // Populate context
+    context.otherinfo = curtest->otherinfo;
+    
+    // Call it
+    ptimes[0] = (double)clock()/(double)CLOCKS_PER_SEC;
+    result = (*curtest->func)(&context);
+    ptimes[1] = (double)clock()/(double)CLOCKS_PER_SEC;
+
+    // Display timing info if requested
+    if (context.timing) {
+      char buf[20];
+      sprintf(buf,"%.2f",ptimes[1]-ptimes[0]);
+      cout << "  " << buf << " seconds (processor time)\n";
+    }
+        
+    // Display status
+    if (result)
+      cout << "  **OK**\n";
+    cout.flush();
+    
+  }
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestCRC32 - Test CRC32 behaviour
+//
+// DESCRIPTION
+//
+//  This function attempts to test the CRC32 function to ensure that it
+//  gives consistent results, regardless of how a string is broken up
+//  into bits.
+//
+
+#pragma argsused
+
+int TestCRC32(TestContext *ctx) {
+
+  int          seed;
+  static char *string = "description";
+  int          stringl;
+  int          curbreak;
+  int          wholecrc;
+  int          crc;
+  
+  // Get the seed
+  seed = crc32(NULL,0);
+  
+  // Compute the entire string length
+  stringl = strlen(string);
+  
+  // Get the entire CRC
+  wholecrc = crc32(string,stringl,seed);
+  
+  // Now, break on each successive byte...
+  for (curbreak = 1; curbreak < stringl; curbreak++) {
+  
+    // Calculate initial part
+    crc = crc32(string,curbreak,seed);
+    
+    // Calculate the rest
+    crc = crc32(string+curbreak,stringl-curbreak,crc);
+    
+    // Make sure the result matches the whole string
+    if (crc != wholecrc) {
+    
+      cout << " Break @@ " << curbreak 
+           << " Expected crc " << (void *)wholecrc 
+           << " got " << (void *)crc 
+           << "\n";
+      exit(1);
+    }
+    
+  }
+  
+  return 1;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLIORead - Test XML IO Read functionality
+//
+// DESCRIPTION
+//
+//  This function attempts to read in an entire file.
+//
+
+int TestXMLIORead(TestContext *ctx) {
+
+  XMLIOManager *manager;
+  XMLIOStream  *stream;
+  XMLError      result;
+  char          message[256];
+  byte          buf[8192];
+  int           bytesread;
+  int           totalbytesread;
+  
+  // Create the IO Manager
+  manager = new XMLIOManager();
+  
+  // Open a read stream
+  result = manager->OpenRead(ctx->filename,strlen(ctx->filename),&stream);
+  if (result) {
+    sprintf(message,"Error %d from XMLIOManager::OpenRead",result);
+    error(message);
+  }
+  
+  // Read until exhausted
+  totalbytesread = 0;
+  for (;;) {
+    result = stream->Read(buf,sizeof(buf),&bytesread);
+    if (result) {
+      sprintf(message,"Error %d from XMLIOStream::Read()",result);
+      error(message);
+    }
+    if (bytesread <= 0) break;
+    totalbytesread += bytesread;
+  }
+
+  // Dump IO stats  
+  if (ctx->iostats) {
+    XMLIOStatistics stats;
+    cout << "  **XML IO Statistics**\n";
+    manager->GetStatistics(&stats);
+    DisplayIOStatistics(&stats);
+  }
+  
+  // Close the stream
+  result = stream->Close();
+  if (result) {
+    sprintf(message,"Error %d from XMLIOStrean::Close",result);
+    error(message);
+  }
+
+  // Display number of bytes read
+  if (!QUIET) {
+    cout << "  Bytes read = " << totalbytesread << "\n";
+    cout.flush();
+  }
+  
+  return 1;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLIOWrite - Test XML IO Write functionality
+//
+// DESCRIPTION
+//
+//  This function reads in a file and writes it out to another
+//  file.
+//
+
+int TestXMLIOWrite(TestContext *ctx) {
+
+  XMLIOManager *manager;
+  XMLIOStream  *rstream;
+  XMLIOStream  *wstream;
+  XMLError      result;
+  char          tempfile[256];
+  char          message[256];
+  byte          buf[8192];
+  int           bytesread;
+  int           totalbytesread;
+  
+  // Create the IO Manager
+  manager = new XMLIOManager();
+
+  // Form the temp file name
+  strcpy(tempfile,ctx->filename);
+  strcat(tempfile,".tmp");
+      
+  // Open the read stream
+  result = manager->OpenRead(ctx->filename,strlen(ctx->filename),&rstream);
+  if (result) {
+    sprintf(message,"Error %d from XMLIOManager::OpenRead",result);
+    error(message);
+  }
+  
+  // Open the write stream
+  result = manager->OpenWrite(tempfile,strlen(tempfile),&wstream);
+  if (result) {
+    sprintf(message,"Error %d from XMLIOManager::OpenWrite",result);
+    error(message);
+  }
+  
+  // Read/write until exhausted
+  totalbytesread = 0;
+  for (;;) {
+    // Read it
+    result = rstream->Read(buf,sizeof(buf),&bytesread);
+    if (result) {
+      sprintf(message,"Error %d from XMLIOStream::Read()",result);
+      error(message);
+    }
+    if (bytesread <= 0) break;
+    totalbytesread += bytesread;
+    // Write it
+    result = wstream->Write(buf,bytesread);
+    if (result) {
+      sprintf(message,"Error %d from XMLIOStream::Write()",result);
+      error(message);
+    }
+  }
+  
+  // Dump IO stats  
+  if (ctx->iostats) {
+    XMLIOStatistics stats;
+    cout << "  **XML IO Statistics**\n";
+    manager->GetStatistics(&stats);
+    DisplayIOStatistics(&stats);
+  }
+  
+  // Close the streams
+  result = rstream->Close();
+  if (result) {
+    sprintf(message,"Error %d from XMLIOStrean::Close Read stream",result);
+    error(message);
+  }
+  result = wstream->Close();
+  if (result) {
+    sprintf(message,"Error %d from XMLIOStrean::Close Write stream",result);
+    error(message);
+  }
+
+  // Display number of bytes processed
+  if (!QUIET) {
+    cout << "  Bytes written = " << totalbytesread << "\n";
+    cout.flush();
+  }
+  
+  return 1;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLLex - Test XMLLex class
+//
+// DESCRIPTION
+//
+//  This function tests the XML Lexical analyser.
+//
+
+int TestXMLLex(TestContext *ctx) {
+
+  XMLError      stat;                               // An XML error
+  XMLIOManager  manager;                            // Our IO manager
+  XMLIOStream  *stream;                             // Input stream
+  byte          buf[1024];                          // Input buffer
+  int           numread;                            // Number of bytes read
+  XMLLexToken   token;                              // The XML Lexical token
+  XMLLex        lex;                                // Lexical analyser
+  int           ntokens;                            // Total number of tokens
+  int           i;
+  
+
+  ntokens = 0;
+
+  // Open the file
+  stat = manager.OpenRead(ctx->filename,strlen(ctx->filename),&stream);
+  if (stat) xmlerror(stat,"Error %d opening input file");
+  
+  // Until we run out...
+      
+  do {
+    // Get the next token
+    token = lex.NextToken();
+    ntokens++;
+    
+    // Prime with more data if required
+    if (token.type == xmllex_TokenNeedMoreData) {
+      // Read the data
+      stat = stream->Read(buf,sizeof(buf),&numread);
+      if (stat) xmlerror(stat,"Error %d reading input file");
+      // Close it if no more to read
+      if (numread == 0)
+        stream->Close();
+      // If we got some...
+      if (numread)
+        lex.MoreData(buf,numread);
+    }
+
+    // Print the token...
+    if (VERBOSE)
+      DisplayLexToken(token);
+            
+  } while (token.type != xmllex_TokenEndOfStream);
+
+  // Indent and display total tokens
+  if (!QUIET) {
+    for (i = 0; i < ctx->indent; i++) cout << ' ';
+    cout << ntokens << " total tokens\n";
+  }
+    
+  return 1;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLSyn - Test XMLSyn class
+//
+// DESCRIPTION
+//
+//  This function tests the XML Syntax analyser.
+//
+
+int TestXMLSyn(TestContext *ctx) {
+
+  XMLError      stat;                               // An XML error
+  XMLIOManager  manager;                            // Our IO manager
+  XMLIOStream  *stream;                             // Input stream
+  byte          buf[1024];                          // Input buffer
+  int           numread;                            // Number of bytes read
+  XMLSynToken   token;                              // The XML syntax token
+  XMLSyn        syn;                                // Lexical analyser
+  int           ntokens;                            // Total number of tokens
+  int           i;                   
+
+  // Open the file
+  stat = manager.OpenRead(ctx->filename,strlen(ctx->filename),&stream);
+  if (stat) xmlerror(stat,"Error %d opening input file");
+  
+  // Until we run out...
+      
+  do {
+    // Get the next token
+    token = syn.NextToken();
+    ntokens++;
+    
+    // Prime with more data if required
+    if (token.type == xmlsyn_TokenNeedMoreData) {
+      // Read the data
+      stat = stream->Read(buf,sizeof(buf),&numread);
+      if (stat) xmlerror(stat,"Error %d reading input file");
+      // Close it if no more to read
+      if (numread == 0)
+        stream->Close();
+      // If we got some...
+      if (numread)
+        syn.MoreData(buf,numread);
+    }
+
+    // Print the token...
+    if (VERBOSE)
+      DisplaySynToken(token);
+            
+  } while (token.type != xmlsyn_TokenEndOfStream);
+
+  // Indent and display total tokens
+  if (!QUIET) {
+    for (i=0;i<ctx->indent;i++) cout << ' ';
+    cout << ntokens << " total tokens\n";
+  }
+    
+  return 1;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLStringConst - Test XMLStringConst class
+//
+
+#pragma argsused
+
+int TestXMLStringConst(TestContext *ctx) {
+
+  XMLError result;
+  
+  // Create one string
+  {
+    XMLStringConst *s;
+    s = new XMLStringConst("Hi There");
+    if (s)
+      delete s;
+  }
+  
+  // Create two strings and compare for equals
+  {
+    XMLStringConst s1("abc");
+    XMLStringConst s2("def");
+    int            equals;
+    int            answer;
+    
+    // Test for equals
+    result = s1.Equals(&s2,&equals);
+    if (result) goto ERROR;
+    if (equals) error("'abc' == 'def'!");
+    
+    // Test lexical compare
+    result = s1.Compare(&s2,&answer);
+    if (result) goto ERROR;
+    if (answer != -1) error("Expected 'abc' < 'def'");
+    
+  }
+        
+  return 1;
+
+ERROR:
+  xmlerror(result,"XMLError %d from XMLStringConst function");
+  return 0;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLStringMem - Test XMLStringMem class
+//
+
+#pragma argsused
+
+int TestXMLStringMem(TestContext *ctx) {
+
+  XMLError result;
+  
+  // Create one string
+  {
+    XMLStringMem *s;
+    s = new XMLStringMem("Hi There");
+    if (s)
+      delete s;
+  }
+  
+  // Create two strings and compare for equals
+  {
+    XMLStringMem s1("abc");
+    XMLStringMem s2("def");
+    int            equals;
+    int            answer;
+    
+    // Test for equals
+    result = s1.Equals(&s2,&equals);
+    if (result) goto ERROR;
+    if (equals) error("'abc' == 'def'!");
+    
+    // Test lexical compare
+    result = s1.Compare(&s2,&answer);
+    if (result) goto ERROR;
+    if (answer != -1) error("Expected 'abc' < 'def'");
+    
+  }
+        
+  return 1;
+
+ERROR:
+  xmlerror(result,"XMLError %d from XMLStringMem function");
+  return 0;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLHashTable - Test XMLHashTable class
+//
+
+int TestXMLHashTable(TestContext *ctx) {
+
+  XMLError        result;
+  int             numstrings;
+  char          **string;
+      
+  // The string values
+  char           *values[] = {"twas","brillig","and","the",
+                              "slithy","toves", "did","gyre",
+                              "and", "gimble","in" ,"the" ,"wabe",
+                              0};
+                              
+  XMLHashTable  *hash;
+  
+  // Create the table
+  hash = new XMLHashTable();
+  
+  // Add the strings to the table
+  {
+    XMLString *thenewstring;
+    
+    numstrings = 0;
+    for (string = &values[0]; *string; string++) {
+      thenewstring = new XMLStringConst(*string);
+      numstrings++;
+      result = hash->Add(thenewstring);
+      if (result) xmlerror(result,"Error %d adding string to hash table");
+    }
+  }
+  
+  // Make sure the hash table agrees with the number of strings...
+  
+  if (VERBOSE) {
+    cout << "  " << numstrings << " strings added to hash table\n";
+    cout.flush();
+  }
+
+  if (hash->Length() != numstrings) {
+    cout << "  Expected " << numstrings << " in table, got " << hash->Length() << "\n";
+    exit(1);
+  }
+  
+  // Display statistics if verbose
+  if (VERBOSE) {
+  
+    XMLHashStatistics stats;
+    
+    hash->GetStatistics(&stats);
+    
+    cout << "  Entries = " << stats.blsumlength << "\n";
+    cout << "  Buckets = " << stats.blcount     << "\n";
+    cout << "  Min len = " << stats.blminlength << "\n";
+    cout << "  Max len = " << stats.blmaxlength << "\n";
+    cout << "  Avg len = " << stats.blavglength << "\n";
+    cout << "  Stddev  = " << stats.blstdlength << "\n";
+    cout.flush();
+  
+  }
+  
+  // Make sure we can find each one...
+  for (string = &values[0]; *string; string++) {
+    XMLStringConst *cstring;
+    XMLString      *found;
+    int             equals;
+    // Find it
+    cstring = new XMLStringConst(*string);
+    result = hash->Find(cstring,&found);
+    if (result) xmlerror(result,"Error %d from XMLHashTable::Find");
+    if (!found) {
+      cout << "  Couldn't find string '" << *string << "' after inserting\n";
+      exit(1);
+    }
+    // Make sure they're equal
+    result = found->Equals(cstring,&equals);
+    if (result) xmlerror(result,"Error %d from XMLString::Equals");
+    if (!equals) {
+      cout << "  String found for '" << *string << "' was not equals\n";
+      exit(1);
+    }
+    delete cstring;
+  }
+  
+  // Make sure we can remove each one...
+  // Make sure we can find each one...
+  for (string = &values[0]; *string; string++) {
+    XMLStringConst *cstring;
+    XMLString      *found;
+    // Find it
+    cstring = new XMLStringConst(*string);
+    result = hash->Find(cstring,&found);
+    if (result) xmlerror(result,"Error %d from XMLHashTable::Find");
+    if (!found) {
+      cout << "  Couldn't find string '" << *string << "' when deleting\n";
+      exit(1);
+    }
+    // Try removing it
+    result = hash->Remove(found);
+    if (result) xmlerror(result,"Error %d from XMLHashTable::Remove");
+    // Make we sure can't find it now
+    result = hash->Find(cstring,&found);
+    if (result) xmlerror(result,"Error %d from XMLHashTable::Find");
+    if (found && found == cstring) {
+      cout << "  Did'nt expect to find string '" << *string << "' after removing it\n";
+      exit(1);
+    }
+    delete cstring;
+  }
+  
+    
+  // Free the hash table
+  delete hash;
+  
+  return 1;
+
+ERROR:
+  xmlerror(result,"XMLError %d from XMLStringConst function");
+  return 0;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLStringTable - Test XMLStringTable class
+//
+
+int TestXMLStringTable(TestContext *ctx) {
+
+  XMLError        result;
+  int             numstrings;
+  char          **string;
+  int             i;
+      
+  // The string values
+  char           *values[] = {"twas","brillig","and","the",
+                              "slithy","toves", "did","gyre",
+                              "xand", "gimble","in" ,"xthe" ,"wabe",
+                              0};
+
+  XMLStringTable  *table;
+  
+  // Create the table
+  table = new XMLStringTable();
+  
+  // Add the strings to the table
+  {
+    XMLString *thenewstring;
+    
+    numstrings = 0;
+    for (string = &values[0]; *string; string++) {
+      thenewstring = new XMLStringConst(*string);
+      numstrings++;
+      result = table->AddReference(thenewstring);
+      if (result) xmlerror(result,"Error %d adding string to string table");
+    }
+  }
+  
+  // Make sure the string table agrees with the number of strings...
+  
+  if (VERBOSE) {
+    cout << "  " << numstrings << " strings added to hash table\n";
+    cout.flush();
+  }
+
+  if (table->Length() != numstrings) {
+    cout << "  Expected " << numstrings << " in table, got " << table->Length() << "\n";
+    exit(1);
+  }
+  
+  // Make sure we can find each one...
+  for (i = 1, string = &values[0]; *string; string++, i++) {
+    XMLStringConst *cstring;
+    int             index;
+    int             equals;
+    // Find it
+    cstring = new XMLStringConst(*string);
+    result = table->FindIndex(cstring,&index);
+    if (result) xmlerror(result,"Error %d from XMLStringTable::FindIndex");
+    if (index == 0) {
+      cout << "  Couldn't find string '" << *string << "' after inserting\n";
+      exit(1);
+    }
+    // Make sure they're where they're supposed to be
+    if (index != i) {
+      cout << "  String " << *string << " found at " << index << " (expected " << i << ")\n";
+      exit(1);
+    }
+    delete cstring;
+  }
+  
+  // Make sure we can remove each one...
+  // Make sure we can find each one...
+  for (string = &values[0]; *string; string++) {
+    XMLStringConst *cstring;
+    int             index;
+    // Find it
+    cstring = new XMLStringConst(*string);
+    result = table->FindIndex(cstring,&index);
+    if (result) xmlerror(result,"Error %d from XMLStringTable::FindIndex");
+    if (index == 0) {
+      cout << "  Couldn't find string '" << *string << "' when deleting\n";
+      exit(1);
+    }
+    // Try removing it
+    result = table->RemoveReference(index);
+    if (result) xmlerror(result,"Error %d from XMLStringTable::Remove");
+    // Make we sure can't find it now
+    result = table->FindIndex(cstring,&index);
+    if (result) xmlerror(result,"Error %d from XMLHashTable::Find");
+    if (index) {
+      cout << "  Did'nt expect to find string '" << *string << "' after removing it\n";
+      exit(1);
+    }
+    delete cstring;
+  }
+  
+  // Make sure the table's empty
+  numstrings = table->Length();
+  if (numstrings != 0) {
+    cout << "  Expected table to be empty but it still has " << numstrings << " strings\n";
+    exit(1);
+  }
+     
+  // Free the string table
+  delete table;
+  
+  return 1;
+
+ERROR:
+  xmlerror(result,"XMLError %d from XMLStringConst function");
+  return 0;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLIOString - Test XMLIOString class
+//
+
+int TestXMLIOString(TestContext *ctx) {
+
+  XMLError      stat;      // An XML error
+  XMLIOManager  manager;   // Our IO manager
+  XMLIOStream  *stream;    // Input stream
+  XMLIOString  *string;    // The string
+  XMLHashTable *hashtable; // The hash table
+  XMLString    *found;     // String found in hash table
+  byte          buf[1024]; // Input buffer
+  int           numread;   // Number of bytes read
+  XMLSynToken   token;     // The XML syntax token
+  XMLSyn        syn;       // XML syntax analyser
+  int           ntokens;   // Total syntax tokens processed
+  int           didoutput; // "Did we output a '.'?"
+
+  // Open the file
+  stat = manager.OpenRead(ctx->filename,strlen(ctx->filename),&stream);
+  if (stat) xmlerror(stat,"Error %d opening input file");
+
+  // Create a new string hash table
+  hashtable = new XMLHashTable();
+    
+  // Until we run out...
+  ntokens = 0;    
+  didoutput = 0;
+  do {
+    // Get the next token
+    token = syn.NextToken();
+    ntokens++;
+    
+    // Output '.' for every N tokens if we're not verbose
+    if (!VERBOSE && !QUIET) {
+      if (ntokens%1000 == 0 ) {
+        //cout << ntokens << "\n";
+        cout << '.';
+        cout.flush();
+        didoutput++;
+        // Output '\n' if time
+        if (didoutput%72 == 0)
+          cout << "\n";
+        cout.flush();
+      }
+    }
+    //if (ntokens == 93499) {
+    //  cout << "Here we are!\n";
+    //  cout.flush();
+    //}
+    
+    // Prime with more data if required
+    if (token.type == xmlsyn_TokenNeedMoreData) {
+      // Read the data
+      stat = stream->Read(buf,sizeof(buf),&numread);
+      if (stat) xmlerror(stat,"Error %d reading input file");
+      // If we got some...
+      if (numread)
+        syn.MoreData(buf,numread);
+    }
+
+    // Print the token...
+    if (VERBOSE)
+      DisplaySynToken(token);
+                
+    // If it's one of the ones we want, make a string for it...
+    switch (token.type) {
+    case xmlsyn_TokenElementClose:
+    case xmlsyn_TokenElementOpen:            
+    case xmlsyn_TokenElementAttributeName:   
+    case xmlsyn_TokenElementAttributeValue:  
+    //case xmlsyn_TokenText:                   
+    //case xmlsyn_TokenWhite:                  
+    //case xmlsyn_TokenEntity:                 
+    //case xmlsyn_TokenComment:                
+    //case xmlsyn_TokenCDATA:
+      // If we have a symbol
+      if (token.length) {
+        // Create a new XMLIOString (if not zero long)
+        string = new XMLIOString(stream,token.startoff,token.length);
+        // If it's not in the table add it...
+        stat = hashtable->Find(string,&found);
+        if (stat) xmlerror(stat,"Error %d from XMLHashTable::Find");
+        if (found == NULL) {
+          stat = hashtable->Add(string);
+          if (stat) xmlerror(stat,"Error %d from XMLHashTable::Add");
+        }
+        else
+          delete string;
+      }
+      break;
+    default: 
+      break;                  
+    }
+    
+  } while (token.type != xmlsyn_TokenEndOfStream);
+
+  // Print info about the strings in the hash table
+  if (!VERBOSE && !QUIET && didoutput)
+    cout << "\n";
+    
+  if (!QUIET) {
+    cout << "  " << ntokens << " syntax tokens\n";
+    cout << "  " << hashtable->Length() << " distinct strings\n";
+  }
+  
+  // Dump IO stats  
+  if (ctx->iostats) {
+    XMLIOStatistics stats;
+    cout << "  **XML IO Statistics**\n";
+    manager.GetStatistics(&stats);
+    DisplayIOStatistics(&stats);
+  }
+  
+  // Close stuff
+  delete hashtable;  
+  stat = stream->Close();
+  if (stat) xmlerror(stat,"Error %d closing stream");
+  
+  return 1;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLIOCon - Test XML IO Console functionality
+//
+// DESCRIPTION
+//
+//  This function prompts on stdout, reads one line from stdin, and
+//  writes the result to stdout.
+//
+
+#pragma argsused
+
+int TestXMLIOCon(TestContext *ctx) {
+
+  XMLIOManager *manager;
+  XMLIOStream  *sin;
+  XMLIOStream  *sout;
+  XMLError      result;
+  byte          buf[256];
+  char         *msg;
+  int           numread;
+  
+  // Create the IO Manager
+  manager = new XMLIOManager();
+
+  // Open the in/out streams
+  result = manager->OpenRead("device://stdin",-1,&sin);
+  if (result) xmlerror(result,"Error %d Opening stdin");
+  result = manager->OpenWrite("device://stdout",-1,&sout);
+  if (result) xmlerror(result,"Error %d Opening stdout");
+  
+  // Prompt the user for some input
+  msg = "  Please type something: ";
+  result = sout->Write((byte *)msg,(int)strlen(msg));
+  if (result) xmlerror(result,"Error %d writing to stdout");
+  result = sin->ReadSome(buf,sizeof(buf),&numread);
+  if (result) xmlerror(result,"Error %d reading stdin");
+  
+  // Tell user what they types
+  msg = "  You typed: ";
+  result = sout->Write((byte *)msg,(int)strlen(msg));
+  if (result) xmlerror(result,"Error %d writing to stdout");
+  result = sout->Write(buf,numread);
+  if (result) xmlerror(result,"Error %d writing to stdout");
+    
+  return 1;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLBitMapString - Test XMLBitMapString
+//
+// DESCRIPTION
+//
+//  This function attempts to test the functionality of an XMLBitMapString.
+//
+
+#pragma argsused
+
+int TestXMLBitMapString(TestContext *ctx) {
+
+  XMLError         result;   // Return code
+  XMLBitMap       *bitmap;   // The bitmap
+  XMLStringMem    *string;   // The string
+  int              byteslen; // Length of bitmap in bytes
+  int              ic;       // Current character value as an int
+  unsigned char    c;        // TEMP: Character value
+  int              i;        // TEMP: Loop counter  
+  int              expected; // Bit count expected
+  int              bitslen;  // Length of bitmap in bits
+  int              bitson;   // Number of bits on
+  int              bitvalue; // Given bit value
+
+  //
+  // Test the Length() and Count() functions
+  //
+  
+  // For each possible single byte string...
+  for (ic = 0; ic < 256; ic++) {
+    
+    // Create empty string
+    string = new XMLStringMem();
+    if (string == NULL)
+      error("Iteration 1: Failed to create an XMLStringMem instance");
+  
+    // Append the value
+    c = (char)ic;
+    result = string->Append((char *)&c,1);
+    if (result)
+      xmlerror(result,"Error %d appending to string");
+        
+    // Count the bits
+    expected = 0;
+    for (; c; c >>= 1)
+      if (c&1) expected++;
+        
+    // Create the bitmap
+    bitmap = new XMLBitMapString(string);
+    if (bitmap == NULL)
+      error("Failed to create an XMLBitMapString instance");
+      
+    // Ask the string how long it is
+    if (bitmap->Length() != 8)
+      error("Expected length 8 from XMLBitMapString::Length()");
+      
+    // Make sure the bit count is correct...
+    result = bitmap->Count(&bitson);
+    if (result)
+      xmlerror(result,"Error %d from XMLBitMapString::Count()");
+    if (bitson != expected) {
+      cout << "  Iteration 1: char = " << (void *)ic << ", expected " << expected << " from Count(), got " << bitson << "\n";
+      exit(1);
+    }
+  
+    // Release the bitmap (it gets rid of the string)
+    delete bitmap;
+    
+  }  
+    
+  // For each possible bit combination...
+  for (byteslen = 0; byteslen < 256; byteslen++) {
+    
+    // Create empty string
+    string = new XMLStringMem();
+    if (string == NULL)
+      error("Failed to create an XMLStringMem instance");
+  
+    // Populate it with all the possible bit combinations...
+    expected = 0;
+    for (i = 1; i <= byteslen; i++) {
+    
+      // Append the value
+      c = (char)i;
+      result = string->Append((char *)&c,1);
+      if (result)
+        xmlerror(result,"Error %d appending to string");
+        
+      // Calculate the bits in it...
+      for (; c; c >>= 1)
+        if (c&1) expected++;
+        
+    }
+        
+    // Create the bitmap
+    bitmap = new XMLBitMapString(string);
+    if (bitmap == NULL)
+      error("Failed to create an XMLBitMapString instance");
+      
+    // Get the length of the string in bytes/bits
+    bitslen  = byteslen*8;
+    
+    // Ask the string how long it is
+    if (bitmap->Length() != bitslen)
+      error("Wrong length returned from XMLBitMapString::Length()");
+      
+    // Make sure the bit count is correct...
+    result = bitmap->Count(&bitson);
+    if (result)
+      xmlerror(result,"Error %d from XMLBitMapString::Count()");
+    if (bitson != expected) {
+      cout << "  Length " << byteslen << ": Expected " << expected << " from Count(), got " << bitson << "\n";
+      exit(1);
+    }
+  
+    // Release the bitmap and string
+    delete bitmap;    
+    delete string;
+  }
+
+  //
+  // Test the Test() and Set() functions
+  //
+  
+  // Create empty string
+  string = new XMLStringMem();
+  if (string == NULL)
+    error("Failed to create an XMLStringMem instance");
+  
+  // Create the bitmap
+  bitmap = new XMLBitMapString(string);
+  if (bitmap == NULL)
+    error("Failed to create an XMLBitMapString instance");
+      
+  // For all bit offsets 0..1024
+  for (i = 0; i <= 1024; i++) {
+  
+    // Set it
+    result = bitmap->Set(i, 1);
+    if (result)
+      xmlerror(result,"Error %d from Set()");
+  }
+  
+  // For all bit offsets 1..1023, step 2, clear it
+  for (i = 1; i <= 1024; i += 2) {
+    
+    // Clear it
+    result = bitmap->Set(i, 0);
+    if (result)
+      xmlerror(result,"Error %d from Set()");
+  }
+
+  // For all bit offsets 0..1024, check the bit value (even=1, odd = 0)
+  for (i = 0; i < 1024; i++) {
+  
+    // Get the value
+    bitvalue = bitmap->Test(i);
+    
+    // Check we got the right value...
+    expected = (i%2) ? 0 : 1;
+    
+    if ( (expected && bitvalue == 0) ||
+         (!expected && bitvalue) ) {
+      cout << "  Test index " << i << " expected " << expected << " got " << bitvalue << "\n";
+      exit(1);
+    }
+  }
+
+  // Check the strings contents...
+  {
+  
+    byte *frag;
+    int   fraglen;
+    
+    // Lock the first fragment
+    result = string->LockFragment(0,&frag,&fraglen);
+    if (result) xmlerror(result,"Error %d from string->LockFragment()");
+    
+    // Make sure it's the right length
+    expected = 1024/8+1;
+    if (fraglen != expected) {
+      cout << "  Expected string length " << expected << " got " << fraglen << "\n";
+      exit(1);
+    }
+    
+    // For each byte (except the last one)
+    for (i = 0; i < fraglen-1; i++)
+      if (frag[i] != 0xaa) {
+        cout << "  Expected string[" << i << " to be 0xaa, got " << (void *)(int)frag[i] << "\n";
+        exit(1);
+      }
+      
+    // Make sure last byte is 0x80
+    if (frag[fraglen-1] != 0x80) {
+      cout << "  Expected last byte to be 0x80, got " << (void *)(int)frag[fraglen-1] << "\n";
+      exit(1);
+    }
+    
+    // Finally, make sure it's the right length
+    expected = 1024 + 1;
+    if (bitmap->Length() != expected) {
+      cout << "  Expected final length of " << expected << " got " << bitmap->Length() << "\n";
+      exit(1);
+    }
+    
+    // Release the bitmap and the string
+    delete bitmap;
+    delete string;
+  }
+  
+  return 1;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLRead - Test XML reading
+//
+// DESCRIPTION
+//
+//  This function attempts to create an XMLDocumentMem by parsing
+//  an input file.
+//
+// NOTES
+//
+//  The ctx->otherinfo indicates the following:
+//
+//    0 = Read text
+//    1 = Read compiled
+//    2 = Read html
+//
+
+int TestXMLRead(TestContext *ctx) {
+
+  XMLManager     *manager;    // XML manager
+  XMLError        result;     // return code
+  XMLDocument    *doc;        // The document
+  XMLCursor      *cursor;     // Cursor into the document
+  int             nnodes;     // Number of nodes we traversed
+  XMLString      *uri;        // The current URI
+  char            uribuf[80]; // Copy of the URI string
+  int             urilen;     // Length of the URI
+
+  // Create the XML manager
+  result = XML::CreateManager(&manager);
+  if (result)
+    xmlerror(result,"Error %d creating XMLManager");
+    
+  // Copy the filename and append '.cxml' if compiled
+  strcpy(uribuf,ctx->filename);
+  if ((XML::FileType)ctx->otherinfo == XML::FileTypeCompiled)
+    strcat(uribuf,".cxml");
+      
+  // Create the document
+  result = manager->Load(uribuf,&doc,(XML::FileType)ctx->otherinfo);
+  if (result)
+    xmlerror(result,"Error %d loading from file");
+    
+  // Open a cursor on it
+  result = doc->NewCursor(&cursor);
+  if (result)
+    xmlerror(result,"Error %d from NewCursor()");
+
+  // Walk the cursor until finished
+  nnodes = 0;
+  for (;;) {
+    result = cursor->Walk();
+    if (result && result != XMLErrorCsrEndOfDocument) {
+      parseerror(doc);
+      xmlerror(result,"Error %d from cursor.Walk()");
+    }
+    if (result) break;
+    
+    // If verbose, dump the uri
+    if (VERBOSE) {
+    
+      // Get the URI
+      result = cursor->GetURI(&uri);
+      if (result)
+        xmlerror(result,"Getting the URI");
+        
+      // Copy into our buffer
+      result = uri->GetValue((byte *)uribuf,sizeof(uribuf)-1,&urilen);
+      if (result)
+        xmlerror(result, "Getting URI value");
+      uribuf[urilen] = 0;
+      
+      // Display it
+      cout << "  URI = " << uribuf << "\n";
+      cout.flush();
+        
+    }
+    
+    // Increment number of nodes
+    nnodes++;
+  }
+
+  // Dump node stats
+  if (!QUIET) {
+    cout << "  **XML Document Statistics**\n";
+    cout << "  " << nnodes                 << " nodes traversed\n";
+    DisplayDocumentStatistics(doc);
+    cout << "\n";
+  }
+  
+  // Dump IO stats
+  if (ctx->iostats) {
+    XMLIOStatistics stats;
+    cout << "  **XML IO Statistics**\n";
+    manager->GetIOStatistics(&stats);
+    DisplayIOStatistics(&stats);
+  }
+        
+  // Free the manager
+  delete manager;
+    
+  return 1;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLSave - Test XMLManager::Save and XMLManager::SaveCompiled
+//
+// DESCRIPTION
+//
+//  This function attempts to create load an XML file and save it
+//  in compiled format.
+//
+
+int TestXMLSave(TestContext *ctx) {
+
+  XMLManager     *manager;    // XML manager
+  XMLError        result;     // return code
+  XMLDocument    *doc;        // The document
+  XMLCursor      *cursor;     // Cursor into the document
+  int             nnodes;     // Number of nodes we traversed
+  XMLString      *uri;        // The current URI
+  char            uribuf[80]; // Copy of the URI string
+  int             urilen;     // Length of the URI
+
+  // Create the XML manager
+  result = XML::CreateManager(&manager);
+  if (result)
+    xmlerror(result,"Error %d creating XMLManager");
+
+  // Copy the filename and append '.xml' or '.cxml'
+  strcpy(uribuf,ctx->filename);
+  if (!ctx->otherinfo)
+    strcat(uribuf,".xml");
+  else
+    strcat(uribuf,".cxml");
+      
+  // Load the document
+  result = manager->Load(ctx->filename,&doc);
+  if (result)
+    xmlerror(result,"Error %d loading from file");
+  
+  // Save it XML/compiled
+  result = manager->Save(doc,uribuf,ctx->otherinfo);
+  if (result)
+    xmlerror(result,"Error %d saving XML");
+    
+  // Dump IO stats
+  if (ctx->iostats) {
+    XMLIOStatistics stats;
+    cout << "  **XML IO Statistics**\n";
+    manager->GetIOStatistics(&stats);
+    DisplayIOStatistics(&stats);
+  }
+        
+  // Free the manager
+  delete manager;
+    
+  return 1;    
+}
+
+
+@
+
+
+1.58
+log
+@All working with GNU!
+@
+text
+@d31 1
+a31 1
+int   oneonly = 0;
+d94 1
+a94 1
+  ,{0, 1, 0, "XMLReadText"     ,TestXMLRead         , (int)XML::FileTypeXML }
+d96 2
+a97 2
+  ,{0, 1, 0, "XMLSaveCompiled" ,TestXMLSave         , 1 }
+  ,{0, 1, 0, "XMLReadCompiled" ,TestXMLRead         , (int)XML::FileTypeCompiled }
+@
+
+
+1.57
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@d98 1
+a98 1
+  ,{1, 1, 0, "XMLReadHTML"     ,TestXMLRead         , (int)XML::FileTypeHTML }
+@
+
+
+1.56
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@a24 2
+#include <iostream.h>
+#include <fstream.h>
+d26 1
+d30 2
+a31 1
+int   indent      = 2;
+d99 1
+a99 1
+  ,{0, 0, 0                    ,(Tester *)0         , 0 }
+d142 1
+a142 1
+  context.oneonly = 1;
+d299 1
+a299 1
+  char          buf[8192];
+d369 1
+a369 1
+  char          buf[8192];
+d458 1
+a458 1
+  char          buf[1024];                          // Input buffer
+d524 1
+a524 1
+  char          buf[1024];                          // Input buffer
+d920 1
+a920 1
+  char          buf[1024]; // Input buffer
+d1273 1
+a1273 1
+        cout << "  Expected string[" << i << " to be 0xaa, got " << (void *)frag[i] << "\n";
+d1279 1
+a1279 1
+      cout << "  Expected last byte to be 0x80, got " << (void *)frag[fraglen-1] << "\n";
+d1368 1
+a1368 1
+      result = uri->GetValue(uribuf,sizeof(uribuf)-1,&urilen);
+@
+
+
+1.55
+log
+@Tidy
+@
+text
+@d94 1
+a94 1
+  ,{1, 1, 0, "XMLReadText"     ,TestXMLRead         , 0 }
+d97 3
+a99 2
+  ,{1, 1, 0, "XMLReadCompiled" ,TestXMLRead         , 1 }
+  ,{0, 0, 0                 ,(Tester *)0         , 0 }
+d142 1
+a142 1
+  context.oneonly = 0;
+d1309 8
+d1336 1
+a1336 1
+  if (ctx->otherinfo)
+d1340 1
+a1340 1
+  result = manager->Load(uribuf,&doc,ctx->otherinfo);
+@
+
+
+1.54
+log
+@Found speed problem, Rehash() rehashing too much!
+@
+text
+@a104 5
+#if DEBUGGING
+extern int rehashcalls;
+extern int rehashcount;
+#endif
+
+d141 1
+a141 1
+  context.oneonly = 1;
+a219 5
+#if DEBUGGING
+//    cout << "Rehash() Calls  = " << rehashcalls << "\n";
+//    cout << "Rehash() Count  = " << rehashcount << "\n";
+//    rehashcount = rehashcalls = 0;
+#endif
+@
+
+
+1.53
+log
+@Read compiled works, need to figure out why it's slower than text!
+@
+text
+@d96 1
+a96 1
+  ,{1, 1, 0, "XMLSaveCompiled" ,TestXMLSave         , 1 }
+d105 5
+d224 6
+@
+
+
+1.52
+log
+@Added 'compiled' option to manager load, added read test to txml
+@
+text
+@d94 1
+a94 1
+  ,{0, 1, 0, "XMLReadText"     ,TestXMLRead         , 0 }
+d1324 5
+d1330 1
+a1330 1
+  result = manager->Load(ctx->filename,&doc,ctx->otherinfo);
+@
+
+
+1.51
+log
+@More work on compile reader
+@
+text
+@a60 1
+int  TestXMLDocumentMem(TestContext *ctx);
+d62 1
+a92 1
+  ,{0, 1, 0, "XMLDocumentMem"  ,TestXMLDocumentMem  , 0 }
+d94 1
+d97 1
+a1083 94
+//  TestXMLDocumentMem - Test XMLDocumentMem parsing
+//
+// DESCRIPTION
+//
+//  This function attempts to create an XMLDocumentMem by parsing
+//  an input file.
+//
+
+int TestXMLDocumentMem(TestContext *ctx) {
+
+  XMLManager     *manager;    // XML manager
+  XMLError        result;     // return code
+  XMLDocument    *doc;        // The document
+  XMLCursor      *cursor;     // Cursor into the document
+  int             nnodes;     // Number of nodes we traversed
+  XMLString      *uri;        // The current URI
+  char            uribuf[80]; // Copy of the URI string
+  int             urilen;     // Length of the URI
+
+  // Create the XML manager
+  result = XML::CreateManager(&manager);
+  if (result)
+    xmlerror(result,"Error %d creating XMLManager");
+    
+  // Create the document
+  result = manager->Load(ctx->filename,&doc);
+  if (result)
+    xmlerror(result,"Error %d loading from file");
+    
+  // Open a cursor on it
+  result = doc->NewCursor(&cursor);
+  if (result)
+    xmlerror(result,"Error %d from NewCursor()");
+
+  // Walk the cursor until finished
+  nnodes = 0;
+  for (;;) {
+    result = cursor->Walk();
+    if (result && result != XMLErrorCsrEndOfDocument) {
+      parseerror(doc);
+      xmlerror(result,"Error %d from cursor.Walk()");
+    }
+    if (result) break;
+    
+    // If verbose, dump the uri
+    if (VERBOSE) {
+    
+      // Get the URI
+      result = cursor->GetURI(&uri);
+      if (result)
+        xmlerror(result,"Getting the URI");
+        
+      // Copy into our buffer
+      result = uri->GetValue(uribuf,sizeof(uribuf)-1,&urilen);
+      if (result)
+        xmlerror(result, "Getting URI value");
+      uribuf[urilen] = 0;
+      
+      // Display it
+      cout << "  URI = " << uribuf << "\n";
+      cout.flush();
+        
+    }
+    
+    // Increment number of nodes
+    nnodes++;
+  }
+
+  // Dump node stats
+  if (!QUIET) {
+    cout << "  **XML Document Statistics**\n";
+    cout << "  " << nnodes                 << " nodes traversed\n";
+    DisplayDocumentStatistics(doc);
+    cout << "\n";
+  }
+  
+  // Dump IO stats
+  if (ctx->iostats) {
+    XMLIOStatistics stats;
+    cout << "  **XML IO Statistics**\n";
+    manager->GetIOStatistics(&stats);
+    DisplayIOStatistics(&stats);
+  }
+        
+  // Free the manager
+  delete manager;
+    
+  return 1;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+d1294 94
+@
+
+
+1.50
+log
+@Added NewIndex() to XMLStringTable
+@
+text
+@d90 1
+a90 1
+  ,{1, 0, 0, "XMLStringTable"  ,TestXMLStringTable  , 0 }
+d93 1
+a93 1
+  ,{1, 1, 0, "XMLDocumentMem"  ,TestXMLDocumentMem  , 0 }
+@
+
+
+1.49
+log
+@Added RegisterInputString() to XMLDocumentBase
+@
+text
+@d90 1
+a90 1
+  ,{0, 0, 0, "XMLStringTable"  ,TestXMLStringTable  , 0 }
+d93 1
+a93 1
+  ,{0, 1, 0, "XMLDocumentMem"  ,TestXMLDocumentMem  , 0 }
+@
+
+
+1.48
+log
+@Added timing stats to test harness
+@
+text
+@d93 1
+a93 1
+  ,{1, 1, 0, "XMLDocumentMem"  ,TestXMLDocumentMem  , 0 }
+d95 1
+a95 1
+  ,{1, 1, 0, "XMLSaveText"     ,TestXMLSave         , 0 }
+@
+
+
+1.47
+log
+@Text writer working, don't like speed though
+@
+text
+@d27 1
+a27 17
+
+// Function prototypes
+int  main(int argc, char **argv);
+int  TestCRC32(void);
+int  TestXMLIORead(char *filename);
+int  TestXMLIOWrite(char *filename);
+int  TestXMLLex(char *filename);
+int  TestXMLSyn(char *filename);
+int  TestXMLStringConst(void);
+int  TestXMLStringMem(void);
+int  TestXMLHashTable(void);
+int  TestXMLStringTable(void);
+int  TestXMLIOString(char *filename);
+int  TestXMLIOCon(void);
+int  TestXMLDocumentMem(char *filename);
+int  TestXMLBitMapString(void);
+int  TestXMLSave(char *filename, int compiled = 0);
+a30 2
+int   verbose     = 0;
+int   quiet       = 0;
+d32 71
+a102 2
+int   oneonly     = 1;
+int   iostats     = 0;
+d121 4
+a124 1
+  char *filename;
+d135 8
+d153 1
+a153 1
+      quiet = 1;
+d155 1
+a155 1
+      verbose = 1;
+d157 5
+a161 1
+      iostats = 1;
+d172 1
+a172 3
+    filename = argv[0];
+//    argv++;
+//    argc--;
+d175 1
+a175 1
+    filename = 0;
+d181 37
+a217 104
+  // Test CRC32
+  if (!oneonly) {  
+    cout << "Testing CRC32...\n";  
+    TestCRC32();  
+    cout << "  ***Test OK***\n";
+  }
+  
+  // Test IO Read
+  if (!oneonly && filename) {  
+    cout << "Testing XMLIO Read...\n";  
+    TestXMLIORead(filename);  
+    cout << "  ***Test OK***\n";
+  }
+  
+  // Test IO Write  
+  if (!oneonly && filename) {
+    cout << "Testing XMLIO Write...\n";  
+    TestXMLIOWrite(filename);  
+    cout << "  ***Test OK***\n";
+  }
+  
+  // Test lexical analyser
+  if (/*!oneonly &&*/ filename) {  
+    cout << "Testing XMLLex...\n";  
+    TestXMLLex(filename);  
+    cout << "  ***Test OK***\n";
+  }
+  
+  // Test syntax analyser
+  if (!oneonly && filename) {  
+    cout << "Testing XMLSyn...\n";  
+    TestXMLSyn(filename);  
+    cout << "  ***Test OK***\n";
+  }
+  
+  
+  // Test XMLStringConst
+  if (!oneonly) {
+    cout << "Testing XMLStringConst...\n";
+    TestXMLStringConst();
+    cout << "  ***Test OK***\n";
+  }    
+  
+  // Test XMLStringMem
+  if (!oneonly) {
+    cout << "Testing XMLStringMem...\n";
+    TestXMLStringMem();
+    cout << "  ***Test OK***\n";
+  }    
+  
+  // Test XMLHashTable
+  if (!oneonly) {
+    cout << "Testing XMLHashTable...\n";
+    TestXMLHashTable();
+    cout << "  ***Test OK***\n";
+  }    
+
+  // Test XMLStringTable
+  if (!oneonly) {
+    cout << "Testing XMLStringTable...\n";
+    TestXMLStringTable();
+    cout << "  ***Test OK***\n";
+  }    
+
+  // Test XMLIOString
+  if (!oneonly && filename) {
+    cout << "Testing XMLIOString...\n";
+    TestXMLIOString(filename);
+    cout << "  ***Test OK***\n";
+  }
+
+  // Test XMLIOCon
+  if (!oneonly && !quiet && verbose) {
+    cout << "Testing XMLIOCon...\n";
+    TestXMLIOCon();
+    cout << "  ***Test OK***\n";
+  }
+    
+  // Test XMLDocumentMem
+  if (!oneonly && filename) {
+    cout << "Testing XMLDocumentMem...\n";
+    TestXMLDocumentMem(filename);
+    cout << "  ***Test OK***\n";
+  }
+    
+  // Test XMLBitMapString
+  if (!oneonly) {
+    cout << "Testing XMLBitMapString...\n";
+    TestXMLBitMapString();
+    cout << "  ***Test OK***\n";
+  }
+
+  // Test XMLSaveCompiled
+  if (/*!oneonly &&*/ filename) {
+    cout << "Testing XML Save...\n";
+    TestXMLSave(filename,0);
+    cout << "  ***Test OK***\n";
+  }
+  
+  // Test XMLSaveCompiled
+  if (!oneonly && filename) {
+    cout << "Testing XML Save Compiled...\n";
+    TestXMLSave(filename,1);
+    cout << "  ***Test OK***\n";
+a219 1
+    
+d235 3
+a237 1
+int TestCRC32(void) {
+d290 1
+a290 1
+int TestXMLIORead(char *filename) {
+d304 1
+a304 1
+  result = manager->OpenRead(filename,strlen(filename),&stream);
+d323 1
+a323 1
+  if (iostats) {
+d338 1
+a338 1
+  if (!quiet) {
+d358 1
+a358 1
+int TestXMLIOWrite(char *filename) {
+d374 1
+a374 1
+  strcpy(tempfile,filename);
+d378 1
+a378 1
+  result = manager->OpenRead(filename,strlen(filename),&rstream);
+d411 1
+a411 1
+  if (iostats) {
+d431 1
+a431 1
+  if (!quiet) {
+d450 1
+a450 1
+int TestXMLLex(char *filename) {
+d466 1
+a466 1
+  stat = manager.OpenRead(filename,strlen(filename),&stream);
+d490 1
+a490 1
+    if (verbose)
+d496 2
+a497 2
+  if (!quiet) {
+    for (i=0;i<indent;i++) cout << ' ';
+d516 1
+a516 1
+int TestXMLSyn(char *filename) {
+d529 1
+a529 1
+  stat = manager.OpenRead(filename,strlen(filename),&stream);
+d553 1
+a553 1
+    if (verbose)
+d559 2
+a560 2
+  if (!quiet) {
+    for (i=0;i<indent;i++) cout << ' ';
+d575 3
+a577 1
+int TestXMLStringConst(void) {
+d622 3
+a624 1
+int TestXMLStringMem(void) {
+d669 1
+a669 1
+int TestXMLHashTable(void) {
+d701 1
+a701 1
+  if (verbose) {
+d712 1
+a712 1
+  if (verbose) {
+d795 1
+a795 1
+int TestXMLStringTable(void) {
+d828 1
+a828 1
+  if (verbose) {
+d909 1
+a909 1
+int TestXMLIOString(char *filename) {
+d925 1
+a925 1
+  stat = manager.OpenRead(filename,strlen(filename),&stream);
+d940 1
+a940 1
+    if (!verbose && !quiet) {
+d968 1
+a968 1
+    if (verbose)
+d1004 1
+a1004 1
+  if (!verbose && !quiet && didoutput)
+d1007 1
+a1007 1
+  if (!quiet) {
+d1013 1
+a1013 1
+  if (iostats) {
+d1041 3
+a1043 1
+int TestXMLIOCon(void) {
+d1091 1
+a1091 1
+int TestXMLDocumentMem(char *filename) {
+d1108 1
+a1108 1
+  result = manager->Load(filename,&doc);
+d1128 1
+a1128 1
+    if (verbose) {
+d1152 1
+a1152 1
+  if (!quiet) {
+d1160 1
+a1160 1
+  if (iostats) {
+d1184 3
+a1186 1
+int TestXMLBitMapString() {
+d1401 1
+a1401 1
+int TestXMLSave(char *filename, int compiled) {
+d1418 2
+a1419 2
+  strcpy(uribuf,filename);
+  if (!compiled)
+d1425 1
+a1425 1
+  result = manager->Load(filename,&doc);
+d1430 1
+a1430 1
+  result = manager->Save(doc,uribuf,compiled);
+d1435 1
+a1435 1
+  if (iostats) {
+@
+
+
+1.46
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@d43 1
+a43 1
+int  TestXMLSaveCompiled(char *filename);
+d139 1
+a139 1
+  if (!oneonly && filename) {  
+d210 7
+d219 1
+a219 1
+    TestXMLSaveCompiled(filename);
+d1104 1
+a1104 1
+  result = manager->LoadFrom(filename,&doc);
+d1387 1
+a1387 1
+//  TestXMLSaveCompiled - Test XMLManager::SaveCompiled
+d1395 1
+a1395 1
+int TestXMLSaveCompiled(char *filename) {
+d1411 1
+a1411 1
+  // Copy the filename and append '.cxml'
+d1413 4
+a1416 1
+  strcat(uribuf,".cxml");
+d1419 1
+a1419 1
+  result = manager->LoadFrom(filename,&doc);
+d1423 2
+a1424 2
+  // Save it compiled
+  result = manager->SaveCompiled(doc,uribuf);
+d1426 1
+a1426 1
+    xmlerror(result,"Error %d saving compiled");
+@
+
+
+1.45
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d196 1
+a196 1
+  if (/*!oneonly &&*/ filename) {
+d210 1
+a210 1
+  if (/*!oneonly &&*/ filename) {
+@
+
+
+1.44
+log
+@Compiled XML writer almost working
+@
+text
+@d196 1
+a196 1
+  if (!oneonly && filename) {
+@
+
+
+1.43
+log
+@XMLCursorCompileWrite written, ready to test
+@
+text
+@d43 1
+d50 1
+a50 1
+int   oneonly     = 0;
+d208 8
+d1375 57
+@
+
+
+1.42
+log
+@XMLBitMapString works
+@
+text
+@d49 1
+a49 1
+int   oneonly     = 1;
+d202 1
+a202 1
+  if (oneonly) {
+@
+
+
+1.41
+log
+@Initial XMLBitMapString implementation and test - Need Test() and Set()
+@
+text
+@d1176 1
+d1178 4
+d1269 91
+a1359 1
+    // Release the bitmap (it gets rid of the string)
+d1361 3
+a1363 2
+    
+  }  
+@
+
+
+1.40
+log
+@Complete IO stats - We're reading 2 times what we should!
+@
+text
+@d19 1
+d42 1
+d195 1
+a195 1
+  if (oneonly && filename) {
+d201 6
+d1151 118
+@
+
+
+1.39
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d47 1
+a47 1
+int   oneonly     = 0;
+d193 1
+a193 1
+  if (!oneonly && filename) {
+d984 8
+@
+
+
+1.38
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d20 2
+a28 5
+void error(char *message = 0);
+void xmlerror(XMLError stat,char *message);
+void parseerror(XMLError stat,XMLLocation *location);
+
+void usage(void);
+a40 2
+void DisplayLexToken(XMLLexToken token, char *buf = NULL, int bufl = 0);
+void DisplaySynToken(XMLSynToken token, char *buf = NULL, int bufl = 0);
+d47 2
+a48 1
+int   oneonly     = 1;
+d86 2
+a87 1
+    if (argv[0][1] == 'q')
+d89 1
+a89 1
+    else if (argv[0][1] == 'v')
+d91 2
+d193 1
+a193 1
+  if (oneonly && filename) {
+a205 76
+//  usage - Display usage
+//
+// DESCRIPTION
+//
+//  This function calls each tester
+//
+
+void usage(void) {
+
+  cout << "\n\n";
+  cout << "Usage: " << progname << " [-q][-v] [<inputfile>]\n";
+  cout << "\n";
+  cout << "Where:  <inputfile> = XML file to read\n";
+  cout << "\n";
+  cout << "        -q = \"Quiet mode\"\n";
+  cout << "        -v = \"Verbose mode\"\n";
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  error      - Display error and quit
+//  xmlerror   - Display XML error and quit
+//  parseerror - Display parsing error and quit
+//
+// DESCRIPTION
+//
+//  These functions display an error messages and quit.
+//
+// NOTES
+//
+//  parseerror() will return if there is no parse error.
+//
+
+void error(char *message) {
+
+  if (message)
+    cout << message;
+    
+  exit(1);
+}
+
+void xmlerror(XMLError stat, char *message) {
+
+  char buf[1024];
+  sprintf(buf,message,stat);
+  cout << buf << "\n";
+  exit(1);
+}
+
+void parseerror(XMLDocument *doc) {
+
+  XMLError stat;
+  XMLLocation location;
+  
+  if (doc == NULL)
+    return;
+  
+  stat = doc->GetLastParseError(&location);
+  
+  if (stat == XMLErrorNone)
+    return;
+    
+  cout << "  Parse error " << stat
+       << " at line " << location.line
+       << " column " << location.column
+       << "\n";
+  exit(1);
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+d299 8
+d388 8
+d1117 1
+d1119 10
+a1128 5
+    cout << "  " << doc->NodeCount()       << " current nodes\n";
+    cout << "  " << doc->NodeTotal()       << " total nodes\n";
+    cout << "  " << doc->HighestWidth()    << " highest width\n";
+    cout << "  " << doc->HighestDepth()    << " highest depth\n";
+    cout << "  " << doc->DistinctStrings() << " distinct strings\n";
+a1135 107
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  DisplayLexToken - Display a given XMLLexToken
+//
+// DESCRIPTION
+//
+//  This function displays the text representation of a given lexical token.
+//
+
+#pragma argsused
+
+void DisplayLexToken(XMLLexToken token,char *buf, int bufl) {
+
+  char        tbuf[256];
+  int         typenamemax;
+  const char *t;
+  int         i;
+  
+  // Indent
+  for (i=0;i<indent;i++) cout << ' ';
+
+  // Get the type's name and pad with spaces to max
+  typenamemax = token.GetMaxTypeNameLength();
+  t = token.GetTypeName();
+  strcpy(tbuf,t);
+  for (i=strlen(tbuf);i<typenamemax;i++)
+    tbuf[i] = ' ';
+  tbuf[typenamemax] = 0;
+  
+  // Print the type's name
+  cout << tbuf << ": ";
+  
+  // Print the line/col/len
+  cout << "Line/Col/Len = " << token.startline << "/" << token.startcol << "/" << token.length;
+  
+  // Print the first N characters if not whitespace...
+  if (token.type != xmllex_TokenWhite && buf != NULL) {
+    cout << "\t = ";
+    for (i=0;i<token.length;i++)
+      cout << buf[token.startoff+i];
+  }
+
+  cout << '\n';
+  cout.flush();
+    
+  return;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  DisplaySynToken - Display a given XMLSynToken
+//
+// DESCRIPTION
+//
+//  This function displays the text representation of a given syntax token.
+//
+
+#pragma argsused
+
+void DisplaySynToken(XMLSynToken token, char *buf, int bufl) {
+
+  char        tbuf[256];
+  int         typenamemax;
+  const char *t;
+  int         i;
+  
+  // Indent
+  for (i=0;i<indent;i++) cout << ' ';
+
+  // Get the type's name and pad with spaces to max
+  typenamemax = token.GetMaxTypeNameLength();
+  t = token.GetTypeName();
+  strcpy(tbuf,t);
+  for (i=strlen(tbuf);i<typenamemax;i++)
+    tbuf[i] = ' ';
+  tbuf[typenamemax] = 0;
+  
+  // Print the type's name
+  cout << tbuf << ": ";
+  
+  // Print the line/col/len
+  cout << "Line/Col/Len = " << token.startline << "/" << token.startcol << "/" << token.length;
+
+  // Print the error code if we have one
+  if (token.error)
+    cout << "***" << token.error << "*** ";
+      
+  // Print the first N characters if not whitespace or zero long...
+  if (token.type != xmlsyn_TokenWhite && token.length && buf) {
+    cout << "\t = ";
+    for (i=0;i<token.length;i++)
+      cout << buf[token.startoff+i];
+  }
+
+  cout << '\n';
+  cout.flush();
+    
+  return;
+  
+}
+
+@
+
+
+1.37
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@a1122 4
+  int             doctnodes;  // Document's total node count
+  int             docnnodes;  // Document's current node count
+  int             dochwidth;  // Document's highest width
+  int             dochdepth;  // Document's highest depth
+d1178 6
+a1183 5
+    cout << "  " << nnodes << " nodes traversed\n";
+    cout << "  " << doc->NodeCount() << " current nodes\n";
+    cout << "  " << doc->NodeTotal() << " total nodes\n";
+    cout << "  " << doc->HighestWidth() << " highest width\n";
+    cout << "  " << doc->HighestDepth() << " highest depth\n";
+@
+
+
+1.36
+log
+@Added token table to XMLDocumentBase - Not used yet
+@
+text
+@d11 1
+d32 1
+d52 1
+a52 1
+int   oneonly     = 0;
+d115 7
+d194 1
+a194 1
+  if (!oneonly && filename) {
+d279 55
+@
+
+
+1.35
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d792 1
+a792 1
+      result = table->Add(thenewstring);
+d844 1
+a844 1
+    result = table->Remove(index);
+@
+
+
+1.34
+log
+@XMLStringTable working
+@
+text
+@d50 1
+a50 1
+int   oneonly     = 1;
+d164 1
+a164 1
+  if (oneonly) {
+@
+
+
+1.33
+log
+@XMLStringTable partially tested
+@
+text
+@d855 8
+a862 1
+      
+@
+
+
+1.32
+log
+@Renamed xmlshash.* to xmlhashtable.*, XMLHashstring to XMLHashTable
+@
+text
+@d14 1
+d38 1
+d50 1
+a50 1
+int   oneonly     = 0;
+d163 7
+d185 1
+a185 1
+  if (oneonly && filename) {
+d751 107
+@
+
+
+1.31
+log
+@Got XMLManager working
+@
+text
+@d13 1
+a13 1
+#include "xmlshash.h"
+a16 1
+#include "xmldocmem.h"
+d36 1
+a36 1
+int  TestXMLStringHash(void);
+d48 1
+a48 1
+int   oneonly     = 1;
+d154 1
+a154 1
+  // Test XMLStringHash
+d156 2
+a157 2
+    cout << "Testing XMLStringHash...\n";
+    TestXMLStringHash();
+d628 1
+a628 1
+//  TestXMLStringHash - Test XMLStringHash class
+d631 1
+a631 1
+int TestXMLStringHash(void) {
+d643 1
+a643 1
+  XMLStringHash  *hash;
+d646 1
+a646 1
+  hash = new XMLStringHash();
+d698 1
+a698 1
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Find");
+d721 1
+a721 1
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Find");
+d728 1
+a728 1
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Remove");
+d731 1
+a731 1
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Find");
+d759 12
+a770 12
+  XMLError       stat;                               // An XML error
+  XMLIOManager   manager;                            // Our IO manager
+  XMLIOStream   *stream;                             // Input stream
+  XMLIOString   *string;                             // The string
+  XMLStringHash *hashtable;                          // The hash table
+  XMLString     *found;                              // String found in hash table
+  char           buf[1024];                          // Input buffer
+  int            numread;                            // Number of bytes read
+  XMLSynToken    token;                              // The XML syntax token
+  XMLSyn         syn;                                // XML syntax analyser
+  int            ntokens;                            // Total syntax tokens processed
+  int            didoutput;                          // "Did we output a '.'?"
+d777 1
+a777 1
+  hashtable = new XMLStringHash();
+d836 1
+a836 1
+        if (stat) xmlerror(stat,"Error %d from XMLStringHash::Find");
+d839 1
+a839 1
+          if (stat) xmlerror(stat,"Error %d from XMLStringHash::Add");
+@
+
+
+1.30
+log
+@Implemented XMLManager
+@
+text
+@d946 1
+a946 1
+  result = XMLManager::CreateManager(&manager);
+@
+
+
+1.29
+log
+@Worked on Cursor::GetURI, fixed GetName() not returning copy
+@
+text
+@d932 1
+a932 2
+  XMLIOManager    manager;    // IO manager
+  XMLIOStream    *stream;     // Input stream
+d944 3
+a946 3
+  
+  // Open a read stream
+  result = manager.OpenRead(filename,strlen(filename),&stream);
+d948 2
+a949 2
+    xmlerror(result,"Error %d from XMLIOManager::OpenRead");
+  
+d951 1
+a951 6
+  result = XMLDocument::CreateInMemory(&doc,1);
+  if (result)
+    xmlerror(result,"Error %d creating in-memory document");
+    
+  // Set the document's XML string
+  result = doc->SetSourceXML(stream);
+d953 1
+a953 1
+    xmlerror(result,"Error %d from SetSourceXML()");
+d1003 2
+a1004 7
+  // Close the stream
+  result = stream->Close();
+  if (result)
+    xmlerror(result,"Error %d from XMLIOStrean::Close");
+
+  // Free the document
+  delete doc;
+@
+
+
+1.28
+log
+@Added GetParseError() to doc and cursor and tester
+@
+text
+@d932 13
+a944 10
+  XMLIOManager    manager;
+  XMLIOStream    *stream;
+  XMLError        result;
+  XMLDocument    *doc;
+  XMLCursor      *cursor;
+  int             nnodes;    // Number of nodes we traversed
+  int             doctnodes; // Document's total node count
+  int             docnnodes; // Document's current node count
+  int             dochwidth; // Document's highest width
+  int             dochdepth; // Document's highest depth
+d975 22
+@
+
+
+1.27
+log
+@Renamed source files for string implementations
+@
+text
+@d28 2
+d212 3
+a214 2
+//  error    - Display error and quit
+//  xmlerror - Display XML error and quit
+d218 5
+a222 1
+//  This displays an error message and quits.
+d241 21
+d967 2
+a968 1
+    if (result && result != XMLErrorCsrEndOfDocument)
+d970 1
+@
+
+
+1.26
+log
+@Implemented XMLDocumentBase
+@
+text
+@d11 2
+a12 2
+#include "xmlsconst.h"
+#include "xmlsmem.h"
+@
+
+
+1.25
+log
+@Destructor working, walked big.xml 700K memory, 30 sec!
+@
+text
+@d907 1
+a907 1
+  XMLDocumentMem *doc;
+d921 3
+a923 3
+  doc = new XMLDocumentMem(1);
+  if (doc == NULL)
+    error("Couldn't create new XMLDocumentMem");
+d959 2
+a960 1
+  // Tell user how many nodes we walked
+@
+
+
+1.24
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@d921 1
+a921 1
+  doc = new XMLDocumentMem();
+@
+
+
+1.23
+log
+@Added node counts to and LeastCursor() to document
+@
+text
+@d912 2
+d950 2
+@
+
+
+1.22
+log
+@All parsing OK, lex problem was TABs!
+@
+text
+@d47 1
+a47 1
+int   oneonly     = 0;
+d175 1
+a175 1
+  if (!oneonly && filename) {
+d904 8
+a911 6
+  XMLIOManager   manager;
+  XMLIOStream   *stream;
+  XMLError       result;
+  XMLDocument   *doc;
+  XMLCursor     *cursor;
+  int            nnodes;
+d942 8
+a949 1
+      
+a955 2
+  if (!quiet)
+    cout << "  " << nnodes << " nodes encountered\n";
+@
+
+
+1.21
+log
+@Skeleton parser passing through simple.xml OK without errors
+@
+text
+@d47 1
+a47 1
+int   oneonly     = 1;
+d175 1
+a175 1
+  if (oneonly && filename) {
+@
+
+
+1.20
+log
+@Plugged walker into document tester
+@
+text
+@d909 1
+d932 1
+d938 1
+d946 4
+@
+
+
+1.19
+log
+@Added TestXMLDocumentMem to test suite
+@
+text
+@d929 9
+a937 1
+    
+@
+
+
+1.18
+log
+@Changed mind and renamed XMLStringInStream back to XMLIOString
+@
+text
+@d17 1
+d38 1
+d47 1
+a47 1
+int   oneonly     = 0;
+d174 7
+d887 48
+@
+
+
+1.17
+log
+@Change XMLIOString to XMLStringInStream
+@
+text
+@d35 1
+a35 1
+int  TestXMLStringInStream(char *filename);
+d158 1
+a158 1
+  // Test XMLStringInStream
+d160 2
+a161 2
+    cout << "Testing XMLStringInStream...\n";
+    TestXMLStringInStream(filename);
+d718 1
+a718 1
+//  TestXMLStringInStream - Test XMLStringInStream class
+d721 1
+a721 1
+int TestXMLStringInStream(char *filename) {
+d726 1
+a726 1
+  XMLStringInStream   *string;                             // The string
+d796 2
+a797 2
+        // Create a new XMLStringInStream (if not zero long)
+        string = new XMLStringInStream(stream,token.startoff,token.length);
+@
+
+
+1.16
+log
+@Finished (and tested) XMLStringMem
+@
+text
+@d35 1
+a35 1
+int  TestXMLIOString(char *filename);
+d158 1
+a158 1
+  // Test XMLIOString
+d160 2
+a161 2
+    cout << "Testing XMLIOString...\n";
+    TestXMLIOString(filename);
+d718 1
+a718 1
+//  TestXMLIOString - Test XMLIOString class
+d721 1
+a721 1
+int TestXMLIOString(char *filename) {
+d726 1
+a726 1
+  XMLIOString   *string;                             // The string
+d796 2
+a797 2
+        // Create a new XMLIOString (if not zero long)
+        string = new XMLIOString(stream,token.startoff,token.length);
+@
+
+
+1.15
+log
+@Added (char *) constructor to XMLStringMem
+@
+text
+@d12 1
+d33 1
+a36 1
+int  TestXMLStringMem(char *filename);
+d144 8
+a151 1
+  // Test XMLStringConst
+d540 45
+@
+
+
+1.14
+log
+@Fixed TestXMLIOString to free duplicate strings
+@
+text
+@d35 1
+@
+
+
+1.13
+log
+@Tidied up txml output
+@
+text
+@d751 2
+@
+
+
+1.12
+log
+@XMLIOStreamCon tested OK and various tweaks to test harness
+@
+text
+@d680 1
+d691 1
+d703 5
+d760 1
+a760 1
+  if (!verbose && !quiet)
+@
+
+
+1.11
+log
+@XMLIOString works with big.xml!
+@
+text
+@d34 1
+d150 1
+a150 1
+  if (!oneonly) {
+d155 8
+d267 4
+a270 2
+  cout << "  Bytes read = " << totalbytesread << "\n";
+  cout.flush();
+d352 4
+a355 2
+  cout << "  Bytes read = " << totalbytesread << "\n";
+  cout.flush();
+d417 4
+a420 2
+  for (i=0;i<indent;i++) cout << ' ';
+  cout << ntokens << " total tokens\n";
+d480 4
+a483 2
+  for (i=0;i<indent;i++) cout << ' ';
+  cout << ntokens << " total tokens\n";
+d768 48
+@
+
+
+1.10
+log
+@XMLIOString works with 1 buffer
+@
+text
+@d42 1
+a42 2
+int   readthefile = 0;
+int   oneonly     = 1;
+d149 1
+a149 1
+  if (oneonly) {
+d672 1
+a672 1
+      
+d678 13
+d736 3
+@
+
+
+1.9
+log
+@Ready to test XMLIOString (code written)
+@
+text
+@a31 1
+int  TestXMLStringIO(char *filename);
+d33 1
+d39 2
+a40 1
+int   verbose     = 1;
+d79 10
+a88 3
+  // Handle -q
+  if (argc && strcmp(argv[0],"-q") == 0) {
+    verbose = 0;
+a91 2
+    
+  // Display usage if not proper arguments
+a105 14
+  // Test XMLStringConst
+  if (!oneonly) {
+    cout << "Testing XMLStringConst...\n";
+    TestXMLStringConst();
+    cout << "  ***Test OK***\n";
+  }    
+  
+  // Test XMLStringConst
+  if (oneonly) {
+    cout << "Testing XMLStringHash...\n";
+    TestXMLStringHash();
+    cout << "  ***Test OK***\n";
+  }    
+  
+d134 22
+d172 1
+a172 1
+  cout << "Usage: " << progname << " [-q] [<inputfile>]\n";
+d177 1
+a521 93
+//  TestXMLIOString - Test XMLIOString class
+//
+
+int TestXMLIOString(char *filename) {
+
+  XMLError       stat;                               // An XML error
+  XMLIOManager   manager;                            // Our IO manager
+  XMLIOStream   *stream;                             // Input stream
+  XMLIOString   *string;                             // The string
+  XMLStringHash *hashtable;                          // The hash table
+  XMLString     *found;                              // String found in hash table
+  char           buf[1024];                          // Input buffer
+  int            numread;                            // Number of bytes read
+  XMLSynToken    token;                              // The XML syntax token
+  XMLSyn         syn;                                // XML syntax analyser
+  int            ntokens;                            // Total syntax tokens processed
+
+  // Open the file
+  stat = manager.OpenRead(filename,strlen(filename),&stream);
+  if (stat) xmlerror(stat,"Error %d opening input file");
+
+  // Create a new string hash table
+  hashtable = new XMLStringHash();
+    
+  // Until we run out...
+      
+  do {
+    // Get the next token
+    token = syn.NextToken();
+    ntokens++;
+    
+    // Prime with more data if required
+    if (token.type == xmlsyn_TokenNeedMoreData) {
+      // Read the data
+      stat = stream->Read(buf,sizeof(buf),&numread);
+      if (stat) xmlerror(stat,"Error %d reading input file");
+      // Close it if no more to read
+      if (numread == 0)
+        stream->Close();
+      // If we got some...
+      if (numread)
+        syn.MoreData(buf,numread);
+    }
+
+    // If it's one of the ones we want, make a string for it...
+    switch (token.type) {
+    case xmlsyn_TokenElementOpen:            
+    case xmlsyn_TokenElementClose:           
+    case xmlsyn_TokenElementAttributeName:   
+    case xmlsyn_TokenElementAttributeValue:  
+    case xmlsyn_TokenText:                   
+    case xmlsyn_TokenWhite:                  
+    case xmlsyn_TokenEntity:                 
+    case xmlsyn_TokenComment:                
+    case xmlsyn_TokenCDATA:
+      // Create a new XMLIOString
+      string = new XMLIOString(stream,token.startoff,token.length);
+      // If it's not in the table add it...
+      stat = hashtable->Find(string,&found);
+      if (stat) xmlerror(stat,"Error %d from XMLStringHash::Find");
+      if (found == NULL) {
+        stat = hashtable->Add(string);
+        if (stat) xmlerror(stat,"Error %d from XMLStringHash::Add");
+      }
+      break;
+    default: 
+      break;                  
+    }
+    
+    if (verbose)
+      DisplaySynToken(token);
+            
+  } while (token.type != xmlsyn_TokenEndOfStream);
+
+  // Print info about the strings in the hash table
+  if (verbose) {
+    cout << "  " << ntokens << " syntax tokens\n";
+    cout << "  " << hashtable->Length() << " distinct strings\n";
+  }
+  
+  // Close stuff
+  delete hashtable;  
+  stat = stream->Close();
+  if (stat) xmlerror(stat,"Error %d closing stream");
+  
+  return 1;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+d642 94
+@
+
+
+1.8
+log
+@Added hash statistics
+@
+text
+@d27 4
+d32 1
+a33 4
+int  TestXMLLex(char *filename);
+int  TestXMLSyn(char *filename);
+int  TestXMLIORead(char *filename);
+int  TestXMLIOWrite(char *filename);
+d197 5
+a201 1
+//  TestXMLStringConst - Test XMLStringConst class
+d204 1
+a204 1
+int TestXMLStringConst(void) {
+d206 17
+a222 1
+  XMLError result;
+d224 10
+a233 6
+  // Create one string
+  {
+    XMLStringConst *s;
+    s = new XMLStringConst("Hi There");
+    if (s)
+      delete s;
+d236 5
+a240 17
+  // Create two strings and compare for equals
+  {
+    XMLStringConst s1("abc");
+    XMLStringConst s2("def");
+    int            equals;
+    int            answer;
+    
+    // Test for equals
+    result = s1.Equals(&s2,&equals);
+    if (result) goto ERROR;
+    if (equals) error("'abc' == 'def'!");
+    
+    // Test lexical compare
+    result = s1.Compare(&s2,&answer);
+    if (result) goto ERROR;
+    if (answer != -1) error("Expected 'abc' < 'def'");
+    
+a241 2
+        
+  return 1;
+d243 5
+a247 3
+ERROR:
+  xmlerror(result,"XMLError %d from XMLStringConst function");
+  return 0;  
+d254 6
+a259 1
+//  TestXMLStringHash - Test XMLStringHash class
+d262 1
+a262 1
+int TestXMLStringHash(void) {
+d264 9
+a272 11
+  XMLError        result;
+  int             numstrings;
+  char          **string;
+      
+  // The string values
+  char           *values[] = {"twas","brillig","and","the",
+                              "slithy","toves", "did","gyre",
+                              "and", "gimble","in" ,"the" ,"wabe",
+                              0};
+                              
+  XMLStringHash  *hash;
+d274 2
+a275 22
+  // Create the table
+  hash = new XMLStringHash();
+  
+  // Add the strings to the table
+  {
+    XMLString *thenewstring;
+    
+    numstrings = 0;
+    for (string = &values[0]; *string; string++) {
+      thenewstring = new XMLStringConst(*string);
+      numstrings++;
+      result = hash->Add(thenewstring);
+      if (result) xmlerror(result,"Error %d adding string to hash table");
+    }
+  }
+  
+  // Make sure the hash table agrees with the number of strings...
+  
+  if (verbose) {
+    cout << "  " << numstrings << " strings added to hash table\n";
+    cout.flush();
+  }
+d277 9
+a285 3
+  if (hash->Length() != numstrings) {
+    cout << "  Expected " << numstrings << " in table, got " << hash->Length() << "\n";
+    exit(1);
+d288 5
+a292 15
+  // Display statistics if verbose
+  if (verbose) {
+  
+    XMLHashStatistics stats;
+    
+    hash->GetStatistics(&stats);
+    
+    cout << "  Entries = " << stats.blsumlength << "\n";
+    cout << "  Buckets = " << stats.blcount     << "\n";
+    cout << "  Min len = " << stats.blminlength << "\n";
+    cout << "  Max len = " << stats.blmaxlength << "\n";
+    cout << "  Avg len = " << stats.blavglength << "\n";
+    cout << "  Stddev  = " << stats.blstdlength << "\n";
+    cout.flush();
+  
+d295 8
+a302 12
+  // Make sure we can find each one...
+  for (string = &values[0]; *string; string++) {
+    XMLStringConst *cstring;
+    XMLString      *found;
+    int             equals;
+    // Find it
+    cstring = new XMLStringConst(*string);
+    result = hash->Find(cstring,&found);
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Find");
+    if (!found) {
+      cout << "  Couldn't find string '" << *string << "' after inserting\n";
+      exit(1);
+d304 7
+a310 6
+    // Make sure they're equal
+    result = found->Equals(cstring,&equals);
+    if (result) xmlerror(result,"Error %d from XMLString::Equals");
+    if (!equals) {
+      cout << "  String found for '" << *string << "' was not equals\n";
+      exit(1);
+a311 1
+    delete cstring;
+d314 10
+a323 24
+  // Make sure we can remove each one...
+  // Make sure we can find each one...
+  for (string = &values[0]; *string; string++) {
+    XMLStringConst *cstring;
+    XMLString      *found;
+    // Find it
+    cstring = new XMLStringConst(*string);
+    result = hash->Find(cstring,&found);
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Find");
+    if (!found) {
+      cout << "  Couldn't find string '" << *string << "' when deleting\n";
+      exit(1);
+    }
+    // Try removing it
+    result = hash->Remove(found);
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Remove");
+    // Make we sure can't find it now
+    result = hash->Find(cstring,&found);
+    if (result) xmlerror(result,"Error %d from XMLStringHash::Find");
+    if (found && found == cstring) {
+      cout << "  Did'nt expect to find string '" << *string << "' after removing it\n";
+      exit(1);
+    }
+    delete cstring;
+d325 4
+d330 1
+a330 9
+    
+  // Free the hash table
+  delete hash;
+  
+  return 1;
+
+ERROR:
+  xmlerror(result,"XMLError %d from XMLStringConst function");
+  return 0;  
+d462 269
+a730 5
+//  DisplayLexToken - Display a given XMLLexToken
+//
+// DESCRIPTION
+//
+//  This function displays the text representation of a given lexical token.
+a827 132
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLIORead - Test XML IO Read functionality
+//
+// DESCRIPTION
+//
+//  This function attempts to read in an entire file.
+//
+
+int TestXMLIORead(char *filename) {
+
+  XMLIOManager *manager;
+  XMLIOStream  *stream;
+  XMLError      result;
+  char          message[256];
+  char          buf[8192];
+  int           bytesread;
+  int           totalbytesread;
+  
+  // Create the IO Manager
+  manager = new XMLIOManager();
+  
+  // Open a read stream
+  result = manager->OpenRead(filename,strlen(filename),&stream);
+  if (result) {
+    sprintf(message,"Error %d from XMLIOManager::OpenRead",result);
+    error(message);
+  }
+  
+  // Read until exhausted
+  totalbytesread = 0;
+  for (;;) {
+    result = stream->Read(buf,sizeof(buf),&bytesread);
+    if (result) {
+      sprintf(message,"Error %d from XMLIOStream::Read()",result);
+      error(message);
+    }
+    if (bytesread <= 0) break;
+    totalbytesread += bytesread;
+  }
+  
+  // Close the stream
+  result = stream->Close();
+  if (result) {
+    sprintf(message,"Error %d from XMLIOStrean::Close",result);
+    error(message);
+  }
+
+  // Display number of bytes read
+  cout << "  Bytes read = " << totalbytesread << "\n";
+  cout.flush();
+  
+  return 1;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  TestXMLIOWrite - Test XML IO Write functionality
+//
+// DESCRIPTION
+//
+//  This function reads in a file and writes it out to another
+//  file.
+//
+
+int TestXMLIOWrite(char *filename) {
+
+  XMLIOManager *manager;
+  XMLIOStream  *rstream;
+  XMLIOStream  *wstream;
+  XMLError      result;
+  char          tempfile[256];
+  char          message[256];
+  char          buf[8192];
+  int           bytesread;
+  int           totalbytesread;
+  
+  // Create the IO Manager
+  manager = new XMLIOManager();
+
+  // Form the temp file name
+  strcpy(tempfile,filename);
+  strcat(tempfile,".tmp");
+      
+  // Open the read stream
+  result = manager->OpenRead(filename,strlen(filename),&rstream);
+  if (result) {
+    sprintf(message,"Error %d from XMLIOManager::OpenRead",result);
+    error(message);
+  }
+  
+  // Open the write stream
+  result = manager->OpenWrite(tempfile,strlen(tempfile),&wstream);
+  if (result) {
+    sprintf(message,"Error %d from XMLIOManager::OpenWrite",result);
+    error(message);
+  }
+  
+  // Read/write until exhausted
+  totalbytesread = 0;
+  for (;;) {
+    // Read it
+    result = rstream->Read(buf,sizeof(buf),&bytesread);
+    if (result) {
+      sprintf(message,"Error %d from XMLIOStream::Read()",result);
+      error(message);
+    }
+    if (bytesread <= 0) break;
+    totalbytesread += bytesread;
+    // Write it
+    result = wstream->Write(buf,bytesread);
+    if (result) {
+      sprintf(message,"Error %d from XMLIOStream::Write()",result);
+      error(message);
+    }
+  }
+  
+  // Close the streams
+  result = rstream->Close();
+  if (result) {
+    sprintf(message,"Error %d from XMLIOStrean::Close Read stream",result);
+    error(message);
+  }
+  result = wstream->Close();
+  if (result) {
+    sprintf(message,"Error %d from XMLIOStrean::Close Write stream",result);
+    error(message);
+  }
+a828 6
+  // Display number of bytes processed
+  cout << "  Bytes read = " << totalbytesread << "\n";
+  cout.flush();
+  
+  return 1;    
+}
+@
+
+
+1.7
+log
+@More testing on XMLStringHash
+@
+text
+@d252 2
+a253 2
+                              "slivy","toves", "did","gyre",
+                              "and"  ,"gimble","in" ,"the","wabe",
+d286 17
+d312 4
+d325 27
+d353 3
+@
+
+
+1.6
+log
+@Added initial, mindless, test for XMLStringHash
+@
+text
+@a282 1
+    cout.flush();
+d284 19
+@
+
+
+1.5
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d11 2
+a15 1
+#include "xmlsconst.h"
+d28 1
+d100 1
+a100 1
+  if (oneonly) {
+d106 7
+d211 1
+a211 1
+  // Create two strings and compare
+d216 1
+d222 6
+d229 20
+d250 37
+@
+
+
+1.4
+log
+@More testing/debugging XMLIOStreamBuf Write/Read
+@
+text
+@d14 1
+d26 1
+d39 1
+a39 1
+int   oneonly     = 0;
+d68 7
+a74 1
+    
+d76 1
+a76 2
+  if (argc < 1) { usage(); exit(1); }
+  if (strcmp(argv[0],"-q") == 0) {
+a82 1
+  if (argc != 1) { usage(); exit(1); }
+d85 10
+a94 4
+  filename = argv[0];
+  //argv++;
+  //argc--;
+    
+d96 8
+d105 1
+a105 3
+  //
+
+  if (!oneonly) {  
+d111 2
+a112 5
+  //
+  // Test IO Write
+  //
+  
+  if (!oneonly) {
+a117 1
+  //
+d119 1
+a119 3
+  //
+
+  if (!oneonly) {  
+a124 1
+  //
+d126 1
+a126 3
+  //
+
+  if (!oneonly) {  
+d148 1
+a148 1
+  cout << "Usage: " << progname << " [-q] <inputfile>\n";
+d181 38
+@
+
+
+1.3
+log
+@XMLIOStreamBuf Write() tested
+@
+text
+@d23 1
+d25 2
+a26 2
+int  TestXMLLex(char *buf,int bufl);
+int  TestXMLSyn(char *buf,int bufl);
+d29 2
+a30 2
+void DisplayLexToken(XMLLexToken token, char *buf, int bufl);
+void DisplaySynToken(XMLSynToken token, char *buf, int bufl);
+d37 1
+a37 1
+int   oneonly     = 1;
+d55 2
+a56 5
+
+  FILE    *file;                                    // Input file
+  int      len;                                     // Length of input file
+  char    *buf;                                     // Copy of file's contents
+  int      bufl;                                    // Length of buffer
+a76 4
+  
+  //
+  // Read in the file
+  //
+d78 4
+a81 1
+  if (readthefile) {
+a82 30
+    // Open the file
+    file = fopen(argv[0],"rb");
+  
+    if (!file) {
+      cout << "Error opening '" << argv[0] << "'\n";
+      error();
+    }
+
+    // Compute its length
+    fseek(file,0,SEEK_END);
+    len = ftell(file);
+    fseek(file,0,SEEK_SET);
+    if (!len) {
+      cout << "File '" << argv[0] << "' has nothing in it!\n";
+      error();
+    }
+  
+    // Read in the file
+    cout << "Reading '" << argv[0] << "'...";
+    cout.flush();
+    if (len) {
+      buf = new char[len];
+      fread(buf,1,len,file);
+      fclose(file);
+    }
+    cout << "OK\n";
+    cout.flush();
+  
+  }
+  
+d84 1
+a84 1
+  // Test lexical analyser
+d88 2
+a89 2
+    cout << "Testing XMLLex...\n";  
+    TestXMLLex(buf,len);  
+d94 1
+a94 1
+  // Test syntax analyser
+d96 4
+a99 4
+
+  if (!oneonly) {  
+    cout << "Testing XMLSyn...\n";  
+    TestXMLSyn(buf,len);  
+d104 1
+a104 1
+  // Test IO Read
+d108 2
+a109 2
+    cout << "Testing XMLIO Read...\n";  
+    TestXMLIORead(argv[0]);  
+d114 1
+a114 1
+  // Test IO Write
+d116 4
+a119 4
+  
+  if (oneonly) {
+    cout << "Testing XMLIO Write...\n";  
+    TestXMLIOWrite(argv[0]);  
+d150 2
+a151 1
+//  error - Display error and quit
+d166 8
+d185 1
+a185 1
+int TestXMLLex(char *buf,int bufl) {
+d187 9
+a195 7
+  XMLLexToken token;                                // The XML Lexical token
+  XMLLex      lex;                                  // Lexical analyser
+  int         primesize = 10000;                       // Number of bytes to prime each time
+  char       *obuf;                                 // Original buf
+  int         obufl;                                // Original buffer length
+  int         ntokens;                              // Total number of tokens
+  int         i;
+a197 2
+  obuf = buf;
+  obufl = bufl;
+d199 4
+d213 9
+a221 5
+      if (primesize > bufl)
+        primesize = bufl;
+      lex.MoreData(buf,primesize);
+      buf += primesize;
+      bufl -= primesize;
+d226 1
+a226 1
+      DisplayLexToken(token,obuf,obufl);
+d249 1
+a249 1
+int TestXMLSyn(char *buf,int bufl) {
+d251 13
+a263 12
+  XMLSynToken token;                                // The XML syntax token
+  XMLSyn      syn;                                  // Lexical analyser
+  int         primesize = 10000;                    // Number of bytes to prime each time
+  char       *obuf;                                 // Original buf
+  int         obufl;                                // Original buffer length
+  int         ntokens;                              // Total number of tokens
+  int         i;
+  
+
+  obuf = buf;
+  obufl = bufl;
+  ntokens = 0;
+d274 9
+a282 5
+      if (primesize > bufl)
+        primesize = bufl;
+      syn.MoreData(buf,primesize);
+      buf += primesize;
+      bufl -= primesize;
+d287 1
+a287 1
+      DisplaySynToken(token,obuf,obufl);
+d312 1
+a312 1
+void DisplayLexToken(XMLLexToken token, char *buf, int bufl) {
+d337 1
+a337 1
+  if (token.type != xmllex_TokenWhite) {
+d392 1
+a392 1
+  if (token.type != xmlsyn_TokenWhite && token.length) {
+@
+
+
+1.2
+log
+@XMLIOStreamBuf Open/Read/Close tested
+@
+text
+@d27 1
+d36 1
+d119 7
+a125 5
+/*
+  cout << "Testing XMLLex...\n";  
+  TestXMLLex(buf,len);  
+  cout << "  ***Test OK***\n";
+*/  
+d129 7
+a135 5
+/*
+  cout << "Testing XMLSyn...\n";  
+  TestXMLSyn(buf,len);  
+  cout << "  ***Test OK***\n";
+*/
+d139 6
+d146 9
+a154 3
+  cout << "Testing XMLIO Read...\n";  
+  TestXMLIORead(argv[0]);  
+  cout << "  ***Test OK***\n";
+d466 84
+a549 1
+  // Display number of bytes written
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d13 1
+d26 1
+d32 3
+a34 2
+int   verbose = 1;
+int   indent  = 2;
+d81 5
+d87 13
+a99 2
+  // Open the file
+  file = fopen(argv[0],"rb");
+d101 10
+a110 13
+  if (!file) {
+    cout << "Error opening '" << argv[0] << "'\n";
+    error();
+  }
+
+  // Compute its length
+  fseek(file,0,SEEK_END);
+  len = ftell(file);
+  fseek(file,0,SEEK_SET);
+  if (!len) {
+    cout << "File '" << argv[0] << "' has nothing in it!\n";
+    error();
+  }
+a111 7
+  // Read in the file
+  cout << "Reading '" << argv[0] << "'...";
+  cout.flush();
+  if (len) {
+    buf = new char[len];
+    fread(buf,1,len,file);
+    fclose(file);
+a112 2
+  cout << "OK\n";
+  cout.flush();
+d125 1
+d129 4
+d134 3
+d396 57
+@
+
+
+1.1.1.1
+log
+@Start
+@
+text
+@@

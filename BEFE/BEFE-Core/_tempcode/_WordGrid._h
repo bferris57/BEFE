@@ -1,0 +1,172 @@
+#ifndef WORDGRID_H
+#define WORDGRID_H
+
+//----------------------------------------------------------------------
+//
+// File: WordGrid.h - Class WordGrid header
+//
+// The WordGrid class is intended to provide a sample mindless use of
+// the WordList class.
+//
+// The idea stemmed from a test coding problem put to me during a job
+// interview.
+//
+// The idea is some customer thinks it's a great idea to troll the web
+// for newspaper word grid games, solve them, and get the money.  Like
+// I said, silly.  But let's run with it to see how fast we can get it
+// to go...
+//
+// Essentially we have an WxH grid of characters.  The problem is to
+// quickly search them for valid English words and come up with all
+// matches.
+//
+// For explanatory purposes, the grid terminology is as follows:
+//
+//             0 1 2 3   ...  Width-1 <--- X-Axis
+//            +----------------------+
+//          0 |a b c d   ...   x g h |
+//          1 |s o m e   ...   l s e |
+//          2 |a n d s   ...   u f f |
+//          3 |m o r e   ...   r a p |
+//            |                      |
+//        ... |          ...         |
+//            |                      |
+//   Height-1 |l a s t   ...   r o w |
+//            +-----------------------
+//          ^
+//          |
+//        Y-Axis
+//
+// Words are populated in the grid (by some external mechanism).
+// The characters on the X-Axis are stored contiguously in memory.
+// The rows on the Y-Axis are stored contiguously in memory.
+//
+// We're searching for occurrances of words.  For example, the
+// characters "therapist" will match the words "therapist", "the",
+// "rapist", "era", "rap", and "pist" if all those words are in
+// the word-list/dictionary.
+//
+//   NOTE: It is our intention to paramaterise this at some point
+//         in the near future but that's how it is for now.  If that
+//         behaviour isn't wanted (like "<", "<<", in C/C++ and
+//         additional "<<<" in Java) this may well be resolved
+//         through a different mechanism like a buffered and
+//         specialised stream.  We'll sort that out later.
+//
+// The search is case sensitive so "Analyst" will not match the
+// word "analyst".  It is not the purpose of the grid to determine
+// what's in the dictionary.  It is up to the caller to ensure
+// the dictionary contains all upper/lower combinations OR it is
+// all upper or lower case.  Same goes for the grid's contents.
+// The grid code doesn't care, it just searches for dictionary words.
+//
+// For search directions we use compass notation...
+//
+//         N
+//         ^
+//        /|\
+//     NW/ | \NE
+//      /  |  \
+//   W <---O---> E
+//      \  |  /
+//     SW\ | /SE
+//        \|/
+//         v
+//         S
+//
+// Where: N  - North
+//        NE - Northeast
+//        E  - East
+//        SE - Southeast
+//        S  - South
+//        SW - Southwest
+//        W  - West
+//        NW - Northwest
+//
+// Fairly straightforward and obvious, yes?
+//
+
+#include "primitives.h"
+#include "WordList.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// Class: WordGrid
+//
+
+class WordGrid {
+
+//
+// Error codes
+//
+
+  public:
+
+  enum ErrorCode {
+     ErrorNone
+    ,ErrorOutOfMemory
+    ,ErrorInvalidDimension
+    ,NUMERRORS
+  };
+
+
+//
+// Private instance members
+//
+
+protected:
+
+  Int       width;    // X axis size in bytes
+  Int       height;   // Y axis size in bytes
+
+  WordList *dict;     // Word dictionary
+  Byte     *grid;     // X/Y grid
+
+  Int       counts[128];  // Word hit count for size
+
+//
+// Public instance methods
+//
+
+public:
+
+  WordGrid();
+  ~WordGrid();
+
+  // Populating
+  void   Reset();
+  Status Setup(WordList *thedict, Int width, Int height);
+  Status FillRandom();
+
+  // Searching
+  void  Search();
+
+  // Query
+  Int   GetHitCount();
+  Int   GetWordCount(Int wordlen);
+
+  // Utilities
+  void  PrintStatistics();
+
+//
+// Private instance methods
+//
+
+  private:
+
+  void SearchWE();
+  void SearchNS();
+  void SearchEW();
+  void SearchSN();
+  void SearchSE();
+  void SearchNW();
+  void SearchNE();
+  void SearchSW();
+
+};
+
+} // Namespace BEF_NS
+
+#endif // WORDLIST_H

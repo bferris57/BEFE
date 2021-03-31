@@ -1,0 +1,49 @@
+#!/usr/bin/python
+#ecoding=utf8
+befeTokens = {"file":"c:/SVN/python/t.befe", "tokens":
+[
+    {"type":"Name","lineCount":0,"status":0x0,"value":"a","lineNo":0,"colNo":0,"span":"0:1"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":1,"span":"1:2"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"b","lineNo":0,"colNo":2,"span":"2:3"}
+   ,{"type":"BracketLeft","lineCount":0,"status":0x0,"value":"[","lineNo":0,"colNo":3,"span":"3:4"}
+   ,{"type":"BracketRight","lineCount":0,"status":0x0,"value":"]","lineNo":0,"colNo":4,"span":"4:5"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":5,"span":"5:6"}
+   ,{"type":"EndOfLine","lineCount":2,"status":0x0,"value":"","lineNo":0,"colNo":6,"span":"6:7"}
+   ,{"type":"Comment","lineCount":164,"status":0x0,"value":"\\* #","lineNo":1,"colNo":0,"span":"7:2940"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":165,"colNo":2,"span":"2940:2941"}
+   ,{"type":"Comment","lineCount":0,"status":0x0,"value":"#  M","lineNo":165,"colNo":3,"span":"2941:2973"}
+   ,{"type":"EndOfLine","lineCount":2,"status":0x0,"value":"","lineNo":165,"colNo":29,"span":"2973:2974"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":166,"colNo":0,"span":"2974:2975"}
+   ,{"type":"EndOfLine","lineCount":2,"status":0x0,"value":"","lineNo":166,"colNo":1,"span":"2975:2976"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"if","lineNo":167,"colNo":0,"span":"2976:2978"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":2,"span":"2978:2979"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"a","lineNo":167,"colNo":3,"span":"2979:2980"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":4,"span":"2980:2981"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":"==","lineNo":167,"colNo":5,"span":"2981:2983"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":7,"span":"2983:2984"}
+   ,{"type":"Number","lineCount":0,"status":0x0,"value":"6","lineNo":167,"colNo":8,"span":"2984:2985"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":":","lineNo":167,"colNo":9,"span":"2985:2986"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":10,"span":"2986:2987"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"b","lineNo":167,"colNo":11,"span":"2987:2988"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":12,"span":"2988:2989"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":"=","lineNo":167,"colNo":13,"span":"2989:2990"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":14,"span":"2990:2991"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"c","lineNo":167,"colNo":15,"span":"2991:2992"}
+   ,{"type":"Separator","lineCount":0,"status":0x0,"value":";","lineNo":167,"colNo":16,"span":"2992:2993"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":17,"span":"2993:2994"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"d","lineNo":167,"colNo":18,"span":"2994:2995"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":19,"span":"2995:2996"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":"=","lineNo":167,"colNo":20,"span":"2996:2997"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":21,"span":"2997:2998"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"e","lineNo":167,"colNo":22,"span":"2998:2999"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":167,"colNo":23,"span":"2999:3000"}
+   ,{"type":"EndOfLine","lineCount":2,"status":0x0,"value":"","lineNo":167,"colNo":24,"span":"3000:3001"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":168,"colNo":0,"span":"3001:3003"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"f","lineNo":168,"colNo":2,"span":"3003:3004"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":168,"colNo":3,"span":"3004:3005"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":"=","lineNo":168,"colNo":4,"span":"3005:3006"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":168,"colNo":5,"span":"3006:3007"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"g","lineNo":168,"colNo":6,"span":"3007:3008"}
+   ,{"type":"EndOfInput","lineCount":0,"status":0x0,"value":"","lineNo":168,"colNo":7,"span":"3008:3008"}
+  ]
+}

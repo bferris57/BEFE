@@ -1,0 +1,134 @@
+#===============================================================================
+#
+# File: BEFE.terminology.befe - Documents BEFE terminology (no code here)
+#
+# Purpose: To clarify the terminology used in BEFE Land.
+#
+
+/**befewiki
+
+  Term `active`...
+  
+    This is the opposite of `passive` and indicates the associated Method
+    may alter the contents of the instance.
+    
+    Note: It has equivalent meaning to ommitting `const` in C++.
+              
+  ...Term
+  
+  Term `bracketed name`...
+  
+    This form of BEFE Name indicates a name that contains at least one '[' and
+    is used to indicate alternative names for the same thing. Examples include
+    the following cases (see BEFE_VarTerm.py):
+    
+      case = `[e]x[clusive]or`
+        0: `exclusiveor`
+        1: `xclusiveor`
+        2: `exor`
+        3: `xor`
+        
+      case = `[e]x[it]`
+        0: `exit`
+        1: `xit`
+        2: `ex`
+        3: `x`
+        
+      case = `bool[ean]`
+        0: `boolean`
+        1: `bool`
+
+     case = `enum[eration]`
+        0: `enumeration`
+        1: `enum`
+        
+      case = `char[acter]`
+        0: `character`
+        1: `char`
+        
+      case = `int[eger]`
+        0: `integer`
+        1: `int`
+        
+      case = `long`
+        0: `long`
+        
+      case = `float[ing][point]`
+        0: `floatingpoint`
+        1: `floatpoint`
+        2: `floating`
+        3: `float`
+        
+    As far as implementation is concerned, the first case produced is the
+    "preferred name" where the following alternatives are treated as
+    "alias names".
+    
+  ...Term
+  
+  Term `class`...
+  ...Term
+  
+  Term `enum[erator]`...
+  ...Term
+  
+  Term `func[tion]`...
+    This indicates a `callable` bit of procedural code. The arguments to the
+    function are as defined. In the case of classes a `function` can be considered
+    as equivalent to a "class method" as opposed to an "instance method".
+    
+    When not in the context of a `class` it's simply a callable bit of code.
+    
+    Note: When `active` is assigned to a class `function`, it indicates it may
+          change the class definition itself. ;-)
+  ...Term
+  
+  Term `global`,,,
+  ...Term
+  
+  Term `immutable`...
+  ...Term
+  
+  Term `local`,,,
+  ...Term
+  
+  Term `namespace`,,,
+  ...Term
+  
+  Term `method`...
+  ...Term
+  
+  Term `member`...
+  ...Term
+
+  Term `mutable ...
+  ...Term
+  
+  Term `passive`,,,  
+  
+    This is the opposite of `active` and indicates the associated Method does
+    not alter any members of the instance.
+    
+    Note: The Method may alter the contents in sneaky/hacky ways but, these
+          cases should be rare and you need to be very careful when doing this. ;-)
+          
+  ...Term
+  
+  Term `private`,,,
+  ...Term
+  
+  Term `protected`,,,
+  ...Term
+  
+  Term `public`,,,
+  ...Term
+  
+  Term `signed`,,,
+  ...Term
+  
+  Term `unsigned`,,,
+  ...Term
+  
+  Term `struct`,,,
+  ...Term
+  
+*/

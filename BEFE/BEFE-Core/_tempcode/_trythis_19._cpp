@@ -1,0 +1,105 @@
+//!befe-publish src
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// So, the following command line should invoke this function...
+//
+//   befe +tests trythis
+//
+//     or
+//
+//   befe +tests t
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// We've provided it here in the delivered examples so you can
+// plug your own stuff into the Unit Tests and try them from
+// "inside BEFE" instead of "outside BEFE".
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011-2012, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "BEFEMacros.h"
+#include "BEFEWrappers.h"
+#include "Args.h"
+
+namespace BEF_NS { // Namespace BEF_NS...
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+extern "C" { int HITHERE(); int hithere() {return 1;}};
+
+Status trythis() {
+
+  Status  status;
+  
+  // COMMENT... Comment these lines when you put your code in
+  UInt fg;  
+  fg = Cout.GetForegroundColour();
+  //Cout << "*** Nothing for trythis() to do at the moment ***\n";
+  // ...COMMENT
+  
+  status = Error::None;
+  
+  // YOUR trythis code...
+  //
+  
+  {
+    String  input;
+    Strings args;
+    UInt    argIdx;
+    
+    while (true) {
+      Cout.SetForegroundColour(Console::Yellow);
+      Cout << "Enter command line: ";
+      Cout.SetForegroundColour(fg);
+      status = Cin.GetLine(input);
+      if (status == Error::StreamAtEnd) break;
+      if (status) goto SOMEERROR;
+      input = input.Trim();
+      if (input.Length() == 0) break;
+      status = Args::Split(input, args);
+      if (status) goto SOMEERROR;
+      if (args.Length() == 0)
+        Cout << "***No arguments***\n";
+      else for (argIdx=0; argIdx < args.Length(); argIdx++)
+        Cout << "  args[" << argIdx << "] = ▌" << args.Get(argIdx) << "▌\n";
+    }
+
+    status = Error::None;    
+    while (false) {
+      SOMEERROR: break;
+    }
+    if (status)
+      ERROR("trythis",status);
+
+  }
+  
+  //
+  // ...YOUR trythis code
+  
+  // COMMENT... Comment this, perhaps, when you put your code in
+  Cout.SetForegroundColour(fg);
+  // ...COMMENT
+
+  return status;
+  
+}
+
+} // Namespace BEF_NS

@@ -1,0 +1,23 @@
+#!/usr/befe
+#────────────────────────────────────────────────────────────
+# File: testall.befe - Perform all BEFE tests
+#────────────────────────────────────────────────────────────
+
+?head
+
+echo
+echo "Performing ALL BEFE tests..."
+echo
+echo "────────────────────────────────────────────────────────────"
+echo
+
++et
++vv
++warn
++ms
+
+test all
+
+?foot
+
+exit

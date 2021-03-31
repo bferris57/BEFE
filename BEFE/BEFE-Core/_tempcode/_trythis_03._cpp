@@ -1,0 +1,80 @@
+#include "BEFE.h"
+#include "ToStrings.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// Function: trythis - Our "trythis" main function
+//
+
+Status trythis1() {
+
+  Number num1;
+  Number num2;
+  Number num3;
+  Int    nums[] = { 256,  512
+                  , 300, -400
+                  ,-400,  300
+                  ,-300,  400
+                  , 400, -300
+                  ,   0,  -10
+                  , -10,    0
+                  ,   0,    0
+                  ,NaN};
+  UInt   numIdx;
+
+  Cout << "sizeof(Number) = " << sizeof(Number) << "\n\n";
+  
+  // Addition...  
+  numIdx = 0;
+  Cout << "Addition...\n";
+  while (nums[numIdx] != NaN) {
+    num1 = nums[numIdx++];
+    num2 = nums[numIdx++];
+    num3 = num1 + num2;
+    Cout << "  " << ToString(num1,4) << " + " << ToString(num2,4) << " = " << ToString(num3,4) << '\n';
+  }
+  num1 = 0xffffffffU;
+  num2 = 1;
+  num3 = num1+num2;
+  Cout << "  " << ToString(num1) << " + " << ToString(num2) << " = " << ToString(num3) << '\n';
+  
+  // Subtraction...  
+  numIdx = 0;
+  Cout << "Subtraction...\n";
+  while (nums[numIdx] != NaN) {
+    num1 = nums[numIdx++];
+    num2 = nums[numIdx++];
+    num3 = num1 - num2;
+    Cout << "  " << ToString(num1,4) << " - " << ToString(num2,4) << " = " << ToString(num3,4) << '\n';
+  }
+  return Error::None;
+
+}
+
+Status trythis() {
+
+  Byte buf1[20];
+  Byte bufLen1;
+  Byte buf2[20];
+  UInt bufLen2;
+  
+  Strcpy(buf1, "Buffer 1");
+  Strcpy(buf2, "Buffer 2");
+  bufLen1 = Strlen(buf1);
+  bufLen2 = Strlen(buf2);
+  
+  Cout << "BEFORE... Buffer 1: '" << (char *)buf1 << "'\n";
+  Cout << "          Buffer 2: '" << (char *)buf2 << "'\n";
+  MemoryExchangeRaw(buf1, buf2, bufLen1);
+  Cout << "AFTER...  Buffer 1: '" << (char *)buf1 << "'\n";
+  Cout << "          Buffer 2: '" << (char *)buf2 << "'\n";
+  MemoryReverseBytesRaw(buf1,bufLen1);
+  Cout << "RVRSE...  Buffer 1: '" << (char *)buf1 << "'\n";
+  
+  return Error::None;
+  
+}
+
+}; // Namespace BEF_NS

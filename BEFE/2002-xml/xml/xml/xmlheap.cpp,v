@@ -1,0 +1,161 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.2
+date	2002.10.02.20.59.49;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.28.08.35.35;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+  
+    xmlheap.cpp - Implementation of the XMLHeap class
+    
+  DESCRIPTION
+  
+    This file contains the implementation of the XML memory manager.
+    
+  NOTES
+  
+    For now we simply alloc/free using standard alloc/free.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmlheap.h"
+#include <memory.h>
+#include <malloc.h>
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHeap::XMLHeap - Class Constructor
+//
+//
+
+XMLHeap::XMLHeap() {
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHeap::~XMLHeap - Class Destructor
+//
+//
+
+XMLHeap::~XMLHeap() {
+
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHeap::Allocate - Allocate some memory
+//
+//
+
+XMLError XMLHeap::Allocate(int size, byte **memory) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (memory == NULL || size <= 0) goto BADPARMS;
+  *memory = (byte *)malloc((size_t)size);
+  if (*memory == NULL) goto NOMEM;
+    
+  goto OK;  
+  
+BADPARMS:
+  if (memory)
+    *memory = NULL;
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHeap::Free - Free some memory
+//
+//
+
+XMLError XMLHeap::Free(byte *memory) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (memory == NULL) goto BADPARMS;
+  free((void *)memory);
+  
+  goto OK;  
+  
+BADPARMS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+@
+
+
+1.1
+log
+@More work on IO manager
+@
+text
+@d5 1
+d7 1
+d9 2
+a10 1
+    This file contains the implement of the XML memory manager.
+d22 2
+d63 3
+a65 2
+  *memory = new byte[size];
+  
+d73 3
+d97 1
+a97 1
+  delete[] memory;
+@
+

@@ -1,0 +1,103 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.1
+date	2002.11.16.07.51.52;	author Bruce;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Added portkit.cpp for itoa()
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    portkit.cpp - Port specific functions
+  
+  FUNCTIONS
+  
+    itoa - Convert an integer to a string
+
+  NOTES
+  
+*/
+
+#include "portkit.h"
+#include "string.h"
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  itoa - Convert an integer to a string
+//
+// DESCRIPTION
+//
+//
+//  This function simulates the "standard?" itoa function on ports because
+//  it's not available on all ports.
+//
+// NOTES
+//
+//  We've added the 'bufmaxl' parameter to make it clean.
+//
+
+void itoa(int theint, char *buf, int bufmaxl) {
+
+  char lbuf[32]; // Local buffer (we know this one's big enough)
+  char *cp;      // TEMP: Character buffer
+  int  sign;     // Sign (1 = Positive, -1 = negative)
+
+  // If no buffer or bufmaxl, don't do anything
+  if (buf == NULL || bufmaxl <= 0)
+    return;
+
+  // Compute sign and normalise integer
+  if (theint < 0) {
+    theint = -theint;
+    sign = -1;
+  }
+  else
+    sign = 1;
+
+  // Initialise pointer and NUL terminate
+  cp = &lbuf[sizeof(lbuf)-1];
+  *cp-- = 0;
+
+  // Until we have zero...
+  while (theint) {
+
+    // Put the character out there
+    *cp-- = (char)(theint % 10) + '0';
+
+    // Update the integer
+    theint /= 10;
+  }
+
+  // Put sign there
+  if (sign < 0)
+    *cp-- = '-';
+
+  // Adjust to point to first byte
+  cp++;
+
+  // Move up to bufmaxl
+  strncpy(buf, cp, bufmaxl);
+
+  return;
+}
+
+@

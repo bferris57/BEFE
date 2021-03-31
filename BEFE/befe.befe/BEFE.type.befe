@@ -1,0 +1,75 @@
+//------------------------------------------------------------------------------
+//
+// File: BEFE.type.befe - Prototype usage of BEFE type and related declarations
+//
+// Note: Basic building-block physical constructs are...
+//
+//         type   - Definition of a physically implemented datatype
+//         struct - Structured data by physical value (default 'public' access)
+//         class  - Structured data by physical value (default 'private' access)
+//         enum   - Ordered and physically valued names
+//         union  - Ordered and, optionally discriminated, layouts
+//
+/*
+namespace BEFE...
+
+// visibility
+enum visibility: none=null, public, protected, private
+
+// indirection
+enum indirection: none=null, pointer, reference
+
+// access
+struct access:
+  member read    bit = 0
+  member write   bit = 0
+  member execute bit = 0
+  method readable()   returns boolean: true if read else false
+  method writable()   returns boolean: true if write else false
+  method executable() return boolean: true if execute else false
+  
+// typeSpec
+type typeSpec:
+  member name      string // Type name
+  member precision int[]  // [0] default, [0:1] for string, [0:2] for numbers
+  member dimension int[]  // List of dimensions [0:], [0] is closest to type
+  member access    access // readonly/writeonly (see above)
+  
+// member
+type memberSpec:
+  member name   string   // Member name
+  member spec   typeSpec // Member specification
+  member access access   // 
+
+// methodAttribute
+struct methodAttribute:  // Will probablly be adding a few more here
+  member const bit = 0
+
+// method
+type methodSpec:
+  member name string
+  member parameters typeSpec[]
+  member returns    typeSpec
+  member throws     typeSpec[]
+  member implements typeSpec[]
+  member attributes methodAttribute
+
+// `member/method`
+union `member/method` typeElement discriminator (case enum: null,member,method):
+  member member member
+  member method method
+*/  
+// type
+type `type`:
+
+  member name     string               // Full namespace name (e.g. "BEFE.int", etc.)
+  member value
+  member size     long                 // Implementation size in bits (Sub-types will alter this, of course)
+  member mutable  boolean = false
+  member elements `member/method`[]
+  member memberNames int[]       
+  member methodNames int[]
+  
+  method isNull() const
+
+...namespace

@@ -1,0 +1,106 @@
+#!befe -echo
+#----------------------------------------------------------------------
+#
+# File: Sample .beferc Script
+#
+# This is a sample .beferc script.  The BEFE CommandShell class's
+# Main method checks for this script if there are no previously
+# configured scripts for execution.
+#
+# So, in the normal case, if ~/.beferc exists, it is run before the
+# user is prompted for input.
+#
+#----------------------------------------------------------------------
+
+#echo ***
+#echo ***Script: ~/.beferc
+#echo ***
+
+//
+// Before anything else, we need to declare which substitution markers
+// we're going to use everywhere in our code.
+//
+// The default is: '<' and '>'
+//
+// These string values can be used wherever we do BEFE string
+// substitution so, if '<' and '>' get in the way as far as you're
+// concerned, change them here...
+//
+// NOTE: In Windows, it's quite "normal" (if there is such a thing
+//       in M$ land) to use the '%' and '%' characters as string
+//       substitution markers.
+//
+//       In Unix land, since we don't really want to introduce
+//       $name stuff like bash, we prefer to use '$(' and ')' to
+//       indicate string substitution.
+//
+//       Anyway, no matter what you prefer the important thing is
+//       that it's done everywhere consistently and it's under
+//       your control.
+//
+
+#-env:BEFE_SubstBegin=≪
+#-env:BEFE_SubstEnd=≫
+
+//
+// Set some important directories...
+//
+// NOTE: Instead of using the 'set <name>=<value>' form below,
+//       we prefer the "leading option" form of indicating
+//       environment variable settings because it keeps
+//       reminding us that it's just as easy to set them as
+//       switches/options.
+//
+
+-env:PATH=/home/bruce/BEFE:<PATH>
+-env:BEFE_Home=~/BEFE
+-env:BEFE_Temp=~/BEFE/temp
+-env:BEFE_SVN=~/DropBox/SVN
+
+// Display some important environment settings...
+#-env:PATH
+#-env:BEFE_Home
+#-env:BEFE_Temp
+#-env:BEFE_SVN
+
+// For environment variable display markup used by the
+// '-env:...' switch/option, and the 'set' command...
+//
+// These are used to visually mark the environment variable
+// settings.  We've provided these to shy away from showing
+// ambiguous visual markers like quotation marks or some
+// other lead-in/lead-out marker that has a pretty high
+// likelyhood of appearing within the value itself.
+//
+// So, when you use the 'set' command or '-env:' option
+// without specifying a value, these will show up surrounding
+// the actual text of each environment variable.
+//
+// NOTE: We expect these to also start showing up other
+//       places throughout BEFE as we continue.
+//
+// Some nice examples to choose from:
+//
+//    ▷...◁
+//    ⇉...⇇
+//    ∥ ...∥
+//    ⍈...⍇
+//    ┫...┣
+//    ╢...╟
+//    ▶...◀
+//    ▶╢...╟◀
+
+-env:BEFE_QuoteLeadIn=▷╢
+-env:BEFE_QuoteLeadOut=╟◁
+
+//
+// Finally, Always position to some consistent directory on BEFE StartUp
+//
+
+os
+cd ~
+..
+
+# NOTE: If you put an 'exit' command here then BEFE will NEVER
+#       prompt the user for input.
+#exit

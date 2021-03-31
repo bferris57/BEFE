@@ -1,0 +1,383 @@
+Header...
+BEFE Buffer Class
+...Header
+
+Defines...
+<Buffer>
+<Buffer Header>
+<Header>
+...Defines
+
+References...
+<Array>
+<Arrays>
+<Array Element>
+<Byte>
+<Bytes>
+<Bit>
+<Bits>
+<Bit Arrays>
+<Block>
+<Class>
+<Constraints>
+<Element>
+<Elements>
+<Fixed Length>
+<Memory>
+<R-Value>
+<Storage>
+<Value>
+<Values>
+<Variable Length>
+...References
+
+-----------------------------------------------------------------------
+
+The <Buffer> <Class> is a fundamental and extremely important
+construct in BEFE.
+
+It provides the ability to manage and manipulate <Variable Length>
+<Values> in BEFE.  It also provides the basis for numerous implements
+of various <Array> data types.
+
+  *** Explain here about <Storage> and <Communication>.  Also
+  *** explain how Memory is treated as <Storage>, as are Files, etc.
+
+Fundamental Variable Length Values are one of the features of BEFE that
+distinguishes it from other software development environments, but
+that subject is covered elsewhere under <Values>.
+
+Basically, a Buffer is a <Fixed Length> header immediately followed
+by a <Variable Length> number of <Elements>.  Not <Bits> or <Bytes>,
+but <Elements> -- more on that a little later.
+
+This implementation describe here isn't a new concept but, quite
+honestly, it's more formalised than any development environment
+implementations we've encountered so far.
+
+Basically, we start with a <Fixed Size> Buffer <Header> which
+contains the following information...
+
+  o Flavour (Header format)  
+  o Allocated Size
+  o Used Size
+  o Allocation Specification
+  o Element Size
+  
+These sizes are in maintained in terms of an abstract <Element> which
+is a fixed size for each entry in the buffer.  So, essentially, a
+<Buffer> contains zero or more <Fixed Length> elements.
+
+  Note: These elements themselves can be indicators of other
+        variable length <Buffers> so they're only <Fixed Length>
+        in a storage sense not an abstract sense.
+
+Given the <Element> size, the number of bytes used in <Storage> are
+easily calculated.
+
+The sizes in the Header do not include the Bytes actually required to
+maintain the Header itself, which is a different size depending on the
+"Flavour" of the header...
+
+The headers come in several different "flavours", depending on the
+number of bytes in the Buffer.
+
+For data sizes of zero to 127 Elements (Bytes in this small and
+efficient case), the header information is maintained as a Byte for
+each part of the header.
+
+For sizes of 0..16383 Elements, the header information is maintained as
+two Bytes for each part of the header.
+
+For sizes of 0..536870911 Elements (1 less than 512MB if Element size
+is one byte), the header information is stored as four Bytes for each
+part of the header.
+
+                               ♦♦♦
+
+The most important aspect about all this is that the <Buffer Header>
+is immediately followed by the Bytes themselves, as illustrated here...
+
+   ┌───────┬─┬─┬─┬─┬─┬─┬─┬─┬─┬────────────────┐
+   │Header |S|o|m|e| |D|a|t|a|................│
+   └───────┴─┴─┴─┴─┴─┴─┴─┴─┴─┴────────────────┘
+    └──┬──┘ └───────┬───────┘ └───────┬──────┘
+       │            │                 │
+       │            │                 └── Unused Elements
+       │            └────────────────── Used Elements
+       └───────────────────────────── Buffer Header
+       
+The whole lot is allocated in a single contiguous <Block> of <Memory>.
+
+  Note: Future implementations are bound to be written which manage
+        large buffers stored on <Disk> or for <Communication> purposes
+        in a fragmented manner.  But, currently they're kept in <Memory>
+        as a single conguous block.
+        
+This means, however, that when Elements are Appended to or Removed from
+the Buffer, the Buffer needs to change size.
+
+So, if we treated the Buffer Header as a C++ class, we would have a
+slight problem since we would want the Class implementation itself to
+decide when it needs to reallocate or move the block in memory, not
+the caller.
+
+Therein lies the problem...  C++ doesn't let you modify "this".  The
+official reason given for this is that for "efficiency and optimisation"
+purposes C++ makes "this" be an <R-Value>, meaning the "this" pointer
+can be in a processor Register and you can't get the address of a
+Register, can you?
+
+  Note: There are hacky ways around this but it's not really kosher
+        C++ and it leads to scads of potential bugs in your code.
+        In general, we have tried to avoid such tactics in BEFE.
+
+So, C++ makes this seemingly astounding restriction but doesn't give you
+any way to change your own (meaning an Instance's) address in memory as
+part of the language itself -- other Languages attempt to do this but
+we don't need a bunch of reference counting bollocks here, we just want
+to move ourselves and update the SINGLE pointer to us somewhere!
+
+Okay, we understand that this "SINGLE pointer" concept is an uncommon
+implementation concept in today's programming languages but we have a
+very specific need for it in BEFE.
+
+In fact, this gives us the whole ability to define and handle data
+structures that contain variable length data.  But, we'll go into that
+later and somewhere else.
+
+So, to get around this odd bit of C++ behaviour, we code most of
+the functions in Buffer as "static class functions" which are passed
+the address of the "SINGLE pointer" to the Instance.
+
+This is fair enough because it doesn't really fit into any standard
+Object Models, at least not any of the ones we have encountered in our
+daily life.
+
+                               ♦♦♦
+
+Now, for the buffer header details.  We'll start by illustrating the
+<Buffer8> (UInt8 based) Header...
+
+            ┌─┬─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt8 0:  │0│ bufElements   │ - Allocated Elements after Buffer Header
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┘
+            ┌─┬─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt8 1:  │o│ curElements   │ - Current Elements used after Header
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┘
+            ┌─┬─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt8 2:  │%│ allocSpec     │ - Increment/decrement spec (see below) 
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┘
+
+That should be fairly self explanatory except that we should reiterate
+that
+                               ♦♦♦
+
+But, before we continue, let's take a look at what the %allocSpec
+means.  Let's expand it here...
+
+            ┌─┬     ┌─┬─┬─┬─┬─┬─┬─┐
+  UInt16 2: │%  ... │allocSpec    │
+            └─┴     └─┴─┴─┴─┴─┴─┴─┘
+             │       └─────┬─────┘
+             │             │
+             │             └─ 0..127 (0x00..0x7f) indicating either a 
+             │                  percent or number of elements to 
+             │                  increase/decrease when allocating
+             │ 
+             └─────────────── 0 = "Expansion is number of Elements"
+                              1 = "Expansion is percent"
+
+So, the allocSpec describes now to manage the allocation size of the
+Buffer in Memory, Disk, and across the Network.
+
+If allocSpec is zero -- regardless of '%' or not -- this indicates that
+the data in the buffer is "Fixed Length" instead of "Variable Length".
+
+  Note: This allocSpec definition is not intended to cover all cases
+        of variable length data that are likely to occur.  For example,
+        depending on the mutabe properties of the data, and the initial
+        population, and other concerns, the "increase" and "decrease"
+        specifications may need to be asymetric.
+        
+        If that is what you require as a developer, then don't use
+        the Buffer class.  It's as simple as that!
+
+The '%' Expansion needs a little clarification.  So, let's say, 
+allocSpec is set to '50%'.
+
+On the 'increase' side... this means that if the Buffer contains
+100 Elements/Bytes and a new Element is added, it needs to become
+150 Elements/Bytes.  No problem there.
+
+On the 'decrease' side it's a little bit trickier...  Let's say we
+increased from 100 to 101 elements with 49 free as described in the
+'increase' scenario, and increased all the way up to 150 Elements and
+back down to 101 Elements.  The Buffer should not need reallocating,
+should it?
+
+And, NO!  It doesn't change in size until it hits the old 100% mark...
+
+What '50%' means on the 'decrease' case is that if, on size decrease,
+bufElements is 150% of curElements, we can decrease to curElements.
+
+This might seem slightly odd but percentages just sort of behave
+that way, don't they?
+
+What we do NOT want is for it to stay at 150 elements until it
+decreases down to 75 (50% of 150) do we?  Because, if you then added
+another element to the 75, you'd have to increase it to 102 Elements.
+That's a losing scenario in the long run.  
+
+  Note: That's the kind of crap banks play with because people think
+        they understand what percentage means and haven't thought it
+        through.  So, as they do being money people, they make money
+        off of that fact.
+        
+        That's called "swindling" isn't it?  Well, we want no Byte
+        swindles in our classes!!!!
+
+Once again, note that we've called the entries in the buffer "Elements"
+not "Bytes".  This is because for a <Buffer8>, the elements are always
+one Byte long.
+
+We have done this because we have found that, on the whole, small
+variable length data is the most common.  It is generally used for
+things like Strings and short collections of Bytes.  
+
+Since the "small" things seem to be the most prevalent, we want them
+to take the least overhead per instance.  Therefore... <Buffer8> and
+Byte sized Elements!!!!
+
+But, before we elaborate more on Element sizes, let's take a quick look
+at the <Buffer16>, and <Buffer32> "flavours" of <Buffer>...
+
+                               ♦♦♦
+
+The following figures illustrate the header for the <Buffer8> (Byte) based
+Buffer Header...
+
+            ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt16 0: │1 0│bufElements                │ - Allocated Elements after Buffer Header
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+            ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt16 1: │0│0│curElements                │ - Current Elements used after Header
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+            ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt16 2: │%│ allocSpec   │ elmSize       | - Increment/decrement spec (see below) 
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+
+The following illustrates the <Buffer32> (UInt32 based) Buffer Header...
+ 
+            ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt32 0: │1│1│0│ bufElms                                                 │
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+            ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt32 1: │0│0│0│ curElms                                                 │
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+            ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  UInt32 2: │%│ allocSpec   │ elmSize                                       │
+            └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+
+The semantics of elmSize is a little bit counter-intuitive but keep an
+open mind at this point.
+
+  Note: The leading three bit combination '111' is reserved for future use,
+        as are any non-zero leading bits in Buffer32's curElms.  As such,
+        only '110' leading bits in bufElms and '000' leading bits in
+        curElms are valid for Buffer32.  Any other is flagged as an error by
+        the Buffer class.  We have done this to guard against the following...
+        
+        a) We don't want to invite the same old problem created and still
+        causing problems by Microsoft when they thought "who's going to need
+        more than 640K out of the 1MB of address space?"  Remember that one?
+        
+        b) We may use '111xxx' combinations when fully implementing 64-bit
+        versions of the buffer header and we want to make sure we haven't
+        designed our way out of the ability to do that.
+        
+                               ♦♦♦
+
+Now, back to the real subject of <Element> size, or elmSize...
+
+The intent is to cater for variable length lists of any data type.
+This includes, but is not limited to, instances of declared Classes,
+Structs, or whatever the "language of the day" happens to call them.
+
+In practice, these tend to require quite a few Bytes each so, designing
+the Header to specify number of Elements more sense because it allows
+larger "Elements" to take part in a Buffer and, at the same time, use
+a less expensive Header size (Buffer16 instead of Buffer32) to maintain
+them in whatever storage location they reside.
+
+So, the elmSize part of the Header indicates the size of the Elements
+in the Buffer.
+
+But, maybe surprisingly, the elmSize indicates the Element size
+in <Bits> not <Bytes>!!!!
+
+  Note: We had a hard think about this up front and decided that
+        the requirement for lots of "small" variable length <Bit>
+        lists were not common enough to make Strings, and Byte arrays
+        suffer.
+        
+        Clearly, if you need variable length <Arrays> of Bits, feel
+        free to write them, we'll just applaud from the sidelines.
+        
+This <Bits> not <Bytes> quirk allows us to specifically identify the
+size and extent of the data being held in the buffer, as well as being
+able handle Bit data along with Byte, Word, or whatever fixed length
+<Array Element> data you want.
+
+  Note: What this means is that, in actual practice and in the
+        BEFE framework itself, limitations or <Constraints> are
+        imposed on the abstract Element not the "physical" storage
+        data used to represent the Element.
+        
+        Furthermore, these limitations depend on the Element size
+        specifications and NOT how its storage is managed or 
+        implemented.
+
+So, let's take a look at the limits for each <Buffer> flavour assuming
+the Element size is one byte...
+
+  Buffer 8 - From 0..127 Bytes.  This means the entire memory block is,
+             at most, 130 Bytes long.
+             
+  Buffer16 - From 0..16383 Bytes.  This means the entire memory block
+             is, at most, one Element (in this case a Byte) short
+             of 16KB long.
+             
+  Buffer32 - From 0..536870911 Bytes.  This means the entire memory
+             block is, at most, 536870923 Bytes long, or one Byte
+             short of 512MB long -- a size unlikely to be handy having
+             hanging about in memory in a 32-bit operating system.
+             
+Of course, with Buffer16 and Buffer32, you can increase the elmSize to
+more than 8 bits and drastically increase the amount of Bytes in the
+same Buffer.
+ 
+  Note: Since elmSize of zero doesn't make any practical sense, we have
+        done a "slight of hand", if elmSize is zero we "wrap it around"
+        to mean 2**N, where N is 8 for Buffer16 and N is 24 for Buffer32.
+ 
+        This means that Buffer16 can describe variable length Arrays of
+        Elements of size 1..256 bits (1 to 32 bytes).
+        
+        And it means that Buffer32 can describe variable length Arrays
+        of Elements of size 1..16777216 bits (1 to 2MB).
+        
+What this means in practice, is that to store something like an MP3 file
+(let's say a high resolution 10MB file) in Memory will clearly use
+the <Buffer32> flavour of Buffer.  However, this means that out of 10MB,
+there's only 12 Bytes overhead.  Not really excessive in our minds!
+
+It also means that to store an entire DVD (which you WOULD NOT want to
+keep 'handy' in memory) of, say, 7GB you would need 14 to 16 <Buffer32>
+instances.  We figure that's not too much of a problem either.
+
+However, to manage TeraBytes of information on the fly (don't worry,
+that time's coming soon enough) you would need to make use of another
+form of Buffer.  But, we'll burn that bridge when we come to it!
+
+

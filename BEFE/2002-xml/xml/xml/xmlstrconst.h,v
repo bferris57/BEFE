@@ -1,0 +1,208 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.7
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.21.08.11.08;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.18.03.05.05;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.12.06.52.12;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.02.20.59.49;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlstrconst.h - Definitions for the XMLStrinConst class
+  
+  DESCRIPTION
+
+    The XMLStringConst class implements the XMLString class for const
+    character strings.
+  
+*/
+
+#ifndef _xmlstrconst_h
+#define _xmlstrconst_h
+
+#include "xmlstrbase.h"
+#include "ctype.h"
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLStringConst - XMLString implementation for 'const char *' values
+//
+// DESCRIPTION
+//
+//  This class implements an XMLString based on 'const char *' values.
+//
+//
+
+class XMLStringConst : public XMLStringHashed {
+  
+  //
+  // Public member functions
+  //
+
+public:
+  
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  XMLStringConst(const char *string = NULL);
+  virtual ~XMLStringConst();
+  // Get the value/len of the string
+  virtual XMLError Length(int *len);
+  // Substringing
+  virtual XMLError SubString(int offset, int len, XMLString **substring);
+  // Fragments
+  virtual int      DoesLock(void);
+  virtual XMLError LockFragment(int offset, byte **pointer, int *availlen);
+  virtual XMLError UnlockFragment(int offset);
+  // Changing contents
+  XMLError SetValue(const char *string);
+  
+  //
+  // Protected members
+  //
+protected:
+  int         m_length;
+  const char *m_string;
+};
+#endif // _xmlstrconst_h
+@
+
+
+1.6
+log
+@More work on HTML parser
+@
+text
+@a33 2
+  friend XMLStringConst;
+  
+d65 1
+a65 1
+#endif _xmlstrconst_h
+@
+
+
+1.5
+log
+@Renamed source files for string implementations
+@
+text
+@d18 1
+d47 1
+a47 1
+  XMLStringConst(const char *string);
+d57 3
+a59 1
+
+@
+
+
+1.4
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d5 1
+a5 1
+    xmlsconst.h - Definitions for the XMLStrinConst class
+d14 2
+a15 1
+#ifndef _xmlsconst_h
+a16 3
+#define _xmlsconst_h
+
+#include "xml.h"
+d64 1
+a64 1
+#endif _xmlsconst_h
+@
+
+
+1.3
+log
+@Implemented SubString() in all string classes
+@
+text
+@d19 1
+@
+
+
+1.2
+log
+@1) Added common class XMLStringHashed (saves rewriting Hash(), GetHash(), etc.)
+2) XMLIOStream to inherit from XMLStringHashed so we can treat the whole
+   stream as a single string.
+@
+text
+@d34 2
+d51 2
+@
+
+
+1.1
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d32 1
+a32 1
+class XMLStringConst : public XMLString {
+a52 4
+  // Hashing
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+a59 1
+  int         m_hash;
+@
+

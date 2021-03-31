@@ -1,0 +1,13 @@
+BEFE Software Home Page:  http://bferris.co.uk/befe
+BEFE Software Blog:       befe-software-library.blogspot.com
+BEFE Software (Twitter):  @BEFESoftware
+                          twitter.com/BEFESoftware
+BEFE Software (Facebook): facebook.com/BEFESoftware
+BEFE Email:               befe@bferris.co.uk
+
+BEFE-Introduction: https://docs.google.com/open?id=0BzyoDVXHBp_pMDYxMThjNGEtOWQ0Zi00NzU4LWIyZDUtOGM0MmMxNTdmNGVk
+
+BEFE-Grey Papers...
+  Types-Classes-Procedures: https://docs.google.com/open?id=0BzyoDVXHBp_pNTg4YzE2YjItMGMwMi00ZTU1LWEwNGQtNmYyZjg0ZWQ5Njhl
+  Lifecycle:                https://docs.google.com/open?id=0BzyoDVXHBp_pM2NmODk1MTAtNTA2Mi00ZWEyLTk2OGEtZDEyNmUzZTYzOWQ2
+  Class_String:             https://docs.google.com/open?id=0BzyoDVXHBp_pNWYzOTgxOGQtZmFlMy00MGVjLWFjMTYtNzk3OGQxY2RhMjQ1

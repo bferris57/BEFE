@@ -1,0 +1,82 @@
+#!Befe type=Type publish=metadata
+#-----------------------------------------------------------------------
+# File: Primitives.txt - Declarations of the BEFE Primitive Types
+#-----------------------------------------------------------------------
+#
+# A Primitive, as opposed to a Value, is a nasty but needed data type
+# that represents atomic values that are managed by Processors.
+#
+# As such, they don't normally have any BEFE Lifecycle methods and, as such,
+# are prone to indeterminate values on StartUp.
+#
+# However, this makes them MUCH easier to handle in Unions that are
+# not Discriminated Unions because they simply are sitting there, don't
+# know what type they are, and all that falderal.
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+
+# Empty declarations
+Type 'Prim[itive]'vi:
+Type 'U[nsigned]Prim[itive]'vi:
+Type 'S[igned]Prim[itive]'vi:
+Type 'Scalar'vi:
+
+#
+#
+
+Type '[U[nsigned]]Primitive'vi: superType = Primitive
+  
+  Boolean nullable:
+  Int     size:      // Fixed number of Bits
+  Int     value:
+  Number  nullvalue:
+  
+  Constraints +=
+    Expression SizeMandatory: size not Null
+    Expression NoRange:       range = Null
+    Expression NoSpan:        span  = Null	
+	
+Type 'S[igned]Primitive': SuperType = FixedArray
+
+  Boolean nullable
+  Struct  value: Members = (Bit sign, Bits mantissa)
+  Number  nullvalue;
+ 
+Type Bit:     SuperType = UPrimitive, size=1, nullable=false
+Type Bits:    SuperType = UPrimitive
+Type Boolean: SuperType = UPrimitive, size=8,  nullValue = 0xFF
+Type UInt8:   SuperType = UPrimitive, size=8,  nullValue = 0xFF
+Type UInt16:  SuperType = UPrimitive, size=16, nullValue = 0xFFFF
+Type UInt32:  SuperType = UPrimitive, size=32, nullValue = 0xFFFFFFFF
+Type UInt64:  SuperType = UPrimitive, size=64, nullValue = 0xFFFFFFFFFFFFFFFF
+Type SInt8:   SuperType = SPrimitive, value.mantissa.size=7,  nullValue = 0x80
+Type SInt16:  SuperType = SPrimitive, value.mantissa.size=15, nullValue = 0x8000
+Type SInt32:  SuperType = SPrimitive, value.mantissa.size=31, nullValue = 0x80000000
+Type SInt64:  SuperType = SPrimitive, value.mantissa.size=63, nullValue = 0x8000000000000000
+
+Type Byte:    SuperType = UInt8
+Type Short:   SuperType = SInt16
+Type UShort:  SuperType = UInt16
+Type Int:     SuperType = SInt32
+Type Long:    SuperType = SInt64
+Type ULong:   SuperType = UInt64
+
+Type Char: SuperType = Scalar
+
+  Bits[21] value
+  
+  Constraints.ValidValues += value in 0..0x10FFFF
+  Constraints.Values      += value not in 0xD800..0xDFFF
+
+  Type Span:  SuperType = Null
+  Int idx1
+  Int idx2
+
+Type Range:
+  Int idx1
+  Int idx2
+

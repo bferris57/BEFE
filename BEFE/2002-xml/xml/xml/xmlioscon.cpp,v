@@ -1,0 +1,659 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.4
+date	2002.10.24.08.42.47;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.18.03.05.05;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.06.08.45.31;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.06.07.42.05;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@Complete IO stats - We're reading 2 times what we should!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmlioscon.cpp - Implementation of the XMLIOStreamConsole class
+  DESCRIPTION
+    This file contains the implementation of a IO stream on console devices
+    (stdin, stdout, stderr).
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmlio.h"
+#include "xmlerrors.h"
+#include "xmlioscon.h"
+
+#include "string.h"
+#include "stdlib.h"
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamCon::XMLIOStreamCon  - Constructor
+//  XMLIOStreamCon::~XMLIOStreamCon - Destructor
+//
+
+XMLIOStreamCon::XMLIOStreamCon(XMLIOManager *manager) :
+  XMLIOStream(manager) 
+{
+  m_manager = manager;
+  m_file = NULL;
+  Close(); // Ignore error, it will reset our members
+}
+
+XMLIOStreamCon::~XMLIOStreamCon() {
+  // Close if it's open
+  if (IsOpen())
+    Close();
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamCon::CanRead       - "Can this driver read?"
+//  XMLIOStreamCon::CanWrite      - "Can this driver write?"
+//  XMLIOStreamCon::CanPosition   - "Can this driver do random stream positioning?"
+//  XMLIOStreamCon::CanRewind     - "Can this driver rewind to beginning?"
+//  XMLIOStreamCon::CanLockBuffer - "Can this driver lock buffers?" 
+//
+
+int XMLIOStreamCon::CanRead() {
+  return 1;
+}
+
+int XMLIOStreamCon::CanWrite() {
+  return 1;
+}
+
+int XMLIOStreamCon::CanPosition() {
+  return 0;
+}
+
+int XMLIOStreamCon::CanRewind() {
+  return 0;
+}
+
+int XMLIOStreamCon::CanLockBuffer() {
+  return 0;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamCon::IsOpen        - "Is this stream open?"
+//  XMLIOStreamCon::GetAccessMode - Return stream's open access mode
+//  XMLIOStreamCon::Open          - Open a file
+//  XMLIOStreamCon::Close         - Close an open file
+//  XMLIOStreamCon::Length        - Return current length of the stream
+//  XMLIOStreamCon::SubString     - Produce a substring of the stream (we can't!)
+//
+// NOTES
+//
+//  The url must be one of the following:
+//
+//    device://stdin
+//    device://stdout
+//    device://stderr
+//    device://null
+//
+//  
+
+int XMLIOStreamCon::IsOpen() {
+  if (m_isopen)
+    return 1;
+  return 0;
+}
+
+XMLIOManager::AccessMode XMLIOStreamCon::GetAccessMode(void) {
+  return m_access;
+}
+
+XMLError XMLIOStreamCon::Open(char *url, int urllen, XMLIOManager::AccessMode access) {
+ 
+  XMLError  result;
+  char     *openmode;
+  char      filename[1024];
+  FILE     *device;
+  int       canread;
+  int       canwrite;
+
+  // Sanity checks
+  if (url == NULL || urllen <= 0) goto BADPARAMETERS;
+  if (IsOpen()) goto ALREADYOPEN;
+
+  // Determine device to use (validate url)
+  if (urllen < 13 || urllen > sizeof(filename)-1) goto NOTFOUND;
+  strncpy(filename,url,urllen);
+  filename[urllen] = 0;
+  device = 0;
+  canread = 0;
+  canwrite = 0;
+  if      (stricmp(filename,"device://stdin") == 0) {
+    device = stdin;
+    canread = 1;
+  }
+  else if (stricmp(filename,"device://stdout") == 0) {
+    device = stdout;
+    canwrite = 1;
+  }
+  else if (stricmp(filename,"device://stderr") == 0) {
+    device == stderr;
+    canwrite = 1;
+  }
+  else if (stricmp(filename,"device://null") == 0) {
+    device = NULL;
+    canread = 1;
+    canwrite = 1;
+  }
+  if (!canread && !canwrite) goto NOTFOUND;
+  
+  // Validate open mode
+  switch (access) {
+  case XMLIOManager::ForRead:
+    if (!canread) goto NOREADING; 
+    break;
+  case XMLIOManager::ForWrite:
+    if (!canwrite) goto NOWRITING;
+    break;
+  case XMLIOManager::ForReadAndWrite:
+    if (!canread) goto NOREADING;
+    if (!canwrite) goto NOWRITING;
+    break;
+  default:
+    goto BADPARAMETERS;
+  }
+
+  // Save the open mode and device
+  m_access = access;
+  m_file   = device;
+  m_isopen = 1;
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ALREADYOPEN:
+  result = XMLErrorIOStreamAlreadyOpen;
+  goto DONE;
+NOTFOUND:
+  result = XMLErrorIOURLNotFound;
+  goto DONE;
+NOREADING:
+  result = XMLErrorIOReadAccessDenied;
+  goto DONE;
+NOWRITING:
+  result = XMLErrorIOWriteAccessDenied;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOStreamCon::Close(void) {
+
+  XMLError result;
+      
+  // If it wasn't open, let the caller know
+  if (!IsOpen())
+    result = XMLErrorIOStreamNotOpen;
+  
+  // Reset our member variables
+  m_access       = XMLIOManager::ForNeither;
+  m_isopen       = 0;
+  m_length       = 0;
+  m_file         = NULL;
+
+  goto DONE;
+    
+ERROR:
+  goto DONE;
+DONE:
+  return result;  
+}
+
+XMLError XMLIOStreamCon::Length(int *len) {
+
+  XMLError result;
+
+  // Sanity checks
+  if (len == NULL) goto BADPARAMETERS;
+  if (!IsOpen())   goto NOTOPEN;
+      
+  // Set the length
+  *len = m_length;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTOPEN:
+  result = XMLErrorIOStreamNotOpen;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result; 
+}
+
+XMLError XMLIOStreamCon::SubString(int offset, int len, XMLString **substring) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (offset < 0 || len < 0 || substring == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Tell caller we can't
+  return XMLErrorStringNotCapable;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamCon::Read     - Read bytes (readlen<request = "EOS", 0=EOS)
+//  XMLIOStreamCon::ReadSome - Read a convenient number of bytes (readlen<requst <> "EOS" 0=EOS)
+//
+// DESCRIPTION
+//
+//  These functions attempt to read N bytes from the device.
+//
+//  Read() will keep reading until maxbufl is exhausted OR end of stream
+//  encountered (keeps EOL in buffer)
+//
+//  ReadSome() will keep reading until maxbufl is exhausted OR it reaches
+//  the end of an IO buffer or end-of-line is encountered (EOL kept in the
+//  buffer.  Use this is the caller doesn't really expect bytesread < maxbufl
+//  to mean "End of Stream".
+//
+//  If you pass these functions a NULL buffer the data will still be read.
+//
+//  If you pass ReadSome() the address of an XMLIOBuffer pointer it will
+//  populate it with the buffer's address.
+
+XMLError XMLIOStreamCon::Read(byte *buf, int maxbufl, int *bytesread) {
+
+  XMLError result;
+  int      readcount;
+  
+  // Sanity checks
+  if (bytesread == NULL) goto BADPARAMETERS;
+    
+  // Try reading some until we've got what we want or EOS or error
+  *bytesread = 0;
+  while (maxbufl) {
+    result = ReadSome(buf,maxbufl,&readcount);
+    if (result) goto ERROR;
+    // Bail if none read
+    if (readcount == 0) break;
+    // Increment stuff
+    buf        += readcount;
+    maxbufl    -= readcount;
+    *bytesread += readcount;
+  }
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+  goto DONE;  
+DONE:
+  return result;  
+}
+
+XMLError XMLIOStreamCon::ReadSome(byte *buf, int maxbufl, int *bytesread, XMLIOBuffer **thebuf) {
+
+  XMLError     result;                              // Return result
+  int          readstat;                            // fgetc() status
+  
+  // Sanity checks
+  if (maxbufl < 0) goto BADPARAMETERS;
+  if (m_manager == NULL) goto NOTMANAGED;
+  if (!IsOpen()) goto NOTOPEN;
+  if (m_access != XMLIOManager::ForRead &&
+      m_access != XMLIOManager::ForReadAndWrite)
+    goto NOTREADING;
+  if (bytesread)
+    *bytesread = 0;
+    
+  // We don't buffer
+  if (thebuf)
+    *thebuf == NULL;
+      
+  // If we've got no file (i.e. device:://null) , let the caller know by returning 0 bytes
+  if (!m_file)
+    goto OK;
+  
+  // Until we run out of buffer or EOS or EOL encountered...
+  while (maxbufl) {
+    
+    // Read next character
+    readstat = fgetc(m_file);
+    if (readstat <= 0) goto ENDOFSTREAM;
+    
+    // Update stats
+    m_stats.bytesreadphysical++;
+    m_stats.bytesreadlogical++;
+    
+    // Move to the caller's buffer
+    *buf++ = (char)readstat;
+    maxbufl--;
+    // Increment read count
+    if (bytesread)
+      (*bytesread)++;
+    m_length++;
+    // If we've got EOL we're finished
+    if ((char)readstat == '\n')
+      break;
+  }
+
+  // Update stats
+  m_stats.physicalreads++;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;  
+SEEKERROR:
+  result = XMLErrorIOInternalFileError;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+NOTOPEN:
+  result = XMLErrorIOStreamNotOpen;
+  goto DONE;
+NOTREADING:
+  result = XMLErrorIOReadAccessDenied;
+  goto DONE;
+ENDOFSTREAM:
+  goto OK;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamCon::Write     - Write bytes
+//  XMLIOStreamCon::WriteSome - Write a convenient number of bytes
+//
+// DESCRIPTION
+//
+//  These functions attempt to write N bytes to the device.
+//
+//  Write() and WriteSome() will keep writing until maxbufl is exhausted.
+//
+
+XMLError XMLIOStreamCon::Write(byte *buf, int bufl) {
+
+  XMLError result;
+  int      writecount;
+  
+  result = WriteSome(buf,bufl,&writecount);
+  
+  return result;  
+}
+
+XMLError XMLIOStreamCon::WriteSome(byte *buf, int bufl, int *byteswritten) {
+
+  XMLError result;                                  // Return result
+  int      writestat;                               // Status from fwrite()
+  
+  // Sanity checks
+  if (buf == NULL || bufl < 0 || byteswritten == NULL) goto BADPARAMETERS;
+  if (m_manager == NULL) goto NOTMANAGED;
+  if (!IsOpen()) goto NOTOPEN;
+  if (m_access != XMLIOManager::ForWrite &&
+      m_access != XMLIOManager::ForReadAndWrite) goto NOTWRITING;
+  
+  // Initialise
+  *byteswritten = 0;
+  
+  // If we weren't asked to write anything or we're finished
+  if (bufl == 0) goto OK;
+
+  // Write it (if we've got anywhere to write it)
+  if (m_file) {
+    
+    // Write it
+    writestat = (int)fwrite((void *)buf,1,bufl,m_file);
+    if (writestat < 0) goto IOERROR;
+    
+    // Update stats
+    m_stats.physicalwrites++;
+    m_stats.byteswritephysical += writestat;
+    m_stats.byteswritelogical  += bufl;
+  }
+  else {
+  
+    // Don't really write
+    writestat = bufl;
+    
+    // Update stats
+    m_stats.byteswritelogical += bufl;
+  }
+
+  // Update length
+  m_length += writestat;
+        
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;  
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+NOTOPEN:
+  result = XMLErrorIOStreamNotOpen;
+  goto DONE;
+NOTWRITING:
+  result = XMLErrorIOWriteAccessDenied;
+  goto DONE;
+IOERROR:
+  result = XMLErrorIOError;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamCon::Seek   - Seek to an offset in the stream
+//  XMLIOStreamCon::Rewind - Rewind (seek(0))
+//  XMLIOStreamCon::Tell   - Return current offset in the stream
+//
+
+XMLError XMLIOStreamCon::Seek(int offset) {
+
+  if (offset < 0)
+    return XMLErrorInvalidParameters;
+  return XMLErrorIOOperationDenied;
+  
+}
+
+XMLError XMLIOStreamCon::Rewind(void) {
+
+  return XMLErrorIOOperationDenied;
+  
+}
+
+XMLError XMLIOStreamCon::Tell(int *offset) {
+
+  XMLError result;
+  
+  if (offset == NULL) goto BADPARAMETERS;  
+  if (!IsOpen()) goto NOTOPEN;
+  *offset = m_length;
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTOPEN:
+  result = XMLErrorIOStreamNotOpen;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamCon::FlushBuffer - Flush contents of an IO buffer to disk
+//
+// NOTES
+//
+//  This function is called internally when an IO buffer is dirty and it's
+//  time to flush it.
+//
+//  If it's ever called for an XMLIOStreamCon, something's gone wrong.
+//
+
+XMLError XMLIOStreamCon::FlushBuffer(XMLIOBuffer *iobuf) {
+  if (iobuf == NULL)
+    return XMLErrorInvalidParameters;
+  return XMLErrorIOInternalFileError;
+}
+
+@
+
+
+1.3
+log
+@Implemented SubString() in all string classes
+@
+text
+@d80 6
+a85 5
+//  XMLIOStreamCon::IsOpen - "Is this stream open?"
+//  XMLIOStreamCon::Open   - Open a file
+//  XMLIOStreamCon::Close  - Close an open file
+//  XMLIOStreamCon::Length - Return current length of the stream
+//  XMLIOStreamCon::SubString - Produce a substring of the stream (we can't!)
+d104 4
+d201 1
+a201 1
+  m_access       = (XMLIOManager::AccessMode)-1;
+d336 2
+d340 5
+d356 4
+a359 1
+    
+d435 2
+d439 5
+d445 3
+a447 1
+  else
+d449 4
+@
+
+
+1.2
+log
+@XMLIOStreamCon tested OK and various tweaks to test harness
+@
+text
+@d84 1
+d233 12
+@
+
+
+1.1
+log
+@Added XMLIOStreamCon class for console I/O
+@
+text
+@d33 1
+d116 1
+a116 1
+  if (urllen > 13) goto BADPARAMETERS;
+d122 1
+a122 1
+  if (stricmp(filename,"device:://stdin") == 0) {
+d124 1
+a124 1
+    canwrite = 1;
+d126 1
+a126 1
+  else if (stricmp(filename,"device:://stdout") == 0) {
+d130 1
+a130 1
+  else if (stricmp(filename,"device:://stderr") == 0) {
+d134 1
+a134 1
+  else if (stricmp(filename,"device:://null") == 0) {
+d319 1
+a319 1
+    if (readstat < 0) goto ENDOFSTREAM;
+d350 1
+a350 1
+  goto DONE;
+@
+

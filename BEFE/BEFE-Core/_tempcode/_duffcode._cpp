@@ -1,0 +1,288 @@
+//----------------------------------------------------------------------
+//
+// File: duffcode.cpp - Safe storage place for code I don't keep for
+//                      future reference but don't want to get in the
+//                      way for now.
+//
+// Simply comment out any non-compilable code.
+//
+
+#include "BEFE.h"
+
+#include <stdio.h> // TEMP: For printf (this will be going soon)
+
+//
+// Proper way to implement constructors, copy constructors,
+// operator =, operator +, etc.
+//
+
+namespace BEF_NS {
+
+class T {
+public:
+  char *buf;
+  T();
+  ~T();
+  T(T const &that);
+  T &operator=(T const &that);
+  T &operator+=(T const &that);
+  const T operator+(T const &that) const;
+};
+
+T::T() {
+  printf("Constructor:      this = 0x%08x\n",this);
+  buf = (char *)MemoryAllocRaw(128);
+  Strcpy(buf,"Hi");
+}
+
+T::~T() {
+  printf("Destructor:       this = 0x%08x\n",this);
+  MemoryFreeRaw((Byte *)buf);
+}
+
+T::T(T const &that) {
+  printf("Constructor Copy: this = 0x%08x, that = 0x%08x\n",this,&that);
+  buf = (char *)MemoryAllocRaw(256);
+  Strcpy(buf,that.buf);
+}
+
+T &T::operator=(T const &that) {
+  printf("Operator =:       this = 0x%08x, that = 0x%08x\n",this,&that);
+  if (this != &that) {
+    MemoryFreeRaw((Byte *)buf);
+    buf = (char *)MemoryAllocRaw(256);
+    Strcpy(buf,that.buf);
+    Cout << "  (this != that)\n";
+  }
+  return *this;
+}
+
+T &T::operator+=(T const &that) {
+  printf("Operator +=:      this = 0x%08x, that = 0x%08x\n",this,&that);
+  Strcat(buf,that.buf);
+  printf("                  (returning 0x%08x)\n",this);
+}
+
+const T T::operator+(T const &that) const {
+  T local = *this;
+  printf("Operator +:       this = 0x%08x, that = 0x%08x\n",this,&that);
+  local += that;
+  return local;
+}
+
+}; // Namespace BEF_NS
+
+
+//----------------------------------------------------------------------
+//
+// C O D E   K N I C K E D   F R O M   M I C R O S O F T
+//
+// E X A M P L E S
+//
+// These were knicked from here:
+//
+//   http://msdn.microsoft.com/en-us/library/ms724256%28v=VS.85%29.aspx
+//
+// I then changed their code to fit into my way of thinking and recoded
+// it above.
+//
+//----------------------------------------------------------------------
+
+/*
+#include <windows.h>
+
+#define _tprintf(a,b,c)
+
+#define MAX_KEY_LENGTH 255
+#define MAX_VALUE_NAME 16383
+
+void QueryKey(HKEY hKey)
+{
+    TCHAR    achKey[MAX_KEY_LENGTH];   // buffer for subkey name
+    DWORD    cbName;                   // size of name string
+    TCHAR    achClass[MAX_PATH] = TEXT("");  // buffer for class name
+    DWORD    cchClassName = MAX_PATH;  // size of class string
+    DWORD    cSubKeys=0;               // number of subkeys
+    DWORD    cbMaxSubKey;              // longest subkey size
+    DWORD    cchMaxClass;              // longest class string
+    DWORD    cValues;              // number of values for key
+    DWORD    cchMaxValue;          // longest value name
+    DWORD    cbMaxValueData;       // longest value data
+    DWORD    cbSecurityDescriptor; // size of security descriptor
+    FILETIME ftLastWriteTime;      // last write time
+
+    DWORD i, retCode;
+
+    TCHAR  achValue[MAX_VALUE_NAME];
+    DWORD cchValue = MAX_VALUE_NAME;
+
+    // Get the class name and the value count.
+    retCode = RegQueryInfoKey(
+        hKey,                    // key handle
+        achClass,                // buffer for class name
+        &cchClassName,           // size of class string
+        NULL,                    // reserved
+        &cSubKeys,               // number of subkeys
+        &cbMaxSubKey,            // longest subkey size
+        &cchMaxClass,            // longest class string
+        &cValues,                // number of values for this key
+        &cchMaxValue,            // longest value name
+        &cbMaxValueData,         // longest value data
+        &cbSecurityDescriptor,   // security descriptor
+        &ftLastWriteTime);       // last write time
+
+    // Enumerate the subkeys, until RegEnumKeyEx fails.
+
+    if (cSubKeys)
+    {
+        printf( "\nNumber of subkeys: %d\n", cSubKeys);
+
+        for (i=0; i<cSubKeys; i++)
+        {
+            cbName = MAX_KEY_LENGTH;
+            retCode = RegEnumKeyEx(hKey, i,
+                     achKey,
+                     &cbName,
+                     NULL,
+                     NULL,
+                     NULL,
+                     &ftLastWriteTime);
+            if (retCode == ERROR_SUCCESS)
+            {
+                _tprintf(TEXT("(%d) %s\n"), i+1, achKey);
+            }
+        }
+    }
+
+    // Enumerate the key values.
+
+    if (cValues)
+    {
+        printf( "\nNumber of values: %d\n", cValues);
+
+        for (i=0, retCode=ERROR_SUCCESS; i<cValues; i++)
+        {
+            cchValue = MAX_VALUE_NAME;
+            achValue[0] = '\0';
+            retCode = RegEnumValue(hKey, i,
+                achValue,
+                &cchValue,
+                NULL,
+                NULL,
+                NULL,
+                NULL);
+
+            if (retCode == ERROR_SUCCESS )
+            {
+                _tprintf(TEXT("(%d) %s\n"), i+1, achValue);
+            }
+        }
+    }
+}
+
+void __cdecl _tmain(void)
+{
+   HKEY hTestKey;
+
+   if( RegOpenKeyEx( HKEY_CURRENT_USER,
+        TEXT("SOFTWARE\\Microsoft"),
+        0,
+        KEY_READ,
+        &hTestKey) == ERROR_SUCCESS
+      )
+   {
+      QueryKey(hTestKey);
+   }
+
+   RegCloseKey(hTestKey);
+}
+*/
+
+//---------------------------------------
+// Need this for a while...
+//---------------------------------------
+
+#include "File.h"
+#include "FileLines.h"
+#include "Slice.h"
+#include "Bytes.h"
+
+int _trythis()
+{
+
+  const char *txtname = "d:/cloud/dropbox/svn/bferris/befe/Thoughts.txt";
+  FileLines   lines;
+  File        file;
+  Status      result;
+  String      location;
+  String      filename;
+  Boolean     assert;
+
+  result = file.SetFullName(txtname);
+  if (result) {
+    Cout << "Error " << (void *)result << " from File.SetFullName\n";
+    return result;
+  }
+  location = file.GetPath();
+  filename = file.GetFileName();
+  Cout << "Location: '" << location << "'\n";
+  Cout << "Name:     '" << filename << "'\n";
+
+  assert = file.Exists();
+  if (assert)
+    Cout << "...File Exists\n";
+  else {
+    Cout << "...File doesn't exist!!!\n";
+    return Error::Failed;
+  }
+
+  //result = lines.Load(txtname);
+  //if (result) {
+  //  Cout << "Error " << (void *)result << " from FileLines.Load\n";
+  //  return result;
+  //}
+
+}
+
+Boolean Win32OperatingSystem::Exists(String &fileordirname) {
+
+  Boolean   answer;
+  Status    result;
+  String    tname;
+
+  // Doesn't exist if it doesn't have a name
+  if (fileordirname.Length() == 0) goto NOPE;
+
+  // Ask the Win32File...
+  file.SetName(fileordirname);
+  result = file.Open();
+  file.Close();
+  if (!result) goto YEP;
+
+  // It doesn't like it, append a '\' if not already there, and try again...
+  tname = fileordirname;
+  if (tname.Get(-1) == '\\') goto NOPE;
+  //tname.Append('\\');
+  tname += '\\';
+
+  // Ask the Win32File again...
+  file.SetName(tname);
+  result = file.Open();
+  file.Close();
+  if (!result) goto YEP;
+
+  goto NOPE;
+
+NOPE:
+  answer = false;
+  goto DONE;
+YEP:
+  answer = true;
+  goto DONE;
+
+DONE:
+
+  return answer;
+
+}
+

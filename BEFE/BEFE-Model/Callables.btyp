@@ -1,0 +1,43 @@
+#!Befe type=Type publish=metadata
+#-----------------------------------------------------------------------
+# File: Callables.txt - Declarations of the BEFE Callable Types
+#-----------------------------------------------------------------------
+#
+# A Callable Type represents, as you might expect, something that can
+# be called, has a CallingSequence, and certain well behaved other things
+# said about it.
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+
+# NOTE: This isn't really a Callable but we've stuck it here for now
+#       while we're thinking.
+Struct Type:
+  Id          id
+  UUID        uuid
+  String      name
+  String      varTerm;
+  Sequence    attributes
+  Sequence    operations
+  Constraints constraints
+  TypeRef     'Super[Type]'
+
+#
+# Callables
+#
+
+Type Callable
+Type Function
+Type Procedure
+Type Method
+Type Operation
+Type Operator
+
+#
+# Calling Sequences
+#
+
+Type CallingSequence

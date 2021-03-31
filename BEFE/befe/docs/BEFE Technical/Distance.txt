@@ -1,0 +1,93 @@
+﻿Header...
+Distance, Length, Direction, Addresses, and Size
+...Header
+
+Defines...
+<Distance>
+<Length>
+<Direction>
+<Address>
+<Size>
+...Defines
+
+When software developers sit down, roll up their sleeves, and start coding, they tend
+think in a manner drummed into them from their first days in computing.
+
+That is the idea that information takes up <Space>.  Prime examples of this are the notions
+of "Disk Space" and "Memory Space".  In fact, programming languages like C/C++ have an
+inbuilt "sizeof()" operator.  There you have it from an official expert, right?
+
+Now, to be fair, we should give them a break for thinking that because they're so used to
+living in a one dimenional, sequential, and contiguous world.  Such was given to them
+and you have to give them credit for fabulous creations in this one dimension.
+
+Fair enough, but this one dimensional approach and viewpoint leads to subtle slip ups.
+
+Let's take an example...  If you ask most people the question "How big is that file?" and 
+they'll ask the operating system which will give them a "size" in bytes.  It would do,
+because it was written by software developers.
+
+Now, let's step back into the "real" world of three dimensions for a bit and if we rephrase
+that question "Okay, I've got two number, the numbers three and five.  How much space
+does that take?"
+
+A typical response would be "What do you mean?  How much space DOES a number take?".
+You would be completely justified in snapping back...
+
+  "Well, they both fit in a byte so there's two bytes.  How much space does that take?
+   I mean, how BIG is a BYTE?  I don't mean how LONG are then, how BIG are they?"
+
+It all starts crumbling apart here.  A programer could retort "How BIG?  Well it's eight
+BITS BIG!"  Then, you ask the same question about a BIT and fists start flying.
+
+Most programmers have no problem dealing visually with two or three dimensions, but when it
+comes to the one dimension they deal with on a daily basis, the concepts of <Length> and
+<Size> get melded together with <Distance>, <Direction>, and <Address>.
+
+This is where the slip ups start occurring.  Programmers subtract and add lengths to <addresses>
+and subtract one <Address> from another and end up with a <Direction>,<Distance> pair, with the
+"sign" of the result indicating <Direction>.  They do this all the time.  They're typically
+on their guard to check for this negative <Direction> because sometimes it comes in handy,
+and others it can hurt you.  So, they typically check.
+
+Most often by they check this either the "the laborious way" of writing an "IF statement", or
+the "slick and cool way" of using the absolute value function.  Either way is getting around
+a problem they most likely haven't considered...
+
+The subraction of two addresses is giving you a delta X (ΔX) in one dimensional space if you 
+consider and <Address> to be a coordinate in one dimensional space.
+
+Why am I pointing this out?  Because that's really what the programmer's are doing but they
+seem to miss that fact.  Why do they miss it?  Because...
+
+Think about two dimensional space, how do you find out how "far" apart two things are?
+You take the square root of (ΔX*ΔX + ΔY*ΔY).  So, surely, in one dimensional space you're doing
+the same thing?
+
+No, they don't do that, they just subtract them instead of going through all that work.
+But, in one dimensional space it's definitely not worth the overhead of taking a square root
+when you can just subtract and deal with the negative case.
+
+What they're doing is using two spatial coordinates X1 and X2, and subtracting them, giving
+them ΔX. This is <Direction> and <Length>, but it is NOT a <Length>.  Ever heard of a negative
+<Length>?  Neither have I.
+
+In one dimensional space <Distance> is so closely related to <Direction> and <Length> that the subtle
+difference between the two is missed for a good cause... efficiency's sake.
+
+In one dimensional space, <Direction> turns into the simple case of a sign change.  I mean, where else
+can you go in one dimension, and which other direction than "the other way"?  This makes it easier to
+deal with than the higher dimensions.
+
+If programmers, instead of thinking one dimensionally like they're used to, started running
+a sanity check on their work by projecting it into at least two dimensions they would end up with...
+
+  o <Address> is a coordinate
+  o A <Byte> is infinitely small, sitting at an <Address>
+  o A <Byte> have a number as a value
+  o A <Byte> can also be thought of as the <Bit> digits in the number 
+
+If they did this then they might look at their work in a slightly different light and catch some
+of the mistakes they're used to making.
+
+I might even expand their minds a bit.  Who knows?

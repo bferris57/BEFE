@@ -1,0 +1,444 @@
+head	1.8;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.8
+date	2002.11.02.17.30.17;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.11.01.06.04.12;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.31.06.03.13;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.30.06.18.11;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.27.11.10.13;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.26.09.02.44;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.26.06.28.35;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.8
+log
+@Read compiled works, need to figure out why it's slower than text!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlcsrcompile.h - Definitions for the XML compile load/save cursors
+  
+  DESCRIPTION
+    
+    This file contains the definitions for two cursors:
+    
+      XMLCursorCompileWrite - Write compiled XML to a stream
+      XMLCursorCompileRead  - Read compiled XML from a stream
+
+    These cursors Walk() function either write or read an entire
+    XML document in 'compiled' or 'compressed' format.
+    
+    They take advantage of the fact that most of an XML document is
+    it's structure NOT the text values in it.
+    
+*/
+
+#ifndef _xmlcsrcompile_h
+
+#define _xmlcsrcompile_h
+
+#include "xml.h"
+#include "xmlcsrbase.h"
+#include "xmlstrbase.h"
+#include "xmlbitmap.h"
+
+//
+// Operation tags
+//
+// These tags are used to indicate the type of data that follows
+// them.
+//
+// Text or operations may be encountered anywhere in the
+// document.  When encountered, they indicate the following text
+// contains the contents of a new token. 
+//
+// The tokens are numbered 1..n.  Token 0 represents a NULL,
+// missing, or not applicable value.
+//
+// The following table gives an overview of the expected contents
+// of a compile XML file...
+//
+//   opDocument: opDocument 0 contents opDocument 1
+//   opPCDATA:   opPCDATA 0   value [value...] opPCDATA 1
+//   opSimple:   opSimple 0   type [attr value ...] opSimple 1
+//   opComplex:  opComplex 0  type [attr value...] opContents ... opComplex 1
+//   opDTD:      opDTD        value
+//   opCDATA:    opCDATA      value
+//   opComment:  opComment    value
+//   opPI:       opPI         type value
+//   opEntity:   opEntity    
+//   opVersion:  opVersion
+//   opToken0:   opToken0
+//   opToken1:   opToken1     tokno
+//   opToken2:   opToken2     tokno tokno
+//   opToken3:   opToken3     tokno tokno tokno
+//   opToken4:   opToken4     tokno tokno tokno tokno
+//   opText0:    opText0      text
+//   opText1:    opText1      txtlen text
+//   opText2:    opText2      txtlen txtlen text
+//   opText3:    opText3      txtlen txtlen txtlen text
+//   opText4:    opText4      txtlen txtlen txtlen txtlen text
+//
+//   Where: context - Any set of valid operations
+//          type    - Token representing an element type
+//          value   - Token representing a value (followed by text if 1st use of token)
+//          name    - Token representing an attribute name
+//          tokno   - Single byte of token (bigendian)
+//          txtlen  - Single byte of text length (bigendian)
+//          text    - 0 or more text bytes
+//
+
+typedef enum {
+  //                     ++----- 00 = opDocument..opVersion
+  //                     ||      01 = opToken0..opToken4
+  //                     ||      1x  = OpText..opText4
+  //                     ||
+  //                     vv
+   opDocument = 0x00  // 0000000x - Document start/end
+  ,opPCDATA   = 0x02  // 0000001x - PCData start/end
+  ,opSimple   = 0x04  // 0000010x - Simple start/end   
+  ,opComplex  = 0x06  // 0000011x - Complex start/end
+  ,opContents = 0x08  // 00001000 - Begin complex contents
+  ,opDTD      = 0x09  // 00001001 - DTD, next token = DTD value
+  ,opCDATA    = 0x0a  // 00001010 - CDATA, next token = CDATA value
+  ,opComment  = 0x0b  // 00001011 - Comment, next token = Comment value
+  ,opPI       = 0x0c  // 00001100 - PI, next token = PI value
+  ,opEntity   = 0x0d  // 00001101 - Next token is an entity
+  ,opUnk0E    = 0x0e  // 0000111x - Unused
+  ,opUnk10    = 0x10  // 0001xxxx - Unused
+  ,opVersion  = 0x20  // 001xxxxx - Compiler version (0..31)
+  ,opToken0   = 0x40  // 01xxxxxx - Token 0..59
+  ,opToken1   = 0x7c  // 01111100 - Token number 1 byte  follows 
+  ,opToken2   = 0x7d  // 01111101 - Token number 2 bytes follow  
+  ,opToken3   = 0x7e  // 01111110 - Token number 3 bytes follow  
+  ,opToken4   = 0x7f  // 01111111 - Token number 4 bytes follow  
+  ,opText0    = 0x80  // 1xxxxxxx - Text length 0..123
+  ,opText1    = 0xfc  // 11111100 - Text length 1 bytes follows 
+  ,opText2    = 0xfd  // 11111101 - Text length 2 bytes follow  
+  ,opText3    = 0xfe  // 11111110 - Text length 3 bytes follow  
+  ,opText4    = 0xff  // 11111111 - Text length 4 bytes follow
+  
+} Operation;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLCursorCompileReader - Read an XML document in 'compiled' format
+//
+// DESCRIPTION
+//
+//  This class builds an in-memory XML document from compiled XML
+//  one step at a time.
+//
+// NOTES
+//
+
+class XMLCursorCompileReader : public XMLCursorReader {
+
+  //
+  // Public member functions
+  //
+public:
+
+  // Constructors/destructors
+  XMLCursorCompileReader(XMLDocumentBase *doc, XMLString *input);
+  virtual ~XMLCursorCompileReader();
+  
+  // Positioning
+  virtual XMLError Top(void);
+  virtual XMLError Down(void);
+  virtual XMLError Up(void);
+  virtual XMLError Next(void);
+  
+  // Walking
+  virtual XMLError Walk(void);
+
+  //
+  // Protected member functions
+  //
+protected:
+
+  // Reading
+  virtual XMLError ReadByte(byte *thebyte, int peekonly = 0);
+  virtual XMLError ReadOp(int *theop, int peekonly = 0);
+  virtual XMLError ReadToken(void);
+
+  // Handle current operation
+  XMLError ProcessOperation(void);
+   
+  //
+  // Protected members
+  //
+protected:
+
+  // Input string and locked fragment
+  byte           *m_frag;         // Current locked fragment (NULL=Not locked)
+  int             m_fragoff;      // Current offset into string
+  int             m_fraglen;      // Remaining Length of locked fragment
+  
+  // Current position in string
+  int             m_stringoff;    // Offset into string of fragment
+  int             m_stringlen;    // Full length of string
+  
+  // Parsing state
+  typedef enum {
+    State_Begin,                   // Waiting for version/begindoc
+    State_Normal,                  // Normal state - Waiting for operation
+    State_MAX                      // Highest state
+  } State;
+  State       m_state;             // Parsing state  
+  
+  // Flags
+  unsigned        m_createdown:1;  // 1 = "Create next element below us"
+  
+  // Current token table (reflects original token IDs)
+  XMLStringTable *m_tokens;
+  
+  // Current text string we're processing (waiting for the token number to come along)
+  XMLString      *m_text;         // The text string
+
+  // Current operation
+  int             m_op;           // Current operation
+  int             m_token;        // Current token (if m_op == opToken0)
+  int             m_isentity;     // "Is current token entity?" (if m_op == opToken0)
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLCursorCompileWriter - Write an XML document in 'compiled' format
+//
+// DESCRIPTION
+//
+//  This class compesses an XML document and writes it to an XMLString.
+//
+//  It can be used as a normal cursor, positioning, etc. Once positioned
+//  to the point where you want to start writing, call Write() and the
+//  element's entire contents will be written to the string.
+//
+//  There's a special case for when not positioned anywhere... The entire
+//  document is written.
+//
+// NOTES
+//
+//  The tokens referenced in the output created by Write() are
+//  completely arbitrairy.  So, when reading compiled output they
+//  have to be mapped to tokens in the document being modified/created.
+//
+
+class XMLCursorCompileWriter : public XMLCursorWriter {
+
+  //
+  // Public member functions
+  //
+public:
+
+  // Constructors/destructors
+  XMLCursorCompileWriter(XMLDocumentBase *doc, XMLString *output);
+  virtual ~XMLCursorCompileWriter();
+  
+  // Write - Write element's contents to the string
+  XMLError Write(void);
+  
+  //
+  // Protected member functions
+  //
+protected:
+
+  // Emitting (writing)
+  XMLError EmitOperation(int op);
+  XMLError EmitToken(XMLToken token);
+  XMLError EmitMulti(int op, int length);
+  
+  //
+  // Protected members
+  //
+protected:
+
+  // Writing context - only used during Walk()
+  XMLStringBase *m_visitedstring; // String used for the visited bitmap
+  XMLBitMap     *m_visited;       // "We've visited this token" bitmap
+}; 
+
+#endif // _xmlcsrcompile_h
+@
+
+
+1.7
+log
+@Finished compile reader, ready to test
+@
+text
+@d71 1
+a71 1
+//          value   - Token representing a value
+d87 1
+a87 1
+  ,opComplex  = 0x06  // 0000011x - Complete start/end
+@
+
+
+1.6
+log
+@More work on compile reader
+@
+text
+@d56 2
+d93 1
+a93 1
+  ,opUnk0D    = 0x0d  // 00001101 - Unused
+d150 7
+a156 4
+  virtual XMLError ReadByte(byte *thebyte);
+  virtual XMLError ReadOp(int *theop);
+  virtual XMLError ReadToken(XMLToken *thetoken);
+  
+d173 1
+a174 2
+    State_InElement,               // In an element def <...>
+    State_InPI,                    // In a processing instruction def <?...?>
+a184 5
+  // Current multi-byte op we're building
+  int             m_multiop;       // The operation (without data bits)
+  int             m_multival;      // The value 
+  int             m_multirem;      // Remaining bytes
+  
+d187 5
+a191 3
+  
+  // Current tokens (1 or 2)
+  int             m_numtok;  
+@
+
+
+1.5
+log
+@Started on compile reader
+@
+text
+@d147 5
+@
+
+
+1.4
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@d112 80
+@
+
+
+1.3
+log
+@Compiled XML writer almost working
+@
+text
+@d112 1
+a112 1
+//  XMLCursorCompileWrite - Write an XML document in 'compiled' format
+d132 1
+a132 1
+class XMLCursorCompileWrite : public XMLCursorBase {
+d140 2
+a141 2
+  XMLCursorCompileWrite(XMLDocumentBase *doc, XMLString *output);
+  virtual ~XMLCursorCompileWrite();
+a159 3
+
+  // Output string
+  XMLString *m_string;      // Output string (we only Append())
+@
+
+
+1.2
+log
+@XMLCursorCompileWrite written, ready to test
+@
+text
+@d127 3
+a129 8
+//  The Write() function treats the node it was at on entry as an
+//  entirely self-contained document.  The tokens referenced in the
+//  compiled output are self-contained (e.g. they start at token 1
+//  regardless of what they were in the original document.)
+//
+//  This allows us to manage self-contained compiled XML fragments but
+//  means, when being read, they have to be remapped to the destination
+//  document's tokens.
+d162 1
+a162 1
+  XMLStringBase *m_string;      // Output string (we only Append())
+d165 2
+a166 4
+  int            m_dochightoken; // Highest token in the document
+  int            m_usedtokens;   // Highest new token so far
+  XMLToken      *m_tokenmap;     // Map (by index) of old -> new tokens
+
+@
+
+
+1.1
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d159 1
+d167 1
+a167 1
+  XMLStringBase *m_string;        // Output string (we only Append())
+d170 3
+a172 5
+  XMLStringBase *m_visitedstring; // String for this bitmap...
+  XMLBitMap     *m_visited;       // Tokens we've visited already
+  int            m_usedtokens;    // Total number of used tokens in the document
+  int            m_highnewtoken;  // Highest new token so far
+  int           *m_tokenmap;      // Map (by index) of old -> new tokens
+@
+

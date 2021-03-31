@@ -1,0 +1,80 @@
+#include "BEFE.h"
+#include "ToStrings.h"
+#include "FileStream.h"
+
+namespace BEF_NS {
+
+class MyClass {
+
+  public: String ourName;
+
+  public: MyClass() {
+            ourName = "***Anonymous***";
+          }
+
+  public: MyClass(char const *name) {
+            ourName = name;
+            Cout << "'" << ourName << "' Constructor\n";
+          }
+
+  public: MyClass(MyClass const &that) {
+           Cout << "'" << that.ourName << "' Copy constructor\n";
+           ourName = "Copy of ";
+           ourName += that.ourName;
+          }
+
+  public: ~MyClass() {
+            Cout << "'" << ourName << "' Destructor\n";
+          }
+
+  public: MyClass &operator=(MyClass const &that) {
+            if (this != &that) {
+              Cout << "'" << ourName << "' = '" << that.ourName << "'\n";
+              //if (this != &that) {
+              //  ourName = "Equals of ";
+              //  ourName += that.ourName;
+              //}
+            }
+            return *this;
+          }
+
+  public: MyClass operator+(MyClass const &that) const {
+            MyClass temp("temp");
+            Cout << "'" << ourName << "' + '" << that.ourName << "'\n";
+            //temp = that;
+            //temp.ourName += " + ";
+            //temp.ourName += that.ourName;
+            return temp;
+          }
+
+};
+
+//----------------------------------------------------------------------
+//
+// Function: trythis - Our "trythis" main function
+//
+
+Status trythis() {
+
+  Long l;
+  Number num;
+  
+  /*
+  MyClass a("A");
+  MyClass b("B");
+  MyClass c("C");
+  a = b + c;
+
+  l = NaN64;
+  Cout << "*** l memory ***\n";
+  DisplayMemory((Byte *)&l,8,0);
+  Cout << "****************\n";
+  */
+  
+  Cout << "sizeof(Number) = " << sizeof(num) << '\n';  
+  
+  return Error::None;
+
+}
+
+}; // Namespace BEF_NS

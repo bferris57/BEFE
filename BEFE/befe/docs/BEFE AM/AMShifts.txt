@@ -1,0 +1,103 @@
+Header...
+BEFE Abstract Machine - Shift Instructions
+...Header
+
+Defines...
+<AM Shift Instructions>
+...Defines
+
+References...
+<Abstract Machine>
+<Registers>
+...References
+
+-----------------------------------------------------------------------
+
+The BEFE <Abstract Machine> (AM) implements an unorthodox set of
+shift instructions.
+
+The following is a summary of the C and C++ primitive shift operators...
+
+  o          <<  - Logical shift left  N bits, zero fill
+  o Signed   >>  - Signed  shift right N bits, sign fill
+  o Unsigned >>  - Logical shift right N bits, zero fill
+
+The following is a summary of the Java primitive shift operators...
+
+  o Integer  <<  - Logical shift left  N bits, zero fill
+  o Integer  <<  - Signed  shift right N bits, sign fill
+  o Unsigned >>> - Logical shift right N bits, zero fill
+
+So, the main difference between C/C++ and Java is the fact that the
+meaning of the operation is covered by syntactic difference so they
+are presented slightly the same and slightly different.
+
+But, what they have in common is...
+
+  o The size, in bits, of the "value container" is known at compile time
+  o The size, in bits, of the "container value" is limited to 8, 16, 32, and 64
+  o The number of bits to shift may be a runtime dependent value
+  
+So, they missed out some extremely useful bit shifting concepts and
+seem to have had no problems sleeping at night even though they
+knew full well they were lumbering you, the software developer, with
+the task of having to code around their lack of forsight and
+cloistered imaginations.
+
+Some people!!!
+
+First off, where the bloody hell is "circular shift"?
+
+Secondly, what about "1's fill"?  Why does '0' get all the praise
+and respect while poor little '1' is left out in the cold unless it's
+the sainted sign bit?
+
+Not just that, who says that you always want the value to be
+represented in two's complement form?  What about poor little lonely
+and often neglected "one's complement"?  There's plenty of nice
+things one can do with that, but NO, we're lumbered with their
+cumbersome restrictions.
+
+Along those same lines, there's the assumption that you would only
+want your binary value stored in consecutive bits.  Why?  There's
+plenty you can accomplish counting with "scattered bits".  We here
+at BEFE know that for a fact because we do some cool stuff with them.
+
+Or maybe you want the "sign bit" stored separately.  Or, maybe you
+need to represent it as something other than a single bit, maybe
+something like the '+' character instead AND somewhere else?
+
+And on top of all this everything has to be known at compile time 
+except for how many bits to shift.
+
+We're sorry but we consider that overly restrictive AND presumptuous
+at the same time.
+
+So, what we've done is to loosen some of those restrictions in the BEFE
+<Abstract Machine> and have implemented our "shift specifications" in
+a more, but still restricted, form...
+
+                                 •••
+
+The BEFE Abstract Machine represents shift operation specifications in
+the following basic forms...
+
+  ┌─┬─┬─┬─┬─┬─┬─┬─┐ ┌─┬─┬─┬─┬─┬─┬─┬─┐ ┌─┬─┬─┬─┬─┬─┬─┬─┐ ┌─┬─┬─┬─┬─┬─┬─┬─┐
+  │ OpCode  │V│C│M│ │ Value         │ │ Count         │ │ Mask          │
+  └─┴─┴─┴─┴─┴┬┴┬┴┬┘ └─┴─┴─┴─┴─┴─┴─┴─┘ └─┴─┴─┴─┴─┴─┴─┴─┘ └─┴─┴─┴─┴─┴─┴─┴─┘
+             │ │ │
+             │ │ └─── Mask  Semantics: 0 = Mask is a Register Index
+             │ │                       1 = Mask is a Byte Value
+             │ │
+             │ └───── Count Semantics: 0 = Count is a Register Index
+             │                         1 = Count is a Byte Value
+             │
+             └─────── value Semantics: 0 = Value is a Register Index
+                                       1 = Value is a Byte Value
+                                       
+***Unfinished***
+
+Note: We need to, somehow, implement how to specify where the sign is.
+      *** Possibly by having a separate "SignExternal", "SignHith"
+      *** and "SignLow" combinations???
+      

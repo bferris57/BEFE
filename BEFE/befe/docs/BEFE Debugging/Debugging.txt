@@ -1,0 +1,56 @@
+Header... Debugging BEFE
+
+Defines...
+...Defines
+
+References...
+<Debugging Init>
+...References
+
+...Header
+
+This section discusses techniques for debugging BEFE using whatever environment
+you happen to be using.
+
+Since I can't possibly imagine what environment you have decided to use to
+develop in/on BEFE or why you chose that environment, I can only discuss the
+environment I'm using as a starting point.  
+
+With this in mind, I'll tell you what environments I'm using for the initial
+development of BEFE...
+
+  o For operating systems...
+  
+    - Windows Vista 32 bit operating system (pay, Bloody Microsoft!)
+  
+  o For non source code text files...
+  
+    - Notepad++ (free, from notepad-plus-plus.org)
+    
+  o For source versioning control...
+  
+    - Tortoise SVN (free, from tortoisesvn.net)
+    - Assembla SVN repository (free, single user version (bferris57) from www.assembla.com)
+
+  o For C++ programming and debugging...
+
+    - MinGW C/C++ headers and libraries (free, from sorceforge.net)
+    - GNU C++ compiler (g++, not gcc) (comes with MinGW)
+    - CodeLite IDE (free, from codelite.org)
+
+  o For Java programming and debugging...
+  
+    - Eclipse (free, from eclipse.org, I think)
+    
+  o For Python programming and debugging
+  
+    - Python 3.1.2 (free, available www.python.org)
+    
+Right, now to get on with the debugging topics.  These are...
+
+  o <Debugging Init> - How to debug BEFE startup
+  
+Sorry about the fact that there's only one topic at the moment but you have to start
+somewhere, right?
+
+Have fun!

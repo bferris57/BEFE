@@ -1,0 +1,151 @@
+Header...
+BEFE Persistent Lengths
+...Header
+
+Defines...
+<Persistent Length Format>
+<Length>
+<Lengths>
+<Length Normalisation>
+...Defines
+
+References...
+<Unit Of Measurement>
+<Units Of Measurement>
+...References
+
+-----------------------------------------------------------------------
+
+When BEFE Persists data (either for storage or for transmission) in
+binary form, it is quite useful to have a precise definition, 
+behaviour, and format for storing/transmitting variable lengths.
+
+This is accomplished using the BEFE <Persistent Length Format>.
+
+A <Length> is an unsigned integer anywhere from zero to N.  These are
+represented in one of the following normalised bit formats...
+
+                      ┌─┬─┬─┬─┬─┬─┬─┬─┐
+  Length8  (8 bit)  - │0│n n n n n n n│
+                      └─┴─┴─┴─┴─┴─┴─┴─┘
+                      Range: 0x00..0x7f (0..127)
+                      
+                      ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  Length16 (16 bit) - │1│0│n n n n n n│n n n n n n n n│
+                      └─┴─┴─┴─┴─┴─┴─┴─┼─┴─┴─┴─┴─┴─┴─┴─┘
+                      Range: 0x0000..0x3fff (0..16,383)
+                    
+                      ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  Length24 (24 bit) - │1│1│0│n n n n n│n n n n n n n n│n n n n n n n n│
+                      └─┴─┴─┴─┴─┴─┴─┴─┼─┴─┴─┴─┴─┴─┴─┴─┼─┴─┴─┴─┴─┴─┴─┴─┘
+                      Range: 0x000000..0x1fffff (0..2,097,151)
+                                          
+                      ┌─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┼─┬─┬─┬─┬─┬─┬─┬─┐
+  Length32 (32 bit) - │1│1│1│0│n n n n│n n n n n n n n│n n n n n n n n│n n n n n n n n│
+                      └─┴─┴─┴─┴─┴─┴─┴─┼─┴─┴─┴─┴─┴─┴─┴─┼─┴─┴─┴─┴─┴─┴─┴─┼─┴─┴─┴─┴─┴─┴─┴─┘
+                      Range: 0x00000000..0x0fffffff (0..268,435,455)
+
+
+  Note: If/when the need arises, this may be extended to 40, 48, 56,
+        and 64 bit forms but, for now, we've avoided those extended
+        formats.
+
+Essentially, the "nnn...nnn" in the above figures represent a fixed
+number of bits for the <Length> value, in binary.  As such, the
+binary value isn't necessarily a "length", but can be any binary
+number meaning anything.
+
+Having said that, the vast majority of uses in BEFE is for <Lengths>
+of data following the value, hence the term "Length".
+
+It is important to understand several aspects of <Lengths> that are
+not so immediately apparent and need to be defined here.  
+This includes...
+
+  o Normalisation
+  o Units Of Measurement
+  o Semantics
+  o Scalar Integer Values
+
+Each of these aspects are disussed separately below...
+
+                        • • •
+
+BEFE provides a <Length Normalisation> mechanism whereby, given
+an unsigned 32-bit number (0x00000000..0x0fffffff) is stored in
+the most compact form (eg, leading zero bits are not considered
+significant).
+
+                        • • •
+
+On the <Units Of Measurement> front, the lengths are in <Elements>.
+What an "Element" means is not part of the format specification but
+is, instead, left entirely up to the specific implementation of the
+data structures being represented.
+
+So, the length could be in "bits", "bytes", "things", fixed length
+data, variable length data, et cetera.
+
+                        • • •
+
+On the <Semantics> front, and as mentioned above, the "meaning" of
+the binary values is not part of the specification here.
+
+In fact, <Lengths> can be used to store any arbitrairily large
+binary number if the scheme is extended.  However, only the first
+four formats (Length8..Length32) are currently implemented in BEFE
+and the binary numbers are treated as unsigned values.
+
+                        • • •
+
+Although not currently implemented (at the time of writing), issue
+of "what to do with negative numbers?" arises.  In such cases where
+negative numbers are required, we suggest the following rather
+counter-intuitive solution...
+
+If you think of leading zeros as "insignificant" (which we do), then
+one should also consider leading ones as "insignificant".  This whole
+"leading ones" scenario only happens with two's complement negative
+numbers.
+
+Here in BEFE we have an avid dislike of negative numbers for reasons
+we won't go into fully here.
+
+Still, people seem to want them so we suggest that we should steer
+clear of "two's complement" form and the whole "sign extension"
+issues that arise because of it and use a "trailing sign" with a
+leading "positive integer" instead.
+
+So, the value -10 would be represented in a byte in the following
+form...
+
+  ┌─┬─┬─┬─┬─┬─┬─┬─┐
+  │0│0 0 1 0 1 0│S│
+  └─┴─┴─┴─┴─┴─┴─┴─┘
+   │ └────┬────┘ │
+   │      │      └── Sign: 0 = Positive, 1 = Negative
+   │      │
+   │      └───────── Positive binary value
+   │
+   └──────────────── Length indicator bit(s)
+   
+This means that in a byte, you can hold any signed value between -63
+and 63, including zero and NaN (or negative zero, take your pick).
+
+And, if you extend it to two bytes, you can hold any signed value
+in the range -8191..8191 and NaN.  Clearly, this can be extended to
+any multiple number of bytes.
+
+On the positive side, this allows us to store/transmit negative numbers
+AND NaN and still use a normalisation mechanism to reduce the number
+of bytes used regardless if the number is negative or positive.
+
+On the negative side, this means extra processing when reading or
+writing the data, and the values don't naturally sort in expected
+order but, who sorts persistent or transmitted data WHILE it's sitting
+on the persistent store or in transit?
+
+So, as far as we're concerned here in BEFE, the positive gains far 
+outweighs the negative ones for our purposes.
+
+Just a thought.  ;-)

@@ -1,0 +1,98 @@
+#include "BEFE.h"
+#include "ToStrings.h"
+#include "trythis.h"
+#include "Dictionary.h"
+#include "Sort.h"
+#include "Persist.h"
+
+namespace BEF_NS {
+
+void xxx();
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+#define MAXENTRIES 25
+
+Status trythis() {
+
+  Status     status;
+  Dictionary dict;
+  Time       t1;
+  Time       t2;
+  UInt       numEntries;
+  UInt       entryIdx;
+  Persist    store;
+  UInt32     i;
+
+  Cout << "sizeof(String) = " << sizeof(String) << '\n';
+  Cout << "sizeof(Range)  = " << sizeof(Range)  << '\n';
+  //goto OK;
+  
+  Cout << "Temp File Name      = '" << TheOS->GetTempFileName() << "'\n";
+  Cout << "sizeof(String)      = " << sizeof(String) << '\n';
+  Cout << "sizeof(dict)        = " << sizeof(dict)   << '\n';
+  Cout << "BEFORE: dict.Size() = " << dict.Size()    << '\n';
+  t1.Set();
+  status = dict.ReadFromText("Websters_2nd.txt");
+  //status = dict.ReadFromText("corncob_lowercase.txt");
+  t2.Set();
+  if (status)
+    ERROR("dict.ReadFromText",status);
+  Cout << "AFTER:  dict.Size()   = " << dict.Size()  << '\n';
+  Cout << "AFTER:  dict.Length() = " << dict.Length() << '\n';
+  Cout << '\n';
+  Cout << "ReadFromText Elapsed Time = " << ToString(t1,t2) << '\n';
+  
+  // Save and load...
+  
+  t1.Set();
+  status = store.StartWrite();
+  if (status) goto STARTWRITEFAILED;
+  status = dict.WriteTo(store);
+  t2.Set();
+  if (status)
+    ERROR("dict.WriteTo",status);
+  else
+    Cout << "dict.WriteTo Elapsed Time = " << ToString(t1,t2) << '\n';
+  status = store.EndWrite();
+  if (status)
+    ERROR("store.StartWrite",status);  
+    
+  // Print some of the entries...
+  if (gVeryVerbose) {
+    
+    Cout << "\nDictionary Entries...\n\n";
+    numEntries = dict.Length();
+    if (numEntries <= MAXENTRIES) {
+      for (entryIdx=0; entryIdx < numEntries; entryIdx++)
+        Cout << "  " << entryIdx << ":... " << dict.Get(entryIdx) << '\n';
+    }
+    else {
+      for (entryIdx=0; entryIdx < MAXENTRIES; entryIdx++)
+        Cout << "  " << entryIdx << ":... " << dict.Get(entryIdx) << '\n';
+      Cout << "\n  ...\n\n";
+      for (entryIdx=numEntries-MAXENTRIES; entryIdx < numEntries; entryIdx++)
+          Cout << "  " << entryIdx << ":... " << dict.Get(entryIdx) << '\n';        
+    }
+  
+  }
+  
+  status = dict.ReadFrom(store);
+  if (status) ERROR("dict.ReadFrom",status);
+
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    STARTWRITEFAILED: ERROR("store.StartWrite",status); break;
+    OK:                                                 break;
+  }
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

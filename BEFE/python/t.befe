@@ -1,0 +1,169 @@
+a b[]
+\* # ◄── Main nested comment
+  if a == b: d = f
+    g = h
+  else:
+    i = j
+def abc.def(a,b:c,d):
+  print("Hi there"%x)
+# a b: if b = c: c = d; e = f
+int * const a = &b
+a int * const = &b
+/*
+a.b(10,20)
+#a.b[10,20]
+#a.b{10,20}
+a.b{abc}#
+a.b[123]
+a.b{123}
+a.b()
+#a.b[]
+#a.b{}
+
+#a[10]
+#a{10}
+a = (10)
+a = b(10)
+a = b[10]
+a = [1,2,3]
+a = {1,2,3,a.b:10}
+a = [10]
+a = {10}
+#a = n(10)
+#a = n[10]
+#a = n{10}
+#a = a[10]+5
+#b = 10
+#a = [1,2,3]
+for a in x: a = b; c = d
+  do something
+  if a is Null:
+    print "a is NULL!!!"
+  else:
+    print "a is NOT NULL!!!"; another statement
+  finally:
+    this is the end; this is another statement; so is this
+  label: hi there
+    print "hello!"
+  another label: hello
+if a == 1: b = True;
+else: print("Hi there")
+if a == 1: b = true; else: print("Hi there")
+if b == 1:
+  c = "Hey there"
+  d = "stuff"
+  if c == d:
+    print("Nested")
+    print("And some more")
+    if c == d:
+      print("Triple nested")
+    else:
+      print("Triple nested else")
+  else:
+    print("Double nested else")
+else:
+  print("Single nested else")
+a = 0,
+
+a = b; d = f; g = h
+do:
+  print(a)
+  a++
+until a >= 10
+switch a:
+  b = c
+  case "Hi there":
+    xxx
+  case "Hello":
+    xxx
+  default:
+    xxx
+  finally:
+    do whatever
+    print("Switch Finished")
+
+globs private...
+  a int; b float \
+    ;c = d
+  e = f
+  g = h
+...globs
+more goes on here
+#wip...
+else: g = b
+if a == b: c = d; e = f;
+a = b; c = d;
+g = h; a;b,c,d,[e,f,g],h,(1,2,3),4
+do whatever
+if a == b:
+  Hi there 1
+  Hello 1
+  if b == b:
+    Hi there 2
+    if c == c:
+      Hi there 3
+      Hello 2
+not indented
+a[10] = a*b + (c + d**10)
+a = befe.doit(1,2,3)
+a = {a:b,c:d}
+a = (a*b,c*d)
+b. a = (10*b + c * d)
+
+ Test L2R vs R2L ('=' is R2L, '*' is L2R)...
+a = b = c*d*e
+
+# Function calls...
+
+# Subscripting...
+*c[10]
+a = c(10,20*b)*b.d.e[30,40]+x
+b[10] = (a*10,b.d.e(10),d*e);b = a.b.c.d.a(b,c)
+*/
+#d = *f,,e = --g;;; e = f,g,h; a = b. a = (10*b + c * d)
+#a = c(xxx)*10
+#BEFE.`a`.(2*' ').b.c[10]*b
+#.b = a # <-- Error
+#b. = c # <-- Error
+#a.(a.b*5).c+10
+#x..`a`[10]+b(xx) 
+#x . . . 
+#a[10]+[]+(a,b)[10]
+/*
+a = [a:b:#
+span(a,b,c)
+a = [a..b:c]
+range(a,b,c)
+()()
+()[]
+a[]
+(){}
+a(){}
+*/
+#(1,2,3)
+#if 10*a.b.c(1,x:2): #a = 'hi there';b = `xxx`
+#if: a + 10        # Should get "Expected expression..."
+#do a == b: c = d  # Should get "Unexpected expression..."
+#a+b c
+#if a|x: b;c;d # <-- Produces wrong stuff!!!! Problem with moreWords???
+#if ? 6 * 7 and a is not b and a not in c: a = b
+#if a == b: if c == d: c = d
+#  e = f;g = h
+#if a.b(b,c) + d: d = f
+#  g = h
+#.a.b. .c(1,2).d. . + a.b.f[10].d
+#if a == b: c = d
+#*&ab[10,20*a]-- <= x;
+#*&ab[10,20*a]--;
+#a * .c. .b.(name(a*1+b*2)).d + e[x] <= y
+#a.b.c.d
+#a.(b(c)).d
+#a.b(c).d
+#a.().b
+#if a == b: from x.b.c import befe.*
+#c*(a+b)
+#a * c + b
+*/ # ◄── Main nested comment
+
+if a == 6: b = c; d = e
+  f = g

@@ -1,0 +1,21 @@
+#
+# Notes: bferris created this file because c.bnf has the following undefined symbols
+#
+
+int_const         ::= <digit> (<digit>)
+char_const        ::= "'" <anychar> "'"
+float_const       ::= int_const [ '.' [int_const]] [ ('eE')  [('+-')] int_const]
+enumeration_const ::= '???'
+id                ::= '???'
+string            ::= '"' <anychar> (<anychar>) '"'
+
+<digit>           ::= ('0123456789')
+<hexdigit>        ::= ('0123456789abcdefAFBCDEF')
+<upperalpha>      ::= ('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+<loweralpha>      ::= ('abcdefghijklmnopqrstuvwxyz')
+<alpha>           ::= <upperalpha> | <loweralpha>
+<alphanumeric>    ::= (<alpha> | <digit>)
+<special>         ::= '£$%^&*()_+=\'-{};:@#~,.<>?|[]\\"'
+<space>           ::= ' '
+<whitespace>      ::= (' \t\n')
+<anychar>         ::= <alpha> | <digit> | <special> | <whitespace>#

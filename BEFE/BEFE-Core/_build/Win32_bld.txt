@@ -1,0 +1,29 @@
+#!BefeType: Build
+#-----------------------------------------------------------------------
+# File: Win32_bld.txt - Windows 32-bit Build Declarations
+#-----------------------------------------------------------------------
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011-2017, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+
+SourceDirs...
+  'c++/array'
+  'c++/cache'
+  'c++/command'
+  'c++/core'
+  'c++/datamodel'
+  'c++/devices'
+  'c++/examples'
+  'c++/format'
+  'c++/lexicon'
+  'c++/message'
+  'c++/number'
+  'c++/platform/win32'
+  'c++/seq'
+  'c++/storage'
+  'c++/test'
+  'c++/various'
+...SourceDirs

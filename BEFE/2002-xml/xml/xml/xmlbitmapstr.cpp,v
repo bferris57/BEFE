@@ -1,0 +1,590 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.4
+date	2002.10.25.09.23.15;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.25.08.57.07;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.25.08.31.33;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.24.12.50.14;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@Added optional 'countto' parameter to XMLBitMap::Count()
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+   xmlbitmapstr.cpp - Implementation of the XMLBitMapString class
+  
+  DESCRIPTION
+    
+    This file contains the implementation of the an XMLBitMap class
+    based on an XMLString.
+    
+  NOTES
+  
+*/
+
+#include <string.h>
+#include "xmlbitmapstr.h"
+#include "xmlstrmem.h"
+
+// Array telling us the counts for a byte's contents
+static char bitcounts[256] = {
+    0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,  /* 0x00..0x0f */
+    1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,  /* 0x10..0x1f */
+    1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,  /* 0x20..0x2f */
+    2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,  /* 0x30..0x3f */
+    1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,  /* 0x40..0x4f */
+    2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,  /* 0x50..0x5f */
+    2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,  /* 0x60..0x6f */
+    3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,  /* 0x70..0x7f */
+    1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,  /* 0x80..0x8f */
+    2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,  /* 0x90..0x9f */
+    2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,  /* 0xA0..0xAf */
+    3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,  /* 0xB0..0xBf */
+    2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,  /* 0xC0..0xCf */
+    3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,  /* 0xD0..0xDf */
+    3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,  /* 0xE0..0xEf */
+    4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8   /* 0xF0..0xFF */
+};
+
+// Mask for end bits in last byte of a string - We & last byte with this
+static byte endbitsmask[8] = {
+    0xff, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe
+};
+
+// Mask for getting/setting specific bit - We | for Set(), & for Test()
+static byte thebitmask[8] = {
+    0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
+};
+
+//
+// FUNCTION
+//
+//  XMLBitMapString::XMLBitMapString - Constructor
+//  XMLBitMapString::XMLBitMapString - Destructor
+//
+// NOTES
+//
+//  The constructor assumes ownership of the string (if any)
+//
+
+XMLBitMapString::XMLBitMapString(XMLStringBase *string) {
+
+  // If no string passed, create one (we own it)
+  if (string == NULL) {
+  
+    m_string = new XMLStringMem();
+    m_owned = 1;
+  }
+  
+  // Use caller's string (they own it)
+  else {
+      
+    m_string = string;
+    m_owned = 0;
+  }
+  
+  // Assume we haven't got a string
+  m_strlen = 0;
+  m_length = 0;
+  
+  // If we have a string...
+  if (m_string) {
+  
+    // Calculate it's current length
+    m_string->Length(&m_strlen);
+    
+    // Calculate our length from it
+    m_length = m_strlen * 8;
+  }
+  
+  // Initialise locked fragment
+  m_fragoff = 0;
+  m_fraglen = 0;
+  m_frag    = NULL;
+  
+}
+
+XMLBitMapString::~XMLBitMapString() {
+
+  // Unlock the fragment (if locked)
+  if (m_frag)
+    m_string->UnlockFragment(m_fragoff);
+    
+  // Delete the string (if we have one)
+  if (m_string)
+    delete m_string;
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLBitMapString::Length - Return length (in bits) of the bit map
+//  XMLBitMapString::Count  - Count total number of bits on/off
+//
+// DESCRIPTION
+//
+//  These funtions perform operations on the entire bit map.
+//
+
+int XMLBitMapString::Length(void) {
+
+  return m_length;
+}
+
+XMLError XMLBitMapString::Count(int *pcount, int onoff, int countto) {
+
+  XMLError  result;   // Return code
+  byte     *frag;     // Current fragment (NULL=None)
+  int       fragoff;  // Offset into string of current fragment
+  int       fraglen;  // Length of current locked fragment
+  int       curoff;   // Current offset into string
+  int       count;    // Current bit count
+  int       reml;     // Bytes remaining in the fragment
+  byte      curbyte;  // current byte
+  int       logstrlen;  // Logical m_strlen (based on countto)
+  int       loglength;  // Logical m_length (based on countto)
+  
+  // Sanity checks
+  if (pcount == NULL || countto < -1 || countto >= m_length)
+    return XMLErrorInvalidParameters;
+
+  // Assume no bits
+  *pcount = 0;
+  count = 0;
+
+  // Initialise limits
+  if (countto < 0) {
+    logstrlen = m_strlen;
+    loglength = m_length;
+  }
+  else {
+    logstrlen = (countto+7)/8;
+    loglength = countto;
+  }
+  
+  // If no string, no count
+  if (m_string == NULL)
+    return XMLErrorNone;
+
+  // Initialise fragment info
+  frag = NULL;
+  fragoff = 0;
+  fraglen = 0;
+  curoff  = 0;
+  
+  // For each fragment...
+  while (curoff < logstrlen) {
+
+    // If current offset outside current fragment...
+    if (curoff >= fragoff+fraglen) {
+    
+      // If we have a locked fragment...
+      if (frag) {
+    
+        // Unlock it
+        result = m_string->UnlockFragment(fragoff);
+        if (result) goto ERROR;
+        
+        // We don't have a fragment now
+        frag = NULL;
+      }
+      
+      // Position to next fragment
+      fragoff += fraglen;
+      
+      // If beyond string we're finished
+      if (fragoff >= logstrlen)
+        break;
+        
+      // Lock the fragment
+      result = m_string->LockFragment(fragoff, &frag, &fraglen);
+      if (result) goto ERROR;
+
+    }
+      
+    // Adjust fraglen based on how much we want
+    if (fragoff + fraglen - 1 > logstrlen)
+      fraglen = logstrlen - fragoff;
+            
+    // Initialise loop variables
+    curoff = fragoff;
+    reml   = fraglen;
+    
+    // For each byte in the fragment...
+    for (; reml; curoff++, reml--, frag++) {
+      
+      // Get the byte
+      curbyte = *frag;
+        
+      // If in last byte of string, get rid of bits we don't want
+      if (reml == 1)
+        curbyte = curbyte & endbitsmask[logstrlen*8 - loglength];
+
+      // Add in the count
+      count += bitcounts[curbyte];
+    }    
+  }
+  
+  // Unlock current fragment if we have one...
+  if (frag != NULL) {
+    result = m_string->UnlockFragment(fragoff);
+    if (result) goto ERROR;
+  }
+  
+  // If they want the negative count, do it
+  if (onoff == 0)
+    count = loglength - count;
+    
+  // Return count to caller
+  *pcount = count;
+  
+  goto OK;
+
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLBitMapString::Test - Test a given bit in the bit map
+//  XMLBitMapString::Set  - Set a given bit in the bit map
+//
+// DESCRIPTION
+//
+//  These functions manipulate a single bit value in the bit map.
+//
+
+#pragma argsused
+
+int XMLBitMapString::Test(int index) {
+
+  XMLError result;
+  int      thebyte;
+  int      byteoff;
+  
+  // If invalid index, it's not set
+  if (index < 0 || index > m_length) goto ERROR;
+
+  // Calculate byte offset into string
+  byteoff = index/8;
+  
+  // If byte isn't in the current fragment
+  if (byteoff < m_fragoff || byteoff > m_fragoff + m_fraglen - 1) {
+  
+    // If we have a fragment
+    if (m_frag) {
+    
+      // Unlock it
+      m_string->UnlockFragment(m_fragoff);
+      
+      // Clear stuff
+      m_fragoff = 0;
+      m_fraglen = 0;
+      m_frag    = 0;
+    }
+    
+    // Lock new fragment
+    result = m_string->LockFragment(byteoff,&m_frag,&m_fraglen);
+    if (result) goto ERROR;
+    
+    // Save the into
+    m_fragoff = byteoff;
+    
+  }
+  
+  // Get the byte
+  thebyte = m_frag[byteoff - m_fragoff];
+  
+  // Get rid of all the other bits in the byte
+  thebyte = thebyte & thebitmask[index%8];
+  
+  goto OK;
+  
+ERROR:
+  return 0;
+OK:
+  return thebyte;    
+}
+
+XMLError XMLBitMapString::Set(int index, int value) {
+
+  XMLError result;   // Return code
+  int      byteoff;  // Offset of byte into the string
+  byte     *thebyte; // Pointer to the byte to change
+  byte     mask;     // Mask for the bit
+    
+  // Sanity checks
+  if (index < 0) goto BADPARAMETERS;
+  if (m_string == NULL) goto OUTOFMEMORY;
+
+  // Calculate byte offset into string
+  byteoff = index/8;
+  
+  // If we're getting bigger
+  if (byteoff >= m_strlen) {
+  
+     // If we have a fragment
+     if (m_frag) {
+     
+       // Unlock it
+       result = m_string->UnlockFragment(m_fragoff);
+       if (result) goto ERROR;
+       
+       // Clear fragment info
+       m_frag = NULL;
+       m_fragoff = 0;
+       m_fraglen = 0;
+     }
+     
+     // Extend the string
+     result = m_string->SetLength(byteoff + 1, 0);
+     if (result) goto ERROR;
+     
+     // Save its new length
+     m_strlen = byteoff + 1;
+     m_length = index + 1;
+     
+  }
+
+  // If the byte offset is not within current fragment
+  if (byteoff < m_fragoff || byteoff >= m_fragoff + m_fraglen - 1) {
+  
+    // If we have a fragment...
+    if (m_frag) {
+    
+      // Unlock it
+      result = m_string->UnlockFragment(m_fragoff);
+      if (result) goto ERROR;
+      
+      // Clear fragment info
+      m_frag   = NULL;
+      m_fragoff = 0;
+      m_fraglen = 0;
+      
+    }
+    
+    // Try locking the new fragment
+    result = m_string->LockFragment(byteoff, &m_frag, &m_fraglen);
+    if (result) goto ERROR;
+    
+    // Save fragment info
+    m_fragoff = byteoff;
+  }
+
+  // Get the byte's address
+  thebyte = m_frag + (byteoff - m_fragoff);
+  
+  // Get the mask
+  mask = thebitmask[index%8];
+  
+  // If clearing, clear it
+  if (value == 0)
+    *thebyte &= ~mask;
+    
+  // Else, setting
+  else
+    *thebyte |= mask;
+    
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+  
+
+@
+
+
+1.3
+log
+@XMLBitMapString works
+@
+text
+@d128 1
+a128 1
+XMLError XMLBitMapString::Count(int *pcount, int onoff) {
+d138 2
+d142 1
+a142 1
+  if (pcount == NULL)
+d148 10
+d170 1
+a170 1
+  while (curoff < m_strlen) {
+d190 1
+a190 1
+      if (fragoff >= m_strlen)
+d199 4
+d206 1
+a206 1
+            
+d215 1
+a215 1
+        curbyte = curbyte & endbitsmask[m_strlen*8 - m_length];
+d230 1
+a230 1
+    count = m_length - count;
+@
+
+
+1.2
+log
+@Finished XMLBitMapString, ready to test
+@
+text
+@d328 1
+a328 1
+     result = m_string->SetLength(byteoff + 1);
+d333 1
+@
+
+
+1.1
+log
+@Initial XMLBitMapString implementation and test - Need Test() and Set()
+@
+text
+@d17 4
+d41 2
+a42 3
+// Array telling us how to get rid of the bits we don't want
+// (indexed by number of bits that are applicable)
+static bitsmask[8] = {
+a44 2
+    
+//------------------------------------------------------------------------------
+d46 4
+a49 4
+#include <string.h>
+
+#include "xmlbitmapstr.h"
+#include "xmlstrmem.h"
+a50 1
+//------------------------------------------------------------------------------
+d64 13
+a76 6
+  // If no string passed, create an XMLStringMem
+  if (string == NULL)
+    string = new XMLStringMem();
+    
+  // Set the string we're based on
+  m_string = string;
+d92 5
+d101 5
+d199 1
+a199 1
+        curbyte = curbyte & bitsmask[m_strlen*8 - m_length];
+d249 46
+a294 2
+  // For now, we haven't implemented it
+  return XMLErrorNotImplemented;
+d297 1
+a297 1
+XMLError XMLBitMapString::Set(int index) {
+d299 5
+d305 8
+a312 6
+  if (index < 0 || index >= m_length)
+    return XMLErrorInvalidParameters;
+    
+  // For now, it's not implemented
+  return XMLErrorNotImplemented;
+}
+d314 21
+a334 18
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLBitMapString::Next     - Find next bit set in the bit map
+//  XMLBitMapString::Previous - Find previous bit setin the bit map
+//
+// DESCRIPTION
+//
+//  These functions return the NEXT/PREVIOUS bit, after/before given
+//  offset, that is set.
+//
+//  The startoff parameter should be set to -1 to indicate the search
+//  should start at the beginning.
+//
+//  If a startoff >= Length() is passed to Previous() it has the same effect
+//  as passing -1.
+//
+d336 24
+a359 1
+#pragma argsused
+d361 2
+a362 1
+XMLError XMLBitMapString::Next(int *index, int startoff) {
+d364 12
+a375 2
+  return XMLErrorNotImplemented;
+}
+d377 16
+a392 1
+#pragma argsused
+d394 3
+a396 1
+XMLError XMLBitMapString::Previous(int *index, int startoff) {
+a397 2
+  return XMLErrorNotImplemented;
+}
+@
+

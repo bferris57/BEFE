@@ -1,0 +1,39 @@
+﻿Header...
+Array Indexes versus Digit Significance
+...Header
+
+Defines...
+...Defines
+
+This is a difficult one to express but here we go anyway...
+
+Indexes are a numbering system, starting at zero, used to identify
+elements in a sequence or array.
+
+Typically, and for cultural reasons, increasing index numbers are
+visualised graphically by extending to the right or down.
+
+Hence...
+
+  0: First item in list
+  1: Second item in list
+  ...
+  
+Or, given the sentence "the quick brown fox", it isn't difficult to
+imagine "the" being word 0 in the list of words making the sentence
+and "fox" being word 3 in the list.
+
+The problem arises, however, when our cultural visual representations
+and ideas of "left versus right" come head to head with the way
+numbers are expressed, from right to left.
+
+BLA BLA BLA
+
+So, this leads to two important terms...
+
+  <Index Numbering> convention
+  <Significance Numbering> convention
+  
+<Index Numbering> convention is a "left to right" one.
+
+The <Significance Numbering> convention is a "right to left" one.

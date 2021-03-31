@@ -1,0 +1,306 @@
+//----------------------------------------------------------------------
+// File: RoadMap.txt - BEFE Long Term product Road Map
+//----------------------------------------------------------------------
+//
+// This file outlines the direction we've headed and where we expect to
+// head in the development of the BEFE software.
+//
+// Note: Historical and future releases are flagged with headers like
+//       "//-----..."
+//
+//       The "current release" is flagged with headers like "//=====..."
+//
+//----------------------------------------------------------------------
+// Copyright © 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+
+PreVersion (2002)...
+
+  Did tons of work on an XML parser.  Was bloody fast.  Let's put it
+  this way, I tested an 11MB XML file with XmlSpy and it took absolutely
+  ages to load (like several minutes).  My code loaded and parsed it in
+  a couple of seconds (on an old slow Win2K machine).  That should put
+  it into perspective.  ;-)
+  
+  Will be worked into BEFE in version 0.4
+
+...PreVersion (2002)
+  
+PreVersion (2010)...
+
+  Did various "Unit Conversion" work, having to do with SI units, etc.
+  Will be worked into BEFE in some future version.
+  
+  Did cool "Fraction" class because floatinng point numbers piss me off.
+  Will be worked in when applicable.
+  
+...PreVersion (2010)
+
+PreVersion (2011)...
+
+  Did quite a bit of playing around and farting about in C++, Python,
+  and Java before actually forming the idea of BEFE.
+  
+  Actually, it all started with the WordList stuff (like a dictionary)
+  which I got the idea of at a job interview with Cisco (which never turned out).
+  
+  But, I did quite a bit of Fraction, Unit conversion, and Calculator
+  work that needs to be merged into BEFE at an appropriate time.
+
+...PreVersion (2011)
+
+//----------------------------------------------------------------------
+// Release 0.1 - July 10 (or so), 2011
+//----------------------------------------------------------------------
+
+Release 0.1...
+
+  This release was the first go at getting something that I needed to
+  try on another machine because it detected the OS version, etc. and
+  I wanted to make sure it worked on something other than Vista.
+  
+  So, I sent a copy of the .EXE to Dirck and Jane and got the feedback
+  I needed to continue.
+  
+  Problems...
+  
+    o No command processor
+    o Needed MinGW DLL files to run (yuck!)
+    o CMD.EXE on Vista showed code page 65001 UTF-8 characters just
+      fine but it didn't seem to work on Windows7.  Grrrrr...
+      (Note: That's sorted in release 0.2)
+      
+...Release 0.1
+
+//----------------------------------------------------------------------
+// Release 0.2 - January 2012
+//----------------------------------------------------------------------
+
+Release 0.2...
+
+  This is the first "teaser" release.  In fact, it's the first time I'm
+  letting anybody see even a small portion of my headers and sample
+  code.
+  
+  It will contain the following...
+    o Minimal .h files (see below)
+    o Maybe .o files (we'll see)
+    o Library file(s)
+    o Example<x>.cpp
+    o Maybe main.cpp
+  
+  *** NEEDS UPDATING BELOW ***  
+  Header .h files...
+  
+    o BEFE.h               // ◄── Main BEFE header (used in .cpp files)
+    o primitives.h         // ◄── Low BEFE header (used in .h files)
+    o Error.h              // ◄── Error code names
+    o Globals.h            // ◄── Process globals (especially runtime switches)
+    o Buffer.h             // ◄── Buffer class (handles all variable length data in BEFE)
+    
+    o Array.h              // ◄── Array Class
+    o Sparse.h             // ◄── Sparse Array Class
+    o Ints.h               // ◄── Array of Ints
+    o Bytes.h              // ◄── Array of Bytes
+    o String.h             // ◄── String class -- much better than Microsoft's, Python's or Java's ;-)
+    o Strings.h            // ◄── Array of String instances
+    o StringSet.h          // ◄── Set of Strings (sort of like a Word List or Dictionary)
+    o FileInfos.h          // ◄── Array of File information structs
+    o UArray.h             // ◄── Base Unsigned Array Class
+    o Format.h             // ◄── General purpose text formatting utility Class
+    o ToString.h           // ◄── General purpose class to String functions
+    o ToStrings.h          // ◄── General purpose class to Strings functions (multi-line output)
+    
+    o Number.h             // ◄── Number class (unlimited precision, sort of like GNU's GMP library)
+    o Char.h               // ◄── Char class (used a lot by String)
+    o Integer.h            // ◄── Handy Int functions
+
+    o Sequence.h           // ◄── Maybe
+    o Alloc.h              // ◄── Allocation specification class
+    o Range.h              // ◄── Inclusive Integer Range class
+    o URange.h             // ◄── Inclusive Unsigned Integer Range class
+    o Slice.h              // ◄── Slice class (exclusive range with step, like Python slice)
+    o Span.h               // ◄── Inclusive Slice (still working on this)
+    o USpan.h              // ◄── Inclusive Unsigned Slice (still working on this)
+    
+    o Console.h            // ◄── Console class (does colour too)
+    o Stream.h             // ◄── General Stream class
+    o File.h               // ◄── File class
+    o FileStream.h         // ◄── Stream implementation of File class
+    
+    o Platform.h           // ◄── Generic Platform class
+    o OperatingSystem.h    // ◄── Generic Operating System class
+    o Process.h            // ◄── Generic Process class
+    o Processor.h          // ◄── Generic Processor class
+    o Network.h            // ◄── Generic Network class
+    
+    o Command.h            // ◄── Command handler class
+    o CommandShell.h       // ◄── CommmandShell class (has the main loop in it)
+    o Args.h               // ◄── Handy command line processing class and functions
+    o VarTerm.h            // ◄── Variable Term (VarTerm) class (handles things like "opt[ions]", etc)
+  
+  Library files...
+  
+    o BEFE_0.2.<rel>_core.a
+    o BEFE_0.2.<rel>_array.a
+    o BEFE_0.2.<rel>_sequence.a
+    o BEFE_0.2.<rel>_storage.a
+    o BEFE_0.2.<rel>_platformWIN32.a           // ◄── Windows32 platform specific layer
+    o BEFE_0.2.<rel>_command.a
+    
+  Documentation files...
+  
+    o README.txt
+    o RoadMap.txt
+    o ...various tech docs...
+    
+  Doesn't do (DO NOT USE, or do not expect it to work)...
+  
+    o Persist class is declared but not fully implemented
+    o Dictionary class is declared but not fully implemented
+    o Case folding (ToUpper, ToLower, etc.) only works on ASCII
+    o Number class is declared but not fully implemented
+    o Haven't started fleshing out portable GUI yet (in progress)
+    o Only works on processors with 32-bit words (C++ 'int' is 32 bits)
+    
+...Release 0.2
+
+//======================================================================
+// Release 0.3 March 2012 - Windows and Linux 32-bit, SVN Revision 2714
+//======================================================================
+
+Release 0.3...
+
+  Features...
+  
+    o Windows AND Linux/Ubuntu ports
+    o 32-bit only
+    o A few improvements over release 0.2
+    o No, or minimal documentation changes
+    o Console.GetLine handles Left, Right, Up, Down, Ins, and Del keys
+        for command line history.
+    
+//----------------------------------------------------------------------
+// Release 0.4 (2012) - Focusing on Lexical analysis, Persistence,
+//                      Modelling, and Code Generation/Transformation
+//----------------------------------------------------------------------
+
+Release 0.4...
+
+  Features...
+
+    o C/C++ (read/write/formatting)  
+    o Json (read/write/formatting)
+    o XML  (read/write/formatting) // ◄── Without XML Schema, XPath, XSLT, or Soap
+    o HTML (read/write/formatting) // ◄── Possibly, is special/relaxed case of XML
+    o BEFE-Wiki  *** Maybe ***
+    o BEFE-Model *** Beginnings ***
+    
+  Documentation (in BEFE-Wiki format)...
+  
+    o Published C++ class documentation
+    o Published BEFE Model, at least the start of it
+    o BEFE Modeling Concepts Documentation
+
+  Introducing...
+  
+    o Persistence
+    o Communication
+    o BEFE-Wiki Relaxed Freeform Documentation
+    
+...Release 0.3
+
+//----------------------------------------------------------------------
+// Release 0.5 (2012) - Focusing on Threading/Network
+//----------------------------------------------------------------------
+
+Release 0.5...
+
+  Features...
+  
+    o Namespaces
+    o Word Dictionaries
+    o Enhanced Buffer and SBuffer (to reduce memory)
+    o Number and OraNumber classes
+    o Proper Unicode "Case Folding"
+    
+    o Repository, including...
+
+      - Values and/versus Objects
+      - Data Types and Object Classes
+      - Ids
+      - Persistent and Communicable
+
+    o Communication layers...
+
+      - Cross-thread
+      - Interprocess
+      - TCP/IP             // ◄── Without IPv6
+      
+    o Communication protocols (initial implementations)...
+    
+      - HTTPClient         // ◄── Query only
+      - BEFE               // ◄── Beginnings
+      - FTPClient          // ◄── Maybe!!!
+      - SMBClient          // ◄── Maybe!!!
+      
+  Introducing...
+  
+    o Abstract Machine (as opposed to Virtual Machine)
+    o Lexical Analysis
+    o Language independence
+    o Live code generation
+    
+...Release 0.5
+
+//----------------------------------------------------------------------
+// Release 0.6 (2012..., basically some areas I'd like to head for)
+//----------------------------------------------------------------------
+
+Release 0.6...
+
+Haven't decided on exact scope here but the plan is to do some/all of
+the following...
+
+  GUI, including...
+  
+    o GUI model and hooks described in Repository
+    
+    o Associate code with GUI so we can get around all the multi-threaded
+        bollocks that most coders have to worry about
+
+        -- "Real code" will be generated from spec but coder can write
+        -- in whatever language they want and plug it in using a sane and
+        -- controlled manner/mechanism/model
+        
+    o Targets...
+    
+      - Native OS GUI look and feel (like Eclipse does)
+      - Tablet GUI (the "ham fisted" or "finger" GUI)
+      - Mobile GUI (the "limited input" GUI)
+      - Cloud GUI (for HTML)
+    
+  Source Language input...
+  
+    o C/C++
+    o Python
+    o Java
+    o Javascript
+    o BEFE ASM (for Abstract Machine)
+    
+    Note: Open for suggestions here
+    
+  Target Output...
+  
+    o Windows .EXE
+    o Ubuntu executable
+    o Android executable (or whatever they call it)
+    o OS X executable
+    
+  BEFE Debugger...
+  
+    o Haven't quite pinned this down but it will be based on Abstract
+        machine but will hook into native executables properly just
+        like GDB
+
+...Release 0.6

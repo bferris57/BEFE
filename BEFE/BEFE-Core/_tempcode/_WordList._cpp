@@ -1,0 +1,402 @@
+#include "BEFE.h"
+#include "WordList.h"
+
+#include "Integer.h"  // For intCrc32
+
+#include <cstdio>     // TEMP: For fopen, etc. (this will be going soon)
+#include <stdio.h>    // TEMP: For printf (this will be going soon)
+
+namespace BEF_NS {
+
+//
+// Globals
+//
+
+static Word NULLWord;
+
+//----------------------------------------------------------------------
+//
+// Methods:  WordList() - Constructor
+//          ~WordList() - Destructor
+//
+//----------------------------------------------------------------------
+
+WordList::WordList() {
+
+  // Clear pointers
+  filebuf = NULL;
+  words   = NULL;
+
+  // Set initial state
+  Reset();
+
+  }
+
+WordList::~WordList() {
+
+  // Release allocated memory
+  Reset();
+
+}
+
+//----------------------------------------------------------------------
+//
+// Methods: Reset()        - Reset to initial state and release memory
+//          LoadFromFile() - Load contents from text file
+//
+// Notes:   The text file passed to LoadFromFile() may contain 0..N
+//          lines.
+//
+//          Blank lines and lines starting with '#' are ignored.
+//
+//          Words are any separated by control characters (0x00..0x20).
+//
+//          The maximum length of the file is 0xffffff.  If it is larger
+//          on 0xffffff bytes are loaded.
+//
+//----------------------------------------------------------------------
+
+void WordList::Reset() {
+
+  // Release filebuf
+  if (filebuf != NULL) {
+    MemoryFreeBytes(filebuf);
+    filebuf = NULL;
+  }
+
+  // Release word list
+  if (words != NULL) {
+    MemoryFreeBytes((Byte *)words);
+    words = NULL;
+  }
+
+  // Clear other locals
+  state = Error::None;
+
+  filebuflen = 0;
+
+  wordcount    = 0;
+  wordmin      = 0;
+  wordmax      = 0;
+  wordtotchars = 0;
+
+  order        = OrderNone;
+
+  return;
+}
+
+Status WordList::LoadFromFile(Char *fname) {
+
+  FILE *file;
+  Int   nread;
+
+  Byte *cur;
+  Int   reml;
+
+  Byte *thisword;
+  Int   thislen;
+  Int   thiswordidx;
+  Word *word;
+
+  // Reset it
+  Reset();
+
+  // Open the file
+  file = fopen((const char *)fname,"rb");
+  if (file == NULL) goto FILEOPENERROR;
+  fseek(file,0,SEEK_END);
+  filebuflen = ftell(file) & 0xffffff;
+  if (filebuflen == 0) goto DONE;
+
+  // Allocate memory and read the file
+  filebuf = new Byte[filebuflen+1];
+  if (filebuf == NULL) goto OUTOFMEMORY;
+  rewind(file);
+  nread = fread(filebuf,1,filebuflen,file);
+  if (nread != filebuflen) goto READERROR;
+
+  // NUL terminate the buffer
+  filebuf[filebuflen] = 0x00;
+
+  // Initialise stats
+  wordcount    = 0;
+  wordmin      = filebuflen+1;
+  wordmax      = 0;
+  wordtotchars = 0;
+
+  //
+  // Count the words (truncate at 0xffffff length)
+  //
+
+  reml = filebuflen;
+  cur  = filebuf;
+
+  while (reml > 0) {
+
+    // Skip leading control characters
+    while (reml>0 && *cur>=0 && *cur <= 0x20) {cur++; reml--;}
+    if (!reml) break;
+    // Skip until end of line
+    thislen  = 0;
+    thisword = cur;
+    while (reml>0 && (*cur<0 || *cur>0x20)) {thislen++; cur++; reml--;}
+    // If not empty and doesn't start with '#'...
+    if (thislen && *thisword != '#') {
+      wordcount++;
+      if (thislen < wordmin)
+        wordmin = thislen;
+      if (thislen > wordmax)
+        wordmax = thislen;
+      wordtotchars += thislen;
+    }
+    cur++; reml--;
+  }
+
+  // Allocate word list and crcs
+  if (wordcount != 0) {
+    words = new Word[wordcount];
+    if (words == NULL) goto OUTOFMEMORY;
+  }
+
+  //
+  // Populate word list and crcs...
+  //
+
+  reml        = filebuflen;
+  cur         = filebuf;
+  thiswordidx = 0;
+  word        = words;
+
+  while (reml > 0) {
+
+    // Skip leading control characters
+    while (reml>0 && *cur>=0 && *cur <= 0x20) {cur++; reml--;}
+    if (!reml) break;
+
+    // Skip until end of line
+    thislen  = 0;
+    thisword = cur;
+    while (reml>0 && (*cur<0 || *cur>0x20)) {thislen++; cur++; reml--;}
+
+    // Truncate word length
+    thislen &= 0x7f;
+
+    // If not empty and doesn't start with '#'...
+    if (thislen && *thisword != '#') {
+
+      // Populate word list and crcs
+      word->index = thiswordidx;
+      word->len   = thislen;
+      word->value = thisword;
+      word->crc   = IntCrc32((UInt8 *)thisword, thislen);
+
+      // NUL terminate the word
+      *(thisword+thislen) = 0x00;
+
+      // Next word
+      word++;
+      thiswordidx++;
+    }
+
+    // Next character
+    cur++; reml--;
+  }
+
+  goto OK;
+
+OK:
+
+  state = Error::None;
+  goto DONE;
+
+FILEOPENERROR:
+  state = Error::FileDoesNotExist;
+  goto DONE;
+
+OUTOFMEMORY:
+  state = Error::OutOfMemory;
+  goto DONE;
+
+READERROR:
+  state = Error::FileReadFailed;
+  goto DONE;
+
+DONE:
+
+  if (file != NULL)
+    fclose(file);
+
+  return state;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Methods: GetWordCount()  - Get number of words
+//          GetWord()       - Get word by index
+//          FindByCrc()     - Get word by CRC
+//
+// Notes:   Each of these methods returns zero if an error such as
+//          "not initialised", "invalid word count", etc. occurs.
+//
+//----------------------------------------------------------------------
+
+Int   WordList::GetWordCount() {
+  return wordcount;
+}
+
+Status WordList::GetWord(Int wordidx, Word &theword) {
+
+  Status result;
+
+
+  if (wordidx < 0 || wordidx > wordcount) {
+    result = Error::IndexOutOfRange;
+    theword = NULLWord;
+    goto DONE;
+  }
+
+  result = Error::None;
+
+  if (words != NULL)
+    theword = words[wordidx];
+  else
+    theword = NULLWord;
+
+DONE:
+
+  return result;
+
+}
+
+Status WordList::FindByCrc(Int32 crc, Int &wordidx) {
+
+  Status result;
+  Int    ul;
+  Int    ll;
+  Int    mid;
+
+  wordidx = 0;
+
+  // Set the order to CRC order
+  result = SetOrder(OrderByCRC);
+
+  // Nothing to do if no words
+  if (wordcount <= 0 || words == NULL) {
+    result = Error::WordNotFound;
+    goto DONE;
+  }
+
+  // Search for it
+  ll = 0;
+  ul = wordcount-1;
+  while (ll<ul) {
+    mid = (ul+ll)/2;
+    if (words[mid].crc < crc)
+      ll = mid+1;
+    else if (words[mid].crc > crc)
+      ul = mid-1;
+    else {
+      ll = ul = mid;
+      break;
+    }
+  }
+
+  // Position to first one equals or greater than crc...
+  wordidx = ll;
+  while (wordidx > 0 && words[wordidx-1].crc == crc)
+    wordidx--;
+
+  // If didn't find it, position at next one
+  if (wordidx < 0 || words[wordidx].crc != crc) {
+    result = Error::WordNotFound;
+    wordidx++;
+  }
+  else
+    result = Error::None;
+
+DONE:
+
+  return result;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Methods: PrintStatistics() - Print information about word list
+//
+//----------------------------------------------------------------------
+
+void WordList::PrintStatistics() {
+
+  float avg;
+
+  printf("Word Count:     %d\n",wordcount);
+  printf("Word Min:       %d\n",wordmin);
+  printf("Word max:       %d\n",wordmax);
+  if (wordcount != 0)
+    avg = (float)wordtotchars/(float)wordcount;
+  else
+    avg = 0.0;
+  printf("Average Length: %.1f\n",avg);
+
+  return;
+}
+
+int WordCompareIndex(const void *entry1, const void *entry2) {
+
+  if (((Word *)entry1)->index < ((Word *)entry2)->index)
+    return -1;
+  else if (((Word *)entry1)->index > ((Word *)entry2)->index)
+    return 1;
+  return 0;
+}
+
+int WordCompareValue(const void *entry1, const void *entry2) {
+
+  WARN("WordCompareValue not implemented yet");
+  return 0;
+}
+
+int WordCompareCRC(const void *entry1, const void *entry2) {
+
+  Word *word1 = (Word *)entry1;
+  Word *word2 = (Word *)entry2;
+
+  if (word1->crc < word2->crc)
+    return -1;
+  else if (word1->crc > word2->crc)
+    return 1;
+  return 0;
+}
+
+//----------------------------------------------------------------------
+//
+// Methods: SetOrder() - Set word list order
+//
+//----------------------------------------------------------------------
+
+Status WordList::SetOrder(Order neworder) {
+
+  Status result = Error::None;
+
+  if (order == neworder || words == NULL || wordcount <= 0) goto DONE;
+
+  switch (neworder) {
+   case OrderNone:    break;
+   case OrderByIndex: Qsort(words,wordcount,sizeof(Word),&WordCompareIndex); break;
+   case OrderByValue: Qsort(words,wordcount,sizeof(Word),&WordCompareValue); break;
+   case OrderByCRC:   Qsort(words,wordcount,sizeof(Word),&WordCompareCRC); break;
+   default:
+    result = Error::InvalidWordOrder;
+    neworder = OrderNone;
+    break;
+  }
+
+DONE:
+
+  order = neworder;
+  return Error::None;
+}
+
+} // Namespace BEF_NS

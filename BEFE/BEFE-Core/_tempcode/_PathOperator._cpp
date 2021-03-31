@@ -1,0 +1,96 @@
+//----------------------------------------------------------------------
+//
+// File: PathOperator.cpp - Path operator<x> methods
+//
+
+#include "BEFE.h"
+#include "Path.h"
+
+namespace BEF_NS {
+
+// Handy macros
+#define THEPATHSEP (separators[(isNativeMode)?1:0])
+
+//----------------------------------------------------------------------
+//
+// operator=
+//
+
+Path &Path::operator=  (String const &name) {
+  StartUp();
+  FocusOnName();
+  fullname   = name;
+  isModified = true;
+}
+
+Path &Path::operator=  (char const *name) {
+  StartUp();
+  FocusOnName();
+  fullname   = name;
+  isModified = true;
+}
+
+Path &Path::operator=  (char *name) {
+  StartUp();
+  FocusOnName();
+  fullname   = name;
+  isModified = true;
+}
+
+Path &Path::operator=  (Strings const &parts) {
+  StartUp();
+  FocusOnParts();
+  this->parts = parts;
+  isModified  = true;
+}
+
+
+//----------------------------------------------------------------------
+//
+// operator+=
+//
+
+Path &Path::operator+= (String const &fileordir) {
+  FocusOnName();
+  if (fullname.Length() != 0)
+    fullname += THEPATHSEP;
+  fullname += fileordir;
+  isModified = true;
+  return *this;
+}
+
+Path &Path::operator+= (char const *fileordir) {
+  FocusOnName();
+  if (fullname.Length() != 0)
+    fullname += THEPATHSEP;
+  fullname += fileordir;
+  isModified = true;
+  return *this;
+}
+
+Path &Path::operator+= (char *fileordir) {
+  FocusOnName();
+  if (fullname.Length() != 0)
+    fullname += THEPATHSEP;
+  fullname += (const char *)fileordir;
+  isModified = true;
+  return *this;
+}
+
+//----------------------------------------------------------------------
+//
+// operator+
+//
+
+Path &Path::operator+ (String const &fileordir) {
+  return (*this) += fileordir;
+}
+Path &Path::operator+ (char const *fileordir) {
+  return (*this) += fileordir;
+}
+
+Path &Path::operator+ (char *fileordir) {
+  return (*this) += fileordir;
+}
+
+}; // Namespace BEF_NS

@@ -1,0 +1,46 @@
+From: Bruce Ferris
+To:   Cengage Recruitment
+Date: 03/08/2012
+
+Re:   Report on the sample Library Application
+
+I received the task instructions on 2/08/2012 around 12:00pm so
+I rolled up my sleeves and started coding.
+
+Since there were no specifics on what a "Library Application"
+consists of, I focused on underlying data design and OO structure
+to ensure that the data being manipulated was separate from the
+Python implementation.
+
+Since I tend to get into most projects quite deeply, I approached
+it in the same way I would approach it had it been intended as a
+"production application" and, since no UI interface was specified
+I stuck to a command line based application to start with.
+
+I had a lot of fun doing it so I spent a lot more hours on it (about
+12 in total) than is absolutely necessary to show some of my Python
+coding ability.  And, although it's not in the slightest finished, it
+is starting to work and can be demonstrated on either Linux or Windows.
+
+I have included the following files in the .ZIP attached to this
+description...
+
+  o _sample.txt   - Example input/output from running the application
+  o libapp.py     - The Python command line processor (the "Application")
+  o library.py    - The main Library class
+  o libitems.py   - The LibItem and specialisation classes
+  o liberrors.py  - Separating error message from error codes (for translation)
+  o libutils.py   - Data validation utility functions
+  
+The main things to point out are that there's still plenty of bugs in it,
+it's not at all fully documented, doesn't save/load any of the data to
+a permanent store, and hasn't started to approach any multi-threading issues.
+
+Other than that, all I can say is that with the 24 hours allotted to me,
+that's about all I could accomplish so far.
+
+Sincerely,
+
+
+Bruce Ferris
+  

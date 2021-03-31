@@ -1,0 +1,110 @@
+//----------------------------------------------------------------------
+// File: ByteBuffer.h - Declarations for the ByteBuffer Class
+//----------------------------------------------------------------------
+//
+// This header declares the ByteBuffer class which maintains a variable
+// length buffer of Byte values.
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+#ifndef BYTEBUFFER_H
+#define BYTEBUFFER_H
+
+#include "primitives.h"
+#include "AllocInc.h"
+#include "String.h"
+
+namespace BEF_NS {
+
+//
+// Forward class declarations
+//
+
+class ByteBufferMem; // Memory for the ByteBuffer
+
+//----------------------------------------------------------------------
+//
+// Class: ByteBuffer - The ByteBuffer class, a buffer for bytes
+//
+// This is the main value class.  It contains a pointer to a low level
+// buffer containing the actual bytes themselves.
+//
+//----------------------------------------------------------------------
+
+class ByteBuffer {
+
+//
+// Public Class methods
+//
+
+  public: static Int    GetTotalAllocations();
+  public: static Int    GetActiveAllocations();
+
+//
+// Public instance methods
+//
+
+  // C++ Lifecycle
+  public: ByteBuffer();
+  public: ByteBuffer(AllocInc alloc);
+  public: ByteBuffer(String  &alloc);
+  public: ~ByteBuffer();
+
+  // BEFE Lifecycle
+  public: Status StartUp();
+  public: Status StartUp(AllocInc alloc);
+  public: Status StartUp(String &alloc);
+  public: Status ShutDown();
+
+  public: Status Clear();
+  public: Status CopyTo(ByteBuffer &that);
+  public: Status CopyFrom(ByteBuffer &that);
+  public: Status MoveTo(ByteBuffer &that);
+  public: Status MoveFrom(ByteBuffer &that);
+
+  // Byte buffer size
+  public: Int    Length();                      // Get Size in used bytes
+  public: Status SetLength(Int newlength);      // Set Size in used bytes
+  public: Int    Size();                        // Get Size in allocates bytes
+  public: Status SetSize(Int newsize);          // Set size in allocated bytes
+
+  // Byte contents
+  public: Status Get     (Int bindex,  Int   tolen,   Byte *to,    Int &usedlen);
+  public: Status Set     (Int bindex,  Int   fromlen, Byte *from);
+  public: Status Append  (Int fromlen, Byte *from);
+  public: Status Insert  (Int bindex,  Int   fromlen, Byte *from);
+  public: Status Remove  (Int bindex,  Int   remlen);
+  public: Status Replace (Int bindef,  Int   remlen,  Int fromlen, Byte *from);
+
+  // Allocation Increment info
+  AllocInc    GetAlloc();
+  Status      SetAlloc(AllocInc alloc);
+  Int         GetInit();                        // Get initial Byte count
+  Int         GetIncrement();                   // Get byte increment count
+  Int         GetDecrement();                   // Get byte
+  Int         GetAllocSize();                   // Get allocated bytes
+  Byte       *GetBuf();                         // Get pointer to the bytes (transient)
+
+//
+// Private Class members
+//
+
+  private: static Int totalallocations;
+  private: static Int activeallocations;
+
+//
+// Private Instance members
+//
+
+  // Buffer header
+  protected: AllocInc  alloc;         // Allocation Increment specification
+  protected: Int       curalloc;      // Currently allocated bytes
+  protected: Int       curused;       // Currently used bytes
+  protected: Byte     *bytes;         // The Bytes
+
+}; // Class ByteBuffer
+
+}; // Namespace BEF_NS
+
+#endif // BYTEBUFFER_H

@@ -1,0 +1,283 @@
+ Volume in drive C has no label.
+ Volume Serial Number is 84F4-3207
+
+ Directory of C:\SVN\BEFE-Core
+
+19/02/2017  19:05             5,626 main.cpp
+               1 File(s)          5,626 bytes
+
+ Directory of C:\SVN\BEFE-Core\array
+
+19/02/2017  19:05            19,033 Bytes.cpp
+19/02/2017  19:05             1,022 Numbers.cpp
+28/04/2017  13:55             7,218 Strings.cpp
+19/02/2017  19:05            21,799 _ArrayBase.cpp
+19/02/2017  19:05            18,343 _MapBase.cpp
+19/02/2017  19:05            26,348 _SparseBase.cpp
+               6 File(s)         93,763 bytes
+
+ Directory of C:\SVN\BEFE-Core\cache
+
+19/02/2017  19:05            40,238 Cache.cpp
+19/02/2017  19:05             7,544 CacheBlock.cpp
+19/02/2017  19:05             3,439 CacheBlockInfo.cpp
+19/02/2017  19:05            15,761 CacheChain.cpp
+19/02/2017  19:05             6,261 CacheFile.cpp
+19/02/2017  19:05             5,710 CacheFileInfo.cpp
+19/02/2017  19:05             9,596 CacheFormat.cpp
+19/02/2017  19:05             6,301 CacheInfo.cpp
+               8 File(s)         94,850 bytes
+
+ Directory of C:\SVN\BEFE-Core\command
+
+19/02/2017  19:05             8,719 cmdutils.cpp
+19/02/2017  19:05             2,699 CommandDecl.cpp
+19/02/2017  19:05            10,867 CommandLayer.cpp
+19/02/2017  19:05            23,208 CommandLayer_BEFE.cpp
+19/02/2017  19:05            36,493 CommandLayer_Lang.cpp
+19/02/2017  19:05            34,272 CommandLayer_OS.cpp
+19/02/2017  19:05            20,487 CommandShell.cpp
+19/02/2017  19:05            14,463 Command_Analyse.cpp
+19/02/2017  19:05             8,931 Command_Build.cpp
+19/02/2017  19:05             5,778 Command_Crypt.cpp
+19/02/2017  19:05             3,219 Help.cpp
+              11 File(s)        169,136 bytes
+
+ Directory of C:\SVN\BEFE-Core\core
+
+19/02/2017  19:05            20,103 BEFE.cpp
+19/02/2017  19:05             2,600 BEFECallbacks.cpp
+19/02/2017  19:05             4,550 BEFEEnviron.cpp
+19/02/2017  19:05            17,294 BEFEWrappers.cpp
+19/02/2017  19:05             8,719 Buffer.cpp
+19/02/2017  19:05            16,407 BufferLow.cpp
+19/02/2017  19:05             3,142 Error.cpp
+19/02/2017  19:05            15,998 Globals.cpp
+27/04/2017  15:14            13,010 MinExp.cpp
+19/02/2017  19:05             2,517 Network.cpp
+19/02/2017  19:05            21,051 OperatingSystem.cpp
+19/02/2017  19:05             6,553 Platform.cpp
+19/02/2017  19:05             5,548 Process.cpp
+19/02/2017  19:05             2,165 Processor.cpp
+19/02/2017  19:05             4,118 SBuffer.cpp
+19/02/2017  19:05            23,942 String.cpp
+19/02/2017  19:05             8,504 StringAppend.cpp
+19/02/2017  19:05             7,624 StringBuild.cpp
+19/02/2017  19:05            11,373 StringCompare.cpp
+19/02/2017  19:05             1,650 StringConstruct.cpp
+13/04/2017  11:55            14,827 StringFind.cpp
+19/02/2017  19:05             4,349 StringFolding.cpp
+19/02/2017  19:05             3,239 StringFormat.cpp
+19/02/2017  19:05            17,531 StringGeneral.cpp
+19/02/2017  19:05            11,936 StringGet.cpp
+19/02/2017  19:05             6,312 StringInsert.cpp
+19/02/2017  19:05             2,297 StringJoin.cpp
+19/02/2017  19:05            15,587 StringManip.cpp
+19/02/2017  19:05             8,137 StringOperator.cpp
+19/02/2017  19:05             2,829 StringPersist.cpp
+19/02/2017  19:05             4,520 StringQuery.cpp
+19/02/2017  19:05             7,231 StringRemove.cpp
+19/02/2017  19:05             4,484 StringReplace.cpp
+19/02/2017  19:05             3,538 StringReverse.cpp
+19/02/2017  19:05            15,594 StringSplit.cpp
+19/02/2017  19:05             1,321 StringSubscript.cpp
+19/02/2017  19:05            10,531 Time.cpp
+19/02/2017  19:05            15,318 UTF8.cpp
+19/02/2017  19:05            21,256 UTF8Fold.cpp
+19/02/2017  19:05             4,579 UUID.cpp
+19/02/2017  19:05            11,161 VarTerm.cpp
+24/04/2017  12:17               610 _MinExpStack.cpp
+19/02/2017  19:05             1,633 _SanityCheck.cpp
+              43 File(s)        385,688 bytes
+
+ Directory of C:\SVN\BEFE-Core\crypt
+
+19/02/2017  19:05            19,535 Crypt.cpp
+19/02/2017  19:05             6,284 Crypt0.cpp
+19/02/2017  19:05             9,652 CryptFileHead.cpp
+19/02/2017  19:05             5,279 CryptKey.cpp
+               4 File(s)         40,750 bytes
+
+ Directory of C:\SVN\BEFE-Core\datamodel
+
+19/02/2017  19:05             2,510 Class.cpp
+19/02/2017  19:05             4,548 Ids.cpp
+19/02/2017  19:05             7,644 IdSpace.cpp
+19/02/2017  19:05             1,582 IdSpaceInfoExt.cpp
+19/02/2017  19:05             3,784 StringSpace.cpp
+               5 File(s)         20,068 bytes
+
+ Directory of C:\SVN\BEFE-Core\devices
+
+19/02/2017  19:05             8,702 Console.cpp
+               1 File(s)          8,702 bytes
+
+ Directory of C:\SVN\BEFE-Core\format
+
+19/02/2017  19:05            10,585 FormatOut.cpp
+19/02/2017  19:05            24,847 LexFormatOut.cpp
+19/02/2017  19:05             6,659 ToAscii.cpp
+19/02/2017  19:05            20,395 ToString.cpp
+19/02/2017  19:05            20,951 ToStrings.cpp
+               5 File(s)         83,437 bytes
+
+ Directory of C:\SVN\BEFE-Core\lang
+
+19/02/2017  19:05            27,482 Bcmd.cpp
+19/02/2017  19:05             2,820 BcmdArg.cpp
+19/02/2017  19:05            37,969 BcmdCommand.cpp
+19/02/2017  19:05            10,477 Blang.cpp
+19/02/2017  19:05            31,033 Bmsg.cpp
+19/02/2017  19:05             2,870 BmsgLine.cpp
+19/02/2017  19:05             2,805 BmsgToken.cpp
+               7 File(s)        115,456 bytes
+
+ Directory of C:\SVN\BEFE-Core\lex
+
+19/02/2017  19:05            10,216 Lex.cpp
+19/02/2017  19:05             3,691 LexAction.cpp
+19/02/2017  19:05             2,853 LexFuncs.cpp
+19/02/2017  19:05            19,426 LexLangActions.cpp
+19/02/2017  19:05             7,853 LexLangBefe.cpp
+19/02/2017  19:05             7,089 LexLangCpp.cpp
+19/02/2017  19:05            46,805 LexLanguage.cpp
+19/02/2017  19:05             2,688 LexRange.cpp
+19/02/2017  19:05             7,922 LexState.cpp
+19/02/2017  19:05            30,549 LexStream.cpp
+19/02/2017  19:05             3,576 LexToken.cpp
+19/02/2017  19:05            10,856 Match.cpp
+19/02/2017  19:05             5,114 MatchNode.cpp
+19/02/2017  19:05             6,242 MatchNodes.cpp
+              14 File(s)        164,880 bytes
+
+ Directory of C:\SVN\BEFE-Core\message
+
+19/02/2017  19:05             7,660 Message.cpp
+19/02/2017  19:05             1,600 MessageMessages.cpp
+19/02/2017  19:05             3,604 MessageRange.cpp
+19/02/2017  19:05             1,913 MessageRanges.cpp
+               4 File(s)         14,777 bytes
+
+ Directory of C:\SVN\BEFE-Core\number
+
+19/02/2017  19:05             3,917 Char.cpp
+19/02/2017  19:05             4,906 Crc32.cpp
+19/02/2017  19:05             4,815 Integer.cpp
+19/02/2017  19:05             2,593 IntegerDigit.cpp
+19/02/2017  19:05             2,497 IntegerFull.cpp
+19/02/2017  19:05             9,926 IntegerOperator.cpp
+19/02/2017  19:05            37,995 IntFuncs.cpp
+19/02/2017  19:05             1,835 MD5.cpp
+19/02/2017  19:05            16,811 MD5Calc.cpp
+19/02/2017  19:05            24,458 Number.cpp
+19/02/2017  19:05            19,709 OraNumber.cpp
+              11 File(s)        129,462 bytes
+
+ Directory of C:\SVN\BEFE-Core\persist
+
+19/02/2017  19:05            12,804 LexWorkspace.cpp
+19/02/2017  19:05            10,026 LexWorkspaceBlob.cpp
+19/02/2017  19:05             4,807 LexWorkspaceFile.cpp
+19/02/2017  19:05             6,492 LexWorkspaceIdEntry.cpp
+19/02/2017  19:05             5,868 LexWorkspaceString.cpp
+19/02/2017  19:05             8,719 LexWsArrayHead.cpp
+19/02/2017  19:05             7,586 LexWsBlob.cpp
+19/02/2017  19:05             7,893 LexWsBlockHead.cpp
+19/02/2017  19:05             8,257 LexWsFile.cpp
+19/02/2017  19:05             8,829 LexWsHead.cpp
+19/02/2017  19:05             6,775 LexWsString.cpp
+19/02/2017  19:05             8,001 Persist.cpp
+19/02/2017  19:05             6,012 PersistAnon.cpp
+19/02/2017  19:05             5,608 PersistAtomic.cpp
+19/02/2017  19:05             7,489 PersistHead.cpp
+19/02/2017  19:05             8,129 PersistNamed.cpp
+              16 File(s)        123,295 bytes
+
+ Directory of C:\SVN\BEFE-Core\platform\win32
+
+19/02/2017  19:05            14,309 Win32.cpp
+19/02/2017  19:05            14,113 Win32Console.cpp
+19/02/2017  19:05            25,694 Win32File.cpp
+19/02/2017  19:05             2,823 Win32Network.cpp
+19/02/2017  19:05            40,345 Win32OperatingSystem.cpp
+19/02/2017  19:05             4,622 Win32Platform.cpp
+19/02/2017  19:05            21,402 Win32Process.cpp
+19/02/2017  19:05             2,654 Win32Processor.cpp
+19/02/2017  19:05            21,593 win32reg.cpp
+19/02/2017  19:05            23,252 win32utils.cpp
+19/02/2017  19:05             4,948 Win32WCHAR.cpp
+19/02/2017  19:05            20,113 Win32xterm.cpp
+19/02/2017  19:05             2,448 _Iphlpapi.cpp
+19/02/2017  19:05             1,690 _Kernel32.cpp
+19/02/2017  19:05             1,794 _Ole32.cpp
+19/02/2017  19:05             2,579 _Psapi.cpp
+              16 File(s)        204,379 bytes
+
+ Directory of C:\SVN\BEFE-Core\seq
+
+19/02/2017  19:05            11,811 Alloc.cpp
+19/02/2017  19:05             4,773 Cycle.cpp
+19/02/2017  19:05            12,394 Range.cpp
+19/02/2017  19:05             8,035 Slice.cpp
+19/02/2017  19:05             3,242 SortBubble.cpp
+19/02/2017  19:05             3,178 SortInsertion.cpp
+19/02/2017  19:05             3,906 SortMerge.cpp
+19/02/2017  19:05             3,076 SortSelection.cpp
+19/02/2017  19:05             6,369 Span.cpp
+19/02/2017  19:05             9,812 URange.cpp
+19/02/2017  19:05             5,444 USpan.cpp
+              11 File(s)         72,040 bytes
+
+ Directory of C:\SVN\BEFE-Core\storage
+
+19/02/2017  19:05            13,332 BufferStream.cpp
+19/02/2017  19:05            15,742 File.cpp
+19/02/2017  19:05             3,111 FileInfo.cpp
+19/02/2017  19:05            23,201 FileStream.cpp
+19/02/2017  19:05             6,028 Lines.cpp
+19/02/2017  19:05            14,423 MemoryStats.cpp
+19/02/2017  19:05             6,750 MemoryUtils.cpp
+19/02/2017  19:05             8,735 Stream.cpp
+               8 File(s)         91,322 bytes
+
+ Directory of C:\SVN\BEFE-Core\test
+
+25/03/2017  19:08             5,906 Test.cpp
+19/02/2017  19:05            46,002 TestArray.cpp
+19/02/2017  19:05             6,752 TestBcmd.cpp
+19/02/2017  19:05            18,207 TestCache.cpp
+19/02/2017  19:05             2,395 TestConsole.cpp
+19/02/2017  19:05             6,536 TestContains.cpp
+19/02/2017  19:05             5,109 TestFile.cpp
+19/02/2017  19:05             3,263 TestIdSpace.cpp
+19/02/2017  19:05            20,685 TestLexicon.cpp
+19/02/2017  19:05             1,713 TestMD5.cpp
+19/02/2017  19:05             3,544 TestMessage.cpp
+13/04/2017  13:16             3,786 TestMinExp.cpp
+19/02/2017  19:05             3,752 TestMorphing.cpp
+19/02/2017  19:05             3,448 TestNull.cpp
+19/02/2017  19:05            14,111 TestNumber.cpp
+19/02/2017  19:05            17,761 TestSequence.cpp
+19/02/2017  19:05             2,064 TestStream.cpp
+19/02/2017  19:05            62,372 TestString.cpp
+19/02/2017  19:05             4,418 TestTime.cpp
+19/02/2017  19:05             9,057 TestUTF8.cpp
+19/02/2017  19:05             1,232 TestUUID.cpp
+19/02/2017  19:05             3,332 TestVarTerm.cpp
+19/02/2017  19:05            12,348 trythis.cpp
+              23 File(s)        257,793 bytes
+
+ Directory of C:\SVN\BEFE-Core\various
+
+19/02/2017  19:05            11,162 Build.cpp
+19/02/2017  19:05             2,264 BuildDisplay.cpp
+19/02/2017  19:05            30,928 BuildFiles.cpp
+19/02/2017  19:05             8,587 BuildMisc.cpp
+19/02/2017  19:05             5,466 BuildSettings.cpp
+19/02/2017  19:05             7,150 BuildZip.cpp
+19/02/2017  19:05            15,654 Dictionary.cpp
+               7 File(s)         81,211 bytes
+
+     Total Files Listed:
+             201 File(s)      2,156,635 bytes
+               0 Dir(s)  84,229,062,656 bytes free

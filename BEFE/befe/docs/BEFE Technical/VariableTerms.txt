@@ -1,0 +1,47 @@
+﻿Header...
+Variable Terms (VarTerm)
+...Header
+
+Defines...
+<VarTerm>
+<Variable Term>
+...Defines
+
+This is a straightforward but, oddly, difficult concept to put into
+plain English.
+
+To do so, we'll start by using the words <Required> and <Optional>.
+
+Typically, in "normal" English, these are rather absolute terms.
+However, in the discussion here, we have to introduce the relative 
+meaning of those phrases as we apply them to the subject at hand.
+
+That subject is "Variable Terms".  Here's one...
+
+  H[elp]
+  
+This is a notational specification of the "Help" command.  The
+part in the brackets is "optional", meaning you can specify it
+or not.  In fact, we'll say the 'H' is <Required> and the
+'elp' is <Optional>.  The brackets '[' and ']' indiate optional
+parts of the command.
+
+Fairly straightfoward so far.
+
+But, let's pull a little trick and examine this one...
+
+  [H[elp]]
+  
+Is the "H" now <Required> or <Optional>?  There lies the problem
+with the two terms.
+
+You could say "If the 'H' is specified, then the 'elp' is optional".
+
+That's fair enough, but is the 'H' <Required> or not?  Or, is the 'elp'
+just "more <Optional> than the 'H'"?
+
+To make things worse, consider the following example...
+
+  A[B[c]D[e[f][g]]
+  
+!!!!!!!!!!! CONTINUE THIS THOUGHT !!!!!!!!!!!

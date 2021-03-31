@@ -1,0 +1,78 @@
+Start test...
+
+Question 1: abs(uint32_t x)...
+  i = -16, func1(i) = 16
+  i = -15, func1(i) = 15
+  i = -14, func1(i) = 14
+  i = -13, func1(i) = 13
+  i = -12, func1(i) = 12
+  i = -11, func1(i) = 11
+  i = -10, func1(i) = 10
+  i = -9, func1(i) = 9
+  i = -8, func1(i) = 8
+  i = -7, func1(i) = 7
+  i = -6, func1(i) = 6
+  i = -5, func1(i) = 5
+  i = -4, func1(i) = 4
+  i = -3, func1(i) = 3
+  i = -2, func1(i) = 2
+  i = -1, func1(i) = 1
+  i = 0, func1(i) = 0
+  i = 1, func1(i) = 1
+  i = 2, func1(i) = 2
+  i = 3, func1(i) = 3
+  i = 4, func1(i) = 4
+  i = 5, func1(i) = 5
+  i = 6, func1(i) = 6
+  i = 7, func1(i) = 7
+  i = 8, func1(i) = 8
+  i = 9, func1(i) = 9
+  i = 10, func1(i) = 10
+  i = 11, func1(i) = 11
+  i = 12, func1(i) = 12
+  i = 13, func1(i) = 13
+  i = 14, func1(i) = 14
+  i = 15, func1(i) = 15
+  i = 16, func1(i) = 16
+Question 2: "How many x's will fit into a pointer to an x?"...
+  func(xp)  = 0
+  func(&xp) = 1
+  func(cp)  = 4
+  func(&cp) = 1
+  func(ip)  = 1
+  func(&ip) = 1
+  func(vp)  = 4
+  func(&vp) = 1
+Question 3: Calculate even parity, or answers "Is parity odd?"...
+  func2:   i = -16 (0xfffffff0), func3(i) = 0, func3_1(i) = 0
+  func2:   i = -15 (0xfffffff1), func3(i) = 1, func3_1(i) = 1
+  func2:   i = -14 (0xfffffff2), func3(i) = 1, func3_1(i) = 1
+  func2:   i = -13 (0xfffffff3), func3(i) = 0, func3_1(i) = 0
+  func2:   i = -12 (0xfffffff4), func3(i) = 1, func3_1(i) = 1
+  func2:   i = -11 (0xfffffff5), func3(i) = 0, func3_1(i) = 0
+  func2:   i = -10 (0xfffffff6), func3(i) = 0, func3_1(i) = 0
+  func2:   i =  -9 (0xfffffff7), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  -8 (0xfffffff8), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  -7 (0xfffffff9), func3(i) = 0, func3_1(i) = 0
+  func2:   i =  -6 (0xfffffffa), func3(i) = 0, func3_1(i) = 0
+  func2:   i =  -5 (0xfffffffb), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  -4 (0xfffffffc), func3(i) = 0, func3_1(i) = 0
+  func2:   i =  -3 (0xfffffffd), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  -2 (0xfffffffe), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  -1 (0xffffffff), func3(i) = 0, func3_1(i) = 0
+  func2:   i =   0 (0x00000000), func3(i) = 0, func3_1(i) = 0
+  func2:   i =   1 (0x00000001), func3(i) = 1, func3_1(i) = 1
+  func2:   i =   2 (0x00000002), func3(i) = 1, func3_1(i) = 1
+  func2:   i =   3 (0x00000003), func3(i) = 0, func3_1(i) = 0
+  func2:   i =   4 (0x00000004), func3(i) = 1, func3_1(i) = 1
+  func2:   i =   5 (0x00000005), func3(i) = 0, func3_1(i) = 0
+  func2:   i =   6 (0x00000006), func3(i) = 0, func3_1(i) = 0
+  func2:   i =   7 (0x00000007), func3(i) = 1, func3_1(i) = 1
+  func2:   i =   8 (0x00000008), func3(i) = 1, func3_1(i) = 1
+  func2:   i =   9 (0x00000009), func3(i) = 0, func3_1(i) = 0
+  func2:   i =  10 (0x0000000a), func3(i) = 0, func3_1(i) = 0
+  func2:   i =  11 (0x0000000b), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  12 (0x0000000c), func3(i) = 0, func3_1(i) = 0
+  func2:   i =  13 (0x0000000d), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  14 (0x0000000e), func3(i) = 1, func3_1(i) = 1
+  func2:   i =  15 (0x0000000f), func3(i) = 0, func3_1(i) = 0

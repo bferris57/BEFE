@@ -1,0 +1,113 @@
+#!befe-publish home
+#──────────────────────────────────────────────────────────────────────
+# File: TipsAndTricks-0001.txt - BEFE Tips, Tricks and Notes #1
+#──────────────────────────────────────────────────────────────────────
+#
+# This file contains an arbitrairy number of miscellaneous BEFE tips
+# and tricks as we think them up.
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011-2017, Bruce Ferris (UK)
+#──────────────────────────────────────────────────────────────────────
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Note: 1 - Running BEFE
+#
+
+Note_1...
+
+  You'll have to unzip the BEFE-0.2.zip file into some directory, let's
+  say you put it in "C:\BEFE" (that's where we have it).  This means
+  you'll have the executable sitting in "C:\BEFE\bin\Befe.exe".
+  
+  Before you run it, you should probably set the "BEFE_Home" environment
+  variable to "C:\BEFE\home" because that specifies where to get the
+  error messages, help, etc. from.
+  
+  Plus, you'll probably want to put "C:\BEFE\bin" on your Windows search
+  path.
+  
+  Alternatively, you could decide to shove a copy of Befe.exe into the
+  "C:\BEFE\home" directory so that all the files are sitting in one place.
+  That way you won't have to set BEFE_Home to anything.  But, if you do that
+  you'll clearly have to place C:\BEFE\home on your search path.
+  
+  Have fun!!!
+   //  
+...Note_1
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Note: 2 - How to compile your own BEFE code
+#
+
+Note_2...
+
+  I can't get into all the details here but what I'll do is give a quick
+  example of how to compile the main.cpp I've supplied and produce your
+  main.exe assuming you have MinGW installed and gcc is around.
+
+  Extract the ZIP into somewhere, let's call it "C:\BEFE".  Then, if you
+  run up a Windows cmd.exe window, you should be able to do something like
+  the following (which I've cribbed from a .cmd script and I've already
+  tried by manually copying the commands from here!!!)...
+
+    C:\BEFE> set BEFE_CCOpts= -static -std=c++0x -fno-exceptions -I ./inc
+    C:\BEFE> set BEFE_LOpts=-L./lib -lBEFE-0.2
+    C:\BEFE> gcc %BEFE_CCOpts% src/main.cpp %BEFE_LOpts% -o main.exe %BEFE_LOpts%
+  
+  When I did that, it created a main.exe in my C:\BEFE directory and
+  it worked just like a standard Befe.exe executable.
+
+  Give it a go and let me know if I've documented it wrong or anything.
+
+  Note: Just take a copy of src/main.cpp, hack away at it, and have a
+        play doing whatever you want.
+        
+        You can also take a copy of src/trythis.cpp, put your own code
+        into it to try BEFE stuff, and do the following to try it...
+        
+          C:\BEFE> befe +tests TryThis
+            
+            or
+            
+          C:\BEFE> befe +tests t
+   //
+...Note_2
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Note: 3 - BEFE Self-building...
+#
+
+Note_3...
+
+  Basically, what you have is an executable (Befe.exe) which has all the
+  BEFE library and code in it.
+
+  If you had the full source in the SVN directory (which you don't but 
+  I do) the befe.exe is capable of building itself from scratch assuming
+  you have the following software installed (you'll also need this in
+  order to use the BEFE library with your code)...
+
+    o MinGW   - "Minimalist Gnu for Windows" (from http://mingw.org)
+    o gcc     - Comes with MinGW
+    o ar      - Comes with MinGW
+    o svn     - Which I got with TortoiseSVN (from http://tortoisesvn.net)
+    o zip     - Info-ZIP's handy ZIP utility (from http://info-zip.org)
+    o soffice - OpenOffice or LibreOffice for creating .PDF files from .ODT
+    o swriter - Same as above: (from http://www.libreoffice.org or http://www.openoffice.org)
+
+      Note: I prefer LibreOffice just out of principle because Oracle own's
+            the rights to OpenOffice.  Actually, I don't like either out of
+            principle because of all the Java in them but they're much preferable
+            than anything from Microsoft because they run on any port I'm likely
+            to be developing or writing documentation on.
+
+  Now, you really don't need that info I just gave you above, since you
+  don't have access to the full BEFE source, but I figured it would give
+  you an idea of the rather minimimalist approach I've taken regarding
+  BEFE external software requirements.
+
+...Note_3
