@@ -1,4 +1,4 @@
-from enum import Enum
+from Enum import Enum
 
 if __name__ == '__main__':
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 #===============================================================================
-#===============================================================================
 #
 # File: build.py
 #
@@ -12,7 +11,6 @@
 # Where:   args - Optional...
 #
 #===============================================================================
-#===============================================================================
 
 # External modules
 #import os
@@ -22,8 +20,12 @@ import sys
 import shutil
 
 # Default configurables
-BEFE_SVNRoot  = 'c:/SVN/BEFE-Core'
-BEFE_BuildDir = 'c:/temp/BEFE_Build'
+here = os.path.dirname(os.path.abspath(__file__))
+root = os.path.abspath(here+'/..')
+BEFE_SVNRoot  = root+'/BEFE-Core'
+BEFE_BuildDir = root+'/temp'
+print("DEBUG: BEFE_SVNRoot  = %s"%repr(BEFE_SVNRoot))
+print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
 
 # Handy flags
 IsWin32 = sys.platform == 'win32'
@@ -99,7 +101,7 @@ def PathWalker(path):
   # See if anything to do
   path = PathNormalise(path)
   if type(path) != str or not os.path.isdir(path):
-    raise StopIteration
+    return
 
   # Populate initial stack
   stack = PathSplit(path)
@@ -121,6 +123,8 @@ def PathWalker(path):
       wanted = yield path
       if wanted == None:
         wanted = True
+    else:
+      wanted = False
 
     # If dir: Go deeper if wanted
     if wanted and os.path.isdir(path):
@@ -260,8 +264,8 @@ def CopySource():
       shutil.copystat(path,dest)
       copied += 1
 
-  print "Total Files  =",total
-  print "Copied Files =",copied
+  print("Total Files  =",total)
+  print("Copied Files =",copied)
 
   return
 
@@ -282,10 +286,10 @@ def CopySource():
 if __name__ == "__main__":
 
   if False:
-    print "Cleaning..."
+    print("Cleaning...")
     Clean()
-    print "Creating empty build structure..."
+    print("Creating empty build structure...")
     Empty()
-  print "Copying files..."
+  print("Copying files...")
   CopySource()
-  print "** Build Finished**"
+  print("** Build Finished**")
