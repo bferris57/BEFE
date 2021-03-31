@@ -100,7 +100,7 @@ if __name__ == '__main__':
   files = walk(srcdir)
   for file in files:
     print('  '+file[rlen+1:])
-
+  print("\nThat's it!")
 
   sys.exit()
   # ...TEMP
