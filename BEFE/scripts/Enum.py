@@ -11,6 +11,12 @@
 #===============================================================================
 
 # External modules
+import sys
+
+# Globals 
+python3 = sys.version.startswith('3.')
+if python3:
+  long = int
 
 #===============================================================================
 #
@@ -101,7 +107,7 @@ class Enum(object):
     if name in ['__min__', '__max__','__count__','__members__']:
       raise AttributeError("Enum attribute '%s' is immutable"%name)
       
-    if not self.__dict__.has_key(name):
+    if not name in self.__dict__:
       raise AttributeError("Enum has no member named '%s'"%name)
       
   def __getattr__(self, name):
@@ -112,7 +118,7 @@ class Enum(object):
     if name in ['__min__', '__max__','__count__']:
       raise AttributeError("Enum attribute '%s' is immutable"%name)
       
-    if not self.__dict__.has_key(name):
+    if not name in self.__dict__:
       raise AttributeError("Enum has no member named '%s'"%name)
   
   def __getitem__(self, index):
@@ -126,7 +132,7 @@ class Enum(object):
     elif typ == str:
       if len(index) >= 2 and index[0:2] == '__':
         raise IndexError("Enum index '%s' is hidden"%index)
-      if not self.__dict__.has_key(index):
+      if not index in self.__dict__:
         raise IndexError("Enum has no member '%s'"%index)
       return self.__dict__[index]
     else:

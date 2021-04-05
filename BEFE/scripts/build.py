@@ -22,9 +22,9 @@ import shutil
 # Default configurables
 here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.abspath(here+'/..')
-BEFE_SVNRoot  = root+'/BEFE-Core'
+BEFE_SrcRoot  = root+'/BEFE-Core'
 BEFE_BuildDir = root+'/temp'
-print("DEBUG: BEFE_SVNRoot  = %s"%repr(BEFE_SVNRoot))
+print("DEBUG: BEFE_SrcRoot  = %s"%repr(BEFE_SrcRoot))
 print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
 
 # Handy flags
@@ -112,19 +112,24 @@ def PathWalker(path):
   while stack:
 
     # Get current path
-    path = ''
+    path = '/'
     for level in stack:
-      if path:
+      if path and path[-1] != '/':
         path += '/'
       path += level[0]
 
     # Give it to the caller...
+    print('DEBUG: PathWalker 0 - path = %s'%repr(path))
+    print('DEBUG: PathWalker 0 - os.path.isdir(path) = %s'%repr(os.path.isdir(path)))
     if os.path.isdir(path) or os.path.isfile(path):
       wanted = yield path
+      print('DEBUG: PathWalker 1 - wanted = %s'%repr(wanted))
       if wanted == None:
         wanted = True
     else:
       wanted = False
+
+    print('DEBUG: PathWalker 2 - wanted = %s'%repr(wanted))
 
     # If dir: Go deeper if wanted
     if wanted and os.path.isdir(path):
@@ -212,7 +217,7 @@ def Empty(directory = None):
 #
 # Function: CopySource
 #
-# Purpose:  Copy source from SVN to build directory
+# Purpose:  Copy source to build directory
 #
 # Notes:    If the destination file already exists (e.g. if the directories
 #           haven't been cleaned or emptied), it will only be copied if
@@ -229,7 +234,8 @@ def CopySource():
           }
 
   # Do it...
-  walker = PathWalker(BEFE_SVNRoot)
+  print('DEBUG: BEFE_SrcRoot = %s'%repr(BEFE_SrcRoot))
+  walker = PathWalker(BEFE_SrcRoot)
   total = 0
   copied = 0
   for path in walker:
@@ -241,7 +247,6 @@ def CopySource():
     if path.find('/.') >= 0: WantIt = False
     if dontWant in path:    WantIt = False
     if not WantIt:
-      walker.send(False)
       continue
     if not os.path.isfile(path):
       continue
@@ -256,7 +261,7 @@ def CopySource():
     _,fileName = os.path.split(path)
     dest += '/'+fileName
     doit = True
-    if os.path.isfile(dest) and os.path.getmtime(path) <= os.path.getmtime(dest):
+    if os.path.exists(dest) and os.path.isfile(dest) and os.path.getmtime(path) <= os.path.getmtime(dest):
       doit = False
     if doit:
       os.remove(dest)
