@@ -119,17 +119,12 @@ def PathWalker(path):
       path += level[0]
 
     # Give it to the caller...
-    print('DEBUG: PathWalker 0 - path = %s'%repr(path))
-    print('DEBUG: PathWalker 0 - os.path.isdir(path) = %s'%repr(os.path.isdir(path)))
     if os.path.isdir(path) or os.path.isfile(path):
       wanted = yield path
-      print('DEBUG: PathWalker 1 - wanted = %s'%repr(wanted))
       if wanted == None:
         wanted = True
     else:
       wanted = False
-
-    print('DEBUG: PathWalker 2 - wanted = %s'%repr(wanted))
 
     # If dir: Go deeper if wanted
     if wanted and os.path.isdir(path):
@@ -234,7 +229,6 @@ def CopySource():
           }
 
   # Do it...
-  print('DEBUG: BEFE_SrcRoot = %s'%repr(BEFE_SrcRoot))
   walker = PathWalker(BEFE_SrcRoot)
   total = 0
   copied = 0
@@ -264,13 +258,14 @@ def CopySource():
     if os.path.exists(dest) and os.path.isfile(dest) and os.path.getmtime(path) <= os.path.getmtime(dest):
       doit = False
     if doit:
-      os.remove(dest)
+      if os.path.exists(dest):
+        os.remove(dest)
       shutil.copy(path,dest)
       shutil.copystat(path,dest)
       copied += 1
 
-  print("Total Files  =",total)
-  print("Copied Files =",copied)
+  print("  Total Files  =",total)
+  print("  Copied Files =",copied)
 
   return
 
@@ -290,7 +285,7 @@ def CopySource():
 
 if __name__ == "__main__":
 
-  if False:
+  if True:
     print("Cleaning...")
     Clean()
     print("Creating empty build structure...")

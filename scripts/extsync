@@ -10,13 +10,14 @@
 #================================================================================
 
 from   utils.walker import walk
-import os
-import sys
+import                     os
+import                     sys
 from   utils.errors import *
-import colr
+import                     colr
 from   utils.walker import walk
+from   funcs        import preEllipse
+import                     time
 
-#---
 #
 # Globals...
 #
@@ -25,7 +26,7 @@ debug       = False
 verbose     = False
 veryverbose = True
 
-#---
+#------------------------------------------------------------------------------
 #
 # Function: color - Use colr.color if stdout is a tty
 #
@@ -36,7 +37,7 @@ def color(*args,**kwargs):
     return args[0]
   return colr.color(*args,**kwargs)
 
-#---
+#------------------------------------------------------------------------------
 #
 # Function: expand - Expand file/path to full path
 #
@@ -45,33 +46,73 @@ def expand(path):
 
   return os.path.abspath(os.path.expanduser(path))
 
-#--
+#------------------------------------------------------------------------------
 #
 # Function: copyOneFile 
 #
-# Usage:    except = copoyOneFile(srcfile,dstfile)
+# Usage:    except = copoyOneFile(srcfile,dstfile,pretend=False,overwrite=False)
+#
+# Where:    srcfile   - str: Source file path
+#           dstfile   - str: Destination file path
+#           pretend   - bool: True  = Don't actually do it, just pretend
+#                             False = Actually do it
+#           overwrite - bool: True  = Overwrite existing file contents
+#                             False = Skip if exists 
 #
 
-def copyOneFile(srcfile,dstfile):
+def copyOneFile(srcfile,dstfile,pretend=True,overwrite=True):
 
-  sisdir  = os.path.isdir(srcfile)
-  sisfile = os.path.isfile(srcfile)
-  disdir  = os.path.isdir(dstfile)
-  disfile = os.path.isfile(dstfile)
+  # Make sure source file exists...
+  if not os.path.exists(srcfile):
+    return Exception("Source file %s doesn't exist"%repr(preEllipse(srcfile,75).strip()))
 
-  print('sidir:   '+repr(sisdir))
-  print('sisfile: '+repr(sisfile))
-  print('disdir:  '+repr(disdir))
-  print('disfile: '+repr(disfile))
+  #
+  # Do it...
+  #
+
+  dstdir = os.path.dirname(dstfile)
+  if not os.path.exists(dstdir):
+    os.makedirs(dstdir)
+
+  print('  '+preEllipse(dstfile,75)+'...',end='')
+
+  if os.path.exists(dstfile) and not overwrite:
+    print("Exists already, skipping")
+    return
 
   sfd = os.open(srcfile,os.O_RDONLY)
   sstat = os.fstat(sfd)
-  print('ssize:   '+str(sstat.st_size))
-  dfs = os.open(dstfile,os.O_WRONLY|os.O_CREAT)
+  filesize = sstat.st_size
+  if not pretend:
+    dfd = os.open(dstfile,os.O_RDWR|os.O_CREAT)
+    #dfd = open(dstfile,'wb')
 
-  result = NotImplementedError("copyOneFile not finished yet")
+  prevpercent = -1
+  blocksize = 1024*1024 # 1mB at a time
+  offset = 0
+  while offset < filesize:
+    percent = int(float(offset)/filesize * 1000)/10.0
+    fstr = '%2.1f%%'%percent
+    if len(fstr) < 5: fstr = ' '+fstr
+    if percent != prevpercent:
+      print('%s\b\b\b\b\b'%fstr,end='')
+      sys.stdout.flush()
+    prevpercent = percent
+    if not pretend:
+      os.sendfile(dfd,sfd,offset,blocksize)
+    else:
+      time.sleep(.01)
+    offset += blocksize
 
-  return result
+  print("Finished")
+  
+  if not pretend:
+    os.close(dfd)
+    if overwrite:
+      os.truncate(dstfile,filesize)
+  os.close(sfd)
+
+  return
 
 #---
 #
@@ -80,33 +121,27 @@ def copyOneFile(srcfile,dstfile):
 
 if __name__ == '__main__':
 
-  file    = 'GloryholeAdmissions.E33.Tiny.Teen.Vixen.Creamed.On.Face.XXx.mp4'
-  srcdir  = expand('~/SRC/bb/_Other')
-  dstdir  = expand('~/DST/bb/_Other')
-  srcfile = expand(srcdir+'/'+file)
-  dstfile = expand(dstdir+'/'+file)
-
-  print('file:    '+file)
-  print('srcfile: '+srcfile)
-  print('dstfile: '+dstfile)
-
-  # TEMP...
-  root = expand('~/SRC/bb/')
-  rlen = len(root)
-  if root[-1] == '/': rlen -= 1
-
-  print(srcdir+' files...')
+  srcdir  = expand('~/SRC/bb/_Other/')
+  dstdir  = expand('~/DST/bb/_Other/')
+  if srcdir[-1] != '/': srcdir += '/'
+  if dstdir[-1] != '/': dstdir += '/'
+  print('srcdir = %s'%srcdir)
+  print('dstdir = %s'%dstdir)
+  print('')
+  print('Files...')
 
   files = walk(srcdir)
   for file in files:
-    print('  '+file[rlen+1:])
+    sfile = file
+    dfile = dstdir+os.path.basename(file)
+    result = copyOneFile(sfile,dfile,pretend=False,overwrite=False)
   print("\nThat's it!")
 
   sys.exit()
   # ...TEMP
 
-  result = copyOneFile(srcfile,dstfile)
+  result = copyOneFile(srcfile,dstfile,pretend=False)
+  #result = copyOneFile('/home/bferris57/befe/scripts/extsync','/home/bferris57/DST/extsync',pretend=False)
   if result:
     print(color("ERROR: "+str(result),fore='red',style='bright'))
-  print('Finished')
 
