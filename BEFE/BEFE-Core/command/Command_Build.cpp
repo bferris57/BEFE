@@ -35,7 +35,7 @@ static struct sBuildOpts options[] = {
   {"A[ll]",                        Build::CleanAll                         },
   {"F[ull]",                       Build::CleanAll                         },
   {"Init[ial]",                    Build::GeneralCreateOutputDirectories |
-  		                             Build::GeneralValidateSettings        |
+                                   Build::GeneralValidateSettings        |
                                    Build::GeneralCleanOutputDirectories    },
   {"Cl[ea]n",                      Build::GeneralCleanOutputDirectories    },
   {"Cl[ea]nA[ll]",                 Build::CleanAll                         },
@@ -43,13 +43,13 @@ static struct sBuildOpts options[] = {
   {"A[ll]Deb[ug]",                 Build::CleanDebug                       },
   {"Def[ault]",                    Build::GeneralDefaultSettings           },
   {"Val[idate]",                   Build::GeneralValidateSettings          },
-	{"None|Nothing",                 Build::None                             },
+  {"None|Nothing",                 Build::None                             },
   
   // Options...
   {"Rel[ease]",                    Build::OptionRelease | Build::BuildCopyInput },
   {"Deb[ug]",                      Build::OptionDebug   | Build::BuildCopyInput },
   {"Both",                         Build::OptionRelease | Build::OptionDebug    },
-  {"SVN",                          Build::OptionSVN                             },
+  {"GIT",                          Build::OptionGIT                             },
   
   // Build...
   {"CopyIn[put]",                  Build::BuildCopyInput | Build::GeneralDetermineFileNames},

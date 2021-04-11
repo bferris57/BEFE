@@ -1,11 +1,10 @@
-#!/home/bruce/.codelite/BEFE/BEFECore/Debug/befe-dev
-##!/usr/bin/befe
+#!/usr/bin/befe
 #
 # Build BEFE
 #
 
-+env:BEFE_SVN=~/SVN/bferris/BEFE-Core
-+env:BEFE_Build=~/BEFE/Builds/BEFE-0.4
++env:BEFE_GIT=~/befe/BEFE/BEFE-Core
++env:BEFE_Build=~/befe/BEFE/Builds/BEFE-0.4
 +v
 os
 

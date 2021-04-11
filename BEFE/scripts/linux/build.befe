@@ -4,8 +4,8 @@
 # Build BEFE
 #
 
-+env:BEFE_SVN=~/SVN/bferris/BEFE-Core
-+env:BEFE_Build=~/BEFE/Builds/BEFE-0.4
++env:BEFE_SVN=~/befe/BEFE/BEFE-Core
++env:BEFE_Build=~/befe/BEFE/Builds/BEFE-0.4
 +v
 os
 
