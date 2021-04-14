@@ -28,7 +28,7 @@ print("DEBUG: BEFE_SrcRoot  = %s"%repr(BEFE_SrcRoot))
 print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
 
 # Handy flags
-IsWin32 = sys.platform == 'win32'
+isWin32 = sys.platform == 'win32'
 
 #-------------------------------------------------------------------------------
 #
@@ -234,7 +234,7 @@ def CopySource():
   copied = 0
   for path in walker:
     WantIt = True
-    if IsWin32:
+    if isWin32:
       dontWant = 'linux'
     else:
       dontWant = 'win32'

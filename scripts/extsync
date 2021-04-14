@@ -17,7 +17,11 @@ import                     colr
 from   utils.walker import walk
 from   funcs        import preEllipse
 import                     time
+import                     platform
 
+# Linux only...
+if platform.system() != 'Linux':
+  rint(color('ERROR: Script runs on Linux only' ,fore='red',style='bright'))
 #
 # Globals...
 #
@@ -25,6 +29,15 @@ import                     time
 debug       = False
 verbose     = False
 veryverbose = True
+
+#------------------------------------------------------------------------------
+#
+# Function: red - Print red error
+#
+
+def red(msg):
+
+  print(color("ERROR: "+msg,fore='red',style='bright'))
 
 #------------------------------------------------------------------------------
 #
@@ -50,7 +63,7 @@ def expand(path):
 #
 # Function: copyOneFile 
 #
-# Usage:    except = copoyOneFile(srcfile,dstfile,pretend=False,overwrite=False)
+# Usage:    result = copoyOneFile(srcfile,dstfile,pretend=False,overwrite=False)
 #
 # Where:    srcfile   - str: Source file path
 #           dstfile   - str: Destination file path
@@ -59,8 +72,12 @@ def expand(path):
 #           overwrite - bool: True  = Overwrite existing file contents
 #                             False = Skip if exists 
 #
+#           result    - bool:      True  = "Did it"
+#                                  False = "Skipped it"
+#                       Exception: Didn't do it and here's why
+#
 
-def copyOneFile(srcfile,dstfile,pretend=True,overwrite=True):
+def copyOneFileOld(srcfile,dstfile,pretend=True,overwrite=True):
 
   # Make sure source file exists...
   if not os.path.exists(srcfile):
@@ -78,17 +95,16 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=True):
 
   if os.path.exists(dstfile) and not overwrite:
     print("Exists already, skipping")
-    return
+    return False
 
   sfd = os.open(srcfile,os.O_RDONLY)
   sstat = os.fstat(sfd)
   filesize = sstat.st_size
   if not pretend:
-    dfd = os.open(dstfile,os.O_RDWR|os.O_CREAT)
-    #dfd = open(dstfile,'wb')
+    dfd = os.open(dstfile,os.O_RDWR|os.O_CREAT|os.O_DSYNC)
 
   prevpercent = -1
-  blocksize = 1024*1024 # 1mB at a time
+  blocksize = 1024*128 # 128KB at a time
   offset = 0
   while offset < filesize:
     percent = int(float(offset)/filesize * 1000)/10.0
@@ -100,6 +116,7 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=True):
     prevpercent = percent
     if not pretend:
       os.sendfile(dfd,sfd,offset,blocksize)
+      #os.fsync(dfd)
     else:
       time.sleep(.01)
     offset += blocksize
@@ -107,12 +124,76 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=True):
   print("Finished")
   
   if not pretend:
+    os.fsync(dfd)
     os.close(dfd)
     if overwrite:
       os.truncate(dstfile,filesize)
   os.close(sfd)
 
-  return
+  return True
+
+def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False):
+
+  # Make sure source file exists...
+  if not os.path.exists(srcfile):
+    return Exception("Source file %s doesn't exist"%repr(preEllipse(srcfile,75).strip()))
+
+  #
+  # Do it...
+  #
+
+  dstdir = os.path.dirname(dstfile)
+  if not os.path.exists(dstdir):
+    os.makedirs(dstdir)
+
+  print('  '+preEllipse(dstfile,75)+'...',end='')
+
+  if os.path.exists(dstfile) and not overwrite:
+    print("Exists already, skipping")
+    return False
+
+  sfd = os.open(srcfile,os.O_RDONLY)
+  sstat = os.fstat(sfd)
+  filesize = sstat.st_size
+  if not pretend:
+    dst = open(dstfile,'wb')
+
+  prevpercent = -1
+  blocksize = 1024*1024 # 1MB at a time
+  offset = 0
+  while offset < filesize:
+    percent = int(float(offset)/filesize * 1000)/10.0
+    fstr = '%2.1f%%'%percent
+    if len(fstr) < 5: fstr = ' '+fstr
+    if percent != prevpercent:
+      print('%s\b\b\b\b\b'%fstr,end='')
+      sys.stdout.flush()
+    prevpercent = percent
+    if not pretend:
+      #os.sendfile(dfd,sfd,offset,blocksize)
+      block = os.read(sfd,blocksize)
+      if len(block) == 0:
+        break
+      numwrite = dst.write(block)
+      if numwrite != len(block):
+        red('Expected to write %d bytes, but actually wrote %d'%(len(block),numwrite))
+      if len(block) < blocksize:
+        break
+      dst.flush()
+    else:
+      time.sleep(.01)
+    offset += blocksize
+
+  print("Finished")
+  
+  if not pretend:
+    dst.flush()
+    dst.close()
+    if overwrite:
+      os.truncate(dstfile,filesize)
+  os.close(sfd)
+
+  return True
 
 #---
 #
@@ -131,17 +212,23 @@ if __name__ == '__main__':
   print('Files...')
 
   files = walk(srcdir)
+  maxfiles = 20
+  numfiles = 0
   for file in files:
+    # TEMP...
+    #if 'divx' not in file: continue
+    # ...TEMP
     sfile = file
     dfile = dstdir+os.path.basename(file)
     result = copyOneFile(sfile,dfile,pretend=False,overwrite=False)
+    if isinstance(result,Exception):
+      print(color("ERROR: "+str(result),fore='red',style='bright'))
+    elif type(result) == bool:
+      if result and maxfiles:
+        numfiles += 1
+        if numfiles >= maxfiles: break
+      
   print("\nThat's it!")
 
   sys.exit()
-  # ...TEMP
-
-  result = copyOneFile(srcfile,dstfile,pretend=False)
-  #result = copyOneFile('/home/bferris57/befe/scripts/extsync','/home/bferris57/DST/extsync',pretend=False)
-  if result:
-    print(color("ERROR: "+str(result),fore='red',style='bright'))
 
