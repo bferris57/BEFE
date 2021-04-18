@@ -202,8 +202,8 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False):
 
 if __name__ == '__main__':
 
-  srcdir  = expand('~/SRC/bb/_Other/')
-  dstdir  = expand('~/DST/bb/_Other/')
+  srcdir  = expand('~/usb_src/Movies/_By Date/1930s')
+  dstdir  = expand('~/usb_dst/Movies/_By Date/1930s')
   if srcdir[-1] != '/': srcdir += '/'
   if dstdir[-1] != '/': dstdir += '/'
   print('srcdir = %s'%srcdir)
@@ -212,11 +212,11 @@ if __name__ == '__main__':
   print('Files...')
 
   files = walk(srcdir)
-  maxfiles = 20
+  maxfiles = 5
   numfiles = 0
   for file in files:
     # TEMP...
-    #if 'divx' not in file: continue
+    #if 'fle-psp3a.avi' not in file: continue
     # ...TEMP
     sfile = file
     dfile = dstdir+os.path.basename(file)
