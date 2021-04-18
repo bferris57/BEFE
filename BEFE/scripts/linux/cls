@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#
-# Clear/Reset the screen
-#
-
-tput reset
-

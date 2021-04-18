@@ -24,8 +24,8 @@ here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.abspath(here+'/..')
 BEFE_SrcRoot  = root+'/BEFE-Core'
 BEFE_BuildDir = root+'/temp'
-print("DEBUG: BEFE_SrcRoot  = %s"%repr(BEFE_SrcRoot))
-print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
+#print("DEBUG: BEFE_SrcRoot  = %s"%repr(BEFE_SrcRoot))
+#print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
 
 # Handy flags
 isWin32 = sys.platform == 'win32'

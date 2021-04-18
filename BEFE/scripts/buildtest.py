@@ -1,14 +1,15 @@
+#!/usr/bin/env python
 from build import *
 
 #-------------------------------------------------------------------------------
 # Build Testers
 #-------------------------------------------------------------------------------
 
-def TestPathwalker():
+def testPathwalker():
 
   total  = 0
   wanted = 0
-  walker = PathWalker(BEFE_SVNRoot)
+  walker = PathWalker(BEFE_SrcRoot)
   files  = 0
   dirs   = 0
 
@@ -21,14 +22,13 @@ def TestPathwalker():
     
   for path in walker:
     total += 1
-    WantIt = True
-    if IsWin32:
+    wantIt = True
+    if isWin32:
       dontWant = 'linux'
     else:
       dontWant = 'win32'
-    if path.find('.') >= 0: WantIt = False
-    if dontWant in path:    WantIt = False
-    if not WantIt:
+    wantIt = dontWant not in path
+    if not wantIt:
       walker.send(False)
       continue
     wanted += 1
@@ -37,14 +37,17 @@ def TestPathwalker():
     ext = os.path.splitext(path)[1].lower()
     if ext in exts:
       cnts[exts.index(ext)] += 1
-    #print path
+      # DEBUG...
+      if 'Port.h' in path:
+        print('DEBUG: TestPathWalker: path = %s'%repr(path))
+      # ...DEBUB
     
-  print "Total: ",total
-  print "Wanted:",wanted
-  print "Files: ",files
-  print "Dirs:  ",dirs
+  print("Total: ",total)
+  print("Wanted:",wanted)
+  print("Files: ",files)
+  print("Dirs:  ",dirs)
   for ext in exts:
-    print ext+':',cnts[exts.index(ext)]
+    print(ext+':',cnts[exts.index(ext)])
     
 #-------------------------------------------------------------------------------
 # Main
@@ -52,4 +55,5 @@ def TestPathwalker():
 
 if __name__ == '__main__':
 
-  TestPathwalker()
+  print('DEBUG: BEFE_SrcRoot = %s'%repr(BEFE_SrcRoot))
+  testPathwalker()
