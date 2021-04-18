@@ -12,6 +12,7 @@
 from   utils.walker import walk
 import                     os
 import                     sys
+import                     shutil
 from   utils.errors import *
 import                     colr
 from   utils.walker import walk
@@ -132,7 +133,7 @@ def copyOneFileOld(srcfile,dstfile,pretend=True,overwrite=True):
 
   return True
 
-def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False):
+def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
 
   # Make sure source file exists...
   if not os.path.exists(srcfile):
@@ -152,38 +153,44 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False):
     print("Exists already, skipping")
     return False
 
-  sfd = os.open(srcfile,os.O_RDONLY)
-  sstat = os.fstat(sfd)
-  filesize = sstat.st_size
-  if not pretend:
-    dst = open(dstfile,'wb')
+  if not showpercent:
 
-  prevpercent = -1
-  blocksize = 1024*1024 # 1MB at a time
-  offset = 0
-  while offset < filesize:
-    percent = int(float(offset)/filesize * 1000)/10.0
-    fstr = '%2.1f%%'%percent
-    if len(fstr) < 5: fstr = ' '+fstr
-    if percent != prevpercent:
-      print('%s\b\b\b\b\b'%fstr,end='')
-      sys.stdout.flush()
-    prevpercent = percent
-    if not pretend:
-      #os.sendfile(dfd,sfd,offset,blocksize)
-      block = os.read(sfd,blocksize)
-      if len(block) == 0:
-        break
-      numwrite = dst.write(block)
-      if numwrite != len(block):
-        red('Expected to write %d bytes, but actually wrote %d'%(len(block),numwrite))
-      if len(block) < blocksize:
-        break
-      dst.flush()
-    else:
-      time.sleep(.01)
-    offset += blocksize
+    sys.stdout.flush()
+    shutil.copy(srcfile,dstfile)
 
+  else:
+
+    sfd = os.open(srcfile,os.O_RDONLY)
+    sstat = os.fstat(sfd)
+    filesize = sstat.st_size
+    if not pretend and showpercent:
+      dst = open(dstfile,'wb')
+    prevpercent = -1
+    blocksize = 1024*1024 # 1MB at a time if show percentage
+    offset = 0
+    while offset < filesize:
+      percent = int(float(offset)/filesize * 1000)/10.0
+      fstr = '%2.1f%%'%percent
+      if len(fstr) < 5: fstr = ' '+fstr
+      if percent != prevpercent:
+        print('%s\b\b\b\b\b'%fstr,end='')
+        sys.stdout.flush()
+      prevpercent = percent
+      if not pretend:
+        #os.sendfile(dfd,sfd,offset,blocksize)
+        block = os.read(sfd,blocksize)
+        if len(block) == 0:
+          break
+        numwrite = dst.write(block)
+        if numwrite != len(block):
+          red('Expected to write %d bytes, but actually wrote %d'%(len(block),numwrite))
+        if len(block) < blocksize:
+          break
+        dst.flush()
+      else:
+        time.sleep(.01)
+      offset += blocksize
+  
   print("Finished")
   
   if not pretend:

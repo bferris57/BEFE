@@ -191,6 +191,8 @@ def Empty(directory = None):
           'src',
           '_src',
           '_inc',
+          '_obj',
+          '_lib',
          ]
 
   # Remove it
