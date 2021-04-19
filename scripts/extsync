@@ -63,6 +63,7 @@ Where: <options>...
 #
 # Functions: red   - Print red error
 #            error - Print red error and exit with status
+#            green - Print green message
 #
 
 def red(msg):
@@ -74,8 +75,10 @@ def error(msg):
   red(msg)
   sys.exit(1)
 
-#------------------------------------------------------------------------------
-#
+def green(msg):
+
+  print(color(msg,fore='green',style='bright'))
+
 # Function: color - Use colr.color if stdout is a tty
 #
 
@@ -273,7 +276,7 @@ if __name__ == '__main__':
         numfiles += 1
         if numfiles >= maxfiles: break
       
-  print("\nThat's it!")
+  green('\nThat's it!')
 
   sys.exit()
 
