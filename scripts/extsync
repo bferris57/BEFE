@@ -16,7 +16,8 @@ import                     shutil
 from   utils.errors import *
 import                     colr
 from   utils.walker import walk
-from   funcs        import preEllipse
+from   utils.funcs  import preEllipse
+from   utils.funcs  import isInt
 import                     time
 import                     platform
 
@@ -110,61 +111,6 @@ def expand(path):
 #                                  False = "Skipped it"
 #                       Exception: Didn't do it and here's why
 #
-
-def copyOneFileOld(srcfile,dstfile,pretend=True,overwrite=True):
-
-  # Make sure source file exists...
-  if not os.path.exists(srcfile):
-    return Exception("Source file %s doesn't exist"%repr(preEllipse(srcfile,75).strip()))
-
-  #
-  # Do it...
-  #
-
-  dstdir = os.path.dirname(dstfile)
-  if not os.path.exists(dstdir):
-    os.makedirs(dstdir)
-
-  print('  '+preEllipse(dstfile,75)+'...',end='')
-
-  if os.path.exists(dstfile) and not overwrite:
-    print("Exists already, skipping")
-    return False
-
-  sfd = os.open(srcfile,os.O_RDONLY)
-  sstat = os.fstat(sfd)
-  filesize = sstat.st_size
-  if not pretend:
-    dfd = os.open(dstfile,os.O_RDWR|os.O_CREAT|os.O_DSYNC)
-
-  prevpercent = -1
-  blocksize = 1024*128 # 128KB at a time
-  offset = 0
-  while offset < filesize:
-    percent = int(float(offset)/filesize * 1000)/10.0
-    fstr = '%2.1f%%'%percent
-    if len(fstr) < 5: fstr = ' '+fstr
-    if percent != prevpercent:
-      print('%s\b\b\b\b\b'%fstr,end='')
-      sys.stdout.flush()
-    prevpercent = percent
-    if not pretend:
-      os.sendfile(dfd,sfd,offset,blocksize)
-      #os.fsync(dfd)
-    else:
-      time.sleep(.01)
-    offset += blocksize
-
-  print("Finished")
-  
-  if not pretend:
-    os.fsync(dfd)
-    os.close(dfd)
-    if overwrite:
-      os.truncate(dstfile,filesize)
-  os.close(sfd)
-
-  return True
 
 def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
 
@@ -268,10 +214,9 @@ if __name__ == '__main__':
       argno += 1
       if argno >= len(args):
         error('-n expected <count>')
-      try:
-        maxfiles = int(args[argno])
-      except:
+      if not isInt(args[argno]):
         error('Expected integer after -n, got %s'%repr(args[argno]))
+      maxfiles = int(args[argno])
       if maxfiles < 0:
         error('Expected zero or positive integer after -n, got %s'%repr(args[argno]))
       continue
