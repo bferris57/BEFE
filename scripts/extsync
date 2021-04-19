@@ -22,7 +22,8 @@ import                     platform
 
 # Linux only...
 if platform.system() != 'Linux':
-  rint(color('ERROR: Script runs on Linux only' ,fore='red',style='bright'))
+  print(color('ERROR: Script runs on Linux only' ,fore='red',style='bright'))
+
 #
 # Globals...
 #
@@ -33,12 +34,44 @@ veryverbose = True
 
 #------------------------------------------------------------------------------
 #
-# Function: red - Print red error
+# Function: usage - Print usage and exit(0)
+#
+
+def usage():
+
+  me = os.path.basename(__file__)
+  msg = """
+Usage: %s [<options>] <srcdir> <dstdir>
+
+Where: <options>...
+      
+         +v         - Turn on  "show percentage"
+         -v         - Turn off "show percentage"
+         -n <count> - Only sync first <count> files
+         -o         - Turn off "overwrite files"
+         +o         - Turn on  "overwrite files"
+
+       <srcdir> - Source directory
+       <dstdir> - Destionation directory
+"""%me
+
+  print(msg)
+  sys.exit(0)
+
+#------------------------------------------------------------------------------
+#
+# Functions: red   - Print red error
+#            error - Print red error and exit with status
 #
 
 def red(msg):
 
   print(color("ERROR: "+msg,fore='red',style='bright'))
+
+def error(msg):
+
+  red(msg)
+  sys.exit(1)
 
 #------------------------------------------------------------------------------
 #
@@ -211,6 +244,68 @@ if __name__ == '__main__':
 
   srcdir  = expand('~/usb_src/Movies/_By Date/1940s')
   dstdir  = expand('~/usb_dst/Movies/_By Date/1940s')
+  showpercent = True
+  overwrite   = False
+  maxfiles    = 0
+
+  # 
+  # Handle arguments...
+  #
+
+  args = sys.argv[1:]
+
+  if not args: usage()
+  for argno in range(0,len(args)):
+    arg = args[argno]
+    if arg[0] not in '-+': break
+    if arg == '+v':
+      showpercent = True
+      continue
+    if arg == '-v':
+      showpercent = False
+      continue
+    if arg == '-n':
+      argno += 1
+      if argno >= len(args):
+        error('-n expected <count>')
+      try:
+        maxfiles = int(args[argno])
+      except:
+        error('Expected integer after -n, got %s'%repr(args[argno]))
+      if maxfiles < 0:
+        error('Expected zero or positive integer after -n, got %s'%repr(args[argno]))
+      continue
+    if arg == '-o':
+      overwrite = False
+      continue
+    if arg == '+o':
+      overwrite = True
+      continue
+    error('Unknown <option>: %s'%repr(arg))
+
+  args = args[argno+1:]
+  #if len(args) < 2:
+  #  error('Expected <srcdir> <dstdir>')
+  if len(args) > 2:
+    error('Trailing arguments after <srcdir>: %s'%repr(args)[1:-1])
+  if args:
+    srcdir = args[0]
+    dstdir = args[1]
+    if not os.path.isdir(srcdir):
+      error('<srcdir> %s is not a directory'%repr(srcdir))
+    if not os.path.isdir(dstdir):
+      error('<dstdir> %s is not a directory'%repr(dstdir))
+
+  #print('srcdir      = %s'%repr(srcdir))
+  #print('dstdir      = %s'%repr(dstdir))
+  #print('showperdent = %s'%repr(showpercent))
+  #print('overwrite   = %s'%repr(overwrite))
+  #print('maxfiles    = %d'%maxfiles)
+
+  #
+  # Do it...
+  #
+
   #srcdir  = expand('~/usb_src/bb/_Other')
   #dstdir  = expand('~/usb_dst/bb/_Other')
   if srcdir[-1] != '/': srcdir += '/'
@@ -221,12 +316,11 @@ if __name__ == '__main__':
   print('Files...')
 
   files = walk(srcdir)
-  maxfiles = 0
   numfiles = 0
   for file in files:
     sfile = file
     dfile = dstdir+os.path.basename(file)
-    result = copyOneFile(sfile,dfile,pretend=False,overwrite=False,showpercent=True)
+    result = copyOneFile(sfile,dfile,pretend=False,overwrite=overwrite,showpercent=showpercent)
     if isinstance(result,Exception):
       print(color("ERROR: "+str(result),fore='red',style='bright'))
     elif type(result) == bool:
