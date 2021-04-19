@@ -209,8 +209,10 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
 
 if __name__ == '__main__':
 
-  srcdir  = expand('~/usb_src/Movies/_By Date/1930s')
-  dstdir  = expand('~/usb_dst/Movies/_By Date/1930s')
+  srcdir  = expand('~/usb_src/Movies/_By Date/1940s')
+  dstdir  = expand('~/usb_dst/Movies/_By Date/1940s')
+  #srcdir  = expand('~/usb_src/bb/_Other')
+  #dstdir  = expand('~/usb_dst/bb/_Other')
   if srcdir[-1] != '/': srcdir += '/'
   if dstdir[-1] != '/': dstdir += '/'
   print('srcdir = %s'%srcdir)
@@ -219,15 +221,12 @@ if __name__ == '__main__':
   print('Files...')
 
   files = walk(srcdir)
-  maxfiles = 5
+  maxfiles = 0
   numfiles = 0
   for file in files:
-    # TEMP...
-    #if 'fle-psp3a.avi' not in file: continue
-    # ...TEMP
     sfile = file
     dfile = dstdir+os.path.basename(file)
-    result = copyOneFile(sfile,dfile,pretend=False,overwrite=False)
+    result = copyOneFile(sfile,dfile,pretend=False,overwrite=False,showpercent=True)
     if isinstance(result,Exception):
       print(color("ERROR: "+str(result),fore='red',style='bright'))
     elif type(result) == bool:
