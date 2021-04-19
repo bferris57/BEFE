@@ -283,11 +283,14 @@ def CopySource():
 
 if __name__ == "__main__":
 
-  if True:
+  if False:
     print("Cleaning...")
     Clean()
-    print("Creating empty build structure...")
+    print('Creating empty build structure...')
     Empty()
-  print("Copying files...")
-  CopySource()
-  print("** Build Finished**")
+    print('Copying files...')
+    CopySource()
+    print('** Build Finished**')
+
+  if True:
+    print('!!!TEST!!!')
