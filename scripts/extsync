@@ -45,12 +45,17 @@ def usage():
 Usage: %s [<options>] <srcdir> <dstdir>
 
 Where: <options>...
-      
-         +v         - Turn on  "show percentage"
+
+         ? | ??     - Show this usage help 
+         +v         - Turn on  "show percentage"       (Default)
          -v         - Turn off "show percentage"
          -n <count> - Only sync first <count> files
-         -o         - Turn off "overwrite files"
+         -o         - Turn off "overwrite files"       (Default)
          +o         - Turn on  "overwrite files"
+         -i         - Turn off "ignore existing files" (Default)
+         +i         - Turn on  "ignore existing files"
+         -p         - Turn off "Pretend to copy"       (Default)
+         +p         - Turn on  "Pretend to copy"
 
        <srcdir> - Source directory
        <dstdir> - Destionation directory
@@ -191,11 +196,11 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
 
 if __name__ == '__main__':
 
-  srcdir  = expand('~/usb_src/Movies/_By Date/1920s')
-  dstdir  = expand('~/sd_dst/Movies/_By Date/1920s')
   showpercent = True
   overwrite   = False
   maxfiles    = 0
+  ignore      = False
+  pretend     = False
 
   # 
   # Handle arguments...
@@ -205,9 +210,10 @@ if __name__ == '__main__':
 
   if len(args) == 1 and args[0] in '??': usage()
 
-  argno = 0 # In case len(args) == 0...
+  argno = -1 # In case len(args) == 0...
 
-  for argno in range(0,len(args)):
+  while argno < len(args)-1:
+    argno += 1
     arg = args[argno]
     if arg[0] not in '-+': break
     if arg == '+v':
@@ -232,6 +238,18 @@ if __name__ == '__main__':
     if arg == '+o':
       overwrite = True
       continue
+    if arg == '-i':
+      ignore = False
+      continue
+    if arg == '+i':
+      ignore = True
+      continue
+    if arg == '-p':
+      pretend = False
+      continue
+    if arg == '+p':
+      pretend = True
+      continue
     error('Unknown <option>: %s'%repr(arg))
 
   args = args[argno:]
@@ -243,8 +261,8 @@ if __name__ == '__main__':
     srcdir = args[0]
     dstdir = args[1]
   else:
-    srcdir  = expand('~/usb_src/Movies/_By Date/1920s')
-    dstdir  = expand('~/sd_dst/Movies/_By Date/1920s')
+    srcdir  = expand('~/usb_src/Movies/_By Date/1950s')
+    dstdir  = expand('~/sd_dst/Movies/_By Date/1950s')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
@@ -267,18 +285,22 @@ if __name__ == '__main__':
   print('')
   print('Files...')
 
-  files = walk(srcdir)
+  files = list(walk(srcdir))
+  files.sort()
   numfiles = 0
   for file in files:
     sfile = file
     dfile = dstdir+os.path.basename(file)
-    result = copyOneFile(sfile,dfile,pretend=False,overwrite=overwrite,showpercent=showpercent)
+    if ignore and os.path.exists(dfile): continue
+    result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=overwrite,showpercent=showpercent)
     if isinstance(result,Exception):
       print(color("ERROR: "+str(result),fore='red',style='bright'))
     elif type(result) == bool:
       if result and maxfiles:
         numfiles += 1
         if numfiles >= maxfiles: break
+    else:
+      error("Error: Unknown result type from copyOneFile: %s"%repr(type(result)))
       
   green('\nThat\'s it!\n')
 
