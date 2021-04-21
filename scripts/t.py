@@ -1,11 +1,28 @@
-#!/usr/bin/env python
-#  coding=utf8
+#------------------------------------------------------------------------------
+#
+# Functions: red   - Print red error
+#            error - Print red error and exit with status
+#            green - Print green message
+#
 
-import os
+def red(msg):
 
-i = 0
-sum = 0
-while i < 100:
-  i += 1
-  sum += i
-  print('page = %d, sum = %d'%(i,sum))
+  print(color("ERROR: "+msg,fore='red',style='bright'))
+
+def error(msg):
+
+  red(msg)
+  sys.exit(1)
+
+def green(msg):
+
+  print(color(msg,fore='green',style='bright'))
+
+# Function: color - Use colr.color if stdout is a tty
+#
+
+def color(*args,**kwargs):
+
+  if not sys.stdout.isatty():
+    return args[0]
+  return colr.color(*args,**kwargs)

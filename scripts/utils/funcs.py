@@ -16,7 +16,6 @@ from __future__ import print_function
 #            NotImp             - Print "Not implemented"
 #            Notice             - Print a notice message
 #            Prefix             - Print string with prefix
-#            findConfigFile     - Find a config file using path described below
 #            deepSearch         - Search directory deep for files
 #
 #            dtNow              - datetime.datetime object for datetime now
@@ -72,7 +71,7 @@ from __future__ import print_function
 #
 #            exceptionLines     - Turn exception traceback into printable lines
 #
-#            sudo               - Restart running process as sudo if not already (!!!Danger Danger!!!)
+#            sudo               - Restart running process as sudo if not already (!!!Danger!!!)
 #
 #            ipAddresses        - Return iterable of host's IP addresses
 #            ipv4Addresses      - Return iterable of host's IPv4 addresses
@@ -297,32 +296,6 @@ def formatKeys(dict):
         line = key+' '*(maxLen-len(key))+' = '+repr(dict[key])
         result.append(line)
     return result
-
-#-------------------------------------------------------------------------------
-#
-# Function: findConfigFile(filename)
-#
-# Purpose:  Finds filename following search path described in header above
-#
-# Usage:    found = findConfigFile(filename='porridge.json')
-#
-#           Where: filename - str: Config file name (default 'porridge.json')
-#                  found    - str: Full path of found file ('' = "Not Found")
-#
-
-def findConfigFile(filename='porridge.json'):
-
-    paths = ['.','/home/porridge','/etc/porridge']
-
-    for path in paths:
-        fullpath = os.path.join(path,filename)
-        if not os.path.exists(fullpath) or \
-           not os.path.exists(fullpath) or \
-           not os.path.isfile(fullpath):
-            continue
-        return fullpath
-
-    return ''
 
 #-------------------------------------------------------------------------------
 #
@@ -768,10 +741,12 @@ def postEllipse(inStr,tlen,fill=' '):
     if tlen <= 3:
         return '...'[0:tlen]
 
-    if len(inStr) <= tlen:
+    if len(inStr) <= tlen-3:
         return inStr + fill[0]*(tlen-len(inStr))
 
-    return inStr[0:(tlen-3)] + '...'
+    inStr = inStr[:tlen-3] + fill[0]*3
+
+    return inStr
 
 #------------------------------------------------------------------------------
 #
@@ -802,10 +777,10 @@ def preEllipse(inStr,tlen,fill=' '):
     if tlen < 3:
         return ''
 
-    if len(inStr) >= tlen:
-        return fill[0]*(tlen-len(inStr)-3) + inStr[:tlen-3]
+    if len(inStr) >= tlen-3:
+        return fill[0]*3 + inStr[-(tlen-3):]
     else:
-        return fill[0]*(tlen-len(inStr)) + inStr 
+        return fill[0]*(tlen-len(inStr)) + inStr[tlen-3:] 
 
 #------------------------------------------------------------------------------
 #
@@ -1625,7 +1600,7 @@ if __name__ == "__main__":
 
     if True:
     
-      s = 'abcdef'
+      s = '0123456789112345678921234567893123456789412345678951234567896'
       pre  = preEllipse(s,50,fill='.')
       post = postEllipse(s,50,fill='.')
       print('preEllipse:  %s'%repr(pre))

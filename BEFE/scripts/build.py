@@ -13,17 +13,23 @@
 #===============================================================================
 
 # External modules
-#import os
-import os.path
-import string
-import sys
-import shutil
+import                    os.path
+import                    string
+import                    sys
+import                    shutil
+import                    colr
+from   utils.funcs import execute
+from   utils.funcs import printPrefix
 
 # Default configurables
 here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.abspath(here+'/..')
-BEFE_SrcRoot  = root+'/BEFE-Core'
-BEFE_BuildDir = root+'/temp'
+BEFE_SrcRoot  = root + '/BEFE-Core'
+BEFE_BuildDir = root + '/temp'
+BEFE_Src      = BEFE_BuildDir + '/_src'
+BEFE_Inc      = BEFE_BuildDir + '/_inc'
+BEFE_Obj      = BEFE_BuildDir + '/_obj'
+BEFE_Bin      = BEFE_BuildDir + '/_bin'
 #print("DEBUG: BEFE_SrcRoot  = %s"%repr(BEFE_SrcRoot))
 #print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
 
@@ -208,7 +214,7 @@ def Empty(directory = None):
 
 #-------------------------------------------------------------------------------
 #
-# Function: CopySource
+# Function: copySource
 #
 # Purpose:  Copy source to build directory
 #
@@ -217,7 +223,7 @@ def Empty(directory = None):
 #           the destination file is older than the source file.
 #
 
-def CopySource():
+def copySource():
 
   # Destinations
   dests = {
@@ -269,28 +275,63 @@ def CopySource():
 
 #-------------------------------------------------------------------------------
 #
-# Function: ValidateExecutables
+# Function: compile - Compile everything
 #
-# Purpose:  Validate that required executables are on the search path
+# Usage:    errCount = compile()
 #
+# Where:    errCount = Number of errors encountered
+#
+
+def compile():
+
+  cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++0x -fno-exceptions' \
+        'finline-functions -nodefaultlibs -fno-rtti'
+
+  fileCount = 0
+  errCount  = 0
+
+  for path in PathWalker(BEFE_Src):
+
+    file = os.path.basename(path)
+    fname,ext = os.path.splitext(file)
+    if ext not in ('.c','.cpp'):
+      continue
+    fileCount += 1
+    # TEMP...
+    if fileCount != 1: break
+    # ...TEMP
+
+    tcmd = cmd%(file,BEFE_Obj+'/'+fname+'.o',BEFE_Inc)
+
+    rc,out,err = execute(tcmd)
+    if rc:
+      errCount += 1
+      ???
+
+  return errCount
 
 #-------------------------------------------------------------------------------
 #
-# Function: **None**
+# Block:   __main__
 #
 # Purpose:  Python Main
 #
 
 if __name__ == "__main__":
 
-  if False:
-    print("Cleaning...")
+  if True:
+    print('Cleaning...')
     Clean()
     print('Creating empty build structure...')
     Empty()
     print('Copying files...')
-    CopySource()
+    copySource()
     print('** Build Finished**')
 
   if True:
-    print('!!!TEST!!!')
+
+    print('Compiling...')
+    errCount = compile()
+    if errCount:
+      print('  %d errors'%errCount)
+
