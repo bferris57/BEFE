@@ -769,7 +769,7 @@ def postEllipse(inStr,tlen,fill=' '):
         return '...'[0:tlen]
 
     if len(inStr) <= tlen:
-        return inStr + fill*(tlen-len(inStr))
+        return inStr + fill[0]*(tlen-len(inStr))
 
     return inStr[0:(tlen-3)] + '...'
 
@@ -778,10 +778,11 @@ def postEllipse(inStr,tlen,fill=' '):
 # Function: preEllipse - Turn string into fixed size pre-ellipsified string
 #                         (e.g. "...abcdef")
 #
-# Usage:    result = preEllipse(inStr,tlen)
+# Usage:    result = preEllipse(inStr,tlen,fill=' '))
 #
 # Where:    inStr  - str: Input string
 #           tlen   - int: Resulting string length (see notes below)
+#           fill   - str: Single character string to fill with
 #           result - str: Resulting string of length len
 #
 # Notes:    If len < 3, as many '.' as possible will form the string
@@ -791,26 +792,20 @@ def postEllipse(inStr,tlen,fill=' '):
 #           if len(inStr) < len, it will be pre/post-padded with ' '
 #
 
-def preEllipse(inStr,tlen,postpad=True):
+def preEllipse(inStr,tlen,fill=' '):
 
     if type(inStr) is not str:
         raise TypeError("Expected inStr to be type str")
     if type(tlen) is not int:
         raise TypeError("Expected tlen to be type int")
 
-    if tlen <= 0:
+    if tlen < 3:
         return ''
-    if tlen <= 3:
-        return '...'[0:tlen]
 
-    if len(inStr) <= tlen:
-        if postpad:
-            inStr = inStr + ' '*(tlen-len(inStr))
-        else:
-            inStr = ' '*(tlen-len(inStr)) + inStr
-        return inStr
-
-    return '...' + inStr[-(tlen-3):] 
+    if len(inStr) >= tlen:
+        return fill[0]*(tlen-len(inStr)-3) + inStr[:tlen-3]
+    else:
+        return fill[0]*(tlen-len(inStr)) + inStr 
 
 #------------------------------------------------------------------------------
 #
@@ -1582,7 +1577,7 @@ if __name__ == "__main__":
         hosts = parseHosts(args)
         print("hosts = %s"%repr(hosts))
 
-    if True:
+    if False:
         Error("Dude!!!\nDude1",nl=False)
         Error("Dude2!!!")
 
@@ -1628,3 +1623,10 @@ if __name__ == "__main__":
         elif i < 10 or i >= len(packs)-10:
           print("  "+packs[i])
 
+    if True:
+    
+      s = 'abcdef'
+      pre  = preEllipse(s,50,fill='.')
+      post = postEllipse(s,50,fill='.')
+      print('preEllipse:  %s'%repr(pre))
+      print('postEllipse: %s'%repr(post))

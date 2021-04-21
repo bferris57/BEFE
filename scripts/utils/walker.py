@@ -105,4 +105,3 @@ if __name__ == '__main__':
         print(args[1]+' files...')
         for file in files:
           print('  '+file)
-    #f = open('whitelist.json','w').write(json.dumps(files,indent=2))

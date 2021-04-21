@@ -139,7 +139,7 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
 
   dstdir = os.path.dirname(dstfile)
   if not os.path.exists(dstdir):
-    os.makedirs(dstdir)
+    os.makedirs(dstdir,mode=0o777,exist_ok=True)
 
   if os.path.exists(dstfile) and not overwrite:
     if showpercent:
@@ -161,15 +161,17 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
     if not pretend and showpercent:
       dst = open(dstfile,'wb')
     prevpercent = -1
+    percent     = 0
     blocksize = 1024*1024 # 1MB at a time if show percentage
     offset = 0
     while offset < filesize:
-      percent = int(float(offset)/filesize * 1000)/10.0
-      fstr = '%2.1f%%'%percent
-      if len(fstr) < 5: fstr = ' '+fstr
-      if percent != prevpercent:
-        print('%s\b\b\b\b\b'%fstr,end='')
-        sys.stdout.flush()
+      if filesize < 1024*1024:
+        percent = int(float(offset)/filesize * 1000)/10.0
+        fstr = '%2.1f%%'%percent
+        if len(fstr) < 5: fstr = ' '+fstr
+        if percent != prevpercent:
+          print('%s\b\b\b\b\b'%fstr,end='')
+          sys.stdout.flush()
       prevpercent = percent
       if not pretend:
         block = os.read(sfd,blocksize)
@@ -181,9 +183,12 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
         if len(block) < blocksize:
           break
         dst.flush()
-      else:
+      elif filesize < 1024*1024:
         time.sleep(.01)
-      offset += len(block)
+      if pretend:
+        offset += filesize
+      else:
+        offset += len(block)
   
   print("Finished")
   
@@ -268,8 +273,10 @@ if __name__ == '__main__':
     srcdir = args[0]
     dstdir = args[1]
   else:
-    srcdir  = expand('~/usb_src/Movies/_By Date/1950s')
-    dstdir  = expand('~/sd_dst/Movies/_By Date/1950s')
+    #srcdir  = expand('~/usb_src/Movies/_By Date/1960s')
+    #dstdir  = expand('~/sd_dst/Movies/_By Date/1960s')
+    srcdir  = expand('~/usb_src/bb/_bbv')
+    dstdir  = expand('~/sd_dst/bb/_bbv')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
@@ -298,11 +305,11 @@ if __name__ == '__main__':
   numfiles = 0
   for file in files:
     sfile = file
-    dfile = dstdir+os.path.basename(file)
+    dfile = dstdir + file[len(srcdir):]
     if ignore and os.path.exists(dfile): continue
     fname = os.path.basename(dfile)
     dname = dfile[:-len(fname)]
-    print('  '+preEllipse(dname,45)+postEllipse(fname,30,fill='.')+'..',end='')
+    print('  '+preEllipse(dname,45,fill='.')+postEllipse(fname,30,fill='.')+'..',end='')
     result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=overwrite,showpercent=showpercent)
     if isinstance(result,Exception):
       print(color("ERROR: "+str(result),fore='red',style='bright'))
