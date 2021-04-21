@@ -742,10 +742,11 @@ def username():
 # Function: postEllipse - Turn string into fixed size post-ellipsified string
 #                         (e.g. "abcdef...")
 #
-# Usage:    result = postEllipse(inStr,tlen)
+# Usage:    result = postEllipse(inStr,tlen,fill=' '))
 #
 # Where:    inStr  - str: Input string
 #           tlen   - int: Resulting string length (see notes below)
+#           fill   - str: Fill character
 #           result - str: Resulting string of length len
 #
 # Notes:    If len < 3, as many '.' as possible will form the string
@@ -755,7 +756,7 @@ def username():
 #           if len(inStr) < len, it will be padded with ' '
 #
 
-def postEllipse(inStr,tlen):
+def postEllipse(inStr,tlen,fill=' '):
 
     if type(inStr) is not str:
         raise TypeError("Expected inStr to be type str")
@@ -768,7 +769,7 @@ def postEllipse(inStr,tlen):
         return '...'[0:tlen]
 
     if len(inStr) <= tlen:
-        return inStr + ' '*(tlen-len(inStr))
+        return inStr + fill*(tlen-len(inStr))
 
     return inStr[0:(tlen-3)] + '...'
 

@@ -17,6 +17,7 @@ from   utils.errors import *
 import                     colr
 from   utils.walker import walk
 from   utils.funcs  import preEllipse
+from   utils.funcs  import postEllipse
 from   utils.funcs  import isInt
 import                     time
 import                     platform
@@ -119,6 +120,12 @@ def expand(path):
 #                                  False = "Skipped it"
 #                       Exception: Didn't do it and here's why
 #
+# Notes: This function displays the ongoing percentage complete if
+#        showpercent=True and, when finished, indicates so on stdout.
+#
+#        As such, it is up to the caller to prepend the mangled file
+#        name and directory in whatever format it wishes.
+#
 
 def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
 
@@ -134,10 +141,8 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
   if not os.path.exists(dstdir):
     os.makedirs(dstdir)
 
-  print('  '+preEllipse(dstfile,75)+'...',end='')
-
   if os.path.exists(dstfile) and not overwrite:
-    print("Exists already, skipping")
+    print('Ignoring')
     return False
 
   if not showpercent:
@@ -164,7 +169,6 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
         sys.stdout.flush()
       prevpercent = percent
       if not pretend:
-        #os.sendfile(dfd,sfd,offset,blocksize)
         block = os.read(sfd,blocksize)
         if len(block) == 0:
           break
@@ -287,11 +291,15 @@ if __name__ == '__main__':
 
   files = list(walk(srcdir))
   files.sort()
+
   numfiles = 0
   for file in files:
     sfile = file
     dfile = dstdir+os.path.basename(file)
     if ignore and os.path.exists(dfile): continue
+    fname = os.path.basename(dfile)
+    dname = dfile[:-len(fname)]
+    print('  '+preEllipse(dname,45)+postEllipse(fname,30,fill='.')+'...',end='')
     result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=overwrite,showpercent=showpercent)
     if isinstance(result,Exception):
       print(color("ERROR: "+str(result),fore='red',style='bright'))
