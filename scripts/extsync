@@ -158,7 +158,7 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
     if not pretend and showpercent:
       dst = open(dstfile,'wb')
     prevpercent = -1
-    blocksize = 1024*1024 # 1MB at a time if show percentage
+    blocksize = 5*1024*1024 # 5MB at a time if show percentage
     offset = 0
     while offset < filesize:
       percent = int(float(offset)/filesize * 1000)/10.0
@@ -180,7 +180,7 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
         dst.flush()
       else:
         time.sleep(.01)
-      offset += blocksize
+      offset += len(block)
   
   print("Finished")
   
