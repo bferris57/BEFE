@@ -19,7 +19,8 @@ import                    sys
 import                    shutil
 import                    colr
 from   utils.funcs import execute
-from   utils.funcs import printPrefix
+from   utils.funcs import Prefix
+from   utils.funcs import red,green
 
 # Default configurables
 here = os.path.dirname(os.path.abspath(__file__))
@@ -284,8 +285,8 @@ def copySource():
 
 def compile():
 
-  cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++0x -fno-exceptions' \
-        'finline-functions -nodefaultlibs -fno-rtti'
+  cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++0x -fno-exceptions ' \
+        '-finline-functions -nodefaultlibs -fno-rtti'
 
   fileCount = 0
   errCount  = 0
@@ -301,12 +302,14 @@ def compile():
     if fileCount != 1: break
     # ...TEMP
 
-    tcmd = cmd%(file,BEFE_Obj+'/'+fname+'.o',BEFE_Inc)
+    tcmd = cmd%(path,BEFE_Obj+'/'+fname+'.o',BEFE_Inc)
+    green('DEBUG: tcmd = %s'%repr(tcmd))
 
     rc,out,err = execute(tcmd)
     if rc:
       errCount += 1
-      ???
+      print("Error...")
+      Prefix(err,prefix='...',samePrefix=True,fore='red',style='bright')
 
   return errCount
 

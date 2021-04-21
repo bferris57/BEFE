@@ -6,7 +6,7 @@ from __future__ import print_function
 # File: funcs.py - Various utility functions for porridge.py and friends
 #
 # Functions: print              - Replacement for Python's print (with counter in place)
-#            execute            - Execute a shell command without redirection (e.g. "<", ">", etc.)
+#            execute            - Execute a shell command without redirection 
 #            Error              - Print an error
 #            Warning            - Print a warning
 #            Info               - Print info (if verbose set)
@@ -78,8 +78,11 @@ from __future__ import print_function
 #
 #            packages           - Return list of installed packages
 #
-#            color              - Nice replacement for clr.color
-#
+#            red   - Print red error
+#            error - Print red error and exit with status
+#            green - Print green message
+#            color - Use colr.color if stdout is a tty
+
 #==============================================================================
 
 import subprocess
@@ -172,7 +175,7 @@ def execute(cmd,prefix='',showout=False,showerr=False,env=os.environ,debug=False
             print(prefix+line)
         print("...stdout")
 
-    if showerr or 'No such file or directory' in err:
+    if showerr and err:
         lines = err.split('\n')
         if lines and not lines[-1]:
             del lines[-1]
@@ -248,7 +251,7 @@ def Deprecated(item=None,nl=True):
     else:
         Error("*** %s Deprecated ***"%repr(item),nl)
 
-def Prefix(prefix,msg,samePrefix=False,nl=True,fore=None,style=None):
+def Prefix(msg,prefix='',samePrefix=False,nl=True,fore=None,style=None):
 
     end = '\n' if nl else ''
 
@@ -1528,14 +1531,30 @@ def packages():
 
   return packs
 
-#---
+#------------------------------------------------------------------------------ 
 #
-# Function: color - Use colr.color if stdout is a tty
+# Functions: red   - Print red error
+#            error - Print red error and exit with status
+#            green - Print green message
+#            color - Use colr.color if stdout is a tty
 #
+
+def red(msg):
+
+  print(color("ERROR: "+msg,fore='red',style='bright'))
+
+def error(msg):
+
+  red(msg)
+  sys.exit(1)
+
+def green(msg):
+
+  print(color(msg,fore='green',style='bright'))
 
 def color(*args,**kwargs):
 
-  if not sys.stdout.isatty() or not 'fore' in kwargs:
+  if not sys.stdout.isatty():
     return args[0]
   return colr.color(*args,**kwargs)
 
