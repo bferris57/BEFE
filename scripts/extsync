@@ -142,7 +142,10 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
     os.makedirs(dstdir)
 
   if os.path.exists(dstfile) and not overwrite:
-    print('Ignoring')
+    if showpercent:
+      print('Ignoring')
+    else:
+      print('')
     return False
 
   if not showpercent:
@@ -158,7 +161,7 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
     if not pretend and showpercent:
       dst = open(dstfile,'wb')
     prevpercent = -1
-    blocksize = 5*1024*1024 # 5MB at a time if show percentage
+    blocksize = 1024*1024 # 1MB at a time if show percentage
     offset = 0
     while offset < filesize:
       percent = int(float(offset)/filesize * 1000)/10.0
@@ -299,7 +302,7 @@ if __name__ == '__main__':
     if ignore and os.path.exists(dfile): continue
     fname = os.path.basename(dfile)
     dname = dfile[:-len(fname)]
-    print('  '+preEllipse(dname,45)+postEllipse(fname,30,fill='.')+'...',end='')
+    print('  '+preEllipse(dname,45)+postEllipse(fname,30,fill='.')+'..',end='')
     result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=overwrite,showpercent=showpercent)
     if isinstance(result,Exception):
       print(color("ERROR: "+str(result),fore='red',style='bright'))
