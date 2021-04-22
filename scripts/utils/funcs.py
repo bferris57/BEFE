@@ -1552,10 +1552,11 @@ def green(msg):
 
   print(color(msg,fore='green',style='bright'))
 
-def error(msg):
+def error(msg,exit=True):
 
   red(msg)
-  sys.exit(1)
+  if exit:
+    sys.exit(1)
 
 def color(*args,**kwargs):
 

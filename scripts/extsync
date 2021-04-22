@@ -344,12 +344,12 @@ if __name__ == '__main__':
       if ignore and os.path.exists(dfile): continue
       fname = os.path.basename(dfile)
       dname = dfile[:-len(fname)]
-      print('    '+postEllipse(fname,50,fill='.')+'..',end='')
+      print('    '+postEllipse(fname,80,fill='.')+'..',end='')
       sys.stdout.flush()
       result = copyOneFile(sdir+sfile,dfile,pretend=pretend,overwrite=False,
                            showpercent=showpercent)
       if isinstance(result,Exception):
-        print(color("ERROR: "+str(result),fore='red',style='bright'))
+        error(str(result),exit=False)
       elif type(result) == bool:
         if result and maxfiles:
           numfiles += 1
