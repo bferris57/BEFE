@@ -3,7 +3,7 @@
 from __future__ import print_function
 #==============================================================================
 #
-# File: funcs.py - Various utility functions for porridge.py and friends
+# File: funcs.py - Various utility functions
 #
 # Functions: print              - Replacement for Python's print (with counter in place)
 #            execute            - Execute a shell command without redirection 
@@ -57,8 +57,6 @@ from __future__ import print_function
 #
 #            kallsyms           - Return dictionary of /proc/kallsyms 'T' addresses
 #            linuxVersion       - Return Linux equivalent of "uname -r"
-#
-#            parseHosts         - Return list of specified host names (or None if error)
 #
 #            osName             - Return 'Ubuntu', 'Centos', or None based on OS version
 #            isUbuntu           - "Are we running on Ubuntu?"
@@ -1219,71 +1217,6 @@ def linuxVersion():
         _version = execute('uname -r',showout=False)[1]
 
     return _version
-
-#------------------------------------------------------------------------------
-#
-# Function: parseHosts - Return list of specified host names (or None if error)
-#
-# Usage:    hosts = parseHosts(args)
-#
-# Where:    args  - list: Command line arguments to parse
-#
-#           hosts - None: Error displayed
-#                   list: List of valid hosts
-#
-
-def parseHosts(args):
-
-    import config
-    from   MinExp import MinExp
-
-    config.load()
-
-    if type(args) != list:
-        raise RuntimeError("Expected list of hosts")
-
-    hosts = []
-    for arg in args:
-        arg = arg.lower()
-        hostsToAdd = []
-        if arg in MinExp('oat[s]'):
-            hostsToAdd.extend(config.globals.oats)
-        elif arg in MinExp('pca[s]'):
-            hostsToAdd.extend(config.globals.pcas)
-        elif arg == 'all' or arg == '*':
-            hostsToAdd.extend(config.globals.hosts)
-        elif arg in MinExp('admin[s]'):
-            hostsToAdd.extend(config.globals.admins)
-        elif arg in config.globals.hosts:
-            hostsToAdd.append(arg)
-        else:
-            try:
-                targ = arg
-                if targ and targ[-1] != '*':
-                    targ += '*'
-                targ = '.*'.join(targ.split('*'))
-                keys = list(config.globals.hosts.keys())
-                regexp = re.compile(targ)
-                for host in keys:
-                    match = regexp.match(host)
-                    if match and host not in hosts:
-                        hostsToAdd.append(host)
-            except:
-                pass
-
-        if not hostsToAdd:
-            print("%s is not a configured host (see porridge.json)"%repr(arg))
-            return None
-
-        for host in hostsToAdd:
-            if host not in hosts:
-                hosts.append(host)
-
-    if not hosts:
-        print("No hosts specified")
-        return None
-
-    return hosts
 
 #-------------------------------------------------------------------------------
 #

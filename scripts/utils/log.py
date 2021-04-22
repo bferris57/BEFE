@@ -64,7 +64,7 @@ def getLogger(name,stdout=False):
 
 if __name__ == '__main__':
 
-    log = getLogger('porridge-oat')
+    log = getLogger('befe')
 
     log.warning("WARNING!!!")
     log.info("INFO!!!")
