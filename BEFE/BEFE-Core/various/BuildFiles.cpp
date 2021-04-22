@@ -105,10 +105,10 @@ Status Build::CleanWalker(String const &dir, UInt32 context) { // Build.CleanWal
   build = (Build *)context;
   if (BEFE::IsNull(build)) goto NULLPOINTER;
 
-  // Special case for '_' directories if no SVN option...
+  // Special case for '_' directories if no GIT option...
   curDir = dir;
   status = PathToGeneric(curDir);
-  if (dir.Get(-4) == '_' && !(build->options & OptionSVN)) {
+  if (dir.Get(-4) == '_' && !(build->options & OptionGIT)) {
     tDir = curDir.Get(Span(-5, NaN));
     if (tDir != "/_bin" && tDir != "/_obj" && tDir != "/_lib") goto OK;
   }
@@ -142,7 +142,7 @@ Status Build::CleanWalker(String const &dir, UInt32 context) { // Build.CleanWal
 Status Build::_DetermineFileNames() { // Build._DetermineFileNames...
   
   Status status;
-  String befe_SVN;
+  String befe_GIT;
   
   // Clear current settings
   status = headerFiles.SetEmpty();
@@ -153,8 +153,8 @@ Status Build::_DetermineFileNames() { // Build._DetermineFileNames...
   if (status) goto SOMEERROR;
 
   // Do it
-  befe_SVN = settings.Get("BEFE_SVN");
-  status = WalkPath(befe_SVN, InputWalker, (UInt)this);
+  befe_GIT = settings.Get("BEFE_GIT");
+  status = WalkPath(befe_GIT, InputWalker, (UInt)this);
   if (status) goto SOMEERROR;
   
   // Handle errors
@@ -311,12 +311,12 @@ Status Build::_CopyInputFiles() { // Build._CopyInputFiles...
   toFileName = toDir + "/BEFE.h";
   if (!IsFile(toFileName))
     BEFE_WARN("File BEFE.h Missing");
-  else if (options & OptionSVN) {
+  else if (options & OptionGIT) {
     if (gVerbose) {
       Cout << "Patching BEFE.h...";
       Cout.Flush();
     }
-    status = _PatchSVNRevision(toFileName);
+    status = _PatchGITRevision(toFileName);
     if (status) goto SOMEERROR; 
     et.Set();
     if (gVerbose && gShowElapsed) Cout << " (Elapsed Time: " << ToString(st, et) << ')';  
@@ -1015,7 +1015,7 @@ Status Build::_PublishDocumentation() {
 Status Build::_PublishHomeFiles() { // Build._PublishHomeFiles...
 
   Status        status;
-  String        befe_SVN;
+  String        befe_GIT;
   String        befe_Build;
   String        fromDir;
   String        toDir;
@@ -1031,10 +1031,10 @@ Status Build::_PublishHomeFiles() { // Build._PublishHomeFiles...
   numCopied = 0;
   BEFE::SetNull(numFiles);
 
-  befe_SVN = settings.Get("BEFE_SVN");
-  if (!Exists(befe_SVN)) goto SVNNOTEXIST;
-  PathToGeneric(befe_SVN);
-  fromDir = befe_SVN;
+  befe_GIT = settings.Get("BEFE_GIT");
+  if (!Exists(befe_GIT)) goto GITNOTEXIST;
+  PathToGeneric(befe_GIT);
+  fromDir = befe_GIT;
   befe_Build = settings.Get("BEFE_Build");
   PathToGeneric(befe_Build);
   toDir = befe_Build + "/home";
@@ -1082,7 +1082,7 @@ Status Build::_PublishHomeFiles() { // Build._PublishHomeFiles...
   // Handle errors
   status = Error::None;
   while (false) {
-    SVNNOTEXIST:     status = Error::UtilBuildSVNNotExist; break;
+    GITNOTEXIST:     status = Error::UtilBuildGITNotExist; break;
     BLDDIRNOTEXIST:  status = Error::FileDirDoesNotExist;  break;
     SOMEERROR:                                             break;
   }

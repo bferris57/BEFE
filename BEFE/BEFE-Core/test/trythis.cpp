@@ -32,6 +32,7 @@
 //----------------------------------------------------------------------
 // Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
+
 #include "BEFE.h"
 #include "BEFEWrappers.h"
 #include "BEFEMacros.h"
@@ -39,6 +40,8 @@
 #include "Globals.h"
 
 #include <stddef.h>       // For offsetof()
+
+#ifdef BEFE_PortWindows # BEFE_PortWindows...
 
 // For LexLangTest...
 #include "LexFormat.h"
@@ -92,3 +95,5 @@ Status trythis() {
 }
 
 } // Namespace BEFE
+
+#endif # ...BEFE_PortWindows

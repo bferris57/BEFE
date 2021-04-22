@@ -19,7 +19,7 @@ Status Build::_DefaultSettings() {
   
   Status status;
   String cwd;
-  String befe_SVN;
+  String befe_GIT;
   String befe_Build;
   String befe_Temp;
   
@@ -28,22 +28,22 @@ Status Build::_DefaultSettings() {
   status = settings.SetEmpty();
   if (status) goto SOMEERROR;
   
-  // Do BEFE_SVN...
+  // Do BEFE_GIT...
   cwd = GetCurrentWorkingDirectory();
-  befe_SVN = GetEnvironmentValue("BEFE_SVN");
-  if (befe_SVN.Length() == 0) goto NOSVN;
-  status = PathToGeneric(befe_SVN);
+  befe_GIT = GetEnvironmentValue("BEFE_GIT");
+  if (befe_GIT.Length() == 0) goto NOGIT;
+  status = PathToGeneric(befe_GIT);
   if (status) goto SOMEERROR;
-  if (befe_SVN.Get(-1) == '/')
-    befe_SVN.Remove(-1);
-  if (IsRelativePath(befe_SVN))
-	  befe_SVN = ApplyRelativePath(befe_SVN);
-  if (!Exists(befe_SVN) || !IsDirectory(befe_SVN)) goto BADSVN;
-  status = settings.Set("BEFE_SVN",befe_SVN);
+  if (befe_GIT.Get(-1) == '/')
+    befe_GIT.Remove(-1);
+  if (IsRelativePath(befe_GIT))
+	  befe_GIT = ApplyRelativePath(befe_GIT);
+  if (!Exists(befe_GIT) || !IsDirectory(befe_GIT)) goto BADGIT;
+  status = settings.Set("BEFE_GIT",befe_GIT);
   if (status) goto SOMEERROR;
 
-  // Initialise some interesting SVN base directories...
-  svnPlatformRoot = befe_SVN + "/platform";
+  // Initialise some interesting GIT base directories...
+  svnPlatformRoot = befe_GIT + "/platform";
   if (Is_Linux())
     svnPlatformDir = svnPlatformRoot + "/linux";
   else if (Is_WinNT())
@@ -77,8 +77,8 @@ Status Build::_DefaultSettings() {
   
   // Handle errors
   while (false) {
-    NOSVN:        status = Error::NoBEFE_SVN;            break;
-    BADSVN:       status = Error::BadBEFE_SVN;           break;
+    NOGIT:        status = Error::NoBEFE_GIT;            break;
+    BADGIT:       status = Error::BadBEFE_GIT;           break;
     NOBUILD:      status = Error::NoBEFE_Build;          break;
     BADBUILD:     status = Error::BadBEFE_Build;         break;
     TEMPNOTSET:   status = Error::UtilBuildTempNotSet;   break;
@@ -110,7 +110,7 @@ Status Build::_CheckDependencies() {
   // Initialise dependencies
   status = deps.Append("g++");
   status = deps.Append("ar");
-  if (options & OptionSVN)
+  if (options & OptionGIT)
     status = deps.Append("svn");
   status = deps.Append("soffice");
   if (Is_Windows()) {
@@ -152,7 +152,7 @@ Status Build::_CheckDependencies() {
     if (status) {
       if (dep != "soffice" && dep != "svn") goto SOMEERROR;
       if (dep == "svn")
-        options &= ~OptionSVN;
+        options &= ~OptionGIT;
     }
     else {
       status = extBinaries.Set(deps.Get(curIdx), found);

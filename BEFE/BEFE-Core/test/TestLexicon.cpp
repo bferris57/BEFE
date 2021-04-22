@@ -216,12 +216,12 @@ Status testLexLangCpp() { // testLexLangCpp...
         maxTypeLen = Max(maxTypeLen,Strlen(types[i]));
 
       if (true) {
-        searchPath = GetEnvironmentValue("BEFE_SVN");
+        searchPath = GetEnvironmentValue("BEFE_GIT");
         status = WalkPath(searchPath, LexPathWalker, (UInt32)&theFiles);
         if (status) goto SOMEERROR;
       }
       else
-        theFiles.Append("C:/SVN/BEFE-Core/lang/Blang.h");
+        theFiles.Append("C:/GIT/BEFE-Core/lang/Blang.h");
         
       if (gVerbose){
         i = theFiles.Length();
@@ -371,7 +371,7 @@ Status testLexWorkspace() { // testLexWorkspace...
 
   Status       status;
   String       befeRoot;
-  String       befeSVN;
+  String       befeGIT;
   String       wsFileName;
   String       inFileName;
   Lex          lex;
@@ -389,17 +389,17 @@ Status testLexWorkspace() { // testLexWorkspace...
   befeRoot = GetEnvironmentValue("BEFE_Root");
   if (befeRoot.Length() == 0) goto NOROOT;
   if (!IsDirectory(befeRoot)) goto NOTDIR;
-  befeSVN = GetEnvironmentValue("BEFE_SVN");
-  if (befeSVN.Length() == 0) goto NOSVN;
-  if (!IsDirectory(befeSVN)) goto NOTDIR;
+  befeGIT = GetEnvironmentValue("BEFE_GIT");
+  if (befeGIT.Length() == 0) goto NOGIT;
+  if (!IsDirectory(befeGIT)) goto NOTDIR;
   status = PathToGeneric(befeRoot);
   if (status) goto SOMEERROR;
-  status = PathToGeneric(befeSVN);
+  status = PathToGeneric(befeGIT);
   if (status) goto SOMEERROR;
   
   // Setup Input and Workspace file names...  
   wsFileName = befeRoot + "/testLexWorkspace.befe";
-  inFileName = befeSVN + "/core/String.h";
+  inFileName = befeGIT + "/core/String.h";
   
   // Delete workspace if already there...
   if (Exists(wsFileName)) {
@@ -517,7 +517,7 @@ Status testLexWorkspace() { // testLexWorkspace...
     Cout << indent << "Testing LexWorkspace Files...\n";    
     indent *= 4;
 
-    fileName = "C:/SVN/BEFE-Core/core/String.h";
+    fileName = "C:/GIT/BEFE-Core/core/String.h";
     status = ws.FileNew(fileName, fileId);
     if (status) goto SOMEERROR;
     if (gVerbose)
@@ -535,7 +535,7 @@ Status testLexWorkspace() { // testLexWorkspace...
     Cout << indent << "Testing LexWorkspace Files (Many Files)...\n";    
     indent *= 4;
 
-    dirName = "C:/SVN/BEFE-Core";
+    dirName = "C:/GIT/BEFE-Core";
     
     ctxt.ws      = &ws;
     ctxt.indent  = indent;
@@ -618,7 +618,7 @@ Status testLexWorkspace() { // testLexWorkspace...
   status = Error::None;
   while (false) {
     NOROOT:    status = Error::NoBEFE_Root;         break;
-    NOSVN:     status = Error::NoBEFE_SVN;          break;
+    NOGIT:     status = Error::NoBEFE_GIT;          break;
     NOTDIR:    status = Error::FileDirDoesNotExist; break;
     NOTEXIST:  status = Error::FileDoesNotExist;    break;
     NOTFILE:   status = Error::FileNameIsNotFile;   break;

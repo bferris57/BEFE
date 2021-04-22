@@ -62,7 +62,8 @@ template <typename T> class ArrayPrimitive : public _ArrayBase {  // Template Ar
   }
   
   public: Status Contains(T const &that, Int &answer) const {
-    return _ArrayBase::_Contains((ArrayCompareFunc)&ArrayPrimitive<T>::_CompareElements, (Byte *)&that, answer);
+    answer = _ArrayBase::_Contains((ArrayCompareFunc)&ArrayPrimitive<T>::_CompareElements, (Byte *)&that);
+    return 0;
   }
   
   // Get Methods

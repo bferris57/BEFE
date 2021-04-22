@@ -112,7 +112,7 @@ String Platform::GetVersionString() const {
 }
 
 String Platform::GetRevisionString() const {
-  return SVNGetValue(BEFE_REVISION);
+  return GITGetValue(BEFE_REVISION);
 }
 
 UInt Platform::GetMainVersion() const {

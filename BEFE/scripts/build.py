@@ -200,6 +200,7 @@ def Empty(directory = None):
           '_inc',
           '_obj',
           '_lib',
+          '_bin',
          ]
 
   # Remove it
@@ -287,9 +288,14 @@ def compile():
 
   cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++0x -fno-exceptions ' \
         '-finline-functions -nodefaultlibs -fno-rtti'
+  # TEMP...
+  cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
+  # ...TEMP
 
   fileCount = 0
   errCount  = 0
+
+  sys.stdout.flush()
 
   for path in PathWalker(BEFE_Src):
 
@@ -298,18 +304,19 @@ def compile():
     if ext not in ('.c','.cpp'):
       continue
     fileCount += 1
-    # TEMP...
-    if fileCount != 1: break
-    # ...TEMP
 
     tcmd = cmd%(path,BEFE_Obj+'/'+fname+'.o',BEFE_Inc)
-    green('DEBUG: tcmd = %s'%repr(tcmd))
+    #green('DEBUG: tcmd = %s'%repr(tcmd))
+    print('  '+file+'...')
+    sys.stdout.flush()
 
     rc,out,err = execute(tcmd)
+    sys.stdout.flush()
     if rc:
       errCount += 1
       print("Error...")
       Prefix(err,prefix='...',samePrefix=True,fore='red',style='bright')
+      break;
 
   return errCount
 
@@ -319,6 +326,8 @@ def compile():
 #
 # Purpose:  Python Main
 #
+
+# NOTE: ld temp/_obj/*.o -o temp/bin/befe -m elf_i386 -fno-use-cxa-atexit 2>ld.err
 
 if __name__ == "__main__":
 

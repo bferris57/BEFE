@@ -27,10 +27,10 @@
 
 // This is nasty but that's what we have to do at the moment because
 // we haven't quite genericised the xterm Class...
-#ifdef BEFE_PortLinux
-# define BEFE_DOXTERM
-# include "Linux32xterm.h"
-#endif
+//#ifdef BEFE_PortLinux
+//# define BEFE_DOXTERM
+//# include "Linux32xterm.h"
+//#endif
 #ifdef BEFE_PortWindows
 # define BEFE_DOXTERM
 # include "Win32xterm.h"

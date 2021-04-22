@@ -98,10 +98,10 @@ String ToString(IdSpaceInfo &info);
 // Instance info -> String normal form
 Status ToString(IdSpaceInfo &info, String &string);
 
-// SVN Stuff...
-String SVNGetName(char const *rawsvn);
-String SVNGetValue(char const *rawsvn);
-void   SVNParse(char const *rawsvn,String &name,String &value);
+// GIT Stuff...
+String GITGetName(char const *rawsvn);
+String GITGetValue(char const *rawsvn);
+void   GITParse(char const *rawsvn,String &name,String &value);
 
 // MD5...
 String ToHexString(MD5 const &that);

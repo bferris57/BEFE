@@ -175,13 +175,13 @@ namespace Error {
     NoBEFE_Temp,                // BEF+1  BEFE_Temp Environment Variable not set
     NoBEFE_Root,                // BEF+2  BEFE_Root Environment Variable not set
     NoBEFE_Path,                // BEF+3  BEFE_Path Environment Variable not set
-    NoBEFE_SVN,                 // BEF+4  BEFE_SVN  Environment Variable not set
+    NoBEFE_GIT,                 // BEF+4  BEFE_GIT  Environment Variable not set
     NoBEFE_TestData,            // BEF+5  BEFE_TestData Environment Variable not set
     NoBEFE_Build,               // BEF+6  BEFE_Build Environment variable Not set
     BadBEFE_Temp,               // BEF+7  BEFE_Temp Environment Variable is invalid Path
     BadBEFE_Root,               // BEF+8  BEFE_Root Environment Variable is invalid Path
     BadBEFE_Path,               // BEF+9  BEFE_Path Environment Variable is invalid Path
-    BadBEFE_SVN,                // BEF+10 BEFE_SVN  Environment Variable is invalid Path
+    BadBEFE_GIT,                // BEF+10 BEFE_GIT  Environment Variable is invalid Path
     BadBEFE_TestData,           // BEF+11 BEFE_TestData Environment Variable is invalid Path
     BadBEFE_Build,              // BEF+12 BEFE_Build Environemtn Variable is invalid Path
     BEFECallbackIsRegistered,   // BEF+13 BEFE Callback already registered
@@ -729,8 +729,8 @@ namespace Error {
     UtilBuildFailed,            // BLD+1  Build Failed
     UtilBuildNotValid,          // BLD+2  Not a valid BEFE Build Machine
     UtilBuildUnknownPort,       // BLD+3  Unknown build platform
-    UtilBuildSVNNotExist,       // BLD+4  BEFE_SVN directory does not exist
-    UtilBuildSVNNotDir,         // BLD+5  BEFE_SVN is not a directory
+    UtilBuildGITNotExist,       // BLD+4  BEFE_GIT directory does not exist
+    UtilBuildGITNotDir,         // BLD+5  BEFE_GIT is not a directory
     UtilBuildBuildNotSet,       // BLD+6  BEFE_Build environment variable is not set
     UtilBuildBuildNotExist,     // BLD+7  BEFE_Build directory does not exist
     UtilBuildBuildNotDir,       // BLD+8  BEFE_Build is not a directory

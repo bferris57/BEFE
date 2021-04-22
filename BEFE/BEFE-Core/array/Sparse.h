@@ -510,11 +510,12 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
   }
   
   // Physical Element Methods
+  /*
   public: V *GetPhysical(UInt phyIndex, UInt &index) const {
     V *that;
     that = _GetPhyAddress(phyIndex, index, (void *)&that);    
     return that;
-  }
+  }*/
 
   //
   // Private maintenance metnods

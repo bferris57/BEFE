@@ -994,28 +994,28 @@ Status ToString(IdSpaceInfo &info, String &string) {
 
 //----------------------------------------------------------------------
 //
-// Handy SVN keyword string parsing functions
+// Handy GIT keyword string parsing functions
 //
-// Functions: SVNGetName  - Given SVN string, return Name in string
-//            SVNGetValue - Given SVN string, return Value in string
-//            SVNParse    - Parse an SVN string and return name and value
+// Functions: GITGetName  - Given GIT string, return Name in string
+//            GITGetValue - Given GIT string, return Value in string
+//            GITParse    - Parse an GIT string and return name and value
 //
 
-String SVNGetName(char const *rawsvn) {
+String GITGetName(char const *rawsvn) {
   String name;
   String value;
-  SVNParse(rawsvn,name,value);
+  GITParse(rawsvn,name,value);
   return name.Consumable();
 }
 
-String SVNGetValue(char const *rawsvn) {
+String GITGetValue(char const *rawsvn) {
   String name;
   String value;
-  SVNParse(rawsvn,name,value);
+  GITParse(rawsvn,name,value);
   return value.Consumable();
 }
 
-void SVNParse(char const *rawsvn,String &name,String &value) {
+void GITParse(char const *rawsvn,String &name,String &value) {
 
   Strings parts;
   String  part;

@@ -457,12 +457,12 @@ Status CommandLayer_BEFE_Run(CommandLayer *layer, BcmdCommand &cmd) {
 Status CommandLayer_BEFE_Build(CommandLayer *layer, BcmdCommand &cmd) {
 
   Status  status;
-  String  befe_SVN;
+  String  befe_GIT;
   
-  befe_SVN = GetEnvironmentValue("BEFE_SVN").Trim();
-  if (befe_SVN.Length() == 0) goto NOBEFESVN;
-  if (!Exists(befe_SVN)) goto NOTEXIST;
-  if (!IsDirectory(befe_SVN)) goto NOTDIR;
+  befe_GIT = GetEnvironmentValue("BEFE_GIT").Trim();
+  if (befe_GIT.Length() == 0) goto NOBEFEGIT;
+  if (!Exists(befe_GIT)) goto NOTEXIST;
+  if (!IsDirectory(befe_GIT)) goto NOTDIR;
 
   // Do it
   status = Command_Build(layer, cmd);
@@ -470,10 +470,10 @@ Status CommandLayer_BEFE_Build(CommandLayer *layer, BcmdCommand &cmd) {
   
   // Handle errors  
   while (false) {
-    NOBEFESVN:  status = Error::NoBEFE_SVN;           break;
+    NOBEFEGIT:  status = Error::NoBEFE_GIT;           break;
     //BADMACHINE: status = Error::UtilBuildNotValid;    break;
-    NOTEXIST:   status = Error::UtilBuildSVNNotExist; break;
-    NOTDIR:     status = Error::UtilBuildSVNNotDir;   break;
+    NOTEXIST:   status = Error::UtilBuildGITNotExist; break;
+    NOTDIR:     status = Error::UtilBuildGITNotDir;   break;
     BAD:                                              break;
   }
   

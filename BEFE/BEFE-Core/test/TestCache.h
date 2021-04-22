@@ -33,7 +33,7 @@ class TestCache : public Test { // Class TestCache...
   // For internal use...
   protected: UInt   indent;
   protected: Cache  cache;
-  protected: Status DisplayBEFE_SVN(UInt indent);
+  protected: Status DisplayBEFE_GIT(UInt indent);
   protected: Status DisplayCache(UInt indent);
   
 }; // ...Class TestCache

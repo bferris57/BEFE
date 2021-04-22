@@ -192,7 +192,8 @@ template <typename V> class ArrayValue : public _ArrayBase { // Template ArrayVa
   }
   
   public: Status Contains(V const &that, Int &answer) const {
-    return _Contains(_CompareElements, (Byte *)&that, answer);
+    answer = _Contains(_CompareElements, (Byte *)&that);
+    return 0;
   }
   
   // ArrayValue<V> specific methods

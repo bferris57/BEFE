@@ -48,7 +48,7 @@ class Build { // Class Build...
     OptionDebug                    = 0x00000001,
     OptionRelease                  = 0x00000002,
     OptionBoth                     = 0x00000003,
-    OptionSVN                      = 0x00000004,
+    OptionGIT                      = 0x00000004,
     
     GeneralDefaultSettings         = 0x00000008,
     GeneralValidateSettings        = 0x00000010,
@@ -191,7 +191,7 @@ class Build { // Class Build...
   // Miscellaneous
   //   Implemented in BuildMisc.cpp
   public: Status _GetPublishableFiles(String const &dirPath, String const &targetType, Strings &files);
-  public: Status _PatchSVNRevision(String const &fileName);
+  public: Status _PatchGITRevision(String const &fileName);
   
 }; // ...Class Build
 

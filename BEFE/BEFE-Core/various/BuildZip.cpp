@@ -76,7 +76,7 @@ Status Build::_Zip(UInt zipWhat) { // Build._Zip...
 
   Status     status;
   String     befe_Build;
-  String     befe_SVN;
+  String     befe_GIT;
   ZipContext zip;
   String     outFileName;
   String     cmd;
@@ -91,8 +91,8 @@ Status Build::_Zip(UInt zipWhat) { // Build._Zip...
   
   befe_Build = settings.Get("BEFE_Build");
   if (!Exists(befe_Build)) goto BUILDNOTTHERE;
-  befe_SVN = settings.Get("BEFE_SVN");
-  if (!Exists(befe_SVN)) goto SVNNOTTHERE;
+  befe_GIT = settings.Get("BEFE_GIT");
+  if (!Exists(befe_GIT)) goto GITNOTTHERE;
   
   //
   // Create the initial ZIP
@@ -172,8 +172,8 @@ Status Build::_Zip(UInt zipWhat) { // Build._Zip...
          << " file...  0%";
   
   // Get the list of files...
-  PathToGeneric(befe_SVN);
-  status = _GetPublishableFiles(befe_SVN, "", zip.theFiles);
+  PathToGeneric(befe_GIT);
+  status = _GetPublishableFiles(befe_GIT, "", zip.theFiles);
   if (status) goto SOMEERROR;
   
   for (curIdx=0; curIdx < zip.theFiles.Length(); curIdx++) {
@@ -235,7 +235,7 @@ Status Build::_Zip(UInt zipWhat) { // Build._Zip...
   status = Error::None;
   while (false) {
     BUILDNOTTHERE: status = Error::UtilBuildBuildNotExist; break;
-    SVNNOTTHERE:   status = Error::UtilBuildSVNNotExist;   break;
+    GITNOTTHERE:   status = Error::UtilBuildGITNotExist;   break;
     OK:            status = Error::None;                   break;
     SOMEERROR:                                             break;
   }

@@ -342,7 +342,7 @@ Status Build::Steps(UInt steps) { // Build.Steps...
     if (status) goto SOMEERROR;
   }
   
-  if ((steps & BuildCopyInput) && (options & OptionSVN)) {
+  if ((steps & BuildCopyInput) && (options & OptionGIT)) {
     status = _CopyInputFiles();
     if (status) goto SOMEERROR;
   }

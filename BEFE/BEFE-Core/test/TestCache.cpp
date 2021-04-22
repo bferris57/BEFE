@@ -33,7 +33,7 @@ Status TestCache::Run() {
   indent    = 1;
 
   /* TEMP...
-  DisplayBEFE_SVN(indent+1);
+  DisplayBEFE_GIT(indent+1);
   
   //status = testEmpty();
   //if (status) {ERROR("TestCache.Run.testEmpty", status); numErrors++;}
@@ -61,10 +61,10 @@ Status TestCache::Run() {
 
 //----------------------------------------------------------------------
 //
-// TestCache.DisplayBEFE_SVN - Display the BEFE_SVN Environment vVariable
+// TestCache.DisplayBEFE_GIT - Display the BEFE_GIT Environment vVariable
 //
 
-Status TestCache::DisplayBEFE_SVN(UInt pIndent) {
+Status TestCache::DisplayBEFE_GIT(UInt pIndent) {
 
   Status status;
   String sIndent;
@@ -73,13 +73,13 @@ Status TestCache::DisplayBEFE_SVN(UInt pIndent) {
   sIndent = String("  ")*pIndent;
   if (!gShowDebug) goto OK;
   
-  befeSvn = GetEnvironmentValue("BEFE_SVN");
-  if (IsNull(befeSvn)) goto NOSVN;
+  befeSvn = GetEnvironmentValue("BEFE_GIT");
+  if (IsNull(befeSvn)) goto NOGIT;
   status = TheBefe->TheOS->PathToGeneric(befeSvn);
   if (status) goto SOMEERROR;
   if (befeSvn.Get(-1) != '/') befeSvn += '/';
   if (gVeryVerbose && gShowDebug) {
-    out << sIndent << "BEFE_SVN = '" << befeSvn << "'\n";
+    out << sIndent << "BEFE_GIT = '" << befeSvn << "'\n";
     out << sIndent << "  Exists       = " << ((Exists(befeSvn))?"True":"False")      << '\n';
     out << sIndent << "  Is Directory = " << ((IsDirectory(befeSvn))?"True":"False") << '\n';
   }
@@ -87,11 +87,11 @@ Status TestCache::DisplayBEFE_SVN(UInt pIndent) {
   // Handle errors
   while (false) {
     OK:        status = Error::None;       break;
-    NOSVN:     status = Error::NoBEFE_SVN; break;
+    NOGIT:     status = Error::NoBEFE_GIT; break;
     SOMEERROR:                             break;
   }
   
-  if (status) BEFE_ERROR("TestCache.DisplayBEFE_SVN",status);
+  if (status) BEFE_ERROR("TestCache.DisplayBEFE_GIT",status);
   
   return status;
   
@@ -214,8 +214,8 @@ Status TestCache::testStartCacheFiles() {
   //status = cache.Reset();
   //if (status) goto SOMEERROR;
       
-  befeSvn = GetEnvironmentValue("BEFE_SVN");
-  if (IsNull(befeSvn)) goto NOSVN;
+  befeSvn = GetEnvironmentValue("BEFE_GIT");
+  if (IsNull(befeSvn)) goto NOGIT;
   status = PathToGeneric(befeSvn);
   if (status) goto SOMEERROR;
   if (!IsFullPath(befeSvn))
@@ -237,7 +237,7 @@ Status TestCache::testStartCacheFiles() {
     
   // Handle errors
   while (false) {
-    NOSVN:     status = Error::NoBEFE_SVN; break;
+    NOGIT:     status = Error::NoBEFE_GIT; break;
     SOMEERROR:                             break;
   }
   
@@ -256,7 +256,7 @@ Status TestCache::testBlockLoad() {
   String        sIndent;
   String        sIndent2;
   String        sIndent3;
-  String        befe_SVN;
+  String        befe_GIT;
   String        fileName;
   Id            fileId;
   CacheFileInfo fileInfo;
@@ -278,13 +278,13 @@ Status TestCache::testBlockLoad() {
   //status = cache.Reset();
   //if (status) goto SOMEERROR;
       
-  befe_SVN = GetEnvironmentValue("BEFE_SVN");
-  if (IsEmpty(befe_SVN)) goto NOSVN;
-  status = PathToGeneric(befe_SVN);
+  befe_GIT = GetEnvironmentValue("BEFE_GIT");
+  if (IsEmpty(befe_GIT)) goto NOGIT;
+  status = PathToGeneric(befe_GIT);
   if (status) goto SOMEERROR;
-  if (!IsFullPath(befe_SVN))
-    befe_SVN = ApplyRelativePath(GetCurrentWorkingDirectory(), befe_SVN);
-  fileName = befe_SVN + "/c++/test/TestString.cpp";
+  if (!IsFullPath(befe_GIT))
+    befe_GIT = ApplyRelativePath(GetCurrentWorkingDirectory(), befe_GIT);
+  fileName = befe_GIT + "/c++/test/TestString.cpp";
   status = ValidateExistingFileName(fileName);
   if (status) goto SOMEERROR;
   
@@ -341,7 +341,7 @@ Status TestCache::testBlockLoad() {
   // Handle errors
   status = Error::None;
   while (false) {
-    NOSVN:     status = Error::NoBEFE_SVN; break;
+    NOGIT:     status = Error::NoBEFE_GIT; break;
     SOMEERROR:                             break;
   }  
 
@@ -399,7 +399,7 @@ static Status Walker(String const &dir, UInt32 context) {
 
 //----------------------------------------------------------------------
 //
-// TestCache.testBlockLoadSource - Test Cache.BlockLoad of all BEFE_SVN source
+// TestCache.testBlockLoadSource - Test Cache.BlockLoad of all BEFE_GIT source
 //
 
 Status TestCache::testBlockLoadSource() {
@@ -408,7 +408,7 @@ Status TestCache::testBlockLoadSource() {
   String      sIndent;
   String      sIndent2;
   String      sIndent3;
-  String      befe_SVN;
+  String      befe_GIT;
   String      fileName;
   Id          fileId;
   UInt        fileSize;
@@ -437,18 +437,18 @@ Status TestCache::testBlockLoadSource() {
   if (gVerbose)
     out << sIndent << "Testing Cache.BlockLoadSource...\n";
 
-  befe_SVN = GetEnvironmentValue("BEFE_SVN");
-  if (IsEmpty(befe_SVN)) goto NOSVN;
-  status = PathToGeneric(befe_SVN);
+  befe_GIT = GetEnvironmentValue("BEFE_GIT");
+  if (IsEmpty(befe_GIT)) goto NOGIT;
+  status = PathToGeneric(befe_GIT);
   if (status) goto SOMEERROR;
-  if (!IsFullPath(befe_SVN))
-    befe_SVN = ApplyRelativePath(GetCurrentWorkingDirectory(), befe_SVN);
-  fileName = befe_SVN + "/c++/test/TestString.cpp";
+  if (!IsFullPath(befe_GIT))
+    befe_GIT = ApplyRelativePath(GetCurrentWorkingDirectory(), befe_GIT);
+  fileName = befe_GIT + "/c++/test/TestString.cpp";
   status = ValidateExistingFileName(fileName);
   if (status) goto SOMEERROR;
   
   // Get the list of header and source files...
-  status = WalkPath(befe_SVN, Walker, (UInt32)&walkContext);
+  status = WalkPath(befe_GIT, Walker, (UInt32)&walkContext);
   if(status) goto SOMEERROR;
   if (gVerbose && !gVeryVerbose) {
     out << walkContext.headerFiles.Length() << " Total .h   files...\n";
@@ -623,7 +623,7 @@ Status TestCache::testBlockLoadSource() {
   
   status = Error::None;
   while (false) {
-    NOSVN:     status = Error::NoBEFE_SVN; break;
+    NOGIT:     status = Error::NoBEFE_GIT; break;
     SOMEERROR:                             break;
   }  
   
