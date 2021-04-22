@@ -23,14 +23,11 @@ from __future__ import print_function
 #
 #            getHostName        - "What's my machine name?"
 #            myIps              - Return list of my IP addresses
-#            objNameAge         - Compute age (in float seconds) of an object name
-#            objNameHost        - Extract host name from object name
 #            promptInput        - Prompt and get input from <stdin>
 #            fixUri             - Substitute proper URI characters (%xx) if needed
 #            hostAlive          - "Is named host alive? (ping it once)"
 #            getPid             - General "find PID of something somewhere"
 #            getPids            - General "Find PID(s) of something somewhere"
-#            isValidQuote       - Is this string a valid quote?
 #            flushout           - Flush stdout and stderr
 #            isInt              - "Is this string a valid integer?"
 #            isFloat            - "Is this string a valid floating point numbere?"
@@ -83,6 +80,7 @@ from __future__ import print_function
 #            blue  - Print blue message
 #            error - Print red error and exit with status
 #            color - Use colr.color if stdout is a tty
+#
 
 #==============================================================================
 
@@ -455,19 +453,23 @@ def myIps():
 
     rc,output,err = execute("sudo ifconfig",showout=False)
     lines = output.split('\n')
+
     ips = []
     for i in range(0,len(lines)):
         line = lines[i]
-        if 'inet addr:' not in line:
+        if 'inet ' not in line:
             continue
         parts = line.split(' ')
         for j in range(0,len(parts)-1):
-            part = parts[j]
-            if part == 'inet' and 'addr:' in parts[j+1]:
-                subparts = parts[j+1].split(':')
-                ip = subparts[1]
-                if ip != '127.0.0.1':
-                    ips.append(ip)
+          ip = parts[j]
+          if not isIpv4(ip):
+            continue
+          if ip != '127.0.0.1':
+            ips.append(ip)
+            break
+    if not ips: 
+      return ips
+
     return ips if len(ips) > 1 else ips[0]
 
 #-------------------------------------------------------------------------------
