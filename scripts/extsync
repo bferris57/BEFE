@@ -30,9 +30,7 @@ if platform.system() != 'Linux':
 # Globals...
 #
 
-debug       = False
-verbose     = False
-veryverbose = True
+quiet       = False
 
 #------------------------------------------------------------------------------
 #
@@ -126,8 +124,11 @@ def expand(path):
 #        As such, it is up to the caller to prepend the mangled file
 #        name and directory in whatever format it wishes.
 #
+#        This function DOES NOT create the destination directory,
+#        that's up to the caller.
+#
 
-def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
+def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False):
 
   # Make sure source file exists...
   if not os.path.exists(srcfile):
@@ -138,8 +139,6 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
   #
 
   dstdir = os.path.dirname(dstfile)
-  if not os.path.exists(dstdir):
-    os.makedirs(dstdir,mode=0o777,exist_ok=True)
 
   if os.path.exists(dstfile) and not overwrite:
     if showpercent:
@@ -201,6 +200,60 @@ def copyOneFile(srcfile,dstfile,pretend=True,overwrite=False,showpercent=False):
 
   return True
 
+#------------------------------------------------------------------------------
+#
+# Function: getFileMap - Compute file map dictionary
+#
+# Usage:    map = getFileMap(srcdir)
+#
+# Where:    srcdir - str:  Source directory (without trailing '/')
+#           map    - dict: File map (see below)
+#
+# Notes:    The map contains a key for each source directory.  Each entry
+#           in the map contains a sorted list of the files in that directory.
+#
+
+def getFileMap(srcdir):
+
+  if not quiet:
+    green('Walking source directory...')
+  files = list(walk(srcdir))
+  files.sort()
+  if not quiet:
+    print('  %d files...'%len(files))
+
+  if not quiet:
+    green('Building dict...')
+
+  map = {}
+  for file in files:
+    fname = os.path.basename(file)
+    dname = file[:-len(fname)]
+    if dname not in map:
+      map[dname] = [] 
+    map[dname].append(fname)
+
+  if not quiet:
+    dirs = list(map.keys())
+    dirs.sort()
+    print('  %d directories'%len(dirs))
+
+  minfiles = 0x7fffffff
+  maxfiles = 0
+
+  for key in map:
+    nfiles = len(map[key])
+    minfiles = min(minfiles,nfiles)
+    maxfiles = max(maxfiles,nfiles)
+    map[key].sort()
+  
+  if not quiet:
+    print('')
+    print('  Minimum files: %d'%minfiles)
+    print('  Maximum files: %d'%maxfiles)
+
+  return map
+
 #---
 #
 # Main
@@ -212,6 +265,7 @@ if __name__ == '__main__':
   overwrite   = False
   maxfiles    = 0
   ignore      = False
+  #pretend     = True  # DEBUG
   pretend     = False
 
   # 
@@ -275,8 +329,8 @@ if __name__ == '__main__':
   else:
     srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
     dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
-    #srcdir  = expand('~/usb_src/bb/_bbv')
-    #dstdir  = expand('~/sd_dst/bb/_bbv')
+    #srcdir  = expand('~/usb_src/bb')
+    #dstdir  = expand('~/sd_dst/bb')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
@@ -292,34 +346,45 @@ if __name__ == '__main__':
   # Do it...
   #
 
-  if srcdir[-1] != '/': srcdir += '/'
-  if dstdir[-1] != '/': dstdir += '/'
+  if srcdir[-1] == '/': srcdir = srcdir[:-1]
+  if dstdir[-1] == '/': dstdir = dstdir[:-1]
   print('srcdir = %s'%srcdir)
   print('dstdir = %s'%dstdir)
   print('')
-  print('Files...')
 
-  files = list(walk(srcdir))
-  files.sort()
+  map = getFileMap(srcdir)
 
   numfiles = 0
-  for file in files:
-    sfile = file
-    dfile = dstdir + file[len(srcdir):]
-    if ignore and os.path.exists(dfile): continue
-    fname = os.path.basename(dfile)
-    dname = dfile[:-len(fname)]
-    print('  '+preEllipse(dname,45,fill='.')+postEllipse(fname,30,fill='.')+'..',end='')
-    sys.stdout.flush()
-    result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=overwrite,showpercent=showpercent)
-    if isinstance(result,Exception):
-      print(color("ERROR: "+str(result),fore='red',style='bright'))
-    elif type(result) == bool:
-      if result and maxfiles:
-        numfiles += 1
-        if numfiles >= maxfiles: break
-    else:
-      error("Error: Unknown result type from copyOneFile: %s"%repr(type(result)))
+  dirs = list(map.keys())
+  dirs.sort()
+
+  green('Copying...')
+  print('')
+
+  for sdir in dirs:
+
+    ddir = dstdir + sdir[len(srcdir):]
+    if not os.path.exists(ddir):
+      os.makedirs(dstdir,mode=0o777,exist_ok=True)
+    print('  '+ddir+'...')
+
+    for sfile in map[sdir]:
+      dfile = ddir + sfile
+      if ignore and os.path.exists(dfile): continue
+      fname = os.path.basename(dfile)
+      dname = dfile[:-len(fname)]
+      print('    '+postEllipse(fname,50,fill='.')+'..',end='')
+      sys.stdout.flush()
+      result = copyOneFile(sdir+sfile,dfile,pretend=pretend,overwrite=False,
+                           showpercent=showpercent)
+      if isinstance(result,Exception):
+        print(color("ERROR: "+str(result),fore='red',style='bright'))
+      elif type(result) == bool:
+        if result and maxfiles:
+          numfiles += 1
+          if numfiles >= maxfiles: break
+      else:
+        error("Error: Unknown result type from copyOneFile: %s"%repr(type(result)))
       
   green('\nThat\'s it!\n')
 
