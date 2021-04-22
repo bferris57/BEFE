@@ -230,6 +230,9 @@ def getFileMap(srcdir):
 # Main
 #
 
+statefile   = expand(os.path.dirname(__file__))
+statefile  += '/.extsync'
+
 if __name__ == '__main__':
 
   showpercent = True
@@ -298,10 +301,10 @@ if __name__ == '__main__':
     srcdir = args[0]
     dstdir = args[1]
   else:
-    srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
-    dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
-    #srcdir  = expand('~/usb_src/bb')
-    #dstdir  = expand('~/sd_dst/bb')
+    #srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
+    #dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
+    srcdir  = expand('~/usb_src/bb')
+    dstdir  = expand('~/sd_dst/bb')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
@@ -336,7 +339,9 @@ if __name__ == '__main__':
 
     ddir = dstdir + sdir[len(srcdir):]
     if not os.path.exists(ddir):
-      os.makedirs(dstdir,mode=0o777,exist_ok=True)
+      os.makedirs(ddir,mode=0o777,exist_ok=True)
+    if not os.path.exists(ddir):
+      error("os.makedirs %s didn't work!!!"%repr(ddir))
     blue('  '+ddir+'...')
 
     for sfile in map[sdir]:
@@ -346,7 +351,9 @@ if __name__ == '__main__':
       dname = dfile[:-len(fname)]
       print('    '+postEllipse(fname,80,fill='.')+'..',end='')
       sys.stdout.flush()
-      result = copyOneFile(sdir+sfile,dfile,pretend=pretend,overwrite=False,
+      sfile = sdir+sfile
+      open(statefile,'w').write('WRITING %s\n'%repr(dfile))
+      result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=False,
                            showpercent=showpercent)
       if isinstance(result,Exception):
         error(str(result),exit=False)
@@ -356,7 +363,7 @@ if __name__ == '__main__':
           if numfiles >= maxfiles: break
       else:
         error("Error: Unknown result type from copyOneFile: %s"%repr(type(result)))
-      
+      open(statefile,'w').write('WROTE %s\n'%repr(dfile))
   green('\nThat\'s it!\n')
 
   sys.exit()

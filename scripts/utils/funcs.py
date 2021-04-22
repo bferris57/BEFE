@@ -91,10 +91,12 @@ import time
 import json
 import shlex
 import hashlib
-import globals
 import re
 import colr
 
+verbose = False
+debug   = False
+quiet   = False
 
 #------------------------------------------------------------------------------
 #
@@ -111,8 +113,6 @@ def print(*positional, **keywords):
     global printcount
     keywords = dict(keywords)
     printcount += 1
-    if globals.python2 and 'end' in keywords:
-        del keywords['end']
     oldprint(*positional, **keywords)
 
 def getPrintCounter():
@@ -217,7 +217,7 @@ def Internal(msg,nl=True):
 
 def Info(msg,nl=True):
 
-    if globals.verbose:
+    if verbose:
         Prefix("Info: ",msg,nl=nl)
 
 def Literal(msg,nl=True):
@@ -226,13 +226,13 @@ def Literal(msg,nl=True):
 
 def Debug(msg,nl=True):
 
-    if globals.debug and globals.verbose:
-        Prefix("Debug: ",msg,nl=nl)
+    if debug and verbose:
+      Prefix("Debug: ",msg,nl=nl)
 
 def Notice(msg,nl=True):
 
-    if not globals.quiet:
-        Prefix("Notice: ",msg,nl=nl)
+    if not quiet:
+      Prefix("Notice: ",msg,nl=nl)
 
 def NotImp(item=None,nl=True):
 
