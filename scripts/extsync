@@ -19,12 +19,12 @@ from   utils.walker import walk
 from   utils.funcs  import preEllipse
 from   utils.funcs  import postEllipse
 from   utils.funcs  import isInt
+from   utils.funcs  import red,green,blue,error
 import                     time
-import                     platform
 
 # Linux only...
-if platform.system() != 'Linux':
-  print(color('ERROR: Script runs on Linux only' ,fore='red',style='bright'))
+if sys.platform != 'linux':
+  error('Script runs on Linux only')
 
 #
 # Globals...
@@ -62,35 +62,6 @@ Where: <options>...
 
   print(msg)
   sys.exit(0)
-
-#------------------------------------------------------------------------------
-#
-# Functions: red   - Print red error
-#            error - Print red error and exit with status
-#            green - Print green message
-#
-
-def red(msg):
-
-  print(color("ERROR: "+msg,fore='red',style='bright'))
-
-def error(msg):
-
-  red(msg)
-  sys.exit(1)
-
-def green(msg):
-
-  print(color(msg,fore='green',style='bright'))
-
-# Function: color - Use colr.color if stdout is a tty
-#
-
-def color(*args,**kwargs):
-
-  if not sys.stdout.isatty():
-    return args[0]
-  return colr.color(*args,**kwargs)
 
 #------------------------------------------------------------------------------
 #
@@ -366,7 +337,7 @@ if __name__ == '__main__':
     ddir = dstdir + sdir[len(srcdir):]
     if not os.path.exists(ddir):
       os.makedirs(dstdir,mode=0o777,exist_ok=True)
-    print('  '+ddir+'...')
+    blue('  '+ddir+'...')
 
     for sfile in map[sdir]:
       dfile = ddir + sfile

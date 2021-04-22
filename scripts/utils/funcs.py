@@ -79,8 +79,9 @@ from __future__ import print_function
 #            packages           - Return list of installed packages
 #
 #            red   - Print red error
-#            error - Print red error and exit with status
 #            green - Print green message
+#            blue  - Print blue message
+#            error - Print red error and exit with status
 #            color - Use colr.color if stdout is a tty
 
 #==============================================================================
@@ -1543,14 +1544,18 @@ def red(msg):
 
   print(color("ERROR: "+msg,fore='red',style='bright'))
 
-def error(msg):
+def blue(msg):
 
-  red(msg)
-  sys.exit(1)
+  print(color(msg,fore='blue',style='bright'))
 
 def green(msg):
 
   print(color(msg,fore='green',style='bright'))
+
+def error(msg):
+
+  red(msg)
+  sys.exit(1)
 
 def color(*args,**kwargs):
 
