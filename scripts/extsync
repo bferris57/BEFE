@@ -48,7 +48,7 @@ Where: <options>...
          ? | ??     - Show this usage help 
          +v         - Turn on  "show percentage"       (Default)
          -v         - Turn off "show percentage"
-         -n <count> - Only sync first <count> files
+         -n <count> - Only sync first <count> files    (Default 5)
          -o         - Turn off "overwrite files"       (Default)
          +o         - Turn on  "overwrite files"
          -i         - Turn off "ignore existing files" (Default)
@@ -76,7 +76,7 @@ def expand(path):
 #
 # Function: copyOneFile 
 #
-# Usage:    result = copoyOneFile(srcfile,dstfile,pretend=False,overwrite=False)
+# Usage:    result = copyOneFile(srcfile,dstfile,pretend=False,overwrite=False)
 #
 # Where:    srcfile   - str: Source file path
 #           dstfile   - str: Destination file path
@@ -122,6 +122,7 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
 
     sys.stdout.flush()
     shutil.copy(srcfile,dstfile)
+    dfd = None
 
   else:
 
@@ -129,7 +130,9 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
     sstat = os.fstat(sfd)
     filesize = sstat.st_size
     if not pretend:
-      dst = open(dstfile,'wb')
+      dfd = open(dstfile,'wb',buffering=0)
+    else:
+      dfd = None
     prevpercent = -1
     blocksize = 1024*1024 # 1MB at a time if show percentage
     offset = 0
@@ -144,27 +147,28 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
         print('%s\b\b\b\b\b'%fstr,end='')
         sys.stdout.flush()
       prevpercent = percent
-      if not pretend:
+      if dfd:
         block = os.read(sfd,blocksize)
         if len(block) == 0:
           break
-        numwrite = dst.write(block)
+        numwrite = dfd.write(block)
         if numwrite != len(block):
           red('Expected to write %d bytes, but actually wrote %d'%(len(block),numwrite))
         if len(block) < blocksize:
           break
-        dst.flush()
+        dfd.flush()
         offset += len(block)
       else:
         if filesize >= 1024*1024:
           time.sleep(.01)
-        offset += filesize
-  
+        offset += blocksize
+  if dfd:
+    dfd.flush()
+    dfd.close()
+    dfd = None
   print("Finished")
   
   if not pretend:
-    dst.flush()
-    dst.close()
     if overwrite:
       os.truncate(dstfile,filesize)
   os.close(sfd)
@@ -230,14 +234,15 @@ def getFileMap(srcdir):
 # Main
 #
 
-statefile   = expand(os.path.dirname(__file__))
-statefile  += '/.extsync'
+
+statefile   = expand(os.path.dirname(__file__)) + '/.extsync'
+blue('DEBUG: statefile = %s'%repr(statefile))
 
 if __name__ == '__main__':
 
   showpercent = True
   overwrite   = False
-  maxfiles    = 0
+  maxfiles    = 2
   ignore      = False
   #pretend     = True  # DEBUG
   pretend     = False
@@ -301,10 +306,10 @@ if __name__ == '__main__':
     srcdir = args[0]
     dstdir = args[1]
   else:
-    #srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
-    #dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
-    srcdir  = expand('~/usb_src/bb')
-    dstdir  = expand('~/sd_dst/bb')
+    srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
+    dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
+    #srcdir  = expand('~/usb_src/bb')
+    #dstdir  = expand('~/sd_dst/bb')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
