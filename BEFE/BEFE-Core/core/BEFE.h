@@ -1,6 +1,6 @@
 //!befe-publish inc
 //----------------------------------------------------------------------
-// File: BEFE.h - Base C/C++ BEFE Declarations
+// File: BEFE.h - Base C/C++ BEFE Singleton Declarations
 //----------------------------------------------------------------------
 //
 // This header file is pretty much the only one needed by any C/C++
