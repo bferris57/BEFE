@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
   print('myIps(): '+repr(myIps()))
 
-  time.sleep(3)
+  #time.sleep(3)
 
-  wrapper(main)
+  #wrapper(main)
 

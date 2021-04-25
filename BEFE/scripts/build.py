@@ -337,8 +337,7 @@ def compileSource():
 
 def usage():
 
-  NotImplemented()
-  sys.exit()
+  red('usage() not implemented yet')
 
 if __name__ == "__main__":
 
@@ -351,6 +350,10 @@ if __name__ == "__main__":
       clean = True
     elif arg == '-clean':
       clean = False
+    elif arg == '-copy':
+      copy = False
+    elif arg == '+copy':
+      copy = True
     elif arg in ('-c','-compile'):
       compile = False
     elif arg in ('+c','+compile'):
