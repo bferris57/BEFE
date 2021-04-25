@@ -266,8 +266,8 @@ def copySource():
     if doit:
       if os.path.exists(dest):
         os.remove(dest)
-      shutil.copy(path,dest)
-      shutil.copystat(path,dest)
+      shutil.copy2(path,dest)
+      #shutil.copystat(path,dest)
       copied += 1
 
   print("  Total Files  =",total)
@@ -277,14 +277,14 @@ def copySource():
 
 #-------------------------------------------------------------------------------
 #
-# Function: compile - Compile everything
+# Function: compileSource - Compile everything
 #
-# Usage:    errCount = compile()
+# Usage:    errCount = compileSource()
 #
 # Where:    errCount = Number of errors encountered
 #
 
-def compile():
+def compileSource():
 
   cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++0x -fno-exceptions ' \
         '-finline-functions -nodefaultlibs -fno-rtti'
@@ -299,15 +299,19 @@ def compile():
 
   for path in PathWalker(BEFE_Src):
 
-    file = os.path.basename(path)
-    fname,ext = os.path.splitext(file)
+    spath = path
+    sfile = os.path.basename(path)
+    fname,ext = os.path.splitext(sfile)
     if ext not in ('.c','.cpp'):
       continue
-    fileCount += 1
 
-    tcmd = cmd%(path,BEFE_Obj+'/'+fname+'.o',BEFE_Inc)
+    dpath = BEFE_Obj+'/'+fname+'.o'
+    if os.path.exists(dpath) and os.path.getmtime(spath) < os.path.getmtime(dpath):
+      continue
+
+    tcmd = cmd%(spath,dpath,BEFE_Inc)
     #green('DEBUG: tcmd = %s'%repr(tcmd))
-    print('  '+file+'...')
+    print('  '+sfile+'...')
     sys.stdout.flush()
 
     rc,out,err = execute(tcmd)
@@ -317,6 +321,8 @@ def compile():
       print("Error...")
       Prefix(err,prefix='...',samePrefix=True,fore='red',style='bright')
       break;
+
+    fileCount += 1
 
   return errCount
 
@@ -329,21 +335,44 @@ def compile():
 
 # NOTE: ld temp/_obj/*.o -o temp/bin/befe -m elf_i386 -fno-use-cxa-atexit 2>ld.err
 
+def usage():
+
+  NotImplemented()
+  sys.exit()
+
 if __name__ == "__main__":
 
-  if True:
+  args = sys.argv[1:]
+  clean   = False
+  copy    = True
+  compile = True
+  for arg in args:
+    if arg == '+clean':
+      clean = True
+    elif arg == '-clean':
+      clean = False
+    elif arg in ('-c','-compile'):
+      compile = False
+    elif arg in ('+c','+compile'):
+      compile = True
+    else:
+      usage()
+      sys.exit(1)
+
+  if clean:
     print('Cleaning...')
     Clean()
     print('Creating empty build structure...')
     Empty()
+
+  if copy:
     print('Copying files...')
     copySource()
-    print('** Build Finished**')
 
-  if True:
+  if compile:
 
     print('Compiling...')
-    errCount = compile()
+    errCount = compileSource()
     if errCount:
       print('  %d errors'%errCount)
 
