@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+
+import                    time
+import                    curses
+from   curses      import wrapper
+import                    sys
+from   funcs              import dtNow
+from   funcs              import dtToNonce
+
+lines = '∙√─│┌┐└┘├┬┴┼═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬▲►▼◄◊☺☻'
+
+ld_tl   = '┌'
+ld_tr   = '┐'
+ld_bl   = '└'
+ld_br   = '┘'
+ld_hor  = '─'
+ld_vert = '│'
+ld_rarr = '►'
+ld_larr = '◄'
+ld_uarr = '▲'
+ld_darr = '▼'
+ld_0    = '\u24ea'
+ld_1    = '\u2460'
+ld_2    = '\u2461'
+ld_3    = '\u2462'
+ld_4    = '\u2463'
+ld_5    = '\u2464'
+ld_6    = '\u2465'
+ld_7    = '\u2466'
+ld_8    = '\u2467'
+ld_9    = '\u2468'
+ld_10   = '\u2469'
+ld_11   = '\u246a'
+ld_12   = '\u246b'
+ld_13   = '\u246c'
+
+ld_numbers = ld_0+ld_1+ld_2+ld_3+ld_4+ld_5+ld_6+ld_7+ld_8+ld_9+ld_10
+ld_club    = ld_tl+ld_hor+'\u2660'+ld_hor+ld_tr
+ld_suit    = '\u2660\u2661\u2662\u2663'
+#ld_deck    = ld_0+'A'+ld_2+ld_3+ld_4+ld_5+ld_6+ld_7+ld_8+ld_9+ld_10+'JQK'
+ld_deck    = '0A234567890JQK'
+
+maxx = None
+maxy = None
+
+topnum = '┌─x─┐'
+top    = '┌───┐'
+topvis = top #ld_club
+mid    = '│   │'
+midnum = '│ x │'
+bot    = '└───┘'
+
+def renderDealt(y,x,deck):
+
+  if not deck:
+    return
+
+  for i in range(0,len(deck)-1):
+    card = deck[i]
+    if card < 0:
+      tstr = topvis
+    else:
+      tstr = ld_deck[card].join(topnum.split('x'))
+    scr.addstr(y+i,x,tstr)
+  
+  card = deck[-1]
+  y = y + len(deck) - 1
+  scr.addstr(y  , x, top)
+  scr.addstr(y+1, x, mid)
+  scr.addstr(y+2, x, ld_deck[card].join(midnum.split('x')))
+  scr.addstr(y+3, x, mid)
+  scr.addstr(y+4, x, bot)
+  scr.refresh()
+      
+def main(screen):
+
+  global scr
+  global maxx
+  global maxy
+
+  scr = screen
+
+  scr.clear()
+  scr.refresh()
+  scr.timeout(200)
+  curses.curs_set(0)
+
+  maxy, maxx = scr.getmaxyx()
+
+  scr.addstr(maxy-1,0,'Press any \'q\' or \'x\' to exit...')
+  scr.refresh()
+
+  deck = [-1,-1,-1, 2, 5, 13, 10, 1]
+  for i in range(0,10):
+    renderDealt(1,i*7,deck)
+
+  key = ''
+  while key not in ('q','Q','x','X'):
+    dt = dtToNonce(dtNow()).split('T')[1][:-4]
+    scr.addstr(0,maxx-len(dt),dt)
+    key = scr.getch()
+    if key < 0: continue
+    key = chr(key)
+
+if __name__ == '__main__':
+
+  #print('Here it is: '+ld_deck)
+  #print('            '+ld_suit)
+  #sys.exit(0)
+
+  wrapper(main)
+

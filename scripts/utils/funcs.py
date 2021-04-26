@@ -145,11 +145,6 @@ def execute(cmd,prefix='',showout=False,showerr=False,env=os.environ,debug=False
     else:
       args = shlex.split(cmd)
 
-    if debug:
-      print("DEBUG: BEFORE: args = %s"%repr(args))
-      args = ['gdb','--args'] + args
-      print("DEBUG: AFTER:  args = %s"%repr(args))
-
     if args and args[0] == 'gdb':
       stdout = sys.stdout
       stderr = sys.stderr
