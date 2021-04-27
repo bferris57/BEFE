@@ -1,4 +1,4 @@
 *.pyc
 */__pycache_/*
 .extsync
-
+spider.out

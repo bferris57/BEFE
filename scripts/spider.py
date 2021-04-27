@@ -8,6 +8,7 @@ from   curses      import wrapper
 import                    sys
 from   funcs       import dtNow
 from   funcs       import dtToNonce
+from   funcs       import dtToReadable
 from   funcs       import red,blue,green
 from   funcs       import postEllipse
 from   errors             import *
@@ -60,6 +61,15 @@ curSelected = None
 msgbot      = ''
 msgtop      = ''
 
+out = open('spider.out','w')
+def oprint(msg,end='\n'):
+  out.write(msg)
+  if end:
+    out.write(end)
+  out.flush()
+
+oprint('-----BEGIN... %s-----'%dtToReadable(dtNow())[:-4])
+
 #---
 #
 # Various classes...
@@ -92,7 +102,10 @@ class Rect(object):
 
   def __str__(self):
 
-    return 'Rect([%d,%d]->[%d,%d])'%(self.tl.y,self.tl.x,self.br.y,self.br.x)
+    if self.tl and self.br:
+      return 'Rect([%d,%d]->[%d,%d])'%(self.tl.y,self.tl.x,self.br.y,self.br.x)
+    else:
+      return 'Rect(None->None)'
 
   def __repr__(self):
 
@@ -116,6 +129,8 @@ class Rect(object):
 
 class Card(Rect):
 
+  seq = 0
+
   def __init__(self,cardno,suit=None):
 
     super().__init__(tl=None,br=None)
@@ -123,10 +138,22 @@ class Card(Rect):
       raise InternalError('Card() expected cardno to be an int()')
     if suit != None and not isinstance(suit,int):
       raise InternalError('Card() expected suit to be an int()')
+    # TEMP...
+    self.seq      = Card.seq
+    Card.seq += 1
+    # ...TEMP
     self.cardno   = cardno
     self.suit     = suit
     self.pos      = None
     self.selected = False
+
+  def __str__(self):
+
+    return 'Card(seq=%s,pos=%s,cardno=%s)'%(repr(self.seq),repr(self.pos),repr(self.cardno))
+
+  def __repr__(self):
+
+    return str(self)
 
   def dist(self,that): # Calculate distance squared to another card...
 
@@ -136,13 +163,11 @@ class Card(Rect):
 
     posThis = self.pos
     posThat = that.pos
-    if posThis == None or self.area() == 0:
-      return dist
-    if posThat == None or that.area() == 0:
+    if posThis == None or posThat == None:
       return dist
 
-    deltax = posThis.x - posThat.x
-    deltay = posThis.y - posThat.y
+    deltax = posThis.tl.x - posThat.tl.x
+    deltay = posThis.tl.y - posThat.tl.y
    
     dist = (deltax*deltax)+(deltay*deltay)
 
@@ -152,29 +177,39 @@ class Card(Rect):
 
     global msgtop
 
+    # DEBUG...
+    oprint('getLeftRight: Enter: self.seq = %d...'%self.seq)
+    # ...DEBUG
+
     that = None
     if not self.pos: 
-      return None
+      return [None,None]
 
-    distLeft  = 0
+    distLeft  = 0x7fffffff
     thatLeft  = None
-    distRight = 0
+    distRight = 0x7fffffff
     thatRight = None
     for i in range(0,len(allCards)):
       that = allCards[i]
       if that.cardno >= 0 or (that.pos and that.pos.tl.x == self.pos.tl.x):
         continue
       d = self.dist(that)
-      if that.pos and that.pos.tl.x < self.pos.tl.x and d and d < distLeft:
-        distLeft = d
-        thatLeft = that
-      if that.pos and that.pos.tl.x > self.pos.tl.x and d and d < distRight:
-        if d:
-          msgtop = 'DEBUG: that = %s, d = %s'%(repr(that),repr(d))
-        distRight = d
-        thatRight = that
+      if d:
+        oprint('getLeftRight: i = %d, self.seq = %d, that.seq = %d, d = %s'%(i,self.seq,that.seq,repr(d)))
+        oprint('              self.pos = %s, that.pos = %s'%(repr(self.pos),repr(that.pos)))
+      if d and that.pos:
+        if that.pos.tl.x < self.pos.tl.x and distLeft and d < distLeft:
+          distLeft = d
+          thatLeft = that
+        if that.pos.tl.x > self.pos.tl.x and distRight and d < distRight:
+          oprint('DEBUG: thatRight: that.pos = %s, d = %s'%(repr(that.pos),repr(d)))
+          distRight = d
+          thatRight = that
 
-    return (thatLeft,thatRight)
+    ret = (thatLeft,thatRight)
+    oprint("getLeftRight: ret = %s"%repr(ret))
+
+    return ret
 
   def getUpDown(self):
 
@@ -257,7 +292,7 @@ def renderDeck(y,x,deck):
       scr.addstr(y+i,x,tstr,curses.A_REVERSE)
     else:
       scr.addstr(y+i,x,tstr)
-    tl = Point(y,x)
+    tl = Point(y+i,x)
     if i == len(deck)-1:
       y = y + len(deck) - 1
       color = curses.A_REVERSE if card.selected else 0
@@ -270,6 +305,7 @@ def renderDeck(y,x,deck):
     else:
       br = Point(y, x+len(bot))
     card.pos = Rect(tl,br)
+    oprint('renderDeck: y = %d, i = %d, card.pos = %s'%(y,i,repr(card.pos)))
 
   scr.refresh()
 
@@ -346,7 +382,7 @@ def main(screen):
 
   key = ''
   while key not in ('q','Q','x','X'):
-    dt = dtToNonce(dtNow()).split('T')[1][:-4]
+    dt = dtToReadable(dtNow())
     scr.addstr(0,maxx-len(dt),dt)
     key = scr.getch()
     if key < 0: continue

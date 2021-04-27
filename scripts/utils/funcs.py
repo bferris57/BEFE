@@ -389,11 +389,22 @@ def dtToNonce(dt):
 
     return nonce
 
-def dtToReadable(dt):
+def dtToReadable(dt,ampm=True):
 
     nonce = dtToNonce(dt)
 
     parts = nonce.split('T')
+    
+    if ampm:
+      dat = parts[1][:-4]
+      hour = int(dat[-8:-6])
+      dat  = dat[:-8] + '%02d' + dat[-6:] + '%s'
+      if hour > 12:
+        ampm = 'pm'
+        hour -= 12
+      else:
+        am = 'am'
+      parts[1] = dat%(hour,ampm)
 
     return ' @ '.join(parts)
 
@@ -1500,29 +1511,29 @@ def color(*args,**kwargs):
 
 if __name__ == "__main__":
 
-    if False:
+    if 0:
         args = list(sys.argv[1:])
         print("args = %s"%repr(args))
         hosts = parseHosts(args)
         print("hosts = %s"%repr(hosts))
 
-    if False:
+    if 0:
         Error("Dude!!!\nDude1",nl=False)
         Error("Dude2!!!")
 
-    if False:
+    if 0:
         b = os.urandom(20)
         s = bytesToHex(b)
         print("b = %s"%repr(b))
         print("s = %s"%repr(s))
    
-    if False:
+    if 0: 
         s = 'abcdef0102030405'
         b = hexToBytes(s)
         print("s = %s"%repr(s))
         print("b = %s"%repr(b))
 
-    if False:
+    if 0:
         print("%s IP addresses..."%repr(getHostName()))
         addresses = ipv4Addresses()
         for addr in addresses:
@@ -1530,18 +1541,18 @@ if __name__ == "__main__":
         if not addresses:
             print("  ***None***")
 
-    if False:
+    if 0:
 
       rc,out,err = execute("ls -al",showout=True,prefix='')
       print("DEBUG: len(out) = %d"%len(out))
 
-    if False:
+    if 0:
 
       s = "30"
       b = hexToBytes(s)
       print("b = %s"%repr(b))
 
-    if False:
+    if 0:
 
       packs = packages()
       print("%d packages..."%len(packs))
@@ -1552,10 +1563,15 @@ if __name__ == "__main__":
         elif i < 10 or i >= len(packs)-10:
           print("  "+packs[i])
 
-    if True:
+    if 0:
     
       s = '0123456789112345678921234567893123456789412345678951234567896'
       pre  = preEllipse(s,50,fill='.')
       post = postEllipse(s,50,fill='.')
       print('preEllipse:  %s'%repr(pre))
       print('postEllipse: %s'%repr(post))
+
+    if 1:
+
+      s = dtToReadable(dtNow())
+      print('Now: '+s) 
