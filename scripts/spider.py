@@ -57,6 +57,8 @@ bot    = '└───┘'
 
 allCards    = []
 curSelected = None
+msgbot      = ''
+msgtop      = ''
 
 #---
 #
@@ -148,6 +150,8 @@ class Card(Rect):
 
   def getLeftRight(self):
 
+    global msgtop
+
     that = None
     if not self.pos: 
       return None
@@ -161,10 +165,12 @@ class Card(Rect):
       if that.cardno >= 0 or (that.pos and that.pos.tl.x == self.pos.tl.x):
         continue
       d = self.dist(that)
-      if that.pos and that.pos.tl.x < self.pos.tl.x and d < distLeft:
+      if that.pos and that.pos.tl.x < self.pos.tl.x and d and d < distLeft:
         distLeft = d
         thatLeft = that
-      if that.pos and that.pos.tl.x > self.pos.tl.x and d < distRight:
+      if that.pos and that.pos.tl.x > self.pos.tl.x and d and d < distRight:
+        if d:
+          msgtop = 'DEBUG: that = %s, d = %s'%(repr(that),repr(d))
         distRight = d
         thatRight = that
 
@@ -217,7 +223,7 @@ def shuffle(arr): # Shuffle list of ints...
 
   return ret
 
-def renderAll(decks,stacks,msgbot=None,msgtop=None):
+def renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop):
 
   scr.clear()
 
@@ -230,7 +236,7 @@ def renderAll(decks,stacks,msgbot=None,msgtop=None):
   if msgbot:
     scr.addstr(maxy-1,0,postEllipse(msgbot,maxx-1),curses.A_REVERSE)
   if msgtop:
-    scr.addstr(0,0,postEllipse(msgtop,maxx-9),curses.A_REVERSE)
+    scr.addstr(0,0,postEllipse(msgtop,maxx-8),curses.A_REVERSE)
 
   scr.refresh()
 
@@ -283,6 +289,8 @@ def main(screen):
   global maxx
   global maxy
   global curSelected
+  global msgbot
+  global msgtop
 
   scr = screen
 
@@ -326,19 +334,11 @@ def main(screen):
   for i in range(0,len(stack)):
     card = stack[i]
     if card.cardno >= 0 and not curSelected:
-      # DEBUG...
-      scr.addstr(0,0,"Selected stack[0][%d]"%i)
-      # ...DEBUG
       card.selected = True
       curSelected   = card
       break
 
-  renderAll(decks,stacks,"Press 'q|x'='Exit', 'd'='Deal'...")
-
-  # DEBUG...
-  if curSelected:
-    lr = card.getLeftRight()
-    scr.addstr(0,0,postEllipse('lr = '+repr(lr),maxx-9),curses.A_REVERSE)
+  renderAll(decks,stacks)
 
   #
   # Do it...
@@ -371,7 +371,6 @@ def main(screen):
     right = [ord('R'),ord('r'),0x105]
     if curSelected and (okey in left or okey in right):
       card = curSelected
-      msg = 'curSelected.pos = %s'%repr(curSelected.pos)
       lr   = card.getLeftRight()
       next = lr[0] if okey in left else lr[1]
       if next:
@@ -381,8 +380,9 @@ def main(screen):
       else:
         curses.beep()
 
-      msgtop = 'next = %s'%repr(next) if next else ''
-      renderAll(decks,stacks,msg,msgtop=msgtop)
+      # DEBUG...
+      msgbot = 'DEBUG: len(allCards) = %d'%len(allCards)
+      renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop)
       # ...DEBUG
 
   #scr.clear()
