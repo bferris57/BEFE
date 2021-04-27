@@ -160,7 +160,7 @@ def main(screen):
     if stack and stack[-1] < 0:
       stack[-1] = -stack[-1]
 
-  renderAll(decks,stacks,"Press \'q\' or \'x\' to exit...")
+  renderAll(decks,stacks,"Press 'q|x'='Exit', 'd'='Deal'...")
 
   #
   # Do it...
@@ -176,6 +176,14 @@ def main(screen):
     scr.addstr(0,0,'Key: 0x'+'%x'%key+'          ',curses.A_REVERSE)
     # ...TEMP
     key = chr(key)
+   
+    if key in ('d','D'): # Deal...
+      for s in range(0,len(stacks)):
+        stack = stacks[s]
+        dealOne(decks,stack)
+        if stack and stack[-1] < 0:
+          stack[-1] = -stack[-1]
+      renderAll(decks,stacks,'Continue on...')
 
   #scr.clear()
   #scr.refresh()
