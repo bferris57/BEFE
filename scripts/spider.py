@@ -46,6 +46,8 @@ ld_suit    = '\u2660\u2661\u2662\u2663'
 #ld_deck    = ld_0+'A'+ld_2+ld_3+ld_4+ld_5+ld_6+ld_7+ld_8+ld_9+ld_10+'JQK'
 ld_deck    = '?A23456789TJQK'
 
+keys = 'dd'+ld_larr+ld_uarr+ld_uarr  # +'q'
+
 maxx = None
 maxy = None
 
@@ -60,10 +62,13 @@ allCards    = []
 curSelected = None
 msgbot      = ''
 msgtop      = ''
-debug       = False
+debug       = 0
 
 if debug:
-  out = open('spider.out','w')
+  out  = open('spider.out','w')                # For Debugging
+  keys = 'dd'+ld_larr                  # +'q'  # For Debugging
+else:
+  keys = ''
 
 def oprint(msg,end='\n'):
   if not debug: return
@@ -335,6 +340,9 @@ def main(screen):
   global curSelected
   global msgbot
   global msgtop
+  global keys
+
+  # ...TESTING
 
   scr = screen
 
@@ -392,7 +400,11 @@ def main(screen):
   while key not in ('q','Q','x','X'):
     dt = dtToReadable(dtNow())
     scr.addstr(0,maxx-len(dt),dt)
-    key = scr.getch()
+    if keys:
+      key = ord(keys[0])
+      keys = keys[1:]
+    else:
+      key = scr.getch()
     if key < 0: continue
     msgtop = 'Key: 0x'+'%x'%key
     okey = key
@@ -410,8 +422,8 @@ def main(screen):
       screen.refresh()
       continue
 
-    left  = [ord('L'),ord('l'),0x104]
-    right = [ord('R'),ord('r'),0x105]
+    left  = [ord('L'),ord('l'),0x104,ord(ld_larr)]
+    right = [ord('R'),ord('r'),0x105,ord(ld_rarr)]
     if curSelected and (okey in left or okey in right):
       card = curSelected
       lr   = card.getLeftRight()
@@ -423,8 +435,8 @@ def main(screen):
       else:
         curses.beep()
 
-    up   = [ord('U'),ord('u'),0x103]
-    down = [                  0x102]
+    up   = [ord('U'),ord('u'),0x103,ord(ld_uarr)]
+    down = [                  0x102,ord(ld_darr)]
     if curSelected and (okey in up or okey in down):
       card = curSelected
       ud   = card.getUpDown()
