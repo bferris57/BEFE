@@ -2,10 +2,13 @@
 
 import                    time
 import                    curses
+import                    random
 from   curses      import wrapper
 import                    sys
-from   funcs              import dtNow
-from   funcs              import dtToNonce
+from   funcs       import dtNow
+from   funcs       import dtToNonce
+from   funcs       import red,blue,green
+from   errors             import *
 
 lines = '∙√─│┌┐└┘├┬┴┼═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬▲►▼◄◊☺☻'
 
@@ -50,27 +53,73 @@ mid    = '│   │'
 midnum = '│ x │'
 bot    = '└───┘'
 
-def renderDealt(y,x,deck):
+def shuffle(arr):
+
+  if type(arr) != type([]):
+    raise Error('shuffle: Expected list')
+
+  deck = []
+  for x in arr: deck.append(x)
+
+  ret = []
+
+  while deck:
+    thisone = random.randint(0,len(deck)-1)
+    ret.append(deck[thisone])
+    del deck[thisone]
+
+  return ret
+
+def renderAll(decks,stacks,msg):
+
+  scr.clear()
+  # DEBUG...
+  scr.addstr(0,0,'stack[0] = %s'%repr(stacks[0]),curses.A_REVERSE)
+  # ...DEBUG
+
+  y = 1
+  x = 0
+  for s in range(0,len(stacks)):
+    renderDeck(y,x+s*7,stacks[s])
+
+  scr.refresh()
+
+def renderDeck(y,x,deck,selected=None):
 
   if not deck:
     return
 
-  for i in range(0,len(deck)-1):
-    card = deck[i]
-    if card < 0:
+  selected = None
+
+  for cardno in range(0,len(deck)):
+    card = deck[cardno]
+    if card <= 0:
       tstr = topvis
     else:
       tstr = ld_deck[card].join(topnum.split('x'))
-    scr.addstr(y+i,x,tstr)
-  
-  card = deck[-1]
-  y = y + len(deck) - 1
-  scr.addstr(y  , x, top)
-  scr.addstr(y+1, x, mid)
-  scr.addstr(y+2, x, ld_deck[card].join(midnum.split('x')))
-  scr.addstr(y+3, x, mid)
-  scr.addstr(y+4, x, bot)
+    if selected == cardno:
+      scr.addstr(y+i,x,tstr,curses.A_REVERSE)
+    else:
+      scr.addstr(y+cardno,x,tstr)
+    if cardno == len(deck)-1:
+      y = y + len(deck) - 1
+      scr.addstr(y  , x, top)
+      scr.addstr(y+1, x, mid)
+      scr.addstr(y+2, x, ld_deck[card].join(midnum.split('x')))
+      scr.addstr(y+3, x, mid)
+      scr.addstr(y+4, x, bot)
+
   scr.refresh()
+
+def dealOne(decks,stack):
+
+  if not decks:
+    return
+  card = decks[-1][-1]
+  stack.append(card)
+  del decks[-1][-1]
+  if not decks[-1]:
+    del decks[-1]
       
 def main(screen):
 
@@ -90,9 +139,32 @@ def main(screen):
   scr.addstr(maxy-1,0,'Press any \'q\' or \'x\' to exit...')
   scr.refresh()
 
-  deck = [-1,-1,-1, 2, 5, 13, 10, 1]
-  for i in range(0,10):
-    renderDealt(1,i*7,deck)
+  # Create randomly shuffled decks...
+
+  deck = [ -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13]
+  decks = []
+  for i in range(0,8): # Create original decks...
+    thisone = shuffle(deck)
+    decks.append(thisone)
+
+  # Deal stacks...
+  stacks = ([],[],[],[],[],[],[],[],[],[])
+  cardno = 0
+  for d in range(0,6):
+    while cardno < 54:
+      dealOne(decks,stacks[cardno%len(stacks)])
+      cardno += 1
+
+  for s in range(0,len(stacks)):
+    stack = stacks[s]
+    if stack and stack[-1] < 0:
+      stack[-1] = -stack[-1]
+
+  renderAll(decks,stacks,"Press \'q\' or \'x\' to exit...")
+
+  #
+  # Do it...
+  #
 
   key = ''
   while key not in ('q','Q','x','X'):
@@ -100,13 +172,29 @@ def main(screen):
     scr.addstr(0,maxx-len(dt),dt)
     key = scr.getch()
     if key < 0: continue
+    # TEMP...
+    scr.addstr(0,0,'Key: 0x'+'%x'%key+'          ',curses.A_REVERSE)
+    # ...TEMP
     key = chr(key)
+
+  #scr.clear()
+  #scr.refresh()
+  #time.sleep(3)
 
 if __name__ == '__main__':
 
-  #print('Here it is: '+ld_deck)
-  #print('            '+ld_suit)
-  #sys.exit(0)
+  if 1:
 
-  wrapper(main)
+    wrapper(main)
 
+  if 0:
+
+    deck = shuffle([1,2,3,4,5,6,7,8,9,10,11,12,13])
+    print('deck = %s'%repr(deck))
+      
+  if 0:
+
+    try:
+      raise(InternalError('Testing InternalError()'))
+    except InternalError as e:
+      red(str(e))
