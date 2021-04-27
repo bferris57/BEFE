@@ -217,27 +217,35 @@ class Card(Rect):
 
   def getUpDown(self):
 
-    that = None
-    if not self.pos:
-      return None
+    global msgtop
 
-    distUp   = 0
+    that = None
+    if not self.pos: 
+      return [None,None]
+
+    distUp   = 0x7fffffff
     thatUp   = None
-    distDown = 0
-    thisDown = None
+    distDown = 0x7fffffff
+    thatDown = None
     for i in range(0,len(allCards)):
       that = allCards[i]
-      if that.cardno <= 0 or (that.pos and that.pos.y == self.pos.y):
+      if that.cardno <= 0 or (that.pos and that.pos.tl.y == self.pos.tl.y):
         continue
       d = self.dist(that)
-      if that.pos.y < self.pos.y and d < distUp:
-        distUp = d
-        thatUp = that
-      if that.pos.y > self.pos.y and d < distDown:
-        distDown = d
-        thatDown = that
+      if d and that.pos:
+        if that.pos.tl.y < self.pos.tl.y and distUp and d < distUp:
+          distUp = d
+          thatUp = that
+        if that.pos.tl.y > self.pos.tl.y and distDown and d < distDown:
+          oprint('DEBUG: thatUp: that.pos = %s, d = %s'%(repr(that.pos),repr(d)))
+          distDown = d
+          thatDown = that
 
-    return (thatUp,thatDown)        
+    ret = (thatUp,thatDown)
+    oprint("getUpDown: ret = %s"%repr(ret))
+
+    return ret
+
 
 #---
 #
@@ -414,6 +422,17 @@ def main(screen):
         card.selected = False
       else:
         curses.beep()
+
+    up   = [ord('U'),ord('u'),0x103]
+    down = [                  0x102]
+    if curSelected and (okey in up or okey in down):
+      card = curSelected
+      ud   = card.getUpDown()
+      next = ud[0] if okey in up else ud[1]
+      if next:
+        curSelected   = next
+        next.selected = True
+        card.selected = False
 
     renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop)
     scr.refresh()
