@@ -60,9 +60,13 @@ allCards    = []
 curSelected = None
 msgbot      = ''
 msgtop      = ''
+debug       = False
 
-out = open('spider.out','w')
+if debug:
+  out = open('spider.out','w')
+
 def oprint(msg,end='\n'):
+  if not debug: return
   out.write(msg)
   if end:
     out.write(end)
@@ -191,7 +195,7 @@ class Card(Rect):
     thatRight = None
     for i in range(0,len(allCards)):
       that = allCards[i]
-      if that.cardno >= 0 or (that.pos and that.pos.tl.x == self.pos.tl.x):
+      if that.cardno <= 0 or (that.pos and that.pos.tl.x == self.pos.tl.x):
         continue
       d = self.dist(that)
       if d:
@@ -273,8 +277,6 @@ def renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop):
   if msgtop:
     scr.addstr(0,0,postEllipse(msgtop,maxx-8),curses.A_REVERSE)
 
-  scr.refresh()
-
 def renderDeck(y,x,deck):
 
   if not deck:
@@ -306,8 +308,6 @@ def renderDeck(y,x,deck):
       br = Point(y, x+len(bot))
     card.pos = Rect(tl,br)
     oprint('renderDeck: y = %d, i = %d, card.pos = %s'%(y,i,repr(card.pos)))
-
-  scr.refresh()
 
 def dealOne(decks,stack):
 
@@ -386,9 +386,7 @@ def main(screen):
     scr.addstr(0,maxx-len(dt),dt)
     key = scr.getch()
     if key < 0: continue
-    # TEMP...
-    scr.addstr(0,0,'Key: 0x'+'%x'%key+'          ',curses.A_REVERSE)
-    # ...TEMP
+    msgtop = 'Key: 0x'+'%x'%key
     okey = key
     key  = chr(key)
    
@@ -401,6 +399,7 @@ def main(screen):
         if stack and stack[-1].cardno < 0:
           stack[-1].cardno = -(stack[-1].cardno)
       renderAll(decks,stacks,msg)
+      screen.refresh()
       continue
 
     left  = [ord('L'),ord('l'),0x104]
@@ -416,10 +415,8 @@ def main(screen):
       else:
         curses.beep()
 
-      # DEBUG...
-      msgbot = 'DEBUG: len(allCards) = %d'%len(allCards)
-      renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop)
-      # ...DEBUG
+    renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop)
+    scr.refresh()
 
   #scr.clear()
   #scr.refresh()
