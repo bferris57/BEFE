@@ -9,6 +9,7 @@ import                    sys
 from   funcs       import dtNow
 from   funcs       import dtToNonce
 from   funcs       import red,blue,green
+from   funcs       import postEllipse
 from   errors             import *
 
 lines = '∙√─│┌┐└┘├┬┴┼═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬▲►▼◄◊☺☻'
@@ -54,7 +55,8 @@ mid    = '│   │'
 midnum = '│ x │'
 bot    = '└───┘'
 
-visCards = []
+allCards    = []
+curSelected = None
 
 #---
 #
@@ -90,7 +92,14 @@ class Rect(object):
 
     return 'Rect([%d,%d]->[%d,%d])'%(self.tl.y,self.tl.x,self.br.y,self.br.x)
 
+  def __repr__(self):
+
+    return str(self)
+
   def area(self):
+
+    if not self.tl or not self.br:
+      return 0
 
     return (self.br.y - self.tl.y) * (self.br.x - self.tl.x)
 
@@ -125,7 +134,7 @@ class Card(Rect):
 
     posThis = self.pos
     posThat = that.pos
-    if posThis == None or this.area() == 0:
+    if posThis == None or self.area() == 0:
       return dist
     if posThat == None or that.area() == 0:
       return dist
@@ -146,18 +155,18 @@ class Card(Rect):
     distLeft  = 0
     thatLeft  = None
     distRight = 0
-    thisRight = None
-    for i in range(0,len(visCards)):
-      card = visCards[i]
-      if that.pos and that.pos.x == self.pos.x:
+    thatRight = None
+    for i in range(0,len(allCards)):
+      that = allCards[i]
+      if that.cardno >= 0 or (that.pos and that.pos.tl.x == self.pos.tl.x):
         continue
       d = self.dist(that)
-      if that.pos.x < self.pos.x and d < distLeft:
+      if that.pos and that.pos.tl.x < self.pos.tl.x and d < distLeft:
         distLeft = d
         thatLeft = that
-      if that.pos.x > self.pos and d < distRight:
+      if that.pos and that.pos.tl.x > self.pos.tl.x and d < distRight:
         distRight = d
-        thatrRight = that
+        thatRight = that
 
     return (thatLeft,thatRight)
 
@@ -171,9 +180,9 @@ class Card(Rect):
     thatUp   = None
     distDown = 0
     thisDown = None
-    for i in range(0,len(visCards)):
-      card = visCards[i]
-      if that.pos and that.pos.y == self.pos.y:
+    for i in range(0,len(allCards)):
+      that = allCards[i]
+      if that.cardno <= 0 or (that.pos and that.pos.y == self.pos.y):
         continue
       d = self.dist(that)
       if that.pos.y < self.pos.y and d < distUp:
@@ -208,7 +217,7 @@ def shuffle(arr): # Shuffle list of ints...
 
   return ret
 
-def renderAll(decks,stacks,msg):
+def renderAll(decks,stacks,msgbot=None,msgtop=None):
 
   scr.clear()
 
@@ -216,6 +225,12 @@ def renderAll(decks,stacks,msg):
   x = 0
   for s in range(0,len(stacks)):
     renderDeck(y,x+s*7,stacks[s])
+
+  maxy,maxx = scr.getmaxyx()
+  if msgbot:
+    scr.addstr(maxy-1,0,postEllipse(msgbot,maxx-1),curses.A_REVERSE)
+  if msgtop:
+    scr.addstr(0,0,postEllipse(msgtop,maxx-9),curses.A_REVERSE)
 
   scr.refresh()
 
@@ -226,24 +241,21 @@ def renderDeck(y,x,deck):
 
   selected = None
 
-  for cardno in range(0,len(deck)):
-    card = deck[cardno]
+  for i in range(0,len(deck)):
+    card = deck[i]
     if card.cardno <= 0:
       tstr = topvis
     else:
-      # DEBUG...
-      if card.cardno == 0:
-        scr.addstr(0,0,'DEBUG: cardno = %s, card.cardno = %d...'%(cardno,card.cardno))
-      # ...DEBUG
       tstr = ld_deck[card.cardno].join(topnum.split('x'))
     if card.selected:
       scr.addstr(y+i,x,tstr,curses.A_REVERSE)
     else:
-      scr.addstr(y+cardno,x,tstr)
+      scr.addstr(y+i,x,tstr)
     tl = Point(y,x)
-    if cardno == len(deck)-1:
+    if i == len(deck)-1:
       y = y + len(deck) - 1
-      scr.addstr(y  , x, top)
+      color = curses.A_REVERSE if card.selected else 0
+      scr.addstr(y  , x, top,color)
       scr.addstr(y+1, x, mid)
       scr.addstr(y+2, x, ld_deck[card.cardno].join(midnum.split('x')))
       scr.addstr(y+3, x, mid)
@@ -270,6 +282,7 @@ def main(screen):
   global scr
   global maxx
   global maxy
+  global curSelected
 
   scr = screen
 
@@ -291,6 +304,7 @@ def main(screen):
     thisone = shuffle(deck)
     for j in range(0,len(thisone)):
       thisone[j] = Card(thisone[j])
+      allCards.append(thisone[j])
     decks.append(thisone)
 
   # Deal stacks...
@@ -301,12 +315,30 @@ def main(screen):
       dealOne(decks,stacks[cardno%len(stacks)])
       cardno += 1
 
+  selected = False
   for s in range(0,len(stacks)):
     stack = stacks[s]
     if stack and stack[-1].cardno < 0:
       stack[-1].cardno = -(stack[-1].cardno)
+  
+  # select first visible card in first stack...
+  stack = stacks[0]
+  for i in range(0,len(stack)):
+    card = stack[i]
+    if card.cardno >= 0 and not curSelected:
+      # DEBUG...
+      scr.addstr(0,0,"Selected stack[0][%d]"%i)
+      # ...DEBUG
+      card.selected = True
+      curSelected   = card
+      break
 
   renderAll(decks,stacks,"Press 'q|x'='Exit', 'd'='Deal'...")
+
+  # DEBUG...
+  if curSelected:
+    lr = card.getLeftRight()
+    scr.addstr(0,0,postEllipse('lr = '+repr(lr),maxx-9),curses.A_REVERSE)
 
   #
   # Do it...
@@ -321,15 +353,37 @@ def main(screen):
     # TEMP...
     scr.addstr(0,0,'Key: 0x'+'%x'%key+'          ',curses.A_REVERSE)
     # ...TEMP
-    key = chr(key)
+    okey = key
+    key  = chr(key)
    
+    msg = 'Continue on...'
+
     if key in ('d','D'): # Deal...
       for s in range(0,len(stacks)):
         stack = stacks[s]
         dealOne(decks,stack)
         if stack and stack[-1].cardno < 0:
           stack[-1].cardno = -(stack[-1].cardno)
-      renderAll(decks,stacks,'Continue on...')
+      renderAll(decks,stacks,msg)
+      continue
+
+    left  = [ord('L'),ord('l'),0x104]
+    right = [ord('R'),ord('r'),0x105]
+    if curSelected and (okey in left or okey in right):
+      card = curSelected
+      msg = 'curSelected.pos = %s'%repr(curSelected.pos)
+      lr   = card.getLeftRight()
+      next = lr[0] if okey in left else lr[1]
+      if next:
+        curSelected   = next
+        next.selected = True
+        card.selected = False
+      else:
+        curses.beep()
+
+      msgtop = 'next = %s'%repr(next) if next else ''
+      renderAll(decks,stacks,msg,msgtop=msgtop)
+      # ...DEBUG
 
   #scr.clear()
   #scr.refresh()
