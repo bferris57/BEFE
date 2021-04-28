@@ -23,7 +23,9 @@ sin  = sys.stdin.fileno()
 sout = sys.stdout.fileno()
 serr = sys.stderr.fileno()
 
-debug = 1
+debug   = 1
+isatty  = True
+endline = '\n'
 
 #------------------------------------------------------------------------------
 #
@@ -33,6 +35,9 @@ debug = 1
 class StrScreen(object):
 
   def __init__(self,numrows=0,numcols=0):
+
+    global isatty
+    global endline
 
     self.israw = False
     if debug:
@@ -45,9 +50,13 @@ class StrScreen(object):
       self.numrows = numrows
     elif not numcols:
       self.numcols = numcols
+
+    if debug:
+      print('DEBUG:  numrows,numcols = %s'%repr([self.numrows,self.numcols]))
    
-    self.isatty = sys.stdout.isatty()
-    self.endline = '' if self.isatty else '\n'
+    isatty = sys.stdout.isatty()
+    
+    endline = '' if isatty else '\n'
 
     self.clear()
 
@@ -57,11 +66,15 @@ class StrScreen(object):
     if debug: 
       print('DEBUG: StrScreen.__del__()')
 
+  def initscr(self):
+
+    pass
+
   def clear(self):
 
-    self.rowtext = []
-    for r in range(0,self.numrows):
-      self.rowtext.append(' '*self.numcols)
+    self.rows = []
+    for r in range(0,self.numrows+1):
+      self.rows.append(' '*self.numcols)
     self.markup = []
 
   def addstr(self,y,x,text,color=0):
@@ -81,15 +94,37 @@ class StrScreen(object):
       tlen = self.numcols - x
       text = text[:tlen]
 
+    rows = self.rows
+    row = rows[y]
+    row = row[:x] + text + row[x+tlen:]
+    rows[y] = row
+
     # DEBUG...
     if debug:
       print('DEBUG: addstr: y,x = [%d,%d], text = %s'%(y,x,repr(text)))
     # ...DEBUG`
 
+  def timeout(self,milliseconds):
+
+    if type(milliseconds) != int:
+      raise InternalError('timeout expected integer milliseconds')
+
   def getmaxyx(self):
 
     return [self.numrows,self.numcols]
+
+  def refresh(self):
     
+    print('-'*10+' Screen '+'-'*10)
+    for row in self.rows:
+      print(row,end=endline)
+
+    return
+
+  def getch(self):
+
+    return ord('x')
+
 #---
 #
 # __main__
@@ -113,7 +148,7 @@ if __name__ == '__main__':
     print('Get tty size took      %f seconds'%deltaSeconds(now2-now1))
     print('Getting time diff took %f seconds'%deltaSeconds(now3-now2))
 
-  if 1:
+  if 0:
 
     maxy,maxx = s.getmaxyx()
     print('maxy,maxx = %s'%repr(s.getmaxyx()))

@@ -12,6 +12,7 @@ from   funcs       import dtToReadable
 from   funcs       import red,blue,green
 from   funcs       import postEllipse
 from   errors             import *
+from   strscreen   import StrScreen
 
 lines = '∙√─│┌┐└┘├┬┴┼═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬▲►▼◄◊☺☻'
 
@@ -362,7 +363,8 @@ def main(screen):
   scr.clear()
   scr.refresh()
   scr.timeout(200)
-  curses.curs_set(0)
+  if type(scr) != StrScreen:
+    curses.curs_set(0)
 
   maxy, maxx = scr.getmaxyx()
 
@@ -446,7 +448,7 @@ def main(screen):
         curSelected   = next
         next.selected = True
         card.selected = False
-      else:
+      elif type(scr) != StrScreen:
         curses.beep()
 
     up   = [ord('U'),ord('u'),0x103,ord(ld_uarr)]
@@ -476,9 +478,14 @@ def main(screen):
 
 if __name__ == '__main__':
 
-  if 1:
+  if 0:
 
     wrapper(main)
+
+  else:
+
+    screen = StrScreen()
+    main(screen)
 
   if 0:
 
