@@ -403,7 +403,7 @@ def dtToReadable(dt,ampm=True):
         ampm = 'pm'
         hour -= 12
       else:
-        am = 'am'
+        ampm = 'am'
       parts[1] = dat%(hour,ampm)
 
     return ' @ '.join(parts)

@@ -46,7 +46,8 @@ ld_suit    = '\u2660\u2661\u2662\u2663'
 #ld_deck    = ld_0+'A'+ld_2+ld_3+ld_4+ld_5+ld_6+ld_7+ld_8+ld_9+ld_10+'JQK'
 ld_deck    = '?A23456789TJQK'
 
-keys = 'dd'+ld_larr+ld_uarr+ld_uarr  # +'q'
+#keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr  # +'q'
+keys = 'bb'
 
 maxx = None
 maxy = None
@@ -62,7 +63,12 @@ allCards    = []
 curSelected = None
 msgbot      = ''
 msgtop      = ''
-debug       = 0
+
+#
+# Debugging...
+#
+
+debug       = 1
 
 if debug:
   out  = open('spider.out','w')                # For Debugging
@@ -77,7 +83,20 @@ def oprint(msg,end='\n'):
     out.write(end)
   out.flush()
 
-oprint('-----BEGIN... %s-----'%dtToReadable(dtNow())[:-4])
+breaker = 0
+
+def obreak(msg=None,end='\n'):
+
+  global breaker
+
+  breaker += 1
+  if not debug: return
+  if not msg:
+    msg = ' Break %d '%breaker
+  oprint('='*30+msg+'='*30)
+
+
+oprint('----- BEGIN... %s -----'%dtToReadable(dtNow())[:-4])
 
 #---
 #
@@ -186,10 +205,6 @@ class Card(Rect):
 
     global msgtop
 
-    # DEBUG...
-    oprint('getLeftRight: Enter: self.seq = %d...'%self.seq)
-    # ...DEBUG
-
     that = None
     if not self.pos: 
       return [None,None]
@@ -203,9 +218,6 @@ class Card(Rect):
       if that.cardno <= 0 or (that.pos and that.pos.tl.x == self.pos.tl.x):
         continue
       d = self.dist(that)
-      if d:
-        oprint('getLeftRight: i = %d, self.seq = %d, that.seq = %d, d = %s'%(i,self.seq,that.seq,repr(d)))
-        oprint('              self.pos = %s, that.pos = %s'%(repr(self.pos),repr(that.pos)))
       if d and that.pos:
         if that.pos.tl.x < self.pos.tl.x and distLeft and d < distLeft:
           distLeft = d
@@ -239,10 +251,11 @@ class Card(Rect):
       d = self.dist(that)
       if d and that.pos:
         if that.pos.tl.y < self.pos.tl.y and distUp and d < distUp:
+          oprint('DEBUG: thatUp: that.pos = %s, d = %s'%(repr(that.pos),repr(d)))
           distUp = d
           thatUp = that
         if that.pos.tl.y > self.pos.tl.y and distDown and d < distDown:
-          oprint('DEBUG: thatUp: that.pos = %s, d = %s'%(repr(that.pos),repr(d)))
+          oprint('DEBUG: thatDown: that.pos = %s, d = %s'%(repr(that.pos),repr(d)))
           distDown = d
           thatDown = that
 
@@ -398,6 +411,7 @@ def main(screen):
 
   key = ''
   while key not in ('q','Q','x','X'):
+
     dt = dtToReadable(dtNow())
     scr.addstr(0,maxx-len(dt),dt)
     if keys:
@@ -447,7 +461,9 @@ def main(screen):
         card.selected = False
 
     renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop)
-    scr.refresh()
+
+  if key in ('b','B'):
+    obreak()
 
   #scr.clear()
   #scr.refresh()
