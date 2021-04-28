@@ -1,6 +1,16 @@
-import sys, re
+#!/usr/bin/env python
+#  coding=utf-8
 
-# bferris: Cribbed from 'https://code.activestate.com/recipes/475116-using-terminfo-for-portable-color-output-cursor-co/'
+#==============================================================================
+#
+# bferris: 1) Cribbed from code.activestate.com...    
+#             https://code.activestate.com...
+#               /recipes/475116-using-terminfo-for-portable-color-output-cursor-co/
+#
+#          2) Had to make change for 2.7 v 3.9 changes in re module and others
+#
+
+import sys, re, time
 
 class TerminalController:
     """
@@ -116,7 +126,8 @@ class TerminalController:
         set_fg_ansi = self._tigetstr('setaf')
         if set_fg_ansi:
             for i,color in zip(range(len(self._ANSICOLORS)), self._ANSICOLORS):
-                setattr(self, color, curses.tparm(set_fg_ansi, i) or '')
+                that = curses.tparm(bytes(set_fg_ansi.encode()), i) or ''
+                setattr(self, color, that)
         set_bg = self._tigetstr('setb')
         if set_bg:
             for i,color in zip(range(len(self._COLORS)), self._COLORS):
@@ -124,7 +135,7 @@ class TerminalController:
         set_bg_ansi = self._tigetstr('setab')
         if set_bg_ansi:
             for i,color in zip(range(len(self._ANSICOLORS)), self._ANSICOLORS):
-                setattr(self, 'BG_'+color, curses.tparm(set_bg_ansi, i) or '')
+                setattr(self, 'BG_'+color, curses.tparm(bytes(set_bg_ansi.encode()), i) or '')
 
     def _tigetstr(self, cap_name):
         # String capabilities can include "delays" of the form "$<2>".
@@ -132,7 +143,7 @@ class TerminalController:
         # these, so strip them out.
         import curses
         cap = curses.tigetstr(cap_name) or ''
-        return re.sub(r'\$<\d+>[/*]?', '', cap)
+        return re.sub(r'\$<\d+>[/*]?', '', str(cap))
 
     def render(self, template):
         """
@@ -192,3 +203,18 @@ class ProgressBar:
                              self.term.UP + self.term.CLEAR_EOL +
                              self.term.UP + self.term.CLEAR_EOL)
             self.cleared = 1
+
+if __name__ == '__main__':
+
+  if 1:
+    t = TerminalController()
+    #cs = bytes(t.CLEAR_SCREEN.encode())
+    cs = t.CLEAR_SCREEN.encode()
+    sys.stdout.buffer.write(cs)
+    sys.stdout.flush()
+
+  if 0:
+    term = TerminalController()
+    bar = ProgressBar(term,'Progress Bar')
+    for percent in range(1,101):
+      bar.update(percent,"Working on it...")

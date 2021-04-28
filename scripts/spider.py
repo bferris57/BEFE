@@ -412,7 +412,7 @@ def main(screen):
   #
 
   key = ''
-  while key not in ('q','Q','x','X'):
+  while key not in ('q','Q','x','X',chr(0x03)):
 
     dt = dtToReadable(dtNow())
     scr.addstr(0,maxx-len(dt),dt)
@@ -466,6 +466,9 @@ def main(screen):
 
   if key in ('b','B'):
     obreak()
+
+  if key in ('c','C'):
+    scr.refresh()
 
   #scr.clear()
   #scr.refresh()

@@ -11,21 +11,32 @@
 import               curses
 import               sys
 import               os
+import               termios
+import               tty
+import               select
+from   term   import TerminalController
 from   funcs  import dtNow
 from   funcs  import deltaSeconds
+from   funcs  import dtToReadable
 from   errors import InternalError
 
 #
 # Module globals (Or 'singletons' if you're younger than me)
 #
 
-sin  = sys.stdin.fileno()
-sout = sys.stdout.fileno()
-serr = sys.stderr.fileno()
+stdin  = sys.stdin
+stdout = sys.stdout
+stderr = sys.stderr
+fdin   = stdin.fileno()
+fdout  = stdout.fileno()
+fderr  = stderr.fileno()
 
 debug   = 0
 isatty  = True
 endline = '\n'
+
+terminal     = TerminalController()
+CLEAR_SCREEN = eval(terminal.CLEAR_SCREEN)
 
 #------------------------------------------------------------------------------
 #
@@ -115,15 +126,30 @@ class StrScreen(object):
 
   def refresh(self):
     
-    print('-'*10+' Screen '+'-'*10)
+    if not isatty:
+      print('-'*10+' Screen '+'-'*10)
+    else:
+      stdout.buffer.write(CLEAR_SCREEN)
+     
     for row in self.rows:
       print(row,end=endline)
 
     return
 
-  def getch(self):
+  def getch(self,timeout=1):
 
-    return ord('x')
+    stdin = sys.stdin
+    fd = stdin.fileno()
+    old_settings = termios.tcgetattr(stdin)
+    try:
+      tty.setraw(stdin)
+      r,w,x = select.select([fd],[],[],timeout)
+      if timeout and not r: return -1
+      ch = stdin.read(1)
+    finally:
+      termios.tcsetattr(stdin, termios.TCSADRAIN, old_settings)
+
+    return ord(ch) if ch else -1
 
 #---
 #
@@ -133,7 +159,9 @@ class StrScreen(object):
 
 if __name__ == '__main__':
 
-  s = StrScreen()
+  if 1:
+    s = StrScreen()
+    main(s)
 
   if 0:
     print('StrScreen.numrows = %d'%s.numrows)
