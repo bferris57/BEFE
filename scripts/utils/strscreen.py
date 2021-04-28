@@ -23,7 +23,7 @@ sin  = sys.stdin.fileno()
 sout = sys.stdout.fileno()
 serr = sys.stderr.fileno()
 
-debug   = 1
+debug   = 0
 isatty  = True
 endline = '\n'
 
