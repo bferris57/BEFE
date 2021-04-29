@@ -90,6 +90,13 @@ class Rect(object):
 
     return (self.br.y - self.tl.y) * (self.br.x - self.tl.x)
 
+  def visarea(self):
+
+    if not self.tl or not self.br:
+      return 0
+
+    return (self.br.y - self.tl.y + 1) * (self.br.x - self.tl.x + 1)
+
   def normalise(self):
 
     if not self.tl or not self.br:
@@ -222,7 +229,7 @@ if __name__ == '__main__':
 
   scr = StrScreen()
 
-  if 1:
+  if 0:
     print('StrScreen.numrows = %d'%scr.numrows)
     print('StrScreen.numcols = %d'%scr.numcols)
 
@@ -242,3 +249,18 @@ if __name__ == '__main__':
     msg = 'Hi there Dude!!!'
     scr.addstr(0,maxx-5,msg)
     scr.addstr(0,0,msg)
+
+  if 1:
+
+    r1 = Rect(Point(0,0),Point(0,0))
+    print('area(r1)    = %d'%r1.area())
+    print('visarea(r1) = %d'%r1.visarea())
+
+    r2 = Rect(Point(-2,-2),Point(-3,-3))
+    print('area(r2)    = %d'%r2.area())
+    print('visarea(r2) = %d'%r2.visarea())
+
+    r3 = Rect(Point(-1,-1),Point(1,1))
+    print('area(r3)    = %d'%r3.area())
+    print('visarea(r3) = %d'%r3.visarea())
+   
