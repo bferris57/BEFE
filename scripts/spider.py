@@ -13,8 +13,8 @@ from   funcs       import red,blue,green
 from   funcs       import postEllipse
 from   errors             import *
 from   strscreen   import StrScreen
-from   strScreen   import Point
-from   strScreen   import Rect
+from   strscreen   import Point
+from   strscreen   import Rect
 
 lines = '∙√─│┌┐└┘├┬┴┼═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬▲►▼◄◊☺☻'
 
