@@ -2,8 +2,11 @@
 #  coding=utf-8
 #===============================================================================
 #
-# File: strscreen - Class StrScreen implementation
+# Module: strscreen - Class StrScreen implementation
 #
+# Notes:  We've improved over 'curses' by introducing the introducing the
+#         concept of movable named highlights using the sub-class Movable.
+# 
 #===============================================================================
 # Copyright (C) 2021 - Bruce Ferris (befe@bferris.co.uk)
 #===============================================================================
@@ -37,6 +40,64 @@ endline = '\n'
 
 terminal     = TerminalController()
 CLEAR_SCREEN = eval(terminal.CLEAR_SCREEN)
+
+#------------------------------------------------------------------------------
+#
+
+class Point(object):
+
+  def __init__(self,y=None,x=None):
+
+    if not isinstance(y,int) or not isinstance(x,int):
+      raise InternalError("Point expected two integers (y,x)")
+    self.y = y
+    self.x = x
+
+  def __str__(self):
+
+    return 'Point(%d,%d)'%(self.y,self.x)
+
+  def __repr__(self):
+
+    return str(self)
+
+class Rect(object):
+
+  def __init__(self,tl,br):
+
+    if (tl != None and not isinstance(tl,Point)) or \
+       (br != None and not isinstance(br,Point)):
+      raise Error("Rect() expected two Point() instances")
+    self.tl = tl
+    self.br = br
+    self.normalise()
+
+  def __str__(self):
+
+    if self.tl and self.br:
+      return 'Rect([%d,%d]->[%d,%d])'%(self.tl.y,self.tl.x,self.br.y,self.br.x)
+    else:
+      return 'Rect(None->None)'
+
+  def __repr__(self):
+
+    return str(self)
+
+  def area(self):
+
+    if not self.tl or not self.br:
+      return 0
+
+    return (self.br.y - self.tl.y) * (self.br.x - self.tl.x)
+
+  def normalise(self):
+
+    if not self.tl or not self.br:
+      return
+    tl = Point(min(self.tl.y,self.br.y),min(self.tl.x,self.br.x))
+    br = Point(max(self.tl.y,self.br.y),max(self.tl.x,self.br.x))
+    self.tl = tl
+    self.br = br
 
 #------------------------------------------------------------------------------
 #
@@ -159,13 +220,11 @@ class StrScreen(object):
 
 if __name__ == '__main__':
 
-  if 1:
-    s = StrScreen()
-    main(s)
+  scr = StrScreen()
 
-  if 0:
-    print('StrScreen.numrows = %d'%s.numrows)
-    print('StrScreen.numcols = %d'%s.numcols)
+  if 1:
+    print('StrScreen.numrows = %d'%scr.numrows)
+    print('StrScreen.numcols = %d'%scr.numcols)
 
   if 0:
 
@@ -178,8 +237,8 @@ if __name__ == '__main__':
 
   if 0:
 
-    maxy,maxx = s.getmaxyx()
-    print('maxy,maxx = %s'%repr(s.getmaxyx()))
+    maxy,maxx = scr.getmaxyx()
+    print('maxy,maxx = %s'%repr(scr.getmaxyx()))
     msg = 'Hi there Dude!!!'
-    s.addstr(0,maxx-5,msg)
-    s.addstr(0,0,msg)
+    scr.addstr(0,maxx-5,msg)
+    scr.addstr(0,0,msg)
