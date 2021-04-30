@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 #  coding=utf-8
+from __future__ import print_function
 #==============================================================================
 #
 # File: funcs.py - Various utility functions
@@ -78,7 +79,6 @@
 #            error - Print red error and exit with status
 #            color - Use colr.color if stdout is a tty
 #
-
 #==============================================================================
 
 import subprocess
@@ -91,31 +91,16 @@ import json
 import shlex
 import hashlib
 import re
-import colr
+try:
+  import colr
+except:
+  class colr:
+    def color(*args,**pargs):
+      return args[0]
 
 verbose = False
 debug   = False
 quiet   = False
-
-#------------------------------------------------------------------------------
-#
-# Function: print - Replacement for Pythons standard print function
-#
-# Notes:    we keep a global 'printcount' telling us how many times print
-#           has been called. This can be accessed by calling getPrintCounter()
-#
-
-oldprint = print
-printcount = 0
-
-def print(*positional, **keywords):
-    global printcount
-    keywords = dict(keywords)
-    printcount += 1
-    oldprint(*positional, **keywords)
-
-def getPrintCounter():
-    return printcount
 
 #-------------------------------------------------------------------------------
 #
