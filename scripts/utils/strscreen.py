@@ -3,27 +3,34 @@
 from __future__ import print_function
 #===============================================================================
 #
-# Module: strscreen - Class StrScreen implementation
+# Module:  strscreen - Class StrScreen implementation
 #
-# Notes:  We've improved over 'curses' by introducing the introducing the
-#         concept of movable named highlights using the sub-class Movable.
+# Classes: StrScreen - A line (row) based implementation on top of curses
+#          Point     - A position on a StrScreen
+#          Rect      - An area on a StrScreen
+#          Movable   - A movable highlighted area on a StrScreen
 #
-#         A bit of an explanation about the Rect class...
+# Notes:   We've improved over 'curses' by introducing the concept of a named
+#          movable and highlighted area using a dict of named Movable()
+#          instances.
 #
-#           Rectangles, in general, can either be used to represent areas on a
-#           screen or geometric areas.  The difference is subtle and we won't
-#           explain more here but the ones defined here are intended to be used
-#           for screen manipulations NOT geometrical ones.  As such, only
-#           the concept of 'equality' is implemented and they're normalised.
+#          A bit of an explanation about the Rect class...
 #
-#           This means a Rect([0,0],[0,0]) has a 'visable area' of 1 and a
-#           'physical area' of 0 so can be 'filled' and represents the
-#           same thing as Point(0,0).
+#            Rectangles, in general, can either be used to represent areas on a
+#            screen or geometric areas.  The difference is subtle and we won't
+#            explain more here but the ones defined here are intended to be used
+#            for screen manipulations NOT geometrical ones.  As such, only
+#            the concept of 'equality' is implemented and they're normalised.
 #
-#           Same goes for the Point class, it represents an area on the screen.
-#           So it can be filled.  ;-)
+#            This means a Rect([0,0],[0,0]) has a 'visable area' of 1 and a
+#            'physical area' of 0 so can be 'filled' and represents the
+#            same thing as Point(0,0).
 #
-#           If you want geometric rectangles and points, go look somewhere else!
+#            Same goes for the Point class, it represents an area on the screen.
+#            So it can be filled.  ;-)
+#
+#            If you want geometric rectangles and points, then go look 
+#            somewhere else!
 #
 #===============================================================================
 # Copyright (C) 2021 - Bruce Ferris (befe@bferris.co.uk)
@@ -57,14 +64,16 @@ isatty  = True
 endline = '\n'
 
 terminal     = TerminalController()
-CLEAR_SCREEN = eval(terminal.CLEAR_SCREEN)
+CLEAR_SCREEN = terminal.CLEAR_SCREEN
 
 #------------------------------------------------------------------------------
+#
+# Class: Point - A position on a StrScreen
 #
 
 class Point(object):
 
-  def __init__(self,y=None,x=None):
+  def __init__(self,y=0,x=0):
 
     if not isinstance(y,int) or not isinstance(x,int):
       raise InternalError("Point expected two integers (y,x)")
@@ -101,6 +110,11 @@ class Point(object):
       self.y = 0
     if type(self.x) != int or self.x < 0:
       self.x = 0
+
+#------------------------------------------------------------------------------
+#
+# Class: Rect - An area on a StrScreen
+#
     
 class Rect(object):
 
@@ -109,8 +123,10 @@ class Rect(object):
     if (tl != None and not isinstance(tl,Point)) or \
        (br != None and not isinstance(br,Point)):
       raise Error("Rect() expected two Point() instances")
-    self.tl = tl
-    self.br = br
+
+    self.tl = tl if tl != None else Point()
+    self.br = bt if br != None else Point()
+
     self.normalise()
 
   def __str__(self):
@@ -119,8 +135,8 @@ class Rect(object):
       left = '[' + repr(self.tl.y) + ',' + repr(self.tl.x) + ']'
     else:
       left = 'None'
-    if isinstance(self.bt,Point):
-      right = '[' + repr(self.br.y) + ',' + repr(self.bt.x) + ']'
+    if isinstance(self.br,Point):
+      right = '[' + repr(self.br.y) + ',' + repr(self.br.x) + ']'
     else:
       right = 'None'
 
@@ -160,12 +176,11 @@ class Rect(object):
 
 class StrScreen(object):
 
-  def __init__(self,numrows=0,numcols=0):
+  def __init__(self,screen=None,numrows=0,numcols=0):
 
     global isatty
     global endline
 
-    self.israw = False
     if debug:
       print('DEBUG: StrScreen.__init__()')
     if not numrows and not numcols:
@@ -176,6 +191,9 @@ class StrScreen(object):
       self.numrows = numrows
     elif not numcols:
       self.numcols = numcols
+
+    self.screen = screen
+    self.curpos = Point(0,0)
 
     if debug:
       print('DEBUG:  numrows,numcols = %s'%repr([self.numrows,self.numcols]))
@@ -188,9 +206,28 @@ class StrScreen(object):
 
   def __del__(self):
 
-    if self.israw: pass
     if debug: 
       print('DEBUG: StrScreen.__del__()')
+
+  # Returns number of movables
+  def __len__(self):
+
+    return len(self.movables)
+
+  # [int] Returns rows[int]
+  # [str] Returns movables[str]
+  def __getitem__(self,index):
+  
+    if type(index) == int:
+      if index < 0:
+        return self.rows[index] if -index <= len(self.rows) else None
+      else:
+        return self.rows[index] if index < len(self.rows) else None
+
+    if type(index) == Movable:
+      return self.movables[index] if index in self.movables else None
+
+    return None
 
   def initscr(self):
 
@@ -201,7 +238,8 @@ class StrScreen(object):
     self.rows = []
     for r in range(0,self.numrows+1):
       self.rows.append(' '*self.numcols)
-    self.markup = []
+    self.markup   = []
+    self.movables = []
 
   def addstr(self,y,x,text,color=0):
 
@@ -228,7 +266,7 @@ class StrScreen(object):
     # DEBUG...
     if debug:
       print('DEBUG: addstr: y,x = [%d,%d], text = %s'%(y,x,repr(text)))
-    # ...DEBUG`
+    # ...DEBUG
 
   def timeout(self,milliseconds):
 
@@ -239,10 +277,18 @@ class StrScreen(object):
 
     return [self.numrows,self.numcols]
 
+  def width(self):
+
+    return self.numcols
+
+  def height(self):
+
+    return self.numrows
+
   def refresh(self):
     
     if not isatty:
-      print('-'*10+' Screen '+'-'*10)
+      print('-'*10+' Screen at %s'%dtToReadable(dtNow)[:-4]+'-'*10)
     else:
       stdout.buffer.write(CLEAR_SCREEN)
      
@@ -250,6 +296,14 @@ class StrScreen(object):
       print(row,end=endline)
 
     return
+
+  def goto(self,where):
+
+    if not isinstance(where,Point): return False
+    y = max(min(y,self.numrows-1),0)
+    x = max(min(x,self.numrows-1),0)
+    self.curpos.y = y
+    self.curpos.x = x
 
   def getch(self,timeout=1):
 
@@ -311,7 +365,7 @@ if __name__ == '__main__':
     print('area(r3)    = %d'%r3.area())
     print('visarea(r3) = %d'%r3.visarea())
    
-  if 1:
+  if 0:
 
     r1 = Rect(Point(0,0),Point(-1,-1))
     print('r1 = %s'%repr(r1))
@@ -336,3 +390,9 @@ if __name__ == '__main__':
     print('r5 = %s'%repr(r5))
     print('  if r5... %s'%repr(bool(r5)))
     print('  r5.area() = %d'%r5.area())
+
+  if 1:
+
+    print('scr.numrows = %d'%scr.numrows)
+    print('scr.numcols = %d'%scr.numcols)
+
