@@ -325,11 +325,11 @@ class StrScreen(object):
 
     pass
 
-  def clear(self):
+  def clear(self,fill=' '):
 
     self.rows = []
     for r in range(0,self.numrows+1):
-      self.rows.append(' '*self.numcols)
+      self.rows.append(fill[0]*self.numcols)
     self.markup   = []
     self.movables = []
 
@@ -364,6 +364,11 @@ class StrScreen(object):
 
     if type(milliseconds) != int:
       raise InternalError('timeout expected integer milliseconds')
+
+    self.timeout = milliseconds
+
+    if scr:
+      scr.timeout(milliseconds)
 
   def getmaxyx(self):
 
@@ -412,6 +417,95 @@ class StrScreen(object):
 
     return ord(ch) if ch else -1
 
+  def getrect(self,rect=None) -> str:
+
+    if not isinstance(rect,Rect) or not rect:
+      return ''
+
+    lines = self.rows
+
+    s = ''
+    for y in range(rect.tl.y,min(rect.br.y,self.numrows-1)+1):
+      if s: s += '\n'
+      s += lines[y][rect.tl.x:rect.br.x+1]
+  
+    return s
+
+  def putstr(self,string,rect=None,color=0): # bool,Movable:
+
+    if (not isinstance(rect,Rect) and not isinstance(rect,Point)) or  \
+       not rect                                                   or  \
+       not isinstance(string,str)                                 or  \
+       not isinstance(color,int):
+      return False
+
+    lines = string.split('\n')
+
+    # Normalise rect to be a Rect and, if need be place at self.curpos
+    # and, if need be, make it as wide as largest line...
+
+    point = self.curpos.clone()
+    width = None
+    if not rect:
+      if isinstance(rect,Point):
+        if not point:
+          point = self.curpos.clone()
+      elif rect == None:
+          point = self.curpos.clone()
+      elif not rect:
+        if not rect.tl:
+          rect = Rect(point,rect.br)
+      width = 1
+      for i in range(0,len(lines)):
+        width = max(width,len(line))
+      if isinstance(rect,Point):
+        rect = Rect(point,Point(point.y+len(lines)-+1,point.x+width-1))
+      if not rect:
+        point = rect.tl
+        rect.br = Point(point,Point(point.y+len(lines)-1,point.x+width-1))
+
+    # Make all lines the proper length and ensure right number of lines...
+    if not width:
+      width = rect.width()
+      height = rect.height()
+    for i in range(0,len(lines)):
+      line = lines[i]
+      if len(line) != width:
+        if len(line) < width:
+          line += ' '*(width-len(line))
+        else:
+          line = line[0:width]
+        lines[i] = line
+
+    print('DEBUG: local lines...')
+    for i in range(0,len(lines)):
+      print('  %2d: %s'%(i,repr(lines[i])))
+
+    # Make sure there's the right number of lines...
+    height = rect.height()
+    if len(lines) != height:
+      if len(lines) < height:
+        for i in range(0,height-len(lines)):
+          lines.append(' '*width)
+      else:
+        lines = lines[:height]
+
+    # Render it to our str lines...
+    scr = self.screen
+    y = rect.tl.y
+    x = rect.tl.x
+    for i in range(0,len(lines)):
+      line = self.rows[y]
+      line = line[:x]+lines[i]+line[x+width:]
+      self.rows[y] = line
+      if scr:
+        scr.addstr(y,x,lines[i],color=color)
+      y += 1
+      if y > self.numrows-1:
+        break
+
+    return True
+
 #---
 #
 # __main__
@@ -420,12 +514,69 @@ class StrScreen(object):
 
 if __name__ == '__main__':
 
+  def showtest(testno):
+    lead = ' '*40
+    print(lead+' Test %d '%testno+lead)
+
   scr = StrScreen()
 
+  test = 0 
+
+  print('*********** TESTS ***********\n')
+
+  test += 1
   if 0:
     print('StrScreen.numrows = %d'%scr.numrows)
     print('StrScreen.numcols = %d'%scr.numcols)
 
+  test += 1
+  if 0:
+
+    scr.addstr(0,0,'Hey dude!!!')
+    scr.addstr(1,2,'Hi there')
+    scr.addstr(2,4,'Last line')
+    scr.addstr(10,0,'Real last line')
+
+    s = scr.getrect(Rect(Point(0,0),Point(15,15)))
+    print("DEBUG: s = %s"%repr(s))
+    lines = s.split('\n')
+    print('Lines at 0,0...')
+    for i in range(0,len(lines)):
+      print('  %2d: %s'%(i,repr(lines[i])))
+
+  test += 1
+  if 1:
+
+    showtest(test)
+
+    print('scr.numrows = %d'%scr.numrows)
+    print('scr.numcols = %d'%scr.numcols)
+    scr.clear('.')
+
+    print('')
+    rect = Rect(Point(5,10),Point(16,25))
+    string = '''putstr line 1
+2
+3
+4
+5
+putstr line 6
+7
+8
+9
+Last line'''
+    result = scr.putstr(string,rect)
+    print('putstr test...')
+    print('  result = %s'%repr(type(result)))
+
+    rect = Rect(Point(0,0),Point(len(scr.rows)-1,50))
+    s = scr.getrect(rect)
+    lines = s.split('\n')
+    print('Lines at 0,0...')
+    for i in range(0,len(lines)):
+      print('  %2d: %s'%(i,repr(lines[i])))
+  
+  test += 1
   if 0:
 
     now1 = dtNow()
@@ -435,6 +586,7 @@ if __name__ == '__main__':
     print('Get tty size took      %f seconds'%deltaSeconds(now2-now1))
     print('Getting time diff took %f seconds'%deltaSeconds(now3-now2))
 
+  test += 1
   if 0:
 
     maxy,maxx = scr.getmaxyx()
@@ -443,6 +595,7 @@ if __name__ == '__main__':
     scr.addstr(0,maxx-5,msg)
     scr.addstr(0,0,msg)
 
+  test += 1
   if 0:
 
     r1 = Rect(Point(0,0),Point(0,0))
@@ -456,7 +609,8 @@ if __name__ == '__main__':
     r3 = Rect(Point(-1,-1),Point(1,1))
     print('area(r3)    = %d'%r3.area())
     print('visarea(r3) = %d'%r3.visarea())
-   
+  
+  test += 1
   if 0:
 
     r1 = Rect(Point(0,0),Point(-1,-1))
@@ -483,6 +637,7 @@ if __name__ == '__main__':
     print('  if r5... %s'%repr(bool(r5)))
     print('  r5.area() = %d'%r5.area())
 
+  test += 1
   if 0:
 
     print('scr.numrows = %d'%scr.numrows)
@@ -492,7 +647,8 @@ if __name__ == '__main__':
     print('scr.height  = %d'%scrrect.height())
     print('scr.width   = %d'%scrrect.width())
 
-  if 1: # Test Rect clipping
+  test += 1
+  if 0: # Test Rect clipping
 
     cliprect = Rect(Point(5,5),Point(20,20))
     rects = [Rect(Point(0,0),Point(10,10)), \
