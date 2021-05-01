@@ -307,8 +307,6 @@ def main(screen):
   global msgtop
   global keys
 
-  # ...TESTING
-
   scr = screen
 
   scr.clear()

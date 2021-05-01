@@ -42,11 +42,13 @@ import               os
 import               termios
 import               tty
 import               select
+
 from   term   import TerminalController
 from   funcs  import dtNow
 from   funcs  import deltaSeconds
 from   funcs  import dtToReadable
 from   errors import InternalError
+from   funcs  import postEllipse
 
 #
 # Module globals (Or 'singletons' if you're younger than me)
@@ -89,11 +91,11 @@ class Point(object):
 
   def __str__(self):
 
-    return 'Point(%d,%d)'%(self.y,self.x)
+    return '[%d,%d]'%(self.y,self.x)
 
   def __repr__(self):
 
-    return str(self)
+    return 'Point('+str(self)+')'
 
   def __bool__(self):
 
@@ -111,6 +113,14 @@ class Point(object):
     if type(self.x) != int or self.x < 0:
       self.x = 0
 
+  def setnull(self):
+
+    self.y = self.x = None
+
+  def clone(self):
+
+    return Point(self.y,self.x)
+
 #------------------------------------------------------------------------------
 #
 # Class: Rect - An area on a StrScreen
@@ -124,28 +134,34 @@ class Rect(object):
        (br != None and not isinstance(br,Point)):
       raise Error("Rect() expected two Point() instances")
 
-    self.tl = tl if tl != None else Point()
-    self.br = bt if br != None else Point()
+    self.tl = tl.clone() if tl else None
+    self.br = br.clone() if br else None
 
     self.normalise()
 
   def __str__(self):
 
     if isinstance(self.tl,Point):
-      left = '[' + repr(self.tl.y) + ',' + repr(self.tl.x) + ']'
+      left = str(self.tl)
     else:
       left = 'None'
     if isinstance(self.br,Point):
-      right = '[' + repr(self.br.y) + ',' + repr(self.br.x) + ']'
+      right = str(self.br)
     else:
       right = 'None'
 
       
-    return 'Rect(' + left + '->' + right + ')'
+    return left + '->' + right
 
   def __repr__(self):
 
-    return 'Rect('+repr(self.tl)+','+repr(self.br) + ')'
+    return 'Rect('+ str(self) + ')'
+
+  def __bool__(self):
+
+    return bool(self.tl) and bool(self.br)
+
+  __nonzero__ = __bool__
 
   def area(self):
 
@@ -156,6 +172,9 @@ class Rect(object):
 
   def normalise(self):
 
+    if not self.tl or not self.br:
+      return
+
     self.tl.normalise()
     self.br.normalise()
     tl = Point(min(self.tl.y,self.br.y),min(self.tl.x,self.br.x))
@@ -163,12 +182,35 @@ class Rect(object):
     self.tl = tl
     self.br = br
 
-  def __bool__(self):
+    return
 
-    return bool(self.tl) and bool(self.br)
+  def setnull(self):
 
-  __nonzero__ = __bool__
+    self.tl.setnull()
+    self.br.setnull()
 
+  def clip(self,that):
+
+    if not isinstance(that,Rect) or \
+       not bool(self)            or \
+       self.tl.y > that.br.y     or \
+       self.tl.x > that.br.x     or \
+       self.br.y < that.tl.y     or \
+       self.br.x < that.tl.x:
+
+      return Rect()
+
+    else:
+
+      tl = Point(max(self.tl.y,that.tl.y), max(self.tl.x,that.tl.x))
+      br = Point(min(self.br.y,that.br.y), min(self.br.x,that.br.x))
+
+      return Rect(tl,br)
+
+  def clone(self):
+
+    return Rect(self.tl.clone(),self.br.clone())
+   
 #------------------------------------------------------------------------------
 #
 # Class: StrScreen - ncurses-like screen class based on strings
@@ -391,8 +433,20 @@ if __name__ == '__main__':
     print('  if r5... %s'%repr(bool(r5)))
     print('  r5.area() = %d'%r5.area())
 
-  if 1:
+  if 0:
 
     print('scr.numrows = %d'%scr.numrows)
     print('scr.numcols = %d'%scr.numcols)
 
+  if 1: # Test Rect clipping
+
+    cliprect = Rect(Point(5,5),Point(20,20))
+    rects = [Rect(Point(0,0),Point(10,10)), \
+             Rect(Point(6,6),Point(10,10)), \
+             Rect(Point(1,1),Point(7,7)),   \
+             Rect(Point(30,30),Point(31,31)) ]
+    print("cliprect %s..."%str(cliprect))
+    for i in range(0,len(rects)):
+      rect = rects[i]
+      clipped = rect.clip(cliprect)
+      print('  %2d: %s => %s'%(i+1,postEllipse(str(rect),30,fill=' '),str(clipped)))
