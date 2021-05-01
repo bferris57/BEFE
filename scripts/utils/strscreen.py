@@ -189,6 +189,16 @@ class Rect(object):
     self.tl.setnull()
     self.br.setnull()
 
+  def width(self):
+
+    if not(self): return 0
+    return self.br.x - self.tl.x + 1
+
+  def height(self):
+
+    if not(self): return 0
+    return self.br.y - self.tl.y + 1
+
   def clip(self,that):
 
     if not isinstance(that,Rect) or \
@@ -433,10 +443,14 @@ if __name__ == '__main__':
     print('  if r5... %s'%repr(bool(r5)))
     print('  r5.area() = %d'%r5.area())
 
-  if 0:
+  if 1:
 
     print('scr.numrows = %d'%scr.numrows)
     print('scr.numcols = %d'%scr.numcols)
+    scrrect = Rect(Point(0,0),Point(scr.numrows-1,scr.numcols-1))
+    print('scrrect     = '+str(scrrect))
+    print('scr.height  = %d'%scrrect.height())
+    print('scr.width   = %d'%scrrect.width())
 
   if 1: # Test Rect clipping
 
