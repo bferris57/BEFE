@@ -194,6 +194,19 @@ class Rect(object):
     if not(self): return 0
     return self.br.x - self.tl.x + 1
 
+  # where -> Rect: Where to move (Top Left)
+  def moveto(self,where) -> bool:
+
+    if bool(self):
+      dy = where.y - self.tl.y
+      dx = where.x - self.tl.x
+      self.tl.y = self.tl.y + dy
+      self.tl.x = self.tl.x + dx
+      self.br.y = self.br.y + dy
+      self.br.x = self.br.x + dx
+      return True
+    return False
+
   def height(self):
 
     if not(self): return 0
@@ -220,7 +233,33 @@ class Rect(object):
   def clone(self):
 
     return Rect(self.tl.clone(),self.br.clone())
-   
+
+#------------------------------------------------------------------------------
+#
+# Class: Movable - A movable highlighted area on a StrScreen
+#
+
+class Movable(object):
+
+  # where -> Rect, color=curses.color
+  def __init__(self,where=None,color=curses.A_REVERSE):
+
+    if not isinstance(where,Rect):
+      raise InternalError('Expected \'where\' to be a Rect')
+
+    self.where = where
+    self.color = color
+
+  # where -> Point: Where to move (Top Left)
+  def moveto(where=Point(0,0)) -> None:
+
+    if not isinstance(where,Point):
+      raise InternalError('Expected \'where\' to be a Point')
+
+    if where:
+      self.where.move(where)
+
+
 #------------------------------------------------------------------------------
 #
 # Class: StrScreen - ncurses-like screen class based on strings
@@ -244,8 +283,9 @@ class StrScreen(object):
     elif not numcols:
       self.numcols = numcols
 
-    self.screen = screen
-    self.curpos = Point(0,0)
+    self.screen   = screen
+    self.curpos   = Point(0,0)
+    self.movables = {}
 
     if debug:
       print('DEBUG:  numrows,numcols = %s'%repr([self.numrows,self.numcols]))
@@ -443,7 +483,7 @@ if __name__ == '__main__':
     print('  if r5... %s'%repr(bool(r5)))
     print('  r5.area() = %d'%r5.area())
 
-  if 1:
+  if 0:
 
     print('scr.numrows = %d'%scr.numrows)
     print('scr.numcols = %d'%scr.numcols)
@@ -464,3 +504,8 @@ if __name__ == '__main__':
       rect = rects[i]
       clipped = rect.clip(cliprect)
       print('  %2d: %s => %s'%(i+1,postEllipse(str(rect),30,fill=' '),str(clipped)))
+
+    rect = Rect(Point(10,10),Point(20,20))
+    print('Before move rect = %s'%str(rect))
+    rect.moveto(Point(5,5))
+    print('After  move rect = %s'%str(rect))
