@@ -86,12 +86,13 @@ def debugon(output=None):
   global debug
   global out
   debug = True
-  out   = output
+  if output:
+    out = output
 
-def debugoff(output=None):
+def debugoff():
   global debug
   debug = False
-  out = output
+  out = None
 
 #------------------------------------------------------------------------------
 #

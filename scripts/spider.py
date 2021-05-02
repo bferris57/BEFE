@@ -57,6 +57,7 @@ maxx = None
 maxy = None
 
 topnum = '┌─x─┐'
+top10  = '┌─10┐'
 top    = '┌───┐'
 topvis = top #ld_club
 mid    = '│   │'
@@ -72,19 +73,11 @@ msgtop      = ''
 # Debugging...
 #
 
-debug = 1
+debug = 0
 out   = None
 
-if debug:
-  #keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
-  keys = 'dddpq'
-  out = sys.stdout #open('spider.out','w')
-  debugon(out)
-  setkeys(keys)
-else:
-  keys = ''
-  #out = open('spider.out','w')
-  debugoff()
+keys = ''
+debugoff()
 
 def oprint(msg,end='\n'):
   if not out or out.closed:
@@ -258,8 +251,6 @@ def shuffle(arr): # Shuffle list of ints...
 
 def renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop):
 
-  scr.clear()
-
   y = 1
   x = 0
   for s in range(0,len(stacks)):
@@ -330,8 +321,6 @@ def main(screen):
   global msgtop
   global keys
   global out
-
-  tout = None # Used by 'p' key ;-)
 
   scr = screen
   if type(scr) != StrScreen:
@@ -455,10 +444,6 @@ def main(screen):
       oprint('DEBUG: Calling _dump()...')
       scr._dump('Key press...')
 
-  # Finish up...
-  if tout:
-    tout.close()
-
 #------------------------------------------------------------------------------
 #
 # __main__
@@ -467,10 +452,29 @@ def main(screen):
 if __name__ == '__main__':
 
   if 1:
+    args = sys.argv[1:]
+    while args:
+      arg = args[0]
+      if arg == '+d':
+        debug = True
+      elif arg == '-d':
+        debug = False
+      elif arg.endswith('.out'):
+        out = open(arg,'w')
+      else:
+        oprint('Argument %s unknown'%repr(arg))
+        sys.exit(1)
+      args = args[1:]
 
     if debug:
+      #keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
+      keys = 'dddpq'
+      debugon(out)
+      setkeys(keys)
       main(None)
     else:
+      debugoff()
+      setkeys('')
       wrapper(main)
 
   if 0:
