@@ -67,11 +67,15 @@ endline = '\n'
 
 out = None
 
-def oprint(msg,end='\n'):
-  if out and not out.closed:
-    out.write(msg)
-    if end: out.write(end)
-    out.flush()
+def oprint(msg,end='\n',output=out):
+
+  tout = output
+  if not tout:
+    tout = out
+  if tout and not tout.closed:
+    tout.write(msg)
+    if end: tout.write(end)
+    tout.flush()
   
 def setkeys(them):
   global keys
@@ -351,16 +355,18 @@ class StrScreen(object):
     return None
 
   # DEBUG...
-  def _dump(self,why=''):
+  def _dump(self,why='',output=None):
 
-    if debug or out:
+    if output:
+      out = output
+    if debug or output or out:
       lead = '-'*30
       if why:
         why = '('+why+') '
       oprint(lead+' Screen at %s %s'%(dtToReadable(dtNow()),why)+lead)
       for i in range(0,len(self.rows)):
         if self.rows[i].strip():
-          oprint('  row[%2d] = %s'%(i,repr(postEllipse(self.rows[i],80))))
+          oprint('  row[%2d] = %s'%(i,repr(postEllipse(self.rows[i],80))),output=out)
   # ...DEBUG
 
   def initscr(self):
@@ -440,8 +446,8 @@ class StrScreen(object):
         scr.addstr(y,0,self.rows[y][0:81])
       scr.refresh()
 
-    if debug or out:
-      self._dump('StrScreen.refresh()')
+    #if debug or out:
+    #  self._dump('StrScreen.refresh()')
 
     return
 

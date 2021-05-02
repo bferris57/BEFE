@@ -11,6 +11,7 @@ from   funcs       import dtToNonce
 from   funcs       import dtToReadable
 from   funcs       import red,blue,green
 from   funcs       import postEllipse
+from   funcs       import execute
 from   errors             import *
 from   strscreen   import StrScreen
 from   strscreen   import Point
@@ -71,18 +72,18 @@ msgtop      = ''
 # Debugging...
 #
 
-debug = 0
+debug = 1
 out   = None
 
 if debug:
-  keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
+  #keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
+  keys = 'dddpq'
   out = sys.stdout #open('spider.out','w')
   debugon(out)
   setkeys(keys)
 else:
   keys = ''
   #out = open('spider.out','w')
-  #debugoff(out)
   debugoff()
 
 def oprint(msg,end='\n'):
@@ -105,8 +106,16 @@ def obreak(msg=None,end='\n'):
     msg = ' Break %d '%breaker
   oprint('='*30+msg+'='*30)
 
-
 oprint('----- BEGIN... %s -----'%dtToReadable(dtNow())[:-4])
+
+def beep(duration=1):
+
+  freq = 880*2
+  res,sout,serr = execute('play -nq -t alsa synth {} sine {}'.format(duration, freq))
+  if res and debug:
+    oprint('DEBUG: beep: res = %s'%repr(res))
+    oprint('       sout = %s'%repr(sout))
+    oprint('       serr = %s'%repr(serr))
 
 #---
 #
@@ -304,6 +313,12 @@ def dealOne(decks,stack):
   del decks[-1][-1]
   if not decks[-1]:
     del decks[-1]
+
+#---
+#
+# main()
+#
+#---
       
 def main(screen):
 
@@ -314,6 +329,9 @@ def main(screen):
   global msgbot
   global msgtop
   global keys
+  global out
+
+  tout = None # Used by 'p' key ;-)
 
   scr = screen
   if type(scr) != StrScreen:
@@ -321,7 +339,7 @@ def main(screen):
     scr = StrScreen(None if debug else screen,output=out if not debug else sys.stdout)
 
   scr.timeout(2000)
-  if type(screen) != StrScreen:
+  if screen and type(screen) != StrScreen:
     curses.curs_set(0)
 
   maxy, maxx = scr.getmaxyx()
@@ -401,8 +419,8 @@ def main(screen):
       scr.refresh()
       continue
 
-    left  = [ord('L'),ord('l'),0x104,ord(ld_larr)]
-    right = [ord('R'),ord('r'),0x105,ord(ld_rarr)]
+    left  = [0x104,ord(ld_larr)]
+    right = [0x105,ord(ld_rarr)]
     if curSelected and (okey in left or okey in right):
       card = curSelected
       lr   = card.getLeftRight()
@@ -414,8 +432,8 @@ def main(screen):
       elif type(scr) != StrScreen:
         curses.beep()
 
-    up   = [ord('U'),ord('u'),0x103,ord(ld_uarr)]
-    down = [                  0x102,ord(ld_darr)]
+    up   = [0x103,ord(ld_uarr)]
+    down = [0x102,ord(ld_darr)]
     if curSelected and (okey in up or okey in down):
       card = curSelected
       ud   = card.getUpDown()
@@ -425,18 +443,20 @@ def main(screen):
         next.selected = True
         card.selected = False
 
-    renderAll(decks,stacks,msgbot=msgbot)
-    scr.refresh()
-
   if key in ('b','B'):
     obreak()
 
   if key in ('c','C'):
     scr.refresh()
 
-  #scr.clear()
-  #scr.refresh()
-  #time.sleep(3)
+  if key in ('p','P'):
+    tout = tout if tout else open('spider.out','w')
+    beep(1)
+    scr._dump('Key press...',output=tout)
+
+  # Finish up...
+  if tout:
+    tout.close()
 
 #------------------------------------------------------------------------------
 #
