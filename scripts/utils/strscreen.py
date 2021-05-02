@@ -43,7 +43,6 @@ import               termios
 import               tty
 import               select
 
-from   term   import TerminalController
 from   funcs  import dtNow
 from   funcs  import deltaSeconds
 from   funcs  import dtToReadable
@@ -61,12 +60,34 @@ fdin   = stdin.fileno()
 fdout  = stdout.fileno()
 fderr  = stderr.fileno()
 
-debug   = 0
-isatty  = True
+debug   = False
+keys    = ''
+isatty  = False
 endline = '\n'
 
-terminal     = TerminalController()
-CLEAR_SCREEN = terminal.CLEAR_SCREEN
+out = None
+
+def oprint(msg,end='\n'):
+  if out and not out.closed:
+    out.write(msg)
+    if end: out.write(end)
+    out.flush()
+  
+def setkeys(them):
+  global keys
+  keys = them
+  return
+
+def debugon(output=None):
+  global debug
+  global out
+  debug = True
+  out   = output
+
+def debugoff(output=None):
+  global debug
+  debug = False
+  out = output
 
 #------------------------------------------------------------------------------
 #
@@ -195,7 +216,7 @@ class Rect(object):
     return self.br.x - self.tl.x + 1
 
   # where -> Rect: Where to move (Top Left)
-  def moveto(self,where) -> bool:
+  def moveto(self,where):
 
     if bool(self):
       dy = where.y - self.tl.y
@@ -251,7 +272,7 @@ class Movable(object):
     self.color = color
 
   # where -> Point: Where to move (Top Left)
-  def moveto(where=Point(0,0)) -> None:
+  def moveto(where=Point(0,0)):
 
     if not isinstance(where,Point):
       raise InternalError('Expected \'where\' to be a Point')
@@ -267,13 +288,17 @@ class Movable(object):
 
 class StrScreen(object):
 
-  def __init__(self,screen=None,numrows=0,numcols=0):
+  def __init__(self,screen=None,numrows=0,numcols=0,output=None):
 
     global isatty
     global endline
+    global out
+    global keys
 
+    if output:
+      out = output
     if debug:
-      print('DEBUG: StrScreen.__init__()')
+      oprint('DEBUG: StrScreen.__init__()')
     if not numrows and not numcols:
       self.numrows, self.numcols = os.popen('stty size', 'r').read().split()
       self.numrows = int(self.numrows)
@@ -283,12 +308,16 @@ class StrScreen(object):
     elif not numcols:
       self.numcols = numcols
 
+    if not debug:
+      curses.cbreak()
+
     self.screen   = screen
     self.curpos   = Point(0,0)
     self.movables = {}
 
     if debug:
-      print('DEBUG:  numrows,numcols = %s'%repr([self.numrows,self.numcols]))
+      oprint('DEBUG:  numrows,numcols = %s'%repr([self.numrows,self.numcols]))
+      oprint('DEBUG:  keys = '+repr(keys))
    
     isatty = sys.stdout.isatty()
     
@@ -299,7 +328,7 @@ class StrScreen(object):
   def __del__(self):
 
     if debug: 
-      print('DEBUG: StrScreen.__del__()')
+      oprint('DEBUG: StrScreen.__del__()')
 
   # Returns number of movables
   def __len__(self):
@@ -321,17 +350,35 @@ class StrScreen(object):
 
     return None
 
+  # DEBUG...
+  def _dump(self,why=''):
+
+    if debug or out:
+      lead = '-'*30
+      if why:
+        why = '('+why+') '
+      oprint(lead+' Screen at %s %s'%(dtToReadable(dtNow()),why)+lead)
+      for i in range(0,len(self.rows)):
+        if self.rows[i].strip():
+          oprint('  row[%2d] = %s'%(i,repr(postEllipse(self.rows[i],80))))
+  # ...DEBUG
+
   def initscr(self):
 
     pass
 
   def clear(self,fill=' '):
 
+    if debug:
+      print('DEBUG: clear() called')
+
     self.rows = []
     for r in range(0,self.numrows+1):
       self.rows.append(fill[0]*self.numcols)
     self.markup   = []
-    self.movables = []
+
+    if not debug and self.screen:
+      self.screen.clear()
 
   def addstr(self,y,x,text,color=0):
 
@@ -355,19 +402,19 @@ class StrScreen(object):
     row = row[:x] + text + row[x+tlen:]
     rows[y] = row
 
-    # DEBUG...
-    if debug:
-      print('DEBUG: addstr: y,x = [%d,%d], text = %s'%(y,x,repr(text)))
-    # ...DEBUG
+    if not debug and self.screen:
+      self.screen.addstr(y,x,text,color)
 
   def timeout(self,milliseconds):
+
+    scr = self.screen
 
     if type(milliseconds) != int:
       raise InternalError('timeout expected integer milliseconds')
 
     self.timeout = milliseconds
 
-    if scr:
+    if not debug and scr:
       scr.timeout(milliseconds)
 
   def getmaxyx(self):
@@ -384,13 +431,17 @@ class StrScreen(object):
 
   def refresh(self):
     
-    if not isatty:
-      print('-'*10+' Screen at %s'%dtToReadable(dtNow)[:-4]+'-'*10)
-    else:
-      stdout.buffer.write(CLEAR_SCREEN)
-     
-    for row in self.rows:
-      print(row,end=endline)
+    scr = self.screen
+
+    if not debug and scr:
+      scr.clear()
+      maxy,maxx = scr.getmaxyx()
+      for y in range(0,min(len(self.rows)-1,maxy)):
+        scr.addstr(y,0,self.rows[y][0:81])
+      scr.refresh()
+
+    if debug or out:
+      self._dump('StrScreen.refresh()')
 
     return
 
@@ -404,9 +455,23 @@ class StrScreen(object):
 
   def getch(self,timeout=1):
 
+    if not debug and self.screen:
+      self.screen.timeout(timeout)
+      return self.screen.getch()
+
+    if debug:
+      global keys
+      if not keys:
+        return -1
+      key = ord(keys[0])
+      keys = keys[1:]
+      return key
+
+    # Do our own raw getch()...
     stdin = sys.stdin
     fd = stdin.fileno()
     old_settings = termios.tcgetattr(stdin)
+    ch = '\x00'
     try:
       tty.setraw(stdin)
       r,w,x = select.select([fd],[],[],timeout)
@@ -415,9 +480,9 @@ class StrScreen(object):
     finally:
       termios.tcsetattr(stdin, termios.TCSADRAIN, old_settings)
 
-    return ord(ch) if ch else -1
+    return ord(ch) if ord(ch) > 0 else -1
 
-  def getrect(self,rect=None) -> str:
+  def getrect(self,rect=None):
 
     if not isinstance(rect,Rect) or not rect:
       return ''
@@ -431,21 +496,27 @@ class StrScreen(object):
   
     return s
 
-  def putstr(self,string,rect=None,color=0): # bool,Movable:
+  # _strPointRect: Given a set of string lines and Point/Rect, make it
+  #                all proper.
+  #
+  #                if rect is a Point, we calculate the rect based on 
+  #                the length of lines and their width.
+  #
+  #                if the rect's tl not given, we use self.curpos.
+  #
+  #                Finally, we extend/truncate each line to the Rect and
+  #                get rid of any extra lines.
+  #
+  #                returns (lines,rect) all fixed and ready to be used.
+  #
 
-    if (not isinstance(rect,Rect) and not isinstance(rect,Point)) or  \
-       not rect                                                   or  \
-       not isinstance(string,str)                                 or  \
-       not isinstance(color,int):
-      return False
-
-    lines = string.split('\n')
+  def _strPointRect(self,lines=[],rect=None): # Internal use only
 
     # Normalise rect to be a Rect and, if need be place at self.curpos
-    # and, if need be, make it as wide as largest line...
-
+    # and, also if need be, make it as wide as largest line...
+      
     point = self.curpos.clone()
-    width = None
+    width = None 
     if not rect:
       if isinstance(rect,Point):
         if not point:
@@ -477,20 +548,42 @@ class StrScreen(object):
           line = line[0:width]
         lines[i] = line
 
-    print('DEBUG: local lines...')
-    for i in range(0,len(lines)):
-      print('  %2d: %s'%(i,repr(lines[i])))
-
     # Make sure there's the right number of lines...
     height = rect.height()
     if len(lines) != height:
       if len(lines) < height:
         for i in range(0,height-len(lines)):
           lines.append(' '*width)
-      else:
         lines = lines[:height]
 
-    # Render it to our str lines...
+    # Make all lines the proper length and ensure right number of lines...
+    if not width:
+      width = rect.width()
+      height = rect.height()
+    for i in range(0,len(lines)):
+      line = lines[i]
+      if len(line) != width:
+        if len(line) < width:
+          line += ' '*(width-len(line))
+        else:
+          line = line[0:width]
+        lines[i] = line
+
+    return (lines,rect)
+
+  def putstr(self,string,rect=None,color=0): # bool,Movable:
+
+    if (not isinstance(rect,Rect) and not isinstance(rect,Point)) or  \
+       not rect                                                   or  \
+       not isinstance(string,str)                                 or  \
+       not isinstance(color,int):
+      return False
+
+    lines = string.split('\n')
+
+    lines,rect = self._strPointRect(lines,rect)
+
+    # Render it to our screen lines...
     scr = self.screen
     y = rect.tl.y
     x = rect.tl.x
@@ -519,6 +612,8 @@ if __name__ == '__main__':
     print(lead+' Test %d '%testno+lead)
 
   scr = StrScreen()
+  if debug:
+    scr._debugon()
 
   test = 0 
 

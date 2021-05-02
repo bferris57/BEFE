@@ -4,8 +4,8 @@
 import                    time
 import                    curses
 import                    random
-from   curses      import wrapper
 import                    sys
+from   curses      import wrapper
 from   funcs       import dtNow
 from   funcs       import dtToNonce
 from   funcs       import dtToReadable
@@ -15,6 +15,9 @@ from   errors             import *
 from   strscreen   import StrScreen
 from   strscreen   import Point
 from   strscreen   import Rect
+from   strscreen   import setkeys
+from   strscreen   import debugon
+from   strscreen   import debugoff
 
 lines = '∙√─│┌┐└┘├┬┴┼═║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬▲►▼◄◊☺☻'
 
@@ -49,9 +52,6 @@ ld_suit    = '\u2660\u2661\u2662\u2663'
 #ld_deck    = ld_0+'A'+ld_2+ld_3+ld_4+ld_5+ld_6+ld_7+ld_8+ld_9+ld_10+'JQK'
 ld_deck    = '?A23456789TJQK'
 
-#keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr  # +'q'
-keys = 'bb'
-
 maxx = None
 maxy = None
 
@@ -71,16 +71,23 @@ msgtop      = ''
 # Debugging...
 #
 
-debug       = 1
+debug = 0
+out   = None
 
 if debug:
-  out  = open('spider.out','w')                # For Debugging
-  keys = 'dd'+ld_larr                  # +'q'  # For Debugging
+  keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
+  out = sys.stdout #open('spider.out','w')
+  debugon(out)
+  setkeys(keys)
 else:
   keys = ''
+  #out = open('spider.out','w')
+  #debugoff(out)
+  debugoff()
 
 def oprint(msg,end='\n'):
-  if not debug: return
+  if not out or out.closed:
+    return
   out.write(msg)
   if end:
     out.write(end)
@@ -113,7 +120,7 @@ class Card(Rect):
 
   def __init__(self,cardno,suit=None):
 
-    super().__init__(tl=None,br=None)
+    super(Card,self).__init__(tl=None,br=None)
     if not isinstance(cardno,int):
       raise InternalError('Card() expected cardno to be an int()')
     if suit != None and not isinstance(suit,int):
@@ -248,6 +255,8 @@ def renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop):
   x = 0
   for s in range(0,len(stacks)):
     renderDeck(y,x+s*7,stacks[s])
+    if debug and s == 0:
+      oprint('DEBUG: renderAll: s = 0, scr.rows[1] = %s'%scr.rows[y].strip())
 
   maxy,maxx = scr.getmaxyx()
   if msgbot:
@@ -285,7 +294,6 @@ def renderDeck(y,x,deck):
     else:
       br = Point(y, x+len(bot))
     card.pos = Rect(tl,br)
-    oprint('renderDeck: y = %d, i = %d, card.pos = %s'%(y,i,repr(card.pos)))
 
 def dealOne(decks,stack):
 
@@ -308,17 +316,17 @@ def main(screen):
   global keys
 
   scr = screen
-
-  scr.clear()
-  scr.refresh()
-  scr.timeout(200)
   if type(scr) != StrScreen:
+    oprint('DEBUG: type(scr) = %s'%repr(type(scr)))
+    scr = StrScreen(None if debug else screen,output=out if not debug else sys.stdout)
+
+  scr.timeout(2000)
+  if type(screen) != StrScreen:
     curses.curs_set(0)
 
   maxy, maxx = scr.getmaxyx()
 
-  scr.addstr(maxy-1,0,'Press any \'q\' or \'x\' to exit...')
-  scr.refresh()
+  oprint('DEBUG: main(): maxy = %d, maxx = %d'%(maxy,maxx))
 
   # Create randomly shuffled decks...
 
@@ -355,26 +363,32 @@ def main(screen):
       break
 
   renderAll(decks,stacks)
+  scr.addstr(maxy-1,0,'Press \'q\' or \'x\' to exit...')
 
   #
   # Do it...
   #
 
   key = ''
+
+  scr.refresh()
+
   while key not in ('q','Q','x','X',chr(0x03)):
 
     dt = dtToReadable(dtNow())
     scr.addstr(0,maxx-len(dt),dt)
-    if keys:
-      key = ord(keys[0])
-      keys = keys[1:]
-    else:
-      key = scr.getch()
-    if key < 0: continue
-    msgtop = 'Key: 0x'+'%x'%key
+    key = scr.getch()
+    if key < 0:
+      if debug:
+        break
+      continue
+
     okey = key
     key  = chr(key)
    
+    if debug:
+      oprint('DEBUG: Key = 0x%x = %s'%(okey,repr(key)))
+
     msg = 'Continue on...'
 
     if key in ('d','D'): # Deal...
@@ -384,7 +398,7 @@ def main(screen):
         if stack and stack[-1].cardno < 0:
           stack[-1].cardno = -(stack[-1].cardno)
       renderAll(decks,stacks,msg)
-      screen.refresh()
+      scr.refresh()
       continue
 
     left  = [ord('L'),ord('l'),0x104,ord(ld_larr)]
@@ -411,7 +425,8 @@ def main(screen):
         next.selected = True
         card.selected = False
 
-    renderAll(decks,stacks,msgbot=msgbot,msgtop=msgtop)
+    renderAll(decks,stacks,msgbot=msgbot)
+    scr.refresh()
 
   if key in ('b','B'):
     obreak()
@@ -430,19 +445,17 @@ def main(screen):
 
 if __name__ == '__main__':
 
-  if 0:
+  if 1:
 
-    wrapper(main)
-
-  else:
-
-    screen = StrScreen()
-    main(screen)
+    if debug:
+      main(None)
+    else:
+      wrapper(main)
 
   if 0:
 
     deck = shuffle([1,2,3,4,5,6,7,8,9,10,11,12,13])
-    print('deck = %s'%repr(deck))
+    oprint('deck = %s'%repr(deck))
       
   if 0:
 
@@ -454,7 +467,7 @@ if __name__ == '__main__':
   if 0:
 
     r = Rect(Point(25,80),Point(0,0))
-    print('r      = %s'%str(r))
-    print('r.area = %s'%str(r.area()))
+    oprint('r      = %s'%str(r))
+    oprint('r.area = %s'%str(r.area()))
 
     ex = Point()
