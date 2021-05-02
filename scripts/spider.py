@@ -111,7 +111,7 @@ oprint('----- BEGIN... %s -----'%dtToReadable(dtNow())[:-4])
 def beep(duration=1):
 
   freq = 880*2
-  res,sout,serr = execute('play -nq -t alsa synth {} sine {}'.format(duration, freq))
+  res,sout,serr = execute('aplay -d {} {}'.format(duration, 'beep.wav'))
   if res and debug:
     oprint('DEBUG: beep: res = %s'%repr(res))
     oprint('       sout = %s'%repr(sout))
@@ -443,16 +443,17 @@ def main(screen):
         next.selected = True
         card.selected = False
 
-  if key in ('b','B'):
-    obreak()
+    if key in ('b','B'):
+      obreak()
 
-  if key in ('c','C'):
-    scr.refresh()
+    if key in ('c','C'):
+      scr.refresh()
 
-  if key in ('p','P'):
-    tout = tout if tout else open('spider.out','w')
-    beep(1)
-    scr._dump('Key press...',output=tout)
+    if key in ('p','P'):
+      if screen:
+        curses.beep()
+      oprint('DEBUG: Calling _dump()...')
+      scr._dump('Key press...')
 
   # Finish up...
   if tout:

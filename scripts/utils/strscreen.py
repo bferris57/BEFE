@@ -67,7 +67,7 @@ endline = '\n'
 
 out = None
 
-def oprint(msg,end='\n',output=out):
+def oprint(msg,end='\n',output=None):
 
   tout = output
   if not tout:
@@ -312,7 +312,7 @@ class StrScreen(object):
     elif not numcols:
       self.numcols = numcols
 
-    if not debug:
+    if not debug and screen:
       curses.cbreak()
 
     self.screen   = screen
@@ -357,16 +357,18 @@ class StrScreen(object):
   # DEBUG...
   def _dump(self,why='',output=None):
 
+    tout = out
+
     if output:
-      out = output
+      tout = output
     if debug or output or out:
-      lead = '-'*30
+      lead = '-'*20
       if why:
         why = '('+why+') '
       oprint(lead+' Screen at %s %s'%(dtToReadable(dtNow()),why)+lead)
       for i in range(0,len(self.rows)):
         if self.rows[i].strip():
-          oprint('  row[%2d] = %s'%(i,repr(postEllipse(self.rows[i],80))),output=out)
+          oprint('  row[%2d] = %s'%(i,repr(postEllipse(self.rows[i],80))),output=tout)
   # ...DEBUG
 
   def initscr(self):
