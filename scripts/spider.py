@@ -74,7 +74,7 @@ msgtop      = ''
 # Debugging...
 #
 
-debug = 1
+debug = 0
 out   = None
 
 keys = ''
@@ -541,6 +541,9 @@ def main(screen):
 
 if __name__ == '__main__':
 
+  doMain  = True
+  doTests = False
+
   if 1:
     args = sys.argv[1:]
     while args:
@@ -551,21 +554,37 @@ if __name__ == '__main__':
         debug = False
       elif arg.endswith('.out'):
         out = open(arg,'w')
+      elif arg == '-m':
+        doMain = False
+      elif arg == '+m':
+        doMain = True
+      elif arg == '-t':
+        doTests = False
+      elif arg == '+t':
+        doTests = True
       else:
         oprint('Argument %s unknown'%repr(arg))
         sys.exit(1)
       args = args[1:]
 
-    if debug:
-      #keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
-      keys = 'dddpq'
-      debugon(out)
-      setkeys(keys)
-      main(None)
-    else:
-      debugoff()
-      setkeys('')
-      wrapper(main)
+    if doMain:
+      if debug:
+        #keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
+        keys = 'dddpq'
+        debugon(out)
+        setkeys(keys)
+        main(None)
+      else:
+        debugoff()
+        setkeys('')
+        wrapper(main)
+
+  if not doMain and not doTests:
+    pout('Nothing to do, try \'+m\' or \'+t\'')
+
+  if not doTests:
+
+    sys.exit(0)
 
   if 0:
 
