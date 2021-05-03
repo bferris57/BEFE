@@ -154,11 +154,11 @@ class Point(object):
     
 class Rect(object):
 
-  def __init__(self,tl=None,br=None):
+  def __init__(self,tl=Point(),br=Point()):
 
-    if (tl != None and not isinstance(tl,Point)) or \
-       (br != None and not isinstance(br,Point)):
-      raise Error("Rect() expected two Point() instances")
+    if not isinstance(tl,Point) or not isinstance(br,Point):
+      print('DEBUG: Rect(): type(tl) = %s, type(br) = %s'%(repr(type(tl)),repr(type(br))))
+      raise Exception("Rect() expected two Point() instances")
 
     self.tl = tl.clone() if tl else None
     self.br = br.clone() if br else None
