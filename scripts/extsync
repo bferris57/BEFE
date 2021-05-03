@@ -308,8 +308,8 @@ if __name__ == '__main__':
   else:
     #srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
     #dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
-    srcdir  = expand('~/usb_src/bb/_Other')
-    dstdir  = expand('~/sd_dst/bb/_Other')
+    srcdir  = expand('~/usb_src/bb/_Fave')
+    dstdir  = expand('~/sd1_dst/_Fave')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
