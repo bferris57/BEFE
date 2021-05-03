@@ -116,21 +116,82 @@ def beep(duration=1):
 #
 #---
 
-class Card(Rect):
+class Decks(list): # A set of decks...
 
-  seq = 0
+  def __init__(self):
+
+    super(Decks,self).__init__(self)
+    self.pos = Point()
+
+  def __str__(self):
+
+    return str(len(self))+'@'+str(self.pos)
+
+  def __repr__(self):
+
+    s = '['
+    for i in range(0,len(self)):
+      if i: 
+        s += ','
+      s += 'Deck()'
+    s += ']'
+
+    return s
+
+  def append(self,card):
+
+    if type(card) != Deck:
+      raise Exception('Decks.append expects single instance of Deck')
+    super(Decks,self).append(card)
+
+  def expand(self,stuff):
+
+    raise Exception('Decks.expand not implemented')
+
+class Deck(list): # A single deck of cards (may be empty)...
+
+  def __init__(self):
+
+    super(Deck,self).__init__(self)
+    self.pos   = Point()
+
+  def __str__(self):
+
+    s = '['
+    for i in range(0,len(self)):
+      if i: s += ','
+      s.append(self[i].cardno)
+    s += '] @ '+repr(self.pos)
+
+    return s
+
+  def __repr__(self):
+
+    s = 'Deck('
+    for i in range(0,len(self)):
+      if i: s += ','
+      s += repr(self[i])
+    s += ')'    
+
+    return s
+  
+  def deal(self):
+
+    if not self.cards:
+      return None
+    
+class Card(Rect): # A single, possibly dealt card
 
   def __init__(self,cardno,suit=None):
 
     super(Card,self).__init__(tl=None,br=None)
+
     if not isinstance(cardno,int):
       raise InternalError('Card() expected cardno to be an int()')
     if suit != None and not isinstance(suit,int):
       raise InternalError('Card() expected suit to be an int()')
-    # TEMP...
-    self.seq      = Card.seq
-    Card.seq += 1
-    # ...TEMP
+    if cardno < -13 or cardno > 13:
+      raise InternalError('Card() only accepts cards in range -13..13')
     self.cardno   = cardno
     self.suit     = suit
     self.pos      = None
@@ -138,7 +199,12 @@ class Card(Rect):
 
   def __str__(self):
 
-    return 'Card(seq=%s,pos=%s,cardno=%s)'%(repr(self.seq),repr(self.pos),repr(self.cardno))
+    s = 'Card('+str(self.cardno)
+    if self.suit != None:
+      s += ','+str(self.suit)
+    s += ')'
+
+    return s
 
   def __repr__(self):
 
@@ -224,7 +290,6 @@ class Card(Rect):
     oprint("getUpDown: ret = %s"%repr(ret))
 
     return ret
-
 
 #---
 #
@@ -336,18 +401,21 @@ def main(screen):
   oprint('DEBUG: main(): maxy = %d, maxx = %d'%(maxy,maxx))
 
   # Create randomly shuffled decks...
-
-  deck = [ -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13]
+  onedeck = [ -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13]
+  numdecks = 8
+  allcards = []
+  for i in range(0,numdecks):
+    allcards.expand(onedeck)
+  allcards = shuffle(allcards)
   decks = []
-  for i in range(0,8): # Create original decks...
-    thisone = shuffle(deck)
-    for j in range(0,len(thisone)):
-      thisone[j] = Card(thisone[j])
-      allCards.append(thisone[j])
-    decks.append(thisone)
+  while allcards:
+    thisdec = allcards[0:13]
+    allcards = allcards[13:]
+    decks.append(thisdec)
 
   # Deal stacks...
-  stacks = ([],[],[],[],[],[],[],[],[],[])
+  numstacks = 10
+  stacks = []
   cardno = 0
   for d in range(0,6):
     while cardno < 54:
@@ -451,7 +519,7 @@ def main(screen):
 
 if __name__ == '__main__':
 
-  if 1:
+  if 0:
     args = sys.argv[1:]
     while args:
       arg = args[0]
@@ -496,3 +564,17 @@ if __name__ == '__main__':
     oprint('r.area = %s'%str(r.area()))
 
     ex = Point()
+
+  if 1:
+
+    deck = Deck()
+
+    for cardno in range(1,14):
+      card = Card(cardno)
+      deck.append(card)
+
+    print('Deck: %s'%repr(deck)) 
+
+    decks = Decks()
+    decks.append(deck)
+    print('Decks: %s'%repr(decks))
