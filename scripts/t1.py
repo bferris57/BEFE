@@ -9,3 +9,4 @@ if __name__ == '__main__':
 
   x = namedtuple(0,1,2,x=3,y=4)
   print(repr(x))
+
