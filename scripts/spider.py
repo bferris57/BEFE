@@ -531,7 +531,8 @@ def main(screen):
     if key in ('p','P'):
       if screen:
         curses.beep()
-      oprint('DEBUG: Calling _dump()...')
+      if debug:
+        oprint('DEBUG: Calling _dump()...')
       scr._dump('Key press...')
 
 #------------------------------------------------------------------------------
@@ -570,7 +571,7 @@ if __name__ == '__main__':
     if doMain:
       if debug:
         #keys = 'dd'+ld_darr+ld_darr+ld_uarr+'b'+ld_uarr+'q'  # +'q'
-        keys = 'dddpq'
+        #keys = 'dddpq'
         debugon(out)
         setkeys(keys)
         main(None)
