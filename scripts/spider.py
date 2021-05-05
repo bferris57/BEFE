@@ -181,6 +181,11 @@ class Deck(list): # A single deck of cards (may be empty)...
     if not self.cards:
       return None
 
+    card = self.cardsr[-1]
+    del cards[-1]
+
+    return card
+
   def renderRect(self):
 
     tl = self.pos.clone()
