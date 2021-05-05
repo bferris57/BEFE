@@ -39,8 +39,8 @@
 # Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 #===============================================================================
 
-from Stack  import Stack
-from Struct import Struct
+from stack  import Stack
+from struct import Struct
 from errors import *
 
 specialChars = '()[]|'

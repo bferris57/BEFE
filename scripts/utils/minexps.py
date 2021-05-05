@@ -6,7 +6,7 @@
 #
 #===============================================================================
 
-from MinExp import MinExp
+from minexp import MinExp
 
 class MinExps():
 

@@ -144,8 +144,6 @@ def ElmDefWords(stmt):
 
     yield None
 
-    raise StopIteration
-
 #===============================================================================
 #
 # Class:   ElmDef - A single element definition

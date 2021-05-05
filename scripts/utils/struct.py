@@ -14,11 +14,12 @@
 #          index as well as imposing type value restructions based on the
 #          information described in the member's ElmDef (see ElmDef)
 #
-#===============================================================================#===============================================================================
+#===============================================================================
+#===============================================================================
 
 # External dependencies
-from   Enum   import *
-from   ElmDef import *
+from   enum   import *
+from   elmdef import *
 import copy
 
 #===============================================================================
