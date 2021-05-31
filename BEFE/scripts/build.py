@@ -11,7 +11,7 @@
 # Where:   args - Optional...
 #
 #===============================================================================
-# Copyright (©) 2021, Bruce Ferris (UK) Email: befe@bferris.co.uk 
+# Copyright (©) 2021, Bruce Ferris (UK) Email: befe@bferris.co.uk
 #===============================================================================
 
 # External modules
