@@ -345,6 +345,7 @@ if __name__ == "__main__":
   clean   = False
   copy    = True
   compile = True
+  link    = True
   for arg in args:
     if arg == '+clean':
       clean = True
@@ -358,6 +359,10 @@ if __name__ == "__main__":
       compile = False
     elif arg in ('+c','+compile'):
       compile = True
+    elif arg == '-link':
+      link = False
+    elif arg == '+link':
+      link = True
     else:
       usage()
       sys.exit(1)
@@ -379,3 +384,7 @@ if __name__ == "__main__":
     if errCount:
       print('  %d errors'%errCount)
 
+  if link or True:
+
+    print('Linking...')
+    print('os.getcwd() = %s'%os.getcwd())
