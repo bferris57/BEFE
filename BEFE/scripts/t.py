@@ -3,7 +3,7 @@
 
 from Enum import Enum
 import sys
-
+ 
 python2 = sys.version.startswith('2.')
 python3 = sys.version.startswith('3.')
 
