@@ -1,0 +1,333 @@
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "BEFEMacros.h"
+#include "BEFEWrappers.h"
+#include "Build.h"
+#include "Cache.h"
+
+namespace BEF_NS {
+
+struct WalkContext {
+  Strings headerFiles;
+  Strings sourceFiles;
+};
+  
+static Status Walker(String const &dir, UInt32 context) {
+  
+  Status       status;
+  WalkContext *walkContext;
+  String       curDir;
+  Strings      fileNames;
+  String       fileName;
+  UInt         curIdx;
+  
+  walkContext = (WalkContext *)context;
+  if (IsNull(walkContext)) goto NULLPOINTER;
+  curDir = dir;
+  status = PathToGeneric(curDir);
+  if (status) goto SOMEERROR;
+  status = GetFiles(curDir, fileNames);
+  if (status) goto SOMEERROR;
+  for (curIdx=0; curIdx < fileNames.Length(); curIdx++) {
+    fileName = fileNames.Get(curIdx);
+    if (fileName.Get(Range(-2,-1)) == ".h") {
+      status = walkContext->headerFiles.Append(fileName.Consumable());
+      if (status) goto SOMEERROR;
+    }
+    else if (fileName.Get(Range(-4,-1)) == ".cpp") {
+      status = walkContext->sourceFiles.Append(fileName.Consumable());
+      if (status) goto SOMEERROR;
+    }
+  }
+  
+  // Handle errors  
+  while (false) {
+    NULLPOINTER: status = Error::InternalNullPointer; break;
+    SOMEERROR:                                        break;
+  }
+  
+  return status;
+  
+}
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+
+Status trythis() {
+
+  Status      status;
+  String      befe_SVN;
+  String      fileName;
+  Id          fileId;
+  UInt        fileSize;
+  Cache       cache;
+  WalkContext walkContext;
+  UInt        curIdx;
+  Strings     headerFileNames;
+  Strings     headerNames;
+  Strings     sourceFileNames;
+  Strings     sourceNames;
+  String      fullPath;
+  String      fileOnly;
+  UInt        fileBlockCount;
+  UInt        blockNo;
+  UInt        curPct;
+  UInt        newPct;
+  
+  UInt        numBytesRead;
+  UInt        numFilesRead;
+  UInt        numBlocksRead;
+  
+  UInt fg;  
+  fg = Cout.GetForegroundColour();
+  //Cout << "*** Nothing for trythis() to do at the moment ***\n";
+  
+  // TEMP...
+  {Boolean f,t,n;
+   SetFalse(f);
+   SetTrue(t);
+   SetNull(n);
+   Cout << "sizeof(Boolean) = " << sizeof(Boolean) << '\n';
+   if (IsNull(f))  Cout << "f is Null!!!\n";
+   if (IsFalse(f)) Cout << "f is False\n";
+   if (IsTrue(f))  Cout << "f is True!!!\n";
+   if (IsNull(t))  Cout << "t is Null!!!\n";
+   if (IsFalse(t)) Cout << "t is False!!!\n";
+   if (IsTrue(t))  Cout << "t is True\n";
+   if (IsNull(n))  Cout << "n is Null\n";
+   if (IsFalse(n)) Cout << "n is False!!!\n";
+   if (IsTrue(n))  Cout << "n is True!!!\n";
+   goto OK;
+  }
+  // ...TEMP
+  befe_SVN = GetEnvironmentValue("BEFE_SVN");
+  if (IsEmpty(befe_SVN)) goto NOSVN;
+  status = PathToGeneric(befe_SVN);
+  if (status) goto SOMEERROR;
+  fileName = befe_SVN + "/c++/test/TestString.cpp";
+  status = ValidateExistingFileName(fileName);
+  if (status) goto SOMEERROR;
+  
+  // Get the list of header and source files...
+  status = WalkPath(befe_SVN, Walker, (UInt32)&walkContext);
+  if(status) goto SOMEERROR;
+  if (gVerbose && !gVeryVerbose) {
+    Cout << walkContext.headerFiles.Length() << " Total .h   files...\n";
+    Cout << walkContext.sourceFiles.Length() << " Total .cpp files...\n";
+  }
+  //if (gShowDebug) {
+  if (false) {
+    Cout << "Header Files (" << walkContext.headerFiles.Length() << " files)...\n\n";
+    if (walkContext.headerFiles.Length() == 0)
+      Cout << CONSTR_None << '\n';
+    else for (curIdx=0; curIdx < walkContext.headerFiles.Length(); curIdx++)
+      Cout << "  " << walkContext.headerFiles.Get(curIdx) << '\n';
+    Cout << '\n';
+    Cout << "Source Files (" << walkContext.sourceFiles.Length() << " files)...\n\n";
+    if (walkContext.sourceFiles.Length() == 0)
+      Cout << CONSTR_None << '\n';
+    else for (curIdx=0; curIdx < walkContext.sourceFiles.Length(); curIdx++)
+      Cout << "  " << walkContext.sourceFiles.Get(curIdx) << '\n';
+  }
+  
+  // Separate file names from full paths...
+  headerFileNames = walkContext.headerFiles.Consumable();
+  sourceFileNames = walkContext.sourceFiles.Consumable();
+  for (curIdx=0; curIdx < headerFileNames.Length(); curIdx++) {
+    status = headerFileNames.Get(curIdx, fullPath);
+    if (status) goto SOMEERROR;
+    fileOnly = PathStrip(fullPath);
+    status = headerNames.Append(fileOnly);
+    if (status) goto SOMEERROR;
+  }
+  status = headerNames.Sort();
+  if (status) goto SOMEERROR;
+
+  for (curIdx=0; curIdx < sourceFileNames.Length(); curIdx++) {
+    status = sourceFileNames.Get(curIdx, fullPath);
+    if (status) goto SOMEERROR;
+    fileOnly = PathStrip(fullPath);
+    status = sourceNames.Append(fileOnly);
+    if (status) goto SOMEERROR;
+  }
+  status = sourceNames.SortInsensitive();
+  if (status) goto SOMEERROR;
+  
+  // Display them if we're supposed to...
+  if (gVeryVerbose /*TEMP...*/&& false/*...TEMP*/) {
+    Cout << "Header Files...\n\n";
+    for (curIdx=0; curIdx < headerNames.Length(); curIdx++)
+      Cout << "  " << headerNames.Get(curIdx) << '\n';
+    Cout << '\n';
+    //Cout << "Source Files...\n\n";
+    //for (curIdx=0; curIdx < sourceNames.Length(); curIdx++)
+    //  Cout << "  " << sourceNames.Get(curIdx) << '\n';
+  }
+  
+  //
+  // Read each of the header files...
+  //
+  
+  if (gVerbose) 
+    Cout << "Reading header files...";
+  if (gVeryVerbose) {
+    Cout << "  0%";
+    SetNull(curPct);
+  }
+  else if (gVerbose)
+    Cout << '\n';
+  
+  numFilesRead  = 0;
+  numBlocksRead = 0;
+  numBytesRead  = 0;
+  
+  for (curIdx=0; curIdx < headerNames.Length(); curIdx++) { // For each header file...
+ 
+    // Cache the file and get its info...
+    fileName = headerFileNames.Get(curIdx);
+    status = cache.StartCacheFile(fileName);
+    if (status) goto SOMEERROR;
+    status = cache.GetFileId(fileName, fileId);
+    if (status) goto SOMEERROR;
+    status = cache.GetFileBlockCount(fileId, fileBlockCount);
+    if (status) goto SOMEERROR;
+    status = cache.GetFileSize(fileId, fileSize);
+    if (status) goto SOMEERROR;
+    
+    // Load each block...
+    for (blockNo=0; blockNo < fileBlockCount; blockNo++) {
+      status = cache.LoadFileBlock(fileId, blockNo);
+      if (status) goto SOMEERROR;
+      numBlocksRead++;
+    }
+    
+    // Tell user what we've done
+    if (gVeryVerbose) {
+      newPct = (curIdx*100)/headerNames.Length();
+      if (newPct != curPct)
+        Cout << String(Char(BS))*4 << ToString(newPct,3) << '%';
+      curPct = newPct;
+    }
+    
+    // Stop Caching the file...
+    status = cache.StopCacheFile(fileName);
+    if (status) goto SOMEERROR;
+    
+    numFilesRead++;
+    numBlocksRead++;
+    numBytesRead += fileSize;
+    
+  } // ...For each header file
+  
+  // Tell use what we've done
+  if (gVeryVerbose)
+    Cout << String(Char(BS))*4 << "Finished ("
+         << numFilesRead  << " Files, "
+         << numBlocksRead << " Blocks, and "
+         << numBytesRead  << " Bytes read)"
+         << '\n';
+  
+  //
+  // Read each of the source files...
+  //
+  
+  if (gVerbose) 
+    Cout << "Reading source files...";
+  if (gVeryVerbose) {
+    Cout << "  0%";
+    SetNull(curPct);
+  }
+  else if (gVerbose)
+    Cout << '\n';
+  
+  numFilesRead  = 0;
+  numBlocksRead = 0;
+  numBytesRead  = 0;
+  
+  for (curIdx=0; curIdx < sourceNames.Length(); curIdx++) { // For each header file...
+ 
+    // Cache the file and get its info...
+    fileName = sourceFileNames.Get(curIdx);
+    status = cache.StartCacheFile(fileName);
+    if (status) goto SOMEERROR;
+    status = cache.GetFileId(fileName, fileId);
+    if (status) goto SOMEERROR;
+    status = cache.GetFileBlockCount(fileId, fileBlockCount);
+    if (status) goto SOMEERROR;
+    status = cache.GetFileSize(fileId, fileSize);
+    if (status) goto SOMEERROR;
+    
+    // Load each block...
+    for (blockNo=0; blockNo < fileBlockCount; blockNo++) {
+      status = cache.LoadFileBlock(fileId, blockNo);
+      if (status) goto SOMEERROR;
+      numBlocksRead++;
+    }
+    
+    // Tell user what we've done
+    if (gVeryVerbose) {
+      newPct = (curIdx*100)/sourceNames.Length();
+      if (newPct != curPct)
+        Cout << String(Char(BS))*4 << ToString(newPct,3) << '%';
+      curPct = newPct;
+    }
+    
+    // Stop Caching the file...
+    status = cache.StopCacheFile(fileName);
+    if (status) goto SOMEERROR;
+    
+    numFilesRead++;
+    numBlocksRead++;
+    numBytesRead += fileSize;
+    
+  } // ...For each header file
+  
+  // Tell use what we've done
+  if (gVeryVerbose)
+    Cout << String(Char(BS))*4 << "Finished ("
+         << numFilesRead  << " Files, "
+         << numBlocksRead << " Blocks, and "
+         << numBytesRead  << " Bytes read)"
+         << '\n';
+  
+  //
+  // Handle errors
+  //
+  
+  status = Error::None;
+  while (false) {
+    OK:        status = Error::None;       break;
+    NOSVN:     status = Error::NoBEFE_SVN; break;
+    SOMEERROR:                             break;
+  }  
+  if (status) ERROR("trythis",status);
+  
+  //Cout.SetForegroundColour(fg);
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

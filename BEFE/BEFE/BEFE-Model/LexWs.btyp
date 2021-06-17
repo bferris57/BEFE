@@ -1,0 +1,74 @@
+#!Befe type=Type publish=metadata
+#-----------------------------------------------------------------------
+# File: LexWs.txt - The BEFE Lex Persistent Structures
+#-----------------------------------------------------------------------
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+
+Type Type:
+
+  Id      id
+  TypeRef type
+  String  name
+  String  plural
+  
+#
+# Type Overviews
+#
+
+Persist LexWsHead
+Persist LexWsBlockHead
+Persist LexWsIdArrayHead
+Persist LexWsIdArrayEntry
+
+Persist LexWsBlobHead:   superType = LexWsIdArrayEntry
+Persist LexWsStringHead: superType = LexWsIdArrayEntry
+Persist LexWsFileHead:   superType = LexWsIdArrayEntry
+
+#----------------------------------------------------------------------
+#
+# Type Specifics
+#
+
+# LexWsIdArrayHead - Each of these is a header for a specific kind of Array...
+
+#
+# LexWsHead - One of these per Workspace File (in Block 0, after the BEFE header)
+#
+
+Persist LexWsHead:
+
+  PersistId32   workspaceId:
+  PersistUInt32 blkSize
+  PersistTime   timeCreated
+  PersistTime   timeUpdated
+
+  // Free Blocks  
+  PersistUInt32 fstFreeBlock
+  PersistUInt32 lstFreeBlock
+  
+  // Array Headers
+  LexWsIdArrayHead  blobs
+  LexWsIdArrayHead  files
+  LexWsIdArrayHead  strings
+  LexWsBlobId       stringsBlobId
+
+#
+# LexWsIdArrayEntry - All Id Array entries have an Id
+#
+
+Persist LexWsIdArrayEntry:
+  PersistId32 id
+
+#
+# LexWsBlobHead - One of these for each Blob.  
+#
+
+LexWsIdArrayEntry LexWsBlobHead:
+LexWsIdArrayEntry LexWsStringHead:
+LexWsIdArrayEntry LexWsFileHead:
+

@@ -9,7 +9,6 @@
 #
 #================================================================================
 
-from   utils.walker import walk
 import                     os
 import                     sys
 import                     shutil
@@ -236,13 +235,12 @@ def getFileMap(srcdir):
 
 
 statefile   = expand(os.path.dirname(__file__)) + '/.extsync'
-blue('DEBUG: statefile = %s'%repr(statefile))
 
 if __name__ == '__main__':
 
   showpercent = True
   overwrite   = False
-  maxfiles    = 5
+  maxfiles    = 1000
   ignore      = False
   #pretend     = True  # DEBUG
   pretend     = False
@@ -306,10 +304,10 @@ if __name__ == '__main__':
     srcdir = args[0]
     dstdir = args[1]
   else:
-    #srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
-    #dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
-    srcdir  = expand('~/befe')
-    dstdir  = expand('~/sd1_dst/befe')
+    srcdir  = expand('~/usb_src/Movies')
+    dstdir  = expand('~/usb_dst/Movies')
+    #srcdir  = expand('~/befe')
+    #dstdir  = expand('~/sd1_dst/befe')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):

@@ -1,0 +1,2038 @@
+sys.argv = ['BNF.py', 'c++.bnf']
+File 'c++.bnf'...
+Pass 1: Validating...
+Pass 2: Normalising 1...
+Pass 3: Normalising 2...
+
+Finally...
+
+
+  _anon1 (AND):                           [f='c++.bnf',lfseqs=(1,1202),740/36,47798:47809,len=12,type='name',val='ptr_operator']
+                                          [f='c++.bnf',lfseqs=(2,1203),740/49,47811:47833,len=23,type='name',val='abstract_declarator.opt']
+
+  _anon10 (AND):                          [f='c++.bnf',lfseqs=(1,500),461/36,29713:29733,len=21,type='name',val='logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,501),461/58,29735:29738,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(3,502),461/62,29739:29756,len=18,type='name',val='braced_initializer']
+
+  _anon100 (AND):                         [f='c++.bnf',lfseqs=(1,473),449/36,28967:28988,len=22,type='name',val='logical_and_expression']
+                                          [f='c++.bnf',lfseqs=(2,474),449/59,28990:28996,len=7,type='name',val='LOG_AND']
+                                          [f='c++.bnf',lfseqs=(3,475),449/67,28998:29020,len=23,type='name',val='inclusive_or_expression']
+
+  _anon101 (AND):                         [f='c++.bnf',lfseqs=(1,480),451/36,29117:29137,len=21,type='name',val='logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,481),451/58,29139:29144,len=6,type='name',val='LOG_OR']
+                                          [f='c++.bnf',lfseqs=(3,482),451/65,29146:29167,len=22,type='name',val='logical_and_expression']
+
+  _anon102 (AND):                         [f='c++.bnf',lfseqs=(1,822),572/36,37477:37490,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,823),572/51,37492:37495,len=3,type='token',val="'-'"]
+
+  _anon103 (AND):                         [f='c++.bnf',lfseqs=(1,818),571/36,37403:37416,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,819),571/51,37418:37421,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(3,820),571/55,37422:37439,len=18,type='name',val='looped_declaration']
+
+  _anon104 (AND):                         [f='c++.bnf',lfseqs=(1,1403),825/36,53412:53425,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,1404),825/51,53427:53430,len=3,type='token',val="'-'"]
+
+  _anon105 (AND):                         [f='c++.bnf',lfseqs=(1,1399),824/36,53331:53344,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,1400),824/51,53346:53349,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(3,1401),824/55,53350:53374,len=25,type='name',val='looped_initializer_clause']
+
+  _anon106 (AND):                         [f='c++.bnf',lfseqs=(1,1483),858/36,55975:55988,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,1484),858/51,55990:55993,len=3,type='token',val="'-'"]
+
+  _anon107 (AND):                         [f='c++.bnf',lfseqs=(1,1479),857/36,55894:55907,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,1480),857/51,55909:55912,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(3,1481),857/55,55913:55937,len=25,type='name',val='looped_member_declaration']
+
+  _anon108 (AND):                         [f='c++.bnf',lfseqs=(1,648),518/36,33463:33476,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,649),518/51,33478:33481,len=3,type='token',val="'-'"]
+
+  _anon109 (AND):                         [f='c++.bnf',lfseqs=(1,644),517/36,33391:33404,len=14,type='name',val='advance_search']
+                                          [f='c++.bnf',lfseqs=(2,645),517/51,33406:33409,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(3,646),517/55,33410:33425,len=16,type='name',val='looped_statement']
+
+  _anon11 (AND):                          [f='c++.bnf',lfseqs=(1,496),460/36,29613:29633,len=21,type='name',val='logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,497),460/58,29635:29653,len=19,type='name',val='assignment_operator']
+                                          [f='c++.bnf',lfseqs=(3,498),460/78,29655:29675,len=21,type='name',val='assignment_expression']
+
+  _anon110 (AND):                         [f='c++.bnf',lfseqs=(1,1608),922/36,60368:60392,len=25,type='name',val='mem_initializer_list_head']
+                                          [f='c++.bnf',lfseqs=(2,1609),922/62,60394:60408,len=15,type='name',val='mem_initializer']
+
+  _anon111 (AND):                         [f='c++.bnf',lfseqs=(1,1615),924/36,60507:60526,len=20,type='name',val='mem_initializer_list']
+                                          [f='c++.bnf',lfseqs=(2,1616),924/57,60528:60531,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(3,1617),924/62,60533:60537,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(4,1618),924/68,60539:60542,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(5,1619),924/96,60567:60601,len=35,type='action',val='{ UNBANG("Bad mem-initializer."); }']
+
+  _anon112 (AND):                         [f='c++.bnf',lfseqs=(2,1612),923/36,60446:60465,len=20,type='name',val='mem_initializer_list']
+                                          [f='c++.bnf',lfseqs=(3,1613),923/57,60467:60470,len=3,type='token',val="','"]
+
+  _anon113 (AND):                         [f='c++.bnf',lfseqs=(1,1521),879/36,57396:57419,len=24,type='name',val='member_init_declarations']
+                                          [f='c++.bnf',lfseqs=(2,1522),879/61,57421:57424,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1523),879/65,57425:57447,len=23,type='name',val='member_init_declaration']
+
+  _anon114 (AND):                         [f='c++.bnf',lfseqs=(1,1517),878/36,57312:57327,len=16,type='name',val='constructor_head']
+                                          [f='c++.bnf',lfseqs=(2,1518),878/53,57329:57332,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1519),878/57,57333:57358,len=26,type='name',val='bit_field_init_declaration']
+
+  _anon115 (AND):                         [f='c++.bnf',lfseqs=(2,1513),877/36,57226:57246,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(3,1514),877/58,57248:57251,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(4,1515),877/62,57252:57274,len=23,type='name',val='member_init_declaration']
+
+  _anon116 (AND):                         [f='c++.bnf',lfseqs=(1,1464),853/36,55478:55501,len=24,type='name',val='member_specification.opt']
+                                          [f='c++.bnf',lfseqs=(2,1465),853/61,55503:55506,len=4,type='name',val='util']
+                                          [f='c++.bnf',lfseqs=(3,1466),853/66,55508:55533,len=26,type='name',val='looping_member_declaration']
+                                          [f='c++.bnf',lfseqs=(4,1467),853/93,55535:55538,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(5,1468),853/97,55539:55542,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(6,1469),853/102,55544:55548,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(7,1470),853/108,55550:55553,len=3,type='token',val="';'"]
+                                          [f='c++.bnf',lfseqs=(0,1471),854/96,55650:55687,len=38,type='action',val='{ UNBANG("Bad member-declaration."); }']
+
+  _anon117 (AND):                         [f='c++.bnf',lfseqs=(1,1460),852/36,55385:55408,len=24,type='name',val='member_specification.opt']
+                                          [f='c++.bnf',lfseqs=(2,1461),852/61,55410:55413,len=4,type='name',val='util']
+                                          [f='c++.bnf',lfseqs=(3,1462),852/66,55415:55440,len=26,type='name',val='looping_member_declaration']
+
+  _anon118 (AND):                         [f='c++.bnf',lfseqs=(1,393),427/36,27387:27411,len=25,type='name',val='multiplicative_expression']
+                                          [f='c++.bnf',lfseqs=(2,394),427/62,27413:27416,len=3,type='token',val="'%'"]
+                                          [f='c++.bnf',lfseqs=(3,395),427/66,27417:27429,len=13,type='name',val='pm_expression']
+
+  _anon119 (AND):                         [f='c++.bnf',lfseqs=(1,389),426/36,27307:27331,len=25,type='name',val='multiplicative_expression']
+                                          [f='c++.bnf',lfseqs=(2,390),426/62,27333:27336,len=3,type='token',val="'/'"]
+                                          [f='c++.bnf',lfseqs=(3,391),426/66,27337:27349,len=13,type='name',val='pm_expression']
+
+  _anon12 (AND):                          [f='c++.bnf',lfseqs=(1,1571),901/36,59088:59094,len=7,type='name',val='VIRTUAL']
+                                          [f='c++.bnf',lfseqs=(2,1572),901/44,59096:59109,len=14,type='name',val='base_specifier']
+
+  _anon120 (AND):                         [f='c++.bnf',lfseqs=(1,385),425/36,27213:27237,len=25,type='name',val='multiplicative_expression']
+                                          [f='c++.bnf',lfseqs=(2,386),425/62,27239:27255,len=17,type='name',val='star_ptr_operator']
+                                          [f='c++.bnf',lfseqs=(3,387),425/80,27257:27269,len=13,type='name',val='pm_expression']
+
+  _anon121 (AND):                         [f='c++.bnf',lfseqs=(1,1098),693/36,44749:44757,len=9,type='name',val='NAMESPACE']
+                                          [f='c++.bnf',lfseqs=(2,1099),693/46,44759:44778,len=20,type='name',val='compound_declaration']
+
+  _anon122 (AND):                         [f='c++.bnf',lfseqs=(2,1094),692/36,44672:44680,len=9,type='name',val='NAMESPACE']
+                                          [f='c++.bnf',lfseqs=(3,1095),692/46,44682:44690,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(4,1096),692/56,44692:44711,len=20,type='name',val='compound_declaration']
+
+  _anon123 (AND):                         [f='c++.bnf',lfseqs=(1,36),220/36,12605:12612,len=8,type='name',val='id_scope']
+                                          [f='c++.bnf',lfseqs=(2,37),220/45,12614:12622,len=9,type='name',val='nested_id']
+
+  _anon124 (AND):                         [f='c++.bnf',lfseqs=(1,103),256/36,14645:14652,len=8,type='name',val='id_scope']
+                                          [f='c++.bnf',lfseqs=(2,104),256/45,14654:14680,len=27,type='name',val='nested_pseudo_destructor_id']
+
+  _anon125 (AND):                         [f='c++.bnf',lfseqs=(1,1161),720/36,46526:46533,len=8,type='name',val='id_scope']
+                                          [f='c++.bnf',lfseqs=(2,1162),720/45,46535:46553,len=19,type='name',val='nested_ptr_operator']
+
+  _anon126 (AND):                         [f='c++.bnf',lfseqs=(1,66),236/36,13461:13468,len=8,type='name',val='id_scope']
+                                          [f='c++.bnf',lfseqs=(2,67),236/45,13470:13495,len=26,type='name',val='nested_special_function_id']
+
+  _anon127 (AND):                         [f='c++.bnf',lfseqs=(1,63),235/36,13402:13409,len=8,type='name',val='id_scope']
+                                          [f='c++.bnf',lfseqs=(2,64),235/45,13411:13423,len=13,type='name',val='destructor_id']
+
+  _anon128 (AND):                         [f='c++.bnf',lfseqs=(2,344),407/36,26077:26088,len=12,type='name',val='ptr_operator']
+                                          [f='c++.bnf',lfseqs=(3,345),407/49,26090:26103,len=14,type='name',val='new_declarator']
+
+  _anon129 (AND):                         [f='c++.bnf',lfseqs=(1,328),400/36,25349:25351,len=3,type='name',val='NEW']
+                                          [f='c++.bnf',lfseqs=(2,329),400/40,25353:25369,len=17,type='name',val='parameters_clause']
+                                          [f='c++.bnf',lfseqs=(3,330),400/58,25371:25387,len=17,type='name',val='parameters_clause']
+                                          [f='c++.bnf',lfseqs=(4,331),400/76,25389:25407,len=19,type='name',val='new_initializer.opt']
+
+  _anon13 (AND):                          [f='c++.bnf',lfseqs=(1,1568),900/36,59020:59035,len=16,type='name',val='access_specifier']
+                                          [f='c++.bnf',lfseqs=(2,1569),900/53,59037:59050,len=14,type='name',val='base_specifier']
+
+  _anon130 (AND):                         [f='c++.bnf',lfseqs=(1,325),398/36,25164:25166,len=3,type='name',val='NEW']
+                                          [f='c++.bnf',lfseqs=(2,326),398/40,25168:25184,len=17,type='name',val='parameters_clause']
+
+  _anon131 (AND):                         [f='c++.bnf',lfseqs=(1,320),397/36,25074:25076,len=3,type='name',val='NEW']
+                                          [f='c++.bnf',lfseqs=(2,321),397/40,25078:25094,len=17,type='name',val='parameters_clause']
+                                          [f='c++.bnf',lfseqs=(3,322),397/58,25096:25106,len=11,type='name',val='new_type_id']
+                                          [f='c++.bnf',lfseqs=(4,323),397/70,25108:25126,len=19,type='name',val='new_initializer.opt']
+
+  _anon132 (AND):                         [f='c++.bnf',lfseqs=(2,316),396/36,25002:25004,len=3,type='name',val='NEW']
+                                          [f='c++.bnf',lfseqs=(3,317),396/40,25006:25016,len=11,type='name',val='new_type_id']
+                                          [f='c++.bnf',lfseqs=(4,318),396/52,25018:25036,len=19,type='name',val='new_initializer.opt']
+
+  _anon133 (AND):                         [f='c++.bnf',lfseqs=(1,361),412/36,26388:26391,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(2,362),412/40,26392:26410,len=19,type='name',val='expression_list.opt']
+                                          [f='c++.bnf',lfseqs=(3,363),412/60,26412:26415,len=3,type='token',val="')'"]
+
+  _anon134 (AND):                         [f='c++.bnf',lfseqs=(1,340),406/36,26014:26027,len=14,type='name',val='type_specifier']
+                                          [f='c++.bnf',lfseqs=(2,341),406/51,26029:26039,len=11,type='name',val='new_type_id']
+
+  _anon135 (AND):                         [f='c++.bnf',lfseqs=(1,337),405/36,25948:25961,len=14,type='name',val='type_specifier']
+                                          [f='c++.bnf',lfseqs=(2,338),405/51,25963:25976,len=14,type='name',val='new_declarator']
+
+  _anon136 (AND):                         [f='c++.bnf',lfseqs=(2,334),404/36,25876:25889,len=14,type='name',val='type_specifier']
+                                          [f='c++.bnf',lfseqs=(3,335),404/51,25891:25910,len=20,type='name',val='ptr_operator_seq.opt']
+
+  _anon137 (AND):                         [f='c++.bnf',lfseqs=(1,1713),984/36,63761:63764,len=3,type='token',val="'['"]
+                                          [f='c++.bnf',lfseqs=(2,1714),984/40,63765:63768,len=3,type='token',val="']'"]
+
+  _anon138 (AND):                         [f='c++.bnf',lfseqs=(1,1710),983/36,63717:63720,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(2,1711),983/40,63721:63724,len=3,type='token',val="')'"]
+
+  _anon139 (AND):                         [f='c++.bnf',lfseqs=(1,1282),775/36,50025:50045,len=21,type='name',val='decl_specifier_prefix']
+                                          [f='c++.bnf',lfseqs=(2,1283),775/58,50047:50067,len=21,type='name',val='parameter_declaration']
+
+  _anon14 (AND):                          [f='c++.bnf',lfseqs=(1,1561),898/36,58899:58917,len=19,type='name',val='base_specifier_list']
+                                          [f='c++.bnf',lfseqs=(2,1562),898/56,58919:58922,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1563),898/60,58923:58936,len=14,type='name',val='base_specifier']
+
+  _anon140 (AND):                         [f='c++.bnf',lfseqs=(1,1241),755/36,48902:48927,len=26,type='name',val='parameter_declaration_list']
+                                          [f='c++.bnf',lfseqs=(2,1242),755/63,48929:48936,len=8,type='name',val='ELLIPSIS']
+
+  _anon141 (AND):                         [f='c++.bnf',lfseqs=(1,1247),757/36,49032:49057,len=26,type='name',val='parameter_declaration_list']
+                                          [f='c++.bnf',lfseqs=(2,1248),757/63,49059:49062,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1249),757/67,49063:49083,len=21,type='name',val='parameter_declaration']
+
+  _anon142 (AND):                         [f='c++.bnf',lfseqs=(1,1228),750/36,48509:48525,len=17,type='name',val='parameters_clause']
+                                          [f='c++.bnf',lfseqs=(2,1229),750/54,48527:48546,len=20,type='name',val='cv_qualifier_seq.opt']
+                                          [f='c++.bnf',lfseqs=(3,1230),750/75,48548:48570,len=23,type='name',val='exception_specification']
+
+  _anon143 (AND):                         [f='c++.bnf',lfseqs=(2,1225),749/36,48434:48450,len=17,type='name',val='parameters_clause']
+                                          [f='c++.bnf',lfseqs=(3,1226),749/54,48452:48471,len=20,type='name',val='cv_qualifier_seq.opt']
+
+  _anon144 (AND):                         [f='c++.bnf',lfseqs=(1,378),423/36,27086:27098,len=13,type='name',val='pm_expression']
+                                          [f='c++.bnf',lfseqs=(2,379),423/50,27100:27109,len=10,type='name',val='ARROW_STAR']
+                                          [f='c++.bnf',lfseqs=(3,380),423/61,27111:27125,len=15,type='name',val='cast_expression']
+
+  _anon145 (AND):                         [f='c++.bnf',lfseqs=(1,374),422/36,27011:27023,len=13,type='name',val='pm_expression']
+                                          [f='c++.bnf',lfseqs=(2,375),422/50,27025:27032,len=8,type='name',val='DOT_STAR']
+                                          [f='c++.bnf',lfseqs=(3,376),422/59,27034:27048,len=15,type='name',val='cast_expression']
+
+  _anon146 (AND):                         [f='c++.bnf',lfseqs=(1,256),363/36,22505:22510,len=6,type='name',val='TYPEID']
+                                          [f='c++.bnf',lfseqs=(2,257),363/43,22512:22528,len=17,type='name',val='parameters_clause']
+
+  _anon147 (AND):                         [f='c++.bnf',lfseqs=(1,248),362/36,22423:22432,len=10,type='name',val='CONST_CAST']
+                                          [f='c++.bnf',lfseqs=(2,249),362/47,22434:22437,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(3,250),362/51,22438:22444,len=7,type='name',val='type_id']
+                                          [f='c++.bnf',lfseqs=(4,251),362/59,22446:22449,len=3,type='token',val="'>'"]
+                                          [f='c++.bnf',lfseqs=(5,252),362/63,22450:22453,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(6,253),362/67,22454:22463,len=10,type='name',val='expression']
+                                          [f='c++.bnf',lfseqs=(7,254),362/78,22465:22468,len=3,type='token',val="')'"]
+
+  _anon148 (AND):                         [f='c++.bnf',lfseqs=(1,240),361/36,22335:22350,len=16,type='name',val='REINTERPRET_CAST']
+                                          [f='c++.bnf',lfseqs=(2,241),361/53,22352:22355,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(3,242),361/57,22356:22362,len=7,type='name',val='type_id']
+                                          [f='c++.bnf',lfseqs=(4,243),361/65,22364:22367,len=3,type='token',val="'>'"]
+                                          [f='c++.bnf',lfseqs=(5,244),361/69,22368:22371,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(6,245),361/73,22372:22381,len=10,type='name',val='expression']
+                                          [f='c++.bnf',lfseqs=(7,246),361/84,22383:22386,len=3,type='token',val="')'"]
+
+  _anon149 (AND):                         [f='c++.bnf',lfseqs=(1,232),360/36,22252:22262,len=11,type='name',val='STATIC_CAST']
+                                          [f='c++.bnf',lfseqs=(2,233),360/48,22264:22267,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(3,234),360/52,22268:22274,len=7,type='name',val='type_id']
+                                          [f='c++.bnf',lfseqs=(4,235),360/60,22276:22279,len=3,type='token',val="'>'"]
+                                          [f='c++.bnf',lfseqs=(5,236),360/64,22280:22283,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(6,237),360/68,22284:22293,len=10,type='name',val='expression']
+                                          [f='c++.bnf',lfseqs=(7,238),360/79,22295:22298,len=3,type='token',val="')'"]
+
+  _anon15 (AND):                          [f='c++.bnf',lfseqs=(1,1539),886/36,58019:58022,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(2,1540),886/40,58023:58037,len=15,type='name',val='bit_field_width']
+
+  _anon150 (AND):                         [f='c++.bnf',lfseqs=(1,224),359/36,22168:22179,len=12,type='name',val='DYNAMIC_CAST']
+                                          [f='c++.bnf',lfseqs=(2,225),359/49,22181:22184,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(3,226),359/53,22185:22191,len=7,type='name',val='type_id']
+                                          [f='c++.bnf',lfseqs=(4,227),359/61,22193:22196,len=3,type='token',val="'>'"]
+                                          [f='c++.bnf',lfseqs=(5,228),359/65,22197:22200,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(6,229),359/69,22201:22210,len=10,type='name',val='expression']
+                                          [f='c++.bnf',lfseqs=(7,230),359/80,22212:22215,len=3,type='token',val="')'"]
+
+  _anon151 (AND):                         [f='c++.bnf',lfseqs=(1,221),358/36,22109:22126,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,222),358/55,22128:22130,len=3,type='name',val='DEC']
+
+  _anon152 (AND):                         [f='c++.bnf',lfseqs=(1,218),357/36,22050:22067,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,219),357/55,22069:22071,len=3,type='name',val='INC']
+
+  _anon153 (AND):                         [f='c++.bnf',lfseqs=(1,213),356/36,21958:21975,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,214),356/55,21977:21981,len=5,type='name',val='ARROW']
+                                          [f='c++.bnf',lfseqs=(3,215),356/61,21983:22009,len=27,type='name',val='scoped_pseudo_destructor_id']
+
+  _anon154 (AND):                         [f='c++.bnf',lfseqs=(1,209),354/36,21747:21764,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,210),354/55,21766:21770,len=5,type='name',val='ARROW']
+                                          [f='c++.bnf',lfseqs=(3,211),354/61,21772:21784,len=13,type='name',val='declarator_id']
+
+  _anon155 (AND):                         [f='c++.bnf',lfseqs=(1,205),353/36,21660:21677,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,206),353/55,21679:21682,len=3,type='token',val="'.'"]
+                                          [f='c++.bnf',lfseqs=(3,207),353/59,21683:21709,len=27,type='name',val='scoped_pseudo_destructor_id']
+
+  _anon156 (AND):                         [f='c++.bnf',lfseqs=(1,201),351/36,21451:21468,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,202),351/55,21470:21473,len=3,type='token',val="'.'"]
+                                          [f='c++.bnf',lfseqs=(3,203),351/59,21474:21486,len=13,type='name',val='declarator_id']
+
+  _anon157 (AND):                         [f='c++.bnf',lfseqs=(1,196),347/36,20975:20992,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,197),347/55,20994:20997,len=3,type='token',val="'['"]
+                                          [f='c++.bnf',lfseqs=(3,198),347/59,20998:21011,len=14,type='name',val='expression.opt']
+                                          [f='c++.bnf',lfseqs=(4,199),347/74,21013:21016,len=3,type='token',val="']'"]
+
+  _anon158 (AND):                         [f='c++.bnf',lfseqs=(1,190),345/35,20778:20795,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,191),345/54,20797:20814,len=18,type='name',val='parenthesis_clause']
+                                          [f='c++.bnf',lfseqs=(3,192),345/73,20816:20825,len=10,type='name',val='mark_type1']
+                                          [f='c++.bnf',lfseqs=(4,193),345/84,20827:20830,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(5,194),345/88,20831:20835,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(0,195),346/51,20889:20937,len=49,type='action',val='{ yyerrok; yyclearin; remark_type1(); unmark(); }']
+
+  _anon159 (AND):                         [f='c++.bnf',lfseqs=(1,181),343/35,20548:20565,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,182),343/54,20567:20584,len=18,type='name',val='parenthesis_clause']
+                                          [f='c++.bnf',lfseqs=(3,183),343/73,20586:20595,len=10,type='name',val='mark_type1']
+                                          [f='c++.bnf',lfseqs=(4,184),343/84,20597:20600,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(5,185),343/88,20601:20616,len=16,type='name',val='type1_parameters']
+                                          [f='c++.bnf',lfseqs=(6,186),343/105,20618:20621,len=4,type='name',val='mark']
+                                          [f='c++.bnf',lfseqs=(7,187),343/110,20623:20627,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(0,189),344/51,20682:20740,len=59,type='action',val='{ yyerrok; yyclearin; remark_type1(); unmark(); unmark(); }']
+
+  _anon16 (AND):                          [f='c++.bnf',lfseqs=(2,1535),885/36,57941:57961,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(3,1536),885/58,57963:57966,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(4,1537),885/62,57967:57981,len=15,type='name',val='bit_field_width']
+
+  _anon160 (AND):                         [f='c++.bnf',lfseqs=(1,171),341/35,20314:20331,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,172),341/54,20333:20350,len=18,type='name',val='parenthesis_clause']
+                                          [f='c++.bnf',lfseqs=(3,173),341/73,20352:20361,len=10,type='name',val='mark_type1']
+                                          [f='c++.bnf',lfseqs=(4,174),341/84,20363:20366,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(5,175),341/88,20367:20382,len=16,type='name',val='type1_parameters']
+                                          [f='c++.bnf',lfseqs=(6,176),341/105,20384:20387,len=4,type='name',val='mark']
+                                          [f='c++.bnf',lfseqs=(7,177),341/110,20389:20392,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(8,178),341/114,20393:20397,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(0,180),342/51,20452:20510,len=59,type='action',val='{ yyerrok; yyclearin; remark_type1(); unmark(); unmark(); }']
+
+  _anon161 (AND):                         [f='c++.bnf',lfseqs=(1,166),340/35,20225:20242,len=18,type='name',val='postfix_expression']
+                                          [f='c++.bnf',lfseqs=(2,167),340/54,20244:20261,len=18,type='name',val='parenthesis_clause']
+                                          [f='c++.bnf',lfseqs=(3,168),340/73,20263:20272,len=10,type='name',val='mark_type1']
+                                          [f='c++.bnf',lfseqs=(4,169),340/84,20274:20277,len=3,type='token',val="'-'"]
+
+  _anon162 (AND):                         [f='c++.bnf',lfseqs=(1,97),254/36,14522:14529,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,98),254/45,14531:14550,len=20,type='name',val='pseudo_destructor_id']
+
+  _anon163 (AND):                         [f='c++.bnf',lfseqs=(1,94),253/36,14465:14468,len=3,type='token',val="'~'"]
+                                          [f='c++.bnf',lfseqs=(2,95),253/40,14469:14484,len=16,type='name',val='built_in_type_id']
+
+  _anon164 (AND):                         [f='c++.bnf',lfseqs=(2,89),252/36,14385:14400,len=16,type='name',val='built_in_type_id']
+                                          [f='c++.bnf',lfseqs=(3,90),252/53,14402:14406,len=5,type='name',val='SCOPE']
+                                          [f='c++.bnf',lfseqs=(4,91),252/59,14408:14411,len=3,type='token',val="'~'"]
+                                          [f='c++.bnf',lfseqs=(5,92),252/63,14412:14427,len=16,type='name',val='built_in_type_id']
+
+  _anon165 (AND):                         [f='c++.bnf',lfseqs=(1,1169),723/36,46687:46698,len=12,type='name',val='global_scope']
+                                          [f='c++.bnf',lfseqs=(2,1170),723/49,46700:46718,len=19,type='name',val='nested_ptr_operator']
+
+  _anon166 (AND):                         [f='c++.bnf',lfseqs=(1,1175),725/36,46805:46816,len=12,type='name',val='ptr_operator']
+                                          [f='c++.bnf',lfseqs=(2,1176),725/49,46818:46833,len=16,type='name',val='ptr_operator_seq']
+
+  _anon167 (AND):                         [f='c++.bnf',lfseqs=(1,1180),728/36,47092:47103,len=12,type='name',val='ptr_operator']
+                                          [f='c++.bnf',lfseqs=(2,1181),728/49,47105:47124,len=20,type='name',val='ptr_operator_seq.opt']
+
+  _anon168 (AND):                         [f='c++.bnf',lfseqs=(1,434),438/36,28200:28220,len=21,type='name',val='relational_expression']
+                                          [f='c++.bnf',lfseqs=(2,435),438/58,28222:28223,len=2,type='name',val='GE']
+                                          [f='c++.bnf',lfseqs=(3,436),438/61,28225:28240,len=16,type='name',val='shift_expression']
+
+  _anon169 (AND):                         [f='c++.bnf',lfseqs=(1,430),437/36,28122:28142,len=21,type='name',val='relational_expression']
+                                          [f='c++.bnf',lfseqs=(2,431),437/58,28144:28145,len=2,type='name',val='LE']
+                                          [f='c++.bnf',lfseqs=(3,432),437/61,28147:28162,len=16,type='name',val='shift_expression']
+
+  _anon17 (AND):                          [f='c++.bnf',lfseqs=(1,1554),891/36,58425:58445,len=21,type='name',val='bit_field_declaration']
+                                          [f='c++.bnf',lfseqs=(2,1555),891/58,58447:58450,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(3,1556),891/62,58451:58468,len=18,type='name',val='initializer_clause']
+
+  _anon170 (AND):                         [f='c++.bnf',lfseqs=(1,426),436/36,28043:28063,len=21,type='name',val='relational_expression']
+                                          [f='c++.bnf',lfseqs=(2,427),436/58,28065:28068,len=3,type='token',val="'>'"]
+                                          [f='c++.bnf',lfseqs=(3,428),436/62,28069:28084,len=16,type='name',val='shift_expression']
+
+  _anon171 (AND):                         [f='c++.bnf',lfseqs=(1,422),435/36,27964:27984,len=21,type='name',val='relational_expression']
+                                          [f='c++.bnf',lfseqs=(2,423),435/58,27986:27989,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(3,424),435/62,27990:28005,len=16,type='name',val='shift_expression']
+
+  _anon172 (AND):                         [f='c++.bnf',lfseqs=(1,42),222/36,12706:12717,len=12,type='name',val='global_scope']
+                                          [f='c++.bnf',lfseqs=(2,43),222/49,12719:12727,len=9,type='name',val='nested_id']
+
+  _anon173 (AND):                         [f='c++.bnf',lfseqs=(1,109),258/36,14782:14793,len=12,type='name',val='global_scope']
+                                          [f='c++.bnf',lfseqs=(2,110),258/49,14795:14821,len=27,type='name',val='scoped_pseudo_destructor_id']
+
+  _anon174 (AND):                         [f='c++.bnf',lfseqs=(1,72),238/36,13596:13607,len=12,type='name',val='global_scope']
+                                          [f='c++.bnf',lfseqs=(2,73),238/49,13609:13634,len=26,type='name',val='nested_special_function_id']
+
+  _anon175 (AND):                         [f='c++.bnf',lfseqs=(1,723),542/36,35139:35144,len=6,type='name',val='SWITCH']
+                                          [f='c++.bnf',lfseqs=(2,724),542/43,35146:35149,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(3,725),542/47,35150:35158,len=9,type='name',val='condition']
+                                          [f='c++.bnf',lfseqs=(4,726),542/57,35160:35163,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(5,727),542/61,35164:35180,len=17,type='name',val='looping_statement']
+
+  _anon176 (AND):                         [f='c++.bnf',lfseqs=(1,715),541/36,35041:35042,len=2,type='name',val='IF']
+                                          [f='c++.bnf',lfseqs=(2,716),541/39,35044:35047,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(3,717),541/43,35048:35056,len=9,type='name',val='condition']
+                                          [f='c++.bnf',lfseqs=(4,718),541/53,35058:35061,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(5,719),541/57,35062:35078,len=17,type='name',val='looping_statement']
+                                          [f='c++.bnf',lfseqs=(6,720),541/75,35080:35083,len=4,type='name',val='ELSE']
+                                          [f='c++.bnf',lfseqs=(7,721),541/80,35085:35101,len=17,type='name',val='looping_statement']
+
+  _anon177 (AND):                         [f='c++.bnf',lfseqs=(2,709),540/36,34945:34946,len=2,type='name',val='IF']
+                                          [f='c++.bnf',lfseqs=(3,710),540/39,34948:34951,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(4,711),540/43,34952:34960,len=9,type='name',val='condition']
+                                          [f='c++.bnf',lfseqs=(5,712),540/53,34962:34965,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(6,713),540/57,34966:34982,len=17,type='name',val='looping_statement']
+
+  _anon178 (AND):                         [f='c++.bnf',lfseqs=(1,415),433/36,27834:27849,len=16,type='name',val='shift_expression']
+                                          [f='c++.bnf',lfseqs=(2,416),433/53,27851:27853,len=3,type='name',val='SHR']
+                                          [f='c++.bnf',lfseqs=(3,417),433/57,27855:27873,len=19,type='name',val='additive_expression']
+
+  _anon179 (AND):                         [f='c++.bnf',lfseqs=(1,411),432/36,27757:27772,len=16,type='name',val='shift_expression']
+                                          [f='c++.bnf',lfseqs=(2,412),432/53,27774:27776,len=3,type='name',val='SHL']
+                                          [f='c++.bnf',lfseqs=(3,413),432/57,27778:27796,len=19,type='name',val='additive_expression']
+
+  _anon18 (AND):                          [f='c++.bnf',lfseqs=(1,1545),889/36,58269:58289,len=21,type='name',val='logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,1546),889/58,58291:58294,len=3,type='token',val="'?'"]
+                                          [f='c++.bnf',lfseqs=(3,1547),889/62,58295:58309,len=15,type='name',val='bit_field_width']
+                                          [f='c++.bnf',lfseqs=(4,1548),889/78,58311:58314,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(5,1549),889/82,58315:58329,len=15,type='name',val='bit_field_width']
+
+  _anon180 (AND):                         [f='c++.bnf',lfseqs=(1,870),592/36,38709:38729,len=21,type='name',val='decl_specifier_prefix']
+                                          [f='c++.bnf',lfseqs=(2,871),592/58,38731:38748,len=18,type='name',val='simple_declaration']
+
+  _anon181 (AND):                         [f='c++.bnf',lfseqs=(1,867),591/36,38651:38667,len=17,type='name',val='init_declarations']
+                                          [f='c++.bnf',lfseqs=(2,868),591/54,38669:38672,len=3,type='token',val="';'"]
+
+  _anon182 (AND):                         [f='c++.bnf',lfseqs=(1,864),590/36,38594:38609,len=16,type='name',val='init_declaration']
+                                          [f='c++.bnf',lfseqs=(2,865),590/53,38611:38614,len=3,type='token',val="';'"]
+
+  _anon183 (AND):                         [f='c++.bnf',lfseqs=(1,1509),876/36,57142:57162,len=21,type='name',val='decl_specifier_prefix']
+                                          [f='c++.bnf',lfseqs=(2,1510),876/58,57164:57188,len=25,type='name',val='simple_member_declaration']
+
+  _anon184 (AND):                         [f='c++.bnf',lfseqs=(1,1506),875/36,57077:57100,len=24,type='name',val='member_init_declarations']
+                                          [f='c++.bnf',lfseqs=(2,1507),875/61,57102:57105,len=3,type='token',val="';'"]
+
+  _anon185 (AND):                         [f='c++.bnf',lfseqs=(1,1503),874/36,57020:57035,len=16,type='name',val='constructor_head']
+                                          [f='c++.bnf',lfseqs=(2,1504),874/53,57037:57040,len=3,type='token',val="';'"]
+
+  _anon186 (AND):                         [f='c++.bnf',lfseqs=(1,1500),873/36,56958:56978,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(2,1501),873/58,56980:56983,len=3,type='token',val="';'"]
+
+  _anon187 (AND):                         [f='c++.bnf',lfseqs=(1,57),233/36,13281:13288,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,58),233/45,13290:13308,len=19,type='name',val='special_function_id']
+
+  _anon188 (AND):                         [f='c++.bnf',lfseqs=(1,1271),771/36,49763:49792,len=30,type='name',val='abstract_parameter_declaration']
+                                          [f='c++.bnf',lfseqs=(2,1272),771/67,49794:49797,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(3,1273),771/71,49798:49818,len=21,type='name',val='assignment_expression']
+
+  _anon189 (AND):                         [f='c++.bnf',lfseqs=(1,858),588/36,38479:38486,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,859),588/45,38488:38516,len=29,type='name',val='specialised_block_declaration']
+
+  _anon19 (AND):                          [f='c++.bnf',lfseqs=(1,1376),818/36,52773:52776,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,1377),818/40,52777:52792,len=16,type='name',val='initializer_list']
+                                          [f='c++.bnf',lfseqs=(3,1378),818/57,52794:52797,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(4,1379),818/61,52798:52823,len=26,type='name',val='looping_initializer_clause']
+                                          [f='c++.bnf',lfseqs=(5,1380),818/88,52825:52828,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(6,1381),818/92,52829:52832,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(7,1382),818/97,52834:52838,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(8,1383),818/103,52840:52843,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(0,1384),819/96,52940:52977,len=38,type='action',val='{ UNBANG("Bad initializer_clause."); }']
+
+  _anon190 (AND):                         [f='c++.bnf',lfseqs=(1,841),581/36,38069:38076,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,842),581/45,38078:38100,len=23,type='name',val='specialised_declaration']
+
+  _anon191 (AND):                         [f='c++.bnf',lfseqs=(1,1155),718/36,46405:46421,len=17,type='name',val='star_ptr_operator']
+                                          [f='c++.bnf',lfseqs=(2,1156),718/54,46423:46434,len=12,type='name',val='cv_qualifier']
+
+  _anon192 (AND):                         [f='c++.bnf',lfseqs=(1,701),536/36,34748:34764,len=17,type='name',val='statement_seq.opt']
+                                          [f='c++.bnf',lfseqs=(2,702),536/54,34766:34782,len=17,type='name',val='looping_statement']
+                                          [f='c++.bnf',lfseqs=(3,703),536/72,34784:34787,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(4,704),536/76,34788:34791,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(5,705),536/81,34793:34797,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(6,706),536/87,34799:34802,len=3,type='token',val="';'"]
+                                          [f='c++.bnf',lfseqs=(7,707),536/96,34808:34836,len=29,type='action',val='{ UNBANG("Bad statement."); }']
+
+  _anon193 (AND):                         [f='c++.bnf',lfseqs=(1,698),535/36,34676:34692,len=17,type='name',val='statement_seq.opt']
+                                          [f='c++.bnf',lfseqs=(2,699),535/54,34694:34710,len=17,type='name',val='looping_statement']
+
+  _anon194 (AND):                         [f='c++.bnf',lfseqs=(1,885),611/36,39861:39868,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,886),611/45,39870:39899,len=30,type='name',val='suffix_built_in_decl_specifier']
+
+  _anon195 (AND):                         [f='c++.bnf',lfseqs=(1,879),609/36,39697:39730,len=34,type='name',val='suffix_built_in_decl_specifier.raw']
+                                          [f='c++.bnf',lfseqs=(2,880),609/71,39732:39752,len=21,type='name',val='decl_specifier_suffix']
+
+  _anon196 (AND):                         [f='c++.bnf',lfseqs=(1,876),608/36,39602:39635,len=34,type='name',val='suffix_built_in_decl_specifier.raw']
+                                          [f='c++.bnf',lfseqs=(2,877),608/71,39637:39659,len=23,type='name',val='built_in_type_specifier']
+
+  _anon197 (AND):                         [f='c++.bnf',lfseqs=(1,919),623/36,40772:40801,len=30,type='name',val='suffix_built_in_decl_specifier']
+                                          [f='c++.bnf',lfseqs=(2,920),623/67,40803:40833,len=31,type='name',val='suffix_named_decl_specifiers.sf']
+
+  _anon198 (AND):                         [f='c++.bnf',lfseqs=(1,932),627/36,41112:41141,len=30,type='name',val='suffix_built_in_decl_specifier']
+                                          [f='c++.bnf',lfseqs=(2,933),627/67,41143:41147,len=5,type='name',val='SCOPE']
+
+  _anon199 (AND):                         [f='c++.bnf',lfseqs=(1,928),626/36,41010:41039,len=30,type='name',val='suffix_built_in_decl_specifier']
+                                          [f='c++.bnf',lfseqs=(2,929),626/67,41041:41068,len=28,type='name',val='suffix_named_decl_specifiers']
+                                          [f='c++.bnf',lfseqs=(3,930),626/96,41070:41074,len=5,type='name',val='SCOPE']
+
+  _anon2 (AND):                           [f='c++.bnf',lfseqs=(1,150),328/36,19305:19312,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,151),328/45,19314:19332,len=19,type='name',val='abstract_expression']
+
+  _anon20 (AND):                          [f='c++.bnf',lfseqs=(1,1369),817/36,52638:52641,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,1370),817/40,52642:52667,len=26,type='name',val='looping_initializer_clause']
+                                          [f='c++.bnf',lfseqs=(3,1371),817/67,52669:52672,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(4,1372),817/71,52673:52676,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(5,1373),817/76,52678:52682,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(6,1374),817/82,52684:52687,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(7,1375),817/96,52698:52735,len=38,type='action',val='{ UNBANG("Bad initializer_clause."); }']
+
+  _anon200 (AND):                         [f='c++.bnf',lfseqs=(2,925),625/36,40939:40966,len=28,type='name',val='suffix_named_decl_specifiers']
+                                          [f='c++.bnf',lfseqs=(3,926),625/65,40968:40972,len=5,type='name',val='SCOPE']
+
+  _anon201 (AND):                         [f='c++.bnf',lfseqs=(1,893),614/36,40044:40070,len=27,type='name',val='suffix_named_decl_specifier']
+                                          [f='c++.bnf',lfseqs=(2,894),614/64,40072:40092,len=21,type='name',val='decl_specifier_suffix']
+
+  _anon202 (AND):                         [f='c++.bnf',lfseqs=(1,899),616/36,40194:40220,len=27,type='name',val='suffix_named_decl_specifier']
+                                          [f='c++.bnf',lfseqs=(2,900),616/64,40222:40255,len=34,type='name',val='suffix_built_in_decl_specifier.raw']
+
+  _anon203 (AND):                         [f='c++.bnf',lfseqs=(1,905),618/36,40360:40387,len=28,type='name',val='suffix_named_decl_specifiers']
+                                          [f='c++.bnf',lfseqs=(2,906),618/65,40389:40418,len=30,type='name',val='suffix_named_decl_specifier.bi']
+
+  _anon204 (AND):                         [f='c++.bnf',lfseqs=(1,913),621/36,40613:40640,len=28,type='name',val='suffix_named_decl_specifiers']
+                                          [f='c++.bnf',lfseqs=(2,914),621/65,40642:40667,len=26,type='name',val='scoped_special_function_id']
+
+  _anon205 (AND):                         [f='c++.bnf',lfseqs=(1,1780),1012/36,65665:65686,len=22,type='name',val='template_argument_list']
+                                          [f='c++.bnf',lfseqs=(2,1781),1012/59,65688:65691,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1782),1012/63,65692:65708,len=17,type='name',val='template_argument']
+
+  _anon206 (AND):                         [f='c++.bnf',lfseqs=(1,1720),990/36,64104:64109,len=6,type='name',val='EXPORT']
+                                          [f='c++.bnf',lfseqs=(2,1721),990/43,64111:64130,len=20,type='name',val='template_declaration']
+
+  _anon207 (AND):                         [f='c++.bnf',lfseqs=(2,1717),989/36,64030:64054,len=25,type='name',val='template_parameter_clause']
+                                          [f='c++.bnf',lfseqs=(3,1718),989/62,64056:64066,len=11,type='name',val='declaration']
+
+  _anon208 (AND):                         [f='c++.bnf',lfseqs=(1,1774),1007/36,65442:65449,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,1775),1007/45,65451:65461,len=11,type='name',val='template_id']
+
+  _anon209 (AND):                         [f='c++.bnf',lfseqs=(2,1768),1006/36,65355:65362,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(3,1769),1006/45,65364:65373,len=10,type='name',val='identifier']
+                                          [f='c++.bnf',lfseqs=(4,1770),1006/56,65375:65378,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(5,1771),1006/60,65379:65400,len=22,type='name',val='template_argument_list']
+                                          [f='c++.bnf',lfseqs=(6,1772),1006/83,65402:65405,len=3,type='token',val="'>'"]
+
+  _anon21 (AND):                          [f='c++.bnf',lfseqs=(1,1366),816/36,52594:52597,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,1367),816/40,52598:52601,len=3,type='token',val="'}'"]
+
+  _anon210 (AND):                         [f='c++.bnf',lfseqs=(1,1751),999/36,64716:64719,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(2,1752),999/41,64721:64725,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(3,1753),999/96,64776:64813,len=38,type='action',val='{ UNBANG("Bad template-parameter."); }']
+
+  _anon211 (AND):                         [f='c++.bnf',lfseqs=(1,1745),997/36,64572:64595,len=24,type='name',val='templated_type_parameter']
+                                          [f='c++.bnf',lfseqs=(2,1746),997/61,64597:64600,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(3,1747),997/65,64601:64610,len=10,type='name',val='identifier']
+
+  _anon212 (AND):                         [f='c++.bnf',lfseqs=(1,1739),995/36,64441:64461,len=21,type='name',val='simple_type_parameter']
+                                          [f='c++.bnf',lfseqs=(2,1740),995/58,64463:64466,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(3,1741),995/62,64467:64473,len=7,type='name',val='type_id']
+
+  _anon213 (AND):                         [f='c++.bnf',lfseqs=(1,1732),993/36,64300:64322,len=23,type='name',val='template_parameter_list']
+                                          [f='c++.bnf',lfseqs=(2,1733),993/60,64324:64327,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1734),993/64,64328:64345,len=18,type='name',val='template_parameter']
+
+  _anon214 (AND):                         [f='c++.bnf',lfseqs=(1,1303),786/36,50624:50647,len=24,type='name',val='templated_and_expression']
+                                          [f='c++.bnf',lfseqs=(2,1304),786/61,50649:50652,len=3,type='token',val="'&'"]
+                                          [f='c++.bnf',lfseqs=(3,1305),786/65,50653:50680,len=28,type='name',val='abstract_pointer_declaration']
+
+  _anon215 (AND):                         [f='c++.bnf',lfseqs=(1,1300),785/36,50559:50582,len=24,type='name',val='templated_and_expression']
+                                          [f='c++.bnf',lfseqs=(2,1301),785/61,50584:50587,len=3,type='token',val="'&'"]
+
+  _anon216 (AND):                         [f='c++.bnf',lfseqs=(1,573),484/36,31318:31341,len=24,type='name',val='templated_and_expression']
+                                          [f='c++.bnf',lfseqs=(2,574),484/61,31343:31346,len=3,type='token',val="'&'"]
+                                          [f='c++.bnf',lfseqs=(3,575),484/65,31347:31375,len=29,type='name',val='templated_equality_expression']
+
+  _anon217 (AND):                         [f='c++.bnf',lfseqs=(1,617),501/36,32380:32410,len=31,type='name',val='templated_logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,618),501/68,32412:32430,len=19,type='name',val='assignment_operator']
+                                          [f='c++.bnf',lfseqs=(3,619),501/88,32432:32462,len=31,type='name',val='templated_assignment_expression']
+
+  _anon218 (AND):                         [f='c++.bnf',lfseqs=(1,608),498/36,32181:32211,len=31,type='name',val='templated_logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,609),498/68,32213:32216,len=3,type='token',val="'?'"]
+                                          [f='c++.bnf',lfseqs=(3,610),498/72,32217:32236,len=20,type='name',val='templated_expression']
+                                          [f='c++.bnf',lfseqs=(4,611),498/93,32238:32241,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(5,612),498/97,32242:32272,len=31,type='name',val='templated_assignment_expression']
+
+  _anon219 (AND):                         [f='c++.bnf',lfseqs=(1,566),482/36,31151:31179,len=29,type='name',val='templated_equality_expression']
+                                          [f='c++.bnf',lfseqs=(2,567),482/66,31181:31182,len=2,type='name',val='NE']
+                                          [f='c++.bnf',lfseqs=(3,568),482/69,31184:31214,len=31,type='name',val='templated_relational_expression']
+
+  _anon22 (AND):                          [f='c++.bnf',lfseqs=(1,1361),815/36,52529:52532,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,1362),815/40,52533:52548,len=16,type='name',val='initializer_list']
+                                          [f='c++.bnf',lfseqs=(3,1363),815/57,52550:52553,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(4,1364),815/61,52554:52557,len=3,type='token',val="'}'"]
+
+  _anon220 (AND):                         [f='c++.bnf',lfseqs=(1,562),481/36,31050:31078,len=29,type='name',val='templated_equality_expression']
+                                          [f='c++.bnf',lfseqs=(2,563),481/66,31080:31081,len=2,type='name',val='EQ']
+                                          [f='c++.bnf',lfseqs=(3,564),481/69,31083:31113,len=31,type='name',val='templated_relational_expression']
+
+  _anon221 (AND):                         [f='c++.bnf',lfseqs=(1,580),486/36,31474:31506,len=33,type='name',val='templated_exclusive_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,581),486/70,31508:31511,len=3,type='token',val="'^'"]
+                                          [f='c++.bnf',lfseqs=(3,582),486/74,31512:31535,len=24,type='name',val='templated_and_expression']
+
+  _anon222 (AND):                         [f='c++.bnf',lfseqs=(1,626),505/36,32632:32656,len=25,type='name',val='templated_expression_list']
+                                          [f='c++.bnf',lfseqs=(2,627),505/62,32658:32661,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,628),505/66,32662:32692,len=31,type='name',val='templated_assignment_expression']
+
+  _anon223 (AND):                         [f='c++.bnf',lfseqs=(1,633),508/36,32799:32823,len=25,type='name',val='templated_expression_list']
+                                          [f='c++.bnf',lfseqs=(2,634),508/62,32825:32828,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,635),508/66,32829:32859,len=31,type='name',val='templated_assignment_expression']
+
+  _anon224 (AND):                         [f='c++.bnf',lfseqs=(1,587),489/36,31644:31676,len=33,type='name',val='templated_inclusive_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,588),489/70,31678:31681,len=3,type='token',val="'|'"]
+                                          [f='c++.bnf',lfseqs=(3,589),489/74,31682:31714,len=33,type='name',val='templated_exclusive_or_expression']
+
+  _anon225 (AND):                         [f='c++.bnf',lfseqs=(1,594),492/36,31823:31854,len=32,type='name',val='templated_logical_and_expression']
+                                          [f='c++.bnf',lfseqs=(2,595),492/69,31856:31862,len=7,type='name',val='LOG_AND']
+                                          [f='c++.bnf',lfseqs=(3,596),492/77,31864:31896,len=33,type='name',val='templated_inclusive_or_expression']
+
+  _anon226 (AND):                         [f='c++.bnf',lfseqs=(1,601),495/36,32004:32034,len=31,type='name',val='templated_logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,602),495/68,32036:32041,len=6,type='name',val='LOG_OR']
+                                          [f='c++.bnf',lfseqs=(3,603),495/75,32043:32074,len=32,type='name',val='templated_logical_and_expression']
+
+  _anon227 (AND):                         [f='c++.bnf',lfseqs=(1,1294),783/36,50404:50424,len=21,type='name',val='decl_specifier_prefix']
+                                          [f='c++.bnf',lfseqs=(2,1295),783/58,50426:50456,len=31,type='name',val='templated_parameter_declaration']
+
+  _anon228 (AND):                         [f='c++.bnf',lfseqs=(1,1290),781/36,50300:50329,len=30,type='name',val='templated_abstract_declaration']
+                                          [f='c++.bnf',lfseqs=(2,1291),781/67,50331:50334,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(3,1292),781/71,50335:50365,len=31,type='name',val='templated_assignment_expression']
+
+  _anon229 (AND):                         [f='c++.bnf',lfseqs=(1,555),479/36,30894:30924,len=31,type='name',val='templated_relational_expression']
+                                          [f='c++.bnf',lfseqs=(2,556),479/68,30926:30927,len=2,type='name',val='GE']
+                                          [f='c++.bnf',lfseqs=(3,557),479/71,30929:30944,len=16,type='name',val='shift_expression']
+
+  _anon23 (AND):                          [f='c++.bnf',lfseqs=(2,1357),814/36,52468:52471,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(3,1358),814/40,52472:52487,len=16,type='name',val='initializer_list']
+                                          [f='c++.bnf',lfseqs=(4,1359),814/57,52489:52492,len=3,type='token',val="'}'"]
+
+  _anon230 (AND):                         [f='c++.bnf',lfseqs=(1,551),478/36,30806:30836,len=31,type='name',val='templated_relational_expression']
+                                          [f='c++.bnf',lfseqs=(2,552),478/68,30838:30839,len=2,type='name',val='LE']
+                                          [f='c++.bnf',lfseqs=(3,553),478/71,30841:30856,len=16,type='name',val='shift_expression']
+
+  _anon231 (AND):                         [f='c++.bnf',lfseqs=(1,547),477/36,30717:30747,len=31,type='name',val='templated_relational_expression']
+                                          [f='c++.bnf',lfseqs=(2,548),477/68,30749:30752,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(3,549),477/72,30753:30768,len=16,type='name',val='shift_expression']
+
+  _anon232 (AND):                         [f='c++.bnf',lfseqs=(1,1823),1038/36,67543:67547,len=5,type='name',val='THROW']
+                                          [f='c++.bnf',lfseqs=(2,1824),1038/42,67549:67579,len=31,type='name',val='templated_assignment_expression']
+
+  _anon233 (AND):                         [f='c++.bnf',lfseqs=(1,1763),1005/36,65276:65300,len=25,type='name',val='template_parameter_clause']
+                                          [f='c++.bnf',lfseqs=(2,1764),1005/62,65302:65306,len=5,type='name',val='CLASS']
+                                          [f='c++.bnf',lfseqs=(3,1765),1005/68,65308:65317,len=10,type='name',val='identifier']
+
+  _anon234 (AND):                         [f='c++.bnf',lfseqs=(2,1760),1004/36,65208:65232,len=25,type='name',val='template_parameter_clause']
+                                          [f='c++.bnf',lfseqs=(3,1761),1004/62,65234:65238,len=5,type='name',val='CLASS']
+
+  _anon235 (AND):                         [f='c++.bnf',lfseqs=(1,1817),1036/36,67437:67441,len=5,type='name',val='THROW']
+                                          [f='c++.bnf',lfseqs=(2,1818),1036/42,67443:67463,len=21,type='name',val='assignment_expression']
+
+  _anon236 (AND):                         [f='c++.bnf',lfseqs=(1,157),336/35,19888:19903,len=16,type='name',val='type1_parameters']
+                                          [f='c++.bnf',lfseqs=(2,158),336/52,19905:19930,len=26,type='name',val='parameter_declaration_list']
+                                          [f='c++.bnf',lfseqs=(3,159),336/79,19932:19935,len=3,type='token',val="';'"]
+
+  _anon237 (AND):                         [f='c++.bnf',lfseqs=(2,154),335/35,19821:19846,len=26,type='name',val='parameter_declaration_list']
+                                          [f='c++.bnf',lfseqs=(3,155),335/62,19848:19851,len=3,type='token',val="';'"]
+
+  _anon238 (AND):                         [f='c++.bnf',lfseqs=(1,1197),736/36,47550:47563,len=14,type='name',val='type_specifier']
+                                          [f='c++.bnf',lfseqs=(2,1198),736/51,47565:47571,len=7,type='name',val='type_id']
+
+  _anon239 (AND):                         [f='c++.bnf',lfseqs=(2,1194),735/36,47475:47488,len=14,type='name',val='type_specifier']
+                                          [f='c++.bnf',lfseqs=(3,1195),735/51,47490:47512,len=23,type='name',val='abstract_declarator.opt']
+
+  _anon24 (AND):                          [f='c++.bnf',lfseqs=(1,85),251/36,14308:14323,len=16,type='name',val='built_in_type_id']
+                                          [f='c++.bnf',lfseqs=(2,86),251/53,14325:14347,len=23,type='name',val='built_in_type_specifier']
+
+  _anon240 (AND):                         [f='c++.bnf',lfseqs=(1,1839),1042/36,67774:67785,len=12,type='name',val='type_id_list']
+                                          [f='c++.bnf',lfseqs=(2,1840),1042/49,67787:67790,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1841),1042/53,67791:67797,len=7,type='name',val='type_id']
+
+  _anon241 (AND):                         [f='c++.bnf',lfseqs=(1,308),390/36,24506:24517,len=12,type='name',val='global_scope']
+                                          [f='c++.bnf',lfseqs=(2,309),390/49,24519:24535,len=17,type='name',val='delete_expression']
+
+  _anon242 (AND):                         [f='c++.bnf',lfseqs=(1,303),388/36,24388:24399,len=12,type='name',val='global_scope']
+                                          [f='c++.bnf',lfseqs=(2,304),388/49,24401:24414,len=14,type='name',val='new_expression']
+
+  _anon243 (AND):                         [f='c++.bnf',lfseqs=(1,298),385/36,24151:24156,len=6,type='name',val='SIZEOF']
+                                          [f='c++.bnf',lfseqs=(2,299),385/43,24158:24173,len=16,type='name',val='unary_expression']
+
+  _anon244 (AND):                         [f='c++.bnf',lfseqs=(1,295),384/36,24095:24098,len=3,type='token',val="'~'"]
+                                          [f='c++.bnf',lfseqs=(2,296),384/40,24099:24113,len=15,type='name',val='cast_expression']
+
+  _anon245 (AND):                         [f='c++.bnf',lfseqs=(1,292),383/36,24039:24042,len=3,type='token',val="'!'"]
+                                          [f='c++.bnf',lfseqs=(2,293),383/40,24043:24057,len=15,type='name',val='cast_expression']
+
+  _anon246 (AND):                         [f='c++.bnf',lfseqs=(1,289),382/36,23983:23986,len=3,type='token',val="'-'"]
+                                          [f='c++.bnf',lfseqs=(2,290),382/40,23987:24001,len=15,type='name',val='cast_expression']
+
+  _anon247 (AND):                         [f='c++.bnf',lfseqs=(1,286),381/36,23927:23930,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(2,287),381/40,23931:23945,len=15,type='name',val='cast_expression']
+
+  _anon248 (AND):                         [f='c++.bnf',lfseqs=(1,282),379/36,23783:23809,len=27,type='name',val='suffix_decl_specified_scope']
+                                          [f='c++.bnf',lfseqs=(2,283),379/64,23811:23827,len=17,type='name',val='star_ptr_operator']
+                                          [f='c++.bnf',lfseqs=(3,284),379/82,23829:23843,len=15,type='name',val='cast_expression']
+
+  _anon249 (AND):                         [f='c++.bnf',lfseqs=(1,279),374/36,23224:23235,len=12,type='name',val='ptr_operator']
+                                          [f='c++.bnf',lfseqs=(2,280),374/49,23237:23251,len=15,type='name',val='cast_expression']
+
+  _anon25 (AND):                          [f='c++.bnf',lfseqs=(1,368),418/36,26753:26771,len=19,type='name',val='abstract_expression']
+                                          [f='c++.bnf',lfseqs=(2,369),418/56,26773:26787,len=15,type='name',val='cast_expression']
+
+  _anon250 (AND):                         [f='c++.bnf',lfseqs=(1,276),373/36,23168:23170,len=3,type='name',val='DEC']
+                                          [f='c++.bnf',lfseqs=(2,277),373/40,23172:23186,len=15,type='name',val='cast_expression']
+
+  _anon251 (AND):                         [f='c++.bnf',lfseqs=(1,273),372/36,23112:23114,len=3,type='name',val='INC']
+                                          [f='c++.bnf',lfseqs=(2,274),372/40,23116:23130,len=15,type='name',val='cast_expression']
+
+  _anon252 (AND):                         [f='c++.bnf',lfseqs=(1,1113),697/36,44951:44955,len=5,type='name',val='USING']
+                                          [f='c++.bnf',lfseqs=(2,1114),697/42,44957:44964,len=8,type='name',val='TYPENAME']
+                                          [f='c++.bnf',lfseqs=(3,1115),697/51,44966:44978,len=13,type='name',val='declarator_id']
+                                          [f='c++.bnf',lfseqs=(4,1116),697/65,44980:44983,len=3,type='token',val="';'"]
+
+  _anon253 (AND):                         [f='c++.bnf',lfseqs=(2,1109),696/36,44891:44895,len=5,type='name',val='USING']
+                                          [f='c++.bnf',lfseqs=(3,1110),696/42,44897:44909,len=13,type='name',val='declarator_id']
+                                          [f='c++.bnf',lfseqs=(4,1111),696/56,44911:44914,len=3,type='token',val="';'"]
+
+  _anon26 (AND):                          [f='c++.bnf',lfseqs=(1,1449),849/36,55115:55134,len=20,type='name',val='class_specifier_head']
+                                          [f='c++.bnf',lfseqs=(2,1450),849/57,55136:55159,len=24,type='name',val='member_specification.opt']
+                                          [f='c++.bnf',lfseqs=(3,1451),849/82,55161:55164,len=4,type='name',val='util']
+                                          [f='c++.bnf',lfseqs=(4,1452),849/87,55166:55191,len=26,type='name',val='looping_member_declaration']
+                                          [f='c++.bnf',lfseqs=(5,1453),849/114,55193:55196,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(6,1454),849/118,55197:55200,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(7,1455),849/123,55202:55206,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(8,1456),849/129,55208:55211,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(0,1457),850/44,55256:55299,len=44,type='action',val='{ UNBANG("Bad member_specification.opt."); }']
+
+  _anon27 (AND):                          [f='c++.bnf',lfseqs=(2,1445),848/36,55029:55048,len=20,type='name',val='class_specifier_head']
+                                          [f='c++.bnf',lfseqs=(3,1446),848/57,55050:55073,len=24,type='name',val='member_specification.opt']
+                                          [f='c++.bnf',lfseqs=(4,1447),848/82,55075:55078,len=3,type='token',val="'}'"]
+
+  _anon28 (AND):                          [f='c++.bnf',lfseqs=(1,1434),846/36,54920:54928,len=9,type='name',val='class_key']
+                                          [f='c++.bnf',lfseqs=(2,1435),846/46,54930:54933,len=3,type='token',val="'{'"]
+
+  _anon29 (AND):                          [f='c++.bnf',lfseqs=(1,1430),845/36,54860:54868,len=9,type='name',val='class_key']
+                                          [f='c++.bnf',lfseqs=(2,1431),845/46,54870:54878,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(3,1432),845/56,54880:54883,len=3,type='token',val="'{'"]
+
+  _anon3 (AND):                           [f='c++.bnf',lfseqs=(1,146),327/36,19246:19249,len=3,type='token',val="'['"]
+                                          [f='c++.bnf',lfseqs=(2,147),327/40,19250:19263,len=14,type='name',val='expression.opt']
+                                          [f='c++.bnf',lfseqs=(3,148),327/55,19265:19268,len=3,type='token',val="']'"]
+
+  _anon30 (AND):                          [f='c++.bnf',lfseqs=(1,1425),844/36,54786:54794,len=9,type='name',val='class_key']
+                                          [f='c++.bnf',lfseqs=(2,1426),844/46,54796:54799,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(3,1427),844/50,54800:54818,len=19,type='name',val='base_specifier_list']
+                                          [f='c++.bnf',lfseqs=(4,1428),844/70,54820:54823,len=3,type='token',val="'{'"]
+
+  _anon31 (AND):                          [f='c++.bnf',lfseqs=(2,1419),843/36,54676:54684,len=9,type='name',val='class_key']
+                                          [f='c++.bnf',lfseqs=(3,1420),843/46,54686:54694,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(4,1421),843/56,54696:54705,len=10,type='name',val='colon_mark']
+                                          [f='c++.bnf',lfseqs=(5,1422),843/67,54707:54725,len=19,type='name',val='base_specifier_list']
+                                          [f='c++.bnf',lfseqs=(6,1423),843/87,54727:54730,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(7,1424),843/96,54736:54748,len=13,type='action',val='{ unmark(); }']
+
+  _anon32 (AND):                          [f='c++.bnf',lfseqs=(1,787),564/36,36729:36732,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,788),564/40,36733:36736,len=4,type='name',val='nest']
+                                          [f='c++.bnf',lfseqs=(3,789),564/45,36738:36756,len=19,type='name',val='declaration_seq.opt']
+                                          [f='c++.bnf',lfseqs=(4,790),564/65,36758:36761,len=4,type='name',val='util']
+                                          [f='c++.bnf',lfseqs=(5,791),564/70,36763:36781,len=19,type='name',val='looping_declaration']
+                                          [f='c++.bnf',lfseqs=(6,792),564/90,36783:36786,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(7,793),564/94,36787:36790,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(8,794),564/99,36792:36796,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(9,795),564/105,36798:36801,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(0,796),565/96,36898:36942,len=45,type='action',val='{ unnest(); UNBANG("Bad declaration-seq."); }']
+
+  _anon33 (AND):                          [f='c++.bnf',lfseqs=(2,782),563/36,36619:36622,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(3,783),563/40,36623:36626,len=4,type='name',val='nest']
+                                          [f='c++.bnf',lfseqs=(4,784),563/45,36628:36646,len=19,type='name',val='declaration_seq.opt']
+                                          [f='c++.bnf',lfseqs=(5,785),563/65,36648:36651,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(6,786),563/96,36679:36691,len=13,type='action',val='{ unnest(); }']
+
+  _anon34 (AND):                          [f='c++.bnf',lfseqs=(1,688),533/36,34498:34501,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,689),533/40,34502:34518,len=17,type='name',val='statement_seq.opt']
+                                          [f='c++.bnf',lfseqs=(3,690),533/58,34520:34536,len=17,type='name',val='looping_statement']
+                                          [f='c++.bnf',lfseqs=(4,691),533/76,34538:34541,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(5,692),533/80,34542:34545,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(6,693),533/85,34547:34551,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(7,694),533/91,34553:34556,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(8,695),533/96,34558:34590,len=33,type='action',val='{ UNBANG("Bad statement-seq."); }']
+
+  _anon35 (AND):                          [f='c++.bnf',lfseqs=(2,684),532/36,34436:34439,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(3,685),532/40,34440:34456,len=17,type='name',val='statement_seq.opt']
+                                          [f='c++.bnf',lfseqs=(4,686),532/58,34458:34461,len=3,type='token',val="'}'"]
+
+  _anon36 (AND):                          [f='c++.bnf',lfseqs=(1,487),453/36,29263:29283,len=21,type='name',val='logical_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,488),453/58,29285:29288,len=3,type='token',val="'?'"]
+                                          [f='c++.bnf',lfseqs=(3,489),453/62,29289:29298,len=10,type='name',val='expression']
+                                          [f='c++.bnf',lfseqs=(4,490),453/73,29300:29303,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(5,491),453/77,29304:29324,len=21,type='name',val='assignment_expression']
+
+  _anon37 (AND):                          [f='c++.bnf',lfseqs=(1,1335),801/36,51646:51661,len=16,type='name',val='constructor_head']
+                                          [f='c++.bnf',lfseqs=(2,1336),801/53,51663:51666,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1337),801/57,51667:51687,len=21,type='name',val='assignment_expression']
+
+  _anon38 (AND):                          [f='c++.bnf',lfseqs=(1,1589),909/36,59588:59601,len=14,type='name',val='type_specifier']
+                                          [f='c++.bnf',lfseqs=(2,1590),909/51,59603:59620,len=18,type='name',val='conversion_type_id']
+
+  _anon39 (AND):                          [f='c++.bnf',lfseqs=(2,1586),908/36,59516:59529,len=14,type='name',val='type_specifier']
+                                          [f='c++.bnf',lfseqs=(3,1587),908/51,59531:59550,len=20,type='name',val='ptr_operator_seq.opt']
+
+  _anon4 (AND):                           [f='c++.bnf',lfseqs=(1,1264),769/36,49612:49625,len=14,type='name',val='and_expression']
+                                          [f='c++.bnf',lfseqs=(2,1265),769/51,49627:49630,len=3,type='token',val="'&'"]
+                                          [f='c++.bnf',lfseqs=(3,1266),769/55,49631:49658,len=28,type='name',val='abstract_pointer_declaration']
+
+  _anon40 (AND):                          [f='c++.bnf',lfseqs=(1,1329),799/36,51509:51529,len=21,type='name',val='decl_specifier_prefix']
+                                          [f='c++.bnf',lfseqs=(2,1330),799/58,51531:51545,len=15,type='name',val='ctor_definition']
+
+  _anon41 (AND):                          [f='c++.bnf',lfseqs=(1,1326),798/36,51442:51457,len=16,type='name',val='constructor_head']
+                                          [f='c++.bnf',lfseqs=(2,1327),798/53,51459:51471,len=13,type='name',val='function_body']
+
+  _anon42 (AND):                          [f='c++.bnf',lfseqs=(2,1323),797/36,51370:51385,len=16,type='name',val='constructor_head']
+                                          [f='c++.bnf',lfseqs=(3,1324),797/53,51387:51404,len=18,type='name',val='function_try_block']
+
+  _anon43 (AND):                          [f='c++.bnf',lfseqs=(1,1600),920/36,60183:60186,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(2,1601),920/40,60187:60206,len=20,type='name',val='mem_initializer_list']
+                                          [f='c++.bnf',lfseqs=(3,1602),920/61,60208:60211,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(4,1603),920/66,60213:60217,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(5,1604),920/96,60243:60278,len=36,type='action',val='{ UNBANG("Bad ctor-initializer."); }']
+
+  _anon44 (AND):                          [f='c++.bnf',lfseqs=(2,1597),919/36,60122:60125,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(3,1598),919/40,60126:60145,len=20,type='name',val='mem_initializer_list']
+
+  _anon45 (AND):                          [f='c++.bnf',lfseqs=(1,1185),731/36,47211:47230,len=20,type='name',val='cv_qualifier_seq.opt']
+                                          [f='c++.bnf',lfseqs=(2,1186),731/57,47232:47243,len=12,type='name',val='cv_qualifier']
+
+  _anon46 (AND):                          [f='c++.bnf',lfseqs=(1,953),638/36,41611:41618,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,954),638/45,41620:41640,len=21,type='name',val='decl_specifier_prefix']
+
+  _anon47 (AND):                          [f='c++.bnf',lfseqs=(1,803),568/36,37109:37127,len=19,type='name',val='declaration_seq.opt']
+                                          [f='c++.bnf',lfseqs=(2,804),568/56,37129:37132,len=4,type='name',val='util']
+                                          [f='c++.bnf',lfseqs=(3,805),568/61,37134:37152,len=19,type='name',val='looping_declaration']
+                                          [f='c++.bnf',lfseqs=(4,806),568/81,37154:37157,len=3,type='token',val="'#'"]
+                                          [f='c++.bnf',lfseqs=(5,807),568/85,37158:37161,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(6,808),568/90,37163:37167,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(7,809),568/96,37169:37172,len=3,type='token',val="';'"]
+                                          [f='c++.bnf',lfseqs=(8,810),568/100,37173:37203,len=31,type='action',val='{ UNBANG("Bad declaration."); }']
+
+  _anon48 (AND):                          [f='c++.bnf',lfseqs=(1,799),567/36,37028:37046,len=19,type='name',val='declaration_seq.opt']
+                                          [f='c++.bnf',lfseqs=(2,800),567/56,37048:37051,len=4,type='name',val='util']
+                                          [f='c++.bnf',lfseqs=(3,801),567/61,37053:37071,len=19,type='name',val='looping_declaration']
+
+  _anon49 (AND):                          [f='c++.bnf',lfseqs=(1,49),230/36,13106:13113,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,50),230/45,13115:13127,len=13,type='name',val='destructor_id']
+
+  _anon5 (AND):                           [f='c++.bnf',lfseqs=(1,1261),768/36,49557:49570,len=14,type='name',val='and_expression']
+                                          [f='c++.bnf',lfseqs=(2,1262),768/51,49572:49575,len=3,type='token',val="'&'"]
+
+  _anon50 (AND):                          [f='c++.bnf',lfseqs=(2,46),229/36,13063:13066,len=3,type='token',val="'~'"]
+                                          [f='c++.bnf',lfseqs=(3,47),229/40,13067:13068,len=2,type='name',val='id']
+
+  _anon51 (AND):                          [f='c++.bnf',lfseqs=(1,1219),746/36,48206:48235,len=30,type='name',val='direct_abstract_declarator.opt']
+                                          [f='c++.bnf',lfseqs=(2,1220),746/67,48237:48240,len=3,type='token',val="'['"]
+                                          [f='c++.bnf',lfseqs=(3,1221),746/71,48241:48259,len=19,type='name',val='constant_expression']
+                                          [f='c++.bnf',lfseqs=(4,1222),746/91,48261:48264,len=3,type='token',val="']'"]
+
+  _anon52 (AND):                          [f='c++.bnf',lfseqs=(1,1215),745/36,48131:48160,len=30,type='name',val='direct_abstract_declarator.opt']
+                                          [f='c++.bnf',lfseqs=(2,1216),745/67,48162:48165,len=3,type='token',val="'['"]
+                                          [f='c++.bnf',lfseqs=(3,1217),745/71,48166:48169,len=3,type='token',val="']'"]
+
+  _anon53 (AND):                          [f='c++.bnf',lfseqs=(2,1212),744/36,48045:48074,len=30,type='name',val='direct_abstract_declarator.opt']
+                                          [f='c++.bnf',lfseqs=(3,1213),744/67,48076:48093,len=18,type='name',val='parenthesis_clause']
+
+  _anon54 (AND):                          [f='c++.bnf',lfseqs=(1,354),410/36,26254:26274,len=21,type='name',val='direct_new_declarator']
+                                          [f='c++.bnf',lfseqs=(2,355),410/58,26276:26279,len=3,type='token',val="'['"]
+                                          [f='c++.bnf',lfseqs=(3,356),410/62,26280:26298,len=19,type='name',val='constant_expression']
+                                          [f='c++.bnf',lfseqs=(4,357),410/82,26300:26303,len=3,type='token',val="']'"]
+
+  _anon55 (AND):                          [f='c++.bnf',lfseqs=(2,350),409/36,26199:26202,len=3,type='token',val="'['"]
+                                          [f='c++.bnf',lfseqs=(3,351),409/40,26203:26212,len=10,type='name',val='expression']
+                                          [f='c++.bnf',lfseqs=(4,352),409/51,26214:26217,len=3,type='token',val="']'"]
+
+  _anon56 (AND):                          [f='c++.bnf',lfseqs=(1,988),655/36,42383:42390,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,989),655/45,42392:42415,len=24,type='name',val='elaborate_type_specifier']
+
+  _anon57 (AND):                          [f='c++.bnf',lfseqs=(1,1413),842/36,54560:54568,len=9,type='name',val='class_key']
+                                          [f='c++.bnf',lfseqs=(2,1414),842/46,54570:54578,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(3,1415),842/56,54580:54589,len=10,type='name',val='colon_mark']
+                                          [f='c++.bnf',lfseqs=(4,1416),842/67,54591:54595,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(5,1417),842/96,54620:54638,len=19,type='action',val='{ rewind_colon(); }']
+
+  _anon58 (AND):                          [f='c++.bnf',lfseqs=(2,1410),841/36,54467:54475,len=9,type='name',val='class_key']
+                                          [f='c++.bnf',lfseqs=(3,1411),841/46,54477:54485,len=9,type='name',val='scoped_id']
+
+  _anon59 (AND):                          [f='c++.bnf',lfseqs=(1,1024),671/36,43246:43253,len=8,type='name',val='TYPENAME']
+                                          [f='c++.bnf',lfseqs=(2,1025),671/45,43255:43263,len=9,type='name',val='scoped_id']
+
+  _anon6 (AND):                           [f='c++.bnf',lfseqs=(1,1254),766/36,49391:49415,len=25,type='name',val='multiplicative_expression']
+                                          [f='c++.bnf',lfseqs=(2,1255),766/62,49417:49433,len=17,type='name',val='star_ptr_operator']
+                                          [f='c++.bnf',lfseqs=(3,1256),766/80,49435:49454,len=20,type='name',val='ptr_operator_seq.opt']
+
+  _anon60 (AND):                          [f='c++.bnf',lfseqs=(1,1036),675/36,43454:43457,len=4,type='name',val='ENUM']
+                                          [f='c++.bnf',lfseqs=(2,1037),675/41,43459:43475,len=17,type='name',val='enumerator_clause']
+
+  _anon61 (AND):                          [f='c++.bnf',lfseqs=(2,1032),674/36,43385:43388,len=4,type='name',val='ENUM']
+                                          [f='c++.bnf',lfseqs=(3,1033),674/41,43390:43398,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(4,1034),674/51,43400:43416,len=17,type='name',val='enumerator_clause']
+
+  _anon62 (AND):                          [f='c++.bnf',lfseqs=(1,1047),678/36,43653:43656,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,1048),678/40,43657:43671,len=15,type='name',val='enumerator_list']
+                                          [f='c++.bnf',lfseqs=(3,1049),678/56,43673:43676,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(4,1050),678/60,43677:43703,len=27,type='name',val='enumerator_definition_ecarb']
+
+  _anon63 (AND):                          [f='c++.bnf',lfseqs=(1,1043),677/36,43575:43578,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(2,1044),677/40,43579:43593,len=15,type='name',val='enumerator_list']
+                                          [f='c++.bnf',lfseqs=(3,1045),677/56,43595:43615,len=21,type='name',val='enumerator_list_ecarb']
+
+  _anon64 (AND):                          [f='c++.bnf',lfseqs=(2,1040),676/36,43513:43516,len=3,type='token',val="'{'"]
+                                          [f='c++.bnf',lfseqs=(3,1041),676/40,43517:43537,len=21,type='name',val='enumerator_list_ecarb']
+
+  _anon65 (AND):                          [f='c++.bnf',lfseqs=(1,1086),689/36,44553:44562,len=10,type='name',val='enumerator']
+                                          [f='c++.bnf',lfseqs=(2,1087),689/47,44564:44567,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(3,1088),689/51,44568:44586,len=19,type='name',val='constant_expression']
+
+  _anon66 (AND):                          [f='c++.bnf',lfseqs=(1,1062),682/36,43953:43956,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(2,1063),682/41,43958:43962,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(3,1064),682/47,43964:43967,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(4,1065),682/96,44013:44053,len=41,type='action',val='{ UNBANG("Bad enumerator-definition."); }']
+
+  _anon67 (AND):                          [f='c++.bnf',lfseqs=(1,1068),684/36,44139:44142,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(2,1069),684/41,44144:44148,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(3,1070),684/47,44150:44153,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(4,1071),684/96,44199:44239,len=41,type='action',val='{ UNBANG("Bad enumerator-definition."); }']
+
+  _anon68 (AND):                          [f='c++.bnf',lfseqs=(1,1055),680/36,43781:43784,len=4,type='name',val='bang']
+                                          [f='c++.bnf',lfseqs=(2,1056),680/41,43786:43790,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(3,1057),680/47,43792:43795,len=3,type='token',val="'}'"]
+                                          [f='c++.bnf',lfseqs=(4,1058),680/96,43841:43875,len=35,type='action',val='{ UNBANG("Bad enumerator-list."); }']
+
+  _anon69 (AND):                          [f='c++.bnf',lfseqs=(1,1075),686/36,44342:44356,len=15,type='name',val='enumerator_list']
+                                          [f='c++.bnf',lfseqs=(2,1076),686/52,44358:44361,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1077),686/56,44362:44389,len=28,type='name',val='enumerator_definition_filler']
+
+  _anon7 (AND):                           [f='c++.bnf',lfseqs=(1,404),430/36,27615:27633,len=19,type='name',val='additive_expression']
+                                          [f='c++.bnf',lfseqs=(2,405),430/56,27635:27638,len=3,type='token',val="'-'"]
+                                          [f='c++.bnf',lfseqs=(3,406),430/60,27639:27663,len=25,type='name',val='multiplicative_expression']
+
+  _anon70 (AND):                          [f='c++.bnf',lfseqs=(1,445),441/36,28417:28435,len=19,type='name',val='equality_expression']
+                                          [f='c++.bnf',lfseqs=(2,446),441/56,28437:28438,len=2,type='name',val='NE']
+                                          [f='c++.bnf',lfseqs=(3,447),441/59,28440:28460,len=21,type='name',val='relational_expression']
+
+  _anon71 (AND):                          [f='c++.bnf',lfseqs=(1,441),440/36,28336:28354,len=19,type='name',val='equality_expression']
+                                          [f='c++.bnf',lfseqs=(2,442),440/56,28356:28357,len=2,type='name',val='EQ']
+                                          [f='c++.bnf',lfseqs=(3,443),440/59,28359:28379,len=21,type='name',val='relational_expression']
+
+  _anon72 (AND):                          [f='c++.bnf',lfseqs=(1,1831),1040/36,67667:67671,len=5,type='name',val='THROW']
+                                          [f='c++.bnf',lfseqs=(2,1832),1040/42,67673:67676,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(3,1833),1040/46,67677:67688,len=12,type='name',val='type_id_list']
+                                          [f='c++.bnf',lfseqs=(4,1834),1040/59,67690:67693,len=3,type='token',val="')'"]
+
+  _anon73 (AND):                          [f='c++.bnf',lfseqs=(2,1827),1039/36,67617:67621,len=5,type='name',val='THROW']
+                                          [f='c++.bnf',lfseqs=(3,1828),1039/42,67623:67626,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(4,1829),1039/46,67627:67630,len=3,type='token',val="')'"]
+
+  _anon74 (AND):                          [f='c++.bnf',lfseqs=(1,459),445/36,28680:28702,len=23,type='name',val='exclusive_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,460),445/60,28704:28707,len=3,type='token',val="'^'"]
+                                          [f='c++.bnf',lfseqs=(3,461),445/64,28708:28721,len=14,type='name',val='and_expression']
+
+  _anon75 (AND):                          [f='c++.bnf',lfseqs=(1,537),471/36,30425:30439,len=15,type='name',val='expression_list']
+                                          [f='c++.bnf',lfseqs=(2,538),471/52,30441:30444,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,539),471/56,30445:30465,len=21,type='name',val='assignment_expression']
+
+  _anon76 (AND):                          [f='c++.bnf',lfseqs=(1,266),369/36,22978:22992,len=15,type='name',val='expression_list']
+                                          [f='c++.bnf',lfseqs=(2,267),369/52,22994:22997,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,268),369/56,22998:23018,len=21,type='name',val='assignment_expression']
+
+  _anon77 (AND):                          [f='c++.bnf',lfseqs=(1,1319),796/36,51296:51316,len=21,type='name',val='decl_specifier_prefix']
+                                          [f='c++.bnf',lfseqs=(2,1320),796/58,51318:51332,len=15,type='name',val='func_definition']
+
+  _anon78 (AND):                          [f='c++.bnf',lfseqs=(1,1316),795/36,51224:51244,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(2,1317),795/58,51246:51258,len=13,type='name',val='function_body']
+
+  _anon79 (AND):                          [f='c++.bnf',lfseqs=(2,1313),794/36,51147:51167,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(3,1314),794/58,51169:51186,len=18,type='name',val='function_try_block']
+
+  _anon8 (AND):                           [f='c++.bnf',lfseqs=(1,400),429/36,27529:27547,len=19,type='name',val='additive_expression']
+                                          [f='c++.bnf',lfseqs=(2,401),429/56,27549:27552,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(3,402),429/60,27553:27577,len=25,type='name',val='multiplicative_expression']
+
+  _anon80 (AND):                          [f='c++.bnf',lfseqs=(1,26),213/36,12228:12235,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(2,27),213/45,12237:12248,len=12,type='name',val='global_scope']
+
+  _anon81 (AND):                          [f='c++.bnf',lfseqs=(1,1801),1031/36,67055:67061,len=7,type='name',val='handler']
+                                          [f='c++.bnf',lfseqs=(2,1802),1031/44,67063:67073,len=11,type='name',val='handler_seq']
+
+  _anon82 (AND):                          [f='c++.bnf',lfseqs=(1,13),209/36,11899:11908,len=10,type='name',val='identifier']
+                                          [f='c++.bnf',lfseqs=(2,14),209/47,11910:11922,len=13,type='name',val='template_test']
+                                          [f='c++.bnf',lfseqs=(3,15),209/61,11924:11927,len=3,type='token',val="'-'"]
+
+  _anon83 (AND):                          [f='c++.bnf',lfseqs=(1,7),208/36,11807:11816,len=10,type='name',val='identifier']
+                                          [f='c++.bnf',lfseqs=(2,8),208/47,11818:11830,len=13,type='name',val='template_test']
+                                          [f='c++.bnf',lfseqs=(3,9),208/61,11832:11835,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(4,10),208/65,11836:11857,len=22,type='name',val='template_argument_list']
+                                          [f='c++.bnf',lfseqs=(5,11),208/88,11859:11862,len=3,type='token',val="'>'"]
+
+  _anon84 (AND):                          [f='c++.bnf',lfseqs=(1,466),447/36,28819:28841,len=23,type='name',val='inclusive_or_expression']
+                                          [f='c++.bnf',lfseqs=(2,467),447/60,28843:28846,len=3,type='token',val="'|'"]
+                                          [f='c++.bnf',lfseqs=(3,468),447/64,28847:28869,len=23,type='name',val='exclusive_or_expression']
+
+  _anon85 (AND):                          [f='c++.bnf',lfseqs=(1,1145),709/36,45685:45701,len=17,type='name',val='init_declarations']
+                                          [f='c++.bnf',lfseqs=(2,1146),709/54,45703:45706,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1147),709/58,45707:45722,len=16,type='name',val='init_declaration']
+
+  _anon86 (AND):                          [f='c++.bnf',lfseqs=(2,1141),708/36,45606:45626,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(3,1142),708/58,45628:45631,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(4,1143),708/62,45632:45647,len=16,type='name',val='init_declaration']
+
+  _anon87 (AND):                          [f='c++.bnf',lfseqs=(1,1388),821/36,53078:53093,len=16,type='name',val='initializer_list']
+                                          [f='c++.bnf',lfseqs=(2,1389),821/53,53095:53098,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(3,1390),821/57,53099:53124,len=26,type='name',val='looping_initializer_clause']
+
+  _anon88 (AND):                          [f='c++.bnf',lfseqs=(1,751),550/36,35819:35821,len=3,type='name',val='FOR']
+                                          [f='c++.bnf',lfseqs=(2,752),550/40,35823:35826,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(3,753),550/44,35827:35844,len=18,type='name',val='for_init_statement']
+                                          [f='c++.bnf',lfseqs=(4,754),550/63,35846:35858,len=13,type='name',val='condition.opt']
+                                          [f='c++.bnf',lfseqs=(5,755),550/77,35860:35863,len=3,type='token',val="';'"]
+                                          [f='c++.bnf',lfseqs=(6,756),550/81,35864:35877,len=14,type='name',val='expression.opt']
+                                          [f='c++.bnf',lfseqs=(7,757),550/96,35879:35882,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(8,758),550/100,35883:35899,len=17,type='name',val='looping_statement']
+
+  _anon89 (AND):                          [f='c++.bnf',lfseqs=(1,743),549/36,35733:35734,len=2,type='name',val='DO']
+                                          [f='c++.bnf',lfseqs=(2,744),549/39,35736:35752,len=17,type='name',val='looping_statement']
+                                          [f='c++.bnf',lfseqs=(3,745),549/57,35754:35758,len=5,type='name',val='WHILE']
+                                          [f='c++.bnf',lfseqs=(4,746),549/63,35760:35763,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(5,747),549/67,35764:35773,len=10,type='name',val='expression']
+                                          [f='c++.bnf',lfseqs=(6,748),549/78,35775:35778,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(7,749),549/82,35779:35782,len=3,type='token',val="';'"]
+
+  _anon9 (AND):                           [f='c++.bnf',lfseqs=(1,452),443/36,28554:28567,len=14,type='name',val='and_expression']
+                                          [f='c++.bnf',lfseqs=(2,453),443/51,28569:28572,len=3,type='token',val="'&'"]
+                                          [f='c++.bnf',lfseqs=(3,454),443/55,28573:28591,len=19,type='name',val='equality_expression']
+
+  _anon90 (AND):                          [f='c++.bnf',lfseqs=(2,737),548/36,35655:35659,len=5,type='name',val='WHILE']
+                                          [f='c++.bnf',lfseqs=(3,738),548/42,35661:35664,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(4,739),548/46,35665:35673,len=9,type='name',val='condition']
+                                          [f='c++.bnf',lfseqs=(5,740),548/56,35675:35678,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(6,741),548/60,35679:35695,len=17,type='name',val='looping_statement']
+
+  _anon91 (AND):                          [f='c++.bnf',lfseqs=(1,774),557/36,36282:36285,len=4,type='name',val='GOTO']
+                                          [f='c++.bnf',lfseqs=(2,775),557/41,36287:36296,len=10,type='name',val='identifier']
+                                          [f='c++.bnf',lfseqs=(3,776),557/52,36298:36301,len=3,type='token',val="';'"]
+
+  _anon92 (AND):                          [f='c++.bnf',lfseqs=(1,770),556/36,36220:36225,len=6,type='name',val='RETURN']
+                                          [f='c++.bnf',lfseqs=(2,771),556/43,36227:36240,len=14,type='name',val='expression.opt']
+                                          [f='c++.bnf',lfseqs=(3,772),556/58,36242:36245,len=3,type='token',val="';'"]
+
+  _anon93 (AND):                          [f='c++.bnf',lfseqs=(1,767),555/36,36171:36178,len=8,type='name',val='CONTINUE']
+                                          [f='c++.bnf',lfseqs=(2,768),555/45,36180:36183,len=3,type='token',val="';'"]
+
+  _anon94 (AND):                          [f='c++.bnf',lfseqs=(2,764),554/36,36125:36129,len=5,type='name',val='BREAK']
+                                          [f='c++.bnf',lfseqs=(3,765),554/42,36131:36134,len=3,type='token',val="';'"]
+
+  _anon95 (AND):                          [f='c++.bnf',lfseqs=(1,679),530/36,34235:34241,len=7,type='name',val='DEFAULT']
+                                          [f='c++.bnf',lfseqs=(2,680),530/44,34243:34246,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(3,681),530/48,34247:34263,len=17,type='name',val='looping_statement']
+
+  _anon96 (AND):                          [f='c++.bnf',lfseqs=(1,674),529/36,34152:34155,len=4,type='name',val='CASE']
+                                          [f='c++.bnf',lfseqs=(2,675),529/41,34157:34175,len=19,type='name',val='constant_expression']
+                                          [f='c++.bnf',lfseqs=(3,676),529/61,34177:34180,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(4,677),529/65,34181:34197,len=17,type='name',val='looping_statement']
+
+  _anon97 (AND):                          [f='c++.bnf',lfseqs=(2,670),528/36,34083:34092,len=10,type='name',val='identifier']
+                                          [f='c++.bnf',lfseqs=(3,671),528/47,34094:34097,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(4,672),528/51,34098:34114,len=17,type='name',val='looping_statement']
+
+  _anon98 (AND):                          [f='c++.bnf',lfseqs=(1,1136),702/36,45216:45221,len=6,type='name',val='EXTERN']
+                                          [f='c++.bnf',lfseqs=(2,1137),702/43,45223:45228,len=6,type='name',val='string']
+                                          [f='c++.bnf',lfseqs=(3,1138),702/50,45230:45249,len=20,type='name',val='compound_declaration']
+
+  _anon99 (AND):                          [f='c++.bnf',lfseqs=(2,1132),701/36,45146:45151,len=6,type='name',val='EXTERN']
+                                          [f='c++.bnf',lfseqs=(3,1133),701/43,45153:45158,len=6,type='name',val='string']
+                                          [f='c++.bnf',lfseqs=(4,1134),701/50,45160:45178,len=19,type='name',val='looping_declaration']
+
+  abstract_declarator.opt (OR):           [f=None,lfseqs=(None,None),740/36,None:None,len=6,type='name',val='_anon1']
+                                          [f='c++.bnf',lfseqs=(1,1205),741/36,47871:47896,len=26,type='name',val='direct_abstract_declarator']
+
+  abstract_expression (OR):               [f='c++.bnf',lfseqs=(2,144),326/36,19191:19208,len=18,type='name',val='parenthesis_clause']
+                                          [f=None,lfseqs=(None,None),327/36,None:None,len=6,type='name',val='_anon3']
+                                          [f=None,lfseqs=(None,None),328/36,None:None,len=6,type='name',val='_anon2']
+
+  abstract_parameter_declaration (OR):    [f='c++.bnf',lfseqs=(2,1259),767/36,49492:49519,len=28,type='name',val='abstract_pointer_declaration']
+                                          [f=None,lfseqs=(None,None),768/36,None:None,len=6,type='name',val='_anon5']
+                                          [f=None,lfseqs=(None,None),769/36,None:None,len=6,type='name',val='_anon4']
+
+  abstract_pointer_declaration (OR):      [f='c++.bnf',lfseqs=(2,1252),765/36,49338:49353,len=16,type='name',val='ptr_operator_seq']
+                                          [f=None,lfseqs=(None,None),766/36,None:None,len=6,type='name',val='_anon6']
+
+  access_specifier (OR):                  [f='c++.bnf',lfseqs=(2,1575),902/36,59147:59153,len=7,type='name',val='PRIVATE']
+                                          [f='c++.bnf',lfseqs=(4,1577),902/46,59157:59165,len=9,type='name',val='PROTECTED']
+                                          [f='c++.bnf',lfseqs=(6,1579),902/58,59169:59174,len=6,type='name',val='PUBLIC']
+
+  accessibility_specifier (AND):          [f='c++.bnf',lfseqs=(2,1531),884/36,57884:57899,len=16,type='name',val='access_specifier']
+                                          [f='c++.bnf',lfseqs=(3,1532),884/53,57901:57904,len=3,type='token',val="':'"]
+
+  additive_expression (OR):               [f='c++.bnf',lfseqs=(2,398),428/36,27467:27491,len=25,type='name',val='multiplicative_expression']
+                                          [f=None,lfseqs=(None,None),429/36,None:None,len=6,type='name',val='_anon8']
+                                          [f=None,lfseqs=(None,None),430/36,None:None,len=6,type='name',val='_anon7']
+
+  advance_search (AND):                   [f='c++.bnf',lfseqs=(2,1844),1047/36,68079:68083,len=5,type='name',val='error']
+                                          [f='c++.bnf',lfseqs=(3,1845),1047/56,68099:68139,len=41,type='action',val='{ yyerrok; yyclearin; advance_search(); }']
+
+  and_expression (OR):                    [f='c++.bnf',lfseqs=(2,450),442/36,28498:28516,len=19,type='name',val='equality_expression']
+                                          [f=None,lfseqs=(None,None),443/36,None:None,len=6,type='name',val='_anon9']
+
+  any_character (TERM):                   [f=None,lfseqs=(None,None),-1/-1,None:None,len=None,type='token',val=' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~']
+
+  asm_definition (AND):                   [f='c++.bnf',lfseqs=(2,1125),700/36,45087:45089,len=3,type='name',val='ASM']
+                                          [f='c++.bnf',lfseqs=(3,1126),700/40,45091:45094,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(4,1127),700/44,45095:45100,len=6,type='name',val='string']
+                                          [f='c++.bnf',lfseqs=(5,1128),700/51,45102:45105,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(6,1129),700/55,45106:45109,len=3,type='token',val="';'"]
+
+  assignment_expression (OR):             [f='c++.bnf',lfseqs=(2,494),459/36,29554:29575,len=22,type='name',val='conditional_expression']
+                                          [f=None,lfseqs=(None,None),460/36,None:None,len=7,type='name',val='_anon11']
+                                          [f=None,lfseqs=(None,None),461/36,None:None,len=7,type='name',val='_anon10']
+                                          [f='c++.bnf',lfseqs=(1,504),462/36,29794:29809,len=16,type='name',val='throw_expression']
+
+  assignment_operator (OR):               [f='c++.bnf',lfseqs=(2,507),463/36,29847:29850,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(4,509),463/42,29853:29859,len=7,type='name',val='ASS_ADD']
+                                          [f='c++.bnf',lfseqs=(6,511),463/52,29863:29869,len=7,type='name',val='ASS_AND']
+                                          [f='c++.bnf',lfseqs=(8,513),463/62,29873:29879,len=7,type='name',val='ASS_DIV']
+                                          [f='c++.bnf',lfseqs=(10,515),463/72,29883:29889,len=7,type='name',val='ASS_MOD']
+                                          [f='c++.bnf',lfseqs=(12,517),463/82,29893:29899,len=7,type='name',val='ASS_MUL']
+                                          [f='c++.bnf',lfseqs=(14,519),463/92,29903:29908,len=6,type='name',val='ASS_OR']
+                                          [f='c++.bnf',lfseqs=(16,521),463/101,29912:29918,len=7,type='name',val='ASS_SHL']
+                                          [f='c++.bnf',lfseqs=(18,523),463/111,29922:29928,len=7,type='name',val='ASS_SHR']
+                                          [f='c++.bnf',lfseqs=(20,525),463/121,29932:29938,len=7,type='name',val='ASS_SUB']
+                                          [f='c++.bnf',lfseqs=(22,527),463/131,29942:29948,len=7,type='name',val='ASS_XOR']
+
+  bang (AND):                             [f='c++.bnf',lfseqs=(2,1848),1048/55,68242:68252,len=11,type='action',val='{ BANG(); }']
+
+  base_specifier (OR):                    [f='c++.bnf',lfseqs=(2,1566),899/36,58974:58982,len=9,type='name',val='scoped_id']
+                                          [f=None,lfseqs=(None,None),900/36,None:None,len=7,type='name',val='_anon13']
+                                          [f=None,lfseqs=(None,None),901/36,None:None,len=7,type='name',val='_anon12']
+
+  base_specifier_list (OR):               [f='c++.bnf',lfseqs=(2,1559),897/36,58848:58861,len=14,type='name',val='base_specifier']
+                                          [f=None,lfseqs=(None,None),898/36,None:None,len=7,type='name',val='_anon14']
+
+  bit_field_declaration (OR):             [f=None,lfseqs=(None,None),885/36,None:None,len=7,type='name',val='_anon16']
+                                          [f=None,lfseqs=(None,None),886/36,None:None,len=7,type='name',val='_anon15']
+
+  bit_field_init_declaration (OR):        [f='c++.bnf',lfseqs=(2,1552),890/36,58367:58387,len=21,type='name',val='bit_field_declaration']
+                                          [f=None,lfseqs=(None,None),891/36,None:None,len=7,type='name',val='_anon17']
+
+  bit_field_width (OR):                   [f='c++.bnf',lfseqs=(2,1543),887/36,58075:58095,len=21,type='name',val='logical_or_expression']
+                                          [f=None,lfseqs=(None,None),889/36,None:None,len=7,type='name',val='_anon18']
+
+  block_declaration (OR):                 [f='c++.bnf',lfseqs=(2,845),582/36,38138:38155,len=18,type='name',val='simple_declaration']
+                                          [f='c++.bnf',lfseqs=(1,847),583/36,38193:38221,len=29,type='name',val='specialised_block_declaration']
+
+  boolean_literal (OR):                   [f='c++.bnf',lfseqs=(2,127),277/36,15973:15977,len=5,type='name',val='FALSE']
+                                          [f='c++.bnf',lfseqs=(1,129),278/36,16015:16018,len=4,type='name',val='TRUE']
+
+  braced_initializer (OR):                [f=None,lfseqs=(None,None),814/36,None:None,len=7,type='name',val='_anon23']
+                                          [f=None,lfseqs=(None,None),815/36,None:None,len=7,type='name',val='_anon22']
+                                          [f=None,lfseqs=(None,None),816/36,None:None,len=7,type='name',val='_anon21']
+                                          [f=None,lfseqs=(None,None),817/36,None:None,len=7,type='name',val='_anon20']
+                                          [f=None,lfseqs=(None,None),818/36,None:None,len=7,type='name',val='_anon19']
+
+  built_in_type_id (OR):                  [f='c++.bnf',lfseqs=(2,83),250/36,14248:14270,len=23,type='name',val='built_in_type_specifier']
+                                          [f=None,lfseqs=(None,None),251/36,None:None,len=7,type='name',val='_anon24']
+
+  built_in_type_specifier (OR):           [f='c++.bnf',lfseqs=(2,997),658/36,42559:42562,len=4,type='name',val='CHAR']
+                                          [f='c++.bnf',lfseqs=(4,999),658/43,42566:42572,len=7,type='name',val='WCHAR_T']
+                                          [f='c++.bnf',lfseqs=(6,1001),658/53,42576:42579,len=4,type='name',val='BOOL']
+                                          [f='c++.bnf',lfseqs=(8,1003),658/60,42583:42587,len=5,type='name',val='SHORT']
+                                          [f='c++.bnf',lfseqs=(10,1005),658/68,42591:42593,len=3,type='name',val='INT']
+                                          [f='c++.bnf',lfseqs=(12,1007),658/74,42597:42600,len=4,type='name',val='LONG']
+                                          [f='c++.bnf',lfseqs=(14,1009),658/81,42604:42609,len=6,type='name',val='SIGNED']
+                                          [f='c++.bnf',lfseqs=(16,1011),658/90,42613:42620,len=8,type='name',val='UNSIGNED']
+                                          [f='c++.bnf',lfseqs=(18,1013),658/101,42624:42628,len=5,type='name',val='FLOAT']
+                                          [f='c++.bnf',lfseqs=(20,1015),658/109,42632:42637,len=6,type='name',val='DOUBLE']
+                                          [f='c++.bnf',lfseqs=(22,1017),658/118,42641:42644,len=4,type='name',val='VOID']
+
+  cast_expression (OR):                   [f='c++.bnf',lfseqs=(2,366),417/36,26700:26715,len=16,type='name',val='unary_expression']
+                                          [f=None,lfseqs=(None,None),418/36,None:None,len=7,type='name',val='_anon25']
+
+  class_key (OR):                         [f='c++.bnf',lfseqs=(2,1438),847/36,54970:54974,len=5,type='name',val='CLASS']
+                                          [f='c++.bnf',lfseqs=(4,1440),847/44,54978:54983,len=6,type='name',val='STRUCT']
+                                          [f='c++.bnf',lfseqs=(6,1442),847/53,54987:54991,len=5,type='name',val='UNION']
+
+  class_specifier (OR):                   [f=None,lfseqs=(None,None),848/36,None:None,len=7,type='name',val='_anon27']
+                                          [f=None,lfseqs=(None,None),849/36,None:None,len=7,type='name',val='_anon26']
+
+  class_specifier_head (OR):              [f=None,lfseqs=(None,None),843/36,None:None,len=7,type='name',val='_anon31']
+                                          [f=None,lfseqs=(None,None),844/36,None:None,len=7,type='name',val='_anon30']
+                                          [f=None,lfseqs=(None,None),845/36,None:None,len=7,type='name',val='_anon29']
+                                          [f=None,lfseqs=(None,None),846/36,None:None,len=7,type='name',val='_anon28']
+
+  colon_mark (AND):                       [f='c++.bnf',lfseqs=(2,1407),840/36,54359:54362,len=3,type='token',val="':'"]
+                                          [f='c++.bnf',lfseqs=(3,1408),840/96,54419:54429,len=11,type='action',val='{ mark(); }']
+
+  compound_declaration (OR):              [f=None,lfseqs=(None,None),563/36,None:None,len=7,type='name',val='_anon33']
+                                          [f=None,lfseqs=(None,None),564/36,None:None,len=7,type='name',val='_anon32']
+
+  compound_statement (OR):                [f=None,lfseqs=(None,None),532/36,None:None,len=7,type='name',val='_anon35']
+                                          [f=None,lfseqs=(None,None),533/36,None:None,len=7,type='name',val='_anon34']
+
+  condition (AND):                        [f='c++.bnf',lfseqs=(2,734),545/36,35312:35337,len=26,type='name',val='parameter_declaration_list']
+
+  condition.opt (OR):                     [f='c++.bnf',lfseqs=(1,731),544/36,35266:35274,len=9,type='name',val='condition']
+
+  conditional_expression (OR):            [f='c++.bnf',lfseqs=(2,485),452/36,29205:29225,len=21,type='name',val='logical_or_expression']
+                                          [f=None,lfseqs=(None,None),453/36,None:None,len=7,type='name',val='_anon36']
+
+  constant_expression (AND):              [f='c++.bnf',lfseqs=(2,542),472/36,30503:30524,len=22,type='name',val='conditional_expression']
+
+  constructor_head (OR):                  [f='c++.bnf',lfseqs=(2,1333),800/36,51583:51608,len=26,type='name',val='bit_field_init_declaration']
+                                          [f=None,lfseqs=(None,None),801/36,None:None,len=7,type='name',val='_anon37']
+
+  control_statement (OR):                 [f='c++.bnf',lfseqs=(2,661),524/36,33866:33882,len=17,type='name',val='labeled_statement']
+                                          [f='c++.bnf',lfseqs=(1,663),525/36,33920:33938,len=19,type='name',val='selection_statement']
+                                          [f='c++.bnf',lfseqs=(1,665),526/36,33976:33994,len=19,type='name',val='iteration_statement']
+                                          [f='c++.bnf',lfseqs=(1,667),527/36,34032:34045,len=14,type='name',val='jump_statement']
+
+  conversion_function_id (AND):           [f='c++.bnf',lfseqs=(2,1582),907/36,59452:59459,len=8,type='name',val='OPERATOR']
+                                          [f='c++.bnf',lfseqs=(3,1583),907/45,59461:59478,len=18,type='name',val='conversion_type_id']
+
+  conversion_type_id (OR):                [f=None,lfseqs=(None,None),908/36,None:None,len=7,type='name',val='_anon39']
+                                          [f=None,lfseqs=(None,None),909/36,None:None,len=7,type='name',val='_anon38']
+
+  ctor_definition (OR):                   [f=None,lfseqs=(None,None),797/36,None:None,len=7,type='name',val='_anon42']
+                                          [f=None,lfseqs=(None,None),798/36,None:None,len=7,type='name',val='_anon41']
+                                          [f=None,lfseqs=(None,None),799/36,None:None,len=7,type='name',val='_anon40']
+
+  ctor_initializer (OR):                  [f=None,lfseqs=(None,None),919/36,None:None,len=7,type='name',val='_anon44']
+                                          [f=None,lfseqs=(None,None),920/36,None:None,len=7,type='name',val='_anon43']
+
+  ctor_initializer.opt (OR):              [f='c++.bnf',lfseqs=(1,1594),918/36,60069:60084,len=16,type='name',val='ctor_initializer']
+
+  cv_qualifier (OR):                      [f='c++.bnf',lfseqs=(2,1189),732/36,47281:47285,len=5,type='name',val='CONST']
+                                          [f='c++.bnf',lfseqs=(4,1191),732/44,47289:47296,len=8,type='name',val='VOLATILE']
+
+  cv_qualifier_seq.opt (OR):              [f=None,lfseqs=(None,None),731/36,None:None,len=7,type='name',val='_anon45']
+
+  decl_specifier_affix (OR):              [f='c++.bnf',lfseqs=(2,936),629/36,41186:41208,len=23,type='name',val='storage_class_specifier']
+                                          [f='c++.bnf',lfseqs=(1,938),630/36,41246:41263,len=18,type='name',val='function_specifier']
+                                          [f='c++.bnf',lfseqs=(1,940),631/36,41301:41306,len=6,type='name',val='FRIEND']
+                                          [f='c++.bnf',lfseqs=(1,943),632/36,41402:41408,len=7,type='name',val='TYPEDEF']
+                                          [f='c++.bnf',lfseqs=(1,945),633/36,41446:41457,len=12,type='name',val='cv_qualifier']
+
+  decl_specifier_prefix (OR):             [f='c++.bnf',lfseqs=(2,951),637/36,41554:41573,len=20,type='name',val='decl_specifier_affix']
+                                          [f=None,lfseqs=(None,None),638/36,None:None,len=7,type='name',val='_anon46']
+
+  decl_specifier_suffix (AND):            [f='c++.bnf',lfseqs=(2,948),635/36,41496:41515,len=20,type='name',val='decl_specifier_affix']
+
+  declaration (OR):                       [f='c++.bnf',lfseqs=(2,826),573/36,37532:37548,len=17,type='name',val='block_declaration']
+                                          [f='c++.bnf',lfseqs=(1,828),574/36,37586:37604,len=19,type='name',val='function_definition']
+                                          [f='c++.bnf',lfseqs=(1,830),575/36,37642:37661,len=20,type='name',val='template_declaration']
+                                          [f='c++.bnf',lfseqs=(1,832),577/36,37834:37856,len=23,type='name',val='explicit_specialization']
+                                          [f='c++.bnf',lfseqs=(1,834),578/36,37894:37916,len=23,type='name',val='specialised_declaration']
+
+  declaration_seq.opt (OR):               [f=None,lfseqs=(None,None),567/36,None:None,len=7,type='name',val='_anon48']
+                                          [f=None,lfseqs=(None,None),568/36,None:None,len=7,type='name',val='_anon47']
+
+  declaration_statement (AND):            [f='c++.bnf',lfseqs=(2,779),558/36,36338:36354,len=17,type='name',val='block_declaration']
+
+  declarator_id (OR):                     [f='c++.bnf',lfseqs=(2,76),241/36,13743:13751,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(1,78),242/36,13789:13814,len=26,type='name',val='scoped_special_function_id']
+                                          [f='c++.bnf',lfseqs=(1,80),243/36,13852:13864,len=13,type='name',val='destructor_id']
+
+  delete_expression (AND):                [f='c++.bnf',lfseqs=(2,312),394/36,24866:24871,len=6,type='name',val='DELETE']
+                                          [f='c++.bnf',lfseqs=(3,313),394/43,24873:24887,len=15,type='name',val='cast_expression']
+
+  destructor_id (OR):                     [f=None,lfseqs=(None,None),229/36,None:None,len=7,type='name',val='_anon50']
+                                          [f=None,lfseqs=(None,None),230/36,None:None,len=7,type='name',val='_anon49']
+
+  digit (TERM):                           [f=None,lfseqs=(None,None),-1/-1,None:None,len=None,type='token',val='0123456789']
+
+  direct_abstract_declarator (OR):        [f=None,lfseqs=(None,None),744/36,None:None,len=7,type='name',val='_anon53']
+                                          [f=None,lfseqs=(None,None),745/36,None:None,len=7,type='name',val='_anon52']
+                                          [f=None,lfseqs=(None,None),746/36,None:None,len=7,type='name',val='_anon51']
+
+  direct_abstract_declarator.opt (OR):    [f='c++.bnf',lfseqs=(1,1209),743/36,47982:48007,len=26,type='name',val='direct_abstract_declarator']
+
+  direct_new_declarator (OR):             [f=None,lfseqs=(None,None),409/36,None:None,len=7,type='name',val='_anon55']
+                                          [f=None,lfseqs=(None,None),410/36,None:None,len=7,type='name',val='_anon54']
+
+  elaborate_type_specifier (OR):          [f='c++.bnf',lfseqs=(2,982),652/36,42218:42232,len=15,type='name',val='class_specifier']
+                                          [f='c++.bnf',lfseqs=(1,984),653/36,42270:42283,len=14,type='name',val='enum_specifier']
+                                          [f='c++.bnf',lfseqs=(1,986),654/36,42321:42345,len=25,type='name',val='elaborated_type_specifier']
+                                          [f=None,lfseqs=(None,None),655/36,None:None,len=7,type='name',val='_anon56']
+
+  elaborated_class_specifier (OR):        [f=None,lfseqs=(None,None),841/36,None:None,len=7,type='name',val='_anon58']
+                                          [f=None,lfseqs=(None,None),842/36,None:None,len=7,type='name',val='_anon57']
+
+  elaborated_enum_specifier (AND):        [f='c++.bnf',lfseqs=(2,1028),673/36,43302:43305,len=4,type='name',val='ENUM']
+                                          [f='c++.bnf',lfseqs=(3,1029),673/41,43307:43315,len=9,type='name',val='scoped_id']
+
+  elaborated_type_specifier (OR):         [f='c++.bnf',lfseqs=(2,1020),669/36,43121:43146,len=26,type='name',val='elaborated_class_specifier']
+                                          [f='c++.bnf',lfseqs=(1,1022),670/36,43184:43208,len=25,type='name',val='elaborated_enum_specifier']
+                                          [f=None,lfseqs=(None,None),671/36,None:None,len=7,type='name',val='_anon59']
+
+  enum_specifier (OR):                    [f=None,lfseqs=(None,None),674/36,None:None,len=7,type='name',val='_anon61']
+                                          [f=None,lfseqs=(None,None),675/36,None:None,len=7,type='name',val='_anon60']
+
+  enumerator (AND):                       [f='c++.bnf',lfseqs=(2,1091),690/36,44624:44633,len=10,type='name',val='identifier']
+
+  enumerator_clause (OR):                 [f=None,lfseqs=(None,None),676/36,None:None,len=7,type='name',val='_anon64']
+                                          [f=None,lfseqs=(None,None),677/36,None:None,len=7,type='name',val='_anon63']
+                                          [f=None,lfseqs=(None,None),678/36,None:None,len=7,type='name',val='_anon62']
+
+  enumerator_definition (OR):             [f='c++.bnf',lfseqs=(2,1084),688/36,44506:44515,len=10,type='name',val='enumerator']
+                                          [f=None,lfseqs=(None,None),689/36,None:None,len=7,type='name',val='_anon65']
+
+  enumerator_definition_ecarb (OR):       [f='c++.bnf',lfseqs=(2,1060),681/36,43913:43916,len=3,type='token',val="'}'"]
+                                          [f=None,lfseqs=(None,None),682/36,None:None,len=7,type='name',val='_anon66']
+
+  enumerator_definition_filler (OR):      [f=None,lfseqs=(None,None),684/36,None:None,len=7,type='name',val='_anon67']
+
+  enumerator_list (AND):                  [f='c++.bnf',lfseqs=(2,1080),687/36,44427:44446,len=20,type='name',val='enumerator_list_head']
+                                          [f='c++.bnf',lfseqs=(3,1081),687/57,44448:44468,len=21,type='name',val='enumerator_definition']
+
+  enumerator_list_ecarb (OR):             [f='c++.bnf',lfseqs=(2,1053),679/36,43741:43744,len=3,type='token',val="'}'"]
+                                          [f=None,lfseqs=(None,None),680/36,None:None,len=7,type='name',val='_anon68']
+
+  enumerator_list_head (OR):              [f='c++.bnf',lfseqs=(2,1073),685/36,44277:44304,len=28,type='name',val='enumerator_definition_filler']
+                                          [f=None,lfseqs=(None,None),686/36,None:None,len=7,type='name',val='_anon69']
+
+  equality_expression (OR):               [f='c++.bnf',lfseqs=(2,439),439/36,28278:28298,len=21,type='name',val='relational_expression']
+                                          [f=None,lfseqs=(None,None),440/36,None:None,len=7,type='name',val='_anon71']
+                                          [f=None,lfseqs=(None,None),441/36,None:None,len=7,type='name',val='_anon70']
+
+  exception_declaration (AND):            [f='c++.bnf',lfseqs=(2,1812),1033/36,67202:67222,len=21,type='name',val='parameter_declaration']
+
+  exception_specification (OR):           [f=None,lfseqs=(None,None),1039/36,None:None,len=7,type='name',val='_anon73']
+                                          [f=None,lfseqs=(None,None),1040/36,None:None,len=7,type='name',val='_anon72']
+
+  exclusive_or_expression (OR):           [f='c++.bnf',lfseqs=(2,457),444/36,28629:28642,len=14,type='name',val='and_expression']
+                                          [f=None,lfseqs=(None,None),445/36,None:None,len=7,type='name',val='_anon74']
+
+  explicit_specialization (AND):          [f='c++.bnf',lfseqs=(2,1788),1023/36,66513:66520,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(3,1789),1023/45,66522:66525,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(4,1790),1023/49,66526:66529,len=3,type='token',val="'>'"]
+                                          [f='c++.bnf',lfseqs=(5,1791),1023/53,66530:66540,len=11,type='name',val='declaration']
+
+  expression (OR):                        [f='c++.bnf',lfseqs=(2,535),470/36,30367:30387,len=21,type='name',val='assignment_expression']
+                                          [f=None,lfseqs=(None,None),471/36,None:None,len=7,type='name',val='_anon75']
+
+  expression.opt (OR):                    [f='c++.bnf',lfseqs=(1,532),469/36,30320:30329,len=10,type='name',val='expression']
+
+  expression_list (OR):                   [f='c++.bnf',lfseqs=(2,264),368/36,22920:22940,len=21,type='name',val='assignment_expression']
+                                          [f=None,lfseqs=(None,None),369/36,None:None,len=7,type='name',val='_anon76']
+
+  expression_list.opt (OR):               [f='c++.bnf',lfseqs=(1,261),367/36,22868:22882,len=15,type='name',val='expression_list']
+
+  for_init_statement (AND):               [f='c++.bnf',lfseqs=(2,761),552/36,35938:35955,len=18,type='name',val='simple_declaration']
+
+  func_definition (OR):                   [f=None,lfseqs=(None,None),794/36,None:None,len=7,type='name',val='_anon79']
+                                          [f=None,lfseqs=(None,None),795/36,None:None,len=7,type='name',val='_anon78']
+                                          [f=None,lfseqs=(None,None),796/36,None:None,len=7,type='name',val='_anon77']
+
+  function_block (AND):                   [f='c++.bnf',lfseqs=(2,1345),803/36,51792:51811,len=20,type='name',val='ctor_initializer.opt']
+                                          [f='c++.bnf',lfseqs=(3,1346),803/57,51813:51825,len=13,type='name',val='function_body']
+
+  function_body (AND):                    [f='c++.bnf',lfseqs=(2,1349),804/36,51863:51880,len=18,type='name',val='compound_statement']
+
+  function_definition (OR):               [f='c++.bnf',lfseqs=(2,1308),792/36,51043:51057,len=15,type='name',val='ctor_definition']
+                                          [f='c++.bnf',lfseqs=(1,1310),793/36,51095:51109,len=15,type='name',val='func_definition']
+
+  function_specifier (OR):                [f='c++.bnf',lfseqs=(2,968),644/36,41916:41923,len=8,type='name',val='EXPLICIT']
+                                          [f='c++.bnf',lfseqs=(1,970),645/36,41961:41966,len=6,type='name',val='INLINE']
+                                          [f='c++.bnf',lfseqs=(1,972),646/36,42004:42010,len=7,type='name',val='VIRTUAL']
+
+  function_try_block (AND):               [f='c++.bnf',lfseqs=(2,1340),802/36,51725:51727,len=3,type='name',val='TRY']
+                                          [f='c++.bnf',lfseqs=(3,1341),802/40,51729:51742,len=14,type='name',val='function_block']
+                                          [f='c++.bnf',lfseqs=(4,1342),802/55,51744:51754,len=11,type='name',val='handler_seq']
+
+  global_scope (OR):                      [f='c++.bnf',lfseqs=(2,24),212/36,12186:12190,len=5,type='name',val='SCOPE']
+                                          [f=None,lfseqs=(None,None),213/36,None:None,len=7,type='name',val='_anon80']
+
+  handler (AND):                          [f='c++.bnf',lfseqs=(2,1805),1032/36,67111:67115,len=5,type='name',val='CATCH']
+                                          [f='c++.bnf',lfseqs=(3,1806),1032/42,67117:67120,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(4,1807),1032/46,67121:67141,len=21,type='name',val='exception_declaration']
+                                          [f='c++.bnf',lfseqs=(5,1808),1032/68,67143:67146,len=3,type='token',val="')'"]
+                                          [f='c++.bnf',lfseqs=(6,1809),1032/72,67147:67164,len=18,type='name',val='compound_statement']
+
+  handler_seq (OR):                       [f='c++.bnf',lfseqs=(2,1799),1030/36,67011:67017,len=7,type='name',val='handler']
+                                          [f=None,lfseqs=(None,None),1031/36,None:None,len=7,type='name',val='_anon81']
+
+  id (OR):                                [f='c++.bnf',lfseqs=(2,5),207/36,11684:11693,len=10,type='name',val='identifier']
+                                          [f=None,lfseqs=(None,None),208/36,None:None,len=7,type='name',val='_anon83']
+                                          [f=None,lfseqs=(None,None),209/36,None:None,len=7,type='name',val='_anon82']
+                                          [f='c++.bnf',lfseqs=(1,17),210/36,12020:12030,len=11,type='name',val='template_id']
+
+  id_scope (AND):                         [f='c++.bnf',lfseqs=(2,30),214/36,12286:12287,len=2,type='name',val='id']
+                                          [f='c++.bnf',lfseqs=(3,31),214/39,12289:12293,len=5,type='name',val='SCOPE']
+
+  identifier (AND):                       [f='c++.bnf',lfseqs=(2,2),206/36,11637:11646,len=10,type='name',val='Identifier']
+
+  inclusive_or_expression (OR):           [f='c++.bnf',lfseqs=(2,464),446/36,28759:28781,len=23,type='name',val='exclusive_or_expression']
+                                          [f=None,lfseqs=(None,None),447/36,None:None,len=7,type='name',val='_anon84']
+
+  init_declaration (AND):                 [f='c++.bnf',lfseqs=(2,1150),710/36,45760:45780,len=21,type='name',val='assignment_expression']
+
+  init_declarations (OR):                 [f=None,lfseqs=(None,None),708/36,None:None,len=7,type='name',val='_anon86']
+                                          [f=None,lfseqs=(None,None),709/36,None:None,len=7,type='name',val='_anon85']
+
+  initializer_clause (OR):                [f='c++.bnf',lfseqs=(2,1352),812/36,52355:52375,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(1,1354),813/36,52413:52430,len=18,type='name',val='braced_initializer']
+
+  initializer_list (OR):                  [f='c++.bnf',lfseqs=(2,1386),820/36,53015:53040,len=26,type='name',val='looping_initializer_clause']
+                                          [f=None,lfseqs=(None,None),821/36,None:None,len=7,type='name',val='_anon87']
+
+  iteration_statement (OR):               [f=None,lfseqs=(None,None),548/36,None:None,len=7,type='name',val='_anon90']
+                                          [f=None,lfseqs=(None,None),549/36,None:None,len=7,type='name',val='_anon89']
+                                          [f=None,lfseqs=(None,None),550/36,None:None,len=7,type='name',val='_anon88']
+
+  jump_statement (OR):                    [f=None,lfseqs=(None,None),554/36,None:None,len=7,type='name',val='_anon94']
+                                          [f=None,lfseqs=(None,None),555/36,None:None,len=7,type='name',val='_anon93']
+                                          [f=None,lfseqs=(None,None),556/36,None:None,len=7,type='name',val='_anon92']
+                                          [f=None,lfseqs=(None,None),557/36,None:None,len=7,type='name',val='_anon91']
+
+  labeled_statement (OR):                 [f=None,lfseqs=(None,None),528/36,None:None,len=7,type='name',val='_anon97']
+                                          [f=None,lfseqs=(None,None),529/36,None:None,len=7,type='name',val='_anon96']
+                                          [f=None,lfseqs=(None,None),530/36,None:None,len=7,type='name',val='_anon95']
+
+  letter (TERM):                          [f=None,lfseqs=(None,None),-1/-1,None:None,len=None,type='token',val='abdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_']
+
+  linkage_specification (OR):             [f=None,lfseqs=(None,None),701/36,None:None,len=7,type='name',val='_anon99']
+                                          [f=None,lfseqs=(None,None),702/36,None:None,len=7,type='name',val='_anon98']
+
+  literal (OR):                           [f='c++.bnf',lfseqs=(2,116),272/36,15722:15735,len=14,type='name',val='IntegerLiteral']
+                                          [f='c++.bnf',lfseqs=(1,118),273/36,15773:15788,len=16,type='name',val='CharacterLiteral']
+                                          [f='c++.bnf',lfseqs=(1,120),274/36,15826:15840,len=15,type='name',val='FloatingLiteral']
+                                          [f='c++.bnf',lfseqs=(1,122),275/36,15878:15883,len=6,type='name',val='string']
+                                          [f='c++.bnf',lfseqs=(1,124),276/36,15921:15935,len=15,type='name',val='boolean_literal']
+
+  logical_and_expression (OR):            [f='c++.bnf',lfseqs=(2,471),448/36,28907:28929,len=23,type='name',val='inclusive_or_expression']
+                                          [f=None,lfseqs=(None,None),449/36,None:None,len=8,type='name',val='_anon100']
+
+  logical_or_expression (OR):             [f='c++.bnf',lfseqs=(2,478),450/36,29058:29079,len=22,type='name',val='logical_and_expression']
+                                          [f=None,lfseqs=(None,None),451/36,None:None,len=8,type='name',val='_anon101']
+
+  looped_declaration (OR):                [f='c++.bnf',lfseqs=(2,816),570/36,37355:37365,len=11,type='name',val='declaration']
+                                          [f=None,lfseqs=(None,None),571/36,None:None,len=8,type='name',val='_anon103']
+                                          [f=None,lfseqs=(None,None),572/36,None:None,len=8,type='name',val='_anon102']
+
+  looped_initializer_clause (OR):         [f='c++.bnf',lfseqs=(2,1397),823/36,53276:53293,len=18,type='name',val='initializer_clause']
+                                          [f=None,lfseqs=(None,None),824/36,None:None,len=8,type='name',val='_anon105']
+                                          [f=None,lfseqs=(None,None),825/36,None:None,len=8,type='name',val='_anon104']
+
+  looped_member_declaration (OR):         [f='c++.bnf',lfseqs=(2,1477),856/36,55839:55856,len=18,type='name',val='member_declaration']
+                                          [f=None,lfseqs=(None,None),857/36,None:None,len=8,type='name',val='_anon107']
+                                          [f=None,lfseqs=(None,None),858/36,None:None,len=8,type='name',val='_anon106']
+
+  looped_statement (OR):                  [f='c++.bnf',lfseqs=(2,642),516/36,33345:33353,len=9,type='name',val='statement']
+                                          [f=None,lfseqs=(None,None),517/36,None:None,len=8,type='name',val='_anon109']
+                                          [f=None,lfseqs=(None,None),518/36,None:None,len=8,type='name',val='_anon108']
+
+  looping_declaration (AND):              [f='c++.bnf',lfseqs=(2,812),569/36,37241:37253,len=13,type='name',val='start_search1']
+                                          [f='c++.bnf',lfseqs=(3,813),569/50,37255:37272,len=18,type='name',val='looped_declaration']
+                                          [f='c++.bnf',lfseqs=(4,814),569/96,37301:37317,len=17,type='action',val='{ end_search(); }']
+
+  looping_initializer_clause (AND):       [f='c++.bnf',lfseqs=(2,1393),822/36,53162:53173,len=12,type='name',val='start_search']
+                                          [f='c++.bnf',lfseqs=(3,1394),822/49,53175:53199,len=25,type='name',val='looped_initializer_clause']
+                                          [f='c++.bnf',lfseqs=(4,1395),822/96,53222:53238,len=17,type='action',val='{ end_search(); }']
+
+  looping_member_declaration (AND):       [f='c++.bnf',lfseqs=(2,1473),855/36,55725:55736,len=12,type='name',val='start_search']
+                                          [f='c++.bnf',lfseqs=(3,1474),855/49,55738:55762,len=25,type='name',val='looped_member_declaration']
+                                          [f='c++.bnf',lfseqs=(4,1475),855/96,55785:55801,len=17,type='action',val='{ end_search(); }']
+
+  looping_statement (AND):                [f='c++.bnf',lfseqs=(2,638),515/36,33231:33242,len=12,type='name',val='start_search']
+                                          [f='c++.bnf',lfseqs=(3,639),515/49,33244:33259,len=16,type='name',val='looped_statement']
+                                          [f='c++.bnf',lfseqs=(4,640),515/96,33291:33307,len=17,type='action',val='{ end_search(); }']
+
+  mark (AND):                             [f='c++.bnf',lfseqs=(2,1851),1049/55,68354:68364,len=11,type='action',val='{ mark(); }']
+
+  mark_type1 (AND):                       [f='c++.bnf',lfseqs=(2,162),337/91,20028:20055,len=28,type='action',val='{ mark_type1(); yyclearin; }']
+
+  mem_initializer (AND):                  [f='c++.bnf',lfseqs=(2,1621),925/36,60639:60656,len=18,type='name',val='mem_initializer_id']
+                                          [f='c++.bnf',lfseqs=(3,1622),925/55,60658:60661,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(4,1623),925/59,60662:60680,len=19,type='name',val='expression_list.opt']
+                                          [f='c++.bnf',lfseqs=(5,1624),925/79,60682:60685,len=3,type='token',val="')'"]
+
+  mem_initializer_id (AND):               [f='c++.bnf',lfseqs=(2,1627),926/36,60722:60730,len=9,type='name',val='scoped_id']
+
+  mem_initializer_list (OR):              [f='c++.bnf',lfseqs=(2,1606),921/36,60316:60330,len=15,type='name',val='mem_initializer']
+                                          [f=None,lfseqs=(None,None),922/36,None:None,len=8,type='name',val='_anon110']
+
+  mem_initializer_list_head (OR):         [f=None,lfseqs=(None,None),923/36,None:None,len=8,type='name',val='_anon112']
+                                          [f=None,lfseqs=(None,None),924/36,None:None,len=8,type='name',val='_anon111']
+
+  member_declaration (OR):                [f='c++.bnf',lfseqs=(2,1487),859/36,56030:56052,len=23,type='name',val='accessibility_specifier']
+                                          [f='c++.bnf',lfseqs=(1,1489),860/36,56090:56114,len=25,type='name',val='simple_member_declaration']
+                                          [f='c++.bnf',lfseqs=(1,1491),861/36,56152:56170,len=19,type='name',val='function_definition']
+                                          [f='c++.bnf',lfseqs=(1,1493),864/36,56488:56504,len=17,type='name',val='using_declaration']
+                                          [f='c++.bnf',lfseqs=(1,1495),865/36,56542:56561,len=20,type='name',val='template_declaration']
+
+  member_init_declaration (OR):           [f='c++.bnf',lfseqs=(2,1526),880/36,57485:57505,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(1,1528),883/36,57821:57846,len=26,type='name',val='bit_field_init_declaration']
+
+  member_init_declarations (OR):          [f=None,lfseqs=(None,None),877/36,None:None,len=8,type='name',val='_anon115']
+                                          [f=None,lfseqs=(None,None),878/36,None:None,len=8,type='name',val='_anon114']
+                                          [f=None,lfseqs=(None,None),879/36,None:None,len=8,type='name',val='_anon113']
+
+  member_specification.opt (OR):          [f=None,lfseqs=(None,None),852/36,None:None,len=8,type='name',val='_anon117']
+                                          [f=None,lfseqs=(None,None),853/36,None:None,len=8,type='name',val='_anon116']
+
+  multiplicative_expression (OR):         [f='c++.bnf',lfseqs=(2,383),424/36,27163:27175,len=13,type='name',val='pm_expression']
+                                          [f=None,lfseqs=(None,None),425/36,None:None,len=8,type='name',val='_anon120']
+                                          [f=None,lfseqs=(None,None),426/36,None:None,len=8,type='name',val='_anon119']
+                                          [f=None,lfseqs=(None,None),427/36,None:None,len=8,type='name',val='_anon118']
+
+  namespace_alias_definition (AND):       [f='c++.bnf',lfseqs=(2,1102),694/36,44816:44824,len=9,type='name',val='NAMESPACE']
+                                          [f='c++.bnf',lfseqs=(3,1103),694/46,44826:44834,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(4,1104),694/56,44836:44839,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(5,1105),694/60,44840:44848,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(6,1106),694/70,44850:44853,len=3,type='token',val="';'"]
+
+  namespace_definition (OR):              [f=None,lfseqs=(None,None),692/36,None:None,len=8,type='name',val='_anon122']
+                                          [f=None,lfseqs=(None,None),693/36,None:None,len=8,type='name',val='_anon121']
+
+  nest (AND):                             [f='c++.bnf',lfseqs=(2,1853),1050/55,68494:68504,len=11,type='action',val='{ nest(); }']
+
+  nested_id (OR):                         [f='c++.bnf',lfseqs=(2,34),219/36,12487:12488,len=2,type='name',val='id']
+                                          [f=None,lfseqs=(None,None),220/36,None:None,len=8,type='name',val='_anon123']
+
+  nested_pseudo_destructor_id (OR):       [f='c++.bnf',lfseqs=(2,101),255/36,14588:14607,len=20,type='name',val='pseudo_destructor_id']
+                                          [f=None,lfseqs=(None,None),256/36,None:None,len=8,type='name',val='_anon124']
+
+  nested_ptr_operator (OR):               [f='c++.bnf',lfseqs=(2,1159),719/36,46472:46488,len=17,type='name',val='star_ptr_operator']
+                                          [f=None,lfseqs=(None,None),720/36,None:None,len=8,type='name',val='_anon125']
+
+  nested_special_function_id (OR):        [f='c++.bnf',lfseqs=(2,61),234/36,13346:13364,len=19,type='name',val='special_function_id']
+                                          [f=None,lfseqs=(None,None),235/36,None:None,len=8,type='name',val='_anon127']
+                                          [f=None,lfseqs=(None,None),236/36,None:None,len=8,type='name',val='_anon126']
+
+  new_declarator (OR):                    [f=None,lfseqs=(None,None),407/36,None:None,len=8,type='name',val='_anon128']
+                                          [f='c++.bnf',lfseqs=(1,347),408/36,26141:26161,len=21,type='name',val='direct_new_declarator']
+
+  new_expression (OR):                    [f=None,lfseqs=(None,None),396/36,None:None,len=8,type='name',val='_anon132']
+                                          [f=None,lfseqs=(None,None),397/36,None:None,len=8,type='name',val='_anon131']
+                                          [f=None,lfseqs=(None,None),398/36,None:None,len=8,type='name',val='_anon130']
+                                          [f=None,lfseqs=(None,None),400/36,None:None,len=8,type='name',val='_anon129']
+
+  new_initializer.opt (OR):               [f=None,lfseqs=(None,None),412/36,None:None,len=8,type='name',val='_anon133']
+
+  new_type_id (OR):                       [f=None,lfseqs=(None,None),404/36,None:None,len=8,type='name',val='_anon136']
+                                          [f=None,lfseqs=(None,None),405/36,None:None,len=8,type='name',val='_anon135']
+                                          [f=None,lfseqs=(None,None),406/36,None:None,len=8,type='name',val='_anon134']
+
+  operator (OR):                          [f='c++.bnf',lfseqs=(2,1634),941/35,61722:61724,len=3,type='name',val='NEW']
+                                          [f='c++.bnf',lfseqs=(1,1636),942/35,61762:61767,len=6,type='name',val='DELETE']
+                                          [f='c++.bnf',lfseqs=(1,1638),947/36,62226:62229,len=3,type='token',val="'+'"]
+                                          [f='c++.bnf',lfseqs=(1,1640),948/36,62266:62269,len=3,type='token',val="'-'"]
+                                          [f='c++.bnf',lfseqs=(1,1642),949/36,62306:62309,len=3,type='token',val="'*'"]
+                                          [f='c++.bnf',lfseqs=(1,1644),950/36,62346:62349,len=3,type='token',val="'/'"]
+                                          [f='c++.bnf',lfseqs=(1,1646),951/36,62386:62389,len=3,type='token',val="'%'"]
+                                          [f='c++.bnf',lfseqs=(1,1648),952/36,62426:62429,len=3,type='token',val="'^'"]
+                                          [f='c++.bnf',lfseqs=(1,1650),953/36,62466:62469,len=3,type='token',val="'&'"]
+                                          [f='c++.bnf',lfseqs=(1,1652),954/36,62506:62509,len=3,type='token',val="'|'"]
+                                          [f='c++.bnf',lfseqs=(1,1654),955/36,62546:62549,len=3,type='token',val="'~'"]
+                                          [f='c++.bnf',lfseqs=(1,1656),956/36,62586:62589,len=3,type='token',val="'!'"]
+                                          [f='c++.bnf',lfseqs=(1,1658),957/36,62626:62629,len=3,type='token',val="'='"]
+                                          [f='c++.bnf',lfseqs=(1,1660),958/36,62666:62669,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(1,1662),959/36,62706:62709,len=3,type='token',val="'>'"]
+                                          [f='c++.bnf',lfseqs=(1,1664),960/36,62746:62752,len=7,type='name',val='ASS_ADD']
+                                          [f='c++.bnf',lfseqs=(1,1666),961/36,62790:62796,len=7,type='name',val='ASS_SUB']
+                                          [f='c++.bnf',lfseqs=(1,1668),962/36,62834:62840,len=7,type='name',val='ASS_MUL']
+                                          [f='c++.bnf',lfseqs=(1,1670),963/36,62878:62884,len=7,type='name',val='ASS_DIV']
+                                          [f='c++.bnf',lfseqs=(1,1672),964/36,62922:62928,len=7,type='name',val='ASS_MOD']
+                                          [f='c++.bnf',lfseqs=(1,1674),965/36,62966:62972,len=7,type='name',val='ASS_XOR']
+                                          [f='c++.bnf',lfseqs=(1,1676),966/36,63010:63016,len=7,type='name',val='ASS_AND']
+                                          [f='c++.bnf',lfseqs=(1,1678),967/36,63054:63059,len=6,type='name',val='ASS_OR']
+                                          [f='c++.bnf',lfseqs=(1,1680),968/36,63097:63099,len=3,type='name',val='SHL']
+                                          [f='c++.bnf',lfseqs=(1,1682),969/36,63137:63139,len=3,type='name',val='SHR']
+                                          [f='c++.bnf',lfseqs=(1,1684),970/36,63177:63183,len=7,type='name',val='ASS_SHR']
+                                          [f='c++.bnf',lfseqs=(1,1686),971/36,63221:63227,len=7,type='name',val='ASS_SHL']
+                                          [f='c++.bnf',lfseqs=(1,1688),972/36,63265:63266,len=2,type='name',val='EQ']
+                                          [f='c++.bnf',lfseqs=(1,1690),973/36,63304:63305,len=2,type='name',val='NE']
+                                          [f='c++.bnf',lfseqs=(1,1692),974/36,63343:63344,len=2,type='name',val='LE']
+                                          [f='c++.bnf',lfseqs=(1,1694),975/36,63382:63383,len=2,type='name',val='GE']
+                                          [f='c++.bnf',lfseqs=(1,1696),976/36,63421:63427,len=7,type='name',val='LOG_AND']
+                                          [f='c++.bnf',lfseqs=(1,1698),977/36,63465:63470,len=6,type='name',val='LOG_OR']
+                                          [f='c++.bnf',lfseqs=(1,1700),978/36,63508:63510,len=3,type='name',val='INC']
+                                          [f='c++.bnf',lfseqs=(1,1702),979/36,63548:63550,len=3,type='name',val='DEC']
+                                          [f='c++.bnf',lfseqs=(1,1704),980/36,63588:63591,len=3,type='token',val="','"]
+                                          [f='c++.bnf',lfseqs=(1,1706),981/36,63628:63637,len=10,type='name',val='ARROW_STAR']
+                                          [f='c++.bnf',lfseqs=(1,1708),982/36,63675:63679,len=5,type='name',val='ARROW']
+                                          [f=None,lfseqs=(None,None),983/36,None:None,len=8,type='name',val='_anon138']
+                                          [f=None,lfseqs=(None,None),984/36,None:None,len=8,type='name',val='_anon137']
+
+  operator_function_id (AND):             [f='c++.bnf',lfseqs=(2,1630),931/36,60995:61002,len=8,type='name',val='OPERATOR']
+                                          [f='c++.bnf',lfseqs=(3,1631),931/45,61004:61011,len=8,type='name',val='operator']
+
+  parameter_declaration (OR):             [f='c++.bnf',lfseqs=(2,1278),773/36,49901:49921,len=21,type='name',val='assignment_expression']
+                                          [f='c++.bnf',lfseqs=(1,1280),774/36,49959:49987,len=29,type='name',val='special_parameter_declaration']
+                                          [f=None,lfseqs=(None,None),775/36,None:None,len=8,type='name',val='_anon139']
+
+  parameter_declaration_clause (OR):      [f='c++.bnf',lfseqs=(1,1239),754/36,48839:48864,len=26,type='name',val='parameter_declaration_list']
+                                          [f=None,lfseqs=(None,None),755/36,None:None,len=8,type='name',val='_anon140']
+
+  parameter_declaration_list (OR):        [f='c++.bnf',lfseqs=(2,1245),756/36,48974:48994,len=21,type='name',val='parameter_declaration']
+                                          [f=None,lfseqs=(None,None),757/36,None:None,len=8,type='name',val='_anon141']
+
+  parameters_clause (AND):                [f='c++.bnf',lfseqs=(2,1233),751/36,48608:48611,len=3,type='token',val="'('"]
+                                          [f='c++.bnf',lfseqs=(3,1234),751/40,48612:48639,len=28,type='name',val='parameter_declaration_clause']
+                                          [f='c++.bnf',lfseqs=(4,1235),751/69,48641:48644,len=3,type='token',val="')'"]
+
+  parenthesis_clause (OR):                [f=None,lfseqs=(None,None),749/36,None:None,len=8,type='name',val='_anon143']
+                                          [f=None,lfseqs=(None,None),750/36,None:None,len=8,type='name',val='_anon142']
+
+  pm_expression (OR):                     [f='c++.bnf',lfseqs=(2,372),421/36,26959:26973,len=15,type='name',val='cast_expression']
+                                          [f=None,lfseqs=(None,None),422/36,None:None,len=8,type='name',val='_anon145']
+                                          [f=None,lfseqs=(None,None),423/36,None:None,len=8,type='name',val='_anon144']
+
+  postfix_expression (OR):                [f='c++.bnf',lfseqs=(2,164),338/36,20093:20110,len=18,type='name',val='primary_expression']
+                                          [f=None,lfseqs=(None,None),340/35,None:None,len=8,type='name',val='_anon161']
+                                          [f=None,lfseqs=(None,None),341/35,None:None,len=8,type='name',val='_anon160']
+                                          [f=None,lfseqs=(None,None),343/35,None:None,len=8,type='name',val='_anon159']
+                                          [f=None,lfseqs=(None,None),345/35,None:None,len=8,type='name',val='_anon158']
+                                          [f=None,lfseqs=(None,None),347/36,None:None,len=8,type='name',val='_anon157']
+                                          [f=None,lfseqs=(None,None),351/36,None:None,len=8,type='name',val='_anon156']
+                                          [f=None,lfseqs=(None,None),353/36,None:None,len=8,type='name',val='_anon155']
+                                          [f=None,lfseqs=(None,None),354/36,None:None,len=8,type='name',val='_anon154']
+                                          [f=None,lfseqs=(None,None),356/36,None:None,len=8,type='name',val='_anon153']
+                                          [f=None,lfseqs=(None,None),357/36,None:None,len=8,type='name',val='_anon152']
+                                          [f=None,lfseqs=(None,None),358/36,None:None,len=8,type='name',val='_anon151']
+                                          [f=None,lfseqs=(None,None),359/36,None:None,len=8,type='name',val='_anon150']
+                                          [f=None,lfseqs=(None,None),360/36,None:None,len=8,type='name',val='_anon149']
+                                          [f=None,lfseqs=(None,None),361/36,None:None,len=8,type='name',val='_anon148']
+                                          [f=None,lfseqs=(None,None),362/36,None:None,len=8,type='name',val='_anon147']
+                                          [f=None,lfseqs=(None,None),363/36,None:None,len=8,type='name',val='_anon146']
+
+  primary_expression (OR):                [f='c++.bnf',lfseqs=(2,135),315/36,18268:18274,len=7,type='name',val='literal']
+                                          [f='c++.bnf',lfseqs=(1,137),316/36,18312:18315,len=4,type='name',val='THIS']
+                                          [f='c++.bnf',lfseqs=(1,139),317/36,18353:18377,len=25,type='name',val='suffix_decl_specified_ids']
+                                          [f='c++.bnf',lfseqs=(1,141),321/36,18832:18850,len=19,type='name',val='abstract_expression']
+
+  pseudo_destructor_id (OR):              [f=None,lfseqs=(None,None),252/36,None:None,len=8,type='name',val='_anon164']
+                                          [f=None,lfseqs=(None,None),253/36,None:None,len=8,type='name',val='_anon163']
+                                          [f=None,lfseqs=(None,None),254/36,None:None,len=8,type='name',val='_anon162']
+
+  ptr_operator (OR):                      [f='c++.bnf',lfseqs=(2,1165),721/36,46591:46594,len=3,type='token',val="'&'"]
+                                          [f='c++.bnf',lfseqs=(1,1167),722/36,46631:46649,len=19,type='name',val='nested_ptr_operator']
+                                          [f=None,lfseqs=(None,None),723/36,None:None,len=8,type='name',val='_anon165']
+
+  ptr_operator_seq (OR):                  [f='c++.bnf',lfseqs=(2,1173),724/36,46756:46767,len=12,type='name',val='ptr_operator']
+                                          [f=None,lfseqs=(None,None),725/36,None:None,len=8,type='name',val='_anon166']
+
+  ptr_operator_seq.opt (OR):              [f=None,lfseqs=(None,None),728/36,None:None,len=8,type='name',val='_anon167']
+
+  relational_expression (OR):             [f='c++.bnf',lfseqs=(2,420),434/36,27911:27926,len=16,type='name',val='shift_expression']
+                                          [f=None,lfseqs=(None,None),435/36,None:None,len=8,type='name',val='_anon171']
+                                          [f=None,lfseqs=(None,None),436/36,None:None,len=8,type='name',val='_anon170']
+                                          [f=None,lfseqs=(None,None),437/36,None:None,len=8,type='name',val='_anon169']
+                                          [f=None,lfseqs=(None,None),438/36,None:None,len=8,type='name',val='_anon168']
+
+  scoped_id (OR):                         [f='c++.bnf',lfseqs=(2,40),221/36,12660:12668,len=9,type='name',val='nested_id']
+                                          [f=None,lfseqs=(None,None),222/36,None:None,len=8,type='name',val='_anon172']
+
+  scoped_pseudo_destructor_id (OR):       [f='c++.bnf',lfseqs=(2,107),257/36,14718:14744,len=27,type='name',val='nested_pseudo_destructor_id']
+                                          [f=None,lfseqs=(None,None),258/36,None:None,len=8,type='name',val='_anon173']
+
+  scoped_special_function_id (OR):        [f='c++.bnf',lfseqs=(2,70),237/36,13533:13558,len=26,type='name',val='nested_special_function_id']
+                                          [f=None,lfseqs=(None,None),238/36,None:None,len=8,type='name',val='_anon174']
+
+  selection_statement (OR):               [f=None,lfseqs=(None,None),540/36,None:None,len=8,type='name',val='_anon177']
+                                          [f=None,lfseqs=(None,None),541/36,None:None,len=8,type='name',val='_anon176']
+                                          [f=None,lfseqs=(None,None),542/36,None:None,len=8,type='name',val='_anon175']
+
+  shift_expression (OR):                  [f='c++.bnf',lfseqs=(2,409),431/36,27701:27719,len=19,type='name',val='additive_expression']
+                                          [f=None,lfseqs=(None,None),432/36,None:None,len=8,type='name',val='_anon179']
+                                          [f=None,lfseqs=(None,None),433/36,None:None,len=8,type='name',val='_anon178']
+
+  simple_declaration (OR):                [f='c++.bnf',lfseqs=(2,862),589/36,38554:38557,len=3,type='token',val="';'"]
+                                          [f=None,lfseqs=(None,None),590/36,None:None,len=8,type='name',val='_anon182']
+                                          [f=None,lfseqs=(None,None),591/36,None:None,len=8,type='name',val='_anon181']
+                                          [f=None,lfseqs=(None,None),592/36,None:None,len=8,type='name',val='_anon180']
+
+  simple_member_declaration (OR):         [f='c++.bnf',lfseqs=(2,1498),872/36,56918:56921,len=3,type='token',val="';'"]
+                                          [f=None,lfseqs=(None,None),873/36,None:None,len=8,type='name',val='_anon186']
+                                          [f=None,lfseqs=(None,None),874/36,None:None,len=8,type='name',val='_anon185']
+                                          [f=None,lfseqs=(None,None),875/36,None:None,len=8,type='name',val='_anon184']
+                                          [f=None,lfseqs=(None,None),876/36,None:None,len=8,type='name',val='_anon183']
+
+  simple_type_parameter (OR):             [f='c++.bnf',lfseqs=(2,1755),1000/36,64851:64855,len=5,type='name',val='CLASS']
+                                          [f='c++.bnf',lfseqs=(1,1757),1002/36,65028:65035,len=8,type='name',val='TYPENAME']
+
+  simple_type_specifier (OR):             [f='c++.bnf',lfseqs=(2,992),656/36,42453:42461,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(1,994),657/36,42499:42521,len=23,type='name',val='built_in_type_specifier']
+
+  special_function_id (OR):               [f='c++.bnf',lfseqs=(2,53),231/36,13165:13186,len=22,type='name',val='conversion_function_id']
+                                          [f='c++.bnf',lfseqs=(1,55),232/36,13224:13243,len=20,type='name',val='operator_function_id']
+                                          [f=None,lfseqs=(None,None),233/36,None:None,len=8,type='name',val='_anon187']
+
+  special_parameter_declaration (OR):     [f='c++.bnf',lfseqs=(2,1269),770/36,49696:49725,len=30,type='name',val='abstract_parameter_declaration']
+                                          [f=None,lfseqs=(None,None),771/36,None:None,len=8,type='name',val='_anon188']
+                                          [f='c++.bnf',lfseqs=(1,1275),772/36,49856:49863,len=8,type='name',val='ELLIPSIS']
+
+  specialised_block_declaration (OR):     [f='c++.bnf',lfseqs=(2,850),584/36,38259:38272,len=14,type='name',val='asm_definition']
+                                          [f='c++.bnf',lfseqs=(1,852),585/36,38310:38335,len=26,type='name',val='namespace_alias_definition']
+                                          [f='c++.bnf',lfseqs=(1,854),586/36,38373:38389,len=17,type='name',val='using_declaration']
+                                          [f='c++.bnf',lfseqs=(1,856),587/36,38427:38441,len=15,type='name',val='using_directive']
+                                          [f=None,lfseqs=(None,None),588/36,None:None,len=8,type='name',val='_anon189']
+
+  specialised_declaration (OR):           [f='c++.bnf',lfseqs=(2,837),579/36,37954:37974,len=21,type='name',val='linkage_specification']
+                                          [f='c++.bnf',lfseqs=(1,839),580/36,38012:38031,len=20,type='name',val='namespace_definition']
+                                          [f=None,lfseqs=(None,None),581/36,None:None,len=8,type='name',val='_anon190']
+
+  star_ptr_operator (OR):                 [f='c++.bnf',lfseqs=(2,1153),717/36,46365:46368,len=3,type='token',val="'*'"]
+                                          [f=None,lfseqs=(None,None),718/36,None:None,len=8,type='name',val='_anon191']
+
+  start_search (AND):                     [f='c++.bnf',lfseqs=(2,1855),1051/55,68629:68652,len=24,type='action',val='{ start_search(false); }']
+
+  start_search1 (AND):                    [f='c++.bnf',lfseqs=(2,1857),1052/55,68754:68776,len=23,type='action',val='{ start_search(true); }']
+
+  statement (OR):                         [f='c++.bnf',lfseqs=(2,652),519/36,33518:33534,len=17,type='name',val='control_statement']
+                                          [f='c++.bnf',lfseqs=(1,654),521/36,33707:33724,len=18,type='name',val='compound_statement']
+                                          [f='c++.bnf',lfseqs=(1,656),522/36,33762:33782,len=21,type='name',val='declaration_statement']
+                                          [f='c++.bnf',lfseqs=(1,658),523/36,33820:33828,len=9,type='name',val='try_block']
+
+  statement_seq.opt (OR):                 [f=None,lfseqs=(None,None),535/36,None:None,len=8,type='name',val='_anon193']
+                                          [f=None,lfseqs=(None,None),536/36,None:None,len=8,type='name',val='_anon192']
+
+  storage_class_specifier (OR):           [f='c++.bnf',lfseqs=(2,957),640/36,41679:41686,len=8,type='name',val='REGISTER']
+                                          [f='c++.bnf',lfseqs=(4,959),640/47,41690:41695,len=6,type='name',val='STATIC']
+                                          [f='c++.bnf',lfseqs=(6,961),640/56,41699:41705,len=7,type='name',val='MUTABLE']
+                                          [f='c++.bnf',lfseqs=(1,963),641/36,41743:41748,len=6,type='name',val='EXTERN']
+                                          [f='c++.bnf',lfseqs=(1,965),642/36,41874:41877,len=4,type='name',val='AUTO']
+
+  string (AND):                           [f='c++.bnf',lfseqs=(2,113),269/36,15476:15488,len=13,type='name',val='StringLiteral']
+
+  suffix_built_in_decl_specifier (OR):    [f='c++.bnf',lfseqs=(2,883),610/36,39790:39823,len=34,type='name',val='suffix_built_in_decl_specifier.raw']
+                                          [f=None,lfseqs=(None,None),611/36,None:None,len=8,type='name',val='_anon194']
+
+  suffix_built_in_decl_specifier.raw (OR):[f='c++.bnf',lfseqs=(2,874),607/36,39542:39564,len=23,type='name',val='built_in_type_specifier']
+                                          [f=None,lfseqs=(None,None),608/36,None:None,len=8,type='name',val='_anon196']
+                                          [f=None,lfseqs=(None,None),609/36,None:None,len=8,type='name',val='_anon195']
+
+  suffix_decl_specified_ids (OR):         [f='c++.bnf',lfseqs=(2,917),622/36,40705:40734,len=30,type='name',val='suffix_built_in_decl_specifier']
+                                          [f=None,lfseqs=(None,None),623/36,None:None,len=8,type='name',val='_anon197']
+                                          [f='c++.bnf',lfseqs=(1,922),624/36,40871:40901,len=31,type='name',val='suffix_named_decl_specifiers.sf']
+
+  suffix_decl_specified_scope (OR):       [f=None,lfseqs=(None,None),625/36,None:None,len=8,type='name',val='_anon200']
+                                          [f=None,lfseqs=(None,None),626/36,None:None,len=8,type='name',val='_anon199']
+                                          [f=None,lfseqs=(None,None),627/36,None:None,len=8,type='name',val='_anon198']
+
+  suffix_named_decl_specifier (OR):       [f='c++.bnf',lfseqs=(2,889),612/36,39937:39945,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(1,891),613/36,39983:40006,len=24,type='name',val='elaborate_type_specifier']
+                                          [f=None,lfseqs=(None,None),614/36,None:None,len=8,type='name',val='_anon201']
+
+  suffix_named_decl_specifier.bi (OR):    [f='c++.bnf',lfseqs=(2,897),615/36,40130:40156,len=27,type='name',val='suffix_named_decl_specifier']
+                                          [f=None,lfseqs=(None,None),616/36,None:None,len=8,type='name',val='_anon202']
+
+  suffix_named_decl_specifiers (OR):      [f='c++.bnf',lfseqs=(2,903),617/36,40293:40322,len=30,type='name',val='suffix_named_decl_specifier.bi']
+                                          [f=None,lfseqs=(None,None),618/36,None:None,len=8,type='name',val='_anon203']
+
+  suffix_named_decl_specifiers.sf (OR):   [f='c++.bnf',lfseqs=(2,909),619/36,40456:40481,len=26,type='name',val='scoped_special_function_id']
+                                          [f='c++.bnf',lfseqs=(1,911),620/36,40548:40575,len=28,type='name',val='suffix_named_decl_specifiers']
+                                          [f=None,lfseqs=(None,None),621/36,None:None,len=8,type='name',val='_anon204']
+
+  template_argument (AND):                [f='c++.bnf',lfseqs=(2,1785),1013/36,65746:65776,len=31,type='name',val='templated_parameter_declaration']
+
+  template_argument_list (OR):            [f='c++.bnf',lfseqs=(2,1778),1011/36,65611:65627,len=17,type='name',val='template_argument']
+                                          [f=None,lfseqs=(None,None),1012/36,None:None,len=8,type='name',val='_anon205']
+
+  template_declaration (OR):              [f=None,lfseqs=(None,None),989/36,None:None,len=8,type='name',val='_anon207']
+                                          [f=None,lfseqs=(None,None),990/36,None:None,len=8,type='name',val='_anon206']
+
+  template_id (OR):                       [f=None,lfseqs=(None,None),1006/36,None:None,len=8,type='name',val='_anon209']
+                                          [f=None,lfseqs=(None,None),1007/36,None:None,len=8,type='name',val='_anon208']
+
+  template_parameter (OR):                [f='c++.bnf',lfseqs=(2,1737),994/36,64383:64403,len=21,type='name',val='simple_type_parameter']
+                                          [f=None,lfseqs=(None,None),995/36,None:None,len=8,type='name',val='_anon212']
+                                          [f='c++.bnf',lfseqs=(1,1743),996/36,64511:64534,len=24,type='name',val='templated_type_parameter']
+                                          [f=None,lfseqs=(None,None),997/36,None:None,len=8,type='name',val='_anon211']
+                                          [f='c++.bnf',lfseqs=(1,1749),998/36,64648:64678,len=31,type='name',val='templated_parameter_declaration']
+                                          [f=None,lfseqs=(None,None),999/36,None:None,len=8,type='name',val='_anon210']
+
+  template_parameter_clause (AND):        [f='c++.bnf',lfseqs=(2,1724),991/36,64168:64175,len=8,type='name',val='TEMPLATE']
+                                          [f='c++.bnf',lfseqs=(3,1725),991/45,64177:64180,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(4,1726),991/49,64181:64203,len=23,type='name',val='template_parameter_list']
+                                          [f='c++.bnf',lfseqs=(5,1727),991/73,64205:64208,len=3,type='token',val="'>'"]
+
+  template_parameter_list (OR):           [f='c++.bnf',lfseqs=(2,1730),992/36,64245:64262,len=18,type='name',val='template_parameter']
+                                          [f=None,lfseqs=(None,None),993/36,None:None,len=8,type='name',val='_anon213']
+
+  template_test (AND):                    [f='c++.bnf',lfseqs=(2,21),211/36,12069:12072,len=3,type='token',val="'<'"]
+                                          [f='c++.bnf',lfseqs=(3,22),211/95,12129:12148,len=20,type='action',val='{ template_test(); }']
+
+  templated_abstract_declaration (OR):    [f='c++.bnf',lfseqs=(2,1298),784/36,50494:50521,len=28,type='name',val='abstract_pointer_declaration']
+                                          [f=None,lfseqs=(None,None),785/36,None:None,len=8,type='name',val='_anon215']
+                                          [f=None,lfseqs=(None,None),786/36,None:None,len=8,type='name',val='_anon214']
+
+  templated_and_expression (OR):          [f='c++.bnf',lfseqs=(2,571),483/36,31252:31280,len=29,type='name',val='templated_equality_expression']
+                                          [f=None,lfseqs=(None,None),484/36,None:None,len=8,type='name',val='_anon216']
+
+  templated_assignment_expression (OR):   [f='c++.bnf',lfseqs=(2,615),500/36,32311:32342,len=32,type='name',val='templated_conditional_expression']
+                                          [f=None,lfseqs=(None,None),501/36,None:None,len=8,type='name',val='_anon217']
+                                          [f='c++.bnf',lfseqs=(1,621),503/36,32501:32526,len=26,type='name',val='templated_throw_expression']
+
+  templated_conditional_expression (OR):  [f='c++.bnf',lfseqs=(2,606),497/36,32113:32143,len=31,type='name',val='templated_logical_or_expression']
+                                          [f=None,lfseqs=(None,None),498/36,None:None,len=8,type='name',val='_anon218']
+
+  templated_equality_expression (OR):     [f='c++.bnf',lfseqs=(2,560),480/36,30982:31012,len=31,type='name',val='templated_relational_expression']
+                                          [f=None,lfseqs=(None,None),481/36,None:None,len=8,type='name',val='_anon220']
+                                          [f=None,lfseqs=(None,None),482/36,None:None,len=8,type='name',val='_anon219']
+
+  templated_exclusive_or_expression (OR): [f='c++.bnf',lfseqs=(2,578),485/36,31413:31436,len=24,type='name',val='templated_and_expression']
+                                          [f=None,lfseqs=(None,None),486/36,None:None,len=8,type='name',val='_anon221']
+
+  templated_expression (OR):              [f='c++.bnf',lfseqs=(2,624),504/36,32564:32594,len=31,type='name',val='templated_assignment_expression']
+                                          [f=None,lfseqs=(None,None),505/36,None:None,len=8,type='name',val='_anon222']
+
+  templated_expression_list (OR):         [f='c++.bnf',lfseqs=(2,631),507/36,32731:32761,len=31,type='name',val='templated_assignment_expression']
+                                          [f=None,lfseqs=(None,None),508/36,None:None,len=8,type='name',val='_anon223']
+
+  templated_inclusive_or_expression (OR): [f='c++.bnf',lfseqs=(2,585),488/36,31574:31606,len=33,type='name',val='templated_exclusive_or_expression']
+                                          [f=None,lfseqs=(None,None),489/36,None:None,len=8,type='name',val='_anon224']
+
+  templated_logical_and_expression (OR):  [f='c++.bnf',lfseqs=(2,592),491/36,31753:31785,len=33,type='name',val='templated_inclusive_or_expression']
+                                          [f=None,lfseqs=(None,None),492/36,None:None,len=8,type='name',val='_anon225']
+
+  templated_logical_or_expression (OR):   [f='c++.bnf',lfseqs=(2,599),494/36,31935:31966,len=32,type='name',val='templated_logical_and_expression']
+                                          [f=None,lfseqs=(None,None),495/36,None:None,len=8,type='name',val='_anon226']
+
+  templated_parameter_declaration (OR):   [f='c++.bnf',lfseqs=(2,1286),779/36,50165:50195,len=31,type='name',val='templated_assignment_expression']
+                                          [f='c++.bnf',lfseqs=(1,1288),780/36,50233:50262,len=30,type='name',val='templated_abstract_declaration']
+                                          [f=None,lfseqs=(None,None),781/36,None:None,len=8,type='name',val='_anon228']
+                                          [f=None,lfseqs=(None,None),783/36,None:None,len=8,type='name',val='_anon227']
+
+  templated_relational_expression (OR):   [f='c++.bnf',lfseqs=(2,545),476/36,30664:30679,len=16,type='name',val='shift_expression']
+                                          [f=None,lfseqs=(None,None),477/36,None:None,len=8,type='name',val='_anon231']
+                                          [f=None,lfseqs=(None,None),478/36,None:None,len=8,type='name',val='_anon230']
+                                          [f=None,lfseqs=(None,None),479/36,None:None,len=8,type='name',val='_anon229']
+
+  templated_throw_expression (OR):        [f='c++.bnf',lfseqs=(2,1821),1037/36,67501:67505,len=5,type='name',val='THROW']
+                                          [f=None,lfseqs=(None,None),1038/36,None:None,len=8,type='name',val='_anon232']
+
+  templated_type_parameter (OR):          [f=None,lfseqs=(None,None),1004/36,None:None,len=8,type='name',val='_anon234']
+                                          [f=None,lfseqs=(None,None),1005/36,None:None,len=8,type='name',val='_anon233']
+
+  throw_expression (OR):                  [f='c++.bnf',lfseqs=(2,1815),1035/36,67395:67399,len=5,type='name',val='THROW']
+                                          [f=None,lfseqs=(None,None),1036/36,None:None,len=8,type='name',val='_anon235']
+
+  translation_unit (AND):                 [f='c++.bnf',lfseqs=(2,132),283/36,16285:16303,len=19,type='name',val='declaration_seq.opt']
+
+  try_block (AND):                        [f='c++.bnf',lfseqs=(2,1794),1028/36,66812:66814,len=3,type='name',val='TRY']
+                                          [f='c++.bnf',lfseqs=(3,1795),1028/40,66816:66833,len=18,type='name',val='compound_statement']
+                                          [f='c++.bnf',lfseqs=(4,1796),1028/59,66835:66845,len=11,type='name',val='handler_seq']
+
+  type1_parameters (OR):                  [f=None,lfseqs=(None,None),335/35,None:None,len=8,type='name',val='_anon237']
+                                          [f=None,lfseqs=(None,None),336/35,None:None,len=8,type='name',val='_anon236']
+
+  type_id (OR):                           [f=None,lfseqs=(None,None),735/36,None:None,len=8,type='name',val='_anon239']
+                                          [f=None,lfseqs=(None,None),736/36,None:None,len=8,type='name',val='_anon238']
+
+  type_id_list (OR):                      [f='c++.bnf',lfseqs=(2,1837),1041/36,67730:67736,len=7,type='name',val='type_id']
+                                          [f=None,lfseqs=(None,None),1042/36,None:None,len=8,type='name',val='_anon240']
+
+  type_specifier (OR):                    [f='c++.bnf',lfseqs=(2,975),648/36,42049:42069,len=21,type='name',val='simple_type_specifier']
+                                          [f='c++.bnf',lfseqs=(1,977),649/36,42107:42130,len=24,type='name',val='elaborate_type_specifier']
+                                          [f='c++.bnf',lfseqs=(1,979),650/36,42168:42179,len=12,type='name',val='cv_qualifier']
+
+  unary_expression (OR):                  [f='c++.bnf',lfseqs=(2,271),371/36,23057:23074,len=18,type='name',val='postfix_expression']
+                                          [f=None,lfseqs=(None,None),372/36,None:None,len=8,type='name',val='_anon251']
+                                          [f=None,lfseqs=(None,None),373/36,None:None,len=8,type='name',val='_anon250']
+                                          [f=None,lfseqs=(None,None),374/36,None:None,len=8,type='name',val='_anon249']
+                                          [f=None,lfseqs=(None,None),379/36,None:None,len=8,type='name',val='_anon248']
+                                          [f=None,lfseqs=(None,None),381/36,None:None,len=8,type='name',val='_anon247']
+                                          [f=None,lfseqs=(None,None),382/36,None:None,len=8,type='name',val='_anon246']
+                                          [f=None,lfseqs=(None,None),383/36,None:None,len=8,type='name',val='_anon245']
+                                          [f=None,lfseqs=(None,None),384/36,None:None,len=8,type='name',val='_anon244']
+                                          [f=None,lfseqs=(None,None),385/36,None:None,len=8,type='name',val='_anon243']
+                                          [f='c++.bnf',lfseqs=(1,301),387/36,24337:24350,len=14,type='name',val='new_expression']
+                                          [f=None,lfseqs=(None,None),388/36,None:None,len=8,type='name',val='_anon242']
+                                          [f='c++.bnf',lfseqs=(1,306),389/36,24452:24468,len=17,type='name',val='delete_expression']
+                                          [f=None,lfseqs=(None,None),390/36,None:None,len=8,type='name',val='_anon241']
+
+  using_declaration (OR):                 [f=None,lfseqs=(None,None),696/36,None:None,len=8,type='name',val='_anon253']
+                                          [f=None,lfseqs=(None,None),697/36,None:None,len=8,type='name',val='_anon252']
+
+  using_directive (AND):                  [f='c++.bnf',lfseqs=(2,1119),699/36,45021:45025,len=5,type='name',val='USING']
+                                          [f='c++.bnf',lfseqs=(3,1120),699/42,45027:45035,len=9,type='name',val='NAMESPACE']
+                                          [f='c++.bnf',lfseqs=(4,1121),699/52,45037:45045,len=9,type='name',val='scoped_id']
+                                          [f='c++.bnf',lfseqs=(5,1122),699/62,45047:45050,len=3,type='token',val="';'"]
+
+  util (AND):                             ***EMPTY***
+***SyntaxError: (207/37): Term 'Identifier' not declared
+***SyntaxError: (213/37): Term 'SCOPE' not declared
+***SyntaxError: (214/37): Term 'TEMPLATE' not declared
+***SyntaxError: (215/40): Term 'SCOPE' not declared
+***SyntaxError: (231/37): Term 'TEMPLATE' not declared
+***SyntaxError: (234/37): Term 'TEMPLATE' not declared
+***SyntaxError: (253/54): Term 'SCOPE' not declared
+***SyntaxError: (255/37): Term 'TEMPLATE' not declared
+***SyntaxError: (270/37): Term 'StringLiteral' not declared
+***SyntaxError: (273/37): Term 'IntegerLiteral' not declared
+***SyntaxError: (274/37): Term 'CharacterLiteral' not declared
+***SyntaxError: (275/37): Term 'FloatingLiteral' not declared
+***SyntaxError: (278/37): Term 'FALSE' not declared
+***SyntaxError: (279/37): Term 'TRUE' not declared
+***SyntaxError: (317/37): Term 'THIS' not declared
+***SyntaxError: (329/37): Term 'TEMPLATE' not declared
+***SyntaxError: (342/115): Term 'error' not declared
+***SyntaxError: (344/111): Term 'error' not declared
+***SyntaxError: (346/89): Term 'error' not declared
+***SyntaxError: (355/56): Term 'ARROW' not declared
+***SyntaxError: (357/56): Term 'ARROW' not declared
+***SyntaxError: (358/56): Term 'INC' not declared
+***SyntaxError: (359/56): Term 'DEC' not declared
+***SyntaxError: (360/37): Term 'DYNAMIC_CAST' not declared
+***SyntaxError: (361/37): Term 'STATIC_CAST' not declared
+***SyntaxError: (362/37): Term 'REINTERPRET_CAST' not declared
+***SyntaxError: (363/37): Term 'CONST_CAST' not declared
+***SyntaxError: (364/37): Term 'TYPEID' not declared
+***SyntaxError: (373/37): Term 'INC' not declared
+***SyntaxError: (374/37): Term 'DEC' not declared
+***SyntaxError: (386/37): Term 'SIZEOF' not declared
+***SyntaxError: (395/37): Term 'DELETE' not declared
+***SyntaxError: (397/37): Term 'NEW' not declared
+***SyntaxError: (398/37): Term 'NEW' not declared
+***SyntaxError: (399/37): Term 'NEW' not declared
+***SyntaxError: (401/37): Term 'NEW' not declared
+***SyntaxError: (423/51): Term 'DOT_STAR' not declared
+***SyntaxError: (424/51): Term 'ARROW_STAR' not declared
+***SyntaxError: (433/54): Term 'SHL' not declared
+***SyntaxError: (434/54): Term 'SHR' not declared
+***SyntaxError: (438/59): Term 'LE' not declared
+***SyntaxError: (439/59): Term 'GE' not declared
+***SyntaxError: (441/57): Term 'EQ' not declared
+***SyntaxError: (442/57): Term 'NE' not declared
+***SyntaxError: (450/60): Term 'LOG_AND' not declared
+***SyntaxError: (452/59): Term 'LOG_OR' not declared
+***SyntaxError: (464/43): Term 'ASS_ADD' not declared
+***SyntaxError: (464/53): Term 'ASS_AND' not declared
+***SyntaxError: (464/63): Term 'ASS_DIV' not declared
+***SyntaxError: (464/73): Term 'ASS_MOD' not declared
+***SyntaxError: (464/83): Term 'ASS_MUL' not declared
+***SyntaxError: (464/93): Term 'ASS_OR' not declared
+***SyntaxError: (464/102): Term 'ASS_SHL' not declared
+***SyntaxError: (464/112): Term 'ASS_SHR' not declared
+***SyntaxError: (464/122): Term 'ASS_SUB' not declared
+***SyntaxError: (464/132): Term 'ASS_XOR' not declared
+***SyntaxError: (479/69): Term 'LE' not declared
+***SyntaxError: (480/69): Term 'GE' not declared
+***SyntaxError: (482/67): Term 'EQ' not declared
+***SyntaxError: (483/67): Term 'NE' not declared
+***SyntaxError: (493/70): Term 'LOG_AND' not declared
+***SyntaxError: (496/69): Term 'LOG_OR' not declared
+***SyntaxError: (530/37): Term 'CASE' not declared
+***SyntaxError: (531/37): Term 'DEFAULT' not declared
+***SyntaxError: (534/86): Term 'error' not declared
+***SyntaxError: (537/82): Term 'error' not declared
+***SyntaxError: (541/37): Term 'IF' not declared
+***SyntaxError: (542/37): Term 'IF' not declared
+***SyntaxError: (542/76): Term 'ELSE' not declared
+***SyntaxError: (543/37): Term 'SWITCH' not declared
+***SyntaxError: (549/37): Term 'WHILE' not declared
+***SyntaxError: (550/37): Term 'DO' not declared
+***SyntaxError: (550/58): Term 'WHILE' not declared
+***SyntaxError: (551/37): Term 'FOR' not declared
+***SyntaxError: (555/37): Term 'BREAK' not declared
+***SyntaxError: (556/37): Term 'CONTINUE' not declared
+***SyntaxError: (557/37): Term 'RETURN' not declared
+***SyntaxError: (558/37): Term 'GOTO' not declared
+***SyntaxError: (565/100): Term 'error' not declared
+***SyntaxError: (569/91): Term 'error' not declared
+***SyntaxError: (582/37): Term 'TEMPLATE' not declared
+***SyntaxError: (589/37): Term 'TEMPLATE' not declared
+***SyntaxError: (612/37): Term 'TEMPLATE' not declared
+***SyntaxError: (626/66): Term 'SCOPE' not declared
+***SyntaxError: (627/97): Term 'SCOPE' not declared
+***SyntaxError: (628/68): Term 'SCOPE' not declared
+***SyntaxError: (632/37): Term 'FRIEND' not declared
+***SyntaxError: (633/37): Term 'TYPEDEF' not declared
+***SyntaxError: (639/37): Term 'TEMPLATE' not declared
+***SyntaxError: (641/37): Term 'REGISTER' not declared
+***SyntaxError: (641/48): Term 'STATIC' not declared
+***SyntaxError: (641/57): Term 'MUTABLE' not declared
+***SyntaxError: (642/37): Term 'EXTERN' not declared
+***SyntaxError: (643/37): Term 'AUTO' not declared
+***SyntaxError: (645/37): Term 'EXPLICIT' not declared
+***SyntaxError: (646/37): Term 'INLINE' not declared
+***SyntaxError: (647/37): Term 'VIRTUAL' not declared
+***SyntaxError: (656/37): Term 'TEMPLATE' not declared
+***SyntaxError: (659/37): Term 'CHAR' not declared
+***SyntaxError: (659/44): Term 'WCHAR_T' not declared
+***SyntaxError: (659/54): Term 'BOOL' not declared
+***SyntaxError: (659/61): Term 'SHORT' not declared
+***SyntaxError: (659/69): Term 'INT' not declared
+***SyntaxError: (659/75): Term 'LONG' not declared
+***SyntaxError: (659/82): Term 'SIGNED' not declared
+***SyntaxError: (659/91): Term 'UNSIGNED' not declared
+***SyntaxError: (659/102): Term 'FLOAT' not declared
+***SyntaxError: (659/110): Term 'DOUBLE' not declared
+***SyntaxError: (659/119): Term 'VOID' not declared
+***SyntaxError: (672/37): Term 'TYPENAME' not declared
+***SyntaxError: (674/37): Term 'ENUM' not declared
+***SyntaxError: (675/37): Term 'ENUM' not declared
+***SyntaxError: (676/37): Term 'ENUM' not declared
+***SyntaxError: (681/42): Term 'error' not declared
+***SyntaxError: (683/42): Term 'error' not declared
+***SyntaxError: (685/42): Term 'error' not declared
+***SyntaxError: (693/37): Term 'NAMESPACE' not declared
+***SyntaxError: (694/37): Term 'NAMESPACE' not declared
+***SyntaxError: (695/37): Term 'NAMESPACE' not declared
+***SyntaxError: (697/37): Term 'USING' not declared
+***SyntaxError: (698/37): Term 'USING' not declared
+***SyntaxError: (698/43): Term 'TYPENAME' not declared
+***SyntaxError: (700/37): Term 'USING' not declared
+***SyntaxError: (700/43): Term 'NAMESPACE' not declared
+***SyntaxError: (701/37): Term 'ASM' not declared
+***SyntaxError: (702/37): Term 'EXTERN' not declared
+***SyntaxError: (703/37): Term 'EXTERN' not declared
+***SyntaxError: (733/37): Term 'CONST' not declared
+***SyntaxError: (733/45): Term 'VOLATILE' not declared
+***SyntaxError: (756/64): Term 'ELLIPSIS' not declared
+***SyntaxError: (773/37): Term 'ELLIPSIS' not declared
+***SyntaxError: (803/37): Term 'TRY' not declared
+***SyntaxError: (818/77): Term 'error' not declared
+***SyntaxError: (819/98): Term 'error' not declared
+***SyntaxError: (843/68): Term 'error' not declared
+***SyntaxError: (848/37): Term 'CLASS' not declared
+***SyntaxError: (848/45): Term 'STRUCT' not declared
+***SyntaxError: (848/54): Term 'UNION' not declared
+***SyntaxError: (850/124): Term 'error' not declared
+***SyntaxError: (854/103): Term 'error' not declared
+***SyntaxError: (902/37): Term 'VIRTUAL' not declared
+***SyntaxError: (903/37): Term 'PRIVATE' not declared
+***SyntaxError: (903/47): Term 'PROTECTED' not declared
+***SyntaxError: (903/59): Term 'PUBLIC' not declared
+***SyntaxError: (908/37): Term 'OPERATOR' not declared
+***SyntaxError: (921/67): Term 'error' not declared
+***SyntaxError: (925/63): Term 'error' not declared
+***SyntaxError: (932/37): Term 'OPERATOR' not declared
+***SyntaxError: (942/36): Term 'NEW' not declared
+***SyntaxError: (943/36): Term 'DELETE' not declared
+***SyntaxError: (961/37): Term 'ASS_ADD' not declared
+***SyntaxError: (962/37): Term 'ASS_SUB' not declared
+***SyntaxError: (963/37): Term 'ASS_MUL' not declared
+***SyntaxError: (964/37): Term 'ASS_DIV' not declared
+***SyntaxError: (965/37): Term 'ASS_MOD' not declared
+***SyntaxError: (966/37): Term 'ASS_XOR' not declared
+***SyntaxError: (967/37): Term 'ASS_AND' not declared
+***SyntaxError: (968/37): Term 'ASS_OR' not declared
+***SyntaxError: (969/37): Term 'SHL' not declared
+***SyntaxError: (970/37): Term 'SHR' not declared
+***SyntaxError: (971/37): Term 'ASS_SHR' not declared
+***SyntaxError: (972/37): Term 'ASS_SHL' not declared
+***SyntaxError: (973/37): Term 'EQ' not declared
+***SyntaxError: (974/37): Term 'NE' not declared
+***SyntaxError: (975/37): Term 'LE' not declared
+***SyntaxError: (976/37): Term 'GE' not declared
+***SyntaxError: (977/37): Term 'LOG_AND' not declared
+***SyntaxError: (978/37): Term 'LOG_OR' not declared
+***SyntaxError: (979/37): Term 'INC' not declared
+***SyntaxError: (980/37): Term 'DEC' not declared
+***SyntaxError: (982/37): Term 'ARROW_STAR' not declared
+***SyntaxError: (983/37): Term 'ARROW' not declared
+***SyntaxError: (991/37): Term 'EXPORT' not declared
+***SyntaxError: (992/37): Term 'TEMPLATE' not declared
+***SyntaxError: (1000/42): Term 'error' not declared
+***SyntaxError: (1001/37): Term 'CLASS' not declared
+***SyntaxError: (1003/37): Term 'TYPENAME' not declared
+***SyntaxError: (1005/63): Term 'CLASS' not declared
+***SyntaxError: (1006/63): Term 'CLASS' not declared
+***SyntaxError: (1007/37): Term 'TEMPLATE' not declared
+***SyntaxError: (1008/37): Term 'TEMPLATE' not declared
+***SyntaxError: (1024/37): Term 'TEMPLATE' not declared
+***SyntaxError: (1029/37): Term 'TRY' not declared
+***SyntaxError: (1033/37): Term 'CATCH' not declared
+***SyntaxError: (1036/37): Term 'THROW' not declared
+***SyntaxError: (1037/37): Term 'THROW' not declared
+***SyntaxError: (1038/37): Term 'THROW' not declared
+***SyntaxError: (1039/37): Term 'THROW' not declared
+***SyntaxError: (1040/37): Term 'THROW' not declared
+***SyntaxError: (1041/37): Term 'THROW' not declared
+***SyntaxError: (1048/37): Term 'error' not declared

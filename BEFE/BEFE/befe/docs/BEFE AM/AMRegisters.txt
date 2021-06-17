@@ -1,0 +1,63 @@
+Header...
+BEFE Abstract Machine
+...Header
+
+Defines...
+<Abstract Machine>
+...Defines
+
+References...
+...References
+
+-----------------------------------------------------------------------
+
+The BEFE <Abstract Machine> (AM) is the implementation of an Abstract
+processor.  It is important here to point out the difference between a
+traditional Virtual machine (VM), a Just In Time (JIT) Compiler, and 
+our Abstract Machine.
+
+A VM (such as Java's VM and Python's "pcode") is intended as a virtual
+processor.  So, the "instructions" in the VM are executed, at runtime,
+by an engine that pretends to behave as if it were a "real" processor
+but is actually a bit of software doing the work or "simulating" the
+Virtual Machine.
+
+A JIT compiler is intended to translate a language (whether VM based or
+from the original source code) into physical native processor
+instructions "on the fly", hence the "Just In Time".
+
+In BEFE our intentions are related but significantly different.  We
+use the AM as a small(ish) conduit that is the target of all 
+compilation done by BEFE.  In that sense, you could think of it as
+"object code" but it's actually more like a set of machine instructions
+with some optional "debug information" attached to it.  Sort of like
+the debug symbols you get using GNU's compilers with the '-g' option.
+
+The intent of the AM's design is to provide a single data layer that
+is source language independent and, at the same time, is target
+processor independent.
+
+This is better illustrated in the following figure...
+
+   ┌───────────┐  ┌───────────┐  ┌─────────────┐
+   │Java Source|  |C++ Source |  |Python Source| ••• <--- Source
+   └┬──────────┘  └┬──────────┘  └┬────────────┘
+    ▼              ▼              ▼
+    └──────────────┼──────────────┘
+                   ▼
+         ┌─────────┴──────────┐ 
+         │BEFE AM Instructions│ <--- Intermediary
+         └─────────┬──────────┘
+                   ▼
+    ┌──────────────┼──────────────┐
+    ▼              ▼              ▼    
+   ┌┴───────────┐ ┌┴───────────┐ ┌┴───────────┐
+   │Intel® IA-32│ │Intel® 64   │ │ARM         │  ••• <--- Target
+   │Instructions│ │Instructions│ │Instructions│
+   └────────────┘ └────────────┘ └────────────┘
+
+So, the AM provides a "general purpose" Source Language independent
+intermediary step that allows the Target Processor instruction
+generators to do their jobs without having the notational rubbish
+getting in their way.
+

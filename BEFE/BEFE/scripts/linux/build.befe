@@ -1,0 +1,20 @@
+#!/home/bruce/.codelite/BEFE/BEFECore/Debug/befe-dev
+##!/usr/bin/befe
+#
+# Build BEFE
+#
+
++env:BEFE_SVN=~/befe/BEFE/BEFE-Core
++env:BEFE_Build=~/befe/BEFE/Builds/BEFE-0.4
++v
+os
+
+# Variations that come in handy...
+//build all
+//build init+val+release+exe
+
+# The "real thing"...
+build all
+
+..
+exit

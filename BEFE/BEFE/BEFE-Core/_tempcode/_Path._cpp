@@ -1,0 +1,331 @@
+//----------------------------------------------------------------------
+//
+// File: Path.cpp - Base implementation of the Path class
+//
+// This is the basic empty implementation of the Path class
+// interface.  It provides default behaviour for all the proper
+// sub-classes of File.
+//
+
+#include "BEFE.h"
+#include "Path.h"
+#include "OperatingSystem.h"
+#include "FormatOut.h" // TEMP
+
+namespace BEF_NS {
+
+// Handy macros
+#define THEPATHSEP (separators[(isNativeMode)?1:0])
+
+//----------------------------------------------------------------------
+//
+// Constructors/Destructors
+//
+
+Path::Path() {
+  StartUp();
+}
+
+Path::Path(Path const &that) {
+  if (this == &that) goto DONE;
+  StartUp();
+  isNativeMode  = that.isNativeMode;
+  fullname      = that.fullname;
+  parts         = that.parts;
+  separators[0] = that.separators[0];
+  separators[1] = that.separators[1];
+DONE:
+  return;
+}
+
+Path::Path(const char *pathname) {
+  StartUp();
+  FocusOnName();
+  fullname   = pathname;
+  isModified = true;
+}
+
+Path::Path(char *pathname) {
+  StartUp();
+  FocusOnName();
+  fullname   = (const char *)pathname;
+  isModified = true;
+}
+
+Path::Path(String &pathname) {
+  StartUp();
+  FocusOnName();
+  fullname   = pathname;
+  isModified = true;
+}
+
+Path::~Path() {
+  StartUp();
+}
+
+//----------------------------------------------------------------------
+//
+// Low level utility methods
+//
+
+void Path::StartUp() {
+
+  isNativeMode = false;
+  isPartsFocus = false;
+  isModified   = false;
+  fullname.Clear();
+  parts.Clear();
+  separators[0] = separators[1] = '/';
+  if (TheOS != NULL)
+    separators[1] = TheOS->GetFileSeparator();
+  extsep = '.';
+  listsep = ';';
+}
+
+void Path::ShutDown() {
+}
+
+void Path::FocusOnName() {
+
+  Int    i;
+  Int    len;
+  String part;
+
+  if (!isPartsFocus) goto DONE;
+
+  if (isModified) {
+    fullname.Clear();
+    len = parts.Length();
+    for (i=0;i<len;i++) {
+      part.Clear();
+      parts.Get(i,part);
+      if (i != 0)
+        fullname += THEPATHSEP;
+      fullname += part;
+    }
+    isModified = false;
+  }
+
+  isPartsFocus = false;
+
+DONE:
+
+  return;
+
+}
+
+void Path::FocusOnParts() {
+  Int    i;
+  Int    len;
+  Int    numparts;
+  String part;
+
+  if (isPartsFocus) goto DONE;
+
+  if (isModified) {
+    parts = fullname.Split(THEPATHSEP);
+    // If we have some parts...
+    numparts = parts.Length();
+    if (numparts>0) {
+      // Get the last part
+      part.Clear();
+      parts.Get(-1,part);
+      // Remove it if the last one's empty
+      if (part.Length() == 0)
+        parts.Remove(-1);
+    }
+    isModified = false;
+  }
+
+  isPartsFocus = true;
+
+DONE:
+
+  return;
+
+}
+
+Boolean Path::IsValid() {
+
+  Boolean result;      // <-- The answer we're going to give
+  Boolean ouropinion;  // <-- Our "abstract" opinion
+  Boolean osopinion;   // <-- The Operating System's "native" opinion
+
+  Int     numparts;
+  Int     partno;
+  String  part;
+  Int     partlen;
+  Int     charno;
+  Int     thechar;
+  Byte    pathbuf[256];
+  Int     bufusedbytes;
+  Boolean wasnative;
+  String  nativename;
+
+  FocusOnParts();
+
+  // If less than two parts (e.g. no separator) it's not valid no matter what
+  numparts = parts.Length();
+  if (numparts <= 1) goto NOPE;
+
+  // Validate each part (anything before the first one is a <device> and we'll
+  // let the OperatingSystem class validate that.  All we'll do with the first
+  // one (the device) is to ensure it hasn't got bogus characters in it.
+
+  ouropinion = true; // <-- Start with an Abstract "Yep, it's valid" (rather hopeful, isn't it?)
+  for (partno = 0; partno < numparts; partno++) {
+    parts.Get(partno,part);
+    // If the part is "." or "..", it's relative and, therefore, invalid
+    if (part == "." || part == "..") {
+      ouropinion = false; // <-- Abstract "Nope"
+      break;
+    }
+    // Make sure it isn't zero long (unless it's the first one) and hasn't got
+    // any non-printable characters in it...
+    partlen = part.Length();
+    if (partno != 0 && partlen <= 0) {
+      ouropinion = false; // <-- Abstract "Nope"
+      break;
+    }
+    ouropinion = true; // <-- Abstract "Yep"
+    for (charno=0; charno < partlen; charno++) {
+      thechar = part.GetChar(charno);
+      if (thechar < 0x20 || thechar > 0x7f) {
+        ouropinion = false; // <-- Abstract "Nope"
+        break;
+      }
+    }
+    // If we're finished with our decision, we're ready to ask the O/S...
+    if (ouropinion == false) break;
+  }
+
+  // Now, if we're being pragmatic and there's an Operating System we
+  // can defer to, then we'll ask for its opinion.  If it says "no",
+  // we'll have to bow to its decision.
+  if (gPragmatic && TheOS != NULL) {
+    // Ask the Operating System
+    FocusOnParts();
+    wasnative = isNativeMode;
+    SetNative();
+    FocusOnName();
+    osopinion = TheOS->IsValidFullPath(fullname);
+    if (!wasnative)
+      SetAbstract();
+    if (osopinion == false) goto NOPE;
+  }
+
+  result = ouropinion;
+
+  goto DONE;
+
+NOPE:
+  result = false;
+  goto DONE;
+YEP:
+  result = true;
+  goto DONE;
+
+DONE:
+
+  return result;
+
+}
+
+Boolean Path::IsRelative() {
+
+  Boolean result;
+  Int     numparts;
+  Int     partno;
+  String  part;
+
+  FocusOnParts();
+
+  // Not relative if it's empty
+  numparts = parts.Length();
+  if (numparts <= 0) goto NOPE;
+
+  // If any of the parts are "." or ".." it's relative
+  for (partno = 0; partno < numparts; partno++) {
+    parts.Get(partno,part);
+    if (part == "." || part == "..") goto YEP;
+  }
+
+  goto NOPE;
+
+NOPE:
+  result = false;
+  goto DONE;
+YEP:
+  result = true;
+  goto DONE;
+
+DONE:
+
+  return result;
+
+}
+
+void Path::SetNative() {
+
+  if (!isNativeMode) {
+    FocusOnParts();
+    isModified   = true;
+    isNativeMode = true;
+  }
+
+  return;
+
+}
+
+void Path::SetAbstract() {
+
+  if (isNativeMode) {
+    FocusOnParts();
+    isModified   = true;
+    isNativeMode = false;
+  }
+
+  return;
+
+}
+
+Char Path::Separator() {
+  return separators[0];
+}
+
+Char Path::NativeSeparator() {
+  return separators[1];
+}
+
+Char Path::ExtensionSeparator() {
+  return extsep;
+}
+
+Char Path::ListSeparator() {
+  return listsep;
+}
+
+//----------------------------------------------------------------------
+//
+// Low level implemented by OperatingSystem if there
+//
+// !!! STUBS FOR NOW !!!
+//
+
+Boolean Path::IsDirectory(String &somename) {
+  return false;
+}
+
+Boolean Path::IsFile(String &somename) {
+  return false;
+}
+
+Boolean Path::Exists(String &that) {
+  return false;
+}
+
+Status  Path::Create(String &that) {
+  return Error::NotImplemented;
+}
+
+}; // Namespace BEF_NS

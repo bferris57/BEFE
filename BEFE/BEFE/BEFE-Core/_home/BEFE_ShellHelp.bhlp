@@ -1,0 +1,812 @@
+#!befe-publish home
+#──────────────────────────────────────────────────────────────────────
+# File: BEFE_ShellHelp.txt - BEFE Shell Command English Help
+#──────────────────────────────────────────────────────────────────────
+#
+# This file contains the default BEFE help messages used by the BEFE
+# Command Shell.
+#
+# *** See technical documentation for a more detailed description ***
+#
+# If the environment varibable BEFE_Home is set to indicate a directory
+# contains this file, these strings will be available at appropriate
+# places when BEFE Shell Help is requested.
+#
+# Note: Help text can contain C/C++ escape characters.  The following
+#       special case escapes are handled...
+#
+#         - \n = LF (0x0A)
+#         - \r = CR (0x0D)
+#         - \t = HT (0x09)
+#         - \b = BS (0x08)
+#       
+#       All other escape characters are taken verbatim, meaning the
+#       backslash is simply removed.  For example "\'" means
+#       apostrophe, '\"' means double quote, and '\.' means
+#       decimal-point, full stop, period, or whatever you want to
+#       call it.
+#
+#       So, if you want a line of your help text to start with a '...'
+#       you'll have to use '\.\.\.' to avoid being recognised as end
+#       of help.
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011-2017, Bruce Ferris (UK), all rights reserved
+#──────────────────────────────────────────────────────────────────────
+
+#──────────────────────────────────────────────────────────────────────
+#
+# BEFE Help...
+#
+
+BEFE...
+//
+The BEFE command processor shell accepts the following commands...
+
+  e[xit] - Exit BEFE
+  x      -  \"    \"
+  d[one] -  \"    \"
+  q[uit] -  \"    \"
+
+  h[elp] - Show this help
+  ?      -  \"    \"    \"
+
+  Sw[itch[es]]            - Set command switches/options
+  Opt[ion][s]             -  \"     \"        \"       \"
+  Arg[ument][s]           -  \"     \"        \"       \"
+  Echo                    - Echo arguments (each on a separate line)
+  Cl[ear]S[creen]         - Clear Console Screen
+  
+  S[how]Sw[itch[es]]      - Display command switch/option settings
+  S[how]Opt[ion][s]       -    \"       \"      \"       \"      \"
+  S[how]A[rg[ument][s]]   -    \"       \"      \"       \"      \"
+
+  set                     - Show    BEFE environment variables
+  set       <name>        - Show    BEFE environment variable
+  set       <name>=       - Delete  BEFE environment variable
+  set       <name>=<val>  - Set     BEFE environment variable
+  env[iron]               - Show    BEFE environment variables
+  env[iron] <name>        - Show    BEFE environment variable
+  env[iron] <name>=       - Delete  BEFE environment variable
+  env[iron] <name>=<val>  - Set     BEFE environment variable
+  r[ef[resh]]env[iron]    - Refresh BEFE environment variables
+  
+  Date                    - Show current date/time
+  Time                    -  \"      \"      \"   \"
+
+  Test[s]                 - Perform BEFE self-tests
+
+  O[p[erating]]S[ystem]   - Enter BEFE OS-like command shell
+  Sh[ell]                 -   \"    \"      \"       \"      \"
+  Lang[uage]              - Enter BEFE Language command shell
+  Stat[istic][s]          - Display various BEFE statistics
+    ...or...
+  Mem[ory]Stat[istic][s]  - Display current BEFE Memory statistics
+  St[ream]Stat[istic][s]  - Display current BEFE Stream statistics
+
+  Run <script> [<arg>...] - Run BEFE script
+
+  UUID                    - Generate a random (type 4) UUID
+  GUID                    -    \"     \"   \"       \"      \"
+
+Note: For ease of use, commands are NOT case sensitive.
+      However, switches/options ARE case sensitive.
+
+Note: For more help, type 'help <subject>' to get more help on
+      any of the following...
+
+        C[[o]m[man]d]       - Help on invoking BEFE from the
+                                native OS command line
+        S[witch[es]]        - Help on the BEFE command switches
+        Env[iron[ment]]     - Help with   BEFE environment variables
+        T[est[s]]           - Help on the BEFE Test commands
+        O[perating]S[ystem] - Help on the BEFE OS commands
+        L[ex[icon]]         - Help on the BEFE Lexicon commands
+//
+...BEFE
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Invoking BEFE from a native OS command shell
+#
+
+Command...
+       //
+Invoking BEFE from a native OS command shell...
+   
+Usage:   BEFE [<opt>...] [<script> [<arg> [<arg>...]]]
+           ...or...
+         BEFE [<opt>...] [<test> [<test>...]]
+
+         Note: The second form is indicated by using the
+               '+test' option
+
+Where:   <opt>        - A BEFE options (see 'help switches')
+         <script>     - A BEFE Command script name
+         <test>       - A BEFE test name (see 'help tests')
+
+         ...or...
+
+         h[elp]       - Display this help
+         --h[elp]     -    \"      \"    \"
+         ?            -    \"      \"    \"
+
+         !x           - Finish BEFE processing
+         x!           - Finish BEFE processing
+                          (ie \"Exit NOW without prompting!\")
+
+Note: For ease of use, test names and options are NOT case
+      sensitive.
+#
+
+Note: Run 'BEFE' without <script>, '+test', or 'x!' options
+      and use the 'help <command>' at the prompt for further
+      help with specific Command Shell commands.
+      
+   //
+...Command
+
+
+#──────────────────────────────────────────────────────────────────────
+#
+# BEFE Switches
+#
+
+Switches...
+      //
+BEFE Switches commands...
+
+Usage: Sw[itch[es]]  [<switch> [<switch>...]]
+       Opt[ion][s]   [<switch> [<switch>...]]
+       Arg[ument][s] [<switch> [<switch>...]]
+
+Where: If <switch> is not specified, the Switches are displayed.
+       Otherwise, <switch> must be one of the following...
+
+  h[elp]           - Display this help
+  --h[elp]         -    \"      \"    \"
+  ?                -    \"      \"    \"
+                   
+  x!               - Exit the BEFE application
+  !x               -  \"    \"   \"        \"
+                   
+  +q               - Turn on  'Quiet Mode' for output
+  -q               - Turn off 'Quiet Mode' for output
+  +v               - Turn on  'Verbose Mode' for output
+  -v               - Turn off 'Verbose Modes' for output
+  +vv              - Turn on  'Verbose and Very Verbose Mode' for output
+  -vv              - Turn off 'Very Verbose Modes' for output
+  +vvv             - Turn on  'Very Very Verbose Mode' for output
+  -vvv             - Turn off 'Very Very Verbose Mode' for output
+                   
+  +et              - Turn on  'Show elapsed time' for output
+  -et              - Turn off 'Show elapsed time' for output
+  +ts              - Turn on  'Show time stamps' for output
+  -ts              - Turn off 'Show time stamps' for output
+  +localtime       - Turn on  'Show local not UTC time' for output
+  -localtime       - Turn off 'Show local not UTC time' for output
+  +dep[recate]     - Turn on  'Show deprecated calls' for output
+  -dep[recate]     - Turn off 'Show deprecated calls' for output
+  +w[arn[ing[s]]]  - Turn on  'Show runtime warnings' for output
+  -w[arn[ing[s]]]  - Turn off 'Show runtime warnings' for output
+  +info[rmation]   - Turn on  'Show runtime information' for output
+  -info[rmation]   - Turn off 'Show runtime information' for output
+  +d[ebug]         - Turn on  'Show Debug messages' for output
+  -d[ebug]         - Turn off 'Show Debug messages' for output
+  +head[er[s]]     - Turn on  'Show BEFE Header/Traler' for output
+  -head[er[s]]     - Turn off 'Show BEFE Header/Traler' for output
+                   
+  +k[eep]          - Turn on  'Keep Temporary Files' flag
+  -k[eep]          - Turn off 'Keep Temporary Files' flag
+  +a[ll]           - Turn on  'Show ALL files/directories' flag
+  -a[ll]           - Turn off 'Show ALL files/directories' flag
+  +a[ll]f[iles]    - Turn on  'Show ALL files' flag
+  -a[ll]f[iles]    - Turn off 'Show ALL files' flag
+  +a[ll]d[irs]     - Turn on  'Show ALL directories' flag
+  -a[ll]d[irs]     - Turn off 'Show ALL directories' flag
+
+  +m               - Turn on  'Log Memory'
+  -m               - Turn off 'Log Memory'
+  +ms              - Turn on  'Log Memory Statistics'
+  -ms              - Turn off 'Log Memory Statistics'
+  +mas             - Turn on  'Log memory Allocation Sizes'
+  -mas             - Turn off 'Log memory Allocation Sizes'
+                   
+  +ma              - Turn on  'Log Memory Allocations'
+  -ma              - Turn off 'Log Memory Allocations'
+  +mf              - Turn on  'Log Memory Frees'
+  -mf              - Turn off 'Log Memory Frees'
+  +maf             - Turn on  'Log Memory Allocations' and 'Log memory Frees'
+  -maf             - Turn off 'Log Memory Allocations' and 'Log memory Frees'
+  +mv              - Turn on  'Memory Validate' (slows everything down)
+  -mv              - Turn off 'Memory Validate'
+  +mva             - Turn on  'Memory Validate AND Abort' (slows everything down)
+  -mva             - Turn off 'Memory Validate AND Abort'
+                   
+  +indent          - Turn on  Command indentation
+  -indent          - Turn off Command indentation
+  +script[s]       - Turn on  Command scripting
+  -script[s]       - Turn off Command scripting
+  +t[est[s]]       - Turn on  Command argument test recognition
+  -t[est[s]]       - Turn off Command argument test recognition
+                   
+  +CC[olour]       - Turn on  Console 'Colour'         extensions
+  -CC[olour]       - Turn off Console 'Colour'         extensions
+  +CI[ntense]      - Turn on  Console 'Intense Colour' extensions
+  -CI[ntense]      - Turn off Console 'Intense Colour' extensions
+  +CUTF[-]8        - Turn on  Console 'UTF-8'          extensions
+  -CUTF[-]8        - Turn off Console 'UTF-8'          extensions
+  +CB[eep]         - Turn on  Console 'Beep'
+  -CB[eep]         - Turn off Console 'Beep'
+  +CInt[eractive]  - Turn on  Force Console 'Interactive' (force show prompt)
+  -CInt[eractive]  - Turn off Force Console 'Interactive'
+  +PyOut           - Turn on  Python friendly output (where implemented)
+  -PyOut           - Turn off Python friendly output (where implemented)
+
+  +lem             - Load   Error Message Strings
+  -lem             - Unload Error Message Strings
+
+  +u[nicode]f[olding] - Turn on  'Use Unicode Folding'
+  -u[nicode]f[olding] - Turn off 'Use Unicode Folding'
+  +u[nicode]t[urkish] - Turn on  'Use Turkish Unicode Folding'
+  -u[nicode]t[urkish] - Turn off 'Use Turkish Unicode Folding'
+  
+  ?os              - Display operating system information
+  ?net[work]       - Display network (TCP/IP) information
+  ?platform        - Display platform (port) information
+  ?process         - Display process information
+  ?processor       - Display processor (CPU) information
+  ?cpu             -   \"       \"       \"        \"
+
+  ?head[er]        - Display BEFE standard header
+  ?foot[er]        - Display BEFE standard footer
+  ?trail[er]       -    \"     \"      \"       \"
+
+  ?sw[itch[es]]    - Display BEFE Command Switch settings
+  ?opt[ion][s]     -    \"     \"      \"      \"       \"
+  ?env[iron[ment]] - Display BEFE Environment Variable settings
+
+  +env:<name>[=<value>]       - ***Use 'help env' for more info***
+  -env[:[<name>[=[<value>]]]] - ***Use 'help env' for more info***
+  
+  +e[nv]s[ubst]         - Turn On  Command line Environment Variable Substitution
+  -e[nv]s[ubst]         - Turn Off Command line Environment Variable Substitution
+
+Note: The +ma and +mf switches also turn on +m since there's
+      no point displaying Memory Allocations and Memory Frees
+      without Memory Logging turned on.
+
+Note: We only recommend using +ma, +mf, +maf, +mv, and +mva
+      for debugging purposes since, quite honestly, they have
+      no other practical use.
+
+   //
+...Switches
+
+#──────────────────────────────────────────────────────────────────────
+#
+# BEFE Tests
+#
+
+Tests...
+   //
+BEFE Tests\.\.\.
+
+  Cur[rent]    - Run all \"current\" tests (latest code)
+  A[ll]        - Run all tests
+  None         - Run the \"None\" test (doesn't run any tests)
+
+  Core         - Test core classes, including...
+    Time       - Test Time Class
+    Num[ber]   - Test Number functions
+    UTF[[-]8]  - Test UTF8 Class
+    Lex[icon]  - Test Lexicon Class
+    Seq[uence] - Test Sequence Classes
+    Array      - Test Array Class
+    String     - Test String Class
+    Null       - Test Null and Empty
+    Contains   - Test <T>.Contains
+    Stream     - Test Stream Class
+    File       - Test File Class
+    Con[sole]  - Test Console Class
+    Msg        - Test Message Class
+    Message    - Test Message Class
+    .bmsg      - Test Message Class
+    Cache      - Test Cache   Class
+    Caching    - Test Cache   Class
+    UUID       - Test UUID    Class
+    MinExp     - Test MinExp  Class
+    MD5        - Test MD5     Class
+    Bcmd       - Test Bcmd    Class
+    .bcmd      - Test Bcmd    Class
+    Id[Space]  - Test IdSpace Class
+
+  Morph[ing]   - Test Cross Class Morphing
+
+  TryThis      - TEMP: For trying new things (used during development)
+  t            - TEMP: For trying new things (used during development)
+
+   //
+...Tests
+
+#──────────────────────────────────────────────────────────────────────
+#
+# OS Sub-Shell
+#
+
+OS...
+  //
+BEFE OS Command Shell commands...
+
+  e[xit] - Exit BEFE
+  x      -  \"    \"
+  d[one] -  \"    \"
+  q[uit] -  \"    \"
+
+  h[elp] - Show this help
+  ?      -  \"    \"    \"
+
+  Sw[itch[es]]            - Set command switches/options
+  Opt[ion][s]             -  \"     \"        \"       \"
+  Arg[ument][s]           -  \"     \"        \"       \"
+  echo                    - Echo command (without 'echo ') to output
+  S[how]Sw[itch[es]]      - Display command switch/option settings
+  S[how]Opt[ion][s]       -    \"       \"      \"       \"      \"
+  S[how]A[rg[ument][s]]   -    \"       \"      \"       \"      \"
+
+  set                     - Show    BEFE environment variables
+  set       <name>        - Show    BEFE environment variable
+  set       <name>=       - Delete  BEFE environment variable
+  set       <name>=<val>  - Set     BEFE environment variable
+  env[iron]               - Show    BEFE environment variables
+  env[iron] <name>        - Show    BEFE environment variable
+  env[iron] <name>=       - Delete  BEFE environment variable
+  env[iron] <name>=<val>  - Set     BEFE environment variable
+  r[ef[resh]]env[iron]    - Refresh BEFE environment variables
+
+  Date                    - Show current date/time
+  Time                    -  \"      \"      \"   \"
+
+  pwd                     - Display current Shell working directory
+  cwd <dir>               - Change current Shell working directory
+  cd  <dir>               -   \"       \"      \"      \"        \"
+  dir <dir>               -   \"       \"      \"      \"        \"
+  ls  <dir>               -   \"       \"      \"      \"        \"
+  mkdir <dir>             - Create a new directory (deep)
+  mv       <old> <new>    - Rename a file or directory
+  m[o]v[e] <old> <new>    -   \"    \"  \"   \"      \"
+  cp       <old> <new>    - Copy a file or directory
+  c[o]p[y] <old> <new>    -   \"  \"  \"   \"      \"
+  ren[ame] <old> <new>    -   \"    \"  \"   \"      \"
+  rm         <exist>      - Remove existing file or directory
+  r[e]m[ove] <exist>      -   \"       \"      \"   \"      \"
+  path                    - Display current BEFE script search path
+  which <file>            - Search for BEFE script (or executables)
+  cat <file>              - Display <file> contents
+  type <type>             -    \"      \"       \"
+  md5                     - Display <file> MD5 Hash/CheckSum
+  
+  O[bfuscate]F[ile]       - Encrypt (obfuscate) File
+  Cl[arify]F[ile]         - Decrypt (un-obfuscate, hence "clarify")
+  Cr[eate]K[ey]F[ile]     - Create BEFE Key File
+  U[se]K[ey]F[ile]        - Load and use BEFE Key File for Encryption
+  
+  [Is]Dev[ice][N[ame]]             <name> - \"Is this a device name?\"
+  [Is]V[alid]F[ile][N[ame]]        <name> - \"Is this a valid file name?\"
+  [Is]V[alid]P[ath][N[ame]]        <name> - \"Is this a valid full path name?\"
+  [Is]V[alid]D[ir[ectory]][N[ame]] <name> - \"Is this a valid directory name?\"
+  I[s]F[ull]P[ath][N[ame]]         <name> - \"Is this a full path name?\"
+  I[s]R[el[ative]]P[ath][N[ame]]   <name> - \"Is this a relative path name?\"
+  E[xist[s]]                       <name> - \"Does <name> dir/file exist?\"
+
+  Anal[yse] [<path> [<path>...]]          - Analyse files/directory contents
+  B[ui]ld  <bldOpt>[[,]<bldOpt>...]       - Perform BEFE Build (see note)
+  
+Note: The Analyse command performs Lexical Analyse on the following file types...
+        .befe, .h, .c, .cpp, .py, .java, .htm, .html, and .xml
+
+      ** Lexical analysis is not yet optimised for XML and HTML files
+      ** The +vv, +v, and +debug switches effect the output of this command
+      
+Note: The Obfuscate and Clarify commands are so named because they don't
+      really do a "proper" file encryption (that's for a bit later) but
+      they DO make the file extremely unlikely to be decrypted by the
+      typical data thief as it currently uses a 122-bit encryption key.
+      
+      They do, however, use the Encryption Key File indicated by the
+      BEFE_KeyFile environment variable OR the most recently Key File
+      indicated by the UseKeyFile command.
+      
+      *** Warning: Keep that key file safe and backed up somewhere else
+      ***          to ensure you can Un-Obfuscate (Clarify) your files
+      ***          later!!!
+
+Note: For more information on the OS Build command, use 'help Build'.
+
+   //
+...OS
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Lexicon Sub-Shell
+#
+
+Lexicon...
+     //
+BEFE Lexicon (lexical analyser) Command Shell commands...
+
+  e[xit] - Exit BEFE
+  x      -  \"    \"
+  d[one] -  \"    \"
+  q[uit] -  \"    \"
+
+  h[elp] - Show this help
+  ?      -  \"    \"    \"
+
+  Sw[itch[es]]            - Set command switches/options
+  Opt[ion][s]             -  \"     \"        \"       \"
+  Arg[ument][s]           -  \"     \"        \"       \"
+  echo                    - Echo command (without 'echo ') to output
+  S[how]Sw[itch[es]]      - Display command switch/option settings
+  S[how]Opt[ion][s]       -    \"       \"      \"       \"      \"
+  S[how]A[rg[ument][s]]   -    \"       \"      \"       \"      \"
+
+  Date                    - Show current date/time
+  Time                    -  \"      \"      \"   \"
+
+  Range     <spec> [<spec>...] - Validate Range   specification
+  URange    <spec> [<spec>...] - Validate URange  specification
+  Span      <spec> [<spec>...] - Validate Span    specification
+  USpan     <spec> [<spec>...] - Validate USpan   specification
+  Alloc     <spec> [<spec>...] - Validate Alloc   specification
+  Slice     <spec> [<spec>...] - Validate Slice   specification
+  MinExp    <term> [<term>...] - Validate MinExp  specification
+  
+Note: Each of the Lexicon commands ('Range' through'MinExp')
+
+   //
+...Lexicon
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Main Statistics Command
+#
+
+Statistics...
+        //
+BEFE Command Shell 'Statistics' commands...
+
+  Usage:  Stat[istic][s] [<stat> [<stat>...]] - Display BEFE Statistics by name
+          Mem[ory]Stat[istic][s]              - Display BEFE Memory Statistics
+          St[r[eam]]Stat[istic][s]            - Display BEFE Stream Statistics
+  Where:  <stat> is one of the following...
+
+          All       - Display all BEFE Statistics
+            Mem[ory]  - Display BEFE Memory Statistics
+            S[tr[eam]] - Display BEFE Stream Statistics
+
+   //
+...Statistics
+
+#──────────────────────────────────────────────────────────────────────
+#
+# BEFE Build
+#
+
+Build...
+      //
+BEFE Build Command\.\.\.
+
+  Usage: B[ui]ld [<arg> [<arg>...]]
+  
+  Where: The Arguments are processed and executed in left to right order.
+         If an error occurs during the processing or execution of any
+         argument, a message will be displayed and the processing will be
+         terminated.
+         
+         Each argument <arg> is a list one or more <bldOpt> separated by
+         by '-' or '+'.  A '-' indicates "turn off" and '+' indicates
+         "turn on" the following <bldOpt>.
+         
+         The first <bldOpt> is assumed to be preceeded by '+' if it is
+         not specified (eg 'abc-def' is equivalent to '+abc-def').
+         
+         Each <bldOpt> is one of the following...
+  
+           General: A[ll]                        - Build EVERYTHING from scratch
+                    A[ll]Rel[ease]               - *** Same as All-Debug
+                    A[ll]Deb[ug]                 - *** Same as All-Release
+                    F[ull]                       - Build EVERYTHING from scratch
+                    Init[ial]                    - Create Initial (empty) Build directories
+                    Cl[ea]n                      - Clean Build directory
+                    Def[ault]                    - Set default Build options
+                    Val[idate]                   - Validate Build Settings
+                    None|Nothing                 - Start with no options
+           
+           Options: Rel[ease]                    - Create Release targets
+                    Deb[ug]                      - Create Debug targets
+                    Both                         - Create BOTH Release and Debug targets
+                    
+           Build:   CopyIn[put]                  - Copy Input files from BEFE_SVN
+                    Comp[ile]                    - Compile Source (Release/Debug)
+                    Lib[rary]                    - Build Libraries (Release/Debug)
+                    Lib[raries]                  - Build Libraries (Release/Debug)
+                    Exe[cutable[s]]              - Build Executables (Release/Debug)
+                     
+           Publish: P[ub[lish]][All]                   - Publish all publishable files/documents
+                    P[ub[lish]]Head[er[s]]             - Publish Header Files
+                    P[ub[lish]]S[ou]rc[e[s]]           - Publish Source Files
+                    P[ub[lish]]L[ib[rary]]             - Publish Library Files
+                    P[ub[lish]]L[ib[raries]]           - Publish Library Files
+                    P[ub[lish]]Exe[cutable[s]]         - Publish Executable Files
+                    P[ub[lish]]Doc[ument[ation]]       - Publish Documentation Files
+                    P[ub[lish]]Home                    - Publish Home Files
+                    
+                    
+           Zip:     Zip                          - Create deliverable .ZIP file(s)
+           
+Examples: The command 'Build full' will build everything from scratch.
+
+          The command 'Build all-release-exe-doc' will clean the
+          build environment and then build all Debug targets except the
+          Debug Executable and Publish all Debug targets except the
+          Documentation.
+
+Note: The BEFE_SVN   environment variable specifies the source directory root and
+      the BEFE_Build environment variable specifies the target build root.
+      
+      BOTH these environment variables must be set and both must indicate
+      existing full paths on the local file system.
+
+Note: The <bldOpt> arguments are NOT case sensitive.
+
+   //
+...Build
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Various Notes that appear here and there...
+#
+
+NOTE_MemoryStats...
+      //
+Note: MemoryStats shown from inside a BEFE command processor
+      will always show some extra memory allocations because
+      displaying the statistics requires memory allocations.
+      Typically, this extra is currently around 100 allocations
+      depending on how you invoked the command.
+
+      It's probably a good idea to reexamine the MemoryStats
+      when BEFE exits to ensure it's back down to zero by
+      setting the '+ms' option (eg 'opts +ms').;
+
+   //
+...NOTE_MemoryStats
+
+NOTE_UseOptMS...
+          //
+Use 'options +ms' to turn On the MemoryStats option and
+use 'options -ms' to turn it back Off, if you wish. ;-)
+          //
+...NOTE_UseOptMS
+
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Usage of the '-env' Switch Setting
+#
+
+Environment...
+       //
+At various places in BEFE, Operating System Process environment
+variables are used for various purposes.  These include the following...
+
+  o Path - Executable search path
+  o Temp - Temporary file directory (if provided by system)
+
+In addition to these Operating System environment variables, BEFE uses
+its own set of variable which may be used for configuration purposes...
+
+  o BEFE_Build    - BEFE Build directory (internal use only, for now)
+  o BEFE_Home     - BEFE Home directory (help and configuration files)
+  o BEFE_KeyFile  - BEFE Encryption Key file (for 'enc' and 'dec' commands)
+  o BEFE_Path     - BEFE Search Path
+  o BEFE_SVN      - BEFE Source directory (internal use only)
+  o BEFE_Temp     - BEFE Temporary directory (for temporary files)
+  o BEFE_TestData - BEFE Test data directory (for test data files)
+
+All environment variables come in <name>/<value> pairs, meaning that
+given a <name>, BEFE can find the <value> or determine that it is has
+not been specified.
+
+Depending on the specific platform (Windows, Linux, etc.) the operating
+system may or may not treat environment variables as "case sensitive".
+
+BEFE, however, does NOT treat these as case sensitive, so "PATH" is
+equivalent to "path", et cetera.
+
+Environent variables may be specified in the following ways...
+
+  o Via the '?env' command line Switch/Option
+  o Via the '+env' command line Switch/Option
+  o Via the '-env' command line Switch/Option
+  o Via the 'set' shell command
+
+The '?env' Switch/Option is used to display all or specific
+BEFE environment variable Name/Value pairs and is in the following
+format...
+
+  Usage: ?env[:[<name>]]
+  
+  Where: <name> is the name of the value to display
+  
+  Notes: If '?env' or '?env:' is specified, all BEFE environment
+         variables are displayed.
+         
+         If '?env:<name> is specified the named variable is
+         displayed if it exists
+
+The '+env' Switch/Option is used to set BEFE environment
+variable Name/Value pairs and is in the following format...
+
+  Usage: +env:<name>=<value>
+                      
+  Where: <name> is the environment variable name
+         <value> is the value (may be empty)
+         
+The '-env' Switch/Option is used to unset/remove BEFE environment
+variable(s) and is in the following format...
+
+  Usage: -env[:[<name>]
+                      
+  Where: '-env' clears all environment variables.
+  
+         '-env:' clears all environemnt variables and resets them
+         to the default values inherited from the calling process.
+         
+         '-env:<name>' clears a specific environment variable if
+         it is set.
+           
+Note: The <name>=<value> combination must NOT contain any unescaped
+      whitespace because that would get in the way of command line
+      argument parsing.  So, if you wish to declare a variable name
+      or a value with a SPACE in it, you'll have to escape it using
+      the '\' character, or in some other form compatible with the
+      specific platform command shell (like quotation marks).
+      
+      For example, '-env:dir=/home/My\\ Stuff' specifies a variable
+      named "dir" with a value of "/home/My Stuff".  However, if
+      the platform command shell doesn't know how to handle escape
+      characters, it might be better to form it in another way like
+      "-env:dir=/home/My Stuff" using quotation marks processed by
+      the platform command shell.
+   //
+...Environment
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Linux xterm key learning...
+#
+#   linuxKeyLearn_Intro - Learning Preamble
+#
+
+linuxKeyLearn_Intro...
+***Linux32 Learn xterm keys***
+
+Please enter multiple lines in the format <keyName>=<seq> followed
+by the ENTER key for each key to learn, where...
+
+      <keyName>  - Name of key (without embedded '=')
+      <seq>      - Key sequence (just press the key)
+
+Notes: Special keys (Up Arrow, Down Arrow, etc.) cannot be used for
+       normal data entry in this learning tool.
+
+       The Space key is ignored
+   //
+...linuxKeyLearn_Intro
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Lang Sub-Shell
+#
+
+Lang...
+     //
+     
+BEFE Language Command Shell commands...
+
+The following commands are available in the Language Command Shell...
+
+  New <file>                   - Create a new BEFE Workspace file
+  Op[e]n <file>                - Open an existing BEFE Workspace file
+  Cl[ose]                      - Close currently open BEFE Workspace file
+  D[i][sp][lay] <what>         - Display some information about <what> (see below)
+  P[r[i]n[t]]   <what>         -    "      "       "        "      "     "    "
+  Show          <what>         -    "      "       "        "      "     "    "
+  Bl[oc]k  <blockNo>           - Display a given BEFE Workspace file block
+  Cur[rent]Lang[uage] [<lang>] - Set/Display current LexLanguage
+  Exp[r[ess[ion]]] <expr>      - Evaluate an expression in the current LexLanguage
+  Lex[icon] <file>             - Perform Lexical Analysis on a given <file>
+  Lexical   <file>             -    "       "       "     "  "   "     "
+  Mat[ch]T[yp[e]] <mType>      - Set current Match Type
+  Pat[tern] <pat>              - Set current Match Pattern
+  Mat[ch][es] <mType> <pat>    - Set current Match Pattern to <pat>
+  Mat[ch][es] <string>         - "Does <string> match current Match Pattern?"
+  <string> Like <pat>          - "Does <string> match <pat>?"
+  MinExp <expr> [<minexp>...]  - Show MinExp matches
+  
+  Test                         - Perform Lexical Analysis test
+
+Where: <file>    - The name of a BEFE Workspace or Input File
+       
+       <blockNo> - An integer Block Number (decimal or "0x..." for hex) 
+       
+       <lang>    - A registered language.  This currently include...
+                    
+         C++   - The C++ Programming Language
+         .befe - The .befe language set
+                           
+       <expr>    - Any expession in the current language...
+       <minexp>  - A MinExp specification (BEFE Name)
+       
+       <what>    - One of the following...
+       
+         W[ork]S[pace] - Display current BEFE Workspace
+         Cac[he]       - Display BEFE File Block Cache
+         Lang[uage]s   - Display Registered Languages
+         Lang[uage]    - Display Current Language
+         Match         - Display Current Match Type and Pattern
+                     
+       <mType>    - One of the following Match Types...
+       
+         Star                       - Star (eg "*.cpp")
+         Min[imal[ist]]Exp[ression] - BEFE MinExp (eg "E[xit]|Q[uit]")
+         SQL                        - SQL "LIKE" (eg 'XXX%YY_ZZ')
+         
+         [P[os[ix]]]B[asic]R[eg[ular]]E[xp[ress[ion]]]        - Posix BRE
+         [P[os[ix]]]E[xt[end[ed]]]R[eg[ular]]E[xp[ress[ion]]] - Posix ERE
+                     
+Note: Use "Help BEFE" for the following Befe Command Shell commands which
+      are also available in the LexWs Command shell
+      
+  e[xit] - Exit BEFE
+  x      -  \"    \"
+  d[one] -  \"    \"
+  q[uit] -  \"    \"
+
+  h[elp] - Show this help
+  ?      -  \"    \"    \"
+
+  Sw[itch[es]]            - Set command switches/options
+  Opt[ion][s]             -  \"     \"        \"       \"
+  Arg[ument][s]           -  \"     \"        \"       \"
+  echo                    - Echo command (without 'echo ') to output
+  S[how]Sw[itch[es]]      - Display command switch/option settings
+  S[how]Opt[ion][s]       -    \"       \"      \"       \"      \"
+  S[how]A[rg[ument][s]]   -    \"       \"      \"       \"      \"
+
+  Date                    - Show current date/time
+  Time                    -  \"      \"      \"   \"
+  
+Note: Use "Help OS" for the following OS Command Shell commands which
+      are also available in the LexWs Command shell...
+
+
+  pwd        - Display current Working Directory
+  cwd        - Change current Working Directory
+  cd         -   "       "       "        "
+  dir        - List contents of current Working Directory
+  ls         -   "     "     "     "       "        "
+  m[o]v[e]   - Move a file/directory
+  ren[ame]   - Rename a file/directory
+  c[o]p[y]   - Copy a file/directory
+  r[e]m[ove] - Remove file/directory
+  del[ete]   - Delete file/directory
+  path       - Display Search Path
+  which      - Search for executable, script, etc.
+  cat        - Display file contents
+  type       -    "     "      "
+
+   //
+...Lang

@@ -1,0 +1,100 @@
+#include "BEFE.h"
+#include "Token.h"
+#include "VarTerm.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+Status trythis() {
+
+  Status  status; 
+  File    file;
+  Bytes   bytes;
+  UInt    numBytes;
+  Byte   *buf;
+  UInt    bufLen;
+  UInts   uints;
+  UInt   *uintBuf;
+  UInt    numUInts;
+  UInt    i;
+  ULong   meanLong;
+  Byte    mean;
+  Byte    min;
+  Byte    max;
+  UInt    maxCount;
+  UInt    diff;
+  ULong   stdSum;
+  UInt    sigma;
+  UInt    pct;
+
+  uints.Allocate(256);
+  uints.SetLength(256);
+  uints.BufAndSize(*(Byte **)&uintBuf,numUInts);
+  for (i=0; i < numUInts/sizeof(UInt); i++) uintBuf[i] = 0;
+  //file = "c:/befe/tt.txt";
+  //file = "c:/befe/Heidelbg.ttf";
+  file = "C:/cloud/dropbox/SVN/bferris/c++/number/Integer.cpp";
+  //file = "c:/befe/empty.txt";
+  //file = "c:/befe/big.xml";
+  status = file.ReadContents(bytes);
+  if (status) goto READFAILED;
+  numBytes = bytes.Length();
+  Cout << numBytes << " bytes\n";
+  bytes.BufAndSize(buf,bufLen);
+  
+  // Calculate the Mean, Min, and Max
+  meanLong = 0;
+  min      = 0xff;
+  max      = 0x00;
+  maxCount = 0;
+  for (i=0; i < bufLen; i++) {
+    meanLong += buf[i];
+    min = Min(min,buf[i]);
+    max = Max(max,buf[i]);
+    uintBuf[buf[i]]++;
+    maxCount = Max(maxCount,uintBuf[buf[i]]);
+  }
+  mean  = meanLong/numBytes;
+
+  // Calculate the Standard Deviation (sigma)
+  stdSum = 0;
+  for (i=0; i < bufLen; i++) {
+    if(buf[i] < mean)
+      diff = mean - buf[i];
+    else
+      diff = buf[i] - mean;
+    stdSum += diff*diff;
+  }
+  stdSum /= numBytes;
+  sigma = IntSqrt((UInt)stdSum);
+  Cout << "Max Count = "   << maxCount                << '\n';
+  Cout << "Mean      = 0x" << ToHexString((UInt)mean) << '\n';
+  Cout << "Min       = 0x" << ToHexString((UInt)min)  << '\n';
+  Cout << "Max       = 0x" << ToHexString((UInt)max)  << '\n';
+  Cout << "Variance  = 0x" << ToHexString(stdSum)     << '\n';
+  Cout << "Sigma     = 0x" << ToHexString(sigma)      << '\n';
+  Cout << "Sigma/2   = 0x" << ToHexString(sigma>>1)   << '\n';
+  Cout << "Max Count = "   << maxCount                << '\n';
+  if (gVeryVerbose && maxCount) {
+    for (i=min; i <= max; i++) {
+      pct = uintBuf[i]*100/maxCount;
+      Cout << "0x" << ToHexString(i,2) << ": ";
+      Cout << String('.')*pct;
+      Cout << '\n';
+    }
+  }
+  
+  while (false) {
+    READFAILED: ERROR("Read Failed",status); break;
+  }
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

@@ -1,0 +1,23 @@
+#
+# Got this from somewhere: BNF described in BNF
+#
+# Have modified the original to match BEFE's way of approaching the problem.
+#
+
+# bferris: Had to add any_character...
+TYPES         ::= WHITE COMMENT OPERATOR DQUOTE SQUOTE INT HEX NAME QNAME ACTION RANGE EOL EOF
+any_character ::= 0x00..0xff
+<white>       ::= WHITE
+<equals>      ::= OPERATOR."="
+<signed>      ::= '±' | "signed" <white>
+<action>      ::= *(NAME)
+rule       ::=  <name>  "::="  expression
+expression ::=  term *( "|" term )*
+term       ::=  factor *( factor )
+
+quoted_symbol ::= DQUOTE | SQUOTE
+factor        ::=  <name> |
+                   quoted_symbol |
+                   '('  expression  ')' |
+                   '['  expression  ']' |
+                   '{'  <action>  '}'

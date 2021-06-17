@@ -1,0 +1,64 @@
+"Creating __dict.py..."
+"Testing BEFE_Parse.py..."
+
+Line 128: if a == b: from x.b.c import befe.*
+                                            ^
+File 'c:/SVN/python/t.befe': Error: ***SyntaxError: (128/35): Dangling operator '*'
+
+Line 128: if a == b: from x.b.c import befe.*
+                                            ^
+File 'c:/SVN/python/t.befe': Error: ***SyntaxError: (128/35): Invalid use of operator '*'
+c:/SVN/python/t.befe: ***No Warnings***
+  [0]: type='file' name='__dict.py' flags=[1, 2]
+    [1]: type='ind:expr:stmt:' name=None 123/1 word0='a' flags=[1, 2]
+      [9]: type='name:dotted:expr:' name=None 123/1 value=1 word0='a' wordN = 'd' flags=[2]
+        [8]: type='name:' name='a' 123/1 word0='a' flags=[2]
+        [15]: type='name:' name='.' flags=[2]
+        [10]: type='name:' name='b' 123/3 word0='b' flags=[2]
+        [11]: type='name:' name='.' 123/4 value=1 word0='.' wordN = '.' flags=[2]
+        [12]: type='name:' name='c' 123/5 word0='c' flags=[2]
+        [13]: type='name:' name='.' 123/6 value=1 word0='.' wordN = '.' flags=[2]
+        [14]: type='name:' name='d' 123/7 word0='d' flags=[2]
+    [2]: type='ind:expr:stmt:' name=None 124/1 word0='a' flags=[1, 2]
+      [17]: type='name:dotted:expr:' name=None 124/1 value=1 word0='a' wordN = 'd' flags=[2]
+        [16]: type='name:' name='a' 124/1 word0='a' flags=[2]
+        [24]: type='name:' name='.' flags=[2]
+        [18]: type='group:' name='()' 124/3 word0='(' wordN = ')' flags=[2]
+          [19]: type='name:' name='b' 124/4 word0='b' flags=[2]
+          [20]: type='group:' name='()' 124/5 word0='(' wordN = ')' flags=[2]
+            [21]: type='name:' name='c' 124/6 word0='c' flags=[2]
+        [22]: type='name:' name='.' 124/9 value=1 word0='.' wordN = '.' flags=[2]
+        [23]: type='name:' name='d' 124/10 word0='d' flags=[2]
+    [3]: type='ind:expr:stmt:' name=None 125/1 word0='a' flags=[1, 2]
+      [26]: type='name:dotted:expr:' name=None 125/1 value=1 word0='a' wordN = 'd' flags=[2]
+        [25]: type='name:' name='a' 125/1 word0='a' flags=[2]
+        [32]: type='name:' name='.' flags=[2]
+        [27]: type='name:' name='b' 125/3 word0='b' flags=[2]
+        [28]: type='group:' name='()' 125/4 word0='(' wordN = ')' flags=[2]
+          [29]: type='name:' name='c' 125/5 word0='c' flags=[2]
+        [30]: type='name:' name='.' 125/7 value=1 word0='.' wordN = '.' flags=[2]
+        [31]: type='name:' name='d' 125/8 word0='d' flags=[2]
+    [4]: type='ind:expr:stmt:' name=None 126/1 word0='a' flags=[1, 2]
+      [34]: type='name:dotted:expr:' name=None 126/1 value=1 word0='a' wordN = 'b' flags=[2]
+        [33]: type='name:' name='a' 126/1 word0='a' flags=[2]
+        [38]: type='name:' name='.' flags=[2]
+        [35]: type='group:' name='()' 126/3 word0='(' wordN = ')' flags=[2]
+        [36]: type='name:' name='.' 126/5 value=1 word0='.' wordN = '.' flags=[2]
+        [37]: type='name:' name='b' 126/6 word0='b' flags=[2]
+    [5]: type='ind:expr:stmt:' name='if' 128/4 word0='a' wordN = 'b' breaker=':' flags=[1, 2]
+      [6]: type='ind:stmtexpr:' name=None flags=[1, 2]
+        [39]: type='name:' name='a' 128/4 word0='a' flags=[2]
+        [40]: type='expr:operator:' name='eq' 128/6 word0='==' flags=[2]
+        [41]: type='name:' name='b' 128/9 word0='b' flags=[2]
+      [7]: type='ind:expr:' name=None 128/12 word0='from' flags=[1, 2]
+        [44]: type='name:dotted:expr:' name=None 128/12 value=1 word0='from' wordN = '.' flags=[2]
+          [42]: type='name:' name='from' 128/12 word0='from' flags=[2]
+          [43]: type='name:' name='x' 128/17 word0='x' flags=[2]
+          [52]: type='name:' name='.' flags=[2]
+          [45]: type='name:' name='b' 128/19 word0='b' flags=[2]
+          [46]: type='name:' name='.' 128/20 value=1 word0='.' wordN = '.' flags=[2]
+          [47]: type='name:' name='c' 128/21 word0='c' flags=[2]
+          [48]: type='name:' name='import' 128/23 word0='import' flags=[2]
+          [49]: type='name:' name='befe' 128/30 word0='befe' flags=[2]
+          [50]: type='name:' name='.' 128/34 value=1 word0='.' wordN = '.' flags=[2]
+        [51]: type='expr:operator:' name='*' 128/35 word0='*' flags=[2]

@@ -1,0 +1,14 @@
+#!befe
+# File: Links.txt
+#
+# Various handy development web links
+#
+
+"Linux C++ Software Development":
+  link=http://www.yolinux.com/TUTORIALS/LinuxTutorialC++.html#GUIFRAMEWORKS
+  Desc...
+   Contains several good links about various GUI libraries available for Linux
+  ...Desc
+  
+
+ 

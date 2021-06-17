@@ -1,0 +1,29 @@
+/*
+
+  Variable Bytes (VByte)...
+
+  VByte1...
+
+    0x00000000..0x0000007e: ┌────────┐
+             0..126         │0xxxxxxx│ 0x7f = NaN1
+    Just under 128B         └────────┘
+
+  VByte2...
+
+    0x00000000..0x00003fff: ┌────────┼────────┐
+             0..16382       │10xxxxxx│xxxxxxxx│ 0x3fff = NaN2
+    Just under 16KB         └────────┼────────┘
+
+  VByte3...
+
+    0x00000000..0x001ffffe: ┌────────┼────────┼────────┐
+             0..2097150     │110xxxxx│xxxxxxxx│xxxxxxxx│ 0x1fffff = NaN3
+    Just under 2MB          └────────┼────────┼────────┘
+
+  VByte4...
+
+    0x00000000..0x1ffffffe: ┌────────┼────────┼────────┼────────┐
+             0..536870910   │111xxxxx│xxxxxxxx│xxxxxxxx│xxxxxxxx│ 0x1fffffff = NaN4
+    Just under 512MB        └────────┼────────┼────────┼────────┘
+
+*/

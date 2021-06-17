@@ -1,0 +1,53 @@
+Header...
+Abstract Machine Flags
+...Header
+
+Defines...
+<Abstract Flags>
+...Defines
+
+References...
+<Abstract Machine>
+...References
+
+Palette...
+─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼
+...Palette
+
+-----------------------------------------------------------------------
+
+<Abstract Machine> flags are two separate Bytes bits used for condition
+testing.  They in the following form...
+
+  Flags Test (FT):
+
+     ┌────────────────────────── Most Significant Bit
+     │                             (Sign Bit for Signed Test)
+     │       ┌────────────────── Less Significant Bits
+     │       │                     (Value Bits for Signed Test)
+     │ ┌─────┴─────┐
+    ┌─┬─┬─┬─┬─┬─┬─┬─┐
+    │S│Z│O│ │S│S│U│U│
+    │G│R│N│E│L│G│L│G│
+    │N│O│E│Q│T│T│T│T│
+    └─┴─┴─┴─┴─┴─┴─┴─┘
+     │ │ │ │ │ │ │ │
+     │ │ │ │ │ │ │ └─── Unsigned Greater Than
+     │ │ │ │ │ │ └─── Unsigned Less Than
+     │ │ │ │ │ └─── Signed Greater Than
+     │ │ │ │ └─── Signed Less Than
+     │ │ │ └─── Equal To
+     │ │ └─── All Ones
+     │ └─── All Zeros
+     └─── Sign (0=Not Set, 1=Set)
+ 
+  Flags Count (FC):
+  
+    ┌─┬─┬─┬─┬─┬─┬─┬─┐
+    │               │
+    │ BitCount (BC) │
+    │               │
+    └─┴─┴─┴─┴─┴─┴─┴─┘
+     └──────┬──────┘
+            │
+            └─── Number of bits set

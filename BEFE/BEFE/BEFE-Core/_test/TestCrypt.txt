@@ -1,0 +1,134 @@
+#──────────────────────────────────────────────────────────────────────
+# File: TestCrypt.txt - BEFE Encrypt/Decrypt test file
+#──────────────────────────────────────────────────────────────────────
+#
+# This file is simply some test data for the BEFE Crypt Unit Test.
+#
+# Note: This file MUST be more than 4096 bytes to ensure that the
+#       buffering in the Crypt functions work properly.
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011, Bruce Ferris (UK), all rights reserved
+#──────────────────────────────────────────────────────────────────────
+
+#
+# Most famous pangram...
+#
+
+"The quick brown fox jumps over the lazy dog"
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Now for some international pangrams (and for UTF-8)...
+#
+
+English, "The quick brown fox jumps over the lazy dog"
+         (all 26 letters).
+ German, "Victor jagt zwölf Boxkämpfer quer über den Sylter Deich"
+         (every umlaut).
+ French, "Portez ce vieux whisky au juge blond qui fume"
+         (all 26 letters).
+Spanish, "El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña
+         tocaba el saxofón detrás del palenque de paja."
+         (all 27 letters and diacritics).
+Russian, "Съешь же ещё этих мягких французских булок, да выпей чаю"
+         (all 33 Russian Cyrillic alphabet letters).
+
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Now, for autograms (see http://en.wikipedia.org/wiki/Pangram)...
+#
+
+# Sallows' original self-enumerating autogram...
+
+Only the fool would take trouble to verify that his sentence was composed
+of ten a's, three b's, four c's, four d's, forty-six e's, sixteen f's,
+four g's, thirteen h's, fifteen i's, two k's, nine l's, four m's,
+twenty-five n's, twenty-four o's, five p's, sixteen r's, forty-one s's,
+thirty-seven t's, ten u's, eight v's, eight w's, four x's, eleven y's,
+twenty-seven commas, twenty-three apostrophes, seven hyphens and, last
+but not least, a single !
+
+# But that lacks a j, q, and z, so from the Scientific American
+# magazine in October 1984...
+
+This Pangram contains four as, one b, two cs, one d, thirty es, six fs,
+five gs, seven hs, eleven is, one j, one k, two ls, two ms, eighteen ns,
+fifteen os, two ps, one q, five rs, twenty-seven ss, eighteen ts, two us,
+seven vs, eight ws, two xs, three ys, & one z.
+
+#──────────────────────────────────────────────────────────────────────
+#
+# Now for some more fun from http://selfreferentialsentences.blogspot.com...
+#
+
+Self Referential Sentences
+
+Self-reference 1999 computations preserved from deletion by att worldnet's
+demise. Note: singletons are moved as far forward in the alphabet as
+possible below. Thus sentences with a z are also pangrams. Computations
+were done with binary decision diagrams (BDD's).
+
+Monday, January 4, 2010
+
+Self-Referential Sentences: Base Ten
+
+Self-referential ``this sentence has'' sentences in decimal, exhaustive
+list - there are no others.
+
+1. This sentence has three a's, two c's, two d's, nineteen e's,
+six f's, two g's, five h's, ten i's, two l's, twelve n's, nine o's,
+five r's, twenty six s's, sixteen t's, four u's, four v's, eight w's,
+four x's, and two y's.
+
+2. This sentence has three a's, two c's, two d's, twenty eight e's,
+four f's, four g's, ten h's, eight i's, two l's, eleven n's, six o's,
+seven r's, twenty seven s's, eighteen t's, three u's, five v's,
+six w's, three x's, and three y's.
+
+3. This sentence has three a's, two c's, two d's, twenty six e's,
+three f's, three g's, eleven h's, eight i's, two l's, thirteen n's,
+eight o's, nine r's, twenty four s's, twenty three t's, three u's,
+two v's, nine w's, two x's, and four y's.
+
+4. This sentence has three a's, one b, two c's, two d's, thirty e's,
+five f's, three g's, ten h's, seven i's, one j, one k, two l's, one m,
+fourteen n's, twelve o's, one p, eight r's, twenty three s's,
+twenty two t's, three u's, five v's, eight w's, and four y's.
+
+5. This sentence has three a's, one b, two c's, two d's, thirty e's,
+three f's, one g, seven h's, nine i's, one j, one k, two l's, one m,
+nineteen n's, eleven o's, six r's, twenty seven s's, sixteen t's,
+two u's, five v's, six w's, four x's, and three y's.
+
+6. This sentence has three a's, one b, two c's, two d's, thirty one e's,
+four f's, two g's, nine h's, nine i's, one j, one k, one l, one m,
+twenty three n's, sixteen o's, one p, one q, nine r's, twenty three s's,
+eighteen t's, four u's, one v, six w's, three x's, and four y's.
+
+7. This sentence has three a's, one b, two c's, two d's, thirty one e's,
+seven f's, one g, six h's, seven i's, one j, one k, one l, one m,
+twenty n's, fourteen o's, one p, seven r's, twenty seven s's,
+fifteen t's, four u's, six v's, five w's, three x's, and four y's.
+
+8. This sentence has three a's, one b, two c's, two d's, thirty six e's,
+three f's, three g's, eleven h's, nine i's, one j, one k, three l's,
+one m, eighteen n's, twelve o's, one p, one q, eight r's, twenty six s's,
+twenty t's, two u's, five v's, seven w's, three x's, four y's, and one z.
+
+9. This sentence has three a's, one b, two c's, two d's, thirty two e's,
+three f's, one g, seven h's, seven i's, one j, one k, one l, nineteen n's,
+ten o's, five r's, twenty five s's, seventeen t's, seven v's, six w's,
+two x's, and three y's.
+
+10. This sentence has three a's, one b, two c's, two d's, thirty two e's,
+three f's, two g's, eleven h's, seven i's, one j, one k, two l's, one m,
+sixteen n's, thirteen o's, one p, ten r's, twenty six s's, twenty four t's,
+three u's, three v's, eight w's, three x's, and four y's.
+
+#──────────────────────────────────────────────────────────────────────
+#
+# There's more fun at those links above but that's enough for now
+#
+#──────────────────────────────────────────────────────────────────────

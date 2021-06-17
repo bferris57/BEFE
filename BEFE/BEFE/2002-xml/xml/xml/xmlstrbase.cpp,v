@@ -1,0 +1,853 @@
+head	1.6;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.6
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.11.03.00.53.11;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.25.08.31.33;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.24.05.53.16;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.24.03.31.29;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.21.08.11.09;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.6
+log
+@More work on HTML parser
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmlstrbase.cpp - Implementation of the Base XMLString classes
+  DESCRIPTION
+    This file contains the default implementation of the Base classes that
+    implement XMLString.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmlstrbase.h"
+#include "miscellaneous.h"
+#include <string.h>
+#include <ctype.h>
+#include <memory.h>
+
+//
+// Globals (yuck)
+//
+
+// "Is exact hash and length compare good enough for '='?"
+//
+// This speed up big.xml (10mb) from 55 seconds to 45 seconds so it's
+// worth it but... Until we're satisfies that we can depend on crc32
+// and length compares we'll keep it configurable.  See ::Equals().
+
+int g_ExactHashAndLength = 1;
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringBase::~XMLStringBase - Destructor
+//
+
+XMLStringBase::~XMLStringBase() {}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringBase::IsMutable - "Is this string mutable?"
+//  XMLStringBase::Truncate  - Clear contents of string
+//  XMLStringBase::SetLength - Extend/truncate the string
+//  XMLStringBase::Append    - Append to contents of the string
+//  XMLStringBase::Lower     - Lowercase a string
+//  XMLStringBase::Upper     - Uppercase a string
+//
+// DESCRIPTION
+//
+//  These methods are used to change the contents of a string.  Implementations
+//  of XMLString will have to override these function is they allow string
+//  mutation.
+//
+// NOTES
+//
+//  Default behaviour is "No mutation".
+//
+
+int XMLStringBase::IsMutable(void) {
+  return 0;
+}
+
+XMLError XMLStringBase::Truncate(void) {
+  return XMLErrorStringNotMutable;
+}
+
+#pragma argsused
+
+XMLError XMLStringBase::SetLength(int newlen, byte fillwith) {
+  
+  return XMLErrorStringNotMutable;
+}
+
+XMLError XMLStringBase::Append(byte *buf, int bufl) {
+  if (buf == NULL || bufl < 0)
+    return XMLErrorInvalidParameters;
+  return XMLErrorStringNotMutable;
+}
+
+XMLError XMLStringBase::Append(char *buf, int bufl) {
+  if (buf && bufl < 0)
+    return Append((byte *)buf,strlen(buf));
+  return Append((byte *)buf,bufl);
+}
+
+XMLError XMLStringBase::Append(XMLString *string) {
+
+  XMLError       result;  // Return result
+  int            reml;    // Remaining length
+  int            fragoff; // Current fragment's offset
+  int            fraglen; // Current fragment's length
+  XMLStringBase *bstring; // Dirty casted source string
+  byte          *frag;    // Current fragment
+  
+  // Sanity checks
+  if (string == NULL) goto BADPARAMETERS;
+
+  // Initialise
+  bstring = (XMLStringBase *)string;
+    
+  // Can't do it if we're not mutable
+  if (!IsMutable()) goto NOTMUTABLE;
+  
+  // Get the string's length
+  result = string->Length(&reml);
+  if (result) goto ERROR;
+  
+  // Until we've appended all fragments
+  for (fragoff = 0; reml; ) {
+
+    // Get the fragment
+    result = bstring->LockFragment(fragoff, &frag, &fraglen);
+    if (result) goto ERROR;
+    
+    // Append it and unlock it...
+    result = Append(frag,fraglen);
+    UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // Get ready for next fragment
+    reml    -= fraglen;
+    fragoff += fraglen;
+  }
+
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NOTMUTABLE:
+  result = XMLErrorStringNotMutable;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+XMLError XMLStringBase::Lower(void) {
+
+  XMLError result;   // Return code
+  byte     *frag;    // Current fragment (NULL = "Not locked")
+  int       fragoff; // Fragment offset
+  int       fraglen; // Length of fragment
+  int       remlen;  // Remaining string length
+  int       i;       // TEMP: Loop counter
+
+  // Initialise
+  frag    = NULL;
+  fragoff = 0;
+  fraglen = 0;
+      
+  // Make sure it's mutable
+  if (!IsMutable()) goto NOTMUTABLE;
+
+  // Get the string length
+  result = Length(&remlen);
+  if (result) goto ERROR;
+  
+  // Until we've done the whole string...
+  while (remlen) {
+  
+    // Lock the fragment
+    result = LockFragment(fragoff,&frag,&fraglen);
+    if (result) goto ERROR;
+
+    // Lowercase it
+    for (i = 0; i < fraglen; i++)
+      frag[i] = (byte)tolower((int)frag[i]);
+      
+    // Unlock the fragment
+    result = UnlockFragment(fragoff);
+    if (result) goto ERROR;
+
+    // Fragment isn't locked now
+    frag = NULL;
+    
+    // Position to next fragment
+    fragoff += fraglen;
+    remlen  -= fraglen;    
+  }
+  
+  goto OK;
+  
+NOTMUTABLE:
+  result = XMLErrorStringNotMutable;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Unlock the fragment if it's still locked
+  if (frag)
+    UnlockFragment(fragoff);
+    
+  return result;
+}
+
+XMLError XMLStringBase::Upper(void) {
+  XMLError result;   // Return code
+  byte     *frag;    // Current fragment (NULL = "Not locked")
+  int       fragoff; // Fragment offset
+  int       fraglen; // Length of fragment
+  int       remlen;  // Remaining string length
+  int       i;       // TEMP: Loop counter
+
+  // Initialise
+  frag    = NULL;
+  fragoff = 0;
+  fraglen = 0;
+      
+  // Make sure it's mutable
+  if (!IsMutable()) goto NOTMUTABLE;
+
+  // Get the string length
+  result = Length(&remlen);
+  if (result) goto ERROR;
+  
+  // Until we've done the whole string...
+  while (remlen) {
+  
+    // Lock the fragment
+    result = LockFragment(fragoff,&frag,&fraglen);
+    if (result) goto ERROR;
+
+    // Lowercase it
+    for (i = 0; i < fraglen; i++)
+      frag[i] = (byte)toupper((int)frag[i]);
+      
+    // Unlock the fragment
+    result = UnlockFragment(fragoff);
+    if (result) goto ERROR;
+
+    // Fragment isn't locked now
+    frag = NULL;
+    
+    // Position to next fragment
+    fragoff += fraglen;
+    remlen  -= fraglen;    
+  }
+  
+  goto OK;
+  
+NOTMUTABLE:
+  result = XMLErrorStringNotMutable;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Unlock the fragment if it's still locked
+  if (frag)
+    UnlockFragment(fragoff);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringBase::GetValue     - Copy the entire string into the caller's buffer
+//  XMLStringBase::GetSubstring - Copy part of a string into the caller's buffer
+//
+// DESCRIPTION
+//
+//  These functions copy the string data into the caller's buffer.
+//
+// NOTES
+//
+//  If the string value is bigger than the caller's buffer an error is returned.
+//
+//  When calling GetValue(), if the caller doesn't want to know how long the
+//  string really is they don't need to pass the len paramameter.
+//
+
+XMLError XMLStringBase::GetValue(byte *buf, int maxbufl, int *len) {
+
+  XMLError result;                                  // Return code
+  int      vallen;                                  // Current remaining length of value
+  int      fragoff;                                 // Offset of current fragment
+  int      fraglen;                                 // Length of current fragment
+  byte    *frag;                                    // Pointer to fragment's data
+  
+  // Sanity checks
+  if (buf == NULL || maxbufl <= 0) goto BADPARAMETERS;
+  
+  // Tell the caller we haven't moved anything...
+  if (len)
+    *len = 0;
+    
+  // Get the string length
+  result = Length(&vallen);
+  if (result) goto ERROR;
+  
+  // Make sure we have enough room in the caller's buffer...
+  if (vallen > maxbufl) goto BUFFEROVERFLOW;
+  
+  // Until we run out of buffer
+  fragoff = 0;
+  while (vallen > 0) {
+    
+    // Lock the fragment
+    result = LockFragment(fragoff,&frag,&fraglen);
+    if (result) break;
+    
+    // If we have a fragment, move to caller's buffer
+    if (fraglen)
+      memcpy((void *)buf,(void *)frag,(size_t)fraglen);
+      
+    // Unlock the fragment
+    result = UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // If we don't have a length, internal error
+    if (fraglen == 0) goto INTERNALERROR;
+    
+    // Increment stuff
+    buf     += fraglen;
+    fragoff += fraglen;
+    vallen  -= fraglen;
+    if (len)
+      *len += fraglen;    
+  }
+
+  goto OK;    
+
+//
+// Finished
+//
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+BUFFEROVERFLOW:
+  result = XMLErrorStringTruncated;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+DONE:
+  return result; 
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringBase::Equals - "Are two strings equal?"
+//  XMLStringBase::Compare - Lexical string compare with another string (answer -1,0,1 = "<,=,>")
+//
+// DESCRIPTION
+//
+//  These functions are the commonly inherited behaviour of all XMLStrings.
+//
+// NOTES
+//
+
+XMLError XMLStringBase::Equals(XMLString *that,int *answer) {
+
+  XMLError result;
+  XMLHash  hash[2];
+  int      len[2];
+  
+  // Sanity checks
+  if (that == NULL || answer == NULL) goto BADPARAMETERS;
+
+  // Get the lengths
+  result = Length(&len[0]);
+  if (result) goto ERROR;
+  result = that->Length(&len[1]);
+  if (result) goto ERROR;
+    
+  // Quick length equality check
+  if (len[0] != len[1]) {
+    *answer = 0;
+    goto OK;
+  }
+  
+  // Quick hash equality check
+  if (IsHashed() && that->IsHashed()) {
+    
+    // Get the hashes
+    result = GetHash(&hash[0]);
+    if (result) goto ERROR;
+    result = that->GetHash(&hash[1]);
+    if (result) goto ERROR;
+    
+    // If they're different they're not equal
+    if (hash[0] != hash[1]) {
+      *answer = 0;
+      goto OK;
+    }
+    
+    // Same hash, if same lengths and g_ExactHashAndLength...
+    if (g_ExactHashAndLength) {
+      *answer = 1;
+      goto OK;
+    }
+  }
+
+  // Potentially slower compare  
+  result = Compare(that,answer);
+  if (result) goto ERROR;
+  
+  // Turn -1,0,1 into "Is Equal" answer
+  if (*answer)
+    *answer = 0;
+  else
+    *answer = 1;
+    
+  goto DONE;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;  
+}
+
+XMLError XMLStringBase::Compare(XMLString *that, int *answer) {
+
+  XMLError       result;        // Return code
+  XMLError       tresult;       // TEMP: Candidate return code
+  XMLStringBase *strings[2];    // The XMLStrings
+  int            remlen[2];     // Fragment remaining lengths to compare
+  int            fragoff[2];    // Fragment offset
+  byte          *frag[2];       // Fragment pointers
+  int            fraglen[2];    // Fragment lengths
+  int            fraglck[2];    // Fragment lock offsets (<0 = "Not locked")
+  int            comparelen;    // Current compare length
+  int            compareresult; // String comparison result (strncmp() may not return -1,0,1!)
+  int            i;             // TEMP: Loop counter
+  
+  // Sanity checks
+  if (that == NULL || answer == NULL) goto BADPARAMETERS;
+
+  // Get the lengths
+  result = Length(&remlen[0]);
+  if (result) goto ERROR;
+  result = that->Length(&remlen[1]);
+  if (result) goto ERROR;
+
+  // Prime the fragment info
+  strings[0] = this;
+  strings[1] = (XMLStringBase *)that;  // Dirty Cast
+  for (i=1;i>=0;i--) {
+    fragoff [i] = 0;
+    fraglen [i] = 0;
+    fraglck [i] = -1;
+  }
+    
+  // Until we run out of fragments or we detect an inequality...  
+  for (;;) {
+
+    // If either/both remaining lengths are 0 we know the answer...
+    if (remlen[0] == 0) {
+      if (remlen[1])
+        *answer = -1;
+      else
+        *answer = 0;
+      break;
+    }
+    else if (remlen[1] == 0) {
+      *answer = 1;
+      break;
+    }
+    
+    // Get data from fragments if we need to...
+    for (i=1;i>=0;i--) {
+    
+      // If no data left in this fragment...
+      if (fraglen[i] == 0) {
+      
+        // Unlock previous fragment if locked
+        if (fraglck[i] >= 0) {
+          result = strings[i]->UnlockFragment(fraglck[i]);
+          if (result) goto ERROR;
+        }
+        
+        // Lock this fragment
+        result = strings[i]->LockFragment(fragoff[i],&frag[i],&fraglen[i]);
+        if (result) goto ERROR;
+        fraglck[i] = fragoff[i];
+      }
+      
+    }
+    
+    // Compute compare length (the min of the two fragment lengths)
+    comparelen = fraglen[0];
+    if (comparelen > fraglen[1])
+    comparelen = fraglen[1];
+
+    // If first fragment is exhausted answer is "<"
+    if (fraglen[0] == 0) {
+      *answer = -1;
+      break;
+    }
+    
+    // If second fragment is exhausted answer is ">"
+    else if (fraglen[1] == 0) {
+      *answer = 1;
+      break;
+    }
+    
+    // Compare the two fragments
+    compareresult = strncmp((char *)frag[0],(char *)frag[1],(size_t)comparelen);
+    if (compareresult < 0) {
+      *answer = -1;
+      break;
+      }
+    else if (compareresult > 0) {
+      *answer = 1;
+      break;
+    }
+            
+    // These two fragments are the same, adjust fragment offsets and remaining lengths
+    for (i=1;i>=0;i--) {
+      remlen  [i] -= comparelen;
+      frag    [i] += comparelen;
+      fragoff [i] += comparelen;
+      fraglen [i] -= comparelen;
+    }
+    
+  }
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+
+  // Unlock anything needing unlocking (if we don't have an error so far, 
+  // do our best to return, at least, the first error encountered when
+  // we unlock.
+  for (i=1;i>=0;i--) {
+    if (fraglck[i] >= 0) {
+      tresult = strings[i]->UnlockFragment(fraglck[i]);
+      if (tresult && !result)
+        result = tresult;
+    }
+  }
+  
+  // Whew!  Return the error code
+  
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringBase::IsHashed - "Is this string hashed?" (implies intent to call GetHash())
+//  XMLStringBase::Hash     - Hash the string NOW
+//  XMLStringBase::GetHash  - Get the string's hash (implies IsHashed() != 0 has been called)
+//
+
+int XMLStringBase::IsHashed(void) {
+  return 1;
+}
+
+XMLError XMLStringBase::Hash(void) {
+  return XMLErrorNone;
+}
+
+XMLHash XMLStringBase::GetHash(XMLHash *hash) {
+
+  XMLError result;                                  // Return code
+  int      len;                                     // Entire length of the value  
+  XMLHash  curhash;                                 // Current hash value
+  int      fragoff;                                 // Current offset into the fragment
+  int      fraglen;                                 // Length of the current fragment
+  byte    *frag;                                    // Current fragment
+  int      reml;                                    // Remaining length (after this fragment)
+  XMLHash  thash;                                   // Local hash value
+  int      i;                                       // Temp: Loop counter
+  
+  // Sanity checks
+  if (hash == NULL) goto BADPARAMETERS;
+
+  // Assume we failed
+  *hash = BADHASH;
+      
+  // Initialise
+  result = Length(&len);  
+  if (result) goto ERROR;
+
+  // Until we've exhausted the string...
+  fragoff = 0;
+  thash   = (XMLHash)crc32(NULL,0);
+  for (reml=len;reml;)  {
+  
+    // Lock the fragment
+    result = LockFragment(fragoff,&frag,&fraglen);
+    if (result) goto ERROR;
+    
+    // Add this stuff to the hash
+    thash = (XMLHash)crc32((char *)frag,fraglen,(unsigned long)thash);
+
+    // Unlock the fragment
+    result = UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // Consume the fragment
+    fragoff += fraglen;
+    reml    -= fraglen;
+    
+  }
+  
+  // Finish off the hash and return it to the caller
+  *hash = PROPERHASH(thash);
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringHashed::XMLStringHashed - Constructor
+//  XMLStringHashed::IsHashed        - "Is this string hashed?" (implies intent to call GetHash())
+//  XMLStringHashed::Hash            - Hash the string NOW
+//  XMLStringHashed::GetHash         - Get the string's hash
+//
+
+XMLStringHashed::XMLStringHashed() {
+  m_hash = BADHASH;
+}
+
+int XMLStringHashed::IsHashed(void) {
+  if (ISBADHASH(m_hash))
+    return 0;
+  return 1;
+}
+
+XMLError XMLStringHashed::Hash(void) {
+  XMLError result;
+  if (!ISBADHASH(m_hash))
+    return XMLErrorNone;
+  result = XMLStringBase::GetHash(&m_hash);
+  return result;
+}
+
+XMLError XMLStringHashed::GetHash(XMLHash *hash) {
+  XMLError result;
+  if (hash == NULL)
+    return XMLErrorInvalidParameters;
+  if (ISBADHASH(m_hash))
+    result = XMLStringBase::GetHash(&m_hash);
+  else
+    result = XMLErrorNone;
+  *hash = m_hash;
+  return result;
+}
+
+
+@
+
+
+1.5
+log
+@Found speed problem, Rehash() rehashing too much!
+@
+text
+@d18 1
+d49 1
+d51 2
+a52 1
+//  XMLStringBase::SetLength - Extend/truncate the string
+d73 7
+d153 100
+a252 1
+#pragma argsused
+d254 20
+a273 1
+XMLError XMLStringBase::SetLength(int newlen, byte fillwith) {
+d275 7
+a281 1
+  return XMLErrorStringNotMutable;
+@
+
+
+1.4
+log
+@Finished XMLBitMapString, ready to test
+@
+text
+@d495 1
+a495 1
+  
+d507 1
+a507 1
+      
+@
+
+
+1.3
+log
+@A couple of GPFs and bugs fixed
+@
+text
+@d49 1
+d141 7
+@
+
+
+1.2
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d256 12
+d284 5
+d291 2
+a292 4
+  // Quick length equality check
+  result = Length(&len[0]);
+  if (result) goto ERROR;
+  result = that->Length(&len[1]);
+a293 15
+  if (len[0] != len[1]) {
+    *answer = 0;
+    goto OK;
+  }
+  
+  // If hash and length compare good enough...
+  if (g_ExactHashAndLength)
+    *answer = 0;
+  
+  // Evidently the hash isn't good enough...  
+  else {
+    // Potentially slower compare  
+    result = Compare(that,answer);
+    if (result) goto ERROR;
+  }
+@
+
+
+1.1
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d20 12
+a247 1
+
+d284 10
+a293 3
+  // Potentially slower compare  
+  result = Compare(that,answer);
+  if (result) goto ERROR;
+@
+

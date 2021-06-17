@@ -1,0 +1,22 @@
+#!befe
+#----------------------------------------------------------------------
+# File: LinuxNotes.txt - Random thoughts/notes about Linux
+#----------------------------------------------------------------------
+
+
+NTFS...
+
+Although it's really nice that Linux comes with NTFS file system drivers,
+it's NOT nice that there's this weird behaviour...
+
+  1) All Linux dirs/files show as mode 777, regardless of how they're
+     set up with the security descriptors.  I guess they haven't quite
+     got there yet.
+
+  2) I think, since Linux is "case sensitive", you can make troubles
+     if you make a file "temp.txt" and "TEMP.txt".  This will really
+     throw Windows a wobbly.  Need to look into this.
+
+...NTFS
+
+

@@ -1,0 +1,375 @@
+#!/usr/bin/env python3
+#================================================================================
+#
+# File:  extsync
+#
+# Usage: Move missing files from USB drive to SD card
+#
+# Notes: This script only works on Linux (intentionally).
+#
+#================================================================================
+
+from   utils.walker import walk
+import                     os
+import                     sys
+import                     shutil
+from   utils.errors import *
+import                     colr
+from   utils.walker import walk
+from   utils.funcs  import preEllipse
+from   utils.funcs  import postEllipse
+from   utils.funcs  import isInt
+from   utils.funcs  import red,green,blue,error
+import                     time
+
+# Linux only...
+if sys.platform != 'linux':
+  error('Script runs on Linux only')
+
+#
+# Globals...
+#
+
+quiet       = False
+
+#------------------------------------------------------------------------------
+#
+# Function: usage - Print usage and exit(0)
+#
+
+def usage():
+
+  me = os.path.basename(__file__)
+  msg = """
+Usage: %s [<options>] <srcdir> <dstdir>
+
+Where: <options>...
+
+         ? | ??     - Show this usage help 
+         +v         - Turn on  "show percentage"       (Default)
+         -v         - Turn off "show percentage"
+         -n <count> - Only sync first <count> files    (Default 5)
+         -o         - Turn off "overwrite files"       (Default)
+         +o         - Turn on  "overwrite files"
+         -i         - Turn off "ignore existing files" (Default)
+         +i         - Turn on  "ignore existing files"
+         -p         - Turn off "Pretend to copy"       (Default)
+         +p         - Turn on  "Pretend to copy"
+
+       <srcdir> - Source directory
+       <dstdir> - Destionation directory
+"""%me
+
+  print(msg)
+  sys.exit(0)
+
+#------------------------------------------------------------------------------
+#
+# Function: expand - Expand file/path to full path
+#
+
+def expand(path):
+
+  return os.path.abspath(os.path.expanduser(path))
+
+#------------------------------------------------------------------------------
+#
+# Function: copyOneFile 
+#
+# Usage:    result = copyOneFile(srcfile,dstfile,pretend=False,overwrite=False)
+#
+# Where:    srcfile   - str: Source file path
+#           dstfile   - str: Destination file path
+#           pretend   - bool: True  = Don't actually do it, just pretend
+#                             False = Actually do it
+#           overwrite - bool: True  = Overwrite existing file contents
+#                             False = Skip if exists 
+#
+#           result    - bool:      True  = "Did it"
+#                                  False = "Skipped it"
+#                       Exception: Didn't do it and here's why
+#
+# Notes: This function displays the ongoing percentage complete if
+#        showpercent=True and, when finished, indicates so on stdout.
+#
+#        As such, it is up to the caller to prepend the mangled file
+#        name and directory in whatever format it wishes.
+#
+#        This function DOES NOT create the destination directory,
+#        that's up to the caller.
+#
+
+def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False):
+
+  # Make sure source file exists...
+  if not os.path.exists(srcfile):
+    return Exception("Source file %s doesn't exist"%repr(preEllipse(srcfile,75).strip()))
+
+  #
+  # Do it...
+  #
+
+  dstdir = os.path.dirname(dstfile)
+
+  if os.path.exists(dstfile) and not overwrite:
+    if showpercent:
+      print('Ignoring')
+    else:
+      print('')
+    return False
+
+  if not showpercent:
+
+    sys.stdout.flush()
+    shutil.copy(srcfile,dstfile)
+    dfd = None
+
+  else:
+
+    sfd = os.open(srcfile,os.O_RDONLY)
+    sstat = os.fstat(sfd)
+    filesize = sstat.st_size
+    if not pretend:
+      dfd = open(dstfile,'wb',buffering=0)
+    else:
+      dfd = None
+    prevpercent = -1
+    blocksize = 1024*1024 # 1MB at a time if show percentage
+    offset = 0
+    while offset < filesize:
+      if filesize < 1024*1024:
+        percent = 0
+      else:
+        percent = int(float(offset)/filesize * 1000)/10.0
+      fstr = '%2.1f%%'%percent
+      if len(fstr) < 5: fstr = ' '+fstr
+      if percent != prevpercent:
+        print('%s\b\b\b\b\b'%fstr,end='')
+        sys.stdout.flush()
+      prevpercent = percent
+      if dfd:
+        block = os.read(sfd,blocksize)
+        if len(block) == 0:
+          break
+        numwrite = dfd.write(block)
+        if numwrite != len(block):
+          red('Expected to write %d bytes, but actually wrote %d'%(len(block),numwrite))
+        if len(block) < blocksize:
+          break
+        dfd.flush()
+        offset += len(block)
+      else:
+        if filesize >= 1024*1024:
+          time.sleep(.01)
+        offset += blocksize
+  if dfd:
+    dfd.flush()
+    dfd.close()
+    dfd = None
+  print("Finished")
+  
+  if not pretend:
+    if overwrite:
+      os.truncate(dstfile,filesize)
+  os.close(sfd)
+
+  return True
+
+#------------------------------------------------------------------------------
+#
+# Function: getFileMap - Compute file map dictionary
+#
+# Usage:    map = getFileMap(srcdir)
+#
+# Where:    srcdir - str:  Source directory (without trailing '/')
+#           map    - dict: File map (see below)
+#
+# Notes:    The map contains a key for each source directory.  Each entry
+#           in the map contains a sorted list of the files in that directory.
+#
+
+def getFileMap(srcdir):
+
+  if not quiet:
+    green('Walking source directory...')
+  files = list(walk(srcdir))
+  files.sort()
+  if not quiet:
+    print('  %d files...'%len(files))
+
+  if not quiet:
+    green('Building dict...')
+
+  map = {}
+  for file in files:
+    fname = os.path.basename(file)
+    dname = file[:-len(fname)]
+    if dname not in map:
+      map[dname] = [] 
+    map[dname].append(fname)
+
+  if not quiet:
+    dirs = list(map.keys())
+    dirs.sort()
+    print('  %d directories'%len(dirs))
+
+  minfiles = 0x7fffffff
+  maxfiles = 0
+
+  for key in map:
+    nfiles = len(map[key])
+    minfiles = min(minfiles,nfiles)
+    maxfiles = max(maxfiles,nfiles)
+    map[key].sort()
+  
+  if not quiet:
+    print('')
+    print('  Minimum files: %d'%minfiles)
+    print('  Maximum files: %d'%maxfiles)
+
+  return map
+
+#---
+#
+# Main
+#
+
+
+statefile   = expand(os.path.dirname(__file__)) + '/.extsync'
+blue('DEBUG: statefile = %s'%repr(statefile))
+
+if __name__ == '__main__':
+
+  showpercent = True
+  overwrite   = False
+  maxfiles    = 5
+  ignore      = False
+  #pretend     = True  # DEBUG
+  pretend     = False
+
+  # 
+  # Handle arguments...
+  #
+
+  args = sys.argv[1:]
+
+  if len(args) == 1 and args[0] in '??': usage()
+
+  argno = -1 # In case len(args) == 0...
+
+  while argno < len(args)-1:
+    argno += 1
+    arg = args[argno]
+    if arg[0] not in '-+': break
+    if arg == '+v':
+      showpercent = True
+      continue
+    if arg == '-v':
+      showpercent = False
+      continue
+    if arg in ('-n','+n'):
+      argno += 1
+      if argno >= len(args):
+        error('-n expected <count>')
+      if not isInt(args[argno]):
+        error('Expected integer after -n, got %s'%repr(args[argno]))
+      maxfiles = int(args[argno])
+      if maxfiles < 0:
+        error('Expected zero or positive integer after -n, got %s'%repr(args[argno]))
+      continue
+    if arg == '-o':
+      overwrite = False
+      continue
+    if arg == '+o':
+      overwrite = True
+      continue
+    if arg == '-i':
+      ignore = False
+      continue
+    if arg == '+i':
+      ignore = True
+      continue
+    if arg == '-p':
+      pretend = False
+      continue
+    if arg == '+p':
+      pretend = True
+      continue
+    error('Unknown <option>: %s'%repr(arg))
+
+  args = args[argno:]
+  #if len(args) < 2:
+  #  error('Expected <srcdir> <dstdir>')
+  if len(args) > 2:
+    error('Trailing arguments after <srcdir>: %s'%repr(args)[1:-1])
+  if len(args) == 2:
+    srcdir = args[0]
+    dstdir = args[1]
+  else:
+    #srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
+    #dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
+    srcdir  = expand('~/befe')
+    dstdir  = expand('~/sd1_dst/befe')
+  if os.path.exists(srcdir) and not os.path.isdir(srcdir):
+    error('<srcdir> %s is not a directory'%repr(srcdir))
+  if os.path.exists(dstdir) and not os.path.isdir(dstdir):
+    error('<dstdir> %s is not a directory'%repr(dstdir))
+
+  #print('srcdir      = %s'%repr(srcdir))
+  #print('dstdir      = %s'%repr(dstdir))
+  #print('showperdent = %s'%repr(showpercent))
+  #print('overwrite   = %s'%repr(overwrite))
+  #print('maxfiles    = %d'%maxfiles)
+
+  #
+  # Do it...
+  #
+
+  if srcdir[-1] == '/': srcdir = srcdir[:-1]
+  if dstdir[-1] == '/': dstdir = dstdir[:-1]
+  print('srcdir = %s'%srcdir)
+  print('dstdir = %s'%dstdir)
+  print('')
+
+  map = getFileMap(srcdir)
+
+  numfiles = 0
+  dirs = list(map.keys())
+  dirs.sort()
+
+  green('Copying...')
+  print('')
+
+  for sdir in dirs:
+
+    ddir = dstdir + sdir[len(srcdir):]
+    if not os.path.exists(ddir):
+      os.makedirs(ddir,mode=0o777,exist_ok=True)
+    if not os.path.exists(ddir):
+      error("os.makedirs %s didn't work!!!"%repr(ddir))
+    blue('  '+ddir+'...')
+
+    for sfile in map[sdir]:
+      dfile = ddir + sfile
+      if ignore and os.path.exists(dfile): continue
+      fname = os.path.basename(dfile)
+      dname = dfile[:-len(fname)]
+      print('    '+postEllipse(fname,80,fill='.')+'..',end='')
+      sys.stdout.flush()
+      sfile = sdir+sfile
+      open(statefile,'w').write('WRITING %s\n'%repr(dfile))
+      result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=False,
+                           showpercent=showpercent)
+      if isinstance(result,Exception):
+        error(str(result),exit=False)
+      elif type(result) == bool:
+        if result and maxfiles:
+          numfiles += 1
+          if numfiles >= maxfiles: break
+      else:
+        error("Error: Unknown result type from copyOneFile: %s"%repr(type(result)))
+      open(statefile,'w').write('WROTE %s\n'%repr(dfile))
+  green('\nThat\'s it!\n')
+
+  sys.exit()
+

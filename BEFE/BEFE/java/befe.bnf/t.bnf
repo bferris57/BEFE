@@ -1,0 +1,14 @@
+''' name
+"""  name
+syntax     ::=  ( rule ) {{action}
+syntax     ::=  "abcdefg
+syntax     ::=  'abcdefg
+rule       ::=  <name>  "::="  expression
+expression ::=  term ( "|" term )
+term       ::=  factor ( factor )
+factor     ::=  <name> |
+                quoted_symbol |
+                "("  expression  ")" |
+                "["  expression  "]" |
+                "{"  expression  "}"
+quoted_symbol ::= """ ( any_character ) """ | ''' ( any_character ) '''

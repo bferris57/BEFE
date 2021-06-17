@@ -1,0 +1,580 @@
+head	1.28;
+access;
+symbols
+	start:1.1.1.1 bruce:1.1.1;
+locks; strict;
+comment	@:: @;
+
+
+1.28
+date	2002.11.16.10.04.02;	author Bruce;	state dead;
+branches;
+next	1.27;
+
+1.27
+date	2002.11.04.06.15.10;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.11.03.08.24.55;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.27.11.10.12;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.26.06.28.34;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.24.12.50.13;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.24.05.28.23;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.22.23.45.39;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.22.15.12.56;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.22.07.09.00;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.21.08.28.46;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.21.08.11.07;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.21.05.41.42;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.20.13.13.51;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.16.04.51.26;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.16.04.49.07;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.15.06.13.26;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.14.06.06.38;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.12.17.48.42;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.10.19.35.38;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.06.08.45.30;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.02.20.59.14;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.01.19.12.22;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.01.06.04.41;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.29.18.34.49;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.29.08.34.03;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.24.19.15.02;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches
+	1.1.1.1;
+next	;
+
+1.1.1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.28
+log
+@Removed old borland make files
+@
+text
+@@@echo off
+rem
+rem FILE
+rem
+rem   makeall.bat - Create the XML Parser tester
+rem
+
+del xml\obj\*.obj
+del general\obj\*.obj
+del txml\obj\*.obj
+del html\obj\*.obj
+
+rem Compile xml source
+call compile xml xmllex       xmlsyn       xmlheap 
+call compile xml xmlio        xmliosbuf    xmlioscon
+call compile xml xml          xmlstrbase   xmlstrconst  xmlstrmem
+call compile xml xmlhashtable xmlstrtable
+call compile xml xml          xmlmanager   xmldocbase   xmldocmem
+call compile xml xml          xmlelmbase
+call compile xml xmlcsrbase   xmlcsrtext   xmlcsrfree   xmlcsrcompile xmlcsrhtml
+call compile xml xmlbitmapstr 
+
+rem Compile general source
+call compile general miscellaneous
+
+rem Compile txml source
+call compile txml txml txmlutils
+
+rem Compile htmltidy source
+call compile html htmltidy
+
+rem Link txml
+call link
+
+@
+
+
+1.27
+log
+@Created HTMLTidy exe, redid how compile/link works
+@
+text
+@@
+
+
+1.26
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@d8 4
+a11 1
+del obj\*.obj
+d28 3
+@
+
+
+1.25
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@d17 1
+a17 1
+call compile xml xmlcsrbase   xmlcsrtext   xmlcsrfree   xmlcsrcompile
+@
+
+
+1.24
+log
+@XMLCursorCompileWrite written, ready to test
+@
+text
+@d17 1
+a17 1
+call compile xml xmlcsrbase   xmlcsrparser xmlcsrfree   xmlcsrcompile
+@
+
+
+1.23
+log
+@Initial XMLBitMapString implementation and test - Need Test() and Set()
+@
+text
+@d17 1
+a17 1
+call compile xml xmlcsrbase   xmlcsrparser xmlcsrfree
+@
+
+
+1.22
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d18 1
+@
+
+
+1.21
+log
+@Coded XMLStringTable
+@
+text
+@d23 1
+a23 1
+call compile txml txml
+@
+
+
+1.20
+log
+@Renamed xmlshash.* to xmlhashtable.*, XMLHashstring to XMLHashTable
+@
+text
+@d14 1
+a14 1
+call compile xml xmlhashtable
+@
+
+
+1.19
+log
+@Implemented XMLManager
+@
+text
+@d8 2
+d13 2
+a14 2
+call compile xml xml          xmlstrbase   xmlstrconst   xmlstrmem
+call compile xml xmlshash
+@
+
+
+1.18
+log
+@Renamed source files for string implementations
+@
+text
+@d13 1
+a13 1
+call compile xml xml          xmldocbase   xmldocmem
+@
+
+
+1.17
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d11 1
+a11 1
+call compile xml xml          xmlstrbase   xmlsconst   xmlsmem
+d14 1
+@
+
+
+1.16
+log
+@Implemented XMLDocumentBase
+@
+text
+@d11 2
+a12 1
+call compile xml xml          xmlshash     xmlsconst   xmlsmem
+@
+
+
+1.15
+log
+@Destructor working, walked big.xml 700K memory, 30 sec!
+@
+text
+@a7 3
+rem Linker options
+set LOPTS=-v -M-
+
+d9 5
+a13 6
+call compile xml xmllex       xmlsyn     xmlheap 
+call compile xml xmlio        xmliosbuf  xmlioscon
+call compile xml xml          xmlshash
+call compile xml xmlsconst    xmlsmem
+call compile xml xml          xmlcsrbase xmldocmem
+call compile xml xmlcsrparser xmlcsrfree
+d22 2
+a23 1
+bcc32 %LOPTS% -etxml.exe obj\*.obj
+@
+
+
+1.14
+log
+@More makeall changes
+@
+text
+@d12 6
+a17 5
+call compile xml xmllex    xmlsyn     xmlheap 
+call compile xml xmlio     xmliosbuf  xmlioscon
+call compile xml xml       xmlshash
+call compile xml xmlsconst xmlsmem
+call compile xml xml       xmlcsrbase xmldocmem xmlcsrparser
+@
+
+
+1.13
+log
+@Changed makeall to use compile.bat
+@
+text
+@d12 5
+a16 3
+call compile xml xmllex xmlsyn xmlio xmlheap xmliosbuf xml xmlshash
+call compile xml xmlsconst xmlioscon xmlsmem xmldocmem
+call compile xml xmlcsrbase xmlcsrparser
+@
+
+
+1.12
+log
+@Added XMLCursorParser and constructor registration functions
+@
+text
+@a7 3
+rem C++ compiler options
+set COPTS=-v -c -Ixml;general 
+
+d12 3
+a14 13
+bcc32 %COPTS% -oobj\xmllex.obj       xml\xmllex.cpp
+bcc32 %COPTS% -oobj\xmlsyn.obj       xml\xmlsyn.cpp
+bcc32 %COPTS% -oobj\xmlio.obj        xml\xmlio.cpp
+bcc32 %COPTS% -oobj\xmlheap.obj      xml\xmlheap.cpp
+bcc32 %COPTS% -oobj\xmliosbuf.obj    xml\xmliosbuf.cpp
+bcc32 %COPTS% -oobj\xml.obj          xml\xml.cpp
+bcc32 %COPTS% -oobj\xmlshash.obj     xml\xmlshash.cpp
+bcc32 %COPTS% -oobj\xmlsconst.obj    xml\xmlsconst.cpp
+bcc32 %COPTS% -oobj\xmlioscon.obj    xml\xmlioscon.cpp
+bcc32 %COPTS% -oobj\xmlsmem.obj      xml\xmlsmem.cpp
+bcc32 %COPTS% -oobj\xmldocmem.obj    xml\xmldocmem.cpp
+bcc32 %COPTS% -oobj\xmlcsrbase.obj   xml\xmlcsrbase.cpp
+bcc32 %COPTS% -oobj\xmlcsrparser.obj xml\xmlcsrparser.cpp
+d17 1
+a17 1
+bcc32 %COPTS% -oobj\miscellaneous.obj general\miscellaneous.cpp
+d20 1
+a20 1
+bcc32 %COPTS% -oobj\txml.obj txml\txml.cpp
+a23 1
+cd ..
+@
+
+
+1.11
+log
+@Implemented most of XMLCursorBase
+@
+text
+@d15 13
+a27 12
+bcc32 %COPTS% -oobj\xmllex.obj     xml\xmllex.cpp
+bcc32 %COPTS% -oobj\xmlsyn.obj     xml\xmlsyn.cpp
+bcc32 %COPTS% -oobj\xmlio.obj      xml\xmlio.cpp
+bcc32 %COPTS% -oobj\xmlheap.obj    xml\xmlheap.cpp
+bcc32 %COPTS% -oobj\xmliosbuf.obj  xml\xmliosbuf.cpp
+bcc32 %COPTS% -oobj\xml.obj        xml\xml.cpp
+bcc32 %COPTS% -oobj\xmlshash.obj   xml\xmlshash.cpp
+bcc32 %COPTS% -oobj\xmlsconst.obj  xml\xmlsconst.cpp
+bcc32 %COPTS% -oobj\xmlioscon.obj  xml\xmlioscon.cpp
+bcc32 %COPTS% -oobj\xmlsmem.obj    xml\xmlsmem.cpp
+bcc32 %COPTS% -oobj\xmldocmem.obj  xml\xmldocmem.cpp
+bcc32 %COPTS% -oobj\xmlcsrbase.obj xml\xmlcsrbase.cpp
+@
+
+
+1.10
+log
+@Renamed xmlinmem to xmldocmem and wrote XMLDocumentMem
+@
+text
+@d15 12
+a26 11
+bcc32 %COPTS% -oobj\xmllex.obj    xml\xmllex.cpp
+bcc32 %COPTS% -oobj\xmlsyn.obj    xml\xmlsyn.cpp
+bcc32 %COPTS% -oobj\xmlio.obj     xml\xmlio.cpp
+bcc32 %COPTS% -oobj\xmlheap.obj   xml\xmlheap.cpp
+bcc32 %COPTS% -oobj\xmliosbuf.obj xml\xmliosbuf.cpp
+bcc32 %COPTS% -oobj\xml.obj       xml\xml.cpp
+bcc32 %COPTS% -oobj\xmlshash.obj  xml\xmlshash.cpp
+bcc32 %COPTS% -oobj\xmlsconst.obj xml\xmlsconst.cpp
+bcc32 %COPTS% -oobj\xmlioscon.obj xml\xmlioscon.cpp
+bcc32 %COPTS% -oobj\xmlsmem.obj   xml\xmlsmem.cpp
+bcc32 %COPTS% -oobj\xmldocmem.obj xml\xmldocmem.cpp
+@
+
+
+1.9
+log
+@Added (char *) constructor to XMLStringMem
+@
+text
+@d25 1
+@
+
+
+1.8
+log
+@XMLIOStreamCon tested OK and various tweaks to test harness
+@
+text
+@d24 1
+@
+
+
+1.7
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d23 1
+@
+
+
+1.6
+log
+@Made the source we're working on the last to compile
+@
+text
+@d21 2
+@
+
+
+1.5
+log
+@Initial base functionality added for XMLString class
+@
+text
+@a14 1
+bcc32 %COPTS% -oobj\xml.obj       xml\xml.cpp
+d18 1
+d20 1
+a20 1
+bcc32 %COPTS% -oobj\xmlheap.obj   xml\xmlheap.cpp
+@
+
+
+1.4
+log
+@More XMLIOStreamBUF work - ...::Read not finished
+@
+text
+@d15 1
+@
+
+
+1.3
+log
+@IO construct/destruct tidy & added hash stuff to XMLIOStream
+@
+text
+@d9 1
+a9 1
+set COPTS=-v -c
+d15 8
+a22 5
+cd xml
+bcc32 %COPTS% -o..\obj\xmllex.obj  xmllex.cpp
+bcc32 %COPTS% -o..\obj\xmlsyn.obj  xmlsyn.cpp
+bcc32 %COPTS% -o..\obj\xmlio.obj   xmlio.cpp
+bcc32 %COPTS% -o..\obj\xmlheap.obj xmlheap.cpp
+d25 1
+a25 2
+cd ..\txml
+bcc32 %COPTS% -I..\xml -o..\obj\txml.obj txml.cpp
+d28 1
+a28 2
+cd ..\obj
+bcc32 %LOPTS% -e..\txml.exe *.obj
+@
+
+
+1.2
+log
+@Added code to warn and skip DTD (not implemented yet)
+@
+text
+@d8 7
+d16 6
+a21 2
+bcc32 -v -c -o..\obj\xmllex.obj xmllex.cpp
+bcc32 -v -c -o..\obj\xmlsyn.obj xmlsyn.cpp
+d23 5
+a27 1
+bcc32 -v -c -I..\xml -o..\obj\txml.obj txml.cpp
+a28 2
+bcc32 -v -M- -etxml.exe obj\txml.obj obj\xmlsyn.obj obj\xmllex.obj
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+@
+
+
+1.1.1.1
+log
+@Start
+@
+text
+@@

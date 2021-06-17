@@ -1,0 +1,51 @@
+C:\SVN\python\cengage>python libapp.py
+
+-----------------------------------------------
+Welcome to Bruce's sample "Library Application"
+-----------------------------------------------
+
+Type 'help' for instructions...
+
+Library> new newspaper
+
+  Enter details for new 'Newspaper' (type '..' to abort)...
+
+    Location: xxx
+***Error: Expected Location to be an integer
+    Location:
+    Name:     yyy
+    Date:     aa/bb/ccccccc
+***Error: Expected Date to be a string in the form dd/mm/yyyy
+    Date:     01/12/2012
+    Period:   555
+
+Library> new customer
+
+  Enter details for new 'Customer' (type '..' to abort)...
+
+    Title:     Mr
+    FirstName: Bruce
+    Surname:   Ferris
+    Address:   41B Charles Street\nReading, Berkshire
+    Postcode:  RG1 7DB
+
+Library> new cd
+
+  Enter details for new 'CD' (type '..' to abort)...
+
+    Location: 5
+    Barcode:  xxx
+    Title:    The Joy Of Living
+    Artist:   Some Guy
+
+Library> new dvd
+
+  Enter details for new 'DVD' (type '..' to abort)...
+
+    Location: 6
+    Barcode:  xxxx
+    Title:    The Great Race
+    Cast:     Tony Curtis, Jack Lemmon
+    Director: I forget
+
+Library> exit

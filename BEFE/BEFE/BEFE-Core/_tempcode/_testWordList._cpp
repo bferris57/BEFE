@@ -1,0 +1,95 @@
+#include "BEFE.h"
+#include "Time.h"
+#include "Test.h"
+#include "word/WordList.h"
+
+#include <stdio.h> // For printf
+
+namespace BEF_NS {
+
+Status TestWordList::Run() {
+
+  Time     t1;
+  Time     t2;
+  Time     et;
+  WordList wordlist;
+  Word     word;
+  Status   result;
+  Int      i;
+  Int      j;
+  Int      wordidx;
+  Word     wordfound;
+
+  out << indent << "***Testing WordList..." << endl;
+  t1.Set();
+
+  // Read the file
+  //result = wordlist.LoadFromFile((Char *)"d:\\cloud\\dropbox\\lists\\corncob_lowercase.txt");
+  result = wordlist.LoadFromFile((Char *)"d:\\cloud\\dropbox\\lists\\websters_2nd.txt");
+  if (result) goto ERROR;
+  // TEMP
+  goto DONE;
+
+  // Write elapsed time
+  t2.Set();
+  et = t1.Delta(t2);
+  out << indent << "Elapsed: " << et.GetAs(Time::Seconds) << "s" << et.GetAs(Time::Milliseconds) << "ms" << endl;
+
+  // Print statistics
+  wordlist.PrintStatistics();
+
+  // Put it in CRC order
+  wordlist.SetOrder(WordList::OrderByCRC);
+
+  // Print some more stuff
+  i = wordlist.GetWordCount()/2;
+  if (i) {
+    // Print 10 of them
+    j = i+10;
+    for (; i < j ;i++) {
+      wordlist.GetWord(i,word);
+      printf("%sWord %6d: index=%6d CRC=0x%08x Len=%3d Value='%s'\n"
+            ,indent
+            ,i
+            ,word.index
+            ,word.crc
+            ,word.len
+            ,(word.value)?(const char *)word.value:""
+            );
+    }
+    // Find the middle one by CRC
+    out << endl;
+
+    i -= 5;
+    wordlist.GetWord(i,word);
+
+    result = wordlist.FindByCrc(word.crc,wordidx);
+    printf("CRC Search: Search CRC=0x%08x wordidx=%d",word.crc,wordidx);
+    if (result)
+      printf(" -- Not found\n");
+    else
+      printf(" -- Found\n");
+
+    result = wordlist.FindByCrc(word.crc+1,wordidx);
+    printf("CRC Search: Search CRC=0x%08x wordidx=%d",word.crc+1,wordidx);
+    if (result)
+      printf(" -- Not found\n");
+    else
+      printf(" -- Found\n");
+
+  }
+
+  goto DONE;
+
+ERROR:
+  out << indent << "!!!Error " << result << " !!!" << endl;
+  goto DONE;
+
+DONE:
+
+  wordlist.Reset();
+
+  return Error::None;
+}
+
+}; // Namespace BEF_NS

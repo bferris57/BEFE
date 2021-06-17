@@ -1,0 +1,97 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2002.10.22.04.09.40;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Moved string discussion from .h into .html
+@
+text
+@<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>XML Parser - Classes by Group</title>
+</head>
+
+<body bgcolor="#FFFFCC">
+
+<h1 align="center">XML Strings</h1>
+<p align="center"><a href="index.html">home</a></p>
+<p align="left">A general XML string is exposed by the XMLString class.</p>
+<p align="left">Although we haven't exposed the implementation to the api it is
+worth mentioning the reasoning use have used in our various internal string
+implementations...</p>
+<h3 align="left">String behaviour</h3>
+<p>Data that can act like a "string" may or may not...<br>
+<br>
+  a) be contiguous in memory<br>
+  b) permanently reside in memory (e.g. may be on disk)<br>
+  c) be capable of writing<br>
+<br>
+Still, normal string operations like the following may still be performed...<br>
+<br>
+  a) Equality comparison<br>
+  b) Lexical comparison (less, equal, greater)<br>
+  c) Searching<br>
+  d) Retrieval (into caller's memory)<br>
+  e) Obtaining length of string<br>
+  f) Obtaining the string's hash key</p>
+<h3 align="left">Fragments and offsets</h3>
+So, we treat strings in general as broken into 0 or more logically contiguous
+FRAGMENTs, each identified by a distinct OFFSET. A string's offset is in the range 0 to stringlen-1.<br>
+<br>
+In order to safely access the fragments of all strings we've implemented the concept of FRAGMENT LOCKING.  Basically, you can retrieve fragments
+into your own buffer without worrying about locking.  But if you want a memory pointer to the fragment you'll have to use the
+LockFragment() and UnlockFragment() methods.  We've provided the DoesLock() method to let the
+caller know if they have to call UnlockFragment() after calling LockFragment().  It is always safe to call UnlockFragment() even if the
+string implementation does not require locking.<br>
+<br>
+The basic idea is to implement as much as possible in the base class and let the specific implementations only worry about implementing the
+abstract primitives.<br>
+<br>
+Hashing<br>
+<br>
+The base class can compute all string hashes based on the string's value. Sub-classes must NOT produce their own hashs because we ensure that
+two strings with exactly the same value cannot have different hashs.  This lets us do equality checks much faster.<br>
+<br>
+Some sub-classes may wish to cache their hash because the expense of obtaining the hash (you have to walk the entire string to obtain the
+string's hash).  With that in mind we've provided the hash function BUT the caller may wish to override the IsHashed() and
+GetHash() functions to cache the hash in a local variable.  If the sub-class does this,
+however, they MUST call XMLString::GetHash() to calculate the hash value.
+<h3 align="left">Equals vs. Compare</h3>
+We've separated Equals() from Compare() because...<br>
+<br>
+  1) Assertion: A high proportion of string comparison calls are                made to test string equality (except when the
+caller is binary searching an ordered list.)<br>
+  2) Assertion: When a lot of strings are used, the majority of strings are "not equal".<br>
+  3) Fact:      Examining a full string MAY be costly. What if, for example, the strings are spread over several
+disk blocks?<br>
+  4) Fact:      If a string is hashed and the hashes are NOT equal, the strings are not equal.<br>
+<br>
+This argument leads us implement a much faster string compare!<br>
+<br>
+Two empty strings are treated as equal.  If the caller wishes to implement "NULL semantics" they will have to suffer the burden of
+comparing the lengths before calling Equals().<br>
+<p align="center"><a href="index.html">home</a></p>
+
+</body>
+
+</html>
+@

@@ -1,0 +1,72 @@
+#include "BEFE.h"
+#include "Token.h"
+#include "VarTerm.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+Status trythis() {
+
+  Status  status; 
+  UInts   ints;
+  UInt    len;
+  UInt    i;
+  VarTerm var;
+  String  string;
+  
+  status = var.Set("h[elp]");
+  
+  Cout << "sizeof(Byte)   = " << sizeof(Byte)   << '\n';
+  Cout << "sizeof(Char)   = " << sizeof(Char)   << '\n';
+  Cout << "sizeof(Short)  = " << sizeof(Short)  << '\n';
+  Cout << "sizeof(Int)    = " << sizeof(Int)    << '\n';
+  Cout << "sizeof(Long)   = " << sizeof(Long)   << '\n';
+  Cout << "sizeof(String) = " << sizeof(String) << '\n';
+  Cout << "sizeof(Alloc)  = " << sizeof(Alloc)  << '\n';
+  Cout << "sizeof(Slice)  = " << sizeof(String) << '\n';
+  Cout << "sizeof(Range)  = " << sizeof(String) << '\n';
+  Cout << "sizeof(Span)   = " << sizeof(String) << '\n';
+  Cout << "sizeof(UArray) = " << sizeof(UArray) << '\n';
+  Cout << "sizeof(Array)  = " << sizeof(Array)  << '\n';
+  Cout << "sizeof(Bytes)  = " << sizeof(Bytes)  << '\n';
+  //Cout << "sizeof(Shorts) = " << sizeof(Shorts) << '\n';
+  Cout << "sizeof(Ints)   = " << sizeof(Ints)   << '\n';
+  //Cout << "sizeof(Longs)  = " << sizeof(Longs)  << '\n';
+  Cout << "sizeof(Sparse) = " << sizeof(Sparse) << '\n';
+
+  status = ints.Allocate(Alloc("5..10+0"));
+  len = ints.Length();
+  Cout << "Before: len = " << len << '\n';
+  for (i=0; i < 10; i++) {
+    status = ints.Set(i,UNaN);
+    if (status == Error::IndexOutOfRange) {
+      Cout << "Appending " << i << "...\n";
+      status = ints.Append(UNaN);
+    }
+    if (status)
+      ERROR(String("ints.Set(")+i+",UNaN)",status);
+  }
+  Cout << "Mid1:   len = " << ints.Length() << '\n';
+  status = ints.Set(10,987654);
+  if (status)
+    ERROR("ints.Set(10,987654)",status);    
+  status = ints.Append(888999);
+  if (status)
+    ERROR("ints.Append(888999)",status);    
+  Cout << "Mid2:   len = " << ints.Length() << '\n';
+  ints.Clear();
+  Cout << "After:  len = " << ints.Length() << '\n';
+
+  string = "0123456789";
+  Cout << "String(\"0123456789\").Get(Span(-1,0)) = " << string.Get(Span(-1,0)) << '\n';
+  
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

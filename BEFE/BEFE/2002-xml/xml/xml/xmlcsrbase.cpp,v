@@ -1,0 +1,2779 @@
+head	1.30;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.30
+date	2002.11.16.08.30.27;	author Bruce;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2002.11.02.17.30.16;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.29.06.12.50;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.28.04.43.32;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.27.11.10.12;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.26.19.08.40;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.26.09.02.44;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.26.06.28.35;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.24.05.53.16;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.23.13.05.43;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.23.07.42.41;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.21.12.04.59;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.21.10.41.21;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.21.05.41.43;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.20.07.43.32;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.20.01.09.23;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.19.23.06.38;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.19.14.37.35;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.19.11.33.47;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.19.07.15.33;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.18.05.07.54;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.16.04.34.02;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.15.06.13.26;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.14.22.10.17;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.14.21.15.44;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.14.20.07.07;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.30
+log
+@All working with GNU!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmlcsrbase.cpp - Implementation of the XMLCursorBase class
+  DESCRIPTION
+    This file contains the default implementation for all XMLCursor classes.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xmlcsrbase.h"
+#include "xmldocbase.h"
+#include "xmlelmbase.h"
+#include "xmlheap.h"
+#include "xmlstrmem.h"
+#include "memory.h"
+#include "miscellaneous.h"
+
+#include <string.h>
+#include <stdlib.h>  // For itoa
+
+//
+// Handy defines
+//
+
+// Stack allocation increment
+#define STACKALLOCINCREMENT 10
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::XMLCursorBase  - Constructor
+//  XMLCursorBase::~XMLCursorBase - Destructor
+//
+
+XMLCursorBase::XMLCursorBase(XMLDocumentBase *doc) {
+
+  // Initialise document info
+  m_document     = NULL;
+  m_nextcursor   = NULL;
+  m_prevcursor   = NULL;
+  
+  // Initialise stack
+  m_maxstacksize = 0;
+  m_stacksize    = 0;
+  m_stack        = NULL;
+
+  // Initialise statistics
+  m_highwidth = 0;
+  m_highdepth = 0;
+  
+  // Initialise parse error
+  m_parseerror = XMLErrorNone;
+    
+  // Register with the document
+  if (doc)
+    doc->AddCursor(this);
+
+}
+
+XMLCursorBase::~XMLCursorBase() {
+
+  // Remove from the document if we've got one
+  if (m_document)
+    m_document->RemoveCursor(this);
+    
+  // Free stack if we've got one
+  if (m_stack)
+    XMLHeap::Free((byte *)m_stack);
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::Top  - Position to top element
+//  XMLCursorBase::Up   - Position up one element
+//  XMLCursorBase::Down - Position to first child element
+//  XMLCursorBase::Next - Position to next sibling element
+//
+
+XMLError XMLCursorBase::Top(void) {
+
+  m_stacksize = 0;
+
+  return XMLErrorNone;  
+}
+
+XMLError XMLCursorBase::Up(void) {
+
+  XMLError result;
+  
+  // Pop from the stack
+  result = Pop();
+  
+  return result;
+}
+
+XMLError XMLCursorBase::Down(void) {
+
+  XMLError        result;       // Return code
+  XMLCursorBase  *constructor;  // Constructing cursor
+  int             comparison;   // Cursor comparison result
+  StackEntry     *entry;        // Current entry
+  XMLElementBase *element;      // An element
+  
+  // If no document, can't do it
+  if (m_document == NULL) goto NODOC;
+
+  // If we're not positioned anywhere...
+  if (m_stacksize == 0) {
+  
+    // Get document root
+    result = m_document->GetRootElement(&element);
+    if (result) goto ERROR;
+    
+    // If no root, nowhere to go
+    if (element == NULL)
+      goto ATLEAF;
+      
+    // Have root, push it
+    result = Push(element,1);
+    if (result) goto ERROR;
+    
+    // That's it
+    goto OK;
+  }
+    
+  // Until we've got something next to us or nothing more is there...
+  for (;;) {
+
+    // Get the constructing cursor (dirty cast)
+    constructor = (XMLCursorBase *)m_document->GetConstructor();
+  
+    // If no constructor, what's below us is below us
+    if (constructor == NULL)
+      break;
+            
+    // Compare ourselves with the constructor...
+    result = Compare(constructor,&comparison);
+    if (result) goto ERROR;
+    
+    // If we're less, got something
+    if (comparison < 0)
+      break;
+      
+    // Not less, walk the constructor...
+    result = constructor->Walk();
+    if (result) goto ERROR;
+      
+  }
+  
+  // Get current element
+  entry = TOS();
+  
+  // If no current element, we're not positioned anywhere
+  if (entry == NULL)
+    goto NOTPOSITIONED;
+    
+  // Get the current element's first child
+  result = entry->element->FirstChild(&element);
+  if (result) goto ERROR;
+  
+  // If no child, we're at leaf
+  if (element == NULL)
+    goto ATLEAF;
+
+  // Push the child
+  result = Push(element,1);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+NODOC:
+  result = XMLErrorCsrNoDocument;
+  goto DONE;
+
+ATLEAF:
+  result = XMLErrorCsrAtLeaf;
+  goto DONE;
+    
+ERROR:
+  goto DONE;
+  
+NOTPOSITIONED:
+  result = XMLErrorCsrNotPositioned;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+XMLError XMLCursorBase::Next(void) {
+  XMLError        result;       // Return code
+  XMLCursorBase  *constructor;  // Constructing cursor
+  int             comparison;   // Cursor comparison result
+  StackEntry     *entry;        // Current entry
+  XMLElementBase *element;      // An element
+  int             condepth;     // Constructor depth
+  
+  // If no document, can't do it
+  if (m_document == NULL) goto NODOC;
+
+  // Until we've got something below us or nothing more is there...
+  for (;;) {
+
+    // Get the constructing cursor (dirty cast)
+    constructor = (XMLCursorBase *)m_document->GetConstructor();
+  
+    // If no constructor, what's below us is all there is
+    if (constructor == NULL)
+      break;
+            
+    // Compare ourselves with the constructor...
+    result = Compare(constructor,&comparison);
+    if (result) goto ERROR;
+    
+    // If we're less, we're behind the constructor
+    if (comparison < 0)
+     break;
+    
+    // Less than or equal to constructor, walk the constructor...
+    result = constructor->Walk();
+    if (result) goto ERROR;
+      
+  }
+  
+  // Get current element
+  entry = TOS();
+  
+  // If no current element...
+  if (entry == NULL) {
+  
+    // Get document root
+    result = m_document->GetRootElement(&element);
+    if (result) goto ERROR;
+    
+    // If no root, end of document
+    if (element == NULL)
+      goto ENDOFDOC;
+      
+    // Have root, push it
+    result = Push(element,1);
+    if (result) goto ERROR;
+    
+    goto OK;
+  }
+    
+  // Get the current element's next sibling
+  result = entry->element->NextSibling(&element);
+  if (result) goto ERROR;
+  
+  // If no next sibling, we're at last child
+  if (element == NULL)
+    goto ATLASTCHILD;
+
+  // Update current entry
+  entry->element = element;
+  entry->entryno++;
+  
+  // Keep track of width statistics
+  if (entry->entryno > m_highwidth)
+    m_highwidth = entry->entryno;
+    
+  goto OK;
+  
+NODOC:
+  result = XMLErrorCsrNoDocument;
+  goto DONE;
+
+ATLASTCHILD:
+  result = XMLErrorCsrAtLastChild;
+  goto DONE;
+    
+ERROR:
+  goto DONE;
+  
+ENDOFDOC:
+  result = XMLErrorCsrEndOfDocument;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::Walk - Position next element in tree
+//
+// DESCRIPTION
+//
+//  This function positions to the next element in the tree.
+//
+//  The default behaviour of this function is to perform a depth-first
+//  traversal, one step at a time.
+//
+
+XMLError XMLCursorBase::Walk(void) {
+
+  XMLError result;        // Return code
+  
+  // Try DOWN first,
+  result = Down();
+  if (result == XMLErrorNone) goto DONE;
+  if (result != XMLErrorCsrAtLeaf) goto ERROR;
+  
+  // DOWN hit bottom, keep trying next, up, etc. until finished
+  for (;;) {
+  
+    // Try NEXT
+    result = Next();
+    if (result == XMLErrorNone) break;
+    if (result != XMLErrorCsrAtLastChild) goto ERROR;
+  
+    // NEXT failed, try UP
+    result = Up();
+    if (result == XMLErrorCsrNotPositioned) goto ENDDOC;
+    if (result) goto ERROR;
+  }
+  
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+ENDDOC:
+  result = XMLErrorCsrEndOfDocument;
+  goto DONE;
+  
+DONE:
+
+  return result;      
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::GetURI           - Return text representation of current position
+//  XMLCursorBase::Count            - Return number of elements at current position
+//  XMLCursorBase::GetDepth         - Return stack depth
+//  XMLCursorBase::GetElementNumber - Return current element number and depth
+//
+
+XMLError XMLCursorBase::GetURI(XMLString **uri) {
+
+  XMLError       result;  // Return code
+  XMLString     *string;  // URI we're building
+  StackEntry    *entry;   // Current stack entry
+  int            depth;   // TEMP: A stack depth
+  XMLToken       type;    // Current element's type
+  XMLString     *tstring; // TEMP: Another string
+  char           buf[10]; // Temp - Ascii version of number
+  
+  // Sanity checks
+  if (uri == NULL) goto BADPARAMETERS;
+  if (m_stacksize == 0) goto NOTPOSITIONED;
+    
+  // Create an empty string
+  string = new XMLStringMem();
+  if (string == NULL) goto NOMEM;
+  
+  // For each entry on the stack...
+  
+  for (depth = 0, entry = m_stack; depth < m_stacksize; depth++, entry++) {
+  
+    // If no element, error
+    if (entry->element == NULL) goto INTERNALERROR;
+
+    // Append '/'
+    result = string->Append("/");
+    if (result) goto ERROR;
+    
+    // Get the element type's token
+    result = entry->element->GetType(&type);
+    
+    // If error element has no type...
+    if (result) {
+    
+      // Append a '?'
+      result = string->Append("?");
+    }
+    
+    // Have we have a type...
+    else if (type != 0) {
+
+      // Get the string
+      result = m_document->ResolveToken(type,&tstring);
+      if (result) goto ERROR;
+      
+      // Append it to the uri
+      result = string->Append(tstring);
+      
+    }
+    
+    // If we've got an error, report it
+    if (result) goto ERROR;
+    
+    // Append entry number (unless it's one and we're at 1st element)
+    if (entry->entryno != 1 || depth != 0) {
+      result = string->Append("[");
+      if (result) goto ERROR;
+      itoa(entry->entryno,buf,10);
+      result = string->Append(buf);
+      if (result) goto ERROR;
+      result = string->Append("]");
+      if (result) goto ERROR;
+    }
+  }
+  
+  // Return the string to the caller
+  *uri = string;
+  string = NULL;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NOTPOSITIONED:
+  result = XMLErrorCsrNotPositioned;
+  goto DONE;
+  
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Destroy string if we've got one
+  if (string)
+    delete string;
+    
+  return result;
+}
+
+XMLError XMLCursorBase::Count(int *count) {
+
+  // Sanity checks
+  if (count == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // OK, tell caller we can't
+  return XMLErrorCsrNotCapable;
+}
+
+XMLError XMLCursorBase::GetDepth(int *depth) {
+  
+  // Sanity checks
+  if (depth == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Return depth to the caller
+  *depth = m_stacksize;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLCursorBase::GetElementNumber(int *elemno,int *depth) {
+  
+  StackEntry *tos;
+  
+  // Sanity checks
+  if (elemno == NULL)
+    return XMLErrorInvalidParameters;
+
+  // Get the tos
+  tos = TOS();
+    
+  // Make sure we're positioned somewhere
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+  
+  // Make sure the element has a number (some cursors can't number)
+  if (tos->entryno <= 0)
+    return XMLErrorCsrNotCapable;
+    
+  // Return the element number
+  *elemno = tos->entryno;
+  
+  // Return depth if the caller wants it
+  if (depth)
+    *depth = m_stacksize;
+    
+  return XMLErrorNone;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::GetElementClass    - Get current element's class
+//  XMLCursorBase::GetElementType     - Get current element's type name
+//  XMLCursorBase::GetElementValidity - Get current element's validity
+//  XMLCursorBase::GetElementValue    - Get current element's value
+//
+// DESCRIPTION
+//
+//  These functions return information about the current element in the
+//  cursor.
+//
+
+XMLError XMLCursorBase::GetElementClass(XML::Class *eclass) {
+
+  StackEntry *tos;
+  
+  // Sanity checks
+  if (eclass == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Get top of stack
+  tos = TOS();
+  
+  // If no entry, we're not positioned
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+    
+  // If no element, internal error
+  if (tos->element == NULL)
+    return XMLErrorInternal;
+    
+  // Try getting the name
+  *eclass = tos->element->GetClass();
+
+  return XMLErrorNone;    
+}
+
+XMLError XMLCursorBase::GetElementType(XMLString **type) {
+
+  XMLError    result;  
+  StackEntry *tos;
+  XMLToken    elmtype;
+  XMLString  *selmtype;
+  XMLString  *string;
+
+  // Initialise
+  string = NULL;
+    
+  // Sanity checks
+  if (type == NULL)
+    return XMLErrorInvalidParameters;
+  
+  // Assume we're returning NO string
+  *type = NULL;
+    
+  // Get top of stack
+  tos = TOS();
+  
+  // If no entry, we're not positioned
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+    
+  // If no element, internal error
+  if (tos->element == NULL)
+    return XMLErrorInternal;
+    
+  // Try getting the name
+  result = tos->element->GetType(&elmtype);
+  if (result)
+    return result;
+
+  // Resolve to a string
+  result = m_document->ResolveToken(elmtype,&selmtype);
+  if (result) 
+    return result;
+      
+  // If we've got a name...
+  if (elmtype != XMLTOKENNONE) {
+  
+    // Create a string to put the name into
+    string = new XMLStringMem();
+    if (string == NULL)
+      return XMLErrorOutOfMemory;
+    
+    // Append the name to the string
+    result = string->Append(selmtype);
+    
+    // If OK, return the string to the caller
+    if (!result) {
+      *type = string;
+      string = NULL;
+    }
+  }
+  
+  // Free the string if we still have it
+  if (string)
+    delete string;
+    
+  return result;
+}
+
+XMLError XMLCursorBase::GetElementValidity(XML::Validity *validity) {
+
+  StackEntry *tos;
+  
+  // Sanity checks
+  if (validity == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Get top of stack
+  tos = TOS();
+  
+  // If no entry, we're not positioned
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+    
+  // If no element, internal error
+  if (tos->element == NULL)
+    return XMLErrorInternal;
+    
+  // Try getting the name
+  *validity = tos->element->GetValidity();
+
+  return XMLErrorNone;    
+}
+
+XMLError XMLCursorBase::GetElementValue(XMLString **value) {
+
+  XMLError    result;  
+  StackEntry *tos;
+  XMLToken    elmvalue;
+  XMLString  *selmvalue;
+  XMLString  *string;
+
+  // Initialise
+  string = NULL;
+    
+  // Sanity checks
+  if (value == NULL)
+    return XMLErrorInvalidParameters;
+  
+  // Assume we're returning NO string
+  *value = NULL;
+    
+  // Get top of stack
+  tos = TOS();
+  
+  // If no entry, we're not positioned
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+    
+  // If no element, internal error
+  if (tos->element == NULL)
+    return XMLErrorInternal;
+    
+  // Try getting the value token
+  result = tos->element->GetValue(&elmvalue);
+  if (result)
+    return result;
+  
+  // If we've got a value...
+  if (elmvalue == 0) {
+
+    // Resolve it to a string
+    result = m_document->ResolveToken(elmvalue,&selmvalue);
+    if (result)
+      return result;
+        
+    // Create a string to put the name into
+    string = new XMLStringMem();
+    if (string == NULL)
+      return XMLErrorOutOfMemory;
+    
+    // Append the name to the string
+    result = string->Append(selmvalue);
+    
+    // If OK, return the string to the caller
+    if (!result) {
+      *value = string;
+      string = NULL;
+    }
+  }
+  
+  // Free the string if we still have it
+  if (string)
+    delete string;
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::GetAttributeCount - Get current element's attribute count
+//  XMLCursorBase::FindAttribute     - Find a given attribute in current element
+//  XMLCursorBase::GetAttributeValue - Get attribute value in current element
+//
+// DESCRIPTION
+//
+//  These function query element attributes at the current cursor position.
+//
+
+XMLError XMLCursorBase::GetAttributeCount(int *count) {
+
+  XMLError    result;  
+  StackEntry *tos;
+  
+  // Sanity checks
+  if (count == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Get top of stack
+  tos = TOS();
+  
+  // If no entry, we're not positioned
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+    
+  // If no element, internal error
+  if (tos->element == NULL)
+    return XMLErrorInternal;
+    
+  // Try getting the count
+  result = tos->element->GetNAttributes(count);
+  if (result)
+    return result;
+    
+  return XMLErrorNone;    
+
+}
+
+XMLError XMLCursorBase::FindAttribute(XMLString *pname) {
+  
+  XMLError    result;
+  StackEntry *tos;
+  XMLToken    name;
+  XMLToken    value;
+  
+  // Sanity checks
+  if (name == 0)
+    return XMLErrorInvalidParameters;
+    
+  // Get top of stack
+  tos = TOS();
+  
+  // If no entry, we're not positioned
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+    
+  // If no element, internal error
+  if (tos->element == NULL)
+    return XMLErrorInternal;
+
+  // Turn the passed name into a token
+  result = m_document->ResolveString(pname,&name);
+  if (result)
+    return XMLErrorXMLAttributeNotFound;
+        
+  // Try finding the attribute
+  result = tos->element->FindAttribute(name,&value);
+  if (result)
+    return result;
+
+  // It was found (may not have a value though)
+  return XMLErrorNone;    
+}
+
+XMLError XMLCursorBase::GetAttributeValue(XMLString *pname, XMLString **pvalue) {
+  XMLError    result;  
+  StackEntry *tos;
+  XMLToken    name;
+  XMLToken    value;  
+  XMLString  *svalue;
+  XMLString  *string;
+
+  // Initialise
+  string = NULL;
+    
+  // Sanity checks
+  if (name == 0 || value == 0)
+    return XMLErrorInvalidParameters;
+  
+  // Assume we're returning NO string
+  *pvalue = NULL;
+    
+  // Get top of stack
+  tos = TOS();
+  
+  // If no entry, we're not positioned
+  if (tos == NULL)
+    return XMLErrorCsrNotPositioned;
+    
+  // If no element, internal error
+  if (tos->element == NULL)
+    return XMLErrorInternal;
+
+  // Try resolving the name to a string token
+  result = m_document->ResolveString(pname,&name);
+  if (result)
+    return result;
+    
+  // If no name, error
+  if (name == XMLTOKENNONE)
+    return XMLErrorXMLAttributeNotFound;
+        
+  // Try getting the attribute's value
+  result = tos->element->FindAttribute(name,&value);
+  if (result)
+    return result;
+
+  // If we've got a value...
+  if (value != XMLTOKENNONE) {
+
+    // Resolve the value token to a string
+    result = m_document->ResolveToken(value,&svalue);
+    if (result)
+      return result;
+        
+    // Create a string to put the name into
+    string = new XMLStringMem();
+    if (string == NULL)
+      return XMLErrorOutOfMemory;
+    
+    // Append the value to the string
+    result = string->Append(svalue);
+    
+    // If OK, return the string to the caller
+    if (!result) {
+      *pvalue = string;
+      string = NULL;
+    }
+  }
+  
+  // Free the string if we still have it
+  if (string)
+    delete string;
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::GetLastParseError - Return last parse error (if any)
+//
+// DESCRIPTION
+//
+//  This function returns the last parser error and, if any, it's location.
+//
+
+XMLError XMLCursorBase::GetLastParseError(XMLLocation *location) {
+
+  XMLError result;
+  
+  // Get the error
+  result = m_parseerror;
+  
+  // If no error...
+  if (result == XMLErrorNone) {
+  
+    // If location, clear it
+    if (location)
+      location->Unknown();
+      
+  }
+  
+  // If error...
+  else {
+  
+    // If location given, return it
+    if (location)
+      *location = m_parselocation;
+  }
+  
+  return result;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::NewElementAfter - Create a new element after current position
+//  XMLCursorBase::NewElementBelow - Create a new element below current position
+//
+// DESCRIPTION
+//
+//  These functions attempt to create a new element, of a given type, after or
+//  below the current position in the document.
+//
+// NOTES
+//
+//  If the cursor isn't positioned at an element (e.g. after calling Top() or
+//  just after creation) it will attempt to create the document root element.
+//
+//  These functions ensure that the document inter-element links are maintained
+//  by sending events to the elements in the document.
+// 
+
+XMLError XMLCursorBase::NewElementAfter(XML::Class eclass, XMLElementBase **newelement) {
+
+  XMLError        result;     // Return code
+  XMLError        result2;    // Another return code
+  XMLError        result3;    // Yet another return code
+  StackEntry     *tos;        // Top stack entry
+  XMLElementBase *element;    // New element we created
+  XMLElementBase *theelement; // Stashed pointer in case caller didn't want new element
+  XMLElementBase *root;       // Root element
+  XMLElementBase *nextsib;    // Current element's next sibling
+
+  // Initialise
+  element = NULL;
+  result2 = XMLErrorNone;
+  result3 = XMLErrorNone;
+      
+  // Sanity checks
+  if (eclass <= XML::ClassUnknown ||
+      eclass >= XML::ClassMAX) goto INVALIDPARAMETERS;
+
+  // Initialise return element (assume NULL)
+  if (newelement)
+    *newelement = NULL;
+  
+  // Make sure we have a document
+  if (m_document == NULL) goto NODOC;
+
+  // Create a new element of the right type
+  result = m_document->NewElement(eclass,&element);
+  if (result) goto ERROR;
+  theelement = element;
+  
+  // Get the top stack entry
+  tos = TOS();
+    
+  // If no position...
+  if (tos == NULL) {
+  
+    // See if we have a document root
+    result = m_document->GetRootElement(&root);
+    if (result) goto ERROR;
+    
+    // If no document root, use this as new root
+    if (root == NULL) {
+    
+      // Tell document about it
+      result = m_document->SetRootElement(element);
+      if (result) goto ERROR;
+      
+      // We don't own the element now
+      element = NULL;
+      
+      // Create a new stack entry with this element on it
+      result = Push(theelement,1);
+      if (result) goto ERROR;
+      
+      goto OK;
+    }
+    
+    // else, we have document root...
+    else {
+    
+      // Create a new stack entry with the root on it
+      result = Push(root,1);
+      if (result) goto ERROR;
+      
+      // Get the new stack
+      tos = TOS();
+    }
+  }
+
+  // Get the current element's next sibling
+  result = element->NextSibling(&nextsib);
+  if (result) goto ERROR;
+    
+  // Tell the new element we've put it after the current element
+  result = element->EventChangedPreviousSibling(tos->element);
+  if (result) goto ERROR;
+  
+  // Tell the current element we've changed it's next sibling
+  result = tos->element->EventChangedNextSibling(element);
+    
+  // Tell the next element we've changed it's previous sibling
+  if (nextsib)
+    result2 = nextsib->EventChangedPreviousSibling(element);
+    
+  // If we have a parent, tell it we added a child...
+  if (m_stacksize >= 2)
+    result3 = (tos-1)->element->EventAddedChild(element);
+  
+  // Return new element to caller (if they want it)
+  if (newelement)
+    *newelement = element;
+  
+  // We don't own this element any more
+  element = NULL;
+  
+  // Handle errors
+  if (result || result2 || result3) goto INTEGRITY;
+
+  // Position stack to this entry
+  tos->element = theelement;
+  tos->entryno++;
+  
+  // Keep track of width statistics
+  if (tos->entryno > m_highwidth)
+    m_highwidth = tos->entryno;
+    
+  goto OK;
+
+INVALIDPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NODOC:
+  result = XMLErrorCsrNoDocument;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+INTEGRITY:
+  // Figure out which result to return (we have a choice of 3)
+  if (!result)
+    result = result2;
+  if (!result)
+    result = result3;
+  if (!result)
+    result = XMLErrorInternal;
+    
+  // Don't let caller have the element
+  if (newelement)
+    *newelement = NULL;
+  
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  // Release new element if we still have it
+  if (element)
+    delete element;
+    
+  return result;
+}
+
+XMLError XMLCursorBase::NewElementBelow(XML::Class eclass, XMLElementBase **newelement) {
+  
+  XMLError        result;     // Return code
+  StackEntry     *tos;        // Top stack entry
+  XMLElementBase *element;    // New element we created
+  XMLElementBase *theelement; // Stashed pointer in case caller didn't want new element
+  XMLElementBase *root;       // Root element
+  XMLElementBase *child;      // Current element's first child
+
+  // Initialise
+  element = NULL;
+      
+  // Sanity checks
+  if (eclass <= XML::ClassUnknown ||
+      eclass >= XML::ClassMAX)
+    goto INVALIDPARAMETERS;
+
+  // Initialise return element (assume NULL)
+  if (newelement)
+    *newelement = NULL;
+  
+  // Make sure we have a document
+  if (m_document == NULL) goto NODOC;
+
+  // Get the top stack entry
+  tos = TOS();
+    
+  // If stack empty let NewElementAfter() handle it
+  if (tos == NULL) {
+    result = NewElementAfter(eclass,newelement);
+    goto DONE;
+  }
+
+  // Make sure element doesn't already have a child...
+  result = tos->element->FirstChild(&child);
+  if (result) goto ERROR;
+  if (child) goto HASCHILD;
+      
+  // Create a new element of the right type
+  result = m_document->NewElement(eclass,&element);
+  if (result) goto ERROR;
+  theelement = element;
+  
+  // Tell the current element we've added a child
+  result = tos->element->EventAddedChild(element);
+  if (result) goto ERROR;
+      
+  // Let caller know new element
+  if (newelement)
+    *newelement = element;
+  
+  // We don't own it anymore
+  element = NULL;
+  
+  // Position stack to this entry
+  result = Push(theelement,1);
+  if (result) goto ERROR;
+  
+  goto OK;
+
+INVALIDPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NODOC:
+  result = XMLErrorCsrNoDocument;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+HASCHILD:
+  result = XMLErrorCsrAlreadyHasChildren;
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  // Release new element if we still have it
+  if (element)
+    delete element;
+    
+  return result;
+}
+   
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::Compare    - Compare with another cursor
+//  XMLCursorBase::CommonWith - Compute depth in common with another cursor
+//
+// DESCRIPTION
+//
+//  These functions compare a cursor with another cursor.
+//
+//  All functions will return an error if the two cursors aren't in the
+//  same document.
+//
+// NOTES
+//
+//  We do dirty casts to (XMLCursorBase *) because we know ALL cursors
+//  are, at least, an XMLCursorBase.
+//
+
+XMLError XMLCursorBase::Compare(XMLCursor *other,int *comparison) {
+
+  XMLError       result;       // Return code
+  XMLCursorBase *that;         // The other XMLCursorBase
+  int            commondepth;  // Common depth
+  int            entryno1;     // Our entryno
+  int            entryno2;     // Their entryno
+  
+  // Sanity checks
+  if (other == NULL || comparison == NULL) goto BADPARAMETERS;
+  
+  // Dirty cast
+  that = (XMLCursorBase *)other;
+  
+  // Make sure they're the same document
+  if (m_document == NULL) goto NODOC;
+  if (m_document != that->m_document) goto NOTSAMEDOC;
+  
+  // Get common depth
+  result = CommonWith(that,&commondepth);
+  if (result) goto ERROR;    
+
+  // If we compare with our entire stack...
+  if (commondepth >= m_stacksize) {
+  
+    // If same size, we're equal
+    if (m_stacksize == that->m_stacksize)
+      *comparison = 0;
+      
+    // Not same size, if we've got less stack, we're less
+    else if (m_stacksize < that->m_stacksize)
+      *comparison = -1;
+      
+    // They've got less stack, we're greater
+    else
+      *comparison = 1;
+      
+    goto OK;
+  }
+ 
+  // Partially compare, if they're exhausted we're greater
+  if (commondepth >= that->m_stacksize) {
+    *comparison = 1;
+    goto OK;
+  }
+  
+  // Have common element get the entry numbers
+  entryno1 = m_stack[commondepth].entryno;
+  entryno2 = that->m_stack[commondepth].entryno;
+  
+  // See who is less and who is greater
+  if (entryno1 < entryno2) {
+    *comparison = -1;
+    goto DONE;
+  }
+  else if (entryno1 > entryno2) {
+    *comparison = -2;
+    goto DONE;
+  }
+  
+  // We're the same, something's gone wrong
+  goto INTERNALERROR;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NODOC:
+  result = XMLErrorCsrNoDocument;
+  goto DONE;
+  
+NOTSAMEDOC:
+  result = XMLErrorCsrNotSameDocument;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLCursorBase::CommonWith(XMLCursor *other, int *depth) {
+
+  XMLError       result;       // Return result
+  XMLCursorBase *that;         // The other cursor
+  int            comparedepth; // Maximum depth to compare
+  int            curdepth;     // Current depth
+  int            entryno1;     // Our current entry number
+  int            entryno2;     // Their current entry number
+  
+  // Sanity checks
+  if (other == NULL || depth == NULL) goto BADPARAMETERS;
+
+  // Dirty cast
+  that = (XMLCursorBase *)other;
+  
+  // Make sure they're the same document
+  if (m_document != that->m_document) goto NOTSAMEDOC;
+  
+  // Compute minimum compare depth
+  comparedepth = MIN(m_stacksize,that->m_stacksize);
+  
+  // For each entry up to depth...
+  for (curdepth = 0; curdepth < comparedepth; curdepth++) {
+  
+    // Get the entry numbers
+    entryno1 = m_stack[curdepth].entryno;
+    entryno2 = that->m_stack[curdepth].entryno;
+    
+    // If no entryno in either, can't compare
+    if (entryno1 <= 0 || entryno2 <= 0) goto CANTCOMPARE;
+    
+    // If they're different at this depth, return this depth
+    if (entryno1 != entryno2)
+      break;
+  }
+  
+  // They're the same up to 'curdepth', return it
+  *depth = curdepth;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+NOTSAMEDOC:
+  result = XMLErrorCsrNotSameDocument;
+  goto DONE;
+
+CANTCOMPARE:
+  result = XMLErrorCsrCannotCompare;
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::Pop  - Pop top element from stack
+//  XMLCursorBase::Push - Push new entry onto the stack
+//  XMLCursorBase::TOS  - Get top stack entry address
+//
+// DESCRIPTION
+//
+//  These function manipulate the cursor's element stack.
+//
+  
+XMLError XMLCursorBase::Pop(void) {
+
+  // If no stack, error
+  if (m_stack == NULL || m_stacksize <= 0)
+    return XMLErrorCsrNotPositioned;
+    
+  // Reduce stack size
+  m_stacksize--;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLCursorBase::Push(XMLElementBase *element, int entryno) {
+
+  XMLError    result;    // Return code
+  StackEntry *newstack;  // New stack
+  int         newsize;   // New stack size
+  
+  // Initialise
+  newstack = NULL;
+  
+  // If we don't have a stack, or it's full, allocate new one
+  if (m_stack == NULL || m_stacksize >= m_maxstacksize) {
+
+    // Compute new stack size
+    newsize = (int)sizeof(StackEntry)*(m_stacksize+STACKALLOCINCREMENT);
+    
+    // Allocate a new stack
+    result = XMLHeap::Allocate(newsize,(byte **)&newstack);
+    if (result) goto ERROR;
+    
+    // IF we have an existing stack...
+    if (m_stacksize) {
+    
+      // Copy old contents to new contents
+      memcpy((void *)newstack, (void *)m_stack, newsize);
+      
+      // Free old contents
+      result = XMLHeap::Free((byte *)m_stack);
+      if (result) goto ERROR;      
+    }
+    
+    // Replace existing stack
+    m_stack = newstack;
+    newstack = NULL;
+    
+    // Set new max size
+    m_maxstacksize += STACKALLOCINCREMENT;
+    
+  }
+  
+  // We have room, push new entry
+  m_stack[m_stacksize].element = element;
+  m_stack[m_stacksize].entryno = entryno;
+  
+  // Increment stack size
+  m_stacksize++;
+  
+  // Keep track of max depth
+  if (m_stacksize > m_highdepth)
+    m_highdepth = m_stacksize;
+    
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Free newly allocated memory if it's still hanging around
+  if (newstack)
+    XMLHeap::Free((byte *)newstack);
+     
+  return result;
+}
+  
+XMLCursorBase::StackEntry *XMLCursorBase::TOS(void) {
+
+  // If no stack return NULL
+  if (m_stack == NULL || m_stacksize <= 0)
+    return NULL;
+  
+  // Return address of top one
+  return &m_stack[m_stacksize-1];
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::RegisterAsConstructor   - Register as document's constructor
+//  XMLCursorBase::UnregisterAsConstructor - Unregister as document's constructor
+//  XMLCursorBase::RegisterAsDestructor    - Register as document's destructor
+//  XMLCursorBase::UnregisterAsDestructor  - Unregister as document's destructor
+//  XMLCursorBase::RegisterAsCursor        - Register as a document cursor
+//  XMLCursorBase::UnregisterAsCursor      - Unregister as a document cursor
+//
+// DESCRIPTION
+//
+//  These functions maintain the constructor/destructor <-> document
+//  relationship.
+//
+  
+XMLError XMLCursorBase::RegisterAsConstructor(void) {
+
+  // Error if no document
+  if (m_document == NULL)
+    return XMLErrorCsrNoDocument;
+  
+  // If document already has a registration...
+  if (m_document->m_constructor) {
+  
+    // If it's someone else...
+    if (m_document->m_constructor != this)
+      return XMLErrorCsrDuplicateRegistration;
+    
+    // We're already registered
+    return XMLErrorCsrAlreadyRegistered;
+  }  
+
+  // Register
+  m_document->m_constructor = this;
+
+  return XMLErrorNone;     
+}
+
+XMLError XMLCursorBase::UnregisterAsConstructor(void) {
+
+  // Error if no document
+  if (m_document == NULL)
+    return XMLErrorCsrNoDocument;
+  
+  // Make sure we are the registered constructor
+  if (m_document->m_constructor != this)
+    return XMLErrorCsrNotRegistered;
+    
+  // Unregister
+  m_document->m_constructor = NULL;
+  
+  // Update document's width/depth statistics
+  if (m_highwidth > m_document->m_highwidth)
+    m_document->m_highwidth = m_highwidth;
+  if (m_highdepth > m_document->m_highdepth)
+    m_document->m_highdepth = m_highdepth;    
+
+  return XMLErrorNone;     
+}
+
+XMLError XMLCursorBase::RegisterAsDestructor(void) {
+
+  // Error if no document
+  if (m_document == NULL)
+    return XMLErrorCsrNoDocument;
+  
+  // If document already has a registration...
+  if (m_document->m_destructor) {
+  
+    // If it's someone else...
+    if (m_document->m_destructor != this)
+      return XMLErrorCsrDuplicateRegistration;
+    
+    // We're already registered
+    return XMLErrorCsrAlreadyRegistered;
+  }  
+
+  // Register
+  m_document->m_destructor = this;
+     
+  return XMLErrorNone;     
+}
+
+XMLError XMLCursorBase::UnregisterAsDestructor(void) {
+
+  // Error if no document
+  if (m_document == NULL)
+    return XMLErrorCsrNoDocument;
+  
+  // Make sure we are the registered constructor
+  if (m_document->m_destructor != this)
+    return XMLErrorCsrNotRegistered;
+    
+  // Unregister
+  m_document->m_destructor = NULL;    
+
+  return XMLErrorNone;     
+}
+
+XMLError XMLCursorBase::RegisterAsCursor(void) {
+
+  XMLError result;
+  
+  // Error if no document
+  if (m_document == NULL)
+    return XMLErrorCsrNoDocument;
+  
+  // Ask document to register us
+  result = m_document->AddCursor(this);
+       
+  return result;     
+}
+
+XMLError XMLCursorBase::UnregisterAsCursor(void) {
+
+  XMLError result;
+  
+  // Error if no document
+  if (m_document == NULL)
+    return XMLErrorCsrNoDocument;
+  
+  // Ask document to register us
+  result = m_document->RemoveCursor(this);
+       
+  return result;     
+}
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::NewToken      - Create a new token
+//  XMLCursorBase::ResolveString - Resolve a string to a token
+//  XMLCursorBase::ReleaseToken  - Release a token reference
+//  XMLCursorBase::HighestToken  - Compute highest token number
+//
+// DESCRIPTION
+//
+//  These functions manage string token references on behalf of all cursors.
+//
+
+XMLError XMLCursorBase::NewToken(XMLString *string, XMLToken *token) {
+
+  XMLError result;
+  
+  // Ask the document to create it
+  result = m_document->NewToken(string,token);
+  
+  return result;  
+}
+
+XMLError XMLCursorBase::ResolveString(XMLString *string, XMLToken *token) {
+
+  XMLError result;
+  
+  // Ask the document to resolve it
+  result = m_document->ResolveString(string,token);
+  
+  return result;
+}
+
+XMLError XMLCursorBase::ReleaseToken(XMLToken *token) {
+
+  XMLError result;
+    
+  // If we've got a token
+  if (token && *token != XMLTOKENNONE) {
+    result = m_document->RemoveToken(*token);
+    if (result) goto ERROR;
+    *token = XMLTOKENNONE;
+  }
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+    
+  return result;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::HighestToken - Compute the highest used token number
+//
+// DESCRIPTION
+//
+//  This function returns the highest token in the document's token table.
+//
+//  If there are no tokens, 0 is returned.
+//
+
+XMLError XMLCursorBase::HighestToken(int *hightoken) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (hightoken == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Ask the document table...
+  result = m_document->HighestToken(hightoken);
+  
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::UsedTokens - Compute the number of used tokens in the document
+//
+// DESCRIPTION
+//
+//  This function returns the number of tokens that are used in the document.
+//
+
+int XMLCursorBase::UsedTokens(void) {
+
+  return m_document->UsedTokens();
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::ResolveToken - Compute the string value associated with a token
+//
+// DESCRIPTION
+//
+//  This function asks the document to resolve a given token.
+//
+
+XMLError XMLCursorBase::ResolveToken(XMLToken token, XMLString **value) {
+
+  XMLError result;
+  
+  result = m_document->ResolveToken(token,(XMLString **)value);
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorBase::RegisterInputString - Register input string with document
+//
+// DESCRIPTION
+//
+//  This function registers an input string with the document.
+//
+// NOTES
+//
+//  All strings which contain token sub-strings have to be registered with the
+//  owning document because the string is needed to resolve token values
+//  through the lifetime of the document.
+//
+
+XMLError XMLCursorBase::RegisterInputString(XMLString *string) {
+
+  XMLError result;
+  
+  result = m_document->RegisterInputString(string);
+  
+  return result;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorReader::XMLCursorReader  - Constructor
+//  XMLCursorReader::~XMLCursorReader - Destructor
+//
+
+XMLCursorReader::XMLCursorReader(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorBase(doc)
+{
+
+  // Initialise string
+  m_string    = (XMLStringBase *)string;
+  if (string)
+    string->Length(&m_stringlen);
+    
+  // Register ourselves
+  if (doc)
+    RegisterAsConstructor();
+  
+}
+
+XMLCursorReader::~XMLCursorReader() {
+
+  // Remove ourselves from the document
+  UnregisterAsConstructor();
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorWriter::XMLCursorWriter  - Constructor
+//  XMLCursorWriter::~XMLCursorWriter - Destructor
+//  XMLCursorWriter::Emit             - Emit a string
+//  XMLCursorWriter::Emit             - Emit N bytes
+//  XMLCursorWriter::Flush            - Flush buffer
+//
+
+XMLCursorWriter::XMLCursorWriter(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorBase(NULL)
+{
+
+  // Initialise string
+  m_string    = (XMLStringBase *)string;
+  
+  // Allocate buffer
+  m_bufsize = 2048;
+  m_buflen  = 0;
+  m_buf     = new byte[m_bufsize];
+  
+  // Set our document
+  m_document = doc;
+  
+  // Register ourselves
+  RegisterAsCursor();
+  
+}
+
+XMLCursorWriter::~XMLCursorWriter() {
+
+  // Flush any data we have buffered
+  Flush();
+  
+  // Release the buffer
+  if (m_buf)
+    delete[] m_buf;
+    
+  // Remove ourselves from the document
+  UnregisterAsCursor();
+  
+}
+
+XMLError XMLCursorWriter::Emit(XMLString *pstring) {
+
+  XMLError       result;
+  XMLStringBase *string;
+  int            stringlen;
+  byte          *frag;
+  int            fragoff;
+  int            fraglen;
+
+  // Initialise
+  frag    = NULL;
+  fragoff = 0;  
+  
+  // Dirty cast the string
+  string = (XMLStringBase *)pstring;
+  
+  // Get the string's length
+  result = string->Length(&stringlen);
+  if (result) goto ERROR;
+  
+  // Until we've exhausted the string...
+  while (stringlen) {
+  
+    // Lock the fragment
+    result = string->LockFragment(fragoff,&frag,&fraglen);
+    if (result) goto ERROR;
+    
+    // Emit this fragment
+    result = Emit(frag,fraglen);
+    if (result) goto ERROR;
+    
+    // Unlock the fragment
+    result = string->UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // We don't have the fragment locked now
+    frag = NULL;
+    
+    // Position to next fragment
+    fragoff += fraglen;
+    stringlen -= fraglen;
+  }
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // If we have a locked fragment, unlock it
+  if (frag)
+    string->UnlockFragment(fragoff);
+  
+  return result; 
+}
+
+XMLError XMLCursorWriter::Emit(char *buf, int bufl) {
+
+  XMLError result;
+  
+  // Calculate buffer length if none passed
+  if (bufl < 0)
+    bufl = strlen(buf);
+    
+  // Let lower level Emit() do it
+  result = Emit((byte *)buf,bufl);
+  
+  return result;
+}
+
+XMLError XMLCursorWriter::Emit(byte *buf, int bufl) {
+  
+  XMLError result;
+  int      movlen;
+
+  // If no local buffer...
+  if (m_buf == NULL) goto OUTOFMEMORY;
+  
+  // Until we've done the lot...
+  while (bufl) {
+  
+    // If the local buffer's full...
+    if (m_buflen >= m_bufsize) {
+    
+      // Flush it
+      result = Flush();
+      if (result) goto ERROR;
+      
+      // Clear local buffer length
+      m_buflen = 0;
+    }
+    
+    // Compute length to move
+    movlen = bufl;
+    if (movlen > m_bufsize - m_buflen)
+      movlen = m_bufsize - m_buflen;
+      
+    // Move it
+    memcpy((void *)(m_buf+m_buflen),(void *)buf,movlen);
+    m_buflen += movlen;
+    
+    // Update for next go
+    bufl -= movlen;
+    buf  += movlen;
+  }
+    
+  goto OK;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLCursorWriter::Flush(void) {
+
+  XMLError result;
+  
+  // If no buffer or length...
+  if (m_buf == NULL || m_buflen == 0)
+    return XMLErrorNone;
+    
+  // Flush it
+  result = m_string->Append(m_buf,m_buflen);
+  if (result)
+    return result;
+    
+  // Clear buffer
+  m_buflen = 0;
+  
+  return XMLErrorNone;
+}
+@
+
+
+1.29
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@d1186 1
+a1186 1
+  if (that == NULL || comparison == NULL) goto BADPARAMETERS;
+d1278 1
+a1278 1
+  if (that == NULL || depth == NULL) goto BADPARAMETERS;
+@
+
+
+1.28
+log
+@Read compiled works, need to figure out why it's slower than text!
+@
+text
+@a19 1
+#include "string.h"
+d21 1
+d401 1
+a401 1
+    else if (type != NULL) {
+d680 1
+a680 1
+  if (elmvalue == NULL) {
+d759 1
+a759 1
+  if (name == NULL)
+d799 1
+a799 1
+  if (name == NULL || value == NULL)
+@
+
+
+1.27
+log
+@Added RegisterInputString() to XMLDocumentBase
+@
+text
+@d1565 4
+a1568 3
+//  XMLCursorBase::NewToken     - Create a new token
+//  XMLCursorBase::ReleaseToken - Release a token reference
+//  XMLCursorBase::HighestToken - Compute highest token number
+d1582 10
+a1592 1
+  
+@
+
+
+1.26
+log
+@Couple of cleanups in text writer
+@
+text
+@d1674 26
+@
+
+
+1.25
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@d1853 1
+a1853 1
+    memcpy((void *)m_buf,(void *)buf,movlen);
+@
+
+
+1.24
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d20 1
+d1441 2
+d1534 27
+d1674 223
+@
+
+
+1.23
+log
+@Compiled XML writer almost working
+@
+text
+@a408 3
+      // Delete the type string
+      delete tstring;
+      
+@
+
+
+1.22
+log
+@XMLCursorCompileWrite written, ready to test
+@
+text
+@d230 1
+a230 13
+    // If we're equal AND the constructor has something, we're behind it
+    if (comparison == 0) {
+    
+      // Get constructor depth
+      result = constructor->GetDepth(&condepth);
+      if (result) goto ERROR;
+      
+      // If it has a depth, we're behind it
+      if (condepth)
+        break;
+    }
+    
+    // Not less than constructor, walk the constructor...
+@
+
+
+1.21
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d374 7
+a380 7
+  XMLError    result;  // Return code
+  XMLString  *string;  // URI we're building
+  StackEntry *entry;   // Current stack entry
+  int         depth;   // TEMP: A stack depth
+  XMLToken    type;    // Current element's type
+  XMLString  *tstring; // TEMP: Another string
+  char        buf[10]; // Temp - Ascii version of number
+d1638 21
+@
+
+
+1.20
+log
+@A couple of GPFs and bugs fixed
+@
+text
+@d1552 1
+d1595 43
+@
+
+
+1.19
+log
+@All tokenised, ready to test
+@
+text
+@d40 5
+a48 1
+  m_document     = NULL;
+@
+
+
+1.18
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d374 2
+a375 1
+  XMLString  *type;    // Current element's type
+d397 1
+a397 2
+    // Get the element's name
+    type = (XMLString *)-1;
+d409 4
+d415 1
+a415 1
+      result = string->Append(type);
+d417 2
+a418 2
+      // Delete the type
+      delete type;
+d570 2
+a571 1
+  XMLString  *elmtype;
+d599 6
+a604 1
+  
+d606 1
+a606 1
+  if (elmtype == NULL) {
+d614 1
+a614 1
+    result = string->Append(elmtype);
+d659 2
+a660 1
+  XMLString  *elmvalue;
+d684 1
+a684 1
+  // Try getting the name
+d691 6
+a696 1
+  
+d703 1
+a703 1
+    result = string->Append(elmvalue);
+d761 1
+a761 1
+XMLError XMLCursorBase::FindAttribute(XMLString *name) {
+d765 2
+a766 1
+  XMLString  *value;
+d782 7
+a788 2
+    
+  // Try getting the value
+d792 2
+a793 1
+    
+d797 1
+a797 1
+XMLError XMLCursorBase::GetAttributeValue(XMLString *name, XMLString **value) {
+d800 3
+a802 1
+  XMLString  *attvalue;
+d813 1
+a813 1
+  *value = NULL;
+d825 5
+d831 6
+a836 2
+  // Try getting the name
+  result = tos->element->FindAttribute(name,&attvalue);
+d839 1
+a839 1
+  
+d841 7
+a847 2
+  if (attvalue == NULL) {
+  
+d853 2
+a854 2
+    // Append the name to the string
+    result = string->Append(attvalue);
+d858 1
+a858 1
+      *value = string;
+d1542 47
+@
+
+
+1.17
+log
+@Worked on Cursor::GetURI, fixed GetName() not returning copy
+@
+text
+@d374 1
+a374 1
+  XMLString  *name;    // Current element's name
+d397 2
+a398 2
+    name = (XMLString *)-1;
+    result = entry->element->GetName(&name);
+d400 1
+a400 1
+    // If error element has no name...
+d407 2
+a408 2
+    // Have we have a name...
+    else if (name != NULL) {
+d411 1
+a411 1
+      result = string->Append(name);
+d413 2
+a414 2
+      // Delete the name
+      delete name;
+d526 2
+a527 2
+//  XMLCursorBase::GetElementType     - Get current element's type
+//  XMLCursorBase::GetElemenetName    - Get current element's name
+d537 1
+a537 1
+XMLError XMLCursorBase::GetElementType(XML::Type *type) {
+d542 1
+a542 1
+  if (type == NULL)
+d557 1
+a557 1
+  *type = tos->element->GetType();
+d562 1
+a562 1
+XMLError XMLCursorBase::GetElementName(XMLString **name) {
+d566 1
+a566 1
+  XMLString  *elmname;
+d573 1
+a573 1
+  if (name == NULL)
+d577 1
+a577 1
+  *name = NULL;
+d591 1
+a591 1
+  result = tos->element->GetName(&elmname);
+d596 1
+a596 1
+  if (elmname == NULL) {
+d604 1
+a604 1
+    result = string->Append(elmname);
+d608 1
+a608 1
+      *name = string;
+d891 1
+a891 1
+XMLError XMLCursorBase::NewElementAfter(XML::Type type, XMLElementBase **newelement) {
+d908 2
+a909 2
+  if (type <= XML::TypeUnknown ||
+      type >= XML::TypeMAX) goto INVALIDPARAMETERS;
+d919 1
+a919 1
+  result = m_document->NewElement(type,&element);
+d1040 1
+a1040 1
+XMLError XMLCursorBase::NewElementBelow(XML::Type type, XMLElementBase **newelement) {
+d1053 2
+a1054 2
+  if (type <= XML::TypeUnknown ||
+      type >= XML::TypeMAX)
+d1069 1
+a1069 1
+    result = NewElementAfter(type,newelement);
+d1079 1
+a1079 1
+  result = m_document->NewElement(type,&element);
+@
+
+
+1.16
+log
+@Added GetParseError() to doc and cursor and tester
+@
+text
+@d21 2
+d375 1
+d386 1
+d397 1
+d400 1
+a400 1
+    // If element has no name...
+d407 2
+a408 2
+    // Have name...
+    else {
+d412 4
+d420 11
+@
+
+
+1.15
+log
+@Renamed source files for string implementations
+@
+text
+@d47 3
+d809 39
+@
+
+
+1.14
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@d17 1
+a17 1
+#include "xmlsmem.h"
+@
+
+
+1.13
+log
+@Implemented XMLDocumentBase
+@
+text
+@d7 1
+a7 2
+    This file contains the default implementation for all XMLCursor
+    instances.
+d14 2
+d95 5
+a99 5
+  XMLError       result;       // Return code
+  XMLCursorBase *constructor;  // Constructing cursor
+  int            comparison;   // Cursor comparison result
+  StackEntry    *entry;        // Current entry
+  XMLElement    *element;      // An element
+d193 6
+a198 6
+  XMLError       result;       // Return code
+  XMLCursorBase *constructor;  // Constructing cursor
+  int            comparison;   // Cursor comparison result
+  StackEntry    *entry;        // Current entry
+  XMLElement    *element;      // An element
+  int            condepth;     // Constructor depth
+d829 1
+a829 1
+XMLError XMLCursorBase::NewElementAfter(XML::Type type, XMLElement **newelement) {
+d831 8
+a838 8
+  XMLError    result;     // Return code
+  XMLError    result2;    // Another return code
+  XMLError    result3;    // Yet another return code
+  StackEntry *tos;        // Top stack entry
+  XMLElement *element;    // New element we created
+  XMLElement *theelement; // Stashed pointer in case caller didn't want new element
+  XMLElement *root;       // Root element
+  XMLElement *nextsib;    // Current element's next sibling
+d978 1
+a978 1
+XMLError XMLCursorBase::NewElementBelow(XML::Type type, XMLElement **newelement) {
+d980 6
+a985 6
+  XMLError    result;     // Return code
+  StackEntry *tos;        // Top stack entry
+  XMLElement *element;    // New element we created
+  XMLElement *theelement; // Stashed pointer in case caller didn't want new element
+  XMLElement *root;       // Root element
+  XMLElement *child;      // Current element's first child
+d1264 1
+a1264 1
+XMLError XMLCursorBase::Push(XMLElement *element, int entryno) {
+@
+
+
+1.12
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@d35 1
+a35 1
+XMLCursorBase::XMLCursorBase(XMLDocument *doc) {
+@
+
+
+1.11
+log
+@All parsing OK, lex problem was TABs!
+@
+text
+@d42 5
+a46 1
+  
+d50 1
+a50 1
+  
+d271 4
+d932 4
+d1309 4
+d1390 7
+a1396 1
+  m_document->m_constructor = NULL;    
+@
+
+
+1.10
+log
+@Completely loads and parses big.xml!
+@
+text
+@a971 1
+  XMLElement *nextsib;    // Current element's next sibling
+a1007 4
+  // Get the current element's next sibling
+  result = element->NextSibling(&nextsib);
+  if (result) goto ERROR;
+    
+@
+
+
+1.9
+log
+@Ready to test parser for real!
+@
+text
+@d133 1
+a133 1
+     if (comparison < 0)
+d193 1
+d212 2
+a213 2
+    // If we're less and not empty, we're behind the constructor
+    if (comparison < 0 && m_stacksize)
+d215 7
+d223 6
+a228 1
+    // Not less, walk the constructor...
+d237 17
+a253 3
+  // If no current element, we're not positioned anywhere
+  if (entry == NULL)
+    goto ENDOFDOC;
+d822 8
+a829 7
+  XMLError    result;   // Return code
+  XMLError    result2;  // Another return code
+  XMLError    result3;  // Yet another return code
+  StackEntry *tos;      // Top stack entry
+  XMLElement *element;  // New element we created
+  XMLElement *root;     // Root element
+  XMLElement *nextsib;  // Current element's next sibling
+d838 1
+a838 2
+      type >= XML::TypeMAX     ||
+      newelement == NULL) goto INVALIDPARAMETERS;
+d841 2
+a842 1
+  *newelement = NULL;
+d850 1
+d873 1
+a873 1
+      result = Push(element,1);
+d910 3
+a912 2
+  // Return new element to caller
+  *newelement = element;
+d921 1
+a921 1
+  tos->element = *newelement;
+d947 2
+a948 1
+  *newelement = NULL;
+d967 7
+a973 6
+  XMLError    result;   // Return code
+  StackEntry *tos;      // Top stack entry
+  XMLElement *element;  // New element we created
+  XMLElement *root;     // Root element
+  XMLElement *nextsib;  // Current element's next sibling
+  XMLElement *child;    // Current element's first child
+d980 2
+a981 2
+      type >= XML::TypeMAX     ||
+      newelement == NULL) goto INVALIDPARAMETERS;
+d984 2
+a985 1
+  *newelement = NULL;
+d1007 1
+d1018 2
+a1019 1
+  *newelement = element;
+d1025 1
+a1025 1
+  result = Push(element,1);
+d1100 1
+a1100 1
+  // They compare down to the common depth, if we're exhausted we're less than
+d1102 13
+a1114 1
+    *comparison = -1;
+d1118 1
+a1118 1
+  // If they're exhausted we're greater than
+@
+
+
+1.8
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@d776 251
+@
+
+
+1.7
+log
+@Skeleton parser passing through simple.xml OK without errors
+@
+text
+@d282 1
+a282 1
+  XMLError result;
+@
+
+
+1.6
+log
+@Skeleton of TestXMLDocumentMem works
+@
+text
+@a196 4
+  // If we're not positioned anywhere...
+  if (m_stacksize == 0)
+    goto NOTPOSITIONED;
+    
+d203 1
+a203 1
+    // If no constructor, what's below us is below us
+d211 3
+a213 3
+    // If we're less, got something
+     if (comparison < 0)
+      break;
+d226 1
+a226 1
+    goto NOTPOSITIONED;
+d253 2
+a254 2
+NOTPOSITIONED:
+  result = XMLErrorCsrNotPositioned;
+d299 1
+d306 4
+@
+
+
+1.5
+log
+@Changed Iterate() to Walk(), ready to write parser
+@
+text
+@d41 1
+@
+
+
+1.4
+log
+@Added XMLCursorParser and constructor registration functions
+@
+text
+@d135 2
+a136 2
+    // Not less, iterate the constructor...
+    result = constructor->Iterate();
+d218 2
+a219 2
+    // Not less, iterate the constructor...
+    result = constructor->Iterate();
+d267 46
+@
+
+
+1.3
+log
+@More traversing behaviour in XMLCursorBase, calls parser now
+@
+text
+@d984 93
+@
+
+
+1.2
+log
+@More XMLCursor behaviour - won't compile yet
+@
+text
+@d65 1
+a66 1
+//  XMLCursorBase::Up   - Position up one element
+d83 182
+@
+
+
+1.1
+log
+@Finished initial XMLCursorBase implementation
+@
+text
+@d65 1
+d67 1
+@
+

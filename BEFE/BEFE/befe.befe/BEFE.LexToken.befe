@@ -1,0 +1,15 @@
+//----------------------------------------------------------------------
+// File: befe.lextoken.befe - Compile-time LexToken struct
+//----------------------------------------------------------------------
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+
+namespace befe.compiler
+
+struct LexToken:
+
+  

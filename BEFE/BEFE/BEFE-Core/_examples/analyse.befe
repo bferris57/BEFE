@@ -1,0 +1,25 @@
+//!befe -echo
+//!befe -indent
+//!befe +head
+//!befe +et +vv
+//---------------------------------------------------------------------
+//
+// analyse.befe - Analyse current directory
+//
+// Usage: befe <analyse.bef
+//
+//          ...or...
+//
+//        befe analyse
+//
+//---------------------------------------------------------------------
+
+#echo ---------------------------------------------------------------------
+#echo Script: analyse.befe - Analyse current directory
+#echo ---------------------------------------------------------------------
+
+# Ask OS Command to do a 'dir'
+os
+analyse
+..
+exit

@@ -1,0 +1,1120 @@
+head	1.11;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.11
+date	2002.11.03.00.53.11;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.30.04.41.50;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.24.02.54.50;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.22.23.45.39;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.22.18.08.38;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.22.15.12.56;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.05.06.42.09;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.04.05.32.44;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.03.22.26.43;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.03.05.57.17;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.02.20.59.50;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.11
+log
+@Found speed problem, Rehash() rehashing too much!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+   xmlhashtable.cpp - Implementation of the XMLHashTable class
+  
+  DESCRIPTION
+    
+    This file contains the implementation of the XMLHashTable and related
+    classes.
+    
+  NOTES
+  
+*/
+
+//------------------------------------------------------------------------------
+
+#include <string.h>
+
+#include "xml.h"
+#include "xmlhashtable.h"
+#include "miscellaneous.h"
+#include "xmlheap.h"
+#include <math.h>
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTable::XMLHashTable  - Constructor
+//  XMLHashTable::~XMLHashTable - Destructor
+//
+//
+
+XMLHashTable::XMLHashTable(int optbucketsize, int minincrement) {
+
+  if (optbucketsize > 0)
+    m_optbucketsize = optbucketsize;
+  else
+    m_optbucketsize = 5;
+  if (minincrement > 0)
+    m_minincrement = minincrement;
+  else
+    m_minincrement = 10;
+  
+  m_numbuckets     = 0;
+  m_buckets        = NULL;
+  m_numentries     = 0;
+
+}
+
+XMLHashTable::~XMLHashTable() {
+
+  XMLHashTableEntry *curentry;
+  int                i;
+    
+  // If we have buckets...
+  if (m_buckets != NULL) {
+  
+    // For each bucket
+    for (i=m_numbuckets-1;i>=0;i--) {
+    
+      // For each entry in the bucket
+      while (m_buckets[i] != NULL) {
+  
+        curentry = m_buckets[i];
+            
+        // Remove the entry (and it's string)
+        curentry->Remove(&m_buckets[i]);
+        
+      }
+    }
+    
+    // Remove the buckets
+    delete[] m_buckets;
+    
+  }
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTable::NewEntry  - Allocate and initialise a new hash table entry
+//  XMLHashTable::DelEntry  - Delete (free) a given hash table entry
+//
+// DESCRIPTION
+//
+//  These function provide the default entry allocation/deallocation behaviour
+//  for hash table entries.
+//
+
+XMLError XMLHashTable::NewEntry(XMLHashTableEntry **entry, XMLString *string, int owned) {
+
+  // Allocate a new entry
+  *entry = new XMLHashTableEntry(string, owned);
+  if (*entry == NULL)
+    return XMLErrorOutOfMemory;
+    
+  // We have one more entry now
+  m_numentries++;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLHashTable::DelEntry(XMLHashTableEntry *entry) {
+
+  // Delete the entry
+  delete entry;
+  
+  // We have one less entry now
+  m_numentries--;
+    
+  return XMLErrorNone;
+  
+}
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTable::Length - Return number of entries in the table
+//
+
+int XMLHashTable::Length() {
+  return m_numentries;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTable::Find   - Find a string in the table
+//  XMLHashTable::Add    - Add a string to the table
+//  XMLHashTable::Remove - Remove a string from the table
+//
+// DESCRIPTION
+//
+//  These functions maintain entries in the table.
+//
+//  Find only returns an error when something bad happened.
+//  If the string is not found the 'found' parameter will
+//  be set to NULL.
+//
+//  Add adds a string to the table. It does NOT check for
+//  duplicates so it is up to the caller to ensure that
+//  the string does not already exist.
+//
+//  Remove removes a string from the table ONLY if the
+//  string in the table is exactly the same as the 'lookfor'
+//  string.  By 'exactly' we mean it has to be the same
+//  string NOT just the same value.
+//
+//  Remove gives ownership of the string back to the caller
+//  (i.e. it doesn't delete the string when it removes it
+//  from the hash table.)
+//
+//  Examples:
+//
+//    Find(lookfor,found);
+//    if (!found)
+//      Add(lookfor);
+//
+//    Find(lookfor,found)
+//    if (found)
+//      Remove(found)
+//
+
+XMLError XMLHashTable::Find(XMLString *lookfor, XMLString **found) {
+
+  XMLError           result;   // Return code
+  XMLHashTableEntry *curentry; // The current entry
+  
+  // Sanity checks
+  if (lookfor == NULL || found == NULL) goto BADPARAMETERS;
+  
+  // Find the entry
+  result = FindEntry(lookfor,&curentry);
+  if (result) goto ERROR;
+  
+  // Return the string (if found)
+  if (curentry)
+    *found = curentry->GetString();
+  else
+    *found = NULL;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;  
+  
+}
+  
+XMLError XMLHashTable::Add(XMLString *string, int owned) {
+
+  XMLError           result;   // Return code
+  XMLHash            bucket;   // The bucket we're searching
+  XMLHashTableEntry *curentry; // The current entry
+  int                newsize;  // New size of the table
+  
+  // Sanity checks
+  if (string == NULL) goto BADPARAMETERS;
+  
+  // Expand the table if needed
+  result = Rehash(m_numentries+1);
+  if (result) goto ERROR;
+  
+  // Calculate the bucket we're going to add into
+  if (!string->IsHashed()) {
+    result = string->Hash();
+    if (result) goto ERROR;
+  }
+  result = string->GetHash(&bucket);
+  if (result) goto ERROR;
+  if (ISBADHASH(bucket)) goto STRINGBADHASH;
+  bucket %= m_numbuckets;
+  
+  // Allocate an XMLHashTableEntry
+  result = NewEntry(&curentry,string,owned);
+  if (result) goto ERROR;
+  
+  // Insert it into the table
+  curentry->Insert(&m_buckets[bucket]);
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+STRINGBADHASH:
+  result = XMLErrorStringBadHash;
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+DONE:
+  return result;  
+}
+
+XMLError XMLHashTable::Remove(XMLString *lookfor) {
+
+  XMLError           result;
+  XMLHashTableEntry *curentry;
+  XMLHash            bucket;
+  
+  
+  // Sanity checks
+  if (lookfor == NULL) goto BADPARAMETERS;
+  
+  // Find the entry EXACT
+  result = FindEntry(lookfor,&curentry,1,&bucket);
+  if (result) goto ERROR;
+  if (curentry == NULL)
+    goto NOTFOUND;
+    
+  // Tell the entry to remove itself (without deleting the string)
+  curentry->m_string = NULL;
+  curentry->Remove(&m_buckets[bucket]);
+  
+  // Resize the table if it's time
+  result = Rehash(m_numentries);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+NOTFOUND:
+  result = XMLErrorStringNotFound;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTableEntry::GetStatistics - Get statistics on the hash table
+//
+
+void XMLHashTable::GetStatistics(XMLHashStatistics *stats) {
+
+  int               i;
+  int               cnt;
+  double            sum;
+  double            avg;
+  double            sumsquared;
+  XMLHashTableEntry *cur;
+  
+  // Clear the stats first
+  stats->blcount = 0;
+  stats->blsumlength = 0;
+  stats->blminlength = 0;
+  stats->blmaxlength = 0;
+  stats->blavglength = 0.0;
+  stats->blstdlength = 0.0;
+  
+  // If we don't have any entries, don't do the stats
+  if (m_numbuckets == 0) goto DONE;
+  
+  // Initialise
+  stats->blcount     = m_numbuckets;
+  stats->blsumlength = m_numentries;
+  stats->blminlength = m_numentries+1;
+  sumsquared = 0.0;
+  
+  // For each bucket...
+  for (i=0; i<m_numbuckets; i++) {
+  
+    // Get bucket size
+    cnt = 0;
+    for (cur=m_buckets[i]; cur; cur = cur->m_nextentry)
+      cnt++;
+
+    // Min/Max
+    if (cnt < stats->blminlength)
+      stats->blminlength = cnt;
+    if (cnt > stats->blmaxlength)
+      stats->blmaxlength = cnt;
+      
+    // Sum squared
+    sumsquared += (double)cnt * (double)cnt;
+    
+  }
+  
+  // Finish up
+  sum = (double)stats->blsumlength;
+  stats->blavglength = sum / (double)stats->blcount;
+  avg = (double)stats->blavglength;
+  stats->blstdlength = sqrt(sumsquared - 2.0*sum*avg+(avg*avg));
+
+DONE:
+
+  return;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTable::FindEntry - Find the entry for a given string
+//
+// DESCRIPTION
+//
+//  Unlike Find(), this function returns the ENTRY not the STRING.
+//
+//  If the exact parameter is set, we look for the exact XMLString passed
+//  (i.e. others with the same value won't be found.)
+//
+
+XMLError XMLHashTable::FindEntry(
+  XMLString          *lookfor,
+  XMLHashTableEntry **found,
+  int                 exact,
+  XMLHash            *retbucket
+) {
+
+  XMLError           result;   // Return code
+  XMLHash            bucket;   // The bucket we're searching
+  XMLHashTableEntry *curentry; // The current entry
+  int                equals;   // "Are they equal?"
+  
+  // Sanity checks
+  if (lookfor == 0 || found == 0) goto BADPARAMETERS;
+  
+  // If the table's empty, it's not found
+  if (found)
+    *found = NULL;
+  if (retbucket)
+    *retbucket = BADHASH;  
+  if (m_numbuckets == 0) goto OK;
+  
+  // Get the first string's hash
+  result = lookfor->GetHash(&bucket);
+  if (result) goto ERROR;
+  if (ISBADHASH(bucket)) goto STRINGBADHASH;
+  bucket %= (XMLHash)m_numbuckets;
+
+  // Walk the bucket until we've found it
+  equals = 0;
+  for (curentry=m_buckets[bucket]; curentry; curentry = curentry->m_nextentry) {
+  
+    // See if the two string's match
+    if (exact) {
+      if (curentry->GetString() == lookfor) {
+        equals = 1;
+        break;
+      }
+    }
+    else {
+      result = lookfor->Equals(curentry->GetString(),&equals);
+      if (result) goto ERROR;
+      if (equals) break;
+    }
+        
+  }
+  
+  // If found, return the one we found
+  if (equals) {
+    *found = curentry;
+    if (retbucket)
+      *retbucket = bucket;
+    }
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+STRINGBADHASH:
+  result = XMLErrorStringBadHash;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTable::Rehash - Resize the table if required
+//
+// DESCRIPTION
+//
+//  This function resizes the hash table for a new number of entries.
+//
+//  It can be called when expanding or contracting via Add() and Remove().
+//
+
+XMLError XMLHashTable::Rehash(int newsize) {
+
+  XMLError            result;         // Return code
+  int                 bucketsize;     // Bucket size we want
+  int                 wantbucketsize; // Bucket size the caller wants
+  int                 newbuckets;     // New number of buckets
+  XMLHashTableEntry **newtable;       // New hash table
+  XMLHashTableEntry  *curentry;       // Current entry we're processing
+  XMLHash             bucket;         // A bucket number
+  int                 i;              // TEMP: Loop counter
+
+  // If we're within optimal bucket size, don't bother rehashing
+  if (m_numbuckets && newsize && m_numentries && 
+      m_numentries/m_numbuckets <= m_optbucketsize)
+    goto OK;
+
+  // Compute new number of buckets
+  if (newsize <= 0)
+    newbuckets = 0;
+  else {
+    newbuckets = (newsize+m_optbucketsize-1)/m_optbucketsize * m_optbucketsize;
+    newbuckets = (newbuckets+m_minincrement-1)/m_minincrement * m_minincrement;
+    newbuckets = NextPrime(newbuckets);
+  }
+  
+  // If same number of buckets don't do it...
+  if (newbuckets == m_numbuckets) goto OK;
+
+  // Allocate the new bucket list
+  if (newbuckets) {
+    result = XMLHeap::Allocate(newbuckets*sizeof(XMLHashTableEntry *),(byte **)&newtable);
+    if (result) goto ERROR;
+    memset((void *)newtable,0,newbuckets*sizeof(XMLHashTableEntry *));
+  }
+  else
+    newtable = NULL;
+  
+  // For each bucket in the old list, remove the entries and place them in the
+  // new list
+  for (i=0; i<m_numbuckets; i++) {
+  
+    // Until the chain is empty...
+    while (m_buckets[i]) {
+    
+      curentry = m_buckets[i];
+      
+      // Remove from old one
+      curentry->Remove(&m_buckets[i]);
+      
+      // Get it's hash
+      result = curentry->GetString()->GetHash(&bucket);
+      if (result) goto INTERNALERROR;
+      if (ISBADHASH(bucket)) goto STRINGBADHASH;
+      bucket = bucket%newbuckets;
+      
+      // Put into the new bucket
+      curentry->Insert(&newtable[bucket]);
+      
+    }
+    
+  }
+  
+  // If we had an old list, free it.
+  // NOTE: We don't check the result of Free because we're trying to keep the 
+  //       table intact.  We'll simply return that result when we're finished.
+  if (m_buckets)
+    result = XMLHeap::Free((byte *)m_buckets);
+  else
+    result = XMLErrorNone;
+
+  // Plug in the new list
+  m_numbuckets = newbuckets;
+  m_buckets    = newtable;
+  
+  goto DONE;  
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+STRINGBADHASH:
+  result = XMLErrorStringBadHash;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLHashTableEntry::XMLHashTableEntry  - Constructor
+//  XMLHashTableEntry::~XMLHashTableentry - Destructor
+//  XMLHashTableEntry::GetString          - Get the XMLString for the entry
+//  XMLHashTableEntry::SetString          - Set the XMLString for the entry
+//  XMLHashTableEntry::IsStringOwned      - "Is this entry's string owned by us?"
+//  XMLHashTableEntry::Insert             - Insert into hash bucket
+//  XMLHashTableEntry::Remove             - Remove from hash bucket
+//  XMLHashTableEntry::Clean              - Clear contents
+//
+// DESCRIPTION
+//
+//  These functions form the full implementation of an XMLHashTableEntry.
+//
+// NOTES
+//
+//  Upon destruction, if the entry points to an XMLString that string
+//  will be destroyed if we own it.
+//
+//  We store ownership in the low bit of the string address.  This
+//  assumes all memory is allocated on EVEN byte boundaries.
+
+XMLHashTableEntry::XMLHashTableEntry(XMLString *string,int owned) {
+  m_nextentry = NULL;
+  m_preventry = NULL;
+  
+  // If string, set it
+  if (string)
+    SetString(string,owned);
+}
+
+XMLHashTableEntry::~XMLHashTableEntry() {
+  Clean();
+}
+
+XMLString *XMLHashTableEntry::GetString() {
+  return (XMLString *)( (long)m_string & 0xfffffffel);
+}
+
+void XMLHashTableEntry::SetString(XMLString *string, int owned) {
+  m_string = string;
+  if (owned)
+    m_string = (XMLString *)( (long)m_string | 0x00000001l);
+}
+
+int XMLHashTableEntry::IsStringOwned(void) {
+  return (int) ( (long)m_string & 0x1l);
+}
+  
+void XMLHashTableEntry::Insert(XMLHashTableEntry **head,XMLHashTableEntry **tail) {
+
+  m_nextentry = *head;
+  m_preventry = NULL;
+  
+  if (m_nextentry)
+    m_nextentry->m_preventry = this;
+  else
+    if (tail)
+      *tail = this;
+      
+  *head = this;
+
+}
+
+void XMLHashTableEntry::Remove(XMLHashTableEntry **head,XMLHashTableEntry **tail) {
+  
+  if (m_nextentry)
+    m_nextentry->m_preventry = m_preventry;
+  else
+    if (tail)
+      *tail = m_preventry;
+      
+  if (m_preventry)
+    m_preventry->m_nextentry = m_nextentry;
+  else
+    *head = m_nextentry;
+    
+  m_preventry = NULL;
+  m_nextentry = NULL;
+
+}
+
+void XMLHashTableEntry::Clean(void) {
+
+  if ((long)m_string & 0x1l)
+    delete GetString();
+
+}
+@
+
+
+1.10
+log
+@Added NewIndex() to XMLStringTable
+@
+text
+@d472 5
+d488 1
+a488 1
+    
+@
+
+
+1.9
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@d238 1
+d241 1
+d245 1
+d249 1
+d253 1
+@
+
+
+1.8
+log
+@Coded XMLStringTable
+@
+text
+@d96 1
+d100 4
+d109 1
+d112 3
+a232 2
+  m_numentries++;
+    
+a271 1
+  m_numentries--;
+@
+
+
+1.7
+log
+@Made XMLHashTable able to be specialised
+@
+text
+@d546 2
+d549 2
+a550 1
+//  XMLHashTableentry::Remove             - Remove from hash bucket
+d568 3
+a570 5
+  // Hack: Set ownership if owned
+  if (owned)
+    m_string = (XMLString *)( (long)string | 0x1l);
+  else
+    m_string = string;
+d574 1
+a574 2
+  if ((long)m_string & 0x1l)
+    delete GetString();
+d580 10
+d591 1
+a591 1
+void XMLHashTableEntry::Insert(XMLHashTableEntry **head) {
+d594 2
+d598 4
+a601 1
+  m_preventry = NULL;
+d606 1
+a606 1
+void XMLHashTableEntry::Remove(XMLHashTableEntry **head) {
+d610 4
+d618 1
+d621 7
+@
+
+
+1.6
+log
+@Renamed xmlshash.* to xmlhashtable.*, XMLHashstring to XMLHashTable
+@
+text
+@a70 1
+        delete curentry;
+d85 28
+d217 5
+a221 3
+  // Allocate an XMLHashTableEntry and insert it
+  curentry = new XMLHashTableEntry(string,owned);
+  if (curentry == 0) goto NOMEM;
+@
+
+
+1.5
+log
+@XMLIOString works with 1 buffer
+@
+text
+@d6 1
+a6 1
+   xmlshash.cpp - Implementation of the XMLStringHash class
+d10 1
+a10 1
+    This file contains the implementation of the XMLStringHash and related
+d22 1
+a22 1
+#include "xmlshash.h"
+d31 2
+a32 2
+//  XMLStringHash::XMLStringHash  - Constructor
+//  XMLStringHash::~XMLStringHash - Destructor
+d36 1
+a36 1
+XMLStringHash::XMLStringHash(int optbucketsize, int minincrement) {
+d53 1
+a53 1
+XMLStringHash::~XMLStringHash() {
+d55 2
+a56 2
+  XMLStringHashEntry *curentry;
+  int                 i;
+d86 1
+a86 1
+//  XMLStringHash::Length - Return number of entries in the table
+d89 1
+a89 1
+int XMLStringHash::Length() {
+d97 3
+a99 3
+//  XMLStringHash::Find   - Find a string in the table
+//  XMLStringHash::Add    - Add a string to the table
+//  XMLStringHash::Remove - Remove a string from the table
+d133 1
+a133 1
+XMLError XMLStringHash::Find(XMLString *lookfor, XMLString **found) {
+d135 2
+a136 2
+  XMLError            result;                       // Return code
+  XMLStringHashEntry *curentry;                     // The current entry
+d166 1
+a166 1
+XMLError XMLStringHash::Add(XMLString *string, int owned) {
+d168 4
+a171 4
+  XMLError            result;                       // Return code
+  XMLHash             bucket;                       // The bucket we're searching
+  XMLStringHashEntry *curentry;                     // The current entry
+  int                 newsize;                      // New size of the table
+d190 2
+a191 2
+  // Allocate an XMLStringHashEntry and insert it
+  curentry = new XMLStringHashEntry(string,owned);
+d217 1
+a217 1
+XMLError XMLStringHash::Remove(XMLString *lookfor) {
+d219 3
+a221 3
+  XMLError            result;
+  XMLStringHashEntry *curentry;
+  XMLHash             bucket;
+d264 1
+a264 1
+//  XMLStringHashEntry::GetStatistics - Get statistics on the hash table
+d267 1
+a267 1
+void XMLStringHash::GetStatistics(XMLHashStatistics *stats) {
+d269 6
+a274 6
+  int                   i;
+  int                 cnt;
+  double              sum;
+  double              avg;
+  double              sumsquared;
+  XMLStringHashEntry *cur;
+d327 1
+a327 1
+//  XMLStringHash::FindEntry - Find the entry for a given string
+d337 5
+a341 5
+XMLError XMLStringHash::FindEntry(
+  XMLString           *lookfor,
+  XMLStringHashEntry **found,
+  int                  exact,
+  XMLHash             *retbucket
+d344 4
+a347 4
+  XMLError            result;                       // Return code
+  XMLHash             bucket;                       // The bucket we're searching
+  XMLStringHashEntry *curentry;                     // The current entry
+  int                 equals;                       // "Are they equal?"
+d412 1
+a412 1
+//  XMLStringHash::Rehash - Resize the table if required
+d421 1
+a421 1
+XMLError XMLStringHash::Rehash(int newsize) {
+d423 8
+a430 8
+  XMLError             result;
+  int                  bucketsize;                  // Bucket size we want
+  int                  wantbucketsize;              // Bucket size the caller wants
+  int                  newbuckets;                  // New number of buckets
+  XMLStringHashEntry **newtable;                    // New hash table
+  XMLStringHashEntry  *curentry;                    // Current entry we're processing
+  XMLHash              bucket;                      // A bucket number
+  int                  i;                           // TEMP: Loop counter
+d446 1
+a446 1
+    result = XMLHeap::Allocate(newbuckets*sizeof(XMLStringHashEntry *),(byte **)&newtable);
+d448 1
+a448 1
+    memset((void *)newtable,0,newbuckets*sizeof(XMLStringHashEntry *));
+d514 5
+a518 5
+//  XMLStringHashEntry::XMLStringHashEntry  - Constructor
+//  XMLStringHashEntry::~XMLStringHashentry - Destructor
+//  XMLStringHashEntry::GetString           - Get the XMLString for the entry
+//  XMLStringHashEntry::Insert              - Insert into hash bucket
+//  XMLStringHashentry::Remove              - Remove from hash bucket
+d522 1
+a522 1
+//  These functions form the full implementation of an XMLStringHashEntry.
+d532 1
+a532 1
+XMLStringHashEntry::XMLStringHashEntry(XMLString *string,int owned) {
+d543 1
+a543 1
+XMLStringHashEntry::~XMLStringHashEntry() {
+d548 1
+a548 1
+XMLString *XMLStringHashEntry::GetString() {
+d552 1
+a552 1
+void XMLStringHashEntry::Insert(XMLStringHashEntry **head) {
+d562 1
+a562 1
+void XMLStringHashEntry::Remove(XMLStringHashEntry **head) {
+@
+
+
+1.4
+log
+@Added hash statistics
+@
+text
+@d187 1
+d207 3
+d362 1
+d398 3
+d468 1
+d499 3
+@
+
+
+1.3
+log
+@XMLStringConst and XMLStringHash working - Crap hash though!
+@
+text
+@a18 5
+#define DEBUGGING 1
+#if DEBUGGING
+#  include <iostream.h>
+#endif
+
+d25 1
+d254 63
+@
+
+
+1.2
+log
+@Added initial, mindless, test for XMLStringHash
+@
+text
+@d19 5
+d40 1
+a40 1
+XMLStringHash::XMLStringHash(int optbucketsize) {
+d46 4
+a49 1
+  m_hysteresis      = 2;                            // To keep from alloc/realloc too often
+d149 5
+a153 2
+  // Return the string
+  *found = curentry->m_string;
+d170 1
+a170 1
+XMLError XMLStringHash::Add(XMLString *string) {
+d185 4
+d194 1
+a194 1
+  curentry = new XMLStringHashEntry(string);
+d300 1
+a300 1
+  
+d307 1
+a307 1
+      if (curentry->m_string == lookfor)
+d309 2
+d313 1
+a313 1
+      result = lookfor->Equals(curentry->m_string,&equals);
+d315 1
+a316 1
+    if (equals) break;
+a356 1
+  int                  doit;                        // "Should we rehash?"
+d365 3
+a367 7
+  doit = 0;
+
+  // If we don't have a hash table and the caller wants one, do it
+  if (m_numbuckets == 0 && newsize > 0)
+    doit = 1;
+  
+  // We have a hash table, see if it's time to resize...
+d369 3
+a371 17
+    
+    // Compute current average bucket size
+    if (m_numentries == 0)
+      bucketsize = 0;
+    else
+      bucketsize = m_numbuckets/m_numentries;
+      
+    // Compute average bucket size if there were 'newsize' entries in it
+    if (newsize > 0)
+      wantbucketsize = 0;
+    else
+      wantbucketsize = m_numbuckets/newsize;
+    
+    // If they're out of limits, do it...
+    if (ABS(bucketsize-wantbucketsize) > m_hysteresis)
+      doit = 1;
+                
+d373 3
+a376 7
+  // Don't do anything if it's not time
+  if (!doit) goto OK;
+    
+  // Compute the new hash table size
+  
+  newbuckets = NextPrime(newsize/m_optbucketsize);
+  
+d378 7
+a384 3
+  result = XMLHeap::Allocate(newbuckets*sizeof(XMLStringHashEntry *),(byte **)&newtable);
+  if (result) goto ERROR;
+  memset((void *)newtable,0,newbuckets*sizeof(XMLStringHashEntry *));
+d399 1
+a399 1
+      result = curentry->m_string->GetHash(&bucket);
+d401 1
+a401 1
+      bucket = bucket%newsize;
+d419 1
+a419 1
+  m_numbuckets = newsize;
+d445 1
+d456 4
+a459 1
+//  will be destroyed.
+d461 1
+a461 1
+XMLStringHashEntry::XMLStringHashEntry(XMLString *string) {
+d464 6
+a469 1
+  m_string    = string;
+d473 2
+a474 2
+  if (m_string)
+    delete m_string;
+d477 4
+d493 1
+a493 1
+  if (m_nextentry) {
+a494 2
+    m_nextentry = NULL;
+  }
+d497 1
+a497 1
+  else {
+d499 2
+a500 2
+    m_preventry = NULL;
+  }
+@
+
+
+1.1
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d182 2
+@
+

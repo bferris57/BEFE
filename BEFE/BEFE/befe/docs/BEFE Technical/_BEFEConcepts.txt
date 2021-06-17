@@ -1,0 +1,414 @@
+Header...
+BEFE Base (Foundation) Concepts
+...Header
+
+Defines...
+<BEFE Foundation>
+...Defines
+
+-----------------------------------------------------------------------
+BEFE is a conceptual framework, or conceptual <Foundation>.  This
+document describes the basic atomic concepts and tools of expression
+and implementation available within the framework.
+
+Once you fully understand these basic <Foundation Concepts>, how they
+interact, and the <Limits> or <Restrictions> they impose, and armed
+with the powerful expression and implementation ability they provide,
+you can use the BEFE foundation/framework as a skeleton upon which to
+think about, design, build, describe, test, and deliver your sofware
+to the end consumer or, at minimum, to your boss.
+
+Then, if applied properly, you may sit back and enjoy almost any
+software project you wish to, or are will likely to be expected
+to, undertake.
+
+The following is a high level pigeonhole approach we have taken in 
+order to describe various aspects of the BEFE framework...
+
+  o Null
+  o Numbers
+  o Values
+  o Composites
+  o Comparison
+  o Representations and Notations
+  o Distance
+  o Symbols
+  o Identity
+  o Address
+  o Lifecycle
+  o Objects
+  o Classes (Types)
+  o Location
+  o Attributes
+  o References
+  o Sequences
+  o Graphs
+  o Constraints
+  o Operations
+  o Abstraction (Thinking, Design and Specification)
+  o Realisation (Thinking, Development, testing, and delivery, and upgrade)
+
+Each of these topics deserves and, and I hope you will agree, absolutely 
+demand separate detailed attention on their own.
+
+This attention is applied in the subsequent chapters (or hot-links above
+if you are reading this on a computer using a browser or other
+"link aware" application).
+
+Disclaimer: Please be aware that we DO NOT claim our breakdown of these
+            concepts somehow comes with a kind of metaphysical or
+            spiritual assertion of an ABSOLUTE TRUTH!!!
+
+            Instead, being the experienced "feet on the ground" software
+            engineers that we are, we have focused on producing a
+            framework which provides us with a USABLE set of related
+            concepts that, when broken down and expressed in this way,
+            help us to produce software in a much faster and efficient
+            fashion than most of the crap tools given to us when we first
+            started out (or, at least, any that have shown up so far!)
+
+            What else could you ask or expect?
+
+Have fun...
+
+-----------------------------------------------------------------------
+Category specifics   
+-----------------------------------------------------------------------
+
+o Null
+
+  - The unknown
+  - The unspecified
+  - The "can't be bothered to figure out"
+  - IS NULL
+  - IS NOT NULL
+  - The problem with "Equals NULL?" and <Logical Truth>
+
+  Note: This is where we gleefully insert Donald Rumsfeld's 
+        "known knowns, unknown knowns, known unknowns and unknown unknowns"
+        
+o Numbers
+
+  - Positive
+  - Zero
+  - Negative
+  - Prime
+  - Rational
+  - Irrational
+  - Square Root
+  - Absolute value
+  - Real
+  - Imaginary
+  - Complex
+  
+o Values and Value Types
+
+  o Abstract Scalar types
+
+    - Boolean
+    - Bit
+    - Byte
+    - UByte
+    - Short
+    - UShort
+    - Int
+    - UInt
+    - Long
+    - ULong
+    - Time
+    - Id
+    - Address
+    - Reference
+    - Name
+    
+  o Real Scalar types (and "Size")
+
+    - UInt8
+    - Int8
+    - SInt8
+
+    - UInt16
+    - Int16
+    - SInt16
+
+    - UInt32
+    - Int32
+    - SInt32
+
+    - UInt64
+    - Int64
+    - SInt64
+    
+    - Pointer
+    
+  o Abstract Composite types (and "Length")
+
+    - Number
+    - String
+    - Array
+    - Sparse
+    - Buffer
+    - Strings
+    - Bytes
+    - Shorts
+    - Chars
+    - Ints
+    - Longs
+    
+  o The "Null" value and type
+
+o Composites
+
+o Comparison
+  
+  - EQUALS
+  - etc.
+  
+o Representations and Notations
+
+  o Historical
+    - Cave painting
+    o Number bases
+      - Base 1?
+      - Decimal notation
+      - Sign
+      - Exponent
+    - Alphabets
+    - Letter case
+    - Glyphs
+    - Monentary
+    - Units (" and ', time, etc.)
+
+  o Computer historical...
+    o Notation
+  
+  o Then others...
+  
+o Distance
+
+  - Size
+  - Length
+  - Scale
+  - Units
+
+o Symbol
+
+  - Null
+  - Boolean
+  - Char
+  - Number
+  - String
+  - Unit
+  - Scale (relative Size)
+  - Length (in Units)
+
+o Identity
+  
+  - IS
+  - Identity and Time
+  - Id Spaces
+  
+o Location
+
+  o Symbolic
+    - @
+  
+  o Addresses
+
+    - Address Spaces
+      - Range Limits
+
+    - Pointers
+      - &
+      - *
+
+    - Unsigned
+    - Absolute
+
+  o Indexes
+
+    - Signed
+    - Relative
+      - Current Position
+      - Beginning
+      - End (mention negative Slices here)
+    - Sparse
+        Note: this is where the Gertrude Stein "there was no there there" quote goes
+
+  o Location indicaters
+      Note: Fuzzy location like "somewhere in or around here"
+    - IN
+    - CONTAINS
+     
+o Lifecycle
+
+  - Start Up
+  - New
+  - Free
+  - Query
+  - Manipulate
+  - Move
+  - Copy
+  - Shut Down
+  
+o Value
+
+o Objects
+
+o Classes (Types)
+
+o Attribute
+
+  - Null attribute
+  - Locational attributes
+  - Named attributes
+  - Order
+
+o Object
+
+  - Identity
+  - Purpose
+    + Abstraction
+    + Specification
+    + Implementation
+
+o Reference
+
+  - Identity
+  - Address
+  - Name
+  - Resolvers
+  - Unresolved
+  
+o Sequences...
+
+  - Array
+  - Sparse
+  - Seq[uence]
+  - Cycle (repeating)
+  - Ring (discarding)
+  - Stack
+  - Enum[eration]
+  
+o Graphs...
+
+  - Node
+  - Link
+    - Unattributed
+    - Attributed
+  - Ordering and Containment
+  - Set (Bag)
+  - Hierarchy
+
+o Constraints
+
+  - Scalar (Limits)
+  - Composite
+  - Set
+  - Existence
+  - Comparitive
+  
+o Operation
+
+  - Value operation
+  - Object operation
+  - Passive
+  - Active non-Invasive
+  - Active Invasive
+
+o Abstraction vs. Realisation (or Specification vs. Implementation)
+
+-----------------------------------------------------------------------
+Abstraction specifics   
+-----------------------------------------------------------------------
+
+o Abstractions...
+    o Null abstractions
+        - Null
+        - NaN
+        - Inf[inity]
+    0 Zero abstractions
+        - Zero
+        - NaN
+        - Inf[inity]
+    o Number abstractions
+        - Natural numbers
+        - Non-negative numbers
+        - Negative numbers
+        - Integers
+        - Floating Point
+    o Number Sign abstractions
+        - Negative Indexing
+        - Relative Addressing
+    o Value abstractions
+    o Address abstractions
+      - Unit
+      - Address
+    o Sequence abstractions and implementations...
+      - Index
+      - Slice
+      - Cycle
+      - Range
+      - Alloc
+      - Enum
+    o Platform
+      - Host
+      - Operating System
+      - Processor
+      - Storage
+        - Memory
+        - File System
+        - Network
+          - Host
+          - Local
+          - Community
+          - Internet        
+  o Realisations/Implementations...
+    o Platform implementations
+    o Null realisations
+      - Null
+      - NaN
+      - Inf[inity]
+    o Zero implementations
+      - One's complement
+      - Two's complement
+      - Address
+      - Id
+    o Number implementations...
+    o Platform implementations...
+
+- Host
+o Operating System
+  + Windows
+  + Unix
+  + Linux
+  + Ubuntu
+  + OS X
+  + Android
+  + Symbian
+- Processor
+o Storage
+  + Memory
+     - Bare
+     - Raw
+     - Thread
+     - Process
+     - Virtual
+     - Shared
+  + File System
+o Network
+  o Local Network
+  o Community Network
+  o Internet
+  o Programming Language
+  o Assembler
+  o C++
+  o Java
+  o Python
+  o JavaScript
+o Application
+  - JVM
+  + Browser
+  - Java
+  - Python
+  - Yours

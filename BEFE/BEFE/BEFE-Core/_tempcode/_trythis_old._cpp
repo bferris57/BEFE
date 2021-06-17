@@ -1,0 +1,158 @@
+/*
+Status trythis() {
+
+  Status      status;
+  IdSpaceInfo info;
+  Strings     strings;
+  String      string;
+  Int         len;
+  Int         i;
+  Id          tempspace;
+
+  if (!TheIdSpace) {
+    Cout << "IdSpace not initialised\n";
+    goto DONE;
+  }
+
+  status = IdSpace::New(String("trythis"),String("trythis's temporary Idspace"),tempspace);
+  if (status) {
+    Cout << "Error calling IdSpace.New: " << ErrorString(status) << endl;
+    goto DONE;
+  }
+  status = IdSpace::CIdInfo(tempspace,info);
+  if (status) {
+    Cout << "Error calling CIdInfo: " << ErrorString(status) << endl;
+    goto DONE;
+  }
+  strings.Clear();
+  ToStrings(info,strings);
+  len = strings.Length();
+  for (i=0;i<len;i++) {
+    string = strings.Get(i);
+    Cout << string << endl;
+  }
+  // Display final IdSpace IdSpace
+  status = IdSpace::CIdInfo(Id(0),info);
+  if (status) {
+    Cout << "Error calling CIdInfo: " << ErrorString(status) << endl;
+    goto DONE;
+  }
+  strings.Clear();
+  ToStrings(info,strings);
+  len = strings.Length();
+  for (i=0;i<len;i++) {
+    string = strings.Get(i);
+    Cout << string << endl;
+  }
+
+DONE:
+
+  return Error::None;
+
+}
+*/
+
+class Counter : public FuelGauge {
+
+public:
+
+  Int lastlen;
+
+  Counter() {Init(0);};
+
+  Counter(Int estimate) {
+    Init(estimate);
+    Cout.flush();
+  }
+
+  ~Counter() {
+    Cout << endl;
+  }
+
+  virtual void Init(Int estimax) {
+    FuelGauge::Init(estimax);
+    if (estimax != 0)
+      Cout << "Counting... 0%";
+    lastlen = 2;
+  };
+
+  virtual void Finish() {
+    Cout << endl;
+    FuelGauge::Finish();
+  };
+
+  virtual void Refresh() {
+
+    Byte buf[10];
+    Int  len;
+    Int  i;
+    Int  val;
+
+    if (count == 0) return;
+    val = (count*100)/max;
+    Itoa((Int)val,buf,10);
+    len = Strlen(buf);
+    for (i=lastlen;i>0;i--)
+      Cout << '\b';
+    Cout << buf << '%';
+    lastlen = len+1;
+    Cout.flush();
+
+  };
+
+};
+
+void countup() {
+
+  Int     i;
+  Counter counter;
+  Long    max;
+
+  max = 100000000;
+  counter.Init(max);
+  for (i=0;i<100000000;i++) {
+    //continue;
+    if (i%65533 == 0)
+      counter.Update(i);
+  }
+  counter.Update(i);
+  counter.Finish();
+  Cout << "Finished!!!\n";
+}
+
+void DiskInfo() {
+
+  Status status;
+  Int    i;
+  String dname;
+  Int    unitsize;
+  Int    csize;
+  Int    nfc;
+  Int    tc;
+  Int    pctfree;
+  Int    pctused;
+
+
+  for (i=0;i<26;i++) {
+    dname.Clear();
+    dname += (Char)(i+'A');
+    dname += ':';
+    status = Win32GetStorageLimits(dname,csize,nfc,tc);
+    if (status) continue;
+    if (tc == 0) {
+      pctfree = 0;
+      pctused = 100;
+    }
+    else {
+      pctfree = nfc*100/tc;
+      pctused = (tc-nfc)*100/tc;
+    }
+    Cout << "Disk '" << dname << "'... \n";
+    Cout << "  Bytes per Unit       = " << csize/StorageUnit::Byte << endl;
+    Cout << "  Number of Free Units = " << nfc << endl;
+    Cout << "  Total Units          = " << tc << endl;
+    Cout << "                  Used = " << pctused << "%\n";
+    Cout << "                  Free = " << pctfree << "%\n";
+  }
+
+}

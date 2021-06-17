@@ -1,0 +1,350 @@
+normalise: 'abc)def'                              = '(abc)def'                             = 'abcdef'
+normalise: '(def'                                 = '(def)'                                = 'def'
+normalise: 'abc)'                                 = '(abc)'                                = 'abc'
+normalise: '(abc|def)ghi(jkl|mno)'                = '(abc|def)ghi(jkl|mno)'                = 'abcghijkl', 'abcghimno', 'defghijkl', 'defghimno'
+normalise: '[(abc|def)ghi(jkl|mno)]'              = '[(abc|def)ghi(jkl|mno)]'              = 'abcghijkl', 'abcghimno', 'defghijkl', 'defghimno', ''
+normalise: ')\\)\\[)([('                          = '(()\\)\\[)([()])'                     = ')['
+normalise: 'e]x[it'                               = '[e]x[it]'                             = 'exit', 'xit', 'ex', 'x'
+normalise: '[e]x[it]'                             = '[e]x[it]'                             = 'exit', 'xit', 'ex', 'x'
+normalise: '[[e]x[it]]'                           = '[[e]x[it]]'                           = 'exit', 'xit', 'ex', 'x', ''
+normalise: 'q[uit]'                               = 'q[uit]'                               = 'quit', 'q'
+normalise: '[e]x[it]|q[uit]'                      = '[e]x[it]|q[uit]'                      = 'exit', 'quit', 'xit', 'ex', 'q', 'x'
+normalise: '[a]b[c]|[a]b[c]|d[e][e]x[it]|q[uit]|' = '[a]b[c]|[a]b[c]|d[e][e]x[it]|q[uit]|' = 'deexit', 'dexit', 'deex', 'dxit', 'quit', 'abc', 'abc', 'dex', 'ab', 'ab', 'bc', 'bc', 'dx', 'b', 'b', 'q', ''
+normalise: 'a|(bc)'                               = 'a|(bc)'                               = 'bc', 'a'
+normalise: 'a|b|c'                                = 'a|b|c'                                = 'a', 'b', 'c'
+normalise: 'a|b|c|'                               = 'a|b|c|'                               = 'a', 'b', 'c', ''
+normalise: '[e]x'                                 = '[e]x'                                 = 'ex', 'x'
+normalise: 'a|b|c'                                = 'a|b|c'                                = 'a', 'b', 'c'
+normalise: '|a|b|c'                               = '|a|b|c'                               = 'a', 'b', 'c', ''
+normalise: 'a|b|c|'                               = 'a|b|c|'                               = 'a', 'b', 'c', ''
+normalise: '|a|b|c'                               = '|a|b|c'                               = 'a', 'b', 'c', ''
+normalise: '(a|b|c|)'                             = '(a|b|c|)'                             = 'a', 'b', 'c', ''
+normalise: '[a|b|c]'                              = '[a|b|c]'                              = 'a', 'b', 'c', ''
+normalise: 'norm[al(ise|ize)]'                    = 'norm[al(ise|ize)]'                    = 'normalise', 'normalize', 'norm'
+normalise: 'normal(ise|ize)'                      = 'normal(ise|ize)'                      = 'normalise', 'normalize'
+normalise: 'empty[[]]braces'                      = 'empty[[]]braces'                      = 'emptybraces'
+normalise: '\\xhi there\\'                        = '\\xhi there\\'                        = 'xhi there'
+normalise: 'e\\[xit\\]|q\\[uit\\]'                = 'e\\[xit\\]|q\\[uit\\]'                = 'e[xit]', 'q[uit]'
+normalise: '[def[ghi]]xxx|jkl'                    = '[def[ghi]]xxx|jkl'                    = 'defghixxx', 'defxxx', 'jkl', 'xxx'
+normalise: '[def[ghi]]xxx|'                       = '[def[ghi]]xxx|'                       = 'defghixxx', 'defxxx', 'xxx', ''
+normalise: '[def[ghi]]xxx'                        = '[def[ghi]]xxx'                        = 'defghixxx', 'defxxx', 'xxx'
+normalise: 'abc[def|ghi]xxx[jkl|mno]'             = 'abc[def|ghi]xxx[jkl|mno]'             = 'abcdefxxxjkl', 'abcdefxxxmno', 'abcghixxxjkl', 'abcghixxxmno', 'abcdefxxx', 'abcghixxx', 'abcxxxjkl', 'abcxxxmno', 'abcxxx'
+normalise: 'abcxxx[jkl|mno]'                      = 'abcxxx[jkl|mno]'                      = 'abcxxxjkl', 'abcxxxmno', 'abcxxx'
+normalise: 'abc[def|ghi]xxx[jkl|mno]|def'         = 'abc[def|ghi]xxx[jkl|mno]|def'         = 'abcdefxxxjkl', 'abcdefxxxmno', 'abcghixxxjkl', 'abcghixxxmno', 'abcdefxxx', 'abcghixxx', 'abcxxxjkl', 'abcxxxmno', 'abcxxx', 'def'
+normalise: 'abc(def|ghi)|jkl(mno|pqr)'            = 'abc(def|ghi)|jkl(mno|pqr)'            = 'abcdef', 'abcghi', 'jklmno', 'jklpqr'
+normalise: 'abc(def|ghi)'                         = 'abc(def|ghi)'                         = 'abcdef', 'abcghi'
+normalise: 'abc[def|ghi]'                         = 'abc[def|ghi]'                         = 'abcdef', 'abcghi', 'abc'
+normalise: 'h[elp]'                               = 'h[elp]'                               = 'help', 'h'
+normalise: 'G[lobal[y]]U[nique]ID[[ent[ifier]]]'  = 'G[lobal[y]]U[nique]ID[[ent[ifier]]]'  = 'GlobalyUniqueIDentifier', 'GlobalUniqueIDentifier', 'GlobalyUIDentifier', 'GlobalyUniqueIDent', 'GUniqueIDentifier', 'GlobalUIDentifier', 'GlobalUniqueIDent', 'GlobalyUniqueID', 'GlobalUniqueID', 'GlobalyUIDent', 'GUIDentifier', 'GUniqueIDent', 'GlobalUIDent', 'GlobalyUID', 'GUniqueID', 'GlobalUID', 'GUIDent', 'GUID'
+normalise: 'U[niversal]T[ext]F[ormat][[-]8]'      = 'U[niversal]T[ext]F[ormat][[-]8]'      = 'UniversalTextFormat-8', 'UniversalTextFormat8', 'UniversalTextFormat', 'UniversalTFormat-8', 'UniversalTFormat8', 'UniversalTFormat', 'UniversalTextF-8', 'UniversalTextF8', 'UniversalTextF', 'UTextFormat-8', 'UniversalTF-8', 'UTextFormat8', 'UniversalTF8', 'UTextFormat', 'UniversalTF', 'UTFormat-8', 'UTFormat8', 'UTFormat', 'UTextF-8', 'UTextF8', 'UTextF', 'UTF-8', 'UTF8', 'UTF'
+normalise: 'Enc[rypt][F[ile]]'                    = 'Enc[rypt][F[ile]]'                    = 'EncryptFile', 'EncryptF', 'EncFile', 'Encrypt', 'EncF', 'Enc'
+normalise: 'a[[[b][c]][d][[e][f]]]'               = 'a[[[b][c]][d][[e][f]]]'               = 'abcdef', 'abcde', 'abcdf', 'abcef', 'abdef', 'acdef', 'abcd', 'abce', 'abcf', 'abde', 'abdf', 'abef', 'acde', 'acdf', 'acef', 'adef', 'abc', 'abd', 'abe', 'abf', 'acd', 'ace', 'acf', 'ade', 'adf', 'aef', 'ab', 'ac', 'ad', 'ae', 'af', 'a'
+normalise: 'A[b[c[d]]]E[f][g]'                    = 'A[b[c[d]]]E[f][g]'                    = 'AbcdEfg', 'AbcEfg', 'AbcdEf', 'AbcdEg', 'AbEfg', 'AbcEf', 'AbcEg', 'AbcdE', 'AEfg', 'AbEf', 'AbEg', 'AbcE', 'AEf', 'AEg', 'AbE', 'AE'
+normalise: '[[a][b][[c][d]]]'                     = '[[a][b][[c][d]]]'                     = 'abcd', 'abc', 'abd', 'acd', 'bcd', 'ab', 'ac', 'ad', 'bc', 'bd', 'cd', 'a', 'b', 'c', 'd', ''
+normalise: 'a[b[c[d[e[f[g][h]]]]]]'               = 'a[b[c[d[e[f[g][h]]]]]]'               = 'abcdefgh', 'abcdefg', 'abcdefh', 'abcdef', 'abcde', 'abcd', 'abc', 'ab', 'a'
+normalise: 'a[[[[[[b]c]d]e]f]g]'                  = 'a[[[[[[b]c]d]e]f]g]'                  = 'abcdefg', 'acdefg', 'adefg', 'aefg', 'afg', 'ag', 'a'
+normalise: '[[abc]d[efg]]TOP[[h[i]]]'             = '[[abc]d[efg]]TOP[[h[i]]]'             = 'abcdefgTOPhi', 'abcdefgTOPh', 'abcdefgTOP', 'abcdTOPhi', 'defgTOPhi', 'abcdTOPh', 'defgTOPh', 'abcdTOP', 'defgTOP', 'dTOPhi', 'TOPhi', 'dTOPh', 'TOPh', 'dTOP', 'TOP'
+normalise: '[[[[[[[a]b]c]d]e]f]g]h'               = '[[[[[[[a]b]c]d]e]f]g]h'               = 'abcdefgh', 'bcdefgh', 'cdefgh', 'defgh', 'efgh', 'fgh', 'gh', 'h'
+normalise: 'cross[-]ref([erenc][ed])'             = 'cross[-]ref([erenc][ed])'             = 'cross-referenced', 'crossreferenced', 'cross-referenc', 'crossreferenc', 'cross-refed', 'crossrefed', 'cross-ref', 'crossref'
+***Testing MinExp...
+    MinExp ►abc)def◄...
+
+      Normalised: ►(abc)def◄
+      
+       Match[0] = ►abcdef◄
+
+    MinExp ►(def◄...
+
+      Normalised: ►(def)◄
+      
+       Match[0] = ►def◄
+
+    MinExp ►abc)◄...
+
+      Normalised: ►(abc)◄
+      
+       Match[0] = ►abc◄
+
+    MinExp ►[abc|bca)def(ghi|jkl◄...
+
+      Normalised: ►[(abc|bca)def(ghi|jkl)]◄
+      
+       Match[0] = ►abcdefghi◄
+       Match[1] = ►abcdefjkl◄
+       Match[2] = ►bcadefghi◄
+       Match[3] = ►bcadefjkl◄
+       Match[4] = ►◄
+
+    MinExp ►(abc|def)ghi(jkl|mno)◄...
+
+      Normalised: ►(abc|def)ghi(jkl|mno)◄
+      
+       Match[0] = ►abcghijkl◄
+       Match[1] = ►abcghimno◄
+       Match[2] = ►defghijkl◄
+       Match[3] = ►defghimno◄
+
+    MinExp ►)\)\[)([(◄...
+
+      Normalised: ►(()\)\[)([()])◄
+      
+       Match[0] = ►)[◄
+
+    MinExp ►e]x[it◄...
+
+      Normalised: ►[e]x[it]◄
+      
+       Match[0] = ►exit◄
+       Match[1] = ►xit◄
+       Match[2] = ►ex◄
+       Match[3] = ►x◄
+
+    MinExp ►[e]x[it]◄...
+
+      Normalised: ►[e]x[it]◄
+      
+       Match[0] = ►exit◄
+       Match[1] = ►xit◄
+       Match[2] = ►ex◄
+       Match[3] = ►x◄
+
+    MinExp ►q[uit]◄...
+
+      Normalised: ►q[uit]◄
+      
+       Match[0] = ►quit◄
+       Match[1] = ►q◄
+
+    MinExp ►[e]x[it]|q[uit]◄...
+
+      Normalised: ►[e]x[it]|q[uit]◄
+      
+       Match[0] = ►exit◄
+       Match[1] = ►quit◄
+       Match[2] = ►xit◄
+       Match[3] = ►ex◄
+       Match[4] = ►q◄
+       Match[5] = ►x◄
+
+    MinExp ►[e]x[it]|q[uit]|◄...
+
+      Normalised: ►[e]x[it]|q[uit]|◄
+      
+       Match[0] = ►exit◄
+       Match[1] = ►quit◄
+       Match[2] = ►xit◄
+       Match[3] = ►ex◄
+       Match[4] = ►q◄
+       Match[5] = ►x◄
+       Match[6] = ►◄
+
+    MinExp ►a|(bc)◄...
+
+      Normalised: ►a|(bc)◄
+      
+       Match[0] = ►bc◄
+       Match[1] = ►a◄
+
+    MinExp ►[e]x◄...
+
+      Normalised: ►[e]x◄
+      
+       Match[0] = ►ex◄
+       Match[1] = ►x◄
+
+    MinExp ►a|b|c◄...
+
+      Normalised: ►a|b|c◄
+      
+       Match[0] = ►a◄
+       Match[1] = ►b◄
+       Match[2] = ►c◄
+
+    MinExp ►|a|b|c◄...
+
+      Normalised: ►|a|b|c◄
+      
+       Match[0] = ►a◄
+       Match[1] = ►b◄
+       Match[2] = ►c◄
+       Match[3] = ►◄
+
+    MinExp ►a|b|c|◄...
+
+      Normalised: ►a|b|c|◄
+      
+       Match[0] = ►a◄
+       Match[1] = ►b◄
+       Match[2] = ►c◄
+       Match[3] = ►◄
+
+    MinExp ►(a|b|c|)◄...
+
+      Normalised: ►(a|b|c|)◄
+      
+       Match[0] = ►a◄
+       Match[1] = ►b◄
+       Match[2] = ►c◄
+       Match[3] = ►◄
+
+    MinExp ►norm[al(ise|ize)]◄...
+
+      Normalised: ►norm[al(ise|ize)]◄
+      
+       Match[0] = ►normalise◄
+       Match[1] = ►normalize◄
+       Match[2] = ►norm◄
+
+    MinExp ►normal(ise|ize)◄...
+
+      Normalised: ►normal(ise|ize)◄
+      
+       Match[0] = ►normalise◄
+       Match[1] = ►normalize◄
+
+    MinExp ►empty[[]]braces◄...
+
+      Normalised: ►empty[[]]braces◄
+      
+       Match[0] = ►emptybraces◄
+
+    MinExp ►\xhi there\◄...
+
+      Normalised: ►\xhi there\◄
+      
+       Match[0] = ►xhi there◄
+
+    MinExp ►e\[xit\]|q\[uit\]◄...
+
+      Normalised: ►e\[xit\]|q\[uit\]◄
+      
+       Match[0] = ►e[xit]◄
+       Match[1] = ►q[uit]◄
+
+    MinExp ►[def[ghi]]xxx|jkl◄...
+
+      Normalised: ►[def[ghi]]xxx|jkl◄
+      
+       Match[0] = ►defghixxx◄
+       Match[1] = ►defxxx◄
+       Match[2] = ►jkl◄
+       Match[3] = ►xxx◄
+
+    MinExp ►[def[ghi]]xxx|◄...
+
+      Normalised: ►[def[ghi]]xxx|◄
+      
+       Match[0] = ►defghixxx◄
+       Match[1] = ►defxxx◄
+       Match[2] = ►xxx◄
+       Match[3] = ►◄
+
+    MinExp ►[def[ghi]]xxx◄...
+
+      Normalised: ►[def[ghi]]xxx◄
+      
+       Match[0] = ►defghixxx◄
+       Match[1] = ►defxxx◄
+       Match[2] = ►xxx◄
+
+    MinExp ►abc[def|ghi]xxx[jkl|mno]◄...
+
+      Normalised: ►abc[def|ghi]xxx[jkl|mno]◄
+      
+       Match[0] = ►abcdefxxxjkl◄
+       Match[1] = ►abcdefxxxmno◄
+       Match[2] = ►abcghixxxjkl◄
+       Match[3] = ►abcghixxxmno◄
+       Match[4] = ►abcdefxxx◄
+       Match[5] = ►abcghixxx◄
+       Match[6] = ►abcxxxjkl◄
+       Match[7] = ►abcxxxmno◄
+       Match[8] = ►abcxxx◄
+
+    MinExp ►abcxxx[jkl|mno]◄...
+
+      Normalised: ►abcxxx[jkl|mno]◄
+      
+       Match[0] = ►abcxxxjkl◄
+       Match[1] = ►abcxxxmno◄
+       Match[2] = ►abcxxx◄
+
+    MinExp ►abc[def|ghi]xxx[jkl|mno]|def◄...
+
+      Normalised: ►abc[def|ghi]xxx[jkl|mno]|def◄
+      
+       Match[0] = ►abcdefxxxjkl◄
+       Match[1] = ►abcdefxxxmno◄
+       Match[2] = ►abcghixxxjkl◄
+       Match[3] = ►abcghixxxmno◄
+       Match[4] = ►abcdefxxx◄
+       Match[5] = ►abcghixxx◄
+       Match[6] = ►abcxxxjkl◄
+       Match[7] = ►abcxxxmno◄
+       Match[8] = ►abcxxx◄
+       Match[9] = ►def◄
+
+    MinExp ►abc(def|ghi)|jkl(mno|pqr)◄...
+
+      Normalised: ►abc(def|ghi)|jkl(mno|pqr)◄
+      
+       Match[0] = ►abcdef◄
+       Match[1] = ►abcghi◄
+       Match[2] = ►jklmno◄
+       Match[3] = ►jklpqr◄
+
+    MinExp ►abc(def|ghi)◄...
+
+      Normalised: ►abc(def|ghi)◄
+      
+       Match[0] = ►abcdef◄
+       Match[1] = ►abcghi◄
+
+    MinExp ►abc[def|ghi]◄...
+
+      Normalised: ►abc[def|ghi]◄
+      
+       Match[0] = ►abcdef◄
+       Match[1] = ►abcghi◄
+       Match[2] = ►abc◄
+
+    MinExp ►a[b[c[d[e[f[g][h]]]]]]◄...
+
+      Normalised: ►a[b[c[d[e[f[g][h]]]]]]◄
+      
+       Match[0] = ►abcdefgh◄
+       Match[1] = ►abcdefg◄
+       Match[2] = ►abcdefh◄
+       Match[3] = ►abcdef◄
+       Match[4] = ►abcde◄
+       Match[5] = ►abcd◄
+       Match[6] = ►abc◄
+       Match[7] = ►ab◄
+       Match[8] = ►a◄
+
+    MinExp ►[[[[[[[a]b]c]d]e]f]g]h◄...
+
+      Normalised: ►[[[[[[[a]b]c]d]e]f]g]h◄
+      
+       Match[0] = ►abcdefgh◄
+       Match[1] = ►bcdefgh◄
+       Match[2] = ►cdefgh◄
+       Match[3] = ►defgh◄
+       Match[4] = ►efgh◄
+       Match[5] = ►fgh◄
+       Match[6] = ►gh◄
+       Match[7] = ►h◄
+
+    MinExp ►cross[-]ref([erenc][ed])◄...
+
+      Normalised: ►cross[-]ref([erenc][ed])◄
+      
+       Match[0] = ►cross-referenced◄
+       Match[1] = ►crossreferenced◄
+       Match[2] = ►cross-referenc◄
+       Match[3] = ►crossreferenc◄
+       Match[4] = ►cross-refed◄
+       Match[5] = ►crossrefed◄
+       Match[6] = ►cross-ref◄
+       Match[7] = ►crossref◄
+

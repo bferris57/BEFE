@@ -1,0 +1,77 @@
+//----------------------------------------------------------------------
+// File: BuildLex.h - Declarations for Build Lexical Processing
+//----------------------------------------------------------------------
+//
+// The BuildToken Class identifies a specific occurance of a recognised
+// BEFE Build declaration lexical token.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK), all rights reserved
+//----------------------------------------------------------------------
+#ifndef BUILDLEX_H // BUILDLEX_H...
+#define BUILDLEX_H
+
+#include "Primitives.h"
+#include "LexToken.h"
+
+namespace BEF_NS { // Namespace BEF_NS...
+
+//----------------------------------------------------------------------
+//
+// BuildToken Class - Build Lexical Token
+//
+
+struct BuildToken {
+
+  // BuildToken token type...
+  enum {
+    TypeNull,
+    TypeError,
+    TypeWarning,
+    TypeBeginList,
+    TypeEndList,
+    TypePath,
+    NumTypes
+  };
+  
+  // Members
+  UInt   type;      // Token type (see above)
+  Status errorNo;   // ◄── Only if type is TypeError or TypeWarning
+  UInt   lineNo;    // Line number (0..N-1)
+  UInt   numLines;  // Number of "hidden EOL characters" in this Token
+  Range  range;     // Token Range (Char index in line)
+  
+  // Methods
+  BuildToken() {
+    type     = TypeNull;
+    errorNo  = Error::None;
+    lineNo   = 0;
+    numLines = 0;
+    range    = Range();
+  }
+  
+};
+
+//----------------------------------------------------------------------
+//
+// Typedefs...
+//
+
+typedef ArrayPrimitive<BuildToken> BuildTokens; // Array of BuildTokens
+
+//----------------------------------------------------------------------
+//
+// Functions...
+//
+
+Status BuildParse(String const  &input,
+                  LexTokens     &lexToks,
+                  BuildTokens   &bldToks,
+                  UInt          &numLines,
+                  UInt          &numErrors);
+
+} // ...Namespace BEF_NS
+
+#endif // ...BUILDLEX_H

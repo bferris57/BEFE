@@ -1,0 +1,22 @@
+#
+# Got this from somewhere: BNF described in BNF
+#
+# Probably bollocks but it's somewhere to start
+#
+
+# bferris: Had to add any_character...
+any_character ::= 0x00..0x7f
+digit         ::= '0'..'9'
+
+letter     ::= ("<>_") | 'a'..'z' | 'A'..'Z' 
+syntax     ::=  ( rule )
+rule       ::=  identifier  "::="  expression
+expression ::=  term ( "|" term )
+term       ::=  factor ( factor )
+factor     ::=  identifier |
+                quoted_symbol |
+                "("  expression  ")" |
+                "["  expression  "]" |
+                "{"  expression  "}"
+identifier ::=  letter ( letter | digit )
+quoted_symbol ::= """ ( <any_character> ) """ | ''' ( any_character ) '''

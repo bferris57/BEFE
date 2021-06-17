@@ -1,0 +1,111 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.4
+date	2002.11.04.06.15.10;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.24.05.28.23;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.17.04.41.11;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.16.04.49.07;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@Created HTMLTidy exe, redid how compile/link works
+@
+text
+@@@echo off
+rem
+rem FILE
+rem
+rem   compile.bat - Compile n source files
+rem
+rem USAGE
+rem
+rem   compile <subdir> <file> [<file> [...]
+rem
+rem   Where: <subdir> - Sub-directory where the file is
+rem          <file>   - File's name (without the .cpp)
+rem
+
+rem Linker options
+set COPTS=-c -v -Ixml;general;txml
+
+rem Get the subdir
+:START
+  if "%1." == "." goto USAGE
+  set subdir=%1%
+  shift
+  if "%1." == "." goto USAGE
+:AGAIN
+
+  bcc32 %COPTS% -o%subdir%\obj\%1.obj %subdir%\%1.cpp
+  shift
+  if "%1." == "." goto DONE
+  goto AGAIN
+  
+:USAGE
+
+  echo Usage: compile subdir file [file [...]
+  echo .
+  echo Where: subdir - Sub-directory where file is
+  echo        file   - File name (without .cpp extension or path)
+  
+:DONE
+
+@
+
+
+1.3
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d26 1
+a26 1
+  bcc32 %COPTS% -oobj\%1.obj %subdir%\%1.cpp
+@
+
+
+1.2
+log
+@Fixed COPTS in compile.bat
+@
+text
+@d16 1
+a16 1
+set COPTS=-c -v -Ixml;general
+@
+
+
+1.1
+log
+@Changed makeall to use compile.bat
+@
+text
+@d16 1
+a16 1
+set LOPTS=-v -M-
+@
+

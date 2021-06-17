@@ -1,0 +1,2200 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2002.11.03.08.24.56;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.newbold.ac.uk/newsite/academic_prog/ba_humanities.htm -->
+<HTML><HEAD><TITLE>BA Humanities</TITLE>
+<META http-equiv=Content-Language content=en-gb>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId>
+<META content="newbold 011" name="Microsoft Theme">
+<META content="none, default" name="Microsoft Border"></HEAD>
+<BODY text=#000000 vLink=#000000 aLink=#000000 link=#000000 bgColor=#ffffff 
+leftMargin=0 background=sample_files/background.gif topMargin=0 marginheight="0" 
+marginwidth="0"><!--mstheme--><FONT face=Arial><!--mstheme--></FONT>
+<TABLE cellSpacing=0 cellPadding=0 width=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width=204 bgColor=#00339f height=162><!--mstheme--><FONT 
+      face=Arial><FONT size=2><IMG height=160 hspace=0 
+      src="sample_files/logo.gif" width=202 
+      align=left></FONT><!--mstheme--></FONT></TD>
+    <TD align=middle bgColor=#00339f height=162><!--mstheme--><FONT 
+face=Arial><!--webbot bot="Navigation" S-Type="banner" S-Rendering S-Orientation
+        B-Include-Home B-Include-Up U-Page S-Target startspan --><IMG 
+      height=60 alt="BA Humanities" 
+      src="sample_files/ba_humanities.htm_cmp_newbold010_bnr.gif" width=400 
+      border=0><!--webbot bot="Navigation" i-checksum="54233" endspan --> 
+      <P align=center><B><FONT color=#ffcc00 size=2><!--webbot bot="Navigation"
+        S-Type="top" S-Orientation="horizontal" S-Rendering="text"
+        B-Include-Home="TRUE" B-Include-Up="FALSE" U-Page S-Target startspan --><NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/index.html" target=""><FONT 
+      color=#ffcc00 size=2>Home</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/about/about_newbold.htm" 
+      target=""><FONT color=#ffcc00 
+      size=2>About&nbsp;Newbold</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/academic_dept/academic_departments.htm" 
+      target=""><FONT color=#ffcc00 
+      size=2>Academic&nbsp;Departments</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/academic_prog/prospectus.htm" 
+      target=""><FONT color=#ffcc00 
+      size=2>Academic&nbsp;Programmes</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/academic_sched/academic_information.htm" 
+      target=""><FONT color=#ffcc00 
+      size=2>Academic&nbsp;Schedules</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/admissions/admissions.htm" 
+      target=""><FONT color=#ffcc00 size=2>Admissions</FONT></A>&nbsp;]</NOBR> 
+      <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/curstudents/current_students.htm" 
+      target=""><FONT color=#ffcc00 
+      size=2>Current&nbsp;Students</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/futstudents/future_students.htm" 
+      target=""><FONT color=#ffcc00 
+      size=2>Future&nbsp;Students</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/scheng/english_language.htm" 
+      target=""><FONT color=#ffcc00 
+      size=2>English&nbsp;Language</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/finance/finance.htm" 
+      target=""><FONT color=#ffcc00 size=2>Finance</FONT></A>&nbsp;]</NOBR> 
+      <NOBR>[&nbsp;<A href="http://www.newbold.ac.uk/library" target=""><FONT 
+      color=#ffcc00 size=2>Library</FONT></A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+      href="http://www.newbold.ac.uk/newsite/searchandmap.htm" target=""><FONT 
+      color=#ffcc00 
+      size=2>Site&nbsp;Map&nbsp;and&nbsp;Search</FONT></A>&nbsp;]</NOBR> 
+      <NOBR>[&nbsp;<A href="http://www.newbold.ac.uk/newsite/about/visitors.htm" 
+      target=""><FONT color=#ffcc00 size=2>Visitors</FONT></A>&nbsp;]</NOBR><!--webbot bot="Navigation" i-checksum="51196" endspan --> 
+      </FONT></B><!--mstheme--></FONT></P></TD></TR>
+  <TR>
+    <TD vAlign=top width=204 height=1><!--mstheme--><FONT face=Arial><FONT 
+      size=2>&nbsp;</FONT> <!--mstheme--></FONT></TD>
+    <TD vAlign=top width=623 height=1><!--mstheme--><FONT face=Arial><!--mstheme--></FONT></TD></TR>
+  <TR>
+    <TD vAlign=top width=204><!--mstheme--><FONT face=Arial>
+      <DIV align=left><!--mstheme--></FONT>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD align=left width="100%" height=24><!--mstheme--><FONT 
+face=Arial>
+            <P align=center><B><FONT size=2><!--webbot bot="Navigation"
+                S-Type="arrows" S-Orientation="horizontal" S-Rendering="text"
+                B-Include-Home="FALSE" B-Include-Up="TRUE" U-Page S-Target startspan --><NOBR>[&nbsp;<A 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/summary_of_degrees.htm" 
+            target="">Back</A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/2002-2003_bulletin.htm" 
+            target="">Up</A>&nbsp;]</NOBR> <NOBR>[&nbsp;<A 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_bibical_&amp;_pastoral.htm" 
+            target="">Next</A>&nbsp;]</NOBR><!--webbot bot="Navigation" i-checksum="30445" endspan --> 
+            </FONT></B><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD align=left width="100%"><!--mstheme--><FONT face=Arial>
+            <P align=center><!--webbot bot="Navigation"
+                        S-Type="siblings" S-Orientation="vertical"
+                        S-Rendering="graphics" B-Include-Home="FALSE"
+                        B-Include-Up="FALSE" U-Page S-Target startspan -->
+            <SCRIPT language=JavaScript><!--
+MSFPhover = 
+  (((navigator.appName == "Netscape") && 
+  (parseInt(navigator.appVersion) >= 3 )) || 
+  ((navigator.appName == "Microsoft Internet Explorer") && 
+  (parseInt(navigator.appVersion) >= 4 ))); 
+function MSFPpreload(img) 
+{
+  var a=new Image(); a.src=img; return a; 
+}
+// --></SCRIPT>
+
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav1n=MSFPpreload("_derived/summary_of_degrees.htm_cmp_newbold010_vbtn.gif"); MSFPnav1h=MSFPpreload("_derived/summary_of_degrees.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav1'].src=MSFPnav1h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav1'].src=MSFPnav1n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/summary_of_degrees.htm"><IMG 
+            height=40 alt="Overview of ug degrees" 
+            src="sample_files/summary_of_degrees.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav1></A><BR><IMG height=40 
+            alt="BA Humanities" 
+            src="sample_files/ba_humanities.htm_cmp_newbold010_vbtn_p.gif" 
+            width=140 border=0><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav2n=MSFPpreload("_derived/ba_bibical_&_pastoral.htm_cmp_newbold010_vbtn.gif"); MSFPnav2h=MSFPpreload("_derived/ba_bibical_&_pastoral.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav2'].src=MSFPnav2h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav2'].src=MSFPnav2n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_bibical_&amp;_pastoral.htm"><IMG 
+            height=40 alt="BA Bibical &amp; Pastoral" 
+            src="sample_files/ba_bibical_&amp;_pastoral.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav2></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav3n=MSFPpreload("_derived/ANDY.htm_cmp_newbold010_vbtn.gif"); MSFPnav3h=MSFPpreload("_derived/ANDY.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav3'].src=MSFPnav3h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav3'].src=MSFPnav3n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ANDY.htm"><IMG 
+            height=40 alt="General Subjects" 
+            src="sample_files/ANDY.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav3></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav4n=MSFPpreload("_derived/au_module_descriptors.htm_cmp_newbold010_vbtn.gif"); MSFPnav4h=MSFPpreload("_derived/au_module_descriptors.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav4'].src=MSFPnav4h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav4'].src=MSFPnav4n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/au_module_descriptors.htm"><IMG 
+            height=40 alt="AU module descriptions" 
+            src="sample_files/au_module_descriptors.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav4></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav5n=MSFPpreload("_derived/ba_english.htm_cmp_newbold010_vbtn.gif"); MSFPnav5h=MSFPpreload("_derived/ba_english.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav5'].src=MSFPnav5h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav5'].src=MSFPnav5n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_english.htm"><IMG 
+            height=40 alt="BA English Major" 
+            src="sample_files/ba_english.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav5></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav6n=MSFPpreload("_derived/ba_english_minor.htm_cmp_newbold010_vbtn.gif"); MSFPnav6h=MSFPpreload("_derived/ba_english_minor.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav6'].src=MSFPnav6h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav6'].src=MSFPnav6n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_english_minor.htm"><IMG 
+            height=40 alt="BA English Minor" 
+            src="sample_files/ba_english_minor.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav6></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav7n=MSFPpreload("_derived/ba_history.htm_cmp_newbold010_vbtn.gif"); MSFPnav7h=MSFPpreload("_derived/ba_history.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav7'].src=MSFPnav7h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav7'].src=MSFPnav7n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_history.htm"><IMG 
+            height=40 alt="BA History Major" 
+            src="sample_files/ba_history.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav7></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav8n=MSFPpreload("_derived/ba_hist_min.htm_cmp_newbold010_vbtn.gif"); MSFPnav8h=MSFPpreload("_derived/ba_hist_min.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav8'].src=MSFPnav8h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav8'].src=MSFPnav8n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_hist_min.htm"><IMG 
+            height=40 alt="BA History Minor" 
+            src="sample_files/ba_hist_min.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav8></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav9n=MSFPpreload("_derived/ba_islamic studs.htm_cmp_newbold010_vbtn.gif"); MSFPnav9h=MSFPpreload("_derived/ba_islamic studs.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav9'].src=MSFPnav9h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav9'].src=MSFPnav9n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_islamic%20studs.htm"><IMG 
+            height=40 alt="BA Islamic Studies Major" 
+            src="sample_files/ba_islamic%20studs.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav9></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav10n=MSFPpreload("_derived/ba_comm_minor.htm_cmp_newbold010_vbtn.gif"); MSFPnav10h=MSFPpreload("_derived/ba_comm_minor.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav10'].src=MSFPnav10h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav10'].src=MSFPnav10n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_comm_minor.htm"><IMG 
+            height=40 alt="BA Communication Minor" 
+            src="sample_files/ba_comm_minor.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav10></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav11n=MSFPpreload("_derived/ba_music.htm_cmp_newbold010_vbtn.gif"); MSFPnav11h=MSFPpreload("_derived/ba_music.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav11'].src=MSFPnav11h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav11'].src=MSFPnav11n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_music.htm"><IMG 
+            height=40 alt="BA Music Minor" 
+            src="sample_files/ba_music.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav11></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav12n=MSFPpreload("_derived/ba_religion_minor.htm_cmp_newbold010_vbtn.gif"); MSFPnav12h=MSFPpreload("_derived/ba_religion_minor.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav12'].src=MSFPnav12h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav12'].src=MSFPnav12n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_religion_minor.htm"><IMG 
+            height=40 alt="BA Religion Minor" 
+            src="sample_files/ba_religion_minor.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav12></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav13n=MSFPpreload("_derived/ba_tefl_minor.htm_cmp_newbold010_vbtn.gif"); MSFPnav13h=MSFPpreload("_derived/ba_tefl_minor.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav13'].src=MSFPnav13h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav13'].src=MSFPnav13n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_tefl_minor.htm"><IMG 
+            height=40 alt="BA TEFL Minor" 
+            src="sample_files/ba_tefl_minor.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav13></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav14n=MSFPpreload("_derived/bs_accounting_manage.htm_cmp_newbold010_vbtn.gif"); MSFPnav14h=MSFPpreload("_derived/bs_accounting_manage.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav14'].src=MSFPnav14h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav14'].src=MSFPnav14n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/bs_accounting_manage.htm"><IMG 
+            height=40 alt="BS Account. &amp; Manag." 
+            src="sample_files/bs_accounting_manage.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav14></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav15n=MSFPpreload("_derived/bess_degree.htm_cmp_newbold010_vbtn.gif"); MSFPnav15h=MSFPpreload("_derived/bess_degree.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav15'].src=MSFPnav15h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav15'].src=MSFPnav15n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/bess_degree.htm"><IMG 
+            height=40 alt="BS Behavioural Sc. Major" 
+            src="sample_files/bess_degree.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav15></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav16n=MSFPpreload("_derived/ba_behsci_minor.htm_cmp_newbold010_vbtn.gif"); MSFPnav16h=MSFPpreload("_derived/ba_behsci_minor.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav16'].src=MSFPnav16h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav16'].src=MSFPnav16n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ba_behsci_minor.htm"><IMG 
+            height=40 alt="BS Behavioural Sci. Minor" 
+            src="sample_files/ba_behsci_minor.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav16></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav17n=MSFPpreload("_derived/ma_degrees.htm_cmp_newbold010_vbtn.gif"); MSFPnav17h=MSFPpreload("_derived/ma_degrees.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav17'].src=MSFPnav17h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav17'].src=MSFPnav17n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ma_degrees.htm"><IMG 
+            height=40 alt="MA Degrees" 
+            src="sample_files/ma_degrees.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav17></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav18n=MSFPpreload("_derived/english_as_a_foreign_lang_.htm_cmp_newbold010_vbtn.gif"); MSFPnav18h=MSFPpreload("_derived/english_as_a_foreign_lang_.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav18'].src=MSFPnav18h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav18'].src=MSFPnav18n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/english_as_a_foreign_lang_.htm"><IMG 
+            height=40 alt="English/Foreign Language" 
+            src="sample_files/english_as_a_foreign_lang_.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav18></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav19n=MSFPpreload("_derived/diploma_islamstud.htm_cmp_newbold010_vbtn.gif"); MSFPnav19h=MSFPpreload("_derived/diploma_islamstud.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav19'].src=MSFPnav19h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav19'].src=MSFPnav19n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/diploma_islamstud.htm"><IMG 
+            height=40 alt="Certificate Islamic Studies" 
+            src="sample_files/diploma_islamstud.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav19></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav20n=MSFPpreload("_derived/ccounselling.htm_cmp_newbold010_vbtn.gif"); MSFPnav20h=MSFPpreload("_derived/ccounselling.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav20'].src=MSFPnav20h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav20'].src=MSFPnav20n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/ccounselling.htm"><IMG 
+            height=40 alt="Christian Counselling" 
+            src="sample_files/ccounselling.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav20></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav21n=MSFPpreload("_derived/dip_bus.htm_cmp_newbold010_vbtn.gif"); MSFPnav21h=MSFPpreload("_derived/dip_bus.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav21'].src=MSFPnav21h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav21'].src=MSFPnav21n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/dip_bus.htm"><IMG 
+            height=40 alt="Diploma in Business" 
+            src="sample_files/dip_bus.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav21></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav22n=MSFPpreload("_derived/Cert_craps.htm_cmp_newbold010_vbtn.gif"); MSFPnav22h=MSFPpreload("_derived/Cert_craps.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav22'].src=MSFPnav22h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav22'].src=MSFPnav22n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/Cert_craps.htm"><IMG 
+            height=40 alt="Religious &amp; Pastoral Dip." 
+            src="sample_files/Cert_craps.htm_cmp_newbold010_vbtn.gif" width=140 
+            border=0 name=MSFPnav22></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav23n=MSFPpreload("_derived/admission_requirements.htm_cmp_newbold010_vbtn.gif"); MSFPnav23h=MSFPpreload("_derived/admission_requirements.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav23'].src=MSFPnav23h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav23'].src=MSFPnav23n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/admission_requirements.htm"><IMG 
+            height=40 alt="Admission Requirements" 
+            src="sample_files/admission_requirements.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav23></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav24n=MSFPpreload("_derived/misc__academic_info_.htm_cmp_newbold010_vbtn.gif"); MSFPnav24h=MSFPpreload("_derived/misc__academic_info_.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav24'].src=MSFPnav24h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav24'].src=MSFPnav24n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_prog/misc__academic_info_.htm"><IMG 
+            height=40 alt="Misc. Academic Info." 
+            src="sample_files/misc__academic_info_.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav24></A><BR>
+            <SCRIPT language=JavaScript><!--
+if(MSFPhover) { MSFPnav25n=MSFPpreload("../academic_sched/_derived/general_academic.htm_cmp_newbold010_vbtn.gif"); MSFPnav25h=MSFPpreload("../academic_sched/_derived/general_academic.htm_cmp_newbold010_vbtn_a.gif"); }
+// --></SCRIPT>
+            <A language=JavaScript 
+            onmouseover="if(MSFPhover) document['MSFPnav25'].src=MSFPnav25h.src" 
+            onmouseout="if(MSFPhover) document['MSFPnav25'].src=MSFPnav25n.src" 
+            href="http://www.newbold.ac.uk/newsite/academic_sched/general_academic.htm"><IMG 
+            height=40 alt="Articulation Charts" 
+            src="sample_files/general_academic.htm_cmp_newbold010_vbtn.gif" 
+            width=140 border=0 name=MSFPnav25></A><!--webbot bot="Navigation" i-checksum="51570" endspan --> 
+            </P>
+            <P align=center> </P>
+            <P align=center> </P>
+            <P align=center>&nbsp;<!--mstheme--></FONT></P></TD></TR></TBODY></TABLE><!--mstheme--><FONT 
+      face=Arial></DIV><!--mstheme--></FONT></TD>
+    <TD vAlign=top><!--mstheme--><FONT face=Arial><A 
+      name=_Toc457612283></A><FONT 
+      face="CG Times,Times New Roman"></FONT><B><FONT face=Univers,Arial 
+      size=6></FONT><FONT face="CG Times,Times New Roman"></FONT></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Through an accreditation agreement with the Open University 
+      Validation Services (OUVS), Newbold College offers British BA (Hons)/BA 
+      degrees in Biblical &amp; Pastoral Studies (BAPS), and in Combined 
+      Humanities (BACH).</FONT></P><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=center><I><A 
+      name=_Toc457612274><FONT color=#00339f size=5>Department of 
+      Humanities</FONT></A></I><FONT 
+      color=#cc9900><U><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </U></FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=center><A 
+      name=_Toc457612275><FONT color=#cc9900 size=4><I>BA (Hons)/BA In 
+      Humanities</I></FONT></A></B></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=center><FONT 
+      color=#cc9900 size=2><B>(English &amp; History/English &amp; Theological 
+      Studies/History &amp; Theological Studies)</B></FONT></P><FONT 
+      color=#000080 size=4><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>COURSE 
+      STRUCTURE</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=4><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><A 
+      name=_Toc426095451>Rationale</A></P></B></FONT><FONT 
+      face="CG Times,Times New Roman"><I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></I></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The course has three broad aims. First, it affords students the 
+      opportunity to obtain a mastery of two scholarly disciplines. Second, 
+      through its content, students will have ample opportunity to explore 
+      Christian perspectives in relation to other worldviews and to develop 
+      personal values. Third, it seeks to develop skills which are known to be 
+      important after graduation: critical self-awareness, broad sympathies, 
+      analytical skills and an ability to approach problems imaginatively from a 
+      number of angles. Humanities graduates of this College have thus found 
+      employment in a wide range of jobs from editing to law, from politics to 
+      business, from public relations to teaching, from aid and development to 
+      research.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=4><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Subject 
+      Areas</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>In Stage One students take one module each semester from English, 
+      History and Theological Studies and two each semester from Complementary 
+      Studies. In Stages Two and Three students concentrate on two of the three 
+      disciplines: English, History, Theological Studies.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B><FONT color=#cc9900 size=4>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Course 
+      Coherence and Progression</P></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Stage One is both introductory and foundational. It provides 
+      students with a number of skills, an appreciation of how scholars approach 
+      the raw material of their subject, and an opportunity to decide which 
+      disciplines to take forward into the Honours component. Modules in the 
+      three major disciplines emphasise engagement with primary sources and an 
+      understanding of the methodology of the discipline, its concerns and 
+      methods of discourse.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>In Stages Two and Three students will build progressively on these 
+      skills while at the same time obtaining an appropriate body of knowledge 
+      in two disciplines.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Progression is achieved in some disciplines through the 
+      chronological framework of the second- and third-stage modules and in all 
+      by the development of skills. The 24-credit extended essay in Stage Three 
+      may be seen as the climax of this progression for honours 
+      students.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A glance at the chart will show that in Stages Two and Three 
+      coherence is maintained in English and History through a chronological 
+      selection of topics. In addition many English and History modules have 
+      been designed to complement one another; students taking both subjects 
+      will thus have considerable opportunity for interdisciplinary reflection. 
+      For example, in Stage Two the double module on literature in the age of 
+      Shakespeare is complemented by historical studies in both 
+      sixteenth-century England and Europe.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Internal coherence in the Theological Studies option is maintained 
+      by focusing on three complementary areas: biblical texts, biblical 
+      theology and church history. A Theological Studies student will also find 
+      many links between the questions asked when studying this material and 
+      those asked in the study of English Literature or History, as a glance at 
+      the module titles will show.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>For the honours student the whole course reaches its pinnacle in 
+      the extended essay written in Stage Three. In it the skills developed in 
+      the preceding modules should be most fully deployed and demonstrated. 
+      Students who do not qualify for, or do not wish to take, honours will 
+      choose two additional modules at this point.</FONT></P><FONT color=#cc9900 
+      size=4><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>Delivery</P></B></FONT><FONT 
+face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Modules will normally have one lecture and one seminar per week. In 
+      addition there will be personal and group tutorials. The aim is to 
+      encourage independent and group work - reading, thinking, writing - beyond 
+      the classroom, while providing the level of support the student finds 
+      appropriate. Typically students take increasing responsibility for their 
+      own learning as they move through the degree.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=4><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Module 
+      numbers and abbreviations</P></B></FONT><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Module abbreviations are used as follows:</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIBL Biblical Languages</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BICS Complementary Studies in Theological Studies</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST Biblical Studies</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIPS Pastoral Studies</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIRE Guided Reading in Theological Studies</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL English</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST History</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HURE Humanities Research (Extended Essay)</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>INFT Information Technology</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Module numbers are normally used as follows:</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>200-299 Modules normally taken during Stage One</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>300-399 Modules normally taken during Stage Two</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>400-499 Modules normally taken during Stage Three</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=4><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>CREDITS</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>All undergraduate modules attract a credit rating of 12 UK credits 
+      each. Students take five modules (60 credits) per 15-week semester, each 
+      representing notionally 8 hours (or a total of 40 hours) of learning per 
+      week (600 hours per semester) including all formal and informal sessions 
+      as well as private study and research. The total of 1200 hours (120 UK 
+      credits) over the academic year divided by 10 modules represents a credit 
+      rating per module of 12 UK credits. 360 credits are required for the award 
+      of a degree. </FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B><FONT color=#000080 size=4>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>English</P></FONT><FONT face="CG Times,Times New Roman"><I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></I></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGLl214 APPROACHING THE TEXT I (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module is designed to introduce students to some of the 
+      central questions of the discipline and to consider those questions in 
+      relation first to the genre of prose fiction and then more briefly to the 
+      genre of poetry.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL224 APPROACHING THE TEXT II (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module continues the study of poetry begun in Approaching the 
+      Text I, looking at a range of poetic forms and critical approaches. It 
+      then introduces the genre of drama where students investigate a variety of 
+      dramatic forms and critical approaches. </FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL311 STUDIES IN RENAISSANCE LITERATURE I (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The first of two complementary modules offered concurrently. This 
+      module involves the study of Renaissance poetry and non-Shakespearean 
+      drama in relation to the culture of the period 1580-1640.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The second of two complementary modules offered concurrently. This 
+      module examines selected plays of Shakespeare in relation to their 
+      literary and cultural contexts.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL316 LITERARY THEORY (First Semester)</FONT></B><FONT size=2> 
+      </FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module gives students the opportunity to examine in some depth 
+      a range of critical approaches and theoretical 
+      perspectives.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL324 MILTON: <I>PARADISE LOST</I> AND <I>SAMSON AGONISTES</I> 
+      (Second Semester)</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module focuses on Milton and his writing of the tragic and 
+      epic genres. It explores the interface between Milton's art, protestant 
+      thought, and classical learning. </FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL325 LITERATURE AND CULTURAL CHANGE, 1789-1832 (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of a selection of literature from the period 1789-1832 in 
+      relation to the profound changes in the political, social, economic and 
+      intellectual life of Britain during these years.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL414 FAITH AND DOUBT IN VICTORIAN LITERATURE (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An examination of the ways writers of the Victorian period 
+      approached the question of religious belief as they faced the challenges 
+      presented by contemporary intellectual debate surrounding the theory of 
+      evolution, biblical scholarship and rationalism.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL415 POSTMODERN LITERATURE (Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An exploration of approximately 20 years of English novels and 
+      drama dating from 1955, together with critical essays which focus on the 
+      much-debated concept of "postmodernism".</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL424 AFRICAN LITERATURE OF RESISTANCE (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This study of prominent resistance literature from Nigeria, 
+      Somalia, Kenya and Zimbabwe considers the complex nature of 
+      de-colonisation and other struggles for freedom.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>ENGL425 LITERARY MODERNISMS, 1900-1939</B></FONT><FONT 
+      size=2><B>(First Semester)</B></FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>In this module students examine the rich and varied literature of 
+      the period 1912-1945.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL434 WOMEN'S NOVELS AND FEMINIST LITERARY THEORY (Second 
+      Semester)</FONT></P><FONT face="CG Times,Times New Roman"></FONT></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Students will study a selection of novels by women, considering 
+      each in relation to specific examples of feminist literary 
+      theory.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL435 ‘THE ILLUSORY GOLDEN AGE’: AN INTRODUCTION TO CHILDREN’S 
+      LITERATURE (Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module examines four genres: picture books, traditional 
+      literature, modern fantasy and contemporary realistic 
+      fiction.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>ENGL436 WRITING FOR PUBLICATION IN THE PRESS 
+(TBA)</B></FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the theory of journalism combined with practice. 
+      Students are provided with an opportunity to write, revise and edit under 
+      supervision before submitting to specified markets.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>ENGL444 GENDER AND SOCIETY IN VICTORIAN LITERATURE: END-OF-CENTURY 
+      TENSIONS (First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An examination of the way in which writers of the final decade of 
+      the Victorian period approached the subject of gender divisions and roles 
+      in society.</FONT></P><FONT face="CG Times,Times New Roman"><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></B></FONT><FONT color=#000080><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>History</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST214 History: Its Purpose and Method (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module gives students the opportunity to discover why the past 
+      appears to be important to so many people, how scholars go about studying 
+      it, and how thinkers have sought to give it meaning.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST224 INTRODUCTION TO HISTORICAL CONTROVERSY (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This is a case study approach to the nature of historical inquiry 
+      that builds on the previous module, <B>History: Its Purpose and 
+      Method</B>; it also introduces students to the use of computers in 
+      history. It will involve reading and assessing primary documents in a 
+      computer database.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST316 RELIGION AND VIOLENCE IN SIXTEENTH-CENTURY EUROPE 
+      </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An examination of the way in which Western European society 
+      responded to the doctrine, practice and spread of the Reformation, and the 
+      often violent way it was both established and 
+      countered.</FONT></P><B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST317 REFORMATION, CULTURE AND SOCIETY IN EARLY MODERN ENGLAND c. 
+      1545-1640 (First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module complements that on <B>Religion and Violence in Early 
+      Modern Europe</B> and seeks to help students gain a fuller picture of how 
+      society responded to the Reformation in a single country, namely 
+      England.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST324 STABILITY AND INSTABILITY IN SEVENTEENTH-CENTURY 
+      ENGLAND</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module asks two questions: How does a society become 
+      politically unstable and then manage to reverse the trend? What effect do 
+      social, economic, religious, military and personal factors have on this 
+      process?</FONT></P><B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST326 THE AGE OF and responses to reVOLUTION, 
+1760-1799</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the American and French Revolutions. The module will 
+      seek to establish and compare the causes, courses and results of the 
+      revolutions, as well as how they were interpreted by contemporary British 
+      and American writers and subsequently by historians.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST340 ORIGINS AND RISE OF THE INDUSTRIALISED ECONOMIES TO c. 
+      1815</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A survey of the rise of developed nations in modern times. 
+      Particular emphasis is given to the methodology of economic history, the 
+      rise of capitalism, the Agricultural Revolution, and the Industrial 
+      Revolution. The economic growth of the United States is contrasted with 
+      the development of socialist economies.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST415 CHURCH AND PEOPLE IN VICTORIAN ENGLAND (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An investigation of the varieties of religious practice and 
+      experience open to Victorians and of their responses to the intellectual 
+      currents of the period, the difficulties the churches had in reaching the 
+      broad masses and the crusades in which religious people became 
+      involved.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST419 WAR AND SOCIETY: EUROPE IN THE WAKE OF WORLD WAR II 
+      (TBA)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the changes in society that came about as a consequence 
+      of, and trends that were accelerated or given a different direction by, 
+      the Second World War.</FONT></P><B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST420 ETHNICITY, NATIONALISM AND CONFLICT IN EUROPE 1848-1998 
+      (First Semester)</FONT></P></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module allows final-year students to examine a particular 
+      theme in greater detail than normally possible in most modules. The theme 
+      in this case is the role of ethnicity and nationalism in Europe since the 
+      first nationalist revolutions in Belgium and Italy in 1830. The module 
+      focuses on two ‘case studies’, of the Balkans and Ireland from c.1890 to 
+      the present day.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST425 BRITISH EMPIRE, COMMONWEALTH AND DECOLONISATION SINCE 1918 
+      (Second Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module deals with the transformation of the British Empire 
+      since 1918 and focuses on the phenomenon of 
+      decolonisation.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST434 THE BOLSHEVIK REVOLUTION FROM LENIN TO STALIN (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module deals with the history of the Soviet Union from its 
+      inception to the death of Stalin.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST435 FOREIGN POLICY OF THE UNITED STATES SINCE 1939 (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the foreign policy of the United States of America from 
+      the events leading to the Second World War to the end of the war in 
+      Vietnam.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HIST444 INDUSTRIALISATION AND SOCIAL CHANGE, 1815-1914 (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This module investigates the impact of economic change on the 
+      society of Victorian and Edwardian England.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#000080><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Biblical 
+      Languages</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIBL221,222 GREEK I, II (First, Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Introduction to New Testament Greek designed to provide students 
+      with an adequate tool for doing exegesis.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIBL311,312 HEBREW I, II (First, Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Introduction to Biblical Hebrew designed to provide students with 
+      an adequate tool for doing exegesis.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B><FONT color=#000080>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Theological 
+      Studies</P></FONT><I><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIBLICAL STUDIES</FONT></P></I></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST210 FOUNDATIONS OF BIBLICAL STUDIES (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A consideration of the various contexts in which the biblical 
+      documents were written and how these texts have been interpreted. Includes 
+      an introduction to basic research methods in Biblical 
+      Studies.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST227 PENTATEUCH (Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A module designed to introduce students to the background, 
+      contents, literary context and message of the Pentateuch, consideration 
+      also being given to the contemporary relevance of the 
+      texts.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST318E (English) and bist318H (Hebrew) PROPHETS (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An analysis of the context and function of the prophetic writings 
+      of the Old Testament and of their significance in 
+      salvation-history.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST324 THE BIBLE AND ETHICS (First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A consideration of a range of moral theories and principles 
+      providing the basis for the thoughtful consideration of specific ethical 
+      issues within the biblical tradition.</FONT></P><B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST327 STUDIES IN THE GOSPELS (First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A critical introduction to the four gospels as historical and 
+      theological documents, and as sources of information on the life and 
+      teaching of Jesus.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST418E (english) and bist418G (greek) PAULINE EPISTLES (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A critical reflection on the formation of the documents, and on the 
+      Christological and theological issues dealt with therein.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST420E (ENGLISH) and BIST420G (GREEK) JOHANNINE WRITINGS (First 
+      Semester, Alternate Years)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A critical reflection on the historical context of and theological 
+      issues raised by the fourth gospel, the epistles of John and the 
+      Apocalypse. This module is taught instead of <B>Acts and General 
+      Epistles</B> in those years when the Biblical and Pastoral Studies course 
+      offers <B>Old Testament Apocalyptic: Daniel</B>.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST421, 422 BIBLICAL THEOLOGY I, II (First, Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of epistemological and methodological issues in biblical 
+      theology preparatory to a consideration of principal biblical themes and 
+      doctrines.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST430E (English) and BIST430B (biblical language) BIBLICAL 
+      APOCALYPTIC (First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the characteristics of apocalyptic literature in general 
+      and of the Books of Daniel and Revelation in particular. Consideration 
+      will be given to the main interpretative approaches to such 
+      documents.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST434E (English) and BIST434h (Hebrew) FORMER PROPHETS AND 
+      writings (First Semester)</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A module devoted to an examination of the various literary genres, 
+      exegesis of selected portions and assessment of contemporary approaches to 
+      this section of the Old Testament.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIST437e (English) and BIST 437G (Greek) ACTS AND GENERAL 
+      EPISTLES</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(First Semester, Alternate Years)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A consideration of the cultural contexts in which the documents 
+      were written and of the socio-theological themes developed therein. This 
+      module is taught instead of <B>Johannine Writings</B> in those years when 
+      the Biblical and Pastoral Studies course offers <B>New Testament 
+      Apocalyptic: Revelation</B>.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>COMPLEMENTARY STUDIES IN THEOLOGICAL 
+      STUDIES</FONT></P></B></I><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BICS311 HISTORICAL THEOLOGY II (First Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the development of Christian doctrine throughout the 
+      Christian era.</FONT></P><B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BICS330 ELLEN G WHITE AND SEVENTH-DAY ADVENTISM (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the cultural context in which Seventh-day Adventism 
+      originated, significant points in its development, the prophetic office of 
+      Ellen G White, and options facing the contemporary church.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>PASTORAL STUDIES</FONT></P></B></I><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIPS330 THE SOCIOLOGY OF RELIGION (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the human side of religion and the processes of 
+      secularism, conversion, church growth and decline, and the growing 
+      interest in spirituality, especially in European society 
+      today.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIPS335 WORLD RELIGIONS (Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the main social, philosophical, religious and ethical 
+      elements of Buddhism, Islam and Judaism together with a consideration of 
+      the problems relating to the competing claims of the major faith 
+      communities.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B><FONT color=#000080>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>Research</P></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIRE424,425 Guided Reading (Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An opportunity, under supervision, to become more familiar with the 
+      literature in an area of the course which is of particular interest to the 
+      student. (Open only to non-Honours students.)</FONT></P><B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>HURE428,438 RESEARCH (EXTENDED ESSAY) (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An opportunity for students to apply the various academic skills 
+      they have been developing to a topic in which they have formed a 
+      particular interest. (Open only to Honours students.)</FONT></P><FONT 
+      face="CG Times,Times New Roman"></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#000080>Complementary Studies</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B><I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Students take two complementary studies sequences as 
+      follows:</FONT></P></I><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Greek I and II </FONT></P><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>AND/or</FONT></P></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Information Technology I and II </FONT></P><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>AND/or</FONT></P></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Foundations of Christian Doctrine + Historical Theology 
+      I</FONT></P><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>AND/or</FONT></P></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>History of Western Thought + History of Music and 
+      Art</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Complementary studies module descriptions are as 
+      follows:</FONT></P></I><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BIBL211,222 GREEK I, II (First, Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Introduction to New Testament Greek designed to provide students 
+      with an adequate tool for doing exegesis.</FONT></P><B><FONT 
+      face="CG Times,Times New Roman"><I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></I></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>INFT211 INFORMATION TECHNOLOGY I (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An introduction to computers, their history and their role in 
+      modern society, computer concepts and components, computer communications, 
+      system software and word processing software. Hands-on experience with 
+      word processing software, desktop publishing, presentation software and 
+      web authoring.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>INFT222 INFORMATION TECHNOLOGY II (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An introduction to computer networks, electronic spreadsheets and 
+      databases, computer ethics, privacy and security. Hands-on experience with 
+      spreadsheets and database software.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BICS216 FOUNDATIONS OF CHRISTIAN DOCTRINE (First 
+      Semester)</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An introduction to the general range of Christian doctrine, 
+      including the contribution of the Seventh-day Adventist Church. Includes 
+      an introduction to basic research methods in Theology.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BICS231 HISTORICAL THEOLOGY I (Second Semester)</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A study of the development of Christian doctrine throughout the 
+      Christian era.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BICS235 history of western thought (First 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An examination of the major developments in western philosophy and 
+      an opportunity to develop concern for the clarity and validity of a 
+      philosophical argument.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>CSMA200 HISTORY OF MUSIC AND ART (Second 
+      Semester)</FONT></P></B><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>An investigation of the aesthetic principles common to the arts 
+      through a chronological survey of style and expression in representative 
+      works of music, painting and architecture, and a study of the relation of 
+      these arts to contemporary living. Among the requirements for this module 
+      are four afternoon excursions, and four evening concert 
+      visits.</FONT></P><FONT face="CG Times,Times New Roman"></FONT><FONT 
+      color=#000080><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Assessment 
+      </P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Assessment of students in the degree will be in accordance with 
+      institutional policy.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Assessment 
+      Outcomes</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>1. Provide learning experiences in which students may develop and 
+      demonstrate a range of intellectual abilities.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>2. Diagnose specific strengths and weaknesses in student learning, 
+      so that teachers and students may work together to maximise student 
+      achievement.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>3. Provide a means of monitoring students' progress.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>4. Indicate to teachers areas where modifications in their teaching 
+      may be desirable.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>5. Permit the Course Board to measure the achievements of students 
+      against institutional expectations, as well as against standards current 
+      in comparable institutions in the higher education community in the United 
+      Kingdom. </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>6. Recognise individual differences in students by a variety of 
+      assessment tasks addressing a range of skills and abilities.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>7. Provide a means by which the Board of Examiners may determine 
+      honours classifications.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>8. Provide some of the data necessary for 
+      references.</FONT></P><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Modes of 
+      Assessment</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Varied assessment modes have been adopted in the belief that 
+      mixed-mode assessments are capable of testing a wider range of abilities 
+      than single-mode assessments. Varied assessment modes are also fairer to 
+      students who may perform better in some types of assessment tasks than in 
+      others. Some modules will be assessed by both coursework and examination; 
+      some by coursework or by examination only. The nature of coursework varies 
+      from module to module, but during the three years of the degree will 
+      include essays, seminar papers and other oral presentations, creative 
+      writing, group projects and supervised research. Stage Three honours 
+      candidates write an extended essay.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Length of 
+      Assignments</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>1. Assessed or summative written work will be limited to c. 3500 
+      words per module, including examinations.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>2. In Stages Two and Three of the course, modules with closely 
+      related content may be linked for assessment purposes. This will allow 
+      assignments exceeding 3500 words, provided these contribute to the 
+      assessment of more than one module. In these cases the maximum word limit 
+      of 3500 will be multiplied by the number of modules linked, e.g. 7000 
+      words where two modules are linked.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>3. In Stage Three of the course honours candidates will write an 
+      extended essay of 6000-8000 words.</FONT></P><FONT color=#cc9900 
+size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Spacing of 
+      Assignments</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The Course Board will be responsible for co-ordinating the spacing 
+      of assignments each semester to avoid peaks of assessment during the 
+      semester.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>Examinations</P></B></FONT><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Each examination paper will normally be two hours in length, and 
+      will typically require students to answer two questions. At the end of 
+      each semester there will be a study break of one week between the end of 
+      classes and the beginning of examinations.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Assessment 
+      Criteria</P></B></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Work is assessed according to the criteria below, with special 
+      reference to be made to analysis and judgement; evaluation; use of primary 
+      and secondary sources; application; and communication. Each area is 
+      weighted as appropriate to the nature of the module being 
+      assessed.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#000080><B><I>Stage One (200-level modules)</I></B></FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>70+</B> An outstanding performance. Excellent knowledge, clear 
+      explanation and understanding, clear and viable argument. Superior 
+      selection, use, and documentation of primary and secondary sources, as 
+      appropriate. Excellent presentation, with only negligible defects. Fluent 
+      expression of ideas. Work of an exceptional nature will attract a grade of 
+      at least 75%.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>60-69</B> A competent to above average performance. Good 
+      knowledge with effective explanation and evident understanding. Good 
+      selection, use, and documentation of primary and secondary sources, as 
+      appropriate. Good and viable argument, with rare weaknesses. Good 
+      presentation, with rare defects. Good command of language.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>50-59</B> An average performance. Average knowledge, explanation 
+      and understanding. Average selection, use, and documentation of primary 
+      and secondary sources, as appropriate. Basically good argument, though 
+      with some gaps. Basically good presentation, with some defects and errors 
+      of language.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>40-49</B> An adequate performance. Just adequate knowledge. 
+      Adequate selection, use, and documentation of primary and secondary 
+      sources, as appropriate. Explanation and understanding weak. Argument is 
+      acceptable though not especially well constructed. Basically clear 
+      presentation, though with significant defects and errors of language. Work 
+      submitted for BAPS and achieving a mark within the 40-44 band is 
+      considered to be of an unclassified passing standard only, rather than 
+      being of an Honours standard.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>0-39</B> Work assessed in the 35-39 band shows a marginally 
+      inadequate performance with some favourable features and may be allowed to 
+      stand as a module grade provided the overall average is satisfactory. 
+      Lower marks represent a fail for some or all of the following reasons: 
+      inadequate knowledge; inadequate method and relevance; inadequate 
+      selection, use, and documentation of primary and secondary sources; 
+      insufficient coherence and accuracy in presentation; major deficiencies in 
+      language. Plagiarism results in a failing grade.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>70+</B> An outstanding performance. Excellent knowledge and 
+      critical analysis. Especially clear and viable argument. Superior 
+      selection, use, and documentation of primary and secondary sources, as 
+      appropriate. Excellent presentation, with only negligible defects. Fluent 
+      expression of ideas. Work of an exceptional nature will attract a grade of 
+      at least 75%.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>60-69 </B>A competent to above average performance. Good 
+      knowledge and critical analysis. Good selection, use, and documentation of 
+      primary and secondary sources, as appropriate. Good and viable argument, 
+      with rare weaknesses. Good presentation, with rare defects. Good command 
+      of language.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>50-59</B> An average performance. Average knowledge and critical 
+      awareness. Average selection, use, and documentation of primary and 
+      secondary sources, as appropriate. Basically good argument, though with 
+      some gaps. Basically good presentation, with some defects and errors of 
+      language.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>40-49 </B>An adequate performance. Just adequate knowledge, 
+      though not critically aware. Adequate selection, use, and documentation of 
+      primary and secondary sources, as appropriate. Acceptable though not 
+      especially well-constructed argument. Basically clear presentation, though 
+      with significant defects and errors of language. Work submitted for BAPS 
+      and achieving a mark within the 40-44 band is considered to be of an 
+      unclassified passing standard only, rather than being of an Honours 
+      standard.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>0-39</B> Work assessed in the 35-39 band shows a marginally 
+      inadequate performance with some favourable features and may be allowed to 
+      stand as a module grade provided the overall average is satisfactory. 
+      Lower marks represent a fail for some or all of the following reasons: 
+      inadequate knowledge and awareness of issues; inadequate method and 
+      relevance; inadequate selection, use, and documentation of primary and 
+      secondary sources; insufficient coherence and accuracy in presentation; 
+      major deficiencies in language. Plagiarism results in a failing 
+      grade.</FONT></P><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#000080>Stage Three (400-level modules)</FONT></B></I><FONT 
+      color=#000080> – </FONT><FONT size=2>at this point students move into the 
+      Honours or non-honours track.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>70+</B> An outstanding performance. Excellent knowledge, and 
+      critical and conceptual analysis. Superior selection, use, and 
+      documentation of primary and secondary sources, as appropriate. Clear 
+      independence of thought, demonstrating highly developed ability to 
+      evaluate and reflect critically on material and justify an argument. 
+      Especially clear and viable argument. Shows thorough grounding in 
+      appropriate sources, and demonstrates extensive research in wide range of 
+      material. Excellent presentation, with only negligible defects. Fluent 
+      expression of ideas. Work of an exceptional nature will attract a grade of 
+      at least 75%.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>60-69</B> A competent to above average performance. Good 
+      knowledge and critical analysis. Good selection, use, and documentation of 
+      primary and secondary sources, as appropriate. Sound understanding of main 
+      issues, with some independence of thought. Good and viable argument, with 
+      rare weaknesses. Able to evaluate and reflect on material. Evidence of 
+      extensive and thorough study in different material. Very good 
+      presentation, with rare defects. Good command of language.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>50-59</B> An average performance. Average knowledge and critical 
+      awareness. Average selection, use, and documentation of primary and 
+      secondary sources, as appropriate. Attempts limited analysis, but exhibits 
+      restricted understanding of different views. Limited reflection. Basically 
+      good argument, though with some gaps. Inadequacies in breadth or depth of 
+      handling resources. Basically good presentation, with some defects and 
+      errors of language.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>40-49</B> An adequate performance. Just adequate knowledge, 
+      though not critically aware. Adequate selection, use, and documentation of 
+      primary and secondary sources, as appropriate. Limited understanding of 
+      material. Acceptable though not especially well-constructed argument. 
+      Reflection lacks depth. Limited and uncritical use of resources. Basically 
+      clear presentation, but with significant defects and errors of language. 
+      Work submitted for BAPS and achieving a mark within the 40-44 band is 
+      considered to be of an unclassified passing standard only, rather than 
+      being of an Honours standard.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2><B>0-39</B> Work assessed in the 35-39 band shows a marginally 
+      inadequate performance with some favourable features and may be allowed to 
+      stand as a module grade provided the overall average is satisfactory. 
+      Lower marks represent a fail for some or all of the following reasons: 
+      inadequate knowledge and awareness of issues; inadequate selection, use, 
+      and documentation of primary and secondary sources; no analysis of 
+      material; little or no evidence of critical reflection; little evidence of 
+      reading or research; inadequate method and relevance; insufficient 
+      coherence and accuracy in presentation; confused expression of ideas; 
+      major deficiencies in language. Plagiarism results in a failing 
+      grade.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#000080><B>Module Score</B></FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Module score means the percentage score awarded for the whole of a 
+      student's work in a module.</FONT></P><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#000080>Award Regulations</FONT></P></B><FONT color=#cc9900 
+      size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Name of 
+      Award</P></B></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BA (Hons) in two named disciplines.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BA in two named disciplines.</FONT></P><FONT color=#cc9900 
+      size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Course 
+      Requirements</P></B></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Stage One 10 x 12-credit modules</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Stage Two 10 x 12-credit modules</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Stage Three BA (Hons): 8 x 12-credit modules plus an extended essay 
+      (24 credits) of 6000-8000 words.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>BA: 10 x 12-credit modules.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Students must complete all required coursework and examinations to 
+      qualify for the award.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Progression 
+      Requirements</P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>1. To qualify for the award, students must normally fulfil all 
+      requirements within eight years of initial enrolment.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>2. (a) Before progressing from one stage of the course to the next, 
+      all students must complete all the course requirements of the lower stage 
+      with an average module score of at least 40% and with no module score 
+      below 35%. (See below for specific Honours regulations.)</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(b) Stage One and Two students who fail to fulfil the requirements 
+      under (a) at their first attempt will have opportunity for reassessment by 
+      supplementary examination(s) and/or coursework as specified by the Board 
+      of Examiners. Reassessment will be offered only in modules where a 
+      student's module score is below 40%. The minimum pass mark of 40% will be 
+      recorded for each module which a student passes after such reassessment. 
+      The reassessment requirements must be completed before the beginning of 
+      the next academic year.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Stage One or Two students who after reassessment still do not 
+      qualify to progress to the next stage must repeat all the requirements of 
+      those modules in the current stage of their course where their score is 
+      below 40%. Failure in a repeated module will normally result in a 
+      student's being required to withdraw from the course.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Students will normally be asked to repeat a whole year's work if 
+      they fail more than two modules in a semester and more than three during 
+      the whole stage.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(c) As a special concession, students who have completed only nine 
+      modules at the current stage of their course will be permitted to proceed 
+      to the next stage on the following conditions:</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(i) An average in the current stage of the course of at least 40% 
+      with no module score below 35%.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(ii) Completion of the tenth module of the relevant lower stage by 
+      the end of the eighth week of studies after commencing the higher 
+      stage.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(iii) On completion of the tenth module of the relevant lower 
+      stage, continuance at the higher stage will be conditional on the 
+      student's having achieved an average of at least 40% in all ten modules of 
+      the stage just completed, with no module score in that stage below 
+      35%.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>3. A student must normally achieve an average of at least 45% at 
+      Stage Two in order to be admitted as an honours candidate in Stage Three. 
+      In exceptional circumstances the Board of Examiners may allow a student 
+      with an average below 45% at Stage Two to proceed as a candidate for an 
+      honours degree.</FONT></P><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Assessment 
+      of the Final Award</P></B></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The final award is assessed on the basis of performance in Stages 
+      One (second semester), Two and Three, with components weighted as 
+      follows:</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><B><FONT 
+      color=#cc9900 size=2>BA Hons Degree</FONT></B></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>5 x Stage One (second semester) 12-credit modules 15%</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>10 x Stage Two 12-credit modules 35%</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>8 x Stage Three 12-credit modules plus extended essay (24 credits) 
+      50%</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>BA Degree</FONT></B></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>5 x Stage One (second semester) 12-credit modules 15%</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>10 x Stage Two 12-credit modules 35%</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>10 x Stage Three 12-credit modules 50%</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Stage One (first semester) modules do not contribute to the 
+      assessment of the final award. Where a student is admitted to stage two on 
+      the basis of prior learning, the final weighting will be calculated as a 
+      percentage of the combined 85% weighting from stages two and 
+      three.</FONT></P><FONT face="CG Times,Times New Roman"><I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></I></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Assessment 
+      of the BA (Hons) award</P></B></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>For the honours award, students must </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(i) Achieve a weighted average assessment, calculated as above, of 
+      at least 45%, with no module score below 40%.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>(ii) Attain at least 40% in the extended essay.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Final weighted percentages are combined to produce the following 
+      overall classifications for OUVS degrees:</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>70+ First</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>60-69 Upper second</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>50-59 Lower second</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>45-49 Third </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>40-44 Pass </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>0-39 Fail</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The Board of Examiners might in exceptional circumstances, and 
+      after profiling, award a class to a student who did not quite reach the 
+      required weighted average assessment.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Assessment 
+      of the BA </P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The BA degree is awarded without classification. Candidates will be 
+      eligible for the award if their weighted average assessment, calculated as 
+      in BA (Hons) degree above, is 40% or higher, with no module score 
+      totalling less than 35%.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Aegrotat 
+      Awards </P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>In cases where illness or other valid reasons prevent students from 
+      sitting final-stage examinations, the Board of Examiners may grant an 
+      Aegrotat Award. Such an award carries no classification or distinction. 
+      Students will be given the choice of taking the Aegrotat Award or sitting 
+      the missed examination the following September. If on sitting the 
+      examinations they fail to qualify for the degree, they cannot then choose 
+      to take the Aegrotat Award.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>Reassessment at Stage Three</P></B></FONT><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Students who fail to achieve the required scores for the award of 
+      the degree will have opportunity for reassessment in those Stage Three 
+      modules where the student's module score is below 35% and the average 
+      score is below 40% (BA), or where the student's module score is below 40% 
+      and the average score is below 45% (BA Hons), always provided that no more 
+      than three modules need to be repeated with no more than two in any 
+      semester (see p. 28). Reassessment will be by supplementary examination(s) 
+      and/or coursework as specified by the Board of Examiners, and the 
+      reassessment requirements must be completed before the end of the 
+      following August. The minimum pass mark of 40% will be recorded for each 
+      module which a student passes after such reassessment. No further 
+      opportunity will then be given to a student to qualify for the 
+      degree.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Alternatively, students who do not attain the scores required for 
+      the award of the degree may choose to repeat failed Stage Three modules in 
+      the following academic year. Students who choose this option and then fail 
+      to qualify for the degree by the regular assessment procedures will not be 
+      eligible for reassessment.</FONT></P><FONT 
+face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B><A name=_Toc455294338><FONT color=#000080>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>General 
+      Assessment Regulations</FONT></A><FONT size=4></P></FONT></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Absence 
+      from examination or failure to submit coursework</P></B></FONT><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>These are considered sufficient grounds for failure in the module 
+      concerned, unless good cause is shown.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#cc9900 size=2><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Late 
+      submission of coursework</P></B></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>This is liable to a penalty which will be published in the module 
+      instructions distributed to students at the beginning of each semester, 
+      after prior agreement with the Board of Examiners.</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>Deferred examinations</FONT></P></B><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Students who by reason of extenuating circumstances such as 
+      sickness or accident are unfit to sit a scheduled examination or to make 
+      adequate preparation may apply to the Board of Examiners for a deferred 
+      examination. Medical or other documentary evidence must accompany the 
+      application, which should be submitted via the Director of Academic 
+      Affairs as soon as possible after the event (the normal expectation is 
+      that application should be made within 24 hours).</FONT></P><FONT 
+      face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Where sudden illness, accident or other serious misadventure occurs 
+      during the examination and prevents the student from continuing with the 
+      examination, it is the duty of the student to bring such problems 
+      immediately to the attention of the examination supervisor who shall 
+      report to the Director of Academic Affairs. If an application for a 
+      deferred examination arises from such a situation, it should be lodged 
+      with the Director of Academic Affairs as soon as possible, supported by 
+      relevant documentation.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify></P></FONT>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>If a deferred examination cannot be scheduled for the same 
+      examination period, the Board of Examiners may schedule it in the next 
+      examination period.</FONT></P><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></FONT><FONT color=#000080><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Appeals, 
+      Retakes and Incompletes</P></B></FONT><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900>Appeals</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>Examinations and Summative 
+      Coursework</FONT></P></B></I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>If a student feels that his/her performance in a mid-semester 
+      or<FONT color=#ff0000> </FONT>final modular examination or in summative 
+      coursework was affected by illness or other adverse personal 
+      circumstances, he/she must normally notify the course leader within seven 
+      days of the date of examination or coursework submission in writing with 
+      supporting documentation. This notification will be considered by the 
+      Board of Examiners when it meets to award module grades.</FONT></P><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>Module Grades and Final Degree 
+      Results</FONT></B></I><FONT color=#cc9900 size=2> </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Appeals which challenge the academic judgement of the Board of 
+      Examiners cannot be entertained, though where summatively assessed work 
+      has not been marked by an external examiner, a student has the right to 
+      request external moderation. A student may appeal to the chair of the 
+      Board of Examiners within 14 days of the date of the official publication 
+      of grades or degree results if one or more of the following conditions is 
+      deemed to apply:</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>There is reason to believe that a material administrative error of 
+      any type has occurred.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>There is reason to believe that assessment of summative course work 
+      or examination has not been carried out in accordance with published 
+      guidelines.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>There is reason to believe that the student’s performance may have 
+      been adversely affected in any way which, although justifiably not 
+      documented to the Board of Examiners as provided for above, is 
+      nevertheless convincing to the Board of Examiners.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>If a student is not satisfied with the result of an appeal to the 
+      Board of Examiners, a subsequent appeal may be lodged with the Academic 
+      Board which may require the Board of Examiners to reconsider its decision. 
+      The decision of the Academic Board is always final.</FONT></P><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>Retakes</FONT></P></B></I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>For the policy concerning the maximum number of modules which may 
+      be repeated from any stage of the course, please see the appropriate 
+      section of the College prospectus and course handbook.</FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Modules are normally repeated during the summer following the 
+      academic year in question, although students may carry forward into the 
+      following stage a maximum of one module with a grade necessitating a 
+      repeat. This grade must be replaced satisfactorily by the end of the 
+      eighth week of the Autumn Semester at the latest, otherwise the student 
+      will be required to withdraw. The student may then apply to recommence the 
+      stage the following August provided all work is complete by Registration 
+      Day at the latest.</FONT></P><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>Repeated Extended Essays</FONT></P></B></I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Students obtaining lower than 40% for the extended essay must write 
+      a new extended essay on a different topic. The minimum pass mark of 40% 
+      will be recorded for an essay passed after such resubmission. If the 
+      extended essay is failed for a second time, at the discretion of the 
+      examinations board students may be permitted to proceed to a Pass degree 
+      on completion of two further modules of Guided Reading. The two extended 
+      essay modules count towards the maximum of failed modules permitted within 
+      one semester or one academic year according to published policy. Any new 
+      extended essay or Guided Reading modules must be completed by the end of 
+      the following academic year.</FONT></P><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>Incompletes</FONT></P></B></I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The designation Incomplete (I) is of a strictly temporary nature 
+      and is given only in exceptional circumstances such as the disruption of a 
+      course of study through illness. A student whose performance in a 
+      disrupted module has been below passing standard or who has not completed 
+      his/her academic assignments through negligence does not qualify for an 
+      Incomplete. An Incomplete is awarded at the discretion of the full course 
+      board. </FONT></P><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>One Incomplete</FONT></P></B></I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A single Incomplete awarded during the Autumn Semester must be 
+      replaced satisfactorily by the end of the eighth week of the Spring 
+      Semester, otherwise the student will be required to withdraw. A single 
+      Incomplete awarded during the Spring Semester must be replaced 
+      satisfactorily by the end of the summer vacation prior to the commencement 
+      of the following stage, otherwise the student will not be permitted to 
+      commence the next stage at that time.</FONT></P><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>Two Incompletes</FONT></P></B></I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>The course board may permit a student to obtain a maximum of two 
+      Incompletes in any one semester without requiring the student to withdraw. 
+      </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>If two Incompletes are awarded during the Autumn Semester, one must 
+      be replaced satisfactorily by the end of the eighth week of the Spring 
+      Semester, otherwise the student will be required to withdraw. The other 
+      must be replaced by the end of the summer vacation prior to the 
+      commencement of the following stage, otherwise the student will not be 
+      permitted to commence the next stage at that time. A student needing to 
+      withdraw during the Spring Semester may apply to recommence the semester 
+      the following January provided all work is complete by Registration Day at 
+      the latest. </FONT></P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>If two Incompletes are awarded during the Spring Semester, one must 
+      be replaced satisfactorily by the end of the summer vacation, otherwise 
+      the student will be required to withdraw. The other must be replaced by 
+      the end of the eighth week of the Autumn Semester, otherwise the student 
+      will likewise be required to withdraw. The student may then apply to 
+      recommence the stage the following August provided all work is complete by 
+      Registration Day at the latest.</FONT><FONT color=#ff0000><FONT size=2> 
+      </FONT></P></FONT><I><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900 size=2>More than Two Incompletes</FONT></P></B></I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>A student obtaining more than two Incompletes in any given semester 
+      may not proceed with the course in the first instance and will be required 
+      to withdraw and to repeat those modules in full at the next available 
+      opportunity before proceeding further.<FONT color=#ff0000> </FONT>Such a 
+      repeat would not necessarily include all those modules already 
+      satisfactorily completed during that particular semester, though in line 
+      with policy<FONT color=#ff0000> </FONT>a student failing more than two 
+      modules in one semester or three in one academic year is required to 
+      repeat the whole stage.</FONT></P><FONT 
+      face="CG Times,Times New Roman"></FONT><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#000080>Attendance Policy - BACH</FONT></P></B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      size=2>Newbold College has an attendance requirement for all classes 
+      taught within the institution. While it is recognised that absences are 
+      sometimes unavoidable, students are required to attend at least 75% of all 
+      academic appointments. If attendance drops as low as 66%-74%, then some 
+      form of compensatory (extra) work must be completed in order to avoid a 
+      failure. Attendance below 66% will result in failure. The allowance of 25% 
+      <I>includes</I> absences caused by illness, crisis, and late registration. 
+      Individual student requests for the waiving of these requirements, due to 
+      exceptional circumstances, must be considered by the course 
+      board.</FONT></P>
+      <P><B>&nbsp;</P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#000080>Sequence of Modules in BA (Hons)/BA in Humanities</FONT> 
+</P>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+      color=#cc9900>(English &amp; History/English &amp; Theological 
+      Studies/History &amp; Theological Studies) 
+      </P></FONT></B><!--mstheme--></FONT>
+      <TABLE style="BORDER-COLLAPSE: collapse" cellPadding=2 width=630 
+        border=1><TBODY>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial><FONT 
+            color=#cc9900 size=2><B>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify><I>Stage 1</I></B></FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            color=#cc9900 size=2><I><B>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>First 
+            Semester </B></I></FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            color=#cc9900 size=2><I><B>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Second Semester 
+            </B></I></FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>History</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>History: Its Purpose and 
+            Method</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Introduction to Historical Controversy</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+            size=2>English</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Approaching the Text 
+          I</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Approaching the Text 
+          II</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Theological Studies</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Foundations of Biblical 
+            Studies</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Pentateuch</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Complementary 
+          Studies</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>A 
+            choice of two complementary studies from:</P>
+            <OL>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>IT 
+              I </P>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+              align=justify>Greek I </P>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+              align=justify>Foundations of Christian Doctrine </P>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+              align=justify>History of Western Thought </P></LI></OL></FONT><!--mstheme--></FONT></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>A 
+            choice of two complementary studies from:</P>
+            <OL>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>IT 
+              II </P>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+              align=justify>Greek II </P>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+              align=justify>Historical Theology I </P>
+              <LI>
+              <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+              align=justify>History of Art and Music </P></LI></OL>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>&nbsp;</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial><FONT 
+            color=#cc9900 size=2><B>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify><I>Stage 2</I></B></FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            color=#cc9900 size=2><I><B>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>First 
+            Semester</B></I></FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            color=#cc9900 size=2><I><B>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Second Semester 
+            </B></I></FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%" height=59 rowSpan=2><!--mstheme--><FONT 
+            face=Arial><FONT size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>History</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%" height=59><!--mstheme--><FONT 
+            face=Arial><FONT size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Reformation, Culture and Society in Early Modern 
+            England c. 1545-1640</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%" height=59><!--mstheme--><FONT 
+            face=Arial><FONT size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Origins and Rise of the Industrialised Economies to c. 
+            1815</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Religion and Violence in Sixteenth-Century 
+            Europe</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Stability and Instability in Seventeenth-</P>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Century England</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%" rowSpan=3><!--mstheme--><FONT 
+            face=Arial><FONT size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>English</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Renaissance Literature 
+            I</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Milton <I>Paradise Lost </I>and <I>Samson 
+            Agonistes</I></FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Literary Theory</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Renaissance Literature 
+            II</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Literature and Cultural Change, 1789-1832</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%" rowSpan=2><!--mstheme--><FONT 
+            face=Arial><FONT size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Theological Studies</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Historical Theology 
+          II</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Prophets</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>One 
+            or two of the following:</P>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Studies in the Gospels/Bible and Ethics/ Hebrew 
+            I/Sociology of Religion</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>One 
+            or two of the following:</P>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>World 
+            Religions/Ellen G White and Seventh-day Adventism/Hebrew II</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial><FONT 
+            color=#cc9900 size=2><B>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify><I>Stage 3</I></B></FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2><I><B><FONT color=#cc9900 size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>First 
+            Semester</FONT></B></I></FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+            color=#cc9900 size=2><I><B>Second Semester </B></I></FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%" rowSpan=2><!--mstheme--><FONT 
+            face=Arial><FONT size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>History</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Church and People in Victorian England</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+            size=2>Ethnicity, Nationalism and Conflict in Europe 1848-1998/US 
+            Foreign Policy since 1939</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Industrialisation and Social Change, 1815-1914</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>British Empire, Commonwealth and 
+            Decolonisation/Bolshevik 
+          Revolution</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify><FONT 
+            size=2>English</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Literary Modernisms, 
+            1900-1939</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Postmodern Literature/African Literature of 
+            Resistance/Women’s Novels and Feminist Literary Theory/Children’s 
+            Literature</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Faith 
+            and Doubt in Victorian Literature</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Gender and Society: End-of-Century Tensions </FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Theological Studies</FONT></P>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>Two 
+            or three of the following: Biblical Theology I/Biblical 
+            Apocalyptic/Acts and General Epistles OR Johannine Writings/Former 
+            Prophets and Writings</FONT><!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" align=justify>One 
+            or both of the following: Biblical Theology II (open to those 
+            students who have not taken Biblical Theology I), Pauline 
+            Epistles</FONT><!--mstheme--></FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top width="25%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+align=justify>&nbsp;<!--mstheme--></FONT></P></TD>
+          <TD vAlign=top width="37%"><!--mstheme--><FONT face=Arial><FONT 
+            size=2>
+            <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+            align=justify>Extended Essay (equivalent of two modules)</FONT><!--mstheme--></FONT></P></TD></TR></TBODY></TABLE><!--mstheme--><FONT 
+      face=Arial><FONT face=Univers,Arial size=6><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></P></B></FONT><FONT face="CG Times,Times New Roman">
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>&nbsp;</P></FONT><B><I>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify></I></B></P><B>
+      <P style="MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px" 
+      align=justify>&nbsp;</P></B>
+      <P style="MARGIN-RIGHT: 20px" align=justify>&nbsp;</P>
+      <P style="MARGIN-RIGHT: 20px" 
+      align=justify>&nbsp;</B><!--mstheme--></FONT></P></TD></TR>
+  <TR>
+    <TD vAlign=top width=204><!--mstheme--><FONT 
+      face=Arial><!--mstheme--></FONT></TD>
+    <TD vAlign=top><!--mstheme--><FONT 
+  face=Arial><!--mstheme--></FONT></TD></TR></TBODY></TABLE><!--mstheme--><FONT 
+face=Arial><!--mstheme--></FONT></BODY></HTML>
+@

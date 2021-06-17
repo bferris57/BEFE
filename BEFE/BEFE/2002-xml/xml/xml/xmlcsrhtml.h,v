@@ -1,0 +1,161 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.2
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.11.03.08.24.56;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@More work on HTML parser
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlcsrhtml.h - Definitions for an XML html text reading/writing cursor
+  
+  DESCRIPTION
+    
+    This file contains the definitions for a class of XMLCursor that
+    parses an XML document, step at a time and writes XML text documents.
+      
+*/
+
+#ifndef _xmlcsrhtml_h
+
+#define _xmlcsrhtml_h
+
+#include "xml.h"
+#include "xmlcsrbase.h"
+#include "xmlstrbase.h"
+#include "xmlsyn.h"
+#include "xmlstrconst.h"
+
+// External classes
+class XMLDocumentBase;
+class XMLManagerBase;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLCursorHTMLReader - An XML HTML file reader (constructing cursor)
+//
+// DESCRIPTION
+//
+//  This class builds an in-memory XML document from source HTML
+//  one step at a time.
+//
+//
+
+class XMLCursorHTMLReader : public XMLCursorReader {
+
+  //
+  // Public member functions
+  //
+public:
+
+  // Constructors/destructors
+  XMLCursorHTMLReader(XMLDocumentBase *doc, XMLString *input);
+  virtual ~XMLCursorHTMLReader();
+  
+  // Positioning
+  virtual XMLError Top(void);
+  virtual XMLError Down(void);
+  virtual XMLError Up(void);
+  virtual XMLError Next(void);
+  
+  // Walking
+  virtual XMLError Walk(void);
+
+  //
+  // Public typedefs
+  //
+public:
+
+  // Handling instructions for element types
+  typedef struct {
+    char *type;     // Element type
+    int   autoend;  // "Automatically terminate '/' when encountered?"  
+  } Special;
+
+  //
+  // Protected member functions
+  //
+protected:
+
+  // Functions for handling tokens for each state
+  XMLError StateNormal(void);
+  XMLError StateInElement(void);
+  XMLError StateInPI(void);
+
+  // Find special handling instructions for given element type
+  XMLError FindInstructions(XMLToken type, Special **found);
+  
+  // Force a mutable string
+  XMLError MutableString(XMLString **string);
+    
+  //
+  // Protected members
+  //
+protected:
+
+  // Input string and locked fragment
+  byte          *m_frag;      // Current locked fragment (NULL=Not locked)
+  int            m_fragoff;   // Current offset into string
+  int            m_fraglen;   // Length of locked fragment
+
+  // Parsing state
+  typedef enum {
+    State_Normal,        // Normal state - Waiting for text, '<', etc.
+    State_InElement,     // In an element def <...>
+    State_InPI,          // In a processing instruction def <?...?>
+    State_MAX            // Highest state
+  } State;
+  State       m_state;    // Parsing state  
+  
+  // XML Syntax analyser
+  XMLSyn      m_syntax;   // Syntax analyser
+  XMLSynToken m_token;    // Most recent syntax token
+
+  // Flags
+  unsigned    m_createdown:1;  // 1 = "Create next element below us"
+    
+  // New attribute we're creating (internal)
+  XMLToken    m_attributename;
+  
+}; 
+
+#endif // _xmlcsrhtml_h
+@
+
+
+1.1
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@d23 1
+d63 11
+d82 3
+d86 3
+@
+

@@ -1,0 +1,1109 @@
+head	1.5;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.5
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.11.04.06.50.29;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.11.04.06.15.11;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.11.03.08.24.56;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.5
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlcsrhtml.cpp - Implementation of the XMLCursorHTML classe
+  DESCRIPTION
+    
+    This file contains the implementation of a HTML source parsing class.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xmlcsrhtml.h"
+#include "xmlelmbase.h"
+#include "xmlstrconst.h"
+#include "xmlstrmem.h"
+
+// The instructions
+static XMLCursorHTMLReader::Special specialtags[] = {
+
+  {"meta", 1},
+  {"img" , 1},
+  {0     , 0}
+  
+};
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorHTMLReader::XMLCursorHTMLReader  - Constructor
+//  XMLCursorHTMLReader::~XMLCursorHTMLReader - Destructor
+//
+// NOTES
+//
+//  XMLCursorHTMLReader() does NOT take ownership of the string so ~XMLCursorHTMLReader()
+//  will NOT delete it.
+//
+
+XMLCursorHTMLReader::XMLCursorHTMLReader(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorReader(doc,string)
+{
+
+  // Initialise string fragment
+  m_frag      = NULL;
+  m_fragoff   = 0;
+  m_fraglen   = 0;
+  
+  // Initialise state
+  m_state   = State_Normal;
+  
+  // Initialise creation direction
+  m_createdown = 0;
+  
+  // Initialise current attribute name string
+  m_attributename = XMLTOKENNONE;
+
+  // Turn off syntax "Strict Quotes" and "Strict values" options
+  m_syntax.StrictQuotes(0);
+  m_syntax.StrictValues(0);
+  
+  // Register the input string
+  RegisterInputString(string);
+    
+}
+
+XMLCursorHTMLReader::~XMLCursorHTMLReader() {
+
+  // Unlock the fragment if we've locked it
+  if (m_frag)
+    m_string->UnlockFragment(m_fragoff);
+    
+  // Free the attribute name if we're in the middle of creating one
+  ReleaseToken(&m_attributename);
+          
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorHTMLReader::Top  - Position to top element
+//  XMLCursorHTMLReader::Up   - Position up one element
+//  XMLCursorHTMLReader::Down - Position to first child element
+//  XMLCursorHTMLReader::Next - Position to next sibling element
+//
+// DESCRIPTION
+//
+//  These functions override the default positioning behaviour of a cursor
+//  because they don't make sense when parsing.
+//
+
+XMLError XMLCursorHTMLReader::Top(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorHTMLReader::Up(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorHTMLReader::Down(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorHTMLReader::Next(void) {
+  return XMLErrorCsrNotCapable;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorHTMLReader::Walk - The XML parser
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to construct one more XMLElement from the
+//  input stream.
+//
+
+XMLError XMLCursorHTMLReader::Walk(void) {
+
+  XMLError    result;     // Return code
+  StackEntry *tos;        // Current top of stack
+  XML::Class  eclass;     // An element type
+  int         dead;       // "Are we dead?"
+
+  // Initialise
+  dead = 0;
+  
+  // Clear parse error
+  m_parseerror = XMLErrorNone;
+  
+  // Until we've created something or have an error
+  for (;;) {
+  
+    // Get next syntax token
+    m_token = m_syntax.NextToken();
+
+    // If error, return syntax error
+    if (m_token.error) {
+      result = m_token.error;
+      goto DONE;
+    }
+    
+    // If unknown token type, we've got problems...
+    if (m_token.type <= xmlsyn_TokenNull ||
+        m_token.type >= xmlsyn_TokenMAX)
+      goto INTERNALERROR;
+       
+    // If syntax analyser needs more data      
+    if (m_token.type == xmlsyn_TokenNeedMoreData) {
+    
+      // If we have a locked fragment
+      if (m_frag) {
+        
+        // Unlock it
+        result = m_string->UnlockFragment(m_fragoff);
+        if (result) goto ERROR;
+
+        // Clear fragment pointer
+        m_frag = NULL;
+        
+      }
+      
+      // Position to next fragment
+      m_fragoff += m_fraglen;
+      
+      // If we've got some left...
+      if (m_fragoff < m_stringlen) {
+      
+        // Try locking it
+        result = m_string->LockFragment(m_fragoff,&m_frag,&m_fraglen);
+        if (result) goto ERROR;
+
+        // Pass the fragment to the syntax analyser
+        m_syntax.MoreData(m_frag,m_fraglen);
+        
+      }
+    
+      continue;
+    }
+          
+    // If we're finished (end of string)...
+    if (m_token.type == xmlsyn_TokenEndOfStream) {
+    
+      // If we weren't in the normal state, we've got problems...
+      if (m_state != State_Normal &&
+          m_state != State_InPI) goto UNEXPECTEDEOS;
+
+      // If we're supposed to create "down", error
+      if (m_createdown) goto UNTERMINATED;
+
+      // If we've got more than one on the stack...
+      if (m_stacksize > 1) {
+      
+        // Pop the stack
+        result = Pop();
+        if (result) goto ERROR;
+        
+        // This one hasn't been terminated
+        //???goto UNTERMINATED;
+      }
+      
+      // Time to commit suicide because our job is finished
+      result = UnregisterAsConstructor();
+      if (result) goto ERROR;
+      delete this;
+      dead = 1;
+                  
+      goto ENDOFDOC;
+      
+    }
+    
+    // If in normal state and this is a creating element...
+    if (m_state == State_Normal && m_token.type != xmlsyn_TokenElementClose) {
+    
+      // Make sure it's one that really creates
+      switch (m_token.type) {
+      
+      case xmlsyn_TokenProcessingInstruction:
+        eclass = XML::ClassPI;
+        break;
+      
+      case xmlsyn_TokenDTD:
+        eclass = XML::ClassDTD;
+        break;
+      
+      case xmlsyn_TokenElementOpen:
+        eclass = XML::ClassSimple;
+        break;
+      
+      case xmlsyn_TokenText:                 
+      case xmlsyn_TokenWhite:
+      case xmlsyn_TokenEntity:               
+        eclass = XML::ClassText;
+        break;
+
+      case xmlsyn_TokenComment:
+        eclass = XML::ClassComment;
+        break;
+        
+      case xmlsyn_TokenCDATA:
+        eclass = XML::ClassCDATA;
+        break;
+        
+      default:
+        goto INTERNALERROR;                
+      }
+      
+      // Create the new element (down or after)
+      if (m_createdown)
+        result = NewElementBelow(eclass,NULL);
+      else
+        result = NewElementAfter(eclass,NULL);
+      if (result) goto ERROR;
+      
+      // Force our create direction to be 'Create After'
+      m_createdown = 0;
+      
+    }
+
+    // Call handler based on our state
+    switch (m_state) {
+    case State_Normal:    result = StateNormal();       break;
+    case State_InElement: result = StateInElement();    break;
+    case State_InPI:      result = StateInPI(); break;
+    default:              goto INTERNALERROR;
+    }
+
+    // If we have an error...
+    if (result) goto ERROR;
+
+    // If we're in normal state, we're finished
+    if (m_state == State_Normal)
+      break;    
+  }
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+UNEXPECTEDEOS:
+  result = XMLErrorUnexpectedEndOfInput;
+  goto DONE;
+
+UNTERMINATED:
+  result = XMLErrorUnterminatedElement;
+  goto DONE;
+
+ENDOFDOC:
+  result = XMLErrorCsrEndOfDocument;
+  goto DONE;
+          
+ERROR:
+  goto DONE;
+    
+DONE:
+
+  // Free stashed attribute name
+  if (!dead)
+    ReleaseToken(&m_attributename);
+  
+  // Save last parse error
+  m_parseerror = result;
+  
+  // Set parse location if we have an error
+  if (result != XMLErrorNone) {
+    m_parselocation.column = m_token.startcol;
+    m_parselocation.line   = m_token.startline;
+    m_parselocation.offset = m_token.startoff;
+  }
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorHTMLReader::StateNormal - Handle syntax token in State_Normal state
+//
+// DESCRIPTION
+//
+//  This function handles syntax tokens while in the State_Normal state.
+//
+// NOTE
+//
+
+XMLError XMLCursorHTMLReader::StateNormal() {
+
+  XMLError        result;  // Return code
+  XMLString      *string;  // TEMP: A string we created
+  XMLToken        token;   // TEMP: A token we created
+  StackEntry     *tos;     // Current stack entry
+  XML::Class      eclass;  // An element class
+  int             equals;  // Temp: "Do names compare?"
+  XMLElementBase *element; // An element
+  XMLToken        type;    // Type token
+  
+  // Initialise
+  string = NULL;
+  type   = XMLTOKENNONE;
+    
+  // Get current stack entry
+  tos = TOS();
+  if (tos == NULL) goto INTERNALERROR;
+  
+  // Based on the token type...
+  switch (m_token.type) {
+    
+  // Have a new processing instruction
+  case xmlsyn_TokenProcessingInstruction:      
+    
+    // Create a string for the PI's type
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+    
+    // Find the string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+    
+    // Set the PI's type
+    result = tos->element->SetType(token);
+    if (result) goto ERROR;
+
+    // It took, we don't own the string token now
+    token = XMLTOKENNONE;
+        
+    // Change state
+    m_state = State_InPI;
+    
+    break;
+    
+  // Have a DTD token
+  case xmlsyn_TokenDTD:
+  
+    // Create a string for the DTD's value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Get the value string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+
+    // We don't own the string now
+    string = NULL;
+            
+    // Set the DTD's value
+    result = tos->element->SetValue(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't have a token now
+    token = XMLTOKENNONE;
+        
+    break;
+      
+  // Have a new element start
+  case xmlsyn_TokenElementOpen:
+  
+    // Create a string for the element's name
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Create mutable string and Lowercase it
+    result = MutableString(&string);
+    if (result) goto ERROR;
+    result = string->Lower();
+    if (result) goto ERROR;
+    
+    // Get the string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+        
+    // Set the element's type
+    result = tos->element->SetType(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't own the token now
+    token = XMLTOKENNONE;
+        
+    // Change state
+    m_state= State_InElement;
+    
+    break;
+  
+  // Have the end of an element      
+  case xmlsyn_TokenElementClose:
+  
+    // If we're supposed to create "down"...
+    if (m_createdown) {
+    
+      // The element to test against is the TOS
+      element = tos->element;
+    }
+    
+    // If we're not supposed to create "down"...
+    else {
+    
+      // If the stack's < 2 deep it's mismatched
+      if (m_stacksize < 2) goto MISMATCHED;
+      
+      // The element is the 1 up
+      element = (tos-1)->element;
+    }
+    
+    // Get the element's class
+    eclass = element->GetClass();
+    
+    // If the element isn't a simple/complex one, it's not named
+    if (eclass != XML::ClassSimple &&
+        eclass != XML::ClassComplex)
+      goto MISMATCHED;
+      
+    // Create a string for the end element's type
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Create mutable string and Lowercase it
+    result = MutableString(&string);
+    if (result) goto ERROR;
+    result = string->Lower();
+    if (result) goto ERROR;
+    
+    // Turn it into a string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+    
+    // Get the element's type token
+    result = element->GetType(&type);
+    if (result) goto ERROR;
+    
+    // If they're not the same, mismatched
+    if (token != type) goto MISMATCHED;
+
+    // Release the token
+    result = ReleaseToken(&token);
+    if (result) goto ERROR;
+    token = XMLTOKENNONE;
+        
+    // If we're supposed to create "down"...
+    if (m_createdown) {
+    
+      // Simply say to "do NOT create down"
+      m_createdown = 0;
+    }
+      
+    // If we're not supposed to create "down"...
+    else {
+    
+      // Have to go up one
+      result = Pop();
+      if (result) goto ERROR;
+    }
+    
+    break;
+  
+  // Have some text, whitespace, entity, comment, CDATA
+  case xmlsyn_TokenText:
+  case xmlsyn_TokenWhite:
+  case xmlsyn_TokenEntity:
+  case xmlsyn_TokenComment:
+  case xmlsyn_TokenCDATA:
+    
+    // Create a string for the elements's value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+        
+    // Set the element's value
+    result = tos->element->SetValue(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't own the token now
+    token = XMLTOKENNONE;
+        
+    break;
+  
+  // Some other token
+  default:
+  
+    goto INTERNALERROR;
+  }
+      
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+MISMATCHED:
+  goto OK;
+  //???result = XMLErrorMismatchedEndElement;
+  //???goto DONE;
+      
+ERROR:
+  goto DONE;
+    
+DONE:
+
+  // Free the string/token if we have any
+  if (string)
+    delete string;
+  ReleaseToken(&token);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorHTMLReader::StateInElement - Handle syntax token in state InElement
+//
+// DESCRIPTION
+//
+//  This function handles syntax tokens while in the State_InElement state.
+//
+
+XMLError XMLCursorHTMLReader::StateInElement(void) {
+
+  XMLError    result;     // Return code
+  XMLString  *string;     // TEMP: A new string
+  XMLToken    token;      // TEMP: A new token
+  StackEntry *tos;        // Current element
+  XMLToken    etype;      // Element type
+  Special    *special;    // Special handling instructions (NULL = "None")
+  
+  // Initialise
+  string = NULL;
+  token  = XMLTOKENNONE;
+
+  // Get current element
+  tos = TOS();
+  if (tos == NULL) goto INTERNALERROR;
+  
+  // Get TOS's element type
+  result = tos->element->GetType(&etype);
+  if (result) goto ERROR;
+  
+  // Get special handling instructions
+  result = FindInstructions(etype,&special);
+  if (result) goto ERROR;
+  
+  // Based on the token type...
+  switch (m_token.type) {
+  
+  // Have the end of an element      
+  case xmlsyn_TokenElementClose:
+  
+    // Change state 
+    m_state = State_Normal;
+    
+    break;
+  
+  // Have an attribute name
+  case xmlsyn_TokenElementAttributeName: 
+
+    // Create a string for the attribute name
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a string token
+    result = NewToken(string,&m_attributename);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+    
+    // Make sure the attribute doesn't already exist 
+    result = tos->element->FindAttribute(m_attributename);
+    
+    // If it was there...
+    if (result != XMLErrorXMLAttributeNotFound) {
+    
+      // Delete stashed attribute name
+      ReleaseToken(&m_attributename);
+      m_attributename = XMLTOKENNONE;
+      
+      // Report the error
+      goto DUPLICATEATTRIBUTE;
+    }
+
+    break;
+
+  // Have an attribute value            
+  case xmlsyn_TokenElementAttributeValue:
+    
+    // If we've got no attribute name, error
+    if (m_attributename == 0) goto INTERNALERROR;
+    
+    // If we have a value...
+    if (m_token.length) {
+    
+      // Create a string for the value
+      result = m_string->SubString(m_token.startoff,m_token.length,&string);
+      if (result) goto ERROR;
+
+      // Turn it into a string token
+      result = NewToken(string,&token);
+      if (result) goto ERROR;
+    
+      // We don't own the string now
+      string = NULL;
+    }
+    
+    // No value...
+    else {
+    
+      // No token
+      token = (XMLToken)0;
+    }
+        
+    // Create the attribute in the element
+    result = tos->element->CreateAttribute(m_attributename,token);
+    if (result) goto ERROR;
+    
+    // We don't own either tokens now
+    ReleaseToken(&m_attributename);
+    ReleaseToken(&token);
+    
+    break;
+          
+  case xmlsyn_TokenElementContents:      
+  
+    // If special instructions and 'autoend'...
+    if (special && special->autoend) {
+    
+      // Change element's class to simple
+      result = tos->element->SetClass(XML::ClassSimple);
+      if (result) goto ERROR;
+      
+      // Set creation direction
+      m_createdown = 0;
+    }
+    
+    // No 'autoend'...
+    else {
+    
+      // Change the element's class to Complex
+      result = tos->element->SetClass(XML::ClassComplex);
+      if (result) goto ERROR;
+    
+      // Set creation direction
+      m_createdown = 1;
+    }
+        
+    // Change state
+    m_state = State_Normal;
+
+    break;
+  
+  // Have some whitespace (ignore it)
+  case xmlsyn_TokenWhite:
+  
+    break;
+    
+  // Some other token
+  default:
+  
+    goto INTERNALERROR;
+  }
+    
+  goto OK;
+  
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+DUPLICATEATTRIBUTE:
+  result = XMLErrorDuplicateAttribute;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+DONE:
+
+  // If we've still got a string/token, free them
+  if (string)
+    delete string;
+  if (token != XMLTOKENNONE)
+    ReleaseToken(&token);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorHTMLReader::StateInPI - Handle syntax token in state InPI
+//
+// DESCRIPTION
+//
+//  This function handles syntax tokens while in the State_InPI state.
+//
+
+XMLError XMLCursorHTMLReader::StateInPI(void) {
+
+  XMLError    result;     // Return code
+  XMLString  *string;     // A new string
+  XMLToken    token;      // A new token
+  StackEntry *tos;        // Current element
+  
+  // Initialise
+  string = NULL;
+  token  = XMLTOKENNONE;
+
+  // Get current element
+  tos = TOS();
+  if (tos == NULL) goto INTERNALERROR;
+  
+  // Based on the token type...
+  switch (m_token.type) {
+  
+  // Have processing instruction text
+  case xmlsyn_TokenProcessingText:
+
+    // Create a string for the PI's value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+        
+    // Set the element's value
+    result = tos->element->SetValue(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't own the token now
+    token = 0;
+        
+    break;
+      
+  // Have end of PI
+  case xmlsyn_TokenProcessingEnd:
+  
+    // Switch state
+    m_state = State_Normal;
+    
+    break;
+    
+  // Some other token
+  default:
+  
+    goto INTERNALERROR;
+  }
+    
+  goto OK;
+  
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+DONE:
+
+  // If we've still got a string/token, free them
+  if (string)
+    delete string;
+  ReleaseToken(&token);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  FindInstructions - Search for special instructions for a given tag
+//
+// DESCRIPTION
+//
+//  This function searches for special instructions to be applied to a given
+//  element type.
+//
+
+XMLError XMLCursorHTMLReader::FindInstructions(XMLToken type, Special **found) {
+
+  XMLError        result;
+  Special        *special;
+  XMLString      *string;
+  XMLStringConst  consttype;
+  int             answer;
+  
+  // Initialise
+  
+  // Assume we didn't find it
+  *found = NULL;
+    
+  // Resolve the string for the token
+  result = ResolveToken(type,&string);
+  if (result) goto ERROR;
+  
+  // Until we find a match...
+  for (special = specialtags; special->type; special++) {
+  
+    // Populate the const string
+    consttype.SetValue(special->type);
+    
+    // Compare them...
+    result = string->Equals(&consttype,&answer);
+    if (result) goto ERROR;
+    
+    // If they're equal...
+    if (answer) {
+    
+      // Give address to caller
+      *found = special;
+      break;
+    }
+    
+  }
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorHTMLReader::MutableString - Turn string into a mutable if not already
+//
+// DESCRIPTION
+//
+//  This function checks to see if a string is mutable.  If it isn't, it creates
+//  a mutable string from it and deletes the original string.
+//
+// NOTES
+//
+//  This function exists because some strings (like XMLIOString's opened on
+//  read-only streams) are NOT mutable.  We need mutable strings in order to
+//  Lower() them.
+//
+
+XMLError XMLCursorHTMLReader::MutableString(XMLString **string) {
+
+  XMLError   result;    // Return code
+  XMLString *newstring; // New string we've created
+  
+  // Initialise
+  newstring = NULL;
+  
+  // If already mutable, nothing to do
+  if ((*string)->IsMutable()) goto OK;
+
+  // Create a new empty memory string
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEMORY;
+  
+  // Append this string to it
+  result = newstring->Append(*string);
+  if (result) goto ERROR;
+  
+  // Remove old string and replace it with new one
+  delete *string;
+  *string = newstring;
+  
+  // We don't own the string now
+  newstring = NULL;
+  
+  goto OK;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+OUTOFMEMORY:
+  result= XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+DONE:
+
+  // Delete new string if we still own it
+  if (newstring)
+    delete newstring;
+     
+  return result;
+}
+
+    
+
+@
+
+
+1.4
+log
+@More work on HTMLTidy and HTML parsing
+@
+text
+@d658 1
+a658 1
+    if (m_attributename == NULL) goto INTERNALERROR;
+d809 1
+a809 1
+    token = NULL;
+@
+
+
+1.3
+log
+@Created HTMLTidy exe, redid how compile/link works
+@
+text
+@d60 1
+a60 1
+  // Turn off syntax "Strict Quotes" option
+d62 1
+d660 6
+a665 3
+    // Create a string for the value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+d667 10
+a676 3
+    // Turn it into a string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+d678 3
+a680 2
+    // We don't own the string now
+    string = NULL;
+@
+
+
+1.2
+log
+@More work on HTML parser
+@
+text
+@d204 1
+a204 1
+        goto UNTERMINATED;
+d559 3
+a561 2
+  result = XMLErrorMismatchedEndElement;
+  goto DONE;
+@
+
+
+1.1
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@d17 11
+d60 3
+d264 1
+a264 1
+    
+d416 6
+d473 6
+d592 2
+d603 8
+d680 3
+d684 14
+a697 3
+    // Change the element's class to Complex
+    result = tos->element->SetClass(XML::ClassComplex);
+    if (result) goto ERROR;
+d699 4
+a705 3
+    // Set creation direction
+    m_createdown = 1;
+        
+d838 130
+@
+

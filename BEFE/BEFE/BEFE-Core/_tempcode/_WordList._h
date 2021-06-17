@@ -1,0 +1,165 @@
+#ifndef WORDLIST_H
+#define WORDLIST_H
+
+//----------------------------------------------------------------------
+//
+// File: WordList.h - Class WordList header
+//
+// The WordList class is intended to provide a general purpose
+// dictionary of "words".  A "word" is any arbitrairy string of distinct
+// bytes.
+//
+// The are variable length and may be from 1 to 127 bytes long.  The
+// only restriction here is that they're "distinct".
+//
+// The word list may contain zero to 2^23-1 words (16,777,215) giving
+// each distinct "word" an address in a 3 byte address space.
+//
+// Addresses not mapped to words contain, by definition, a zero length
+// word.
+//
+// The intent is to provide a general tool for locating distinct bytes
+// in a limited address space.
+//
+// This can be handy for real "dictionaries", etc.  It can also be
+// useful for things like local caches of things like UUIDs, file names,
+// etc.
+//
+//
+
+#include "primitives.h"
+
+namespace BEF_NS {
+
+//
+// Constants
+//
+
+#define WORDLIST_MAXWORDS ((Int)0xffffff)
+
+//----------------------------------------------------------------------
+//
+// Class: Word - A generic word
+//
+// This class is used to genericise the concept of a "word".  Basically,
+// a "word" is simply a variable length sequence of bytes.  The idea
+// is that what makes it a "word" is that it's distinct from other
+// words.
+//
+// For efficient implementation, we've put a 127 byte limit on the
+// word's length.
+//
+// So, a "word" has the following members...
+//
+//  Int   Index  - Index into some word list (this makes it distinct)
+//  Byte *Value  - The word bytes  -+-- This makes it distinct
+//  Int   Length - The word length -+
+//  Int32 CRC    - The byte's 32-bit CRC (this makes it sort of distinct)
+//
+
+class Word {
+
+  public:
+
+  UInt  duplicate:1;
+  UInt  len:7;
+  UInt  index:24;
+  Byte *value;
+  Int32 crc;
+
+public:
+
+  Word() {
+    index     = 0;
+    duplicate = false;
+    len       = 0;
+    value     = 0;
+    crc       = 0;
+  };
+
+  Word(const Word &that) {MemoryCopyRaw((Byte *)this,(Byte *)&that,sizeof(Word));}
+  Boolean IsDuplicate()  {return duplicate;}
+};
+
+//----------------------------------------------------------------------
+//
+// Class: WordList
+//
+
+class WordList {
+
+//
+// Error codes
+//
+
+public:
+
+
+//
+// Sort order
+//
+
+public:
+
+  enum Order {
+     OrderNone
+    ,OrderByIndex
+    ,OrderByValue
+    ,OrderByCRC
+    ,NUMORDERS
+  };
+
+//
+// Public class methods
+//
+
+  //static Error New(WordList *thelist,Int maxwords);
+  //static Error New(WordList *thelist,Char *fname);
+
+//
+// Private instance members
+//
+
+private:
+
+  Status state;
+
+  Byte  *filebuf;
+  Int    filebuflen;
+
+  Int    wordcount;
+  Int    wordmin;
+  Int    wordmax;
+  Int    wordtotchars;
+
+  Order  order;
+  Word  *words;
+
+//
+// Public instance methods
+//
+
+public:
+
+  WordList();
+  WordList(const Word &that);
+  ~WordList();
+
+  // Populating
+  void  Reset();
+  Status LoadFromFile(Char *fname);
+
+  // Query
+  Int    GetWordCount();
+  Status GetWord(Int wordidx, Word &theword);
+  Status FindByCrc(Int32 crc, Int &wordidx);
+
+  // Utilities
+  void   PrintStatistics();
+  Status SetOrder(Order neword);
+
+};
+
+} // Namespace BEF_NS
+
+#endif // WORDLIST_H

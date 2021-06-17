@@ -1,0 +1,442 @@
+head	1.16;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.16
+date	2002.10.27.11.10.13;	author bferris;	state dead;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.23.13.05.43;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.22.07.09.01;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.21.08.11.08;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.21.05.41.43;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.20.11.26.54;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.20.07.43.32;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.19.11.33.47;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.18.04.34.18;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.17.05.50.09;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.17.05.08.50;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.16.05.10.59;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.16.04.34.02;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.15.06.13.26;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.16
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlcsrparser.h - Definitions for an XML parsing cursor
+  
+  DESCRIPTION
+    
+    This file contains the definitions for a class of XMLCursor that
+    parses an XML document, step at a time.
+      
+*/
+
+#ifndef _xmlcsrparser_h
+
+#define _xmlcsrparser_h
+
+#include "xml.h"
+#include "xmlcsrbase.h"
+#include "xmlstrbase.h"
+#include "xmlsyn.h"
+
+// External classes
+class XMLDocumentBase;
+class XMLManagerBase;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLCursorParser - A parser (constructing) XMLCursor
+//
+// DESCRIPTION
+//
+//  This class builds an in-memory XML document one step at a time.
+//
+// NOTES
+//
+//  We do not currently implement XML validation but when the time comes
+//  this class will validate.
+//
+
+class XMLCursorParser : public XMLCursorBase {
+
+  //
+  // Public member functions
+  //
+public:
+
+  // Constructors/destructors
+  XMLCursorParser(XMLDocumentBase *doc, XMLString *input);
+  virtual ~XMLCursorParser();
+  
+  // Positioning
+  virtual XMLError Top(void);
+  virtual XMLError Down(void);
+  virtual XMLError Up(void);
+  virtual XMLError Next(void);
+  
+  // Walking
+  virtual XMLError Walk(void);
+
+  //
+  // Protected member functions
+  //
+protected:
+
+  // Functions for handling tokens for each state
+  XMLError StateNormal(void);
+  XMLError StateInElement(void);
+  XMLError StateInPI(void);
+  
+  //
+  // Protected members
+  //
+protected:
+
+  // Input string and locked fragment
+  XMLStringBase *m_string;    // Input string (with fragments)
+  int            m_stringlen; // String's length
+  byte          *m_frag;      // Current locked fragment (NULL=Not locked)
+  int            m_fragoff;   // Current offset into string
+  int            m_fraglen;   // Length of locked fragment
+
+  // Parsing state
+  typedef enum {
+    State_Normal,        // Normal state - Waiting for text, '<', etc.
+    State_InElement,     // In an element def <...>
+    State_InPI,          // In a processing instruction def <?...?>
+    State_MAX            // Highest state
+  } State;
+  State       m_state;    // Parsing state  
+  
+  // XML Syntax analyser
+  XMLSyn      m_syntax;   // Syntax analyser
+  XMLSynToken m_token;    // Most recent syntax token
+
+  // Flags
+  unsigned    m_createdown:1;  // 1 = "Create next element below us"
+    
+  // New attribute we're creating (internal)
+  XMLToken    m_attributename;
+  
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLCursorWrite - An XML cursor that writes XML to a string
+//
+// DESCRIPTION
+//
+//  This class writes an XML document, in XML text, to a string.
+//
+// NOTES
+//
+
+class XMLCursorWrite : public XMLCursorBase {
+
+  //
+  // Public member functions
+  //
+public:
+
+  // Constructors/destructors
+  XMLCursorWrite(XMLDocumentBase *doc, XMLString *output);
+  virtual ~XMLCursorWrite();
+  
+  // Write - Write element's contents to the string
+  XMLError Write(void);
+  
+  //
+  // Protected member functions
+  //
+protected:
+
+  // Emitting (writing)
+  XMLError EmitToken(XMLToken token);
+  
+  //
+  // Protected members
+  //
+protected:
+
+  // Output string
+  XMLString *m_string;      // Output string (we only Append())
+}; 
+
+#endif // _xmlcsrparser_h
+@
+
+
+1.15
+log
+@Text writer working, don't like speed though
+@
+text
+@@
+
+
+1.14
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d107 44
+@
+
+
+1.13
+log
+@All tokenised, ready to test
+@
+text
+@d6 1
+a6 1
+    xmlcurparser.h - Definitions for an XML parsing cursor
+@
+
+
+1.12
+log
+@Implemented XMLManager
+@
+text
+@d103 1
+a103 1
+  XMLString  *m_attributename;
+@
+
+
+1.11
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d24 4
+d45 1
+a45 1
+  
+@
+
+
+1.10
+log
+@Implemented XMLDocumentBase
+@
+text
+@d21 1
+d76 5
+a80 5
+  XMLString *m_string;    // Input string
+  int        m_stringlen; // String's length
+  byte      *m_frag;      // Current locked fragment (NULL=Not locked)
+  int        m_fragoff;   // Current offset into string
+  int        m_fraglen;   // Length of locked fragment
+@
+
+
+1.9
+log
+@Added XMLCursorFree - Almost working
+@
+text
+@d47 1
+a47 1
+  XMLCursorParser(XMLDocument *doc, XMLString *input);
+@
+
+
+1.8
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@d15 1
+a15 1
+#ifndef _xmlcurparser_h
+d17 1
+a17 1
+#define _xmlcurparser_h
+d27 1
+a27 1
+//  XMLCursorParser - A parser (construcint) XMLCursor
+d102 1
+a102 1
+#endif // _xmlcurparser_h
+@
+
+
+1.7
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@d94 2
+a95 2
+  // Creation direction flag
+  unsigned    m_createdown:1;
+@
+
+
+1.6
+log
+@Added XMLElementPI for processing instructions
+@
+text
+@d60 10
+d85 1
+a85 1
+    State_InProcessing,  // In a processing instruction def <?...?>
+d93 7
+@
+
+
+1.5
+log
+@Some bare bones in XMLParser::Walk
+@
+text
+@d65 5
+a69 4
+  XMLString *m_string;   // Input string
+  byte      *m_frag;     // Current locked fragment (NULL=Not locked)
+  int        m_fragoff;  // Current offset into string
+  int        m_fraglen;  // Length of locked fragment
+@
+
+
+1.4
+log
+@Added 'processing instruction' to lex/syn
+@
+text
+@d77 1
+a77 1
+  State      m_state;    // Parsing state  
+d80 2
+a81 1
+  XMLSyn     m_syntax;   // Syntax analyser
+@
+
+
+1.3
+log
+@Added string and state to parser
+@
+text
+@d21 1
+d74 1
+d79 2
+@
+
+
+1.2
+log
+@Changed Iterate() to Walk(), ready to write parser
+@
+text
+@d63 13
+a75 2
+  // Input string
+  XMLString *m_string;
+a76 1
+  //         
+@
+
+
+1.1
+log
+@Added XMLCursorParser and constructor registration functions
+@
+text
+@d56 1
+a56 1
+  virtual XMLError Iterate(void);
+@
+

@@ -1,0 +1,80 @@
+#----------------------------------------------------------------------
+#
+# File: LoveHate.txt - Informal list of things we love and hate
+#
+# This file contains an informal list of things we love and hate in
+# the different programming languages we've come across.
+#
+# ***Please feel free to add to it or edit it and then check it in.
+#
+# We haven't decided what to do with it when the list grows but we'll
+# be thinking about automating the thoughts here into a released 
+# document of some kind.
+#
+# Notes on "informal text file formats"...
+#
+#   Lines that start with a '#' or '//' are comments. Anywhere from a
+#   non-quoted '#' or '//' to the end of line is the remainder of a comment.
+#
+#   Lines that start with a '//' are comments. Anywhere from a non-quoted
+#   '//' to the end of line is the remainder of a comment.
+#
+#   Sections/items start with a capitalised short code, terminated with
+#   a ':' character.
+#
+#   Short codes can contain the '_', '-', '+', 'A'..''Z, '0'..'9',
+#   and '/' characters.  This allows us to use embedded ':' and '/' to
+#   indicate a subtype of item.
+#
+#   Indentation of multi-line items to the same level as the first line
+#   is encouraged both for readability of the file and for future 
+#   automation of the items in these informal files.
+#
+#   Multiple levels of indentation are also encouraged.  This will aid
+#   us in the future if/when we render these notes somewhere.  It also
+#   adds a convention to all these notes, regardless of who wrote them.
+#
+#   Lines starting with '***' indicate a possibly multi-line "note".
+#   This is for 
+#
+#   ***Please feel free to use UTF-8 symbols to create nice looking
+#      drawings or to get your point across.  We expect any future
+#      mechanism to keep text
+#
+
+HATE:C++    Why can't you declare bit sizes primitive types or dimensioned
+            primitive types?  For example...
+		   
+		      typedef unsigned Nibble:4;
+			 
+		    This would, in my mind, let me do declare the following...
+		  
+		     typedef unsigned Nibble[2] Byte;
+			 
+		    Wouldn't that be great?  Then I could the following...
+		   
+		      char digits[] = {'0','1','2','3','4',5','6','7','8','9','a','b','c','d','e','f'};
+		      char nibs[2];
+			  Byte b;
+			  ...
+			  b = 0x7f;
+			  ...
+			  nibs[0] = digits[b[0]];
+			  nbgs[1] = digits[b[1]];
+
+            Doesn't that make it hex -> text conversion code much more obvious?
+            Jeez, why hasn't anyone implemented this?
+
+HATE:C++    Okay, I can sort see why Bjarn (Stroustrup) added extra semantics to the '&' operator
+            in c++ and implemented the concept of "references" but...  
+			
+			Why can't one modify "this", or at least declare that certain classes of objects
+			MUST be in movable memory somewhere and can't be instances as local variables?
+			
+			All it would take is a modifier in the class declaration to stop constructors
+			and destructors being invoked (like you can by declaring them private) and then
+			shift "this" from being "X *" to "X **" so you could update "this" where the
+			instance is being referenced.  This is a fundamental thing when coding "factories"...
+			Factories generate pointers, they don't generating things as local variables.  So,
+			why not get control easily in C++ without having to resort to making all the bloody
+			functions static and passing an X** to them?  Or am I missing something here?

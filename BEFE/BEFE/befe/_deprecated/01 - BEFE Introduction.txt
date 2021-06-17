@@ -1,0 +1,31 @@
+
+
+Let us start with an excerpt from the Wikipedia page[1] describing
+the origins of the phrase "Form Follows Function"...
+
+    It was the American architect Louis Sullivan who coined the phrase
+    "Form Follows Function", in his 1896 article «The Tall Office Building
+    Artistically Considered»...
+
+        It is the pervading law of all things organic and inorganic,
+        Of all things physical and metaphysical,
+        Of all things human and all things super-human,
+        Of all true manifestations of the head,
+        Of the heart, of the soul,
+        That the life is recognizable in its expression,
+        That form ever follows function. This is the law.[2]
+
+    It was 'form follows function', as opposed to 'form follows precedent'.
+
+That's the underlying priniciple behind the BEFE Software and it's design...
+
+    Function trumps Precedent
+    
+We adhered to that underlying principle in our BEFE Software Library design,
+not because we decided to "jump on the band wagon" but, instead, because
+we have found from experience that NOT jumping on the established "band wagon"
+often proves more useful than not.
+
+
+[1] http://en.wikipedia.org/wiki/Form_follows_function
+[1] http://architecturewiki.editme.com/DesignTheory

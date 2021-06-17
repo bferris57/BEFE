@@ -1,0 +1,1215 @@
+head	1.11;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.11
+date	2002.11.02.17.30.17;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.30.06.34.23;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.30.04.41.50;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.27.07.07.32;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.24.03.31.29;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.24.02.54.50;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.23.09.05.50;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.23.06.40.19;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.23.00.14.26;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.22.23.45.40;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.11
+log
+@Read compiled works, need to figure out why it's slower than text!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+   xmlstrtable.cpp - Implementation of the XMLStringTable class
+  
+  DESCRIPTION
+    
+    This file contains the implementation of the XMLStringTable and related
+    classes.
+    
+  NOTES
+  
+*/
+
+#include "xmlstrtable.h"
+#include "xmlheap.h"
+#include <memory.h>
+
+//------------------------------------------------------------------------------
+
+#include <string.h>
+
+#include "xml.h"
+#include "xmlstrtable.h"
+#include "xmlheap.h"
+#include <math.h>
+
+//
+// Handy defines
+//
+
+// Entry "Is Free" mask
+#define FREEMASK 0xfffffffel
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::XMLStringTable  - Constructor
+//  XMLStringTable::~XMLStringTable - Destructor
+//
+
+XMLStringTable::XMLStringTable(int allocinc, int optbucketsize, int minincrement)
+  : XMLHashTable(optbucketsize, minincrement)
+{
+
+  // Initialise configuration
+  m_keepunused = 0;
+  
+  // Initialise list
+  m_chunksize = (allocinc > 10) ? allocinc : 10;
+  m_tablesize = 0;
+  m_tablehigh = -1;
+  m_tableinc  = 10;
+  m_table     = NULL;
+
+  // Free chain
+  m_firstfree = NULL;
+  m_lastfree  = NULL;
+
+#if DEBUGGING
+  // Debugging
+  m_highindex = 0;
+#endif
+  
+}
+
+XMLStringTable::~XMLStringTable() {
+
+  int i;
+
+  // Unhash first
+  Rehash(0);
+    
+  // Free the chunks
+  for (i = 0; i < m_tablehigh; i++)
+    delete[] m_table[i];
+    
+  // Delete the table if we have one
+  if (m_table)
+    XMLHeap::Free((byte *)m_table);
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::DiscardUnusedString - Throw away strings when ref count < 1
+//  XMLStringTable::KeepUnusedString    - keep strings when ref count == 0
+//
+// DESCRIPTION
+//
+//  These functions let the consumer decide whether or not to throw away
+//  strings when their reference count is exhausted.
+//
+// NOTES
+//
+//  It is best to set these right after construction because they only effect
+//  the behaviour when the event occurs.  DiscardUnusedString(), for example,
+//  doesn't walk the strings and throw away any that have a reference count
+//  of zero.
+//
+
+XMLError XMLStringTable::DiscardUnusedStrings(void) {
+
+  m_keepunused = 0;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLStringTable::KeepUnusedStrings(void) {
+
+  m_keepunused = 1;
+  
+  return XMLErrorNone;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::LastIndex - Return last (highest) index in table
+//
+// DESCRIPTION
+//
+//  This function determines the highest string index in the table.
+//
+//  If there are no used indexes in the table 0 is returned in the
+//  last parameter.
+//
+// NOTES
+//
+//  The highest index includes unused (e.g. reference count = 0) entries.
+//  It does not, however, include free entries.
+//
+
+XMLError XMLStringTable::LastIndex(int *last) {
+
+  XMLError             result;
+  int                  chunkno;
+  XMLStringTableEntry *entry;   // 
+  int                  index;   // Current entry's index (0..n-1)
+  int                  rem;     // Entries remaining in this chunk
+  
+  // Sanity checks
+  if (last == NULL) goto BADPARAMETERS;
+
+  // Initialise highest
+  *last = 0;
+  
+  // If we have no table, no highest index
+  if (m_table == NULL) goto OK;
+  
+  // Initialise current index
+  index = 1;
+  
+  // For each chunk
+  for (chunkno = 0; chunkno < m_tablehigh; chunkno++) {
+  
+    // Point to first entry in chunk
+    entry = m_table[chunkno];
+    
+    // For each entry in the chunk
+    for (rem = m_chunksize; rem; rem--, index++, entry++) {
+    
+      // If it's free, skip it
+      if (entry->count < 0) continue;
+      
+      // If it's a higher index, set it
+      if (index > *last)
+        *last = index;
+    }
+  }
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::FindIndex - Find a given strings index in the table
+//
+// DESCRIPTION
+//
+//  This function searches the table for a given string and returns the
+//  index (1..n) in the table.
+//
+//  If the string is not found, the index parameter will be set to 0.
+//
+// NOTES
+// 
+
+XMLError XMLStringTable::FindIndex(XMLString *lookfor, int *index) {
+
+  XMLError             result;
+  XMLStringTableEntry *found;
+  
+  // Sanity checks
+  if (lookfor == NULL || index == NULL) goto BADPARAMETERS;
+  
+  // Call hash table ...
+  result = FindEntry(lookfor,(XMLHashTableEntry **)&found);
+  if (result) goto ERROR;
+  
+  // If we did find it...
+  if (found != NULL) {
+  
+    // Let caller know where it is
+    *index = found->index + 1;
+  }
+  
+  // Didn't find it, let caller know
+  else
+    *index = 0;
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+          
+}
+
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::FindString - Find the string associated with an index
+//
+// DESCRIPTION
+//
+//  This function returns the string associated with the given index.
+//
+// NOTES
+// 
+
+XMLError XMLStringTable::FindString(int index, XMLString **found) {
+
+  XMLError             result;
+  XMLStringTableEntry *entry;
+  int                  chunkno;
+  
+  // Sanity checks
+  if (found == NULL) goto BADPARAMETERS;
+  index--;
+  if (index < 0 || index >= (m_tablehigh + 1) * m_chunksize) goto BADINDEX;
+  
+  // Get the chunk
+  chunkno = index/m_chunksize;
+  index   %= m_chunksize;
+  entry = m_table[chunkno];
+  
+  // Make sure chunk's allocated
+  if (entry == NULL) goto BADINDEX;
+  
+  // Get the entry
+  entry += index;
+  
+  // Make sure it's not free
+  if (entry->count < 0) goto BADINDEX;
+  
+  // Get the string
+  *found = entry->GetString();
+    
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+    
+BADINDEX:
+  result = XMLErrorStringBadIndex;
+  goto DONE;
+
+ERROR:
+  goto DONE;  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::AddReference - Add a new reference to a string
+//
+// DESCRIPTION
+//
+//  These functions adds a new reference to a string or creates a new entry.
+//
+//  Unlike XMLHashTable, our idea of 'Add()' is to increment the reference
+//  count if it was already there, else add it.
+//
+// NOTES
+//
+//  The index returned is a 1's index.
+//
+
+XMLError XMLStringTable::AddReference(XMLString *string, int *pindex, int *wasnew, int owned) {
+
+  XMLError             result;  // Return code
+  XMLStringTableEntry *found;   // Entry found (NULL=Not found)
+  int                  index;   // Index found at (0..n)
+  
+  // Sanity checks
+  if (string == NULL) goto BADPARAMETERS;
+  
+  // Call hash table ...
+  result = FindEntry(string,(XMLHashTableEntry **)&found);
+  if (result) goto ERROR;
+  
+  // If we did find it...
+  if (found != NULL) {
+
+    // Increment it's count
+    found->count++;
+      
+    // Let caller know where it is
+    if (pindex)
+      *pindex = found->index + 1;
+
+    // Let caller know if it wasn't new
+    if (wasnew)
+      *wasnew = 0;
+          
+    goto OK;
+  }
+  
+  // Didn't find it, add it to hash table (it will allocate)
+  result = XMLHashTable::Add(string,owned);
+  if (result) goto ERROR;
+  
+  // Let caller know if it was new
+  if (wasnew)
+    *wasnew = 1;
+          
+  // Give its index to the caller
+  if (pindex)
+    *pindex = m_lastindex + 1;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::NewIndex - Create a new entry in the string table
+//
+// DESCRIPTION
+//
+//  This function creates a new entry in the string table at a given index (1..n)
+//
+
+XMLError XMLStringTable::NewIndex(int index, XMLString *string, int owned) {
+
+  XMLError             result;  // Return code
+  int                  chunkno; // The entry's chunk number
+  XMLStringTableEntry *entry;   // The entry
+  XMLHash              bucket;  // The hash table bucket
+  
+  // Sanity checks
+  if (index <= 0 || string == NULL) goto BADPARAMETERS;
+  
+  // Turn the index into 0..n-1
+  index--;
+  
+  // Allocate the chunk if it's not already there
+  result = AllocateChunk(index);
+  if (result) goto ERROR;
+
+  // Compute chunk number
+  chunkno = index / m_chunksize;
+  
+  // Position at the entry
+  entry = m_table[chunkno] + index%m_chunksize;
+  
+  // Make sure it's free...
+  if (entry->count >= 0) goto INDEXUSED;
+  
+  // Remove from the free chain...
+  entry->Remove((XMLHashTableEntry **)&m_firstfree,(XMLHashTableEntry **)&m_lastfree);
+
+  // Set it's reference count to 1
+  entry->count = 1;
+    
+  // Set it's string
+  entry->SetString(string,owned);
+
+  // Expand the table if needed
+  result = Rehash(m_numentries+1);
+  if (result) goto ERROR;
+  
+  // Calculate the bucket we're going to add into
+  if (!string->IsHashed()) {
+    result = string->Hash();
+    if (result) goto ERROR;
+  }
+  result = string->GetHash(&bucket);
+  if (result) goto ERROR;
+  if (ISBADHASH(bucket)) goto STRINGBADHASH;
+  bucket %= m_numbuckets;
+
+  // Add it into the bucket
+  entry->Insert(&m_buckets[bucket]);
+  
+  // We've got one more entry now
+  m_numentries++;
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+
+INDEXUSED:
+  result = XMLErrorStringIndexUsed;
+  goto DONE;
+
+STRINGBADHASH:
+  result = XMLErrorStringBadHash;
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::RemoveReference - Remove an entry reference by name
+//  XMLSTringTable::RemoveReference - Remove an entry referenceby index
+//
+// DESCRIPTION
+//
+//  These functions logically remove an entry.  Unlike XMLHashTable, we
+//  simply decrement the entry's count.  When it reaches 0, THEN we actually
+//  remove the entry.
+//
+
+XMLError XMLStringTable::RemoveReference(XMLString *lookfor) {
+
+  XMLError result;
+  XMLStringTableEntry *found;
+  XMLHash              bucket;
+  
+  // Sanity checks
+  if (lookfor == NULL) goto BADPARAMETERS;
+  
+  // Find it...
+  result = FindEntry(lookfor,(XMLHashTableEntry **)&found,0,&bucket);
+  if (result) goto ERROR;
+
+  // If not found, error
+  if (found == NULL) goto NOTFOUND;
+  
+  // Decrement its count
+  if (found->count > 0)
+    found->count--;
+  
+  // If this was the last reference and we're discarding unused refs...
+  if (found->count <= 0 && !m_keepunused) {
+  
+    // Remove it from the hash table
+    found->Remove(&m_buckets[bucket]);
+    
+    // Add it to our free list
+    found->Insert((XMLHashTableEntry **)&m_firstfree,(XMLHashTableEntry **)&m_lastfree);
+    m_numentries--;
+
+    // Clear its count
+    found->count = -1;    
+  }
+  
+  goto OK;  
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+NOTFOUND:
+  result = XMLErrorStringNotFound;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLStringTable::RemoveReference(int index) {
+
+  XMLError             result;
+  XMLStringTableEntry *entry;
+  int                  chunkno;
+  XMLHash              bucket;
+  
+  // Sanity checks
+  index--;
+  if (index < 0 || index >= (m_tablehigh + 1) * m_chunksize) goto BADINDEX;
+  
+  // Get the chunk
+  chunkno = index/m_chunksize;
+  index   %= m_chunksize;
+  entry = m_table[chunkno];
+  
+  // Make sure chunk's allocated
+  if (entry == NULL) goto BADINDEX;
+  
+  // Get the entry
+  entry += index;
+  
+  // Make sure it's not free
+  if (entry->count < 0) goto BADINDEX;
+  
+  // Decrement its count
+  if (entry->count > 0)
+    entry->count--;
+  
+  // If this was the last reference and we're discarding unused refs...
+  if (entry->count <= 0 && !m_keepunused) {
+  
+    // Get the string's hash
+    result = entry->GetString()->GetHash(&bucket);
+    if (result) goto ERROR;
+    if (ISBADHASH(bucket)) goto STRINGBADHASH;
+    bucket %= (XMLHash)m_numbuckets;
+
+    // Remove it from the hash table
+    entry->Remove(&m_buckets[bucket]);
+    
+    // Add it to our free list
+    entry->Insert((XMLHashTableEntry **)&m_firstfree,(XMLHashTableEntry **)&m_lastfree);
+    m_numentries--;
+    
+    // Clear its count
+    entry->count = -1;
+  }
+  
+  goto OK;
+  
+BADINDEX:
+  result = XMLErrorStringBadIndex;
+  goto DONE;
+
+STRINGBADHASH:
+  result = XMLErrorStringBadHash;
+  goto DONE;
+
+ERROR:
+  goto DONE;  
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::AllocateChunk - Allocate chunk for given index
+//
+// DESCRIPTION
+//
+//  This function allocates the chunk associated with a given index (0..n)
+//  if it does not already exist.
+//
+
+XMLError XMLStringTable::AllocateChunk(int index) {
+
+  XMLError              result;   // Return code
+  XMLStringTableEntry **newtable; // Newly allocated table
+  XMLStringTableEntry  *newentry; // TEMP: Current entry
+  int                   chunkno;  // Index's associated chunk
+  int                   i;        // TEMP: Loop counter
+  int                   tindex;   // TEMP: Current entry's index
+  int                   lenalloc; // Length to allocate
+  
+  // Initialise
+  newtable = NULL;
+
+  // Calculate chunk number
+  chunkno = index / m_chunksize;
+    
+  // Allocate a new table if we need to
+  if (chunkno >= m_tablesize) {
+    
+      // Allocate the table
+      lenalloc = (m_tablesize + m_tableinc) * sizeof(XMLStringTableEntry *);
+      result = XMLHeap::Allocate(lenalloc,(byte **)&newtable);
+      if (result) goto ERROR;
+
+      // Clear it
+      memset((void *)newtable,0,lenalloc);
+      
+      // Copy the old entries (if any)
+      if (m_tablesize)
+        memcpy((void *)newtable,(void *)m_table,sizeof(XMLStringTableEntry *) * m_tablesize);
+      
+      // Free the old table
+      if (m_table) {
+        result = XMLHeap::Free((byte *)m_table);
+        if (result) goto DONE;
+      }
+          
+      // Save the new table
+      m_table = newtable;
+      
+      // We don't own the table anymore
+      newtable = NULL;
+      
+      // Update new table size
+      m_tablesize += m_tableinc;
+      
+    }
+
+  // If chunk already exists, nothing to do
+  if (m_table[chunkno] != NULL) goto OK;
+      
+  // Allocate the chunk
+  m_table[chunkno] = new XMLStringTableEntry[m_chunksize];
+  if (m_table[chunkno] == NULL) goto OUTOFMEMORY;
+    
+  // Increment high mark if we've gone past it
+  if (chunkno > m_tablehigh)
+    m_tablehigh = chunkno;
+
+  // Initialise loop variables
+  index    = chunkno * m_chunksize + m_chunksize - 1;
+  newentry = &m_table[m_tablehigh][index%m_chunksize];
+        
+  // For each new entry in the chunk...
+  for (i = 0; i < m_chunksize; i++, newentry--) {
+    
+    // Place entry on free chain
+    newentry->Insert((XMLHashTableEntry **)&m_firstfree, (XMLHashTableEntry **)&m_lastfree);
+      
+    // Set entry's index
+    newentry->index = index--;
+      
+    // Set entry's count
+    newentry->count = -1;      
+  }    
+
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  // Free any stuff we still have laying about
+  if (newtable)
+    delete[] newtable;
+    
+  return result;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTable::NewEntry - Add a new entry to the string table
+//  XMLSTringTable::DelEntry - Remove an entry from the string and hash tables
+//
+// DESCRIPTION
+//
+//  These functions are called by our supertype when it needs to allocate/free
+//  table entries.
+//
+// NOTES
+//
+//  Since we maintain a free entry chain, we attempt to allocate from that
+//  before expanding the table.
+//
+
+XMLError XMLStringTable::NewEntry(XMLHashTableEntry **entry, XMLString *string, int owned) {
+
+  XMLError              result;   // Return code
+  XMLStringTableEntry  *newentry; // The entry we found
+  int                   i;        // TEMP: Loop counter
+  int                   index;    // TEMP: Current entry's index
+  int                   lenalloc; // Length to allocate
+  
+  // If we don't have any free...
+  if (m_firstfree == NULL) {
+  
+    // Allocate a new chunk
+    result = AllocateChunk( (m_tablehigh+1) * m_chunksize );
+    if (result) goto ERROR;
+  }
+  
+  // Remove from the free chain
+  newentry = m_firstfree;
+  newentry->Remove((XMLHashTableEntry **)&m_firstfree, (XMLHashTableEntry **)&m_lastfree);
+  
+  // Give entry to the caller
+  *entry = (XMLHashTableEntry *)newentry;
+
+  // Set the string and owned
+  newentry->SetString(string,owned);
+  
+  // Set initial count
+  newentry->count = 1;
+  
+  // We have one more entry now
+  m_numentries++;
+  
+  // Let ourselves know what got added (we were called from Hash Table not us!)
+  m_lastindex = newentry->index;
+
+#if DEBUGGING  
+  // For debugging, keep track of highest (1's index) entry allocated
+  if (newentry->index + 1 > m_highindex)
+    m_highindex = newentry->index + 1;
+#endif
+
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  return result;
+}
+
+XMLError XMLStringTable::DelEntry(XMLHashTableEntry *pentry) {
+
+  XMLStringTableEntry *entry;
+
+  // Dirty cast to string table entry
+  entry = (XMLStringTableEntry *)pentry;
+  
+  // Remove the string (if we own it)
+  entry->Clean();
+  
+  // Add to free chain
+  entry->Insert((XMLHashTableEntry **)&m_firstfree, (XMLHashTableEntry **)&m_lastfree);
+
+  // We have one less entry now
+  m_numentries--;
+    
+  return XMLErrorNone;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringTableEntry::XMLStringTableEntry  - Constructor
+//
+
+XMLStringTableEntry::XMLStringTableEntry() {
+
+  count = -1;
+}
+
+@
+
+
+1.10
+log
+@Fixed GPF in XMLStringTable
+@
+text
+@d434 4
+a437 1
+  
+@
+
+
+1.9
+log
+@Added NewIndex() to XMLStringTable
+@
+text
+@d666 1
+a666 1
+        memcpy((void *)newtable,(void *)m_table,sizeof(XMLStringTableEntry *) * (m_tablesize + m_tableinc));
+@
+
+
+1.8
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@d395 88
+d629 1
+a629 2
+//  XMLStringTable::NewEntry - Add a new entry to the string table
+//  XMLSTringTable::DelEntry - Remove an entry from the string and hash tables
+d633 2
+a634 7
+//  These functions are called by our supertype when it needs to allocate/free
+//  table entries.
+//
+// NOTES
+//
+//  Since we maintain a free entry chain, we attempt to allocate from that
+//  before expanding the table.
+d637 1
+a637 1
+XMLError XMLStringTable::NewEntry(XMLHashTableEntry **entry, XMLString *string, int owned) {
+a639 1
+  XMLStringTableEntry  *newentry; // The entry we found
+d641 2
+d644 1
+a644 1
+  int                   index;    // TEMP: Current entry's index
+d649 6
+a654 6
+  
+  // If we don't have any free...
+  if (m_firstfree == NULL) {
+  
+    // Allocate a new table if we need to
+    if (m_tablehigh+1 >= m_tablesize) {
+d684 7
+d692 7
+a698 10
+    // Allocate the next chunk
+    m_table[m_tablehigh+1] = new XMLStringTableEntry[m_chunksize];
+    if (m_table[m_tablehigh+1] == NULL) goto OUTOFMEMORY;
+    
+    // Increment high mark
+    m_tablehigh++;
+
+    // Initialise loop variables
+    index    = m_tablehigh * m_chunksize + m_chunksize - 1;
+    newentry = &m_table[m_tablehigh][index%m_chunksize];
+d700 2
+a701 2
+    // For each new entry in the chunk...
+    for (i = 0; i < m_chunksize; i++, newentry--) {
+d703 2
+a704 2
+      // Place entry on free chain
+      newentry->Insert((XMLHashTableEntry **)&m_firstfree, (XMLHashTableEntry **)&m_lastfree);
+d706 2
+a707 2
+      // Set entry's index
+      newentry->index = index--;
+d709 58
+a766 3
+      // Set entry's count
+      newentry->count = -1;      
+    }    
+d768 1
+a768 1
+
+a808 4
+  // Free any stuff we still have laying about
+  if (newtable)
+    delete[] newtable;
+    
+@
+
+
+1.7
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d63 5
+d610 2
+a611 2
+    index    = m_chunksize-1;
+    newentry = &m_table[m_tablehigh][index];
+d645 7
+a651 1
+  
+@
+
+
+1.6
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d120 75
+d286 1
+a286 1
+  if (entry->count <= 0) goto BADINDEX;
+d434 3
+a436 1
+    
+d484 1
+a484 1
+  if (entry->count <= 0) goto BADINDEX;
+d505 3
+d616 3
+d692 1
+a692 1
+  count = 0;
+@
+
+
+1.5
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@d49 3
+d86 34
+d347 2
+a348 1
+  found->count--;
+d350 2
+a351 2
+  // If this was the last reference...
+  if (found->count <= 0) {
+d410 2
+a411 1
+  entry->count--;
+d413 2
+a414 2
+  // If this was the last reference...
+  if (entry->count <= 0) {
+@
+
+
+1.4
+log
+@Added token table to XMLDocumentBase - Not used yet
+@
+text
+@d297 1
+d303 1
+a303 1
+  result = FindEntry(lookfor,(XMLHashTableEntry **)&found);
+d315 6
+a320 3
+    // Remove it from the hash table and place on our free list
+    result = Remove(found->m_string);
+    if (result) goto ERROR;
+d351 1
+d377 2
+a378 2
+    // Remove it from the hash table and place on our free list
+    result = XMLHashTable::Remove(entry->GetString());
+d380 5
+d386 3
+d397 4
+d403 1
+d513 3
+d553 4
+a556 1
+  
+@
+
+
+1.3
+log
+@XMLStringTable working
+@
+text
+@d142 1
+a142 2
+//  XMLStringTable::Add - Add a new entry (overrides XMLHashTable one)
+//  XMLStringTable::Add - Add a new entry returning index
+d146 63
+a208 1
+//  These functions add a new entry to the string table.
+d218 1
+a218 12
+XMLError XMLStringTable::Add(XMLString *string, int owned) {
+
+  XMLError result;
+  int      index;
+  
+  // Just defer to our other Add()...
+  result = Add(string, &index, owned);
+  
+  return result;
+}
+
+XMLError XMLStringTable::Add(XMLString *string, int *pindex, int owned) {
+d225 1
+a225 1
+  if (string == NULL || pindex == NULL) goto BADPARAMETERS;
+d238 7
+a244 2
+    *pindex = found->index + 1;
+    
+d252 4
+d257 2
+a258 1
+  *pindex = m_lastindex + 1;
+d283 2
+a284 2
+//  XMLStringTable::Remove - Remove an entry by name
+//  XMLSTringTable::Remove - Remove an entry by index
+d293 1
+a293 1
+XMLError XMLStringTable::Remove(XMLString *lookfor) {
+d342 1
+a342 1
+XMLError XMLStringTable::Remove(int index) {
+@
+
+
+1.2
+log
+@XMLStringTable partially tested
+@
+text
+@d290 1
+a290 1
+  if (index < 0 || index >= m_tablehigh*m_chunksize) goto BADINDEX;
+d294 1
+a294 1
+  index   %= chunkno*m_chunksize;
+d298 1
+a298 1
+  if (chunkno == NULL) goto BADINDEX;
+d313 1
+a313 1
+    result = Remove(entry->m_string);
+d408 2
+a409 2
+    newentry = m_table[m_tablehigh];
+    index    = m_tablehigh*m_chunksize;
+d412 1
+a412 1
+    for (i = 0; i < m_chunksize; i++, newentry++) {
+d418 1
+a418 1
+      newentry->index = index++;
+d431 3
+@
+
+
+1.1
+log
+@Coded XMLStringTable
+@
+text
+@d53 1
+a53 1
+  m_tableinc  = 0;
+d360 1
+d372 2
+a373 1
+      result = XMLHeap::Allocate(m_tablesize+m_tableinc,(byte **)&newtable);
+d375 3
+a377 2
+      newtable = new XMLStringTableEntry *[m_tablesize+m_tableinc];
+      if (newtable == NULL) goto OUTOFMEMORY;
+d412 1
+a412 1
+    for (i = m_chunksize; i > 0; i--, newentry++) {
+@
+

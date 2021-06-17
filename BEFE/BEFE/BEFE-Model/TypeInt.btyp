@@ -1,0 +1,42 @@
+#!BefeType: Type
+#-----------------------------------------------------------------------
+# File: TypeIntegers.txt - Declarations for the BEFE Integer Types
+#-----------------------------------------------------------------------
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+#!Include: Type
+
+#
+# _Int - Base Primitive Integer Type (SuperType for all Integer Types)
+#
+
+Type _Int...
+  
+  Attribute: superType = Type
+  Attribute: size
+  Attribute: value
+  
+..._Int
+
+#
+# _SignedInt - Base Primitive Signed Integer Type (SuperType for all Signed Integer Types)
+#
+
+Type _SignedInt...
+
+  Attribute: superType = _Int
+  Attribute: sign
+  
+..._SignedInt
+
+#
+# _UnsignedInt - Base Primitive Unsigned Integer Type (SuperType for all Unsigned Integer Types)
+#
+
+Type _UnsignedInt...
+  Attribute: superType = _Int
+..._UnsignedInt

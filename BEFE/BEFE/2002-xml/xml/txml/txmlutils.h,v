@@ -1,0 +1,52 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	2002.10.24.05.28.24;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    txmlxmlutils.h - Definitions for the XML tester utilities
+  
+  DESCRIPTION
+    
+    This file contains the XML tester utility function prototypes.
+*/
+
+#ifndef _txmlutils_h
+#define _txmlutils_h
+
+#include "xml.h"
+#include "xmllex.h"
+#include "xmlsyn.h"
+
+void error(char *message = 0);
+void xmlerror(XMLError stat,char *message);
+void parseerror(XMLDocument *doc);
+void usage(void);
+void DisplayLexToken(XMLLexToken token, char *buf = NULL, int bufl = 0);
+void DisplaySynToken(XMLSynToken token, char *buf = NULL, int bufl = 0);
+void DisplayDocumentStatistics(XMLDocument *doc);
+void DisplayIOStatistics(XMLIOStatistics *stats);
+
+#endif // _txmlutils_h
+@

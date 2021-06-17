@@ -1,0 +1,3315 @@
+head	1.37;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.37
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.36;
+
+1.36
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.35;
+
+1.35
+date	2002.10.26.09.02.45;	author bferris;	state Exp;
+branches;
+next	1.34;
+
+1.34
+date	2002.10.24.09.08.30;	author bferris;	state Exp;
+branches;
+next	1.33;
+
+1.33
+date	2002.10.24.08.42.47;	author bferris;	state Exp;
+branches;
+next	1.32;
+
+1.32
+date	2002.10.24.05.53.16;	author bferris;	state Exp;
+branches;
+next	1.31;
+
+1.31
+date	2002.10.24.05.28.24;	author bferris;	state Exp;
+branches;
+next	1.30;
+
+1.30
+date	2002.10.24.02.54.50;	author bferris;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	2002.10.19.07.55.33;	author bferris;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2002.10.19.07.52.34;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.19.07.15.33;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.18.03.05.05;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.12.07.04.29;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.12.06.52.11;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.11.17.59.38;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.06.08.45.31;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.06.07.42.05;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.05.16.09.54;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.05.07.35.54;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.05.06.42.09;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.05.05.01.28;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.02.20.59.49;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.02.06.05.52;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.02.05.58.46;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.01.21.48.23;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.01.06.04.42;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.09.30.06.56.16;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.09.30.06.10.30;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.09.30.05.08.28;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.09.30.02.43.50;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.09.29.18.34.50;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.09.29.10.20.14;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.09.29.08.55.17;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.29.08.34.03;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.29.07.30.50;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.28.08.35.35;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.28.06.45.54;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.37
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+ FILE
+    
+  xmlio.cpp - Implementation of the XMLIOManager and XMLIOBuffer classes
+  
+ DESCRIPTION
+  
+  This file contains the implementation of the main IO manager classes.
+
+ CLASSES
+ 
+  XMLIOManager - Manager for XMLIOBuffers and XMLIOStreams
+  XMLIOBuffer  - A stream buffer
+  XMLIOStream  - An open stream (can act like an XMLString as well)
+  XMLIOString  - String implementation on XMLIOStreams
+  
+*/
+
+//------------------------------------------------------------------------------
+
+#include <memory.h>
+
+#include "xml.h"
+#include "xmlio.h"
+#include "miscellaneous.h"
+
+// Specific XMLIOStream implementations we know about
+#include "xmliosbuf.h"
+#include "xmlioscon.h"
+#include <string.h>
+
+//
+// Handy defines
+//
+
+#define HASH(offset,bufsize,tablesize) offset/bufsize%tablesize
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOManager::XMLIOManager - Class Constructor
+//
+//
+
+XMLIOManager::XMLIOManager(int bufsize, int maxbufs) {
+
+  // Buffer size
+  if (bufsize >= 256)
+    m_bufsize = bufsize;
+  else
+    m_bufsize = 256;
+  
+  // Maximum buffers  
+  if (maxbufs > 100)
+    m_maxbufs = maxbufs;
+  else
+    m_maxbufs = 0;
+    
+  // Stream list
+  m_firststream = NULL;
+  m_laststream  = NULL;
+  m_numstreams  = 0;
+
+  // Buffers
+  m_numbufs = 0;
+  m_numfreebufs = 0;
+  m_firstfreebuf = NULL;
+  m_lastfreebuf  = NULL;
+  
+  // Initialise stats
+  m_stats.buffersize = m_bufsize;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOManager::~XMLIOManager - Destructor
+//
+//
+
+XMLIOManager::~XMLIOManager() {
+
+  XMLIOStream **stream;
+  int          i;
+  
+  // Free all the streams in the stream chain
+  // (the stream frees any buffer's it has allocated)...
+  while (m_firststream)
+    delete m_firststream;
+    
+  // Free all buffers on our free list
+  while (m_firstfreebuf)
+    delete m_firstfreebuf;
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOManager::GetStatistics - Get current IO statistics
+//
+// DESCRIPTION
+//
+//  This function returns the current IO statistics.
+//
+// NOTES
+//
+//  We SUM the manager's stats with each stream's stats to get
+//  the real stats.
+//
+
+void XMLIOManager::GetStatistics(XMLIOStatistics *stats) {
+
+  XMLIOStream     *curstream;
+  XMLIOStatistics  sstats;
+  
+  // No point continuing if caller really doesn't want them
+  if (stats == NULL)
+    return;
+    
+  // Clear caller's stats
+  stats->Reset();
+  
+  // Initialise stream counts
+  m_stats.streamtotal            = 0;
+  m_stats.streamopenread         = 0;
+  m_stats.streamopenwrite        = 0;
+  m_stats.streamopenreadandwrite = 0;
+  m_stats.streamclosed           = 0;
+  
+  // Sum in each stream's stats...
+  for (curstream = m_firststream; curstream; curstream = curstream->m_nextstream) {
+   
+    // Get their stats
+    curstream->GetStatistics(&sstats);
+    
+    // Clear some buffer counts because we keep track of that ourselves
+    sstats.bufferslocked = 0;
+    
+    // Sum in their stats
+    stats->Add(&sstats);
+    
+    // Update our own stats
+    m_stats.streamtotal++;
+
+    // Based on the open access mode
+    switch (curstream->GetAccessMode()) {
+    case ForRead:         m_stats.streamopenread++;         break;
+    case ForWrite:        m_stats.streamopenwrite++;        break;
+    case ForReadAndWrite: m_stats.streamopenreadandwrite++; break;
+    default:              m_stats.streamclosed++;           break;
+    }    
+  }
+
+  // Sum in ours
+  stats->Add(&m_stats);
+
+  // Compute physical bytes
+  stats->bufferbytesphysical = 
+    stats->buffersize * (stats->buffersused + stats->buffersunused + stats->buffersinlimbo);
+
+  return;  
+}
+
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOManager::Open - Open a stream
+//
+// NOTES
+//
+//  If stream is not NULL we ensure that *stream is set to NULL if an
+//  error occurs.
+//
+//  If urllen is < 0, we assume the url is NUL terminated and calculate the length.
+
+XMLError XMLIOManager::Open(char *url, int urllen, AccessMode access, XMLIOStream **stream) {
+
+  XMLError    result;
+  XMLIOStream *thestream;
+  
+  // Initialse returned stream
+  if (stream)
+    *stream = NULL;
+  thestream = NULL;
+
+  // Calculate url length if not given
+  if (urllen < 0 && url)
+    urllen = strlen(url);
+        
+  // Sanity checks
+  if (url == NULL ||
+      urllen <= 0 ||
+      access < XMLIOManager::ForRead ||
+      access > XMLIOManager::ForReadAndWrite ||
+      stream == NULL)
+    goto BADPARMS;
+
+  // For now we'll choose XMLIOStreamCon if it url with 'device://'
+  // otherwise we'll use XMLIOStreamBuf.
+  if (urllen >= 9 && strncmpi(url,"device://",9) == 0)
+    thestream = new XMLIOStreamCon(this);
+  else
+    thestream = new XMLIOStreamBuf(this);
+  if (thestream == NULL) goto OUTOFMEMORY;
+
+  // Make sure it can do the operation
+  switch (access) {
+  case XMLIOManager::ForRead:
+    if (!thestream->CanRead())
+      goto CANTREAD;
+    break;
+  case XMLIOManager::ForWrite:
+    if (!thestream->CanWrite())
+      goto CANTWRITE;
+    break;
+  case XMLIOManager::ForReadAndWrite:
+    if (!thestream->CanRead())
+      goto CANTREAD;
+    if (!thestream->CanWrite())
+      goto CANTWRITE;
+    break;
+  default:
+    goto INTERNALERROR;
+  }
+  
+  // Now try opening it...
+  result = thestream->Open(url,urllen,access);
+  if (result) goto ERROR;
+
+  // Allocate stream list if we don't already have one
+    
+  // Cool, we're finished
+  *stream = thestream;
+  thestream = NULL;
+  goto DONE;
+  
+BADPARMS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+CANTREAD:
+  result = XMLErrorIOReadAccessDenied;
+  goto DONE;
+CANTWRITE:  
+  result = XMLErrorIOReadAccessDenied;
+  goto DONE;
+ERROR:
+  goto DONE;
+DONE:
+  // Free anything we've allocated and left hanging around
+  if (thestream)
+    delete thestream;
+  // Return the result
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOManager::OpenRead  - Open a stream for reading
+//  XMLIOManager::OpenWrite - Open a stream for writing
+//  XMLIOManager::Open      - Open a stream for reading and writing
+//
+// DESCRIPTION
+//
+//  These methods are simply shortcuts for calling Open()
+//
+
+XMLError XMLIOManager::OpenRead(char *url, int urllen, XMLIOStream **stream) {
+  XMLError result;
+  result = Open(url,urllen,ForRead,stream);
+  return result;
+}
+
+XMLError XMLIOManager::OpenWrite(char *url, int urllen, XMLIOStream **stream) {
+  XMLError result;
+  result = Open(url,urllen,ForWrite,stream);
+  return result;
+}
+
+XMLError XMLIOManager::Open(char *url, int urllen, XMLIOStream **stream) {
+  XMLError result;
+  result = Open(url,urllen,ForReadAndWrite,stream);
+  return result;
+}
+
+ 
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOManager::OpenTemp  - Download a URL, move to a temp file and open for read/write
+//
+
+#pragma argsused
+
+XMLError XMLIOManager::OpenTemp(char *url, int urllen, XMLIOStream **stream) {
+  return XMLErrorNotImplemented;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOManager::GetIOBuffer - Get a free IO buffer
+//
+// DESCRIPTION
+//
+//  This function returns either 1) a free I/O buffer, or 2) allocates a new
+//  one and returns that.
+//
+// NOTES
+//
+  
+XMLError XMLIOManager::GetIOBuffer(XMLIOStream *stream, XMLIOBuffer **newbuf) {
+
+  XMLError     result;
+  XMLIOBuffer *thebuf;
+  
+  // Sanity checks
+  if (newbuf == NULL) goto BADPARAMETERS;
+  *newbuf = NULL;
+  if (stream == NULL) goto BADPARAMETERS;
+
+  // If there's a limit on the buffers for the stream find one we can grab...
+  thebuf = NULL;
+  if (stream->m_maxbufs && stream->m_numbufs >= stream->m_maxbufs) {
+    // Look for unlocked ones...
+    for (thebuf=stream->m_firstbuf;
+         thebuf && thebuf->m_lockcount > 0;
+         thebuf=thebuf->m_nextbuf);
+    // If we found one set it's lock count to -1 (may flush if it's dirty)
+    if (thebuf) {
+      result = thebuf->SetLockCount(-1);
+      if (result) goto ERROR;
+    }
+  }
+  
+  // If we don't have one and there's no free ones...
+  if (thebuf == NULL && m_firstfreebuf == NULL) {
+    
+    // Allocate a new one (it'll go on our free chain)
+    thebuf = new XMLIOBuffer(m_bufsize,this);
+    if (thebuf == NULL) goto OUTOFMEMORY;    
+  }
+
+  // Remove it from whatever chain it's on
+  result = thebuf->Limbo();
+  if (result) goto ERROR;
+    
+  // Place the buffer in the stream's list...
+  result = thebuf->SetStream(stream);
+  if (result) goto ERROR;
+
+  // Return it to the caller
+  *newbuf = thebuf;
+  
+  goto OK;
+      
+ERROR:
+  goto DONE;
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOBuffer::XMLIOBufer   - Constructor
+//  XMLIOBuffer::~XMLIOBuffer - Destructor
+//
+// DESCRIPTION
+//
+//  These functions manage the lifecycle of an XMLIOBuffer.
+//
+// NOTES
+//
+//  When an IO buffer comes into existence it is placed on the manager's
+//  free chain.  If no manager is present the memory for the buffer will
+//  probably be lost (normally we would detect this buf you can't return
+//  errors in a constructor and we REFUSE to throw exceptions!).
+//
+
+XMLIOBuffer::XMLIOBuffer(int size,XMLIOManager *manager) {
+
+  // Initialise ownership
+  m_manager = manager;
+  m_stream  = NULL;
+    
+  // Clear other stuff
+  m_nextbuf      = NULL;
+  m_prevbuf      = NULL;
+  m_nexthashbuf  = NULL;
+  m_prevhashbuf  = NULL;
+  m_streamoffset = -1;
+  m_lockcount    = 0;
+  m_dirty        = 0;
+  
+  // Set stats
+  if (m_manager) {
+    m_manager->m_stats.buffersinlimbo++;
+    m_manager->m_stats.buffersallocated++;
+  }
+    
+  // Place on end of manager's free chain
+  SetLockCount(-1);
+  
+  // Allocate the data buffer
+  m_data = NULL;
+  m_size = size;
+  if (m_size < 0)
+    m_size = 0;
+  if (m_size)
+    XMLHeap::Allocate(m_manager->m_bufsize,&m_data);
+    
+  return;
+}
+
+XMLIOBuffer::~XMLIOBuffer() {
+
+  // Remove it from all free chains, hash lists, etc.
+  Limbo();
+  
+  // Update manager's IO statistics
+  if (m_manager) {
+    m_manager->m_stats.buffersfreed++;  
+    m_manager->m_stats.buffersinlimbo--;
+  }
+  
+  // Free the data (if we have any)
+  if (m_data)
+    XMLHeap::Free(m_data);
+  m_data = NULL;
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOBuffer::GetSize - Return the size of a buffer's data
+//  XMLIOBuffer::GetOffset - Return the buffer's offset into the stream
+//
+
+int XMLIOBuffer::GetSize() {
+  return m_size;
+}
+
+int XMLIOBuffer::GetOffset() {
+  return m_streamoffset;
+}
+
+XMLError XMLIOBuffer::GetRemainingLength(int offset,int *reml) {
+
+  XMLError result;
+  int      streamlen;
+  
+  // Sanity checks
+  if (reml == NULL) goto BADPARAMETERS;
+  if (m_stream == NULL) goto NOSTREAM;
+  if (offset < m_streamoffset) goto UNDER;
+  
+  // Get the stream length
+  result = m_stream->Length(&streamlen);
+  if (result) goto ERROR;
+  
+  // Make sure offset is within the buffer
+  if (offset >= m_streamoffset + m_size ||
+      offset >= streamlen) goto OVER;
+      
+  // Compute the remaining length
+  *reml = m_size - offset%m_size;
+  if (*reml > streamlen - offset)
+    *reml = streamlen - offset;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOSTREAM:
+  result = XMLErrorIOBufferNotStreamed;
+  goto DONE;
+UNDER:
+  result = XMLErrorIOBufferUnderrun;
+  goto DONE;
+OVER:
+  result = XMLErrorIOBufferOverrun;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOBuffer::GetLockCount - Get current lockcount
+//  XMLIOBuffer::SetLockCount - Set the lockcount (<=0 frees the buffer)
+//  XMLIOBuffer::Lock         - Increment lockcount
+//  XMLIOBuffer::Unlock       - Decrement lockcount
+//  XMLIOBuffer::Limbo        - Place the buffer in limbo (not on anyone's hash list or chain)
+//
+// DESCRIPTION
+//
+//  These functions manager the locking/unlocking of buffers.  A locked buffer
+//  is guaranteed to stay in the same place.  When a buffer's lock count is
+//  set to zero, it is removed from the stream and placed on the manager's
+//  free buffer chain.
+//
+//  When SetLockCount(-1) is called, the buffer will be freed (if it's lock 
+//  count was 0).  If the buffer is dirty it will be flushed before it is
+//  freed.
+//
+
+int XMLIOBuffer::GetLockCount(void) {
+  return m_lockcount;
+}
+
+XMLError XMLIOBuffer::SetLockCount(int count) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (count < -1) goto BADPARAMETERS;
+  
+  // If lockcount < zero, remove from stream's buffer and place on manager's free chain...
+  if (count < 0) {
+    
+    // If lock count isn't zero already, error
+    if (m_lockcount != 0) goto BUFFERLOCKED;
+    
+    // Try to flush the buffer if it's dirty
+    if (m_dirty && m_stream) {
+      result = m_stream->FlushBuffer(this);
+      m_dirty = 0;
+      if (result) goto ERROR;
+    }
+    
+    // Remove from stream's hash list and buffer chain
+    Limbo();
+    
+    // Place on end of manager's free chain
+    if (m_manager) {
+      m_prevbuf = m_manager->m_lastfreebuf;
+      if (m_prevbuf)
+        m_prevbuf->m_nextbuf = this;
+      else
+        m_manager->m_firstfreebuf = this;
+      m_manager->m_lastfreebuf = this;
+      m_manager->m_numbufs++;
+      m_manager->m_numfreebufs++;
+      
+      // Update managers IO stats
+      m_manager->m_stats.buffersinlimbo--;
+      m_manager->m_stats.buffersunused++;
+    }
+  }
+  
+  // Zero or greater count requested...
+  else {
+    
+    // If to be locked and isn't now
+    if (count && m_lockcount == 0) {
+      
+      // Increment stream's locked buffer count
+      m_stream->m_lockedbufs++;
+      
+      // Update stream's IO stats
+      m_stream->m_stats.bufferslocked++;      
+    }
+    
+    // If to be unlocked and is locked now
+    else if (count == 0 && m_lockcount) {
+      
+      // Decrement stream's locked buffer count
+      m_stream->m_lockedbufs--;
+      
+      // Update stream's IO stats
+      m_stream->m_stats.bufferslocked--;
+      
+    }
+    
+    // Set the lock count
+    m_lockcount = count;
+    
+  }
+          
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+BUFFERLOCKED:
+  result = XMLErrorIOBufferLocked;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOBuffer::Lock(void) {
+  XMLError result;
+  
+  result = SetLockCount(m_lockcount+1);
+
+  if (m_stream)
+    m_stream->m_stats.lockcalls++;
+  else
+    m_manager->m_stats.lockcalls++;
+      
+  return result;
+}
+  
+XMLError XMLIOBuffer::Unlock(void) {
+  
+  XMLError result;
+  
+  if (m_lockcount)
+    result = SetLockCount(m_lockcount-1);
+  else
+    result = XMLErrorNone;
+    
+  if (m_stream)
+    m_stream->m_stats.unlockcalls++;
+  else
+    m_manager->m_stats.unlockcalls++;
+  
+  return result;
+}
+
+XMLError XMLIOBuffer::Limbo(void) {
+
+  // Remove from stream's hash list (if on it)
+  Unhash();
+  
+  // If on stream's list, remove from stream
+  if (m_stream) {
+    if (m_nextbuf)
+      m_nextbuf->m_prevbuf = m_prevbuf;
+    else
+      m_stream->m_lastbuf = m_prevbuf;
+    if (m_prevbuf)
+      m_prevbuf->m_nextbuf = m_nextbuf;
+    else
+      m_stream->m_firstbuf = m_nextbuf;
+    m_stream->m_numbufs--;
+    
+    if (m_lockcount)
+      m_stream->m_lockedbufs--;
+    
+    // Update stream stats
+    m_stream->m_stats.buffersused--;
+    if (m_lockcount)
+      m_stream->m_stats.bufferslocked--;
+      
+    // Remove any knowledge of the stream
+    m_stream  = NULL;
+      
+    // Update limbo statistics
+    m_manager->m_stats.buffersinlimbo++;
+  
+  }
+  
+  // Not in a stream...
+  else {
+
+    // If we have a manager and we're not already in limbo...  
+    if (m_manager && (m_nextbuf || m_prevbuf ||
+          m_manager->m_firstfreebuf == this ||
+          m_manager->m_lastfreebuf  == this) ) {
+  
+      // Remove from manager's free chain (if we have a manager)
+      if (m_nextbuf)
+        m_nextbuf->m_prevbuf = m_prevbuf;
+      else
+        m_manager->m_lastfreebuf = m_prevbuf;
+      if (m_prevbuf)
+        m_prevbuf->m_nextbuf = m_nextbuf;
+      else
+        m_manager->m_firstfreebuf = m_nextbuf;
+      m_manager->m_numbufs--;
+      m_manager->m_numfreebufs--;
+
+      // Update managers IO stats
+      m_manager->m_stats.buffersunused--;    
+  
+      // Update limbo statistics
+      m_manager->m_stats.buffersinlimbo++;
+      
+    }
+  
+  }
+
+  // Remove knowledge of previous position in chain
+  m_prevbuf = NULL;
+  m_nextbuf = NULL;
+  
+  return XMLErrorNone;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOBuffer::SetStream       - Set the buffer's owning stream
+//  XMLIOBuffer::Unhash          - Remove buffer from the stream's hash list
+//  XMLIOBuffer::Hash            - Place buffer on the stream's hash list
+//  XMLIOBuffer::GetHash         - Compute the buffer's hash bucket number
+//
+// DESCRIPTION
+//
+//  These functions are used to manager the buffer in a stream.
+//
+
+XMLError XMLIOBuffer::SetStream(XMLIOStream *forstream) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (forstream && forstream->m_manager != m_manager)
+    goto DIFFERENTMANAGER;
+    
+  // Remove from current stream's chain
+  Limbo();
+  
+  // Add to end of new stream's buffer chain and hash chain
+  if (forstream) {
+    
+    // Buffer chain...
+    m_stream = forstream;
+    m_prevbuf = m_stream->m_lastbuf;
+    if (m_prevbuf)
+      m_prevbuf->m_nextbuf = this;
+    else
+      m_stream->m_firstbuf = this;
+    m_nextbuf = NULL;
+    m_stream->m_lastbuf = this;
+    m_stream->m_numbufs++;
+    if (m_lockcount)
+      m_stream->m_lockedbufs++;
+    
+    // And the hash chain...
+    result = Hash();
+    if (result) goto ERROR;
+    
+    // Update stream and manager IO stats
+    m_stream->m_stats.buffersused++;
+    m_manager->m_stats.buffersinlimbo--;
+  }
+  
+  goto OK;
+  
+DIFFERENTMANAGER:
+  result = XMLErrorIODifferentManager;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOBuffer::Unhash(void) {
+
+  int hash;
+  
+  // Only if we're in a hash chain...
+  if (m_stream && m_stream->m_hashsize && m_stream->m_hashtable) {
+    hash = GetHash();
+    if (m_nexthashbuf || m_prevhashbuf || (m_stream->m_hashtable[hash] == this) ) {
+      if (m_nexthashbuf)
+        m_nexthashbuf->m_prevhashbuf = m_prevhashbuf;
+      if (m_prevhashbuf)
+        m_prevhashbuf->m_nexthashbuf = m_nexthashbuf;
+      else
+        m_stream->m_hashtable[hash] = m_nexthashbuf;
+      m_nexthashbuf = NULL;
+      m_prevhashbuf = NULL;
+    }
+  }
+  
+  return XMLErrorNone;      
+}
+
+XMLError XMLIOBuffer::Hash(void) {
+
+  XMLError result;
+  XMLHash  hash;
+  
+  // Sanity checks
+  if (m_stream == NULL ||
+      m_stream->m_hashsize == 0 ||
+      m_stream->m_hashtable == NULL)
+    goto NOHASHTABLE;
+    
+  // Unhash it first
+  Unhash();
+  
+  // Add it to the end of the beginning of the hash chain (if there is one)...
+  hash = GetHash();
+  if (!ISBADHASH(hash)) {
+    m_nexthashbuf = m_stream->m_hashtable[hash];
+    m_prevhashbuf = NULL;
+    if (m_nexthashbuf)
+      m_nexthashbuf->m_prevhashbuf = this;
+    m_stream->m_hashtable[hash] = this;
+  }
+  
+  goto OK;
+  
+NOHASHTABLE:
+  result = XMLErrorIONoHashTable;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLHash XMLIOBuffer::GetHash(void) {
+
+  XMLHash hash;
+  
+  if (m_stream && m_stream->m_hashsize && m_size)
+    hash = (XMLHash)HASH(m_streamoffset,m_size,m_stream->m_hashsize);
+  else
+    hash = BADHASH;
+    
+  return hash;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOBuffer::GetPointer - Get pointer to first byte in buffer
+//  XMLIOBuffer::char *     -  "    "     "    "     "  "    "
+//  XMLIOBuffer::byte *     -  "    "     "    "     "  "    "
+//
+// DESCRIPTION
+//
+//  These functions return a hard pointer into a given buffer.
+//
+// NOTES
+//
+//  Never hand this pointer to the caller unless you've locked the buffer
+//  first.
+//
+
+XMLError XMLIOBuffer::GetPointer(byte **pointer) {
+  if (pointer)
+    *pointer = m_data;
+  return XMLErrorNone;
+}
+
+XMLIOBuffer::operator char *() {
+  return (char *)m_data;
+}
+
+XMLIOBuffer::operator byte *() {
+  return (byte *)m_data;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOBuffer::ReadBytes  - Read bytes from the buffer
+//  XMLIOBuffer::WriteBytes - Write bytes to the buffer
+//
+// DESCRIPTION
+//
+//  These functions are the 'preferred' methods for putting data into and 
+//  reading it out of an IO buffer.
+//
+//  The streamoffset parameter indicates the position IN THE STREAM to start
+//  reading from or writing to.
+//
+// NOTES
+//
+//  These functions return an overrun/underrun error if the data
+//  indicated by streamoffset/len is not entirely within the buffer's data.
+//
+//  These functions are 'preferred' for two reasons...
+//
+//    1) They do sanity checks on the data movement
+//    2) WriteBytes is expected to become really clever later to allow us
+//       to do rollback/undo later.
+//
+
+XMLError XMLIOBuffer::ReadBytes(int streamoffset, byte *data, int len) {
+
+  XMLError result;
+  int      offset;
+  
+  // Sanity checks
+  if (streamoffset < 0 || data == NULL || len < 0) goto BADPARAMETERS;
+  if (m_data == NULL)                              goto NOBUF;
+  offset = streamoffset-m_streamoffset;
+  if (offset < 0)                                  goto UNDERRUN;
+  if (offset > m_size)                             goto OVERRUN;
+  if (offset + len > m_size)                       goto OVERRUN;
+  
+  // Move the data
+  memcpy((void *)data,(void *)(m_data+offset),(size_t)len);
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOBUF:
+  result = XMLErrorIONoBuffer;
+  goto DONE;
+UNDERRUN:
+  result = XMLErrorIOBufferUnderrun;
+  goto DONE;
+OVERRUN:
+  result = XMLErrorIOBufferOverrun;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOBuffer::WriteBytes(int streamoffset, byte *data, int len) {
+
+  XMLError result;
+  int      offset;
+  
+  // Sanity checks
+  if (streamoffset < 0 || data == NULL || len < 0) goto BADPARAMETERS;
+  if (m_data == NULL)                              goto NOBUF;
+  offset = streamoffset-m_streamoffset;
+  if (offset < 0)                                  goto UNDERRUN;
+  if (offset > m_size)                             goto OVERRUN;
+  if (offset + len > m_size)                       goto OVERRUN;
+  
+  // Move the data
+  memcpy((void *)(m_data+offset),(void *)data,(size_t)len);
+  m_dirty = 1;
+  
+  // Update IO stats
+  if (m_stream)
+    m_stream->m_stats.byteswritelogical += len;
+  else
+    m_manager->m_stats.byteswritelogical += len;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOBUF:
+  result = XMLErrorIONoBuffer;
+  goto DONE;
+UNDERRUN:
+  result = XMLErrorIOBufferUnderrun;
+  goto DONE;
+OVERRUN:
+  result = XMLErrorIOBufferOverrun;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::XMLIOStream  - Class Constructor
+//  XMLIOStream::~XMLIOStream - Destructor
+//
+// DESCRIPTION
+//
+//  This inherited method links the new XMLIOStream to the manager's stream chain
+
+XMLIOStream::XMLIOStream(XMLIOManager *manager)
+  : XMLStringHashed()
+{
+  
+  // If we were given a manager, link into it...
+  if (manager) {
+    m_manager = manager;
+    // Form backward link
+    m_prevstream = manager->m_laststream;
+    if (manager->m_laststream)
+      manager->m_laststream->m_nextstream = this;
+    // Form forward link
+    m_nextstream = NULL;
+    manager->m_laststream = this;
+    if (manager->m_firststream == NULL)
+      manager->m_firststream = this;
+    // Update number of streams
+    m_manager->m_numstreams++;
+  }
+  
+  // If we weren't given a manager just clear the links...
+  else {
+    m_manager = NULL;
+    m_nextstream = NULL;
+    m_prevstream = NULL;
+  }
+
+  // Initialise buffer chain
+  m_firstbuf   = NULL;
+  m_lastbuf    = NULL;
+  
+  // Initialise buffer hash
+  m_hashsize      = NextPrime(256);                 // Initial size (256*2048 = 512KB file size)
+  m_hashincrement = 256;                            // Increment (512KB file size)
+  m_hashtable     = 0;                              // Assume we're not going to hash
+  
+  // Buffer management
+  m_maxbufs    = 0;
+  m_numbufs    = 0;
+  m_lockedbufs = 0;  
+  
+}
+
+XMLIOStream::~XMLIOStream(void) {
+
+  // Close it first
+  Close();
+  
+  // Remove from manager's stream chain if we have a manager
+  if (m_manager) {
+    // backward link
+    if (m_prevstream)
+      m_prevstream->m_nextstream = m_nextstream;
+    else
+      m_manager->m_firststream = m_nextstream;
+    // forward link
+    if (m_nextstream)
+      m_nextstream->m_prevstream = m_prevstream;
+    else
+      m_manager->m_laststream = m_prevstream;
+    // Update number of streams
+    m_manager->m_numstreams--;
+  }
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::GetStatistics - Populate IO stream statistics
+//
+// DESCRIPTION
+//
+//  This function populates IO statistics for a given stream.
+//
+// NOTES
+//
+//  We do keep live statistics but we need to calculate logical
+//  bytes used, etc.  So these are calculated on the fly when
+//  stats are requested.
+//
+// NOTES
+//
+
+void XMLIOStream::GetStatistics(XMLIOStatistics *stats) {
+
+  XMLIOBuffer *buf;
+  XMLError     result;
+  int          bufoff;
+  int          bufreml;
+  
+  // Don't bother if no buffer given
+  if (stats == NULL)
+    return;
+    
+  // Copy our live stats to the caller's buffer
+  *stats = m_stats;
+  
+  // Walk through each buffer counting the logical bytes...
+  for (buf = m_firstbuf; buf; buf = buf->m_nextbuf) {
+  
+    // Increment buffers used and physical size
+    stats->buffersused++;
+    stats->bufferbytesphysical += buf->GetSize();
+    
+    // Get the info from the buffer
+    bufoff = buf->GetOffset();
+    result = buf->GetRemainingLength(bufoff,&bufreml);
+    if (result) 
+      continue;
+      
+    // Add in the logical bytes
+    stats->bufferbyteslogical += bufreml;
+  }
+  
+  return;
+}
+  
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::SubString - Get a sub-string of a strng
+//
+// DESCRIPTION
+//
+//  This function creates another XMLIOString which is a substring of
+//  the current string.
+//
+
+XMLError XMLIOStream::SubString(int offset, int len, XMLString **substring) {
+
+  XMLError     result;
+  XMLIOString *newstring;
+  int          ourlen;
+  
+  // Sanity checks
+  if (substring == NULL || offset < 0 || len < 0) goto BADPARAMETERS;
+  
+  // Get our length
+  result = Length(&ourlen);
+  if (result) goto ERROR;
+  
+  // Return error if before/after string
+  if (offset+len >= ourlen) goto BEYONDEND;
+  
+  // Create a new XMLIOString
+  newstring = new XMLIOString(this,offset,len);
+  if (newstring == NULL) goto NOMEM;
+  
+  // Return string to caller
+  *substring = newstring;
+  
+  goto OK;
+  
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+    
+BEYONDEND:
+  result = XMLErrorOffsetBeyondString;
+  goto DONE;
+  
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::DoesLock       - "Does LockFragment() actualy lock the fragment?"
+//  XMLIOStream::LockFragment   - Lock a string fragment
+//  XMLIOStream::UnlockFragment - Unlock a locked string fragment
+//
+// DESCRIPTION
+//
+//  These functions perform the XMLString operations on the stream.  In general
+//  they just defer to their stream member functions.
+//
+
+int XMLIOStream::DoesLock(void) {
+  return 1;
+}
+  
+XMLError XMLIOStream::LockFragment(int offset, byte **pointer, int *availlen) {
+
+  XMLError     result; // Return result
+  XMLIOBuffer *buf;    // Offset's associated IO buffer
+  int          bufoff; // Buffer's offset into the stream
+  int          bufrem; // Remaining bytes in buffer
+  int          slen;   // Stream length
+
+  // Sanity checks
+  if (offset < 0 || pointer == NULL || availlen == NULL)
+    goto BADPARAMETERS;
+      
+  // Make sure offset's not beyond end of stream
+  result = Length(&slen);
+  if (result) goto ERROR;
+  if (offset >= slen) goto ENDOFSTRING;
+  
+  // Position to the fragment
+  result = Seek(offset);
+  if (result) goto ERROR;
+                                      
+  // Ask ReadSome to position to the buffer
+  result = ReadSome(NULL,0,NULL,&buf);
+  if (result) goto ERROR;
+  
+  // Ask LockBuffer() to lock it
+  result = LockBuffer(offset,&buf);
+  if (result) goto ERROR;
+  bufoff = buf->GetOffset();
+  result = buf->GetRemainingLength(offset, &bufrem);
+  if (result) goto ERROR;
+  
+  // Get the pointer
+  result = buf->GetPointer(pointer);
+  if (result) goto ERROR;
+  *pointer = *pointer + (offset - bufoff);
+  
+  // Treat this as a logial read
+  m_stats.bytesreadlogical += bufrem;
+    
+  // Get the available length
+  *availlen = bufrem;
+
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ENDOFSTRING:
+  result = XMLErrorOffsetBeyondString;
+  goto DONE;  
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOStream::UnlockFragment(int offset) {
+  XMLError     result; // Return result
+  XMLIOBuffer *buf;    // Offset's associated IO buffer
+  
+  // Ask LockBuffer() to lock it
+  result = UnlockBuffer(offset);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::Append - Append bytes to the IO stream
+//  XMLIOStream::Append - Append NUL terminated string to the IO stream
+//  XMLIOStream::Append - Append another string to the IO stream
+//
+// DESCRIPTION
+//
+//  These function perform string append operations on the stream.
+//
+// NOTES
+//
+
+XMLError XMLIOStream::Append(byte *buf, int bufl) {
+
+  XMLError result;
+  int      eos;    // End of stream
+  
+  // If no buffer or bufl, nothing to do
+  if (buf == NULL || bufl <= 0) goto OK;
+  
+  // Get current stream length
+  result = Length(&eos);
+  if (result) goto ERROR;
+  
+  // Position to the end of the stream
+  result = Seek(eos);
+  if (result) goto ERROR;
+  
+  // Write the buffer
+  result = Write(buf, bufl);
+  if (result) goto ERROR;
+
+  // Clear our hash
+  m_hash = BADHASH;
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+  
+XMLError XMLIOStream::Append(char *buf, int bufl) {
+
+  XMLError result;
+  int      slen;
+  
+  // If no string, nothing to do
+  if (buf == NULL)
+    return XMLErrorNone;
+    
+  // If no string length given...
+  slen = bufl;
+  if (slen < 0)
+    slen = strlen(buf);
+    
+  // If no string length, nothing to do
+  if (slen == 0)
+    return XMLErrorNone;
+    
+  // Defer to our (byte *) based Append
+  result = Append((byte *)buf,slen);
+  
+  return result;
+}
+
+XMLError XMLIOStream::Append(XMLString *pstring) {
+
+  XMLError       result;  // Return code
+  XMLStringBase *string;  // Dirty casted string
+  int            slen;    // Remaining length to append
+  byte          *frag;    // Current fragment
+  int            fragoff; // Current fragment offset
+  int            fraglen; // Length of current fragment
+
+  // Initialise
+  frag = NULL;
+  
+  // Dirty cast the strng
+  string = (XMLStringBase *)pstring;
+    
+  // If no string, nothing to do
+  if (string == NULL) goto OK;
+  
+  // Initialise loop variables
+  fragoff = 0;
+  result = string->Length(&slen);
+  if (result) goto ERROR;
+  
+  // Until all fragments have been output
+  while (slen) {
+  
+    // Lock the fragment
+    result = string->LockFragment(fragoff,&frag,&fraglen);
+    if (result) goto ERROR;
+    
+    // Append using (byte *) version of Append()
+    result = Append(frag,fraglen);
+    if (result) goto ERROR;
+    
+    // Unlock the fragment
+    result = string->UnlockFragment(fragoff);
+    if (result) goto ERROR;
+    
+    // We don't have a fragment right now
+    frag = NULL;
+    
+    // Position to next fragment
+    fragoff += fraglen;
+    slen    -= fraglen;    
+  }
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+    
+DONE:
+
+  // If we have a locked fragment, unlock it
+  if (frag)
+    string->UnlockFragment(fragoff);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::Close - Close the stream
+//
+// DESCRIPTION
+//
+//  This function (generally called by sub-class) removes all IOBuffers from
+//  the stream.
+//
+
+XMLError XMLIOStream::Close(void) {
+
+  XMLError result;
+  XMLError tresult;
+  XMLIOStatistics closing;
+  
+  // Remove hash table
+  UnhashBufs();
+    
+  // Remove any buffers
+  while (m_firstbuf) {
+    result = m_firstbuf->SetLockCount(0);
+    if (result) goto ERROR;
+    result = m_firstbuf->SetLockCount(-1);
+    if (result) goto ERROR;
+    }
+
+  // Remove string hash
+  m_hash = BADHASH;
+  
+  // Add our stats into the manager
+  GetStatistics(&closing);
+  m_manager->m_stats.Add(&closing);
+  
+  // Clear our stats so they don't get added later
+  m_stats.Reset();
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+  goto DONE;
+DONE:
+  return result;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::Rewind      - Position to beginning of stream
+//  XMLIOStream::Unwind - Position to end of stream
+//
+
+XMLError XMLIOStream::Rewind(void) {
+  return Seek(0);
+}
+
+XMLError XMLIOStream::Unwind(void) {
+  
+  XMLError result;
+  int      streamlen;
+  
+  result = Length(&streamlen);
+  if (result) goto DONE;
+  result = Seek(streamlen);
+  goto DONE;
+  
+DONE:
+
+  return result;
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::LockBuffer   - Lock the buffer for a given stream offset
+//  XMLIOStream::UnlockBuffer - Unlock the buffer for a given stream offset
+//
+
+XMLError XMLIOStream::LockBuffer(int offset, XMLIOBuffer **iobuf) {
+
+  XMLError     result;
+  XMLIOBuffer *thebuf;
+  
+  // Sanity checks
+  if (offset < 0) goto BADPARAMETERS;
+  if (m_manager == NULL) goto NOTMANAGED;
+
+  // Find the buffer
+  result = FindBuf(offset,&thebuf);
+  if (result) goto ERROR;
+  if (thebuf == NULL) goto BUFFERNOTFOUND;
+    
+  // We found it, lock it...
+  result = thebuf->Lock();
+  if (result) goto INTERNALERROR;
+
+  // Return the buffer to the caller
+  if (iobuf)
+    *iobuf = thebuf;
+      
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+BUFFERNOTFOUND:
+  result = XMLErrorIOBufferNotFound;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOStream::UnlockBuffer(int offset, XMLIOBuffer **iobuf) {
+  XMLError     result;
+  XMLIOBuffer *thebuf;
+  
+  // Sanity checks
+  if (offset < 0) goto BADPARAMETERS;
+  if (m_manager == NULL) goto NOTMANAGED;
+  
+  // Find the buffer
+  result = FindBuf(offset,&thebuf);
+  if (result) goto ERROR;
+  if (thebuf == NULL) goto BUFFERNOTFOUND;
+  
+  // We found it, unlock it
+  result = thebuf->Unlock();
+  if (result) goto ERROR;
+  
+  // Return the buffer to the caller
+  if (iobuf)
+    *iobuf = thebuf;
+      
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+BUFFERNOTFOUND:
+  result = XMLErrorIOBufferNotFound;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStream::FindBuf     - Find a given buffer based on stream offset
+//  XMLIOStream::AllocateBuf - Allocate a buffer for a given stream offset
+//  XMLIOStream::UnhashBufs  - Destroy the current hash table (if any)
+//  XMLIOStream::HashBufs    - Build/rebuild the hash list given a new size
+//
+// DESCRIPTION
+//
+//  These function manage the hash list for an XMLIOStream
+//
+//  FindBuf returns a NULL 'thebuf' if not found.
+//
+//  AllocateBuf will allocate a new buffer for the position in the stream
+//  so, if there's already one there with that offset be careful. It's 
+//  always best to call FindBuf() before AllocateBuf().
+//
+
+XMLError XMLIOStream::FindBuf(int streamoffset,XMLIOBuffer **thebuf) {
+
+  XMLError     result;
+  int          hash;
+  XMLIOBuffer *curbuf;
+  
+  // Sanity checks...
+  if (streamoffset < 0 || thebuf == NULL) goto BADPARAMETERS;
+  *thebuf = NULL;
+  if (m_manager == NULL) goto NOTMANAGED;
+  
+  // Truncate the offset to the beginning of a buffer
+  streamoffset = GetBufferOffset(streamoffset);
+  
+  // Search the hash list if we have one...
+  if (m_hashtable && m_hashsize) {
+    hash = HASH(streamoffset,m_manager->m_bufsize,m_hashsize);
+    for (curbuf=m_hashtable[hash];curbuf;curbuf=curbuf->m_nexthashbuf) {
+      if (curbuf->m_streamoffset <= streamoffset &&
+          curbuf->m_streamoffset + curbuf->m_size > streamoffset)
+        break;    
+    }
+    
+  }
+  
+  // Else have to slowly search...
+  else {
+    for (curbuf=m_firstbuf;curbuf;curbuf=curbuf->m_nextbuf) {
+      if (curbuf->m_streamoffset <= streamoffset &&
+          curbuf->m_streamoffset + curbuf->m_size > streamoffset)
+        break;    
+    }
+  }
+  
+  // Return the buffer (if any)
+  *thebuf = curbuf;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOStream::AllocateBuf(int streamoffset,XMLIOBuffer **thebuf) {
+
+  XMLError result;
+  
+  // Sanity checks...
+  if (streamoffset < 0 || thebuf == NULL) goto BADPARAMETERS;
+  *thebuf = NULL;
+  if (m_manager == NULL) goto NOTMANAGED;
+  
+  // Allocate a new IO buffer
+  result = m_manager->GetIOBuffer(this,thebuf);
+  if (result) goto ERROR;
+  
+  // If we're hashing, hash it...
+  if (m_hashsize) {
+    result = (*thebuf)->Unhash();
+    if (result) goto ERROR;
+    (*thebuf)->m_streamoffset = streamoffset-(streamoffset%m_manager->m_bufsize);
+    result = (*thebuf)->Hash();
+    if (result) goto ERROR;
+  }
+  
+  // If we're not hashing, don't hash it...
+  else
+    (*thebuf)->m_streamoffset = streamoffset-(streamoffset%m_manager->m_bufsize);
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+DONE:
+  return result;
+}
+
+XMLError XMLIOStream::UnhashBufs(void) {
+
+  XMLError     result;
+  int          i;
+  XMLIOBuffer *curbuf;
+  
+  // Sanity checks...
+  if (m_manager == NULL) goto NOTMANAGED;
+
+  // If no hash table, nothing to do...
+  if (m_hashsize == 0 || m_hashtable == 0) goto OK;
+  
+  // Walk through each bucket and unhash the buffers
+  for (i=0;i<m_hashsize;i++) {
+    for (curbuf=m_hashtable[i];curbuf;curbuf=curbuf->m_nexthashbuf) {
+      result = curbuf->Unhash();
+      if (result) goto INTERNALERROR;
+    }  
+  }
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+DONE:
+  return result;
+}
+
+XMLError XMLIOStream::HashBufs(int newsize) {
+  
+  XMLError     result;
+  int          i;
+  XMLIOBuffer *curbuf;
+  
+  // Sanity checks...
+  if (newsize < 0) goto BADPARAMETERS;
+  if (m_manager == NULL) goto NOTMANAGED;
+
+  // Turn size into a prime number
+  newsize = NextPrime(newsize);
+  
+  // Unhash first
+  result = UnhashBufs();
+  if (result) goto ERROR;
+  
+  // Free current hash table (if any)
+  if (m_hashtable) {
+    result = XMLHeap::Free((byte *)m_hashtable);
+    if (result) goto INTERNALERROR;
+  }
+  m_hashtable = NULL;
+  m_hashsize  = 0;
+
+  // If newsize is zero, we're finished
+  if (newsize == 0) goto OK;
+    
+  // Allocate and clear a new hash table
+  result = XMLHeap::Allocate(sizeof(XMLIOBuffer *) * newsize,(byte **)&m_hashtable);
+  if (result) goto ERROR;
+  m_hashsize = newsize;
+  for (i=0;i<newsize;i++)
+    m_hashtable[i] = NULL;
+      
+  // Walk through each buffer and hash it...
+  for (curbuf=m_firstbuf;curbuf;curbuf=curbuf->m_nextbuf) {
+    result = curbuf->Hash();
+    if (result) goto INTERNALERROR;
+  }
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOBuffer::GetBufferOffset - Compute a buffer's stream offset
+//
+// DESCRIPTION
+//
+//  This function computes the physical offset in a stream for the buffer
+//  used to contain the data.
+//
+
+int XMLIOStream::GetBufferOffset(int streamoffset) {
+  return streamoffset/m_manager->m_bufsize*m_manager->m_bufsize;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOString::XMLIOString  - Constructor
+//  XMLIOString::~XMLIOString - Destructor
+//  XMLIOString::DoesLock     - "Does LockFragment() actually lock?" (YES)
+//  XMLIOString::Length       - Get the string's length
+//
+
+XMLIOString::XMLIOString(XMLIOStream *stream,int offset,int length)
+  : XMLStringHashed()
+{
+  m_stream = stream;
+  m_offset = offset;
+  m_length = length;
+}
+
+XMLIOString::~XMLIOString() {
+}
+
+XMLError XMLIOString::DoesLock(void) {
+  return 1;
+}
+
+XMLError XMLIOString::Length(int *len) {
+  if (len == NULL)
+    return XMLErrorInvalidParameters;
+  *len = m_length;
+  return XMLErrorNone;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOString::SubString - Get a sub-string of a strng
+//
+// DESCRIPTION
+//
+//  This function creates another XMLIOString which is a substring of
+//  the current string.
+//
+
+XMLError XMLIOString::SubString(int offset, int len, XMLString **substring) {
+
+  XMLError     result;
+  XMLIOString *newstring;
+  
+  // Sanity checks
+  if (substring == NULL || offset < 0 || len < 0) goto BADPARAMETERS;
+  
+  // Return error if before/after string
+  if (offset+len >= m_length) goto BEYONDEND;
+  
+  // Create a new XMLIOString
+  newstring = new XMLIOString(m_stream,m_offset+offset,len);
+  if (newstring == NULL) goto NOMEM;
+  
+  // Return string to caller
+  *substring = newstring;
+  
+  goto OK;
+  
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+BEYONDEND:
+  result = XMLErrorOffsetBeyondString;
+  goto DONE;
+  
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOString::LockFragment       - Lock a given fragment
+//  XMLIOString::UnlockFragment     - Unlock a given fragment
+//  XMLIOString::LockUnlockFragment - Lock/Unlock buffer for a fragment
+//
+// DESCRIPTION
+//
+//  These functions manage the locking/unlocking of a fragment.
+//
+//  The LockUnlockFragment() does all the sanity checks and performs
+//  the lock or unlock.
+//
+
+XMLError XMLIOString::LockFragment(int offset, byte **pointer, int *availlen) {
+  
+  XMLError     result;                               // Return code
+  XMLIOBuffer *iobuf;                                // The IO buffer
+#if DEBUGGING
+  static int itercount = 0;
+  
+  itercount++;
+#endif
+  
+  // Sanity checks (LockUnlockFragment checks offset and stream)
+  if (pointer == NULL || availlen == NULL) goto BADPARAMETERS;
+  
+  // Lock it
+  result = LockUnlockFragment(offset,1,&iobuf);
+  if (result) goto ERROR;
+
+  // Get the fragment length
+  result = iobuf->GetRemainingLength(m_offset+offset,availlen);
+  if (result) goto ERROR;
+  if (m_length - offset < *availlen)
+    *availlen = m_length - offset;
+
+  // Treat this as a logical read on the stream
+  m_stream->m_stats.bytesreadlogical += *availlen;
+  
+  // Get the pointer
+  result = iobuf->GetPointer(pointer);
+  if (result) goto ERROR;
+  *pointer += (m_offset + offset) - iobuf->GetOffset();
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOString::UnlockFragment(int offset) {
+  XMLError     result;                               // Return code
+
+  // Unlock it
+  result = LockUnlockFragment(offset,0);
+  if (result) goto ERROR;
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK: 
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOString::LockUnlockFragment(int offset,int lock,XMLIOBuffer **iobuf) {
+
+  XMLError result;                                  // Return code
+  int      filelen;                                 // File's length
+  int      streamoff;                               // Offset into stream
+  int      oldoffset;                               // Original stream offset
+
+  // Sanity checks
+  if (offset < 0)
+    goto BADPARAMETERS;
+  if (m_stream == NULL)
+    goto INTERNALERROR;
+  if (offset > m_length) goto ENDOFSTRING;
+
+  // Compute offset into stream
+  streamoff = m_offset + offset;
+      
+  // Get the stream's length
+  result = m_stream->Length(&filelen);
+  if (result) goto ERROR;
+  if (streamoff >= filelen) goto ENDOFSTREAM;
+
+  // Save old stream position
+  result = m_stream->Tell(&oldoffset);
+  if (result) goto ERROR;
+    
+  // Find the buffer (retain old position)
+  result = m_stream->Tell(&oldoffset);
+  if (result) goto ERROR;
+  result = m_stream->Seek(streamoff);
+  if (result) goto ERROR;
+  result = m_stream->ReadSome(NULL,0,0,iobuf);
+  m_stream->Seek(oldoffset);
+  if (result) goto ERROR;
+  
+  // Lock/unlock the buffer
+  if (lock)
+    result = m_stream->LockBuffer(streamoff,iobuf);
+  else
+    result = m_stream->UnlockBuffer(streamoff,iobuf);
+  if (result) goto ERROR;
+  
+  // Return the address
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+ENDOFSTRING:
+  result = XMLErrorOffsetBeyondString;
+  goto DONE;
+ENDOFSTREAM:
+  result = XMLErrorIOStreamSeekPastEOS;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStatistics::XMLIOStatistics - Constructor
+//  XMLIOStatistics::Reset           - Reset statistics
+//  XMLIOStatistics::Add             - Add another set of statistics
+//  XMLIOStatistics::Negate          - Negate statistics (for delta)
+//
+// DESCRIPTION
+//
+//  These functions manage a set of I/O statistics.
+//
+
+XMLIOStatistics::XMLIOStatistics(void) {
+  Reset();
+}
+  
+void XMLIOStatistics::Reset(void) {
+
+  memset((void *)this,0,sizeof(*this));
+}
+
+void XMLIOStatistics::Add(XMLIOStatistics *that) {
+
+  int *ints1;
+  int *ints2;
+  int  numints;
+  
+  ints1 = (int *)this;
+  ints2 = (int *)that;
+  numints = sizeof(*this)/sizeof(int);
+  
+  for (; numints; numints--)
+    *ints1++ += *ints2++;
+  
+}
+
+void XMLIOStatistics::Negate(void) {
+  
+  int *ints;
+  int  numints;
+  
+  ints = (int *)this;
+  numints = sizeof(*this)/sizeof(int);
+  
+  for (; numints; numints--, ints++)
+    *ints = 0 - *ints;
+  
+}
+  
+
+@
+
+
+1.36
+log
+@Text writer working, don't like speed though
+@
+text
+@d485 1
+a485 1
+  if (offset < m_streamoffset) goto UNDERFLOW;
+d493 1
+a493 1
+      offset >= streamlen) goto OVERFLOW;
+d508 1
+a508 1
+UNDERFLOW:
+d511 1
+a511 1
+OVERFLOW:
+@
+
+
+1.35
+log
+@Compiled XML writer almost working
+@
+text
+@d1949 5
+d2017 1
+a2017 1
+  
+@
+
+
+1.34
+log
+@Weren't reading twice, just counting twice!
+@
+text
+@d1303 138
+@
+
+
+1.33
+log
+@Complete IO stats - We're reading 2 times what we should!
+@
+text
+@d1256 3
+d1334 3
+@
+
+
+1.32
+log
+@A couple of GPFs and bugs fixed
+@
+text
+@d72 3
+a74 1
+    
+d119 2
+a120 1
+  XMLIOStream *curstream;
+d129 31
+d162 4
+a165 4
+  
+  // Sum in each stream's stats...
+  for (curstream = m_firststream; curstream; curstream = curstream->m_nextstream)
+    stats->Add(&curstream->m_stats);
+a422 5
+  // Place on end of manager's free chain
+  SetLockCount(0);
+  if (m_manager)
+    m_manager->m_numbufs++;
+  
+d425 2
+a426 1
+    m_manager->m_stats.buffersunused++;
+d428 4
+a431 1
+
+d450 1
+a450 1
+  
+d554 1
+a554 1
+  if (count < -1 || m_stream == NULL) goto BADPARAMETERS;
+d584 1
+d592 1
+a592 1
+    // If was locked and isn't now
+d602 1
+a602 1
+    // If wasn't locked and is now
+d612 1
+a612 1
+      
+d639 6
+a644 1
+  
+d657 5
+d692 4
+a695 1
+        
+d698 1
+a698 1
+  // Remove from manager's free chain (if we have a manager)
+a699 10
+    if (m_nextbuf)
+      m_nextbuf->m_prevbuf = m_prevbuf;
+    else
+      m_manager->m_lastfreebuf = m_prevbuf;
+    if (m_prevbuf)
+      m_prevbuf->m_nextbuf = m_nextbuf;
+    else
+      m_manager->m_firstfreebuf = m_nextbuf;
+    m_manager->m_numbufs--;
+    m_manager->m_numfreebufs--;
+d701 25
+a725 2
+    // Update managers IO stats
+    m_manager->m_stats.buffersunused--;    
+a727 3
+  // Update limbo statistics
+  m_manager->m_stats.buffersinlimbo++;
+  
+d982 6
+d1090 54
+d1259 1
+a1259 1
+  
+d1312 1
+d1319 2
+d1328 4
+d1819 3
+d1961 1
+a1961 1
+    *ints1++ = *ints2++;
+@
+
+
+1.31
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d1831 1
+a1831 1
+  numints = sizeof(this)/sizeof(int);
+d1844 1
+a1844 1
+  numints = sizeof(this)/sizeof(int);
+@
+
+
+1.30
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@d103 38
+d319 1
+a319 2
+  // If we don't have one and there's no free ones
+  // allocate a new one (it'll go on our free chain)
+d321 2
+d324 1
+a324 1
+    if (thebuf == NULL) goto OUTOFMEMORY;
+d393 6
+a398 1
+      
+d415 6
+d523 1
+a523 1
+  // If lockcount is zero, remove from stream's buffer and place on manager's free chain...
+d525 1
+d528 1
+d535 1
+d538 1
+d549 3
+d557 5
+a561 2
+    // If was locked and isn't now, increment stream's locked buffer count
+    if (count && m_lockcount == 0)
+d563 4
+d568 4
+a571 2
+    // If wasn't locked and is now, decrement stream's locked buffer count
+    else if (count == 0 && m_lockcount)
+d574 5
+d637 1
+d640 6
+d648 1
+d663 3
+d668 3
+d722 4
+d1799 52
+@
+
+
+1.29
+log
+@Skeleton parser walks big.xml OK
+@
+text
+@d1597 1
+a1597 1
+  result = LockUnlockFragment(offset,0,&iobuf);
+@
+
+
+1.28
+log
+@Separate DTD syntax token (contains whole contents)
+@
+text
+@d1043 1
+a1043 1
+  result = buf->GetRemainingLength(offset-bufoff, &bufrem);
+@
+
+
+1.27
+log
+@Skeleton parser passing through simple.xml OK without errors
+@
+text
+@d1031 4
+@
+
+
+1.26
+log
+@Implemented SubString() in all string classes
+@
+text
+@d1031 4
+@
+
+
+1.25
+log
+@Changed mind and renamed XMLStringInStream back to XMLIOString
+@
+text
+@d938 62
+d1508 54
+@
+
+
+1.24
+log
+@1) Added common class XMLStringHashed (saves rewriting Hash(), GetHash(), etc.)
+2) XMLIOStream to inherit from XMLStringHashed so we can treat the whole
+   stream as a single string.
+@
+text
+@d14 4
+a17 4
+  XMLIOManager       - Manager for XMLIOBuffers and XMLIOStreams
+  XMLIOBuffer        - A stream buffer
+  XMLIOStream        - An open stream (can act like an XMLString as well)
+  XMLStringInStream  - String implementation on XMLIOStreams
+d1420 4
+a1423 4
+//  XMLStringInStream::XMLStringInStream  - Constructor
+//  XMLStringInStream::~XMLStringInStream - Destructor
+//  XMLStringInStream::DoesLock           - "Does LockFragment() actually lock?" (YES)
+//  XMLStringInStream::Length             - Get the string's length
+d1426 1
+a1426 1
+XMLStringInStream::XMLStringInStream(XMLIOStream *stream,int offset,int length)
+d1434 1
+a1434 1
+XMLStringInStream::~XMLStringInStream() {
+d1437 1
+a1437 1
+XMLError XMLStringInStream::DoesLock(void) {
+d1441 1
+a1441 1
+XMLError XMLStringInStream::Length(int *len) {
+d1452 3
+a1454 3
+//  XMLStringInStream::LockFragment       - Lock a given fragment
+//  XMLStringInStream::UnlockFragment     - Unlock a given fragment
+//  XMLStringInStream::LockUnlockFragment - Lock/Unlock buffer for a fragment
+d1464 1
+a1464 1
+XMLError XMLStringInStream::LockFragment(int offset, byte **pointer, int *availlen) {
+d1501 1
+a1501 1
+XMLError XMLStringInStream::UnlockFragment(int offset) {
+d1522 1
+a1522 1
+XMLError XMLStringInStream::LockUnlockFragment(int offset,int lock,XMLIOBuffer **iobuf) {
+@
+
+
+1.23
+log
+@Change XMLIOString to XMLStringInStream
+@
+text
+@d16 1
+a16 1
+  XMLIOStream        - An open stream
+d868 3
+a870 1
+XMLIOStream::XMLIOStream(XMLIOManager *manager) {
+d938 86
+d1038 1
+a1038 1
+  Unhash();
+d1046 3
+d1189 2
+a1190 2
+//  XMLIOStream::Unhash      - Destroy the current hash table (if any)
+//  XMLIOStream::Hash        - Build/rebuild the hash list given a new size
+d1297 1
+a1297 1
+XMLError XMLIOStream::Unhash(void) {
+d1336 1
+a1336 1
+XMLError XMLIOStream::Hash(int newsize) {
+d1350 1
+a1350 1
+  result = Unhash();
+d1422 2
+a1423 2
+//  XMLStringInStream::GetLength    - Return the length of the string
+//  XMLStringInStream::DoesLock     - "Does LockFragment() actually lock?" (YES)
+d1426 3
+a1428 1
+XMLStringInStream::XMLStringInStream(XMLIOStream *stream,int offset,int length) {
+a1431 1
+  m_hash   = BADHASH;
+d1437 4
+a1447 4
+XMLError XMLStringInStream::DoesLock(void) {
+  return 1;
+}
+
+a1584 47
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLStringInStream::IsHashed - "Is the string hashed yet?"
+//  XMLStringInStream::Hash     - Compute the hash of the string
+//  XMLStringInStream::GetHash  - Get the string's hash
+//
+
+int XMLStringInStream::IsHashed(void) {
+  return (ISBADHASH(m_hash)) ? 0 : 1;
+}
+
+XMLError XMLStringInStream::Hash(void) {
+
+  XMLError result;
+  XMLHash  hash;
+  
+  // Only hash it if not already hashed
+  if (ISBADHASH(m_hash)) {
+    result = XMLString::GetHash(&hash);
+    if (result == XMLErrorNone)
+      m_hash = hash;
+  }
+  
+  // Was already hashed
+  else
+    result = XMLErrorNone;
+    
+  return result;
+   
+}
+  
+XMLError XMLStringInStream::GetHash(XMLHash *hash) {
+
+  XMLError result;
+  
+  result = Hash();
+  if (result)
+    return result;
+    
+  if (hash)
+    *hash = m_hash;
+  
+  return XMLErrorNone;
+@
+
+
+1.22
+log
+@XMLIOStreamCon tested OK and various tweaks to test harness
+@
+text
+@d14 4
+a17 4
+  XMLIOManager - Manager for XMLIOBuffers and XMLIOStreams
+  XMLIOBuffer  - A stream buffer
+  XMLIOStream  - An open stream
+  XMLIOString  - String implementation on XMLIOStreams
+d1329 4
+a1332 4
+//  XMLIOString::XMLIOString  - Constructor
+//  XMLIOString::~XMLIOString - Destructor
+//  XMLIOString::GetLength    - Return the length of the string
+//  XMLIOString::DoesLock     - "Does LockFragment() actually lock?" (YES)
+d1335 1
+a1335 1
+XMLIOString::XMLIOString(XMLIOStream *stream,int offset,int length) {
+d1342 1
+a1342 1
+XMLIOString::~XMLIOString() {
+d1345 1
+a1345 1
+XMLError XMLIOString::Length(int *len) {
+d1352 1
+a1352 1
+XMLError XMLIOString::DoesLock(void) {
+d1360 3
+a1362 3
+//  XMLIOString::LockFragment       - Lock a given fragment
+//  XMLIOString::UnlockFragment     - Unlock a given fragment
+//  XMLIOString::LockUnlockFragment - Lock/Unlock buffer for a fragment
+d1372 1
+a1372 1
+XMLError XMLIOString::LockFragment(int offset, byte **pointer, int *availlen) {
+d1409 1
+a1409 1
+XMLError XMLIOString::UnlockFragment(int offset) {
+d1430 1
+a1430 1
+XMLError XMLIOString::LockUnlockFragment(int offset,int lock,XMLIOBuffer **iobuf) {
+d1499 3
+a1501 3
+//  XMLIOString::IsHashed - "Is the string hashed yet?"
+//  XMLIOString::Hash     - Compute the hash of the string
+//  XMLIOString::GetHash  - Get the string's hash
+d1504 1
+a1504 1
+int XMLIOString::IsHashed(void) {
+d1508 1
+a1508 1
+XMLError XMLIOString::Hash(void) {
+d1528 1
+a1528 1
+XMLError XMLIOString::GetHash(XMLHash *hash) {
+@
+
+
+1.21
+log
+@Added XMLIOStreamCon class for console I/O
+@
+text
+@d110 1
+d120 6
+a125 1
+    
+@
+
+
+1.20
+log
+@XMLIOString works with big.xml!
+@
+text
+@d31 2
+a32 1
+
+d128 6
+a133 3
+  // For now we'll choose the only XMLIOStream we know about.
+  // Later we'll choose one based on the URL protocol
+  thestream = new XMLIOStreamBuf((XMLIOManager *)this);
+@
+
+
+1.19
+log
+@Fixes for multiple IO buffers
+@
+text
+@d264 1
+a264 1
+    // If we found one set it's lock count to 0 (may flush if it's dirty)
+d266 1
+a266 1
+      result = thebuf->SetLockCount(0);
+d336 1
+a336 1
+  m_streamoffset = 0;
+d447 4
+a458 1
+  int      oldcount;
+d461 1
+a461 5
+  if (count < 0) goto BADPARAMETERS;
+  
+  // Do it
+  oldcount = m_lockcount;
+  m_lockcount = count;
+d464 3
+a466 1
+  if (m_lockcount == 0) {
+a473 2
+    if (oldcount != count && m_stream)
+      m_stream->m_lockedbufs--;
+d487 15
+d508 3
+d521 5
+a525 4
+  if (m_lockcount == 0 && m_stream)
+    m_stream->m_lockedbufs++;
+  m_lockcount++;
+  return XMLErrorNone;
+d558 2
+d576 3
+a578 2
+  // If it was on a stream it's not any more
+  m_stream = NULL;
+d608 1
+a608 1
+  // Add to new stream's buffer chain
+d610 2
+d623 4
+d634 2
+d657 2
+d679 1
+a679 1
+  // Add it to the end of the beginning of the hash chain...
+d681 7
+a687 4
+  m_nexthashbuf = m_stream->m_hashtable[hash];
+  if (m_nexthashbuf)
+    m_nexthashbuf->m_prevhashbuf = this;
+  m_stream->m_hashtable[hash] = this;
+d705 1
+a705 1
+  if (m_stream && m_stream->m_hashsize && m_size && m_streamoffset)
+d708 1
+a708 1
+    hash = (XMLHash)0;
+d944 1
+a944 1
+    result = m_firstbuf->SetLockCount(0);
+a1165 1
+  (*thebuf)->m_streamoffset = streamoffset-(streamoffset%m_manager->m_bufsize);
+d1169 3
+d1175 4
+@
+
+
+1.18
+log
+@XMLIOString works with 1 buffer
+@
+text
+@a964 1
+  int          bufoff;
+a970 3
+  // Compute buffer offset
+  bufoff = offset%m_manager->m_bufsize;
+  
+d972 1
+a972 1
+  result = FindBuf(bufoff,&thebuf);
+a1008 1
+  int          bufoff;
+a1014 3
+  // Compute buffer offset
+  bufoff = offset%m_manager->m_bufsize;
+  
+d1016 1
+a1016 1
+  result = FindBuf(bufoff,&thebuf);
+d1132 1
+a1132 1
+  (*thebuf)->m_streamoffset = streamoffset;
+d1335 1
+a1335 1
+  result = iobuf->GetRemainingLength(offset,availlen);
+@
+
+
+1.17
+log
+@Ready to test XMLIOString (code written)
+@
+text
+@d1334 1
+a1334 1
+
+d1345 2
+d1348 5
+d1370 1
+a1370 1
+  // Lock it
+d1374 1
+a1374 1
+  // Find the buffer
+d1381 3
+d1392 1
+d1400 5
+a1404 1
+    
+d1408 1
+a1408 1
+  if (offset >= filelen) goto ENDOFSTREAM;
+d1417 2
+d1425 1
+a1425 1
+    result = m_stream->LockBuffer(offset,iobuf);
+d1427 1
+a1427 1
+    result = m_stream->UnlockBuffer(offset,iobuf);
+d1430 1
+d1439 3
+d1473 1
+a1473 1
+    result = XMLIOString::GetHash(&hash);
+d1488 6
+@
+
+
+1.16
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d1293 1
+a1293 1
+XMLIOString::XMLIOString(XMLIOStream *stream,int offset) {
+d1296 1
+a1296 1
+  m_length = 0;
+d1303 1
+a1303 1
+XMLError XMLIOString::GetLength(int *len) {
+d1339 1
+a1339 1
+  result = LockUnlockFragment(offset,1,&iobuf);
+@
+
+
+1.15
+log
+@Implemented Rewind()/Unwind() at root stream level
+@
+text
+@d23 2
+a26 1
+#include "memory.h"
+d31 1
+@
+
+
+1.14
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d928 28
+@
+
+
+1.13
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d1303 1
+a1303 1
+  XMLIOBuffer *iobuf;                               // The IO buffer
+d1352 1
+d1364 11
+@
+
+
+1.12
+log
+@Initial base functionality added for XMLString class
+@
+text
+@d4 1
+a4 4
+  FILE
+    xmlio.cpp - Implementation of the XMLIOManager and XMLIOBuffer classes
+  DESCRIPTION
+    This file contains the implementation of the main IO manager classes.
+d6 13
+d382 46
+d928 2
+a929 2
+//  XMLIOStream::BufLock   - Lock the buffer for a given stream offset range
+//  XMLIOStream::BufUnlock - Unlock the buffer for a given stream offset range
+d932 1
+a932 1
+XMLError XMLIOStream::BufLock(int offset, int len) {
+d935 2
+a936 4
+  XMLError     tresult;
+  XMLIOBuffer *curbuf;
+  int          curoff;
+  int          reml;
+d939 1
+a939 1
+  if (offset < 0 || len <= 0) goto BADPARAMETERS;
+d942 2
+a943 23
+  // Compute first buffer offset and remaining length
+  curoff = offset%m_manager->m_bufsize;
+  reml = len + (offset-curoff);
+  
+  // Try locking each buffer in the range
+  while (reml) {
+    // Find the buffer
+    result = FindBuf(curoff,&curbuf);
+    if (result) goto ERROR;
+    // If buffer not found we have to undo the locks and report the error
+    if (curbuf == NULL) {
+      tresult = BufUnlock(offset,len);
+      if (tresult != XMLErrorIOBufferNotFound)
+        goto INTERNALERROR;
+      goto BUFFERNOTFOUND;
+    }
+    // We found it, lock it...
+    result = curbuf->Lock();
+    if (result) goto INTERNALERROR;
+    // Get ready for next go
+    curoff += m_manager->m_bufsize;
+    reml   -= m_manager->m_bufsize;
+  }
+d945 13
+d981 1
+a981 1
+XMLError XMLIOStream::BufUnlock(int offset, int len) {
+d983 2
+a984 4
+  XMLIOBuffer *curbuf;
+  XMLIOBuffer *nxtbuf;
+  int          curoff;
+  int          reml;
+d987 1
+a987 1
+  if (offset < 0 || len <= 0) goto BADPARAMETERS;
+a988 18
+
+  // Compute first buffer offset and remaining length
+  curoff = offset%m_manager->m_bufsize;
+  reml = len + (offset-curoff);
+  
+  // Try locking each buffer in the range
+  while (reml) {
+    // Find the buffer
+    result = FindBuf(curoff,&curbuf);
+    if (result) goto ERROR;
+    if (curbuf == NULL) goto BUFFERNOTFOUND;
+    // We found it, unlock it
+    result = curbuf->Unlock();
+    if (result) goto INTERNALERROR;
+    // Get ready for next go
+    curoff += m_manager->m_bufsize;
+    reml   -= m_manager->m_bufsize;
+  }
+d990 16
+a1016 3
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+d1252 178
+@
+
+
+1.11
+log
+@Stream IO plugged into tester, all working
+@
+text
+@d579 1
+a579 1
+  int      hash;
+d609 1
+a609 1
+int XMLIOBuffer::GetHash(void) {
+d611 1
+a611 1
+  int hash;
+d614 1
+a614 1
+    hash = HASH(m_streamoffset,m_size,m_stream->m_hashsize);
+d616 1
+a616 1
+    hash = 0;
+@
+
+
+1.10
+log
+@XMLIOStreamBuf Write() tested
+@
+text
+@d1025 1
+a1025 1
+      if (curbuf->m_streamoffset < streamoffset &&
+d1035 1
+a1035 1
+      if (curbuf->m_streamoffset < streamoffset &&
+@
+
+
+1.9
+log
+@XMLIOStreamBuf Open/Read/Close tested
+@
+text
+@d1018 3
+@
+
+
+1.8
+log
+@Finished XMLIOStreamBuf - Ready to test
+@
+text
+@d235 1
+a235 1
+XMLError XMLIOManager::GetIOBuffer(XMLIOStream *forstream, XMLIOBuffer **newbuf) {
+d243 1
+a243 1
+  if (forstream == NULL) goto BADPARAMETERS;
+d245 17
+a261 2
+  // If there's no free ones allocate a new one (it'll go on our free chain)
+  if (m_firstfreebuf == NULL) {
+d266 1
+a266 4
+  // Use the first free one
+  thebuf = m_firstfreebuf;
+  
+  // Remove it from the free chain
+d271 1
+a271 1
+  result = thebuf->SetStream(forstream);
+d326 1
+a326 1
+  m_dirty        = 1;
+d498 3
+d1068 1
+d1159 1
+a1159 1
+  // Allocate a new hash table
+d1163 3
+a1165 1
+    
+@
+
+
+1.7
+log
+@More XMLIOStreamBUF work - ...::Read not finished
+@
+text
+@d493 4
+a496 4
+//  XMLIOBuffer::SetStream  - Set the buffer's owning stream
+//  XMLIOBuffer::Unhash     - Remove buffer from the stream's hash list
+//  XMLIOBuffer::Hash       - Place buffer on the stream's hash list
+//  XMLIOBuffer::GetHash    - Compute the buffer's hash bucket number
+d1174 16
+@
+
+
+1.6
+log
+@Started on XMLIOStreamBuf implementation
+@
+text
+@d16 1
+d349 1
+d356 4
+d781 1
+a781 1
+  m_hashsize      = 256;                            // Initial size (256*2048 = 512KB file size)
+d1125 3
+@
+
+
+1.5
+log
+@Implemented BufLock() and BufUnlock() in XMLIOStream
+@
+text
+@d140 1
+a140 1
+  result = thestream->Open(url,urllen);
+d313 1
+d390 6
+d421 2
+d711 1
+d788 3
+a790 4
+  // Remove any buffers
+  while (m_firstbuf)
+    m_firstbuf->SetLockCount(0);
+    
+d806 38
+@
+
+
+1.4
+log
+@IO construct/destruct tidy & added hash stuff to XMLIOStream
+@
+text
+@d800 118
+@
+
+
+1.3
+log
+@Reworked xmlio for hashing etc.
+@
+text
+@d20 6
+d52 6
+d584 1
+a584 1
+    hash = m_streamoffset/m_size % m_stream->m_hashsize;
+d759 14
+d799 204
+@
+
+
+1.2
+log
+@More work on IO manager
+@
+text
+@d15 1
+d43 3
+a45 3
+  m_maxstreams = 0;
+  m_numstreams = 0;
+  m_streams    = NULL;
+d62 8
+a69 8
+  // Free all the streams in the list (the stream frees the buffers)...
+  if (m_streams) {
+    stream = m_streams;
+    for (i=0;i<m_maxstreams;i++,stream++) {
+      if (*stream)
+        delete *stream;
+    }
+  }
+d130 4
+a133 2
+  
+  // Cool, it's open
+d148 2
+d151 2
+d194 579
+@
+
+
+1.1
+log
+@Starting XMLIO coding
+@
+text
+@d16 3
+d29 1
+d34 2
+a35 1
+    
+d41 5
+d48 138
+@
+

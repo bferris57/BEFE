@@ -1,0 +1,1071 @@
+head	1.26;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.26
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.26.09.02.45;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.24.08.42.47;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.24.05.28.24;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.21.08.11.08;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.18.05.02.14;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.18.03.05.05;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.12.07.04.29;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.12.06.52.11;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.11.17.59.38;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.05.05.01.28;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.02.06.05.52;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.02.05.58.46;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.01.21.48.23;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.01.06.04.42;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.09.30.02.43.51;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.09.29.18.34.50;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.09.29.10.20.14;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.09.29.08.55.17;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.09.29.08.34.03;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.09.29.07.30.51;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.09.28.08.35.35;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.28.06.45.54;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.27.05.42.13;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.26.05.57.17;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.26.05.53.18;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.26
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlio.h - Definitions for the XML I/O objects
+  
+  DESCRIPTION
+    
+    This file contains the definitions for the XML I/O objects.  These
+    objects are the basic definition wrappers for implementing the
+    I/O for XML streams.
+  NOTES
+*/
+
+#ifndef _xmlio_h
+
+#define _xmlio_h
+
+#include "xml.h"
+#include "xmlheap.h"
+#include "xmlstrbase.h"
+
+// Forward class declarations
+class XMLIOManager;
+class XMLIOBuffer;
+class XMLIOStream;
+class XMLIOString;
+
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLIOManager - Manage Stream I/O and buffers
+//
+// DESCRIPTION
+//
+//  This class is used to manage N streams of I/O and the memory buffers associated
+//  with them.
+//
+ 
+class XMLIOManager : public XMLObject {
+  friend class XMLIOBuffer;
+  friend class XMLIOStream;
+  //
+  // Public typedefs/enums
+  //
+public: 
+  typedef enum {
+     ForNeither
+    ,ForRead
+    ,ForWrite
+    ,ForReadAndWrite
+  } AccessMode;
+  
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  XMLIOManager(int bufsize = 2048,int maxbufs = 0);
+  ~XMLIOManager();
+  
+  // Statistics
+  void GetStatistics(XMLIOStatistics *stats);
+  
+  //
+  // Streams as streams
+  //
+  
+  // Open a stream from a URL (files, http, ftp, etc.)
+  XMLError Open(char *url, int urllen, AccessMode access, XMLIOStream **stream);
+  // Open a stream from a URL for reading/writing/both
+  XMLError OpenRead(char *url, int urllen, XMLIOStream **stream);
+  XMLError OpenWrite(char *url, int urllen, XMLIOStream **stream);
+  XMLError Open(char *url, int urllen, XMLIOStream **stream);
+  // Read URL to a temp file and open it for read/write
+  XMLError OpenTemp(char *url, int urllen, XMLIOStream **stream);
+  
+  //
+  // Buffers
+  //
+  
+  // Create a new I/O buffer (lockcount 0)
+  XMLError GetIOBuffer(XMLIOStream *forstream, XMLIOBuffer **newbuf);
+  
+  // 
+  // Protected members
+  //
+protected:
+  
+  // Statistics
+  XMLIOStatistics m_stats;                          // Current IO stats
+  
+  // Streams as streams
+  XMLIOStream *m_firststream;                       // First stream in stream chain
+  XMLIOStream *m_laststream;                        // Last stream in stream chain
+  int m_numstreams;                                 // Number of streams slots in m_streams (not all may be open though)
+
+  // Buffers
+  int m_bufsize;                                    // Buffer size (data NOT data+header)
+  int m_maxbufs;                                    // Maximum buffers (0=Unlimited)
+  int m_numbufs;                                    // Total buffers
+  int m_numfreebufs;                                // Current number of free buffers
+  XMLIOBuffer *m_firstfreebuf;                      // First buffer on the free chain
+  XMLIOBuffer *m_lastfreebuf;                       // Last buffer on the free chain
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLIOStream - An I/O stream (and stream)
+//
+// DESCRIPTION
+//
+//  This class represents a single abstract XML I/O stream.
+//
+ 
+class XMLIOStream : public XMLStringHashed {
+  friend class XMLIOManager;
+  friend class XMLIOBuffer;
+  friend class XMLIOString;
+  
+  //
+  // Public string member functions (overrides)
+  //
+public:  
+  // Get the value/len of the string
+  virtual XMLError Length(int *len) = 0;
+  // Substringing
+  virtual XMLError SubString(int offset, int len, XMLString **substring);
+  // Fragments
+  virtual int      DoesLock(void);                   // "Does LockFragment() actualy lock the fragment?"
+  virtual XMLError LockFragment(int offset, byte **pointer, int *availlen);
+  virtual XMLError UnlockFragment(int offset);
+          XMLError LockUnlockFragment(int offset,int lockit,XMLIOBuffer **iobuf = NULL);
+  // Appending
+  virtual XMLError Append(byte *buf, int bufl);
+  virtual XMLError Append(char *buf, int bufl = -1);
+  virtual XMLError Append(XMLString *string);
+ 
+  //
+  // Public stream member functions
+  //
+public:
+  // Driver Capability
+  virtual int CanRead(void) = 0;
+  virtual int CanWrite(void) = 0;
+  virtual int CanPosition(void) = 0;
+  virtual int CanRewind(void) = 0;
+  virtual int CanLockBuffer(void) = 0;
+  virtual int IsOpen(void) = 0;
+  virtual XMLIOManager::AccessMode GetAccessMode(void) = 0;
+  
+  // Statistics
+  virtual void GetStatistics(XMLIOStatistics *stats);
+  
+  // Opening/closing
+  virtual XMLError Open(char *url, int urllen, XMLIOManager::AccessMode access) = 0;
+  virtual XMLError Close(void);
+  // Reading
+  virtual XMLError Read(byte *buf, int maxbufl, int *bytesread) = 0;
+  virtual XMLError ReadSome(byte *buf, int maxbufl, int *bytesread, XMLIOBuffer **iobuf = NULL) = 0;
+  // Writing
+  virtual XMLError Write(byte *buf, int bufl) = 0;
+  virtual XMLError WriteSome(byte *buf, int maxbufl, int *byteswritten) = 0;
+  // Positioning
+  virtual XMLError Seek(int offset) = 0;
+  virtual XMLError Tell(int *offset) = 0;
+  virtual XMLError Rewind(void);
+  virtual XMLError Unwind(void);
+  // Buffer Locking/Unlocking
+  virtual XMLError LockBuffer(int offset, XMLIOBuffer **iobuf = NULL);
+  virtual XMLError UnlockBuffer(int offset, XMLIOBuffer **iobuf = NULL);
+  //
+  // Protected stream member functions
+  //
+protected:
+  
+  // Constructors/destructors
+  XMLIOStream(XMLIOManager *manager = NULL);
+  virtual ~XMLIOStream();
+  
+  // Buffer and hash table maintenance
+  XMLError FindBuf(int streamoffset,XMLIOBuffer **thebuf);
+  XMLError AllocateBuf(int streamoffset,XMLIOBuffer **thebuf);
+  XMLError UnhashBufs(void);
+  XMLError HashBufs(int newsize);
+  // Flushing dirty buffers
+  virtual XMLError FlushBuffer(XMLIOBuffer *thebuf) = 0;
+  // Compute buffer offset for a stream offset
+  int GetBufferOffset(int streamoffset);
+  //
+  // Protected stream members
+  //
+protected:
+  // Manager's IOStream chain
+  XMLIOManager *m_manager;                          // Our XMLIOManager
+  XMLIOStream  *m_nextstream;                       // Next stream in manager's stream chain
+  XMLIOStream  *m_prevstream;                       // Previous stream in manager's stream chain
+  
+  // IO Statistics
+  XMLIOStatistics m_stats;
+  
+  // Used IO buffer chain
+  XMLIOBuffer  *m_firstbuf;                         // First buffer on chain
+  XMLIOBuffer  *m_lastbuf;                          // Last buffer on chain
+  int           m_maxbufs;                          // Maximum buffers
+  int           m_numbufs;                          // Current number of buffers
+  int           m_lockedbufs;                       // Current number of locked buffers  
+  
+  // Used IO buffer hash
+  int           m_hashsize;                         // Size of hash table (entries)
+  int           m_hashincrement;                    // Hash table increment size
+  XMLIOBuffer **m_hashtable;                        // Buffer hash table
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLIOBuffer - An I/O stream buffer
+//
+// DESCRIPTION
+//
+//  This class implements a managed memory buffer for use by I/O streams.
+//
+// NOTES
+//
+//  Only the IO manager and stream implementations should use this class.
+ 
+class XMLIOBuffer : public XMLObject {
+  friend class XMLIOManager;
+  friend class XMLIOStream;
+  //
+  // Public member functions
+  //
+public:
+  
+  // Query
+  int      GetSize(void);                           // Get the buffer's data size (disregarding end-of-stream)
+  int      GetOffset(void);                         // Get the buffer's stream offset
+  XMLError GetRemainingLength(int offset,int *reml);// Given a stream offset, get min(buf,end-of-stream)
+  int      IsDirty(void);                           // "Is this buffer dirty?"
+  
+  // Locking
+  int      GetLockCount(void);                      // Get current lockcount
+  XMLError SetLockCount(int count);                 // Set the lockcount (<=0 frees the buffer)
+  XMLError Lock(void);                              // Increment lockcount
+  XMLError Unlock(void);                            // Decrement lockcount
+  
+  // Hashing
+  XMLError Unhash(void);                            // Remove buffer from the stream's hash list
+  XMLError Hash(void);                              // Place buffer on the stream's hash list
+  XMLHash  GetHash(void);                           // Compute the buffer's hash bucket number
+  
+  // Reclaiming the buffer
+  XMLError GetPointer(byte **pointer);              // Get pointer to first byte in buffer
+  operator char *();                                //  "    "     "    "     "  "    "
+  operator byte *();                                //  "    "     "    "     "  "    "
+  
+  // Info about the buffer
+  // Reading from and Writing to the buffer
+  XMLError ReadBytes(int streamoffset, byte *data, int len);
+  XMLError WriteBytes(int streamoffset, byte *data, int len);  
+  
+  //
+  // Protected member functions
+  //
+protected:
+  
+  // Constructor (new)
+  XMLIOBuffer(int size, XMLIOManager *manager);
+  ~XMLIOBuffer();
+  
+  // Ownership
+  XMLError Limbo(void);                             // Place in limbo (not on anyone's free chains)
+  
+  // Ownership
+  XMLError SetStream(XMLIOStream *forstream);
+  
+  //
+  // Protected members
+  //
+protected:
+  
+  XMLIOManager *m_manager;                         // Owning buffer manager
+  XMLIOStream  *m_stream;                          // The stream that owns this buffer (NULL=Free)
+  XMLIOBuffer  *m_nextbuf;                         // Next buffer in buffer chain (stream or free)
+  XMLIOBuffer  *m_prevbuf;                         // Previous buffer in stream (stream or free)
+  XMLIOBuffer  *m_nexthashbuf;                     // Next buffer in stream hash chain
+  XMLIOBuffer  *m_prevhashbuf;                     // Previous buffer in stream hash chain
+  int           m_streamoffset;                    // Offset into stream represented by the buffer (hash key'ish)
+  int           m_lockcount;                       // Current lock count
+  int           m_size;                            // Size of the buffer's dadta
+  byte         *m_data;                            // The buffer data
+  unsigned      m_dirty;                           // "Has data been written to this buf?"
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLIOString - An implementation of XMLString in an XMLIOStream
+//
+// DESCRIPTION
+//
+//  This class implements an XMLString based on the contents of an
+//  XMLIOStream.
+//
+// NOTES
+//
+//  The current implementation imposes some restrictions...
+//
+//    a) If the associated XMLIOStream is closed BEFORE destroying
+//       all strings based on it, this implementation is likely to
+//       blow up!
+//    b) If bytes are written to the stream outside of this implementation,
+//       the string's hash will be wrong.
+//    c) Unbalanced calls to LockFragment() and UnlockFragment()
+//       will cause indeterminate behaviour because we simply pass
+//       on the locks to the associated XMLIOBuf.
+//
+//  Although there's a bit of overhead in each XMLIOString instance
+//  (at least 20 bytes) we can justify ourselves by presuming a fairly
+//  short lifespan.  The thinking is...
+//
+//    a) LONG strings like CDATA, PCDATA can easily justify the memory overhead
+//    b) SHORT non-distinct strings like tags, attribute names, etc. occur
+//       so often that copies of them will be cached into a single in-memory
+//       string for recognition purposes.
+//    c) SHORT to MEDIUM strings like attribute values, CDATA etc. will
+//       normally be referenced by offset/len instead of requiring them
+//       to remain for a long time in the form of an XMLIOString.
+//
+ 
+class XMLIOString : public XMLStringHashed {
+  
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  XMLIOString(XMLIOStream *stream, int offset,int length);
+  virtual ~XMLIOString();
+  // Get the value/len of the string
+  virtual XMLError Length(int *len);
+  // Substringing
+  virtual XMLError SubString(int offset, int len, XMLString **substring);
+  // Fragments
+  virtual int      DoesLock(void);                   // "Does LockFragment() actualy lock the fragment?"
+  virtual XMLError LockFragment(int offset, byte **pointer, int *availlen);
+  virtual XMLError UnlockFragment(int offset);
+          XMLError LockUnlockFragment(int offset,int lockit,XMLIOBuffer **iobuf = NULL);
+  //
+  // Protected members
+  //
+protected:
+  XMLIOStream *m_stream;                                 // The associated XMLIOStream
+  int          m_offset;                                 // Offset into stream of 1st string byte
+  int          m_length;                                 // Length of the string
+};
+
+#endif //_xmlio_h
+@
+
+
+1.25
+log
+@Compiled XML writer almost working
+@
+text
+@d43 2
+a44 2
+  friend XMLIOBuffer;
+  friend XMLIOStream;
+d121 3
+a123 3
+  friend XMLIOManager;
+  friend XMLIOBuffer;
+  friend XMLIOString;
+d234 2
+a235 2
+  friend XMLIOManager;
+  friend XMLIOStream;
+a339 2
+  friend XMLIOString;
+  
+d365 1
+a365 1
+#endif _xmlio_h
+@
+
+
+1.24
+log
+@Complete IO stats - We're reading 2 times what we should!
+@
+text
+@d138 5
+a357 1
+
+@
+
+
+1.23
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d50 2
+a51 1
+     ForRead
+d123 2
+d149 5
+@
+
+
+1.22
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d29 1
+d63 3
+d90 4
+d167 1
+d171 1
+d189 4
+d199 1
+d227 1
+d233 1
+d239 1
+d244 1
+d249 1
+d254 1
+d259 1
+d263 1
+d266 1
+d269 1
+d274 1
+@
+
+
+1.21
+log
+@Added TestXMLDocumentMem to test suite
+@
+text
+@d21 1
+@
+
+
+1.20
+log
+@Implemented SubString() in all string classes
+@
+text
+@d65 1
+a65 1
+  // Open a stream froma URL (files, http, ftp, etc.)
+@
+
+
+1.19
+log
+@Changed mind and renamed XMLStringInStream back to XMLIOString
+@
+text
+@d119 2
+d299 3
+d311 2
+@
+
+
+1.18
+log
+@1) Added common class XMLStringHashed (saves rewriting Hash(), GetHash(), etc.)
+2) XMLIOStream to inherit from XMLStringHashed so we can treat the whole
+   stream as a single string.
+@
+text
+@d263 1
+a263 1
+//  XMLStringInStream - An implementation of XMLString in an XMLIOStream
+d296 1
+a296 1
+class XMLStringInStream : public XMLStringHashed {
+d302 2
+a303 2
+  XMLStringInStream(XMLIOStream *stream, int offset,int length);
+  virtual ~XMLStringInStream();
+@
+
+
+1.17
+log
+@Change XMLIOString to XMLStringInStream
+@
+text
+@d62 1
+a62 1
+  // Streams
+d85 1
+a85 1
+  // Streams
+d89 1
+a89 1
+  
+d103 1
+a103 1
+//  XMLIOStream - An I/O stream
+d107 1
+a107 1
+//  This class represents a single abstract XML I/O stream.  
+d110 1
+a110 1
+class XMLIOStream : public XMLObject {
+d114 12
+a125 1
+  // Public member functions
+a137 2
+  // Query
+  virtual XMLError Length(int *len) = 0;
+a151 1
+  
+d153 1
+a153 1
+  // Protected member functions
+d162 2
+a163 2
+  XMLError Unhash(void);
+  XMLError Hash(int newsize);
+d169 1
+a169 1
+  // Protected members
+d272 1
+a272 1
+//  The rather brittle implementation of this class means...
+d277 2
+a278 2
+//    b) If the stream is writable, the string's hash won't, 
+//       necessarily, return the proper hash.
+d296 1
+a296 1
+class XMLStringInStream : public XMLString {
+a310 4
+  // Hashing
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+a318 1
+  XMLHash      m_hash;                                   // The cached hash value (BADHASH = "Hasn't been calculated yet")
+@
+
+
+1.16
+log
+@Ready to test XMLIOString (code written)
+@
+text
+@d255 1
+a255 1
+//  XMLIOString - An implementation of XMLString on an XMLIOStream
+d288 1
+a288 1
+class XMLIOString : public XMLString {
+d294 2
+a295 2
+  XMLIOString(XMLIOStream *stream, int offset,int length);
+  virtual ~XMLIOString();
+@
+
+
+1.15
+log
+@Implemented Rewind()/Unwind() at root stream level
+@
+text
+@d294 2
+a295 2
+  XMLIOString(XMLIOStream *stream, int offset);
+  virtual ~XMLIOString() = 0;
+d297 1
+a297 1
+  virtual XMLError GetLength(int *len) = 0;
+d299 3
+a301 4
+  virtual int      DoesLock(void) = 0;                   // "Does LockFragment() actualy lock the fragment?"
+  virtual XMLError GetFragment(int offset, byte *buf, int maxbufl, int *movedlen) = 0;
+  virtual XMLError LockFragment(int offset, byte **pointer, int *availlen) = 0;
+  virtual XMLError UnlockFragment(int offset) = 0;
+@
+
+
+1.14
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d131 1
+a131 1
+  virtual XMLError ReadSome(byte *buf, int maxbufl, int *bytesread, XMLIOBuffer **iobuf == NULL) = 0;
+d137 1
+d139 1
+a139 1
+  virtual XMLError Tell(int *offset) = 0;
+@
+
+
+1.13
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d131 1
+a131 1
+  virtual XMLError ReadSome(byte *buf, int maxbufl, int *bytesread) = 0;
+d137 2
+a138 1
+  virtual XMLError Rewind(void) = 0;
+@
+
+
+1.12
+log
+@Initial base functionality added for XMLString class
+@
+text
+@d24 1
+d26 1
+a26 1
+class XMLIOBuffer;
+d122 1
+a122 1
+  virtual int CanBufLock(void) = 0;
+d127 2
+d139 2
+a140 2
+  virtual XMLError BufLock(int offset, int len = 1);
+  virtual XMLError BufUnlock(int offset, int len = 1);
+d200 1
+a200 1
+  int      GetSize(void);                           // Get the buffer's size
+d202 1
+d217 1
+d247 68
+@
+
+
+1.11
+log
+@Finished XMLIOStreamBuf - Ready to test
+@
+text
+@d208 1
+a208 1
+  int      GetHash(void);                           // Compute the buffer's hash bucket number
+@
+
+
+1.10
+log
+@More XMLIOStreamBUF work - ...::Read not finished
+@
+text
+@d131 1
+d153 2
+@
+
+
+1.9
+log
+@Started on XMLIOStreamBuf implementation
+@
+text
+@d124 1
+a124 1
+  virtual XMLError Open(char *url, int urllen,XMLIOManager::AccessMode access) = 0;
+d127 2
+a128 2
+  virtual XMLError Read(byte *buf, int maxbufl, int charstoread, int *charsread) = 0;
+  virtual XMLError ReadSome(byte *buf, int maxbufl, int charstoread, int *charsread) = 0;
+d182 3
+d190 1
+a190 1
+  // Protected member functions
+d192 1
+a192 4
+protected:
+  // Constructor (new)
+  XMLIOBuffer(int size, XMLIOManager *manager);
+  ~XMLIOBuffer();
+d195 1
+a201 3
+  XMLError Limbo(void);                             // Place in limbo (not on anyone's free chains)
+  // Ownership
+  XMLError SetStream(XMLIOStream *forstream);
+d212 12
+a223 1
+  XMLError WriteBytes(int streamoffset, byte *data, int len);
+@
+
+
+1.8
+log
+@Implemented BufLock() and BufUnlock() in XMLIOStream
+@
+text
+@d116 1
+a116 1
+  // Capability
+d124 2
+a125 2
+  virtual XMLError Open(char *url, int urllen) = 0;
+  virtual XMLError Close(void) = 0;
+a136 2
+  // Strings
+  virtual XMLError Readstring(int offset, int len, char *buf) = 0;
+d150 2
+d195 1
+d229 1
+@
+
+
+1.7
+log
+@IO construct/destruct tidy & added hash stuff to XMLIOStream
+@
+text
+@d135 2
+a136 2
+  virtual XMLError BufLock(int offset, int len) = 0;
+  virtual XMLError BufUnlock(int offset, int len) = 0;
+@
+
+
+1.6
+log
+@Reworked xmlio for hashing etc.
+@
+text
+@a115 3
+  // Constructors/destructors
+  XMLIOStream(XMLIOManager *manager = NULL);
+  virtual ~XMLIOStream();
+d141 12
+d163 3
+a165 1
+  int           m_numbuffers;                       // Number of buffers used by this stream
+a169 4
+  // Buffer management
+  int           m_maxbufs;                          // Maximum buffers
+  int           m_numbufs;                          // Current number of buffers
+  int           m_lockedbufs;                       // Current number of locked buffers  
+@
+
+
+1.5
+log
+@More work on IO manager
+@
+text
+@d40 2
+a41 1
+  friend XMLIOBuf;
+d77 2
+a78 2
+  // Create a new I/O buffer (lockcount 1)
+  XMLError NewIOBuf(XMLIOStream *forstream, XMLIOBuffer **newbuf);
+d85 3
+a87 3
+  int m_maxstreams;
+  int m_numstreams;
+  XMLIOStream **m_streams;
+d90 6
+a95 3
+  int m_bufsize;
+  int m_maxbufs;
+  XMLIOBuffer *m_firstbuf;
+d110 2
+d117 2
+a118 2
+  XMLIOStream(XMLIOManager *manager);
+  virtual ~XMLIOStream() = 0;
+d142 21
+d177 2
+d180 1
+a180 1
+  // Public member functions
+d182 3
+a184 3
+public:
+  // Constructor/destructor
+  XMLIOBuffer(XMLIOManager *formanager, XMLIOStream *forstream);
+d187 13
+a199 5
+  int      LockCount();
+  int      GetSize();
+  // Locking...
+  XMLError Lock();
+  XMLError UnLock();
+d201 20
+a220 3
+  XMLError GetPointer(byte **pointer);
+  operator char *();
+  operator byte *();
+@
+
+
+1.4
+log
+@Starting XMLIO coding
+@
+text
+@d42 10
+d63 8
+a70 6
+  // Open a read stream from a URL (Files, http, ftp, etc.)
+  XMLError OpenRead(char *url, int urllen, XMLIOStream *stream);
+  // Open a write stream to a URL (Files, http, ftp, etc.)
+  XMLError OpenWrite(char *url, int urllen, XMLIOStream *stream);
+  // Open a temporary read/write stream to a URL (Local File system, memory, etc.)
+  XMLError OpenTemp(char *url, int urllen, XMLIOStream *stream);
+d84 3
+a86 3
+  int m_maxstream;
+  int m_numstream;
+  XMLIOStream **m_Streams;
+d111 1
+a111 1
+  XMLIOStream();
+d119 4
+d124 2
+a125 2
+  virtual XMLError Read(char *buf, int maxbufl, int charstoread, int *charsread) = 0;
+  virtual XMLError ReadSome(char *buf, int maxbufl, int charstoread, int *charsread) = 0;
+d127 1
+a127 1
+  virtual XMLError Write(char *buf, int bufl) = 0;
+d135 1
+a135 1
+  virtual XMLError Readstring(int offset, int len, char *buf);
+d142 1
+a142 1
+//  XMLStream - An I/O stream
+d146 1
+a146 1
+//  This class represents a single abstract XML I/O stream.  
+@
+
+
+1.3
+log
+@Added XMLIOStream and XMLIOManager
+@
+text
+@d19 1
+d25 1
+d31 1
+a31 1
+//  XMLIOManager - Manage Stream I/O
+d35 2
+a36 1
+//  This class is used to manage N streams of I/O.
+d40 1
+d46 1
+a46 1
+  XMLIOManager();
+d48 5
+d54 1
+a54 1
+  XMLError OpenRead(char *url, int urllen, XMLStream *stream);
+d56 1
+a56 1
+  XMLError OpenWrite(char *url, int urllen, XMLStream *stream);
+d58 22
+a79 1
+  XMLError OpenTemp(char *url, int urllen, XMLStream *stream);
+d86 1
+a86 1
+//  XMLStream - An I/O stream
+d90 1
+a90 1
+//  This class represents a single XML I/O stream.  
+d118 33
+@
+
+
+1.2
+log
+@Changed 'bytelock' to 'buflock' because it's more descrptive
+@
+text
+@d21 31
+d63 1
+a63 1
+class XMLStream : public XMLObject {
+d69 2
+a70 2
+  XMLStream();
+  virtual ~XMLStream() = 0;
+d79 1
+a88 1
+
+@
+
+
+1.1
+log
+@Added xmlheap.h and xmlio.h
+@
+text
+@d45 1
+a45 1
+  virtual int CanByteLock(void) = 0;
+d53 3
+a55 3
+  // Byte Locking/Unlocking
+  virtual XMLError ByteLock(int offset, int len) = 0;
+  virtual XMLError ByteUnlock(int offset, int len) = 0;
+@
+

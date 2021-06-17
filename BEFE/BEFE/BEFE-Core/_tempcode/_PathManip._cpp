@@ -1,0 +1,72 @@
+//----------------------------------------------------------------------
+//
+// File: PathManip.cpp - Path manipulation/query methods
+//
+
+#include "BEFE.h"
+#include "Path.h"
+
+using namespace BEF_NS;
+
+namespace BEF_NS {
+
+String &Path::GetFullName() {
+  FocusOnName();
+  return fullname;
+}
+
+Status Path::SetFullName(String &fullname) {
+  FocusOnName();
+  this->fullname = fullname;
+  isModified = true;
+  return Error::None;
+}
+
+Int Path::Parts() {
+  FocusOnParts();
+  return parts.Length();
+}
+
+Int Path::Length() {
+  FocusOnName();
+  return fullname.Length();
+}
+
+Status Path::GetPart(Int index,String &part) {
+
+  Status result;
+  Int    numparts;
+
+  numparts = parts.Length();
+  if (index < 0)
+    index = index + numparts;
+  if (index < 0 || index >= numparts) goto OUTOFBOUNDS;
+  parts.Get(index,part);
+
+  goto OK;
+
+OUTOFBOUNDS:
+  result = Error::IndexOutOfRange;
+  goto DONE;
+OK:
+  result = Error::None;
+  goto DONE;
+
+DONE:
+
+  return result;
+}
+
+Status Path::SetPart(Int index,String &part) {
+  ABORT("!!! Path.SetPart not implemented yet !!!");
+}
+
+Status Path::AppendPart(String &part) {
+  ABORT("!!! Path.AppendPart not implemented yet !!!");
+}
+
+Status Path::RemovePart(Int index) {
+  ABORT("!!! Path.RemovePart not implemented yet !!!");
+}
+
+}; // Namespace BEF_NS

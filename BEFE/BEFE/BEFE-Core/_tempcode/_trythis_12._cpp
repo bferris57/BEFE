@@ -1,0 +1,47 @@
+#include "BEFE.h"
+#include "Win32.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+Status trythis() {
+
+  UInt       fg;
+  String     string;
+  Span       span;
+  Int        found;
+  
+  //fg = TheConsole.SetForegroundColour(Console::Yellow);
+  //Cout << "!!! Nothing for trythis to do at the moment !!!\n";
+  //TheConsole.SetForegroundColour(fg);
+  
+  // Try Span limited Find...
+  string = "c:/*/c++/*/*/*.h";
+  Cout << "string = '" << string << "'...\n";
+  span = Span(0,string.Length());
+  while (true) {
+    found = string.Find('*',span);
+    if (found < 0) break;
+    Cout << "  Found '*' at: " << found << '\n';
+    span.idx1 = found+1;
+  }
+
+  // Try unlimited Find...
+  string = "0123456789abcdef";
+  found = string.Find('*');
+  Cout << "string = '" << string << "...\n";
+  Cout << "  Found at: " << found << '\n';
+  string = "01234567*9abcdef";
+  found = string.Find('*');
+  Cout << "string = '" << string << "...\n";
+  Cout << "  Found at: " << found << '\n';
+  
+  return Error::None;  
+}
+
+}; // Namespace BEF_NS

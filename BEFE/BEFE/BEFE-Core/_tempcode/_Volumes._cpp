@@ -1,0 +1,79 @@
+
+//---------------------------------------------------------------------
+//
+// From ToStrings.cpp...
+//
+
+  //
+  // Volumes...
+  //
+
+  // Get the volume names
+  names = os.GetVolumeNames();
+
+  // Get maximum length
+  maxlen = 0;
+  for (i=0;i<names.Length();i++)
+    maxlen = Max(maxlen,names.Get(i).Length());
+
+  // Put some spacing in if verbose
+  if (gVerbose) {
+    name.Clear();
+    strings.Append(name);
+  }
+
+  // Format them
+  if (maxlen == 0)
+    strings.Append((char *)"Volumes: " CONSTR_StarNone);
+  else {
+    for (i=0;i<names.Length();i++) {
+      name = names.Get(i);
+      if (gVeryVerbose)
+        name.Pad(maxlen);
+      if (i==0)
+        outstr = "Volumes: ";
+      else
+        outstr = "         ";
+      outstr += name;
+      if (gVeryVerbose) {
+        outstr += " - ";
+        name = names.Get(i);
+        outstr += os.GetVolumeDescription(name);
+      }
+      strings.Append(outstr);
+    }
+  }
+
+//---------------------------------------------------------------------
+//
+// From OperatingSystem.cpp...
+//
+
+Strings OperatingSystem::GetVolumeNames() {
+  Strings volumes;
+  return volumes;
+}
+
+String OperatingSystem::GetVolumeDescription(String &volname) {
+  String result;
+  result = "**Volume description not available**";
+  return result;
+}
+
+Boolean OperatingSystem::IsVolume(String &vname) {
+  return false;
+}
+
+//---------------------------------------------------------------------
+//
+// From Win32OperatingSystem.cpp...
+//
+
+Strings Win32OperatingSystem::GetVolumeNames() {
+  return Win32GetVolumeNames();
+}
+
+Boolean Win32OperatingSystem::IsVolume(String &fname) {
+  return false; // TEMP: For now
+}
+

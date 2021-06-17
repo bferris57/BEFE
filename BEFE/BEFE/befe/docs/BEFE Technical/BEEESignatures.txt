@@ -1,0 +1,52 @@
+Header...
+BEFE Type Signatures
+...Header
+
+Defines...
+...Defines
+
+References...
+...References
+
+-----------------------------------------------------------------------
+
+Throughout the BEFE framework, various "signatures" are used to
+identify and verify the type of data being accessed, whether it's
+a File, Communication Stream, or whatever.
+
+All BEFE signatures start with 0xBE followed by 0xFE.  The subsequent
+bytes come in various forms.  The main forms are...
+
+  o Hex
+  o HexText
+  o Mime
+  
+The <Hex Signature> forms are as follows (including the 0xBEFE)...
+
+  Note: 0123456789ABCDEF
+              |
+              |  // Hex Digit to Alpha way of thinking
+              v
+        OI.S.SGL..ABCDEF
+
+  0xBEFEBEFE - Reserved
+  0xBEFEBEEF - Reserved
+  0xBEFEBABE - Something associated with Java
+  0xBEFEC0DE - Abstract Machine Instructions
+  0xBEFECAFE - Something associated with Java
+  0xBEFEF00D - *** Haven't decided yet
+  0xBEFEDBA5 - BEFE Database
+  0xBEFE5EED - BEFE Encryption Key (see CryptKey)
+  
+The <HexText Signature> forms are as follows (including the 0xBEFE)...
+
+  0xBEFE '$AM ' - Abstract Assembler source
+  0xBEFE '$C  ' - C code
+  0xBEFE '$C+ ' - C++ code
+  0xBEFE '$Jav' - Source Java
+  0xBEFE '$Py ' - Source Python
+  0xBEFE 'Mime' - Mime Type (followed by mime type)
+  0xBEFE 'TXT8' - General UTF-8 text
+  0xBEFE 'LOG ' - BEFE Log files (followed by log info)
+  0xBEFE 'LEX0' - Lex Cache Version 0
+  

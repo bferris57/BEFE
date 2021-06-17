@@ -1,0 +1,136 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.3
+date	2002.10.25.09.23.15;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.25.08.31.33;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.24.12.50.14;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@Added optional 'countto' parameter to XMLBitMap::Count()
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlbitmap.h - Definitions for the abstract XML Bitmap class
+  
+  DESCRIPTION
+
+    The XMLBitMap class implements a string of bits.
+
+*/
+
+#ifndef _xmlbitmapstr_h
+#define _xmlbitmapstr_h
+
+#include "xmlbitmap.h"
+#include "xmlstrbase.h"
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLBitMapString - Manage a set of bits using an XMLString
+//
+// DESCRIPTION
+//
+//  This class implements the XMLBitMap interface using an XMLString.
+//
+//
+
+class XMLBitMapString : public XMLBitMap {
+  
+  //
+  // Public member functions
+  //
+
+public:
+  
+  // Constructor/destructor
+  XMLBitMapString(XMLStringBase *string);
+  virtual ~XMLBitMapString();
+  
+  // Query
+  virtual int      Length(void);
+  virtual XMLError Count(int *count, int onoff = 1, int counto = -1);
+
+  // Testing/setting
+  virtual int      Test(int index);
+  virtual XMLError Set(int index, int value);
+  
+  //
+  // Protected members
+  //
+protected:
+
+  // Ownership
+  unsigned       m_owned:1; // "Do we own the string?"
+  
+  // The string
+  XMLStringBase *m_string;  // The string
+  int            m_strlen;  // The string's length (bytes)
+  int            m_length;  // Out length (bits)
+  
+  // Locked string fragment (for fast multiple Test()/Set() calls)
+  int            m_fragoff; // Fragment offset
+  int            m_fraglen; // Fragment length
+  byte          *m_frag;    // Fragment
+};
+
+#endif // _xmlbitmapstr_h
+@
+
+
+1.2
+log
+@Finished XMLBitMapString, ready to test
+@
+text
+@d45 1
+a45 1
+  virtual XMLError Count(int *count, int onoff);
+@
+
+
+1.1
+log
+@Initial XMLBitMapString implementation and test - Need Test() and Set()
+@
+text
+@d49 1
+a49 1
+  virtual XMLError Set(int index);
+a50 4
+  // Searching
+  virtual XMLError Next(int *index, int startoff);
+  virtual XMLError Previous(int *index, int startoff);
+
+d56 12
+a67 3
+  XMLStringBase *m_string; // The string
+  int            m_strlen; // The string's length (bytes)
+  int            m_length; // Out length (bits)
+@
+

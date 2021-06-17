@@ -1,0 +1,164 @@
+//----------------------------------------------------------------------------
+//
+// File: BEFE.primitives.befe - BEFE primitive basic datatypes
+//
+
+namespace BEFE.primitives
+
+alias bitsize uint
+alias boolean bit
+alias false   0
+alias true    1
+
+if x == 1: print("Hi There")
+
+#
+# Null constants...
+#
+
+booleanNaN = 0x2
+nibbleNaN  = 0x80
+unibbleNaN = 0xFF
+sbyteNaN   = 0x80
+ubyteNaN   = 0xff
+byteNaN    = sByteNaN
+sshortNaN  = 0x8000
+ushortNaN  = 0xffff
+shortNaN   = ashortNaN
+sintNaN    = 0x80000000
+uintNaN    = 0xffffffff
+intNaN     = sintNaN
+slongNaN   = 0x8000000000000000
+ulongNaN   = 0xffffffffffffffff
+
+#
+# CompileRuntimeConstant primitive
+#
+
+struct primitive:
+
+  # Modify struct members for primitive only...
+  abstract = true
+  final    = false
+  
+  #
+  # Compile and Runtime Constant Members
+  #
+  # Note: Uninitialised ones MUST be overriden by sub-classes
+  #
+  
+  member type:
+  member `c[ompile]t[ime]`:          type=boolean; value = true
+  member `c[ompile]t[ime]m[utable]`: type=boolean; value = true
+  member `r[un]t[ime]`:              type=boolean; value = false
+  member `r[un]t[ime]m[utable]`:     type=boolean; value = false
+  member signed:                     type=boolean; value = false
+  member nullable:                   type=boolean; value = true
+  member nullValue:                  type = primitive
+  member bitsize:                    type = bitsize
+  
+  # The actual primitive value...
+  member defaultValue
+  member value
+
+  #
+  # Standard methods
+  #  
+  
+  method `preop +`:    arguments = ();       returnType = primitive
+  method `preop -`:    arguments = ();       returnType = primitive
+  method `preop ++`:   arguments = ();       returnType = primitive
+  method `postop ++`:  arguments = ();       returnType = primitive
+  method `preop --`:   arguments = ();       returnType = primitive
+  method `postop --`:  arguments = ();       returnType = primitive
+  method `dyadop *`:   arguments = (that);   returnType = primitive
+  method `dyadop /`:   arguments = (that);   returnType = primitive
+  method `dyadop %`:   arguments = (that);   returnType = primitive
+  method `dyadop **`:  arguments = (that);   returnType = primitive
+  method `dyadop <<`:  arguments = (amount); returnType = primitive
+  method `dyadop >>`:  arguments = (amount); returnType = primitive
+  method `dyadop >>>`: arguments = (amount); returnType = primitive
+  
+struct bool(primitive):
+  signed       = false
+  nullable     = false
+  bitsize      = 1
+  defaultValue = false
+
+struct boolean(primitive):
+  signed       = true
+  nullable     = true
+  bitsize      = 2
+  defaultValue = false
+  
+struct bit(primitive):
+  signed       = false
+  nullable     = false
+  bitsize      = 1
+  defaultValue = 0
+
+#
+# Integers...
+#
+
+struct __int__(primitive): # Superclass for all thingies we can treat as an integer...
+  nullable     = true
+  
+struct nibble(primitive):
+  signed       = false
+  nullable     = true
+  bitsize      = 4
+  defaultValue = unibbleNaN
+
+struct byte(__int__):
+  signed       = true
+  bitsize      = 8
+  defaultValue = byteNaN
+
+struct ubyte(byte):
+  signed       = false
+  defaultValue = ubyteNaN
+
+struct sbyte(byte):
+  signed       = false
+  defaultValue = sbyteNaN
+
+struct short(__int__):
+  signed       = true
+  bitsize      = 8
+  defaultValue = shortNaN
+
+struct ushort(short):
+  signed       = false
+  defaultValue = ushortNaN
+
+struct sshort(short):
+  signed       = true
+  defaultValue = sshortNaN
+
+struct int(__int__):
+  signed       = true
+  bitsize      = 32
+  defaultValue = intNaN
+
+struct uint(int):
+  signed       = false
+  defaultValue = uintNaN
+
+struct sint(int):
+  signed       = true
+  defaultValue = sintNaN
+
+struct long(__int__):
+  signed       = true
+  bitsize      = 64
+  defaultValue = sintNaN
+
+struct ulong(long):
+  signed       = false
+  defaultValue = uintNaN
+
+struct slong(long):
+  signed       = true
+  defaultValue = sintNaN
+

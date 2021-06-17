@@ -1,0 +1,2233 @@
+  Token[0]: Comment      //-- line/col = 1/2 span = 0:79 (value.Size() = 4, value.Length() = 4)
+    token.value = ►//----------------------------------------------------------------------------\r◄
+  Token[1]: EndOfLine         line/col = 1/80 span = 79:80 (value.Size() = 4, value.Length() = 4)
+  Token[2]: Comment      //   line/col = 2/2 span = 80:83 (value.Size() = 4, value.Length() = 4)
+    token.value = ►//\r◄
+  Token[3]: EndOfLine         line/col = 2/4 span = 83:84 (value.Size() = 4, value.Length() = 4)
+  Token[4]: Comment      // F line/col = 3/2 span = 84:147 (value.Size() = 4, value.Length() = 4)
+    token.value = ►// File: BEFE.primitives.befe - BEFE primitive basic datatypes\r◄
+  Token[5]: EndOfLine         line/col = 3/64 span = 147:148 (value.Size() = 4, value.Length() = 4)
+  Token[6]: Comment      //   line/col = 4/2 span = 148:151 (value.Size() = 4, value.Length() = 4)
+    token.value = ►//\r◄
+  Token[7]: EndOfLine         line/col = 4/4 span = 151:152 (value.Size() = 4, value.Length() = 4)
+  Token[8]: WhiteSpace        line/col = 5/1 span = 152:153 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[9]: EndOfLine         line/col = 5/2 span = 153:154 (value.Size() = 4, value.Length() = 4)
+  Token[10]: Name         name line/col = 6/1 span = 154:163 (value.Size() = 4, value.Length() = 4)
+    token.value = ►namespace◄
+  Token[11]: WhiteSpace        line/col = 6/10 span = 163:164 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[12]: Name         BEFE line/col = 6/11 span = 164:168 (value.Size() = 4, value.Length() = 4)
+    token.value = ►BEFE◄
+  Token[13]: Operator     .    line/col = 6/15 span = 168:169 (value.Size() = 4, value.Length() = 4)
+    token.value = ►.◄
+  Token[14]: Name         prim line/col = 6/16 span = 169:179 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitives◄
+  Token[15]: WhiteSpace        line/col = 6/26 span = 179:180 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[16]: EndOfLine         line/col = 6/27 span = 180:181 (value.Size() = 4, value.Length() = 4)
+  Token[17]: WhiteSpace        line/col = 7/1 span = 181:182 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[18]: EndOfLine         line/col = 7/2 span = 182:183 (value.Size() = 4, value.Length() = 4)
+  Token[19]: Name         alia line/col = 8/1 span = 183:188 (value.Size() = 4, value.Length() = 4)
+    token.value = ►alias◄
+  Token[20]: WhiteSpace        line/col = 8/6 span = 188:189 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[21]: Name         bits line/col = 8/7 span = 189:196 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[22]: WhiteSpace        line/col = 8/14 span = 196:197 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[23]: Name         uint line/col = 8/15 span = 197:201 (value.Size() = 4, value.Length() = 4)
+    token.value = ►uint◄
+  Token[24]: WhiteSpace        line/col = 8/19 span = 201:202 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[25]: EndOfLine         line/col = 8/20 span = 202:203 (value.Size() = 4, value.Length() = 4)
+  Token[26]: Name         alia line/col = 9/1 span = 203:208 (value.Size() = 4, value.Length() = 4)
+    token.value = ►alias◄
+  Token[27]: WhiteSpace        line/col = 9/6 span = 208:209 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[28]: Name         bool line/col = 9/7 span = 209:216 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[29]: WhiteSpace        line/col = 9/14 span = 216:217 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[30]: Name         bit  line/col = 9/15 span = 217:220 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bit◄
+  Token[31]: WhiteSpace        line/col = 9/18 span = 220:221 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[32]: EndOfLine         line/col = 9/19 span = 221:222 (value.Size() = 4, value.Length() = 4)
+  Token[33]: Name         alia line/col = 10/1 span = 222:227 (value.Size() = 4, value.Length() = 4)
+    token.value = ►alias◄
+  Token[34]: WhiteSpace        line/col = 10/6 span = 227:228 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[35]: Name         fals line/col = 10/7 span = 228:233 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[36]: WhiteSpace        line/col = 10/12 span = 233:236 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[37]: Number       0    line/col = 10/15 span = 236:237 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0◄
+  Token[38]: WhiteSpace        line/col = 10/16 span = 237:238 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[39]: EndOfLine         line/col = 10/17 span = 238:239 (value.Size() = 4, value.Length() = 4)
+  Token[40]: Name         alia line/col = 11/1 span = 239:244 (value.Size() = 4, value.Length() = 4)
+    token.value = ►alias◄
+  Token[41]: WhiteSpace        line/col = 11/6 span = 244:245 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[42]: Name         true line/col = 11/7 span = 245:249 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[43]: WhiteSpace        line/col = 11/11 span = 249:253 (value.Size() = 4, value.Length() = 4)
+    token.value = ►    ◄
+  Token[44]: Number       1    line/col = 11/15 span = 253:254 (value.Size() = 4, value.Length() = 4)
+    token.value = ►1◄
+  Token[45]: WhiteSpace        line/col = 11/16 span = 254:255 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[46]: EndOfLine         line/col = 11/17 span = 255:256 (value.Size() = 4, value.Length() = 4)
+  Token[47]: WhiteSpace        line/col = 12/1 span = 256:257 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[48]: EndOfLine         line/col = 12/2 span = 257:258 (value.Size() = 4, value.Length() = 4)
+  Token[49]: Comment      #    line/col = 13/1 span = 258:260 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[50]: EndOfLine         line/col = 13/3 span = 260:261 (value.Size() = 4, value.Length() = 4)
+  Token[51]: Comment      # Nu line/col = 14/1 span = 261:281 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# Null constants...\r◄
+  Token[52]: EndOfLine         line/col = 14/21 span = 281:282 (value.Size() = 4, value.Length() = 4)
+  Token[53]: Comment      #    line/col = 15/1 span = 282:284 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[54]: EndOfLine         line/col = 15/3 span = 284:285 (value.Size() = 4, value.Length() = 4)
+  Token[55]: WhiteSpace        line/col = 16/1 span = 285:286 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[56]: EndOfLine         line/col = 16/2 span = 286:287 (value.Size() = 4, value.Length() = 4)
+  Token[57]: Name         bool line/col = 17/1 span = 287:297 (value.Size() = 4, value.Length() = 4)
+    token.value = ►booleanNaN◄
+  Token[58]: WhiteSpace        line/col = 17/11 span = 297:298 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[59]: Operator     =    line/col = 17/12 span = 298:299 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[60]: WhiteSpace        line/col = 17/13 span = 299:300 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[61]: Number       0x2  line/col = 17/14 span = 300:303 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0x2◄
+  Token[62]: WhiteSpace        line/col = 17/17 span = 303:304 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[63]: EndOfLine         line/col = 17/18 span = 304:305 (value.Size() = 4, value.Length() = 4)
+  Token[64]: Name         nibb line/col = 18/1 span = 305:314 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nibbleNaN◄
+  Token[65]: WhiteSpace        line/col = 18/10 span = 314:316 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[66]: Operator     =    line/col = 18/12 span = 316:317 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[67]: WhiteSpace        line/col = 18/13 span = 317:318 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[68]: Number       0x80 line/col = 18/14 span = 318:322 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0x80◄
+  Token[69]: WhiteSpace        line/col = 18/18 span = 322:323 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[70]: EndOfLine         line/col = 18/19 span = 323:324 (value.Size() = 4, value.Length() = 4)
+  Token[71]: Name         unib line/col = 19/1 span = 324:334 (value.Size() = 4, value.Length() = 4)
+    token.value = ►unibbleNaN◄
+  Token[72]: WhiteSpace        line/col = 19/11 span = 334:335 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[73]: Operator     =    line/col = 19/12 span = 335:336 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[74]: WhiteSpace        line/col = 19/13 span = 336:337 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[75]: Number       0xFF line/col = 19/14 span = 337:341 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0xFF◄
+  Token[76]: WhiteSpace        line/col = 19/18 span = 341:342 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[77]: EndOfLine         line/col = 19/19 span = 342:343 (value.Size() = 4, value.Length() = 4)
+  Token[78]: Name         sbyt line/col = 20/1 span = 343:351 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sbyteNaN◄
+  Token[79]: WhiteSpace        line/col = 20/9 span = 351:354 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[80]: Operator     =    line/col = 20/12 span = 354:355 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[81]: WhiteSpace        line/col = 20/13 span = 355:356 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[82]: Number       0x80 line/col = 20/14 span = 356:360 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0x80◄
+  Token[83]: WhiteSpace        line/col = 20/18 span = 360:361 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[84]: EndOfLine         line/col = 20/19 span = 361:362 (value.Size() = 4, value.Length() = 4)
+  Token[85]: Name         ubyt line/col = 21/1 span = 362:370 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ubyteNaN◄
+  Token[86]: WhiteSpace        line/col = 21/9 span = 370:373 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[87]: Operator     =    line/col = 21/12 span = 373:374 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[88]: WhiteSpace        line/col = 21/13 span = 374:375 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[89]: Number       0xff line/col = 21/14 span = 375:379 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0xff◄
+  Token[90]: WhiteSpace        line/col = 21/18 span = 379:380 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[91]: EndOfLine         line/col = 21/19 span = 380:381 (value.Size() = 4, value.Length() = 4)
+  Token[92]: Name         byte line/col = 22/1 span = 381:388 (value.Size() = 4, value.Length() = 4)
+    token.value = ►byteNaN◄
+  Token[93]: WhiteSpace        line/col = 22/8 span = 388:392 (value.Size() = 4, value.Length() = 4)
+    token.value = ►    ◄
+  Token[94]: Operator     =    line/col = 22/12 span = 392:393 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[95]: WhiteSpace        line/col = 22/13 span = 393:394 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[96]: Name         sByt line/col = 22/14 span = 394:402 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sByteNaN◄
+  Token[97]: WhiteSpace        line/col = 22/22 span = 402:403 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[98]: EndOfLine         line/col = 22/23 span = 403:404 (value.Size() = 4, value.Length() = 4)
+  Token[99]: Name         ssho line/col = 23/1 span = 404:413 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sshortNaN◄
+  Token[100]: WhiteSpace        line/col = 23/10 span = 413:415 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[101]: Operator     =    line/col = 23/12 span = 415:416 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[102]: WhiteSpace        line/col = 23/13 span = 416:417 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[103]: Number       0x80 line/col = 23/14 span = 417:423 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0x8000◄
+  Token[104]: WhiteSpace        line/col = 23/20 span = 423:424 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[105]: EndOfLine         line/col = 23/21 span = 424:425 (value.Size() = 4, value.Length() = 4)
+  Token[106]: Name         usho line/col = 24/1 span = 425:434 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ushortNaN◄
+  Token[107]: WhiteSpace        line/col = 24/10 span = 434:436 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[108]: Operator     =    line/col = 24/12 span = 436:437 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[109]: WhiteSpace        line/col = 24/13 span = 437:438 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[110]: Number       0xff line/col = 24/14 span = 438:444 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0xffff◄
+  Token[111]: WhiteSpace        line/col = 24/20 span = 444:445 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[112]: EndOfLine         line/col = 24/21 span = 445:446 (value.Size() = 4, value.Length() = 4)
+  Token[113]: Name         shor line/col = 25/1 span = 446:454 (value.Size() = 4, value.Length() = 4)
+    token.value = ►shortNaN◄
+  Token[114]: WhiteSpace        line/col = 25/9 span = 454:457 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[115]: Operator     =    line/col = 25/12 span = 457:458 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[116]: WhiteSpace        line/col = 25/13 span = 458:459 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[117]: Name         asho line/col = 25/14 span = 459:468 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ashortNaN◄
+  Token[118]: WhiteSpace        line/col = 25/23 span = 468:469 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[119]: EndOfLine         line/col = 25/24 span = 469:470 (value.Size() = 4, value.Length() = 4)
+  Token[120]: Name         sint line/col = 26/1 span = 470:477 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sintNaN◄
+  Token[121]: WhiteSpace        line/col = 26/8 span = 477:481 (value.Size() = 4, value.Length() = 4)
+    token.value = ►    ◄
+  Token[122]: Operator     =    line/col = 26/12 span = 481:482 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[123]: WhiteSpace        line/col = 26/13 span = 482:483 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[124]: Number       0x80 line/col = 26/14 span = 483:493 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0x80000000◄
+  Token[125]: WhiteSpace        line/col = 26/24 span = 493:494 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[126]: EndOfLine         line/col = 26/25 span = 494:495 (value.Size() = 4, value.Length() = 4)
+  Token[127]: Name         uint line/col = 27/1 span = 495:502 (value.Size() = 4, value.Length() = 4)
+    token.value = ►uintNaN◄
+  Token[128]: WhiteSpace        line/col = 27/8 span = 502:506 (value.Size() = 4, value.Length() = 4)
+    token.value = ►    ◄
+  Token[129]: Operator     =    line/col = 27/12 span = 506:507 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[130]: WhiteSpace        line/col = 27/13 span = 507:508 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[131]: Number       0xff line/col = 27/14 span = 508:518 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0xffffffff◄
+  Token[132]: WhiteSpace        line/col = 27/24 span = 518:519 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[133]: EndOfLine         line/col = 27/25 span = 519:520 (value.Size() = 4, value.Length() = 4)
+  Token[134]: Name         intN line/col = 28/1 span = 520:526 (value.Size() = 4, value.Length() = 4)
+    token.value = ►intNaN◄
+  Token[135]: WhiteSpace        line/col = 28/7 span = 526:531 (value.Size() = 4, value.Length() = 4)
+    token.value = ►     ◄
+  Token[136]: Operator     =    line/col = 28/12 span = 531:532 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[137]: WhiteSpace        line/col = 28/13 span = 532:533 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[138]: Name         sint line/col = 28/14 span = 533:540 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sintNaN◄
+  Token[139]: WhiteSpace        line/col = 28/21 span = 540:541 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[140]: EndOfLine         line/col = 28/22 span = 541:542 (value.Size() = 4, value.Length() = 4)
+  Token[141]: Name         slon line/col = 29/1 span = 542:550 (value.Size() = 4, value.Length() = 4)
+    token.value = ►slongNaN◄
+  Token[142]: WhiteSpace        line/col = 29/9 span = 550:553 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[143]: Operator     =    line/col = 29/12 span = 553:554 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[144]: WhiteSpace        line/col = 29/13 span = 554:555 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[145]: Number       0x80 line/col = 29/14 span = 555:573 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0x8000000000000000◄
+  Token[146]: WhiteSpace        line/col = 29/32 span = 573:574 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[147]: EndOfLine         line/col = 29/33 span = 574:575 (value.Size() = 4, value.Length() = 4)
+  Token[148]: Name         ulon line/col = 30/1 span = 575:583 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ulongNaN◄
+  Token[149]: WhiteSpace        line/col = 30/9 span = 583:586 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[150]: Operator     =    line/col = 30/12 span = 586:587 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[151]: WhiteSpace        line/col = 30/13 span = 587:588 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[152]: Number       0xff line/col = 30/14 span = 588:606 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0xffffffffffffffff◄
+  Token[153]: WhiteSpace        line/col = 30/32 span = 606:607 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[154]: EndOfLine         line/col = 30/33 span = 607:608 (value.Size() = 4, value.Length() = 4)
+  Token[155]: WhiteSpace        line/col = 31/1 span = 608:609 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[156]: EndOfLine         line/col = 31/2 span = 609:610 (value.Size() = 4, value.Length() = 4)
+  Token[157]: Comment      #    line/col = 32/1 span = 610:612 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[158]: EndOfLine         line/col = 32/3 span = 612:613 (value.Size() = 4, value.Length() = 4)
+  Token[159]: Comment      # Co line/col = 33/1 span = 613:648 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# CompileRuntimeConstant primitive\r◄
+  Token[160]: EndOfLine         line/col = 33/36 span = 648:649 (value.Size() = 4, value.Length() = 4)
+  Token[161]: Comment      #    line/col = 34/1 span = 649:651 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[162]: EndOfLine         line/col = 34/3 span = 651:652 (value.Size() = 4, value.Length() = 4)
+  Token[163]: WhiteSpace        line/col = 35/1 span = 652:653 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[164]: EndOfLine         line/col = 35/2 span = 653:654 (value.Size() = 4, value.Length() = 4)
+  Token[165]: Name         stru line/col = 36/1 span = 654:660 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[166]: WhiteSpace        line/col = 36/7 span = 660:661 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[167]: Name         prim line/col = 36/8 span = 661:670 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[168]: Operator     :    line/col = 36/17 span = 670:671 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[169]: WhiteSpace        line/col = 36/18 span = 671:672 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[170]: EndOfLine         line/col = 36/19 span = 672:673 (value.Size() = 4, value.Length() = 4)
+  Token[171]: WhiteSpace        line/col = 37/1 span = 673:674 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[172]: EndOfLine         line/col = 37/2 span = 674:675 (value.Size() = 4, value.Length() = 4)
+  Token[173]: WhiteSpace        line/col = 38/1 span = 675:677 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[174]: Comment      # Mo line/col = 38/3 span = 677:723 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# Modify struct members for primitive only...\r◄
+  Token[175]: EndOfLine         line/col = 38/49 span = 723:724 (value.Size() = 4, value.Length() = 4)
+  Token[176]: WhiteSpace        line/col = 39/1 span = 724:726 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[177]: Name         abst line/col = 39/3 span = 726:734 (value.Size() = 4, value.Length() = 4)
+    token.value = ►abstract◄
+  Token[178]: WhiteSpace        line/col = 39/11 span = 734:735 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[179]: Operator     =    line/col = 39/12 span = 735:736 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[180]: WhiteSpace        line/col = 39/13 span = 736:737 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[181]: Name         true line/col = 39/14 span = 737:741 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[182]: WhiteSpace        line/col = 39/18 span = 741:742 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[183]: EndOfLine         line/col = 39/19 span = 742:743 (value.Size() = 4, value.Length() = 4)
+  Token[184]: WhiteSpace        line/col = 40/1 span = 743:746 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  \r◄
+  Token[185]: EndOfLine         line/col = 40/4 span = 746:747 (value.Size() = 4, value.Length() = 4)
+  Token[186]: WhiteSpace        line/col = 41/1 span = 747:749 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[187]: Comment      #    line/col = 41/3 span = 749:751 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[188]: EndOfLine         line/col = 41/5 span = 751:752 (value.Size() = 4, value.Length() = 4)
+  Token[189]: WhiteSpace        line/col = 42/1 span = 752:754 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[190]: Comment      # Co line/col = 42/3 span = 754:793 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# Compile and Runtime Constant Members\r◄
+  Token[191]: EndOfLine         line/col = 42/42 span = 793:794 (value.Size() = 4, value.Length() = 4)
+  Token[192]: WhiteSpace        line/col = 43/1 span = 794:796 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[193]: Comment      #    line/col = 43/3 span = 796:798 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[194]: EndOfLine         line/col = 43/5 span = 798:799 (value.Size() = 4, value.Length() = 4)
+  Token[195]: WhiteSpace        line/col = 44/1 span = 799:801 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[196]: Comment      # No line/col = 44/3 span = 801:861 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# Note: Uninitialised ones MUST be overriden by sub-classes\r◄
+  Token[197]: EndOfLine         line/col = 44/63 span = 861:862 (value.Size() = 4, value.Length() = 4)
+  Token[198]: WhiteSpace        line/col = 45/1 span = 862:864 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[199]: Comment      #    line/col = 45/3 span = 864:866 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[200]: EndOfLine         line/col = 45/5 span = 866:867 (value.Size() = 4, value.Length() = 4)
+  Token[201]: WhiteSpace        line/col = 46/1 span = 867:870 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  \r◄
+  Token[202]: EndOfLine         line/col = 46/4 span = 870:871 (value.Size() = 4, value.Length() = 4)
+  Token[203]: WhiteSpace        line/col = 47/1 span = 871:873 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[204]: Name         memb line/col = 47/3 span = 873:879 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[205]: WhiteSpace        line/col = 47/9 span = 879:880 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[206]: Name         type line/col = 47/10 span = 880:884 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[207]: Operator     :    line/col = 47/14 span = 884:885 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[208]: WhiteSpace        line/col = 47/15 span = 885:886 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[209]: EndOfLine         line/col = 47/16 span = 886:887 (value.Size() = 4, value.Length() = 4)
+  Token[210]: WhiteSpace        line/col = 48/1 span = 887:889 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[211]: Name         memb line/col = 48/3 span = 889:895 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[212]: WhiteSpace        line/col = 48/9 span = 895:896 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[213]: BLiteral     `c[o line/col = 48/10 span = 896:911 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`c[ompile]time`◄
+  Token[214]: Operator     :    line/col = 48/25 span = 911:912 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[215]: WhiteSpace        line/col = 48/26 span = 912:924 (value.Size() = 4, value.Length() = 4)
+    token.value = ►            ◄
+  Token[216]: Name         type line/col = 48/38 span = 924:928 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[217]: Operator     =    line/col = 48/42 span = 928:929 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[218]: Name         bool line/col = 48/43 span = 929:936 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[219]: Separator    ;    line/col = 48/50 span = 936:937 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[220]: WhiteSpace        line/col = 48/51 span = 937:938 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[221]: Name         valu line/col = 48/52 span = 938:943 (value.Size() = 4, value.Length() = 4)
+    token.value = ►value◄
+  Token[222]: WhiteSpace        line/col = 48/57 span = 943:944 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[223]: Operator     =    line/col = 48/58 span = 944:945 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[224]: WhiteSpace        line/col = 48/59 span = 945:946 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[225]: Name         true line/col = 48/60 span = 946:950 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[226]: WhiteSpace        line/col = 48/64 span = 950:951 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[227]: EndOfLine         line/col = 48/65 span = 951:952 (value.Size() = 4, value.Length() = 4)
+  Token[228]: WhiteSpace        line/col = 49/1 span = 952:954 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[229]: Name         memb line/col = 49/3 span = 954:960 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[230]: WhiteSpace        line/col = 49/9 span = 960:961 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[231]: BLiteral     `c[o line/col = 49/10 span = 961:988 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`c[ompile][time]m[utable]:`◄
+  Token[232]: WhiteSpace        line/col = 49/37 span = 988:989 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[233]: Name         type line/col = 49/38 span = 989:993 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[234]: Operator     =    line/col = 49/42 span = 993:994 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[235]: Name         bool line/col = 49/43 span = 994:1001 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[236]: Separator    ;    line/col = 49/50 span = 1001:1002 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[237]: WhiteSpace        line/col = 49/51 span = 1002:1003 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[238]: Name         valu line/col = 49/52 span = 1003:1008 (value.Size() = 4, value.Length() = 4)
+    token.value = ►value◄
+  Token[239]: WhiteSpace        line/col = 49/57 span = 1008:1009 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[240]: Operator     =    line/col = 49/58 span = 1009:1010 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[241]: WhiteSpace        line/col = 49/59 span = 1010:1011 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[242]: Name         true line/col = 49/60 span = 1011:1015 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[243]: WhiteSpace        line/col = 49/64 span = 1015:1016 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[244]: EndOfLine         line/col = 49/65 span = 1016:1017 (value.Size() = 4, value.Length() = 4)
+  Token[245]: WhiteSpace        line/col = 50/1 span = 1017:1019 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[246]: Name         memb line/col = 50/3 span = 1019:1025 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[247]: WhiteSpace        line/col = 50/9 span = 1025:1026 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[248]: BLiteral     `r[u line/col = 50/10 span = 1026:1040 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`r[un][time]:`◄
+  Token[249]: WhiteSpace        line/col = 50/24 span = 1040:1054 (value.Size() = 4, value.Length() = 4)
+    token.value = ►              ◄
+  Token[250]: Name         type line/col = 50/38 span = 1054:1058 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[251]: Operator     =    line/col = 50/42 span = 1058:1059 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[252]: Name         bool line/col = 50/43 span = 1059:1066 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[253]: Separator    ;    line/col = 50/50 span = 1066:1067 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[254]: WhiteSpace        line/col = 50/51 span = 1067:1068 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[255]: Name         valu line/col = 50/52 span = 1068:1073 (value.Size() = 4, value.Length() = 4)
+    token.value = ►value◄
+  Token[256]: WhiteSpace        line/col = 50/57 span = 1073:1074 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[257]: Operator     =    line/col = 50/58 span = 1074:1075 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[258]: WhiteSpace        line/col = 50/59 span = 1075:1076 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[259]: Name         fals line/col = 50/60 span = 1076:1081 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[260]: WhiteSpace        line/col = 50/65 span = 1081:1082 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[261]: EndOfLine         line/col = 50/66 span = 1082:1083 (value.Size() = 4, value.Length() = 4)
+  Token[262]: WhiteSpace        line/col = 51/1 span = 1083:1085 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[263]: Name         memb line/col = 51/3 span = 1085:1091 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[264]: WhiteSpace        line/col = 51/9 span = 1091:1092 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[265]: BLiteral     `r[u line/col = 51/10 span = 1092:1115 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`r[un][time]m[utable]:`◄
+  Token[266]: WhiteSpace        line/col = 51/33 span = 1115:1120 (value.Size() = 4, value.Length() = 4)
+    token.value = ►     ◄
+  Token[267]: Name         type line/col = 51/38 span = 1120:1124 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[268]: Operator     =    line/col = 51/42 span = 1124:1125 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[269]: Name         bool line/col = 51/43 span = 1125:1132 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[270]: Separator    ;    line/col = 51/50 span = 1132:1133 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[271]: WhiteSpace        line/col = 51/51 span = 1133:1134 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[272]: Name         valu line/col = 51/52 span = 1134:1139 (value.Size() = 4, value.Length() = 4)
+    token.value = ►value◄
+  Token[273]: WhiteSpace        line/col = 51/57 span = 1139:1140 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[274]: Operator     =    line/col = 51/58 span = 1140:1141 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[275]: WhiteSpace        line/col = 51/59 span = 1141:1142 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[276]: Name         fals line/col = 51/60 span = 1142:1147 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[277]: WhiteSpace        line/col = 51/65 span = 1147:1148 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[278]: EndOfLine         line/col = 51/66 span = 1148:1149 (value.Size() = 4, value.Length() = 4)
+  Token[279]: WhiteSpace        line/col = 52/1 span = 1149:1151 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[280]: Name         memb line/col = 52/3 span = 1151:1157 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[281]: WhiteSpace        line/col = 52/9 span = 1157:1158 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[282]: Name         sign line/col = 52/10 span = 1158:1164 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[283]: Operator     :    line/col = 52/16 span = 1164:1165 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[284]: WhiteSpace        line/col = 52/17 span = 1165:1186 (value.Size() = 4, value.Length() = 4)
+    token.value = ►                     ◄
+  Token[285]: Name         type line/col = 52/38 span = 1186:1190 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[286]: Operator     =    line/col = 52/42 span = 1190:1191 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[287]: Name         bool line/col = 52/43 span = 1191:1198 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[288]: Separator    ;    line/col = 52/50 span = 1198:1199 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[289]: WhiteSpace        line/col = 52/51 span = 1199:1200 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[290]: Name         valu line/col = 52/52 span = 1200:1205 (value.Size() = 4, value.Length() = 4)
+    token.value = ►value◄
+  Token[291]: WhiteSpace        line/col = 52/57 span = 1205:1206 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[292]: Operator     =    line/col = 52/58 span = 1206:1207 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[293]: WhiteSpace        line/col = 52/59 span = 1207:1208 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[294]: Name         fals line/col = 52/60 span = 1208:1213 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[295]: WhiteSpace        line/col = 52/65 span = 1213:1214 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[296]: EndOfLine         line/col = 52/66 span = 1214:1215 (value.Size() = 4, value.Length() = 4)
+  Token[297]: WhiteSpace        line/col = 53/1 span = 1215:1217 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[298]: Name         memb line/col = 53/3 span = 1217:1223 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[299]: WhiteSpace        line/col = 53/9 span = 1223:1224 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[300]: Name         null line/col = 53/10 span = 1224:1232 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nullable◄
+  Token[301]: Operator     :    line/col = 53/18 span = 1232:1233 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[302]: WhiteSpace        line/col = 53/19 span = 1233:1252 (value.Size() = 4, value.Length() = 4)
+    token.value = ►                   ◄
+  Token[303]: Name         type line/col = 53/38 span = 1252:1256 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[304]: Operator     =    line/col = 53/42 span = 1256:1257 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[305]: Name         bool line/col = 53/43 span = 1257:1264 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[306]: Separator    ;    line/col = 53/50 span = 1264:1265 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[307]: WhiteSpace        line/col = 53/51 span = 1265:1266 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[308]: Name         valu line/col = 53/52 span = 1266:1271 (value.Size() = 4, value.Length() = 4)
+    token.value = ►value◄
+  Token[309]: WhiteSpace        line/col = 53/57 span = 1271:1272 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[310]: Operator     =    line/col = 53/58 span = 1272:1273 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[311]: WhiteSpace        line/col = 53/59 span = 1273:1274 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[312]: Name         true line/col = 53/60 span = 1274:1278 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[313]: WhiteSpace        line/col = 53/64 span = 1278:1279 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[314]: EndOfLine         line/col = 53/65 span = 1279:1280 (value.Size() = 4, value.Length() = 4)
+  Token[315]: WhiteSpace        line/col = 54/1 span = 1280:1282 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[316]: Name         memb line/col = 54/3 span = 1282:1288 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[317]: WhiteSpace        line/col = 54/9 span = 1288:1289 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[318]: Name         null line/col = 54/10 span = 1289:1298 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nullValue◄
+  Token[319]: Operator     :    line/col = 54/19 span = 1298:1299 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[320]: WhiteSpace        line/col = 54/20 span = 1299:1317 (value.Size() = 4, value.Length() = 4)
+    token.value = ►                  ◄
+  Token[321]: Name         type line/col = 54/38 span = 1317:1321 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[322]: WhiteSpace        line/col = 54/42 span = 1321:1322 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[323]: Operator     =    line/col = 54/43 span = 1322:1323 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[324]: WhiteSpace        line/col = 54/44 span = 1323:1324 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[325]: Name         prim line/col = 54/45 span = 1324:1333 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[326]: WhiteSpace        line/col = 54/54 span = 1333:1334 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[327]: EndOfLine         line/col = 54/55 span = 1334:1335 (value.Size() = 4, value.Length() = 4)
+  Token[328]: WhiteSpace        line/col = 55/1 span = 1335:1337 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[329]: Name         memb line/col = 55/3 span = 1337:1343 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[330]: WhiteSpace        line/col = 55/9 span = 1343:1344 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[331]: Name         bits line/col = 55/10 span = 1344:1351 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[332]: Operator     :    line/col = 55/17 span = 1351:1352 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[333]: WhiteSpace        line/col = 55/18 span = 1352:1372 (value.Size() = 4, value.Length() = 4)
+    token.value = ►                    ◄
+  Token[334]: Name         type line/col = 55/38 span = 1372:1376 (value.Size() = 4, value.Length() = 4)
+    token.value = ►type◄
+  Token[335]: WhiteSpace        line/col = 55/42 span = 1376:1377 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[336]: Operator     =    line/col = 55/43 span = 1377:1378 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[337]: WhiteSpace        line/col = 55/44 span = 1378:1379 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[338]: Name         bits line/col = 55/45 span = 1379:1386 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[339]: WhiteSpace        line/col = 55/52 span = 1386:1387 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[340]: EndOfLine         line/col = 55/53 span = 1387:1388 (value.Size() = 4, value.Length() = 4)
+  Token[341]: WhiteSpace        line/col = 56/1 span = 1388:1391 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  \r◄
+  Token[342]: EndOfLine         line/col = 56/4 span = 1391:1392 (value.Size() = 4, value.Length() = 4)
+  Token[343]: WhiteSpace        line/col = 57/1 span = 1392:1394 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[344]: Comment      # Th line/col = 57/3 span = 1394:1426 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# The actual primitive value...\r◄
+  Token[345]: EndOfLine         line/col = 57/35 span = 1426:1427 (value.Size() = 4, value.Length() = 4)
+  Token[346]: WhiteSpace        line/col = 58/1 span = 1427:1429 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[347]: Name         memb line/col = 58/3 span = 1429:1435 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[348]: WhiteSpace        line/col = 58/9 span = 1435:1436 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[349]: Name         defa line/col = 58/10 span = 1436:1448 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[350]: WhiteSpace        line/col = 58/22 span = 1448:1449 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[351]: EndOfLine         line/col = 58/23 span = 1449:1450 (value.Size() = 4, value.Length() = 4)
+  Token[352]: WhiteSpace        line/col = 59/1 span = 1450:1452 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[353]: Name         memb line/col = 59/3 span = 1452:1458 (value.Size() = 4, value.Length() = 4)
+    token.value = ►member◄
+  Token[354]: WhiteSpace        line/col = 59/9 span = 1458:1459 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[355]: Name         valu line/col = 59/10 span = 1459:1464 (value.Size() = 4, value.Length() = 4)
+    token.value = ►value◄
+  Token[356]: WhiteSpace        line/col = 59/15 span = 1464:1465 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[357]: EndOfLine         line/col = 59/16 span = 1465:1466 (value.Size() = 4, value.Length() = 4)
+  Token[358]: WhiteSpace        line/col = 60/1 span = 1466:1467 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[359]: EndOfLine         line/col = 60/2 span = 1467:1468 (value.Size() = 4, value.Length() = 4)
+  Token[360]: WhiteSpace        line/col = 61/1 span = 1468:1470 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[361]: Comment      #    line/col = 61/3 span = 1470:1472 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[362]: EndOfLine         line/col = 61/5 span = 1472:1473 (value.Size() = 4, value.Length() = 4)
+  Token[363]: WhiteSpace        line/col = 62/1 span = 1473:1475 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[364]: Comment      # St line/col = 62/3 span = 1475:1494 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# Standard methods\r◄
+  Token[365]: EndOfLine         line/col = 62/22 span = 1494:1495 (value.Size() = 4, value.Length() = 4)
+  Token[366]: WhiteSpace        line/col = 63/1 span = 1495:1497 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[367]: Comment      #    line/col = 63/3 span = 1497:1501 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#  \r◄
+  Token[368]: EndOfLine         line/col = 63/7 span = 1501:1502 (value.Size() = 4, value.Length() = 4)
+  Token[369]: WhiteSpace        line/col = 64/1 span = 1502:1505 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  \r◄
+  Token[370]: EndOfLine         line/col = 64/4 span = 1505:1506 (value.Size() = 4, value.Length() = 4)
+  Token[371]: WhiteSpace        line/col = 65/1 span = 1506:1508 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[372]: Name         meth line/col = 65/3 span = 1508:1514 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[373]: WhiteSpace        line/col = 65/9 span = 1514:1515 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[374]: BLiteral     `pre line/col = 65/10 span = 1515:1524 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`preop +`◄
+  Token[375]: Operator     :    line/col = 65/19 span = 1524:1525 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[376]: WhiteSpace        line/col = 65/20 span = 1525:1529 (value.Size() = 4, value.Length() = 4)
+    token.value = ►    ◄
+  Token[377]: Name         argu line/col = 65/24 span = 1529:1538 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[378]: WhiteSpace        line/col = 65/33 span = 1538:1539 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[379]: Operator     =    line/col = 65/34 span = 1539:1540 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[380]: BracketLeft  (    line/col = 65/36 span = 1540:1542 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[381]: BracketRight )    line/col = 65/37 span = 1542:1543 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[382]: Separator    ;    line/col = 65/38 span = 1543:1544 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[383]: WhiteSpace        line/col = 65/39 span = 1544:1551 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[384]: Name         retu line/col = 65/46 span = 1551:1561 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[385]: WhiteSpace        line/col = 65/56 span = 1561:1562 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[386]: Operator     =    line/col = 65/57 span = 1562:1563 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[387]: WhiteSpace        line/col = 65/58 span = 1563:1564 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[388]: Name         prim line/col = 65/59 span = 1564:1573 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[389]: WhiteSpace        line/col = 65/68 span = 1573:1574 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[390]: EndOfLine         line/col = 65/69 span = 1574:1575 (value.Size() = 4, value.Length() = 4)
+  Token[391]: WhiteSpace        line/col = 66/1 span = 1575:1577 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[392]: Name         meth line/col = 66/3 span = 1577:1583 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[393]: WhiteSpace        line/col = 66/9 span = 1583:1584 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[394]: BLiteral     `pre line/col = 66/10 span = 1584:1593 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`preop -`◄
+  Token[395]: Operator     :    line/col = 66/19 span = 1593:1594 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[396]: WhiteSpace        line/col = 66/20 span = 1594:1598 (value.Size() = 4, value.Length() = 4)
+    token.value = ►    ◄
+  Token[397]: Name         argu line/col = 66/24 span = 1598:1607 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[398]: WhiteSpace        line/col = 66/33 span = 1607:1608 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[399]: Operator     =    line/col = 66/34 span = 1608:1609 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[400]: BracketLeft  (    line/col = 66/36 span = 1609:1611 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[401]: BracketRight )    line/col = 66/37 span = 1611:1612 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[402]: Separator    ;    line/col = 66/38 span = 1612:1613 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[403]: WhiteSpace        line/col = 66/39 span = 1613:1620 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[404]: Name         retu line/col = 66/46 span = 1620:1630 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[405]: WhiteSpace        line/col = 66/56 span = 1630:1631 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[406]: Operator     =    line/col = 66/57 span = 1631:1632 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[407]: WhiteSpace        line/col = 66/58 span = 1632:1633 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[408]: Name         prim line/col = 66/59 span = 1633:1642 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[409]: WhiteSpace        line/col = 66/68 span = 1642:1643 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[410]: EndOfLine         line/col = 66/69 span = 1643:1644 (value.Size() = 4, value.Length() = 4)
+  Token[411]: WhiteSpace        line/col = 67/1 span = 1644:1646 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[412]: Name         meth line/col = 67/3 span = 1646:1652 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[413]: WhiteSpace        line/col = 67/9 span = 1652:1653 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[414]: BLiteral     `pre line/col = 67/10 span = 1653:1663 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`preop ++`◄
+  Token[415]: Operator     :    line/col = 67/20 span = 1663:1664 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[416]: WhiteSpace        line/col = 67/21 span = 1664:1667 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[417]: Name         argu line/col = 67/24 span = 1667:1676 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[418]: WhiteSpace        line/col = 67/33 span = 1676:1677 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[419]: Operator     =    line/col = 67/34 span = 1677:1678 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[420]: BracketLeft  (    line/col = 67/36 span = 1678:1680 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[421]: BracketRight )    line/col = 67/37 span = 1680:1681 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[422]: Separator    ;    line/col = 67/38 span = 1681:1682 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[423]: WhiteSpace        line/col = 67/39 span = 1682:1689 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[424]: Name         retu line/col = 67/46 span = 1689:1699 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[425]: WhiteSpace        line/col = 67/56 span = 1699:1700 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[426]: Operator     =    line/col = 67/57 span = 1700:1701 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[427]: WhiteSpace        line/col = 67/58 span = 1701:1702 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[428]: Name         prim line/col = 67/59 span = 1702:1711 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[429]: WhiteSpace        line/col = 67/68 span = 1711:1712 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[430]: EndOfLine         line/col = 67/69 span = 1712:1713 (value.Size() = 4, value.Length() = 4)
+  Token[431]: WhiteSpace        line/col = 68/1 span = 1713:1715 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[432]: Name         meth line/col = 68/3 span = 1715:1721 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[433]: WhiteSpace        line/col = 68/9 span = 1721:1722 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[434]: BLiteral     `pos line/col = 68/10 span = 1722:1733 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`postop ++`◄
+  Token[435]: Operator     :    line/col = 68/21 span = 1733:1734 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[436]: WhiteSpace        line/col = 68/22 span = 1734:1736 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[437]: Name         argu line/col = 68/24 span = 1736:1745 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[438]: WhiteSpace        line/col = 68/33 span = 1745:1746 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[439]: Operator     =    line/col = 68/34 span = 1746:1747 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[440]: BracketLeft  (    line/col = 68/36 span = 1747:1749 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[441]: BracketRight )    line/col = 68/37 span = 1749:1750 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[442]: Separator    ;    line/col = 68/38 span = 1750:1751 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[443]: WhiteSpace        line/col = 68/39 span = 1751:1758 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[444]: Name         retu line/col = 68/46 span = 1758:1768 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[445]: WhiteSpace        line/col = 68/56 span = 1768:1769 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[446]: Operator     =    line/col = 68/57 span = 1769:1770 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[447]: WhiteSpace        line/col = 68/58 span = 1770:1771 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[448]: Name         prim line/col = 68/59 span = 1771:1780 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[449]: WhiteSpace        line/col = 68/68 span = 1780:1781 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[450]: EndOfLine         line/col = 68/69 span = 1781:1782 (value.Size() = 4, value.Length() = 4)
+  Token[451]: WhiteSpace        line/col = 69/1 span = 1782:1784 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[452]: Name         meth line/col = 69/3 span = 1784:1790 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[453]: WhiteSpace        line/col = 69/9 span = 1790:1791 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[454]: BLiteral     `pre line/col = 69/10 span = 1791:1801 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`preop --`◄
+  Token[455]: Operator     :    line/col = 69/20 span = 1801:1802 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[456]: WhiteSpace        line/col = 69/21 span = 1802:1805 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[457]: Name         argu line/col = 69/24 span = 1805:1814 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[458]: WhiteSpace        line/col = 69/33 span = 1814:1815 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[459]: Operator     =    line/col = 69/34 span = 1815:1816 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[460]: BracketLeft  (    line/col = 69/36 span = 1816:1818 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[461]: BracketRight )    line/col = 69/37 span = 1818:1819 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[462]: Separator    ;    line/col = 69/38 span = 1819:1820 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[463]: WhiteSpace        line/col = 69/39 span = 1820:1827 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[464]: Name         retu line/col = 69/46 span = 1827:1837 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[465]: WhiteSpace        line/col = 69/56 span = 1837:1838 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[466]: Operator     =    line/col = 69/57 span = 1838:1839 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[467]: WhiteSpace        line/col = 69/58 span = 1839:1840 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[468]: Name         prim line/col = 69/59 span = 1840:1849 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[469]: WhiteSpace        line/col = 69/68 span = 1849:1850 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[470]: EndOfLine         line/col = 69/69 span = 1850:1851 (value.Size() = 4, value.Length() = 4)
+  Token[471]: WhiteSpace        line/col = 70/1 span = 1851:1853 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[472]: Name         meth line/col = 70/3 span = 1853:1859 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[473]: WhiteSpace        line/col = 70/9 span = 1859:1860 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[474]: BLiteral     `pos line/col = 70/10 span = 1860:1871 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`postop --`◄
+  Token[475]: Operator     :    line/col = 70/21 span = 1871:1872 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[476]: WhiteSpace        line/col = 70/22 span = 1872:1874 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[477]: Name         argu line/col = 70/24 span = 1874:1883 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[478]: WhiteSpace        line/col = 70/33 span = 1883:1884 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[479]: Operator     =    line/col = 70/34 span = 1884:1885 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[480]: BracketLeft  (    line/col = 70/36 span = 1885:1887 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[481]: BracketRight )    line/col = 70/37 span = 1887:1888 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[482]: Separator    ;    line/col = 70/38 span = 1888:1889 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[483]: WhiteSpace        line/col = 70/39 span = 1889:1896 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[484]: Name         retu line/col = 70/46 span = 1896:1906 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[485]: WhiteSpace        line/col = 70/56 span = 1906:1907 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[486]: Operator     =    line/col = 70/57 span = 1907:1908 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[487]: WhiteSpace        line/col = 70/58 span = 1908:1909 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[488]: Name         prim line/col = 70/59 span = 1909:1918 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[489]: WhiteSpace        line/col = 70/68 span = 1918:1919 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[490]: EndOfLine         line/col = 70/69 span = 1919:1920 (value.Size() = 4, value.Length() = 4)
+  Token[491]: WhiteSpace        line/col = 71/1 span = 1920:1922 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[492]: Name         meth line/col = 71/3 span = 1922:1928 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[493]: WhiteSpace        line/col = 71/9 span = 1928:1929 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[494]: BLiteral     `dya line/col = 71/10 span = 1929:1939 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`dyadop *`◄
+  Token[495]: Operator     :    line/col = 71/20 span = 1939:1940 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[496]: WhiteSpace        line/col = 71/21 span = 1940:1943 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[497]: Name         argu line/col = 71/24 span = 1943:1952 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[498]: WhiteSpace        line/col = 71/33 span = 1952:1953 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[499]: Operator     =    line/col = 71/34 span = 1953:1954 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[500]: BracketLeft  (    line/col = 71/36 span = 1954:1956 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[501]: Name         that line/col = 71/37 span = 1956:1960 (value.Size() = 4, value.Length() = 4)
+    token.value = ►that◄
+  Token[502]: BracketRight )    line/col = 71/41 span = 1960:1961 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[503]: Separator    ;    line/col = 71/42 span = 1961:1962 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[504]: WhiteSpace        line/col = 71/43 span = 1962:1965 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[505]: Name         retu line/col = 71/46 span = 1965:1975 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[506]: WhiteSpace        line/col = 71/56 span = 1975:1976 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[507]: Operator     =    line/col = 71/57 span = 1976:1977 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[508]: WhiteSpace        line/col = 71/58 span = 1977:1978 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[509]: Name         prim line/col = 71/59 span = 1978:1987 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[510]: WhiteSpace        line/col = 71/68 span = 1987:1988 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[511]: EndOfLine         line/col = 71/69 span = 1988:1989 (value.Size() = 4, value.Length() = 4)
+  Token[512]: WhiteSpace        line/col = 72/1 span = 1989:1991 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[513]: Name         meth line/col = 72/3 span = 1991:1997 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[514]: WhiteSpace        line/col = 72/9 span = 1997:1998 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[515]: BLiteral     `dya line/col = 72/10 span = 1998:2008 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`dyadop /`◄
+  Token[516]: Operator     :    line/col = 72/20 span = 2008:2009 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[517]: WhiteSpace        line/col = 72/21 span = 2009:2012 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[518]: Name         argu line/col = 72/24 span = 2012:2021 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[519]: WhiteSpace        line/col = 72/33 span = 2021:2022 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[520]: Operator     =    line/col = 72/34 span = 2022:2023 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[521]: BracketLeft  (    line/col = 72/36 span = 2023:2025 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[522]: Name         that line/col = 72/37 span = 2025:2029 (value.Size() = 4, value.Length() = 4)
+    token.value = ►that◄
+  Token[523]: BracketRight )    line/col = 72/41 span = 2029:2030 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[524]: Separator    ;    line/col = 72/42 span = 2030:2031 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[525]: WhiteSpace        line/col = 72/43 span = 2031:2034 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[526]: Name         retu line/col = 72/46 span = 2034:2044 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[527]: WhiteSpace        line/col = 72/56 span = 2044:2045 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[528]: Operator     =    line/col = 72/57 span = 2045:2046 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[529]: WhiteSpace        line/col = 72/58 span = 2046:2047 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[530]: Name         prim line/col = 72/59 span = 2047:2056 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[531]: WhiteSpace        line/col = 72/68 span = 2056:2057 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[532]: EndOfLine         line/col = 72/69 span = 2057:2058 (value.Size() = 4, value.Length() = 4)
+  Token[533]: WhiteSpace        line/col = 73/1 span = 2058:2060 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[534]: Name         meth line/col = 73/3 span = 2060:2066 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[535]: WhiteSpace        line/col = 73/9 span = 2066:2067 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[536]: BLiteral     `dya line/col = 73/10 span = 2067:2077 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`dyadop %`◄
+  Token[537]: Operator     :    line/col = 73/20 span = 2077:2078 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[538]: WhiteSpace        line/col = 73/21 span = 2078:2081 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[539]: Name         argu line/col = 73/24 span = 2081:2090 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[540]: WhiteSpace        line/col = 73/33 span = 2090:2091 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[541]: Operator     =    line/col = 73/34 span = 2091:2092 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[542]: BracketLeft  (    line/col = 73/36 span = 2092:2094 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[543]: Name         that line/col = 73/37 span = 2094:2098 (value.Size() = 4, value.Length() = 4)
+    token.value = ►that◄
+  Token[544]: BracketRight )    line/col = 73/41 span = 2098:2099 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[545]: Separator    ;    line/col = 73/42 span = 2099:2100 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[546]: WhiteSpace        line/col = 73/43 span = 2100:2103 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[547]: Name         retu line/col = 73/46 span = 2103:2113 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[548]: WhiteSpace        line/col = 73/56 span = 2113:2114 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[549]: Operator     =    line/col = 73/57 span = 2114:2115 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[550]: WhiteSpace        line/col = 73/58 span = 2115:2116 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[551]: Name         prim line/col = 73/59 span = 2116:2125 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[552]: WhiteSpace        line/col = 73/68 span = 2125:2126 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[553]: EndOfLine         line/col = 73/69 span = 2126:2127 (value.Size() = 4, value.Length() = 4)
+  Token[554]: WhiteSpace        line/col = 74/1 span = 2127:2129 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[555]: Name         meth line/col = 74/3 span = 2129:2135 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[556]: WhiteSpace        line/col = 74/9 span = 2135:2136 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[557]: BLiteral     `dya line/col = 74/10 span = 2136:2147 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`dyadop **`◄
+  Token[558]: Operator     :    line/col = 74/21 span = 2147:2148 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[559]: WhiteSpace        line/col = 74/22 span = 2148:2150 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[560]: Name         argu line/col = 74/24 span = 2150:2159 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[561]: WhiteSpace        line/col = 74/33 span = 2159:2160 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[562]: Operator     =    line/col = 74/34 span = 2160:2161 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[563]: BracketLeft  (    line/col = 74/36 span = 2161:2163 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[564]: Name         that line/col = 74/37 span = 2163:2167 (value.Size() = 4, value.Length() = 4)
+    token.value = ►that◄
+  Token[565]: BracketRight )    line/col = 74/41 span = 2167:2168 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[566]: Separator    ;    line/col = 74/42 span = 2168:2169 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[567]: WhiteSpace        line/col = 74/43 span = 2169:2172 (value.Size() = 4, value.Length() = 4)
+    token.value = ►   ◄
+  Token[568]: Name         retu line/col = 74/46 span = 2172:2182 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[569]: WhiteSpace        line/col = 74/56 span = 2182:2183 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[570]: Operator     =    line/col = 74/57 span = 2183:2184 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[571]: WhiteSpace        line/col = 74/58 span = 2184:2185 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[572]: Name         prim line/col = 74/59 span = 2185:2194 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[573]: WhiteSpace        line/col = 74/68 span = 2194:2195 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[574]: EndOfLine         line/col = 74/69 span = 2195:2196 (value.Size() = 4, value.Length() = 4)
+  Token[575]: WhiteSpace        line/col = 75/1 span = 2196:2198 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[576]: Name         meth line/col = 75/3 span = 2198:2204 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[577]: WhiteSpace        line/col = 75/9 span = 2204:2205 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[578]: BLiteral     `dya line/col = 75/10 span = 2205:2216 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`dyadop <<`◄
+  Token[579]: Operator     :    line/col = 75/21 span = 2216:2217 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[580]: WhiteSpace        line/col = 75/22 span = 2217:2219 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[581]: Name         argu line/col = 75/24 span = 2219:2228 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[582]: WhiteSpace        line/col = 75/33 span = 2228:2229 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[583]: Operator     =    line/col = 75/34 span = 2229:2230 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[584]: BracketLeft  (    line/col = 75/36 span = 2230:2232 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[585]: Name         amou line/col = 75/37 span = 2232:2238 (value.Size() = 4, value.Length() = 4)
+    token.value = ►amount◄
+  Token[586]: BracketRight )    line/col = 75/43 span = 2238:2239 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[587]: Separator    ;    line/col = 75/44 span = 2239:2240 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[588]: WhiteSpace        line/col = 75/45 span = 2240:2241 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[589]: Name         retu line/col = 75/46 span = 2241:2251 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[590]: WhiteSpace        line/col = 75/56 span = 2251:2252 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[591]: Operator     =    line/col = 75/57 span = 2252:2253 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[592]: WhiteSpace        line/col = 75/58 span = 2253:2254 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[593]: Name         prim line/col = 75/59 span = 2254:2263 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[594]: WhiteSpace        line/col = 75/68 span = 2263:2264 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[595]: EndOfLine         line/col = 75/69 span = 2264:2265 (value.Size() = 4, value.Length() = 4)
+  Token[596]: WhiteSpace        line/col = 76/1 span = 2265:2267 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[597]: Name         meth line/col = 76/3 span = 2267:2273 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[598]: WhiteSpace        line/col = 76/9 span = 2273:2274 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[599]: BLiteral     `dya line/col = 76/10 span = 2274:2285 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`dyadop >>`◄
+  Token[600]: Operator     :    line/col = 76/21 span = 2285:2286 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[601]: WhiteSpace        line/col = 76/22 span = 2286:2288 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[602]: Name         argu line/col = 76/24 span = 2288:2297 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[603]: WhiteSpace        line/col = 76/33 span = 2297:2298 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[604]: Operator     =    line/col = 76/34 span = 2298:2299 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[605]: BracketLeft  (    line/col = 76/36 span = 2299:2301 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[606]: Name         amou line/col = 76/37 span = 2301:2307 (value.Size() = 4, value.Length() = 4)
+    token.value = ►amount◄
+  Token[607]: BracketRight )    line/col = 76/43 span = 2307:2308 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[608]: Separator    ;    line/col = 76/44 span = 2308:2309 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[609]: WhiteSpace        line/col = 76/45 span = 2309:2310 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[610]: Name         retu line/col = 76/46 span = 2310:2320 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[611]: WhiteSpace        line/col = 76/56 span = 2320:2321 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[612]: Operator     =    line/col = 76/57 span = 2321:2322 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[613]: WhiteSpace        line/col = 76/58 span = 2322:2323 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[614]: Name         prim line/col = 76/59 span = 2323:2332 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[615]: WhiteSpace        line/col = 76/68 span = 2332:2333 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[616]: EndOfLine         line/col = 76/69 span = 2333:2334 (value.Size() = 4, value.Length() = 4)
+  Token[617]: WhiteSpace        line/col = 77/1 span = 2334:2336 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[618]: Name         meth line/col = 77/3 span = 2336:2342 (value.Size() = 4, value.Length() = 4)
+    token.value = ►method◄
+  Token[619]: WhiteSpace        line/col = 77/9 span = 2342:2343 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[620]: BLiteral     `dya line/col = 77/10 span = 2343:2355 (value.Size() = 4, value.Length() = 4)
+    token.value = ►`dyadop >>>`◄
+  Token[621]: Operator     :    line/col = 77/22 span = 2355:2356 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[622]: WhiteSpace        line/col = 77/23 span = 2356:2357 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[623]: Name         argu line/col = 77/24 span = 2357:2366 (value.Size() = 4, value.Length() = 4)
+    token.value = ►arguments◄
+  Token[624]: WhiteSpace        line/col = 77/33 span = 2366:2367 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[625]: Operator     =    line/col = 77/34 span = 2367:2368 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[626]: BracketLeft  (    line/col = 77/36 span = 2368:2370 (value.Size() = 4, value.Length() = 4)
+    token.value = ► (◄
+  Token[627]: Name         amou line/col = 77/37 span = 2370:2376 (value.Size() = 4, value.Length() = 4)
+    token.value = ►amount◄
+  Token[628]: BracketRight )    line/col = 77/43 span = 2376:2377 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[629]: Separator    ;    line/col = 77/44 span = 2377:2378 (value.Size() = 4, value.Length() = 4)
+    token.value = ►;◄
+  Token[630]: WhiteSpace        line/col = 77/45 span = 2378:2379 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[631]: Name         retu line/col = 77/46 span = 2379:2389 (value.Size() = 4, value.Length() = 4)
+    token.value = ►returnType◄
+  Token[632]: WhiteSpace        line/col = 77/56 span = 2389:2390 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[633]: Operator     =    line/col = 77/57 span = 2390:2391 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[634]: WhiteSpace        line/col = 77/58 span = 2391:2392 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[635]: Name         prim line/col = 77/59 span = 2392:2401 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[636]: WhiteSpace        line/col = 77/68 span = 2401:2402 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[637]: EndOfLine         line/col = 77/69 span = 2402:2403 (value.Size() = 4, value.Length() = 4)
+  Token[638]: WhiteSpace        line/col = 78/1 span = 2403:2406 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  \r◄
+  Token[639]: EndOfLine         line/col = 78/4 span = 2406:2407 (value.Size() = 4, value.Length() = 4)
+  Token[640]: Name         stru line/col = 79/1 span = 2407:2413 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[641]: WhiteSpace        line/col = 79/7 span = 2413:2414 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[642]: Name         bool line/col = 79/8 span = 2414:2418 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bool◄
+  Token[643]: BracketLeft  (    line/col = 79/12 span = 2418:2419 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[644]: Name         prim line/col = 79/13 span = 2419:2428 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[645]: BracketRight )    line/col = 79/22 span = 2428:2429 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[646]: Operator     :    line/col = 79/23 span = 2429:2430 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[647]: WhiteSpace        line/col = 79/24 span = 2430:2431 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[648]: EndOfLine         line/col = 79/25 span = 2431:2432 (value.Size() = 4, value.Length() = 4)
+  Token[649]: WhiteSpace        line/col = 80/1 span = 2432:2434 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[650]: Name         sign line/col = 80/3 span = 2434:2440 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[651]: WhiteSpace        line/col = 80/9 span = 2440:2447 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[652]: Operator     =    line/col = 80/16 span = 2447:2448 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[653]: WhiteSpace        line/col = 80/17 span = 2448:2449 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[654]: Name         fals line/col = 80/18 span = 2449:2454 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[655]: WhiteSpace        line/col = 80/23 span = 2454:2455 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[656]: EndOfLine         line/col = 80/24 span = 2455:2456 (value.Size() = 4, value.Length() = 4)
+  Token[657]: WhiteSpace        line/col = 81/1 span = 2456:2458 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[658]: Name         null line/col = 81/3 span = 2458:2466 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nullable◄
+  Token[659]: WhiteSpace        line/col = 81/11 span = 2466:2471 (value.Size() = 4, value.Length() = 4)
+    token.value = ►     ◄
+  Token[660]: Operator     =    line/col = 81/16 span = 2471:2472 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[661]: WhiteSpace        line/col = 81/17 span = 2472:2473 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[662]: Name         fals line/col = 81/18 span = 2473:2478 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[663]: WhiteSpace        line/col = 81/23 span = 2478:2479 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[664]: EndOfLine         line/col = 81/24 span = 2479:2480 (value.Size() = 4, value.Length() = 4)
+  Token[665]: WhiteSpace        line/col = 82/1 span = 2480:2482 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[666]: Name         bits line/col = 82/3 span = 2482:2489 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[667]: WhiteSpace        line/col = 82/10 span = 2489:2495 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[668]: Operator     =    line/col = 82/16 span = 2495:2496 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[669]: WhiteSpace        line/col = 82/17 span = 2496:2497 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[670]: Number       1    line/col = 82/18 span = 2497:2498 (value.Size() = 4, value.Length() = 4)
+    token.value = ►1◄
+  Token[671]: WhiteSpace        line/col = 82/19 span = 2498:2499 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[672]: EndOfLine         line/col = 82/20 span = 2499:2500 (value.Size() = 4, value.Length() = 4)
+  Token[673]: WhiteSpace        line/col = 83/1 span = 2500:2502 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[674]: Name         defa line/col = 83/3 span = 2502:2514 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[675]: WhiteSpace        line/col = 83/15 span = 2514:2515 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[676]: Operator     =    line/col = 83/16 span = 2515:2516 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[677]: WhiteSpace        line/col = 83/17 span = 2516:2517 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[678]: Name         fals line/col = 83/18 span = 2517:2522 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[679]: WhiteSpace        line/col = 83/23 span = 2522:2523 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[680]: EndOfLine         line/col = 83/24 span = 2523:2524 (value.Size() = 4, value.Length() = 4)
+  Token[681]: WhiteSpace        line/col = 84/1 span = 2524:2525 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[682]: EndOfLine         line/col = 84/2 span = 2525:2526 (value.Size() = 4, value.Length() = 4)
+  Token[683]: Name         stru line/col = 85/1 span = 2526:2532 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[684]: WhiteSpace        line/col = 85/7 span = 2532:2533 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[685]: Name         bool line/col = 85/8 span = 2533:2540 (value.Size() = 4, value.Length() = 4)
+    token.value = ►boolean◄
+  Token[686]: BracketLeft  (    line/col = 85/15 span = 2540:2541 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[687]: Name         prim line/col = 85/16 span = 2541:2550 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[688]: BracketRight )    line/col = 85/25 span = 2550:2551 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[689]: Operator     :    line/col = 85/26 span = 2551:2552 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[690]: WhiteSpace        line/col = 85/27 span = 2552:2553 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[691]: EndOfLine         line/col = 85/28 span = 2553:2554 (value.Size() = 4, value.Length() = 4)
+  Token[692]: WhiteSpace        line/col = 86/1 span = 2554:2556 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[693]: Name         sign line/col = 86/3 span = 2556:2562 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[694]: WhiteSpace        line/col = 86/9 span = 2562:2569 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[695]: Operator     =    line/col = 86/16 span = 2569:2570 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[696]: WhiteSpace        line/col = 86/17 span = 2570:2571 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[697]: Name         true line/col = 86/18 span = 2571:2575 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[698]: WhiteSpace        line/col = 86/22 span = 2575:2576 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[699]: EndOfLine         line/col = 86/23 span = 2576:2577 (value.Size() = 4, value.Length() = 4)
+  Token[700]: WhiteSpace        line/col = 87/1 span = 2577:2579 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[701]: Name         null line/col = 87/3 span = 2579:2587 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nullable◄
+  Token[702]: WhiteSpace        line/col = 87/11 span = 2587:2592 (value.Size() = 4, value.Length() = 4)
+    token.value = ►     ◄
+  Token[703]: Operator     =    line/col = 87/16 span = 2592:2593 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[704]: WhiteSpace        line/col = 87/17 span = 2593:2594 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[705]: Name         true line/col = 87/18 span = 2594:2598 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[706]: WhiteSpace        line/col = 87/22 span = 2598:2599 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[707]: EndOfLine         line/col = 87/23 span = 2599:2600 (value.Size() = 4, value.Length() = 4)
+  Token[708]: WhiteSpace        line/col = 88/1 span = 2600:2602 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[709]: Name         bits line/col = 88/3 span = 2602:2609 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[710]: WhiteSpace        line/col = 88/10 span = 2609:2615 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[711]: Operator     =    line/col = 88/16 span = 2615:2616 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[712]: WhiteSpace        line/col = 88/17 span = 2616:2617 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[713]: Number       2    line/col = 88/18 span = 2617:2618 (value.Size() = 4, value.Length() = 4)
+    token.value = ►2◄
+  Token[714]: WhiteSpace        line/col = 88/19 span = 2618:2619 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[715]: EndOfLine         line/col = 88/20 span = 2619:2620 (value.Size() = 4, value.Length() = 4)
+  Token[716]: WhiteSpace        line/col = 89/1 span = 2620:2622 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[717]: Name         defa line/col = 89/3 span = 2622:2634 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[718]: WhiteSpace        line/col = 89/15 span = 2634:2635 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[719]: Operator     =    line/col = 89/16 span = 2635:2636 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[720]: WhiteSpace        line/col = 89/17 span = 2636:2637 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[721]: Name         fals line/col = 89/18 span = 2637:2642 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[722]: WhiteSpace        line/col = 89/23 span = 2642:2643 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[723]: EndOfLine         line/col = 89/24 span = 2643:2644 (value.Size() = 4, value.Length() = 4)
+  Token[724]: WhiteSpace        line/col = 90/1 span = 2644:2647 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  \r◄
+  Token[725]: EndOfLine         line/col = 90/4 span = 2647:2648 (value.Size() = 4, value.Length() = 4)
+  Token[726]: Name         stru line/col = 91/1 span = 2648:2654 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[727]: WhiteSpace        line/col = 91/7 span = 2654:2655 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[728]: Name         bit  line/col = 91/8 span = 2655:2658 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bit◄
+  Token[729]: BracketLeft  (    line/col = 91/11 span = 2658:2659 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[730]: Name         prim line/col = 91/12 span = 2659:2668 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[731]: BracketRight )    line/col = 91/21 span = 2668:2669 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[732]: Operator     :    line/col = 91/22 span = 2669:2670 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[733]: WhiteSpace        line/col = 91/23 span = 2670:2671 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[734]: EndOfLine         line/col = 91/24 span = 2671:2672 (value.Size() = 4, value.Length() = 4)
+  Token[735]: WhiteSpace        line/col = 92/1 span = 2672:2674 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[736]: Name         sign line/col = 92/3 span = 2674:2680 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[737]: WhiteSpace        line/col = 92/9 span = 2680:2687 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[738]: Operator     =    line/col = 92/16 span = 2687:2688 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[739]: WhiteSpace        line/col = 92/17 span = 2688:2689 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[740]: Name         fals line/col = 92/18 span = 2689:2694 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[741]: WhiteSpace        line/col = 92/23 span = 2694:2695 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[742]: EndOfLine         line/col = 92/24 span = 2695:2696 (value.Size() = 4, value.Length() = 4)
+  Token[743]: WhiteSpace        line/col = 93/1 span = 2696:2698 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[744]: Name         null line/col = 93/3 span = 2698:2706 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nullable◄
+  Token[745]: WhiteSpace        line/col = 93/11 span = 2706:2711 (value.Size() = 4, value.Length() = 4)
+    token.value = ►     ◄
+  Token[746]: Operator     =    line/col = 93/16 span = 2711:2712 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[747]: WhiteSpace        line/col = 93/17 span = 2712:2713 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[748]: Name         fals line/col = 93/18 span = 2713:2718 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[749]: WhiteSpace        line/col = 93/23 span = 2718:2719 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[750]: EndOfLine         line/col = 93/24 span = 2719:2720 (value.Size() = 4, value.Length() = 4)
+  Token[751]: WhiteSpace        line/col = 94/1 span = 2720:2722 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[752]: Name         bits line/col = 94/3 span = 2722:2729 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[753]: WhiteSpace        line/col = 94/10 span = 2729:2735 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[754]: Operator     =    line/col = 94/16 span = 2735:2736 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[755]: WhiteSpace        line/col = 94/17 span = 2736:2737 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[756]: Number       1    line/col = 94/18 span = 2737:2738 (value.Size() = 4, value.Length() = 4)
+    token.value = ►1◄
+  Token[757]: WhiteSpace        line/col = 94/19 span = 2738:2739 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[758]: EndOfLine         line/col = 94/20 span = 2739:2740 (value.Size() = 4, value.Length() = 4)
+  Token[759]: WhiteSpace        line/col = 95/1 span = 2740:2742 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[760]: Name         defa line/col = 95/3 span = 2742:2754 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[761]: WhiteSpace        line/col = 95/15 span = 2754:2755 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[762]: Operator     =    line/col = 95/16 span = 2755:2756 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[763]: WhiteSpace        line/col = 95/17 span = 2756:2757 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[764]: Number       0    line/col = 95/18 span = 2757:2758 (value.Size() = 4, value.Length() = 4)
+    token.value = ►0◄
+  Token[765]: WhiteSpace        line/col = 95/19 span = 2758:2759 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[766]: EndOfLine         line/col = 95/20 span = 2759:2760 (value.Size() = 4, value.Length() = 4)
+  Token[767]: WhiteSpace        line/col = 96/1 span = 2760:2761 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[768]: EndOfLine         line/col = 96/2 span = 2761:2762 (value.Size() = 4, value.Length() = 4)
+  Token[769]: Comment      #    line/col = 97/1 span = 2762:2764 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[770]: EndOfLine         line/col = 97/3 span = 2764:2765 (value.Size() = 4, value.Length() = 4)
+  Token[771]: Comment      # In line/col = 98/1 span = 2765:2779 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# Integers...\r◄
+  Token[772]: EndOfLine         line/col = 98/15 span = 2779:2780 (value.Size() = 4, value.Length() = 4)
+  Token[773]: Comment      #    line/col = 99/1 span = 2780:2782 (value.Size() = 4, value.Length() = 4)
+    token.value = ►#\r◄
+  Token[774]: EndOfLine         line/col = 99/3 span = 2782:2783 (value.Size() = 4, value.Length() = 4)
+  Token[775]: WhiteSpace        line/col = 100/1 span = 2783:2784 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[776]: EndOfLine         line/col = 100/2 span = 2784:2785 (value.Size() = 4, value.Length() = 4)
+  Token[777]: Name         stru line/col = 101/1 span = 2785:2791 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[778]: WhiteSpace        line/col = 101/7 span = 2791:2792 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[779]: Name         __in line/col = 101/8 span = 2792:2799 (value.Size() = 4, value.Length() = 4)
+    token.value = ►__int__◄
+  Token[780]: BracketLeft  (    line/col = 101/15 span = 2799:2800 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[781]: Name         prim line/col = 101/16 span = 2800:2809 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[782]: BracketRight )    line/col = 101/25 span = 2809:2810 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[783]: Operator     :    line/col = 101/26 span = 2810:2811 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[784]: WhiteSpace        line/col = 101/27 span = 2811:2812 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[785]: Comment      # Su line/col = 101/28 span = 2812:2872 (value.Size() = 4, value.Length() = 4)
+    token.value = ►# Superclass for all thingies we can treat as an integer...\r◄
+  Token[786]: EndOfLine         line/col = 101/88 span = 2872:2873 (value.Size() = 4, value.Length() = 4)
+  Token[787]: WhiteSpace        line/col = 102/1 span = 2873:2875 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[788]: Name         null line/col = 102/3 span = 2875:2883 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nullable◄
+  Token[789]: WhiteSpace        line/col = 102/11 span = 2883:2888 (value.Size() = 4, value.Length() = 4)
+    token.value = ►     ◄
+  Token[790]: Operator     =    line/col = 102/16 span = 2888:2889 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[791]: WhiteSpace        line/col = 102/17 span = 2889:2890 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[792]: Name         true line/col = 102/18 span = 2890:2894 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[793]: WhiteSpace        line/col = 102/22 span = 2894:2895 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[794]: EndOfLine         line/col = 102/23 span = 2895:2896 (value.Size() = 4, value.Length() = 4)
+  Token[795]: WhiteSpace        line/col = 103/1 span = 2896:2899 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  \r◄
+  Token[796]: EndOfLine         line/col = 103/4 span = 2899:2900 (value.Size() = 4, value.Length() = 4)
+  Token[797]: Name         stru line/col = 104/1 span = 2900:2906 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[798]: WhiteSpace        line/col = 104/7 span = 2906:2907 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[799]: Name         nibb line/col = 104/8 span = 2907:2913 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nibble◄
+  Token[800]: BracketLeft  (    line/col = 104/14 span = 2913:2914 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[801]: Name         prim line/col = 104/15 span = 2914:2923 (value.Size() = 4, value.Length() = 4)
+    token.value = ►primitive◄
+  Token[802]: BracketRight )    line/col = 104/24 span = 2923:2924 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[803]: Operator     :    line/col = 104/25 span = 2924:2925 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[804]: WhiteSpace        line/col = 104/26 span = 2925:2926 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[805]: EndOfLine         line/col = 104/27 span = 2926:2927 (value.Size() = 4, value.Length() = 4)
+  Token[806]: WhiteSpace        line/col = 105/1 span = 2927:2929 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[807]: Name         sign line/col = 105/3 span = 2929:2935 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[808]: WhiteSpace        line/col = 105/9 span = 2935:2942 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[809]: Operator     =    line/col = 105/16 span = 2942:2943 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[810]: WhiteSpace        line/col = 105/17 span = 2943:2944 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[811]: Name         fals line/col = 105/18 span = 2944:2949 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[812]: WhiteSpace        line/col = 105/23 span = 2949:2950 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[813]: EndOfLine         line/col = 105/24 span = 2950:2951 (value.Size() = 4, value.Length() = 4)
+  Token[814]: WhiteSpace        line/col = 106/1 span = 2951:2953 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[815]: Name         null line/col = 106/3 span = 2953:2961 (value.Size() = 4, value.Length() = 4)
+    token.value = ►nullable◄
+  Token[816]: WhiteSpace        line/col = 106/11 span = 2961:2966 (value.Size() = 4, value.Length() = 4)
+    token.value = ►     ◄
+  Token[817]: Operator     =    line/col = 106/16 span = 2966:2967 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[818]: WhiteSpace        line/col = 106/17 span = 2967:2968 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[819]: Name         true line/col = 106/18 span = 2968:2972 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[820]: WhiteSpace        line/col = 106/22 span = 2972:2973 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[821]: EndOfLine         line/col = 106/23 span = 2973:2974 (value.Size() = 4, value.Length() = 4)
+  Token[822]: WhiteSpace        line/col = 107/1 span = 2974:2976 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[823]: Name         bits line/col = 107/3 span = 2976:2983 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[824]: WhiteSpace        line/col = 107/10 span = 2983:2989 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[825]: Operator     =    line/col = 107/16 span = 2989:2990 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[826]: WhiteSpace        line/col = 107/17 span = 2990:2991 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[827]: Number       4    line/col = 107/18 span = 2991:2992 (value.Size() = 4, value.Length() = 4)
+    token.value = ►4◄
+  Token[828]: WhiteSpace        line/col = 107/19 span = 2992:2993 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[829]: EndOfLine         line/col = 107/20 span = 2993:2994 (value.Size() = 4, value.Length() = 4)
+  Token[830]: WhiteSpace        line/col = 108/1 span = 2994:2996 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[831]: Name         defa line/col = 108/3 span = 2996:3008 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[832]: WhiteSpace        line/col = 108/15 span = 3008:3009 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[833]: Operator     =    line/col = 108/16 span = 3009:3010 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[834]: WhiteSpace        line/col = 108/17 span = 3010:3011 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[835]: Name         unib line/col = 108/18 span = 3011:3021 (value.Size() = 4, value.Length() = 4)
+    token.value = ►unibbleNaN◄
+  Token[836]: WhiteSpace        line/col = 108/28 span = 3021:3022 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[837]: EndOfLine         line/col = 108/29 span = 3022:3023 (value.Size() = 4, value.Length() = 4)
+  Token[838]: WhiteSpace        line/col = 109/1 span = 3023:3024 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[839]: EndOfLine         line/col = 109/2 span = 3024:3025 (value.Size() = 4, value.Length() = 4)
+  Token[840]: Name         stru line/col = 110/1 span = 3025:3031 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[841]: WhiteSpace        line/col = 110/7 span = 3031:3032 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[842]: Name         byte line/col = 110/8 span = 3032:3036 (value.Size() = 4, value.Length() = 4)
+    token.value = ►byte◄
+  Token[843]: BracketLeft  (    line/col = 110/12 span = 3036:3037 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[844]: Name         __in line/col = 110/13 span = 3037:3044 (value.Size() = 4, value.Length() = 4)
+    token.value = ►__int__◄
+  Token[845]: BracketRight )    line/col = 110/20 span = 3044:3045 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[846]: Operator     :    line/col = 110/21 span = 3045:3046 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[847]: WhiteSpace        line/col = 110/22 span = 3046:3047 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[848]: EndOfLine         line/col = 110/23 span = 3047:3048 (value.Size() = 4, value.Length() = 4)
+  Token[849]: WhiteSpace        line/col = 111/1 span = 3048:3050 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[850]: Name         sign line/col = 111/3 span = 3050:3056 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[851]: WhiteSpace        line/col = 111/9 span = 3056:3063 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[852]: Operator     =    line/col = 111/16 span = 3063:3064 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[853]: WhiteSpace        line/col = 111/17 span = 3064:3065 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[854]: Name         true line/col = 111/18 span = 3065:3069 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[855]: WhiteSpace        line/col = 111/22 span = 3069:3070 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[856]: EndOfLine         line/col = 111/23 span = 3070:3071 (value.Size() = 4, value.Length() = 4)
+  Token[857]: WhiteSpace        line/col = 112/1 span = 3071:3073 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[858]: Name         bits line/col = 112/3 span = 3073:3080 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[859]: WhiteSpace        line/col = 112/10 span = 3080:3086 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[860]: Operator     =    line/col = 112/16 span = 3086:3087 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[861]: WhiteSpace        line/col = 112/17 span = 3087:3088 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[862]: Number       8    line/col = 112/18 span = 3088:3089 (value.Size() = 4, value.Length() = 4)
+    token.value = ►8◄
+  Token[863]: WhiteSpace        line/col = 112/19 span = 3089:3090 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[864]: EndOfLine         line/col = 112/20 span = 3090:3091 (value.Size() = 4, value.Length() = 4)
+  Token[865]: WhiteSpace        line/col = 113/1 span = 3091:3093 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[866]: Name         defa line/col = 113/3 span = 3093:3105 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[867]: WhiteSpace        line/col = 113/15 span = 3105:3106 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[868]: Operator     =    line/col = 113/16 span = 3106:3107 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[869]: WhiteSpace        line/col = 113/17 span = 3107:3108 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[870]: Name         byte line/col = 113/18 span = 3108:3115 (value.Size() = 4, value.Length() = 4)
+    token.value = ►byteNaN◄
+  Token[871]: WhiteSpace        line/col = 113/25 span = 3115:3116 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[872]: EndOfLine         line/col = 113/26 span = 3116:3117 (value.Size() = 4, value.Length() = 4)
+  Token[873]: WhiteSpace        line/col = 114/1 span = 3117:3118 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[874]: EndOfLine         line/col = 114/2 span = 3118:3119 (value.Size() = 4, value.Length() = 4)
+  Token[875]: Name         stru line/col = 115/1 span = 3119:3125 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[876]: WhiteSpace        line/col = 115/7 span = 3125:3126 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[877]: Name         ubyt line/col = 115/8 span = 3126:3131 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ubyte◄
+  Token[878]: BracketLeft  (    line/col = 115/13 span = 3131:3132 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[879]: Name         byte line/col = 115/14 span = 3132:3136 (value.Size() = 4, value.Length() = 4)
+    token.value = ►byte◄
+  Token[880]: BracketRight )    line/col = 115/18 span = 3136:3137 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[881]: Operator     :    line/col = 115/19 span = 3137:3138 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[882]: WhiteSpace        line/col = 115/20 span = 3138:3139 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[883]: EndOfLine         line/col = 115/21 span = 3139:3140 (value.Size() = 4, value.Length() = 4)
+  Token[884]: WhiteSpace        line/col = 116/1 span = 3140:3142 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[885]: Name         sign line/col = 116/3 span = 3142:3148 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[886]: WhiteSpace        line/col = 116/9 span = 3148:3155 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[887]: Operator     =    line/col = 116/16 span = 3155:3156 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[888]: WhiteSpace        line/col = 116/17 span = 3156:3157 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[889]: Name         fals line/col = 116/18 span = 3157:3162 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[890]: WhiteSpace        line/col = 116/23 span = 3162:3163 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[891]: EndOfLine         line/col = 116/24 span = 3163:3164 (value.Size() = 4, value.Length() = 4)
+  Token[892]: WhiteSpace        line/col = 117/1 span = 3164:3166 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[893]: Name         defa line/col = 117/3 span = 3166:3178 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[894]: WhiteSpace        line/col = 117/15 span = 3178:3179 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[895]: Operator     =    line/col = 117/16 span = 3179:3180 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[896]: WhiteSpace        line/col = 117/17 span = 3180:3181 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[897]: Name         ubyt line/col = 117/18 span = 3181:3189 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ubyteNaN◄
+  Token[898]: WhiteSpace        line/col = 117/26 span = 3189:3190 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[899]: EndOfLine         line/col = 117/27 span = 3190:3191 (value.Size() = 4, value.Length() = 4)
+  Token[900]: WhiteSpace        line/col = 118/1 span = 3191:3192 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[901]: EndOfLine         line/col = 118/2 span = 3192:3193 (value.Size() = 4, value.Length() = 4)
+  Token[902]: Name         stru line/col = 119/1 span = 3193:3199 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[903]: WhiteSpace        line/col = 119/7 span = 3199:3200 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[904]: Name         sbyt line/col = 119/8 span = 3200:3205 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sbyte◄
+  Token[905]: BracketLeft  (    line/col = 119/13 span = 3205:3206 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[906]: Name         byte line/col = 119/14 span = 3206:3210 (value.Size() = 4, value.Length() = 4)
+    token.value = ►byte◄
+  Token[907]: BracketRight )    line/col = 119/18 span = 3210:3211 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[908]: Operator     :    line/col = 119/19 span = 3211:3212 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[909]: WhiteSpace        line/col = 119/20 span = 3212:3213 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[910]: EndOfLine         line/col = 119/21 span = 3213:3214 (value.Size() = 4, value.Length() = 4)
+  Token[911]: WhiteSpace        line/col = 120/1 span = 3214:3216 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[912]: Name         sign line/col = 120/3 span = 3216:3222 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[913]: WhiteSpace        line/col = 120/9 span = 3222:3229 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[914]: Operator     =    line/col = 120/16 span = 3229:3230 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[915]: WhiteSpace        line/col = 120/17 span = 3230:3231 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[916]: Name         fals line/col = 120/18 span = 3231:3236 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[917]: WhiteSpace        line/col = 120/23 span = 3236:3237 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[918]: EndOfLine         line/col = 120/24 span = 3237:3238 (value.Size() = 4, value.Length() = 4)
+  Token[919]: WhiteSpace        line/col = 121/1 span = 3238:3240 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[920]: Name         defa line/col = 121/3 span = 3240:3252 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[921]: WhiteSpace        line/col = 121/15 span = 3252:3253 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[922]: Operator     =    line/col = 121/16 span = 3253:3254 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[923]: WhiteSpace        line/col = 121/17 span = 3254:3255 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[924]: Name         sbyt line/col = 121/18 span = 3255:3263 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sbyteNaN◄
+  Token[925]: WhiteSpace        line/col = 121/26 span = 3263:3264 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[926]: EndOfLine         line/col = 121/27 span = 3264:3265 (value.Size() = 4, value.Length() = 4)
+  Token[927]: WhiteSpace        line/col = 122/1 span = 3265:3266 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[928]: EndOfLine         line/col = 122/2 span = 3266:3267 (value.Size() = 4, value.Length() = 4)
+  Token[929]: Name         stru line/col = 123/1 span = 3267:3273 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[930]: WhiteSpace        line/col = 123/7 span = 3273:3274 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[931]: Name         shor line/col = 123/8 span = 3274:3279 (value.Size() = 4, value.Length() = 4)
+    token.value = ►short◄
+  Token[932]: BracketLeft  (    line/col = 123/13 span = 3279:3280 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[933]: Name         __in line/col = 123/14 span = 3280:3287 (value.Size() = 4, value.Length() = 4)
+    token.value = ►__int__◄
+  Token[934]: BracketRight )    line/col = 123/21 span = 3287:3288 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[935]: Operator     :    line/col = 123/22 span = 3288:3289 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[936]: WhiteSpace        line/col = 123/23 span = 3289:3290 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[937]: EndOfLine         line/col = 123/24 span = 3290:3291 (value.Size() = 4, value.Length() = 4)
+  Token[938]: WhiteSpace        line/col = 124/1 span = 3291:3293 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[939]: Name         sign line/col = 124/3 span = 3293:3299 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[940]: WhiteSpace        line/col = 124/9 span = 3299:3306 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[941]: Operator     =    line/col = 124/16 span = 3306:3307 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[942]: WhiteSpace        line/col = 124/17 span = 3307:3308 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[943]: Name         true line/col = 124/18 span = 3308:3312 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[944]: WhiteSpace        line/col = 124/22 span = 3312:3313 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[945]: EndOfLine         line/col = 124/23 span = 3313:3314 (value.Size() = 4, value.Length() = 4)
+  Token[946]: WhiteSpace        line/col = 125/1 span = 3314:3316 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[947]: Name         bits line/col = 125/3 span = 3316:3323 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[948]: WhiteSpace        line/col = 125/10 span = 3323:3329 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[949]: Operator     =    line/col = 125/16 span = 3329:3330 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[950]: WhiteSpace        line/col = 125/17 span = 3330:3331 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[951]: Number       8    line/col = 125/18 span = 3331:3332 (value.Size() = 4, value.Length() = 4)
+    token.value = ►8◄
+  Token[952]: WhiteSpace        line/col = 125/19 span = 3332:3333 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[953]: EndOfLine         line/col = 125/20 span = 3333:3334 (value.Size() = 4, value.Length() = 4)
+  Token[954]: WhiteSpace        line/col = 126/1 span = 3334:3336 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[955]: Name         defa line/col = 126/3 span = 3336:3348 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[956]: WhiteSpace        line/col = 126/15 span = 3348:3349 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[957]: Operator     =    line/col = 126/16 span = 3349:3350 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[958]: WhiteSpace        line/col = 126/17 span = 3350:3351 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[959]: Name         shor line/col = 126/18 span = 3351:3359 (value.Size() = 4, value.Length() = 4)
+    token.value = ►shortNaN◄
+  Token[960]: WhiteSpace        line/col = 126/26 span = 3359:3360 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[961]: EndOfLine         line/col = 126/27 span = 3360:3361 (value.Size() = 4, value.Length() = 4)
+  Token[962]: WhiteSpace        line/col = 127/1 span = 3361:3362 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[963]: EndOfLine         line/col = 127/2 span = 3362:3363 (value.Size() = 4, value.Length() = 4)
+  Token[964]: Name         stru line/col = 128/1 span = 3363:3369 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[965]: WhiteSpace        line/col = 128/7 span = 3369:3370 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[966]: Name         usho line/col = 128/8 span = 3370:3376 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ushort◄
+  Token[967]: BracketLeft  (    line/col = 128/14 span = 3376:3377 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[968]: Name         shor line/col = 128/15 span = 3377:3382 (value.Size() = 4, value.Length() = 4)
+    token.value = ►short◄
+  Token[969]: BracketRight )    line/col = 128/20 span = 3382:3383 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[970]: Operator     :    line/col = 128/21 span = 3383:3384 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[971]: WhiteSpace        line/col = 128/22 span = 3384:3385 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[972]: EndOfLine         line/col = 128/23 span = 3385:3386 (value.Size() = 4, value.Length() = 4)
+  Token[973]: WhiteSpace        line/col = 129/1 span = 3386:3388 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[974]: Name         sign line/col = 129/3 span = 3388:3394 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[975]: WhiteSpace        line/col = 129/9 span = 3394:3401 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[976]: Operator     =    line/col = 129/16 span = 3401:3402 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[977]: WhiteSpace        line/col = 129/17 span = 3402:3403 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[978]: Name         fals line/col = 129/18 span = 3403:3408 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[979]: WhiteSpace        line/col = 129/23 span = 3408:3409 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[980]: EndOfLine         line/col = 129/24 span = 3409:3410 (value.Size() = 4, value.Length() = 4)
+  Token[981]: WhiteSpace        line/col = 130/1 span = 3410:3412 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[982]: Name         defa line/col = 130/3 span = 3412:3424 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[983]: WhiteSpace        line/col = 130/15 span = 3424:3425 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[984]: Operator     =    line/col = 130/16 span = 3425:3426 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[985]: WhiteSpace        line/col = 130/17 span = 3426:3427 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[986]: Name         usho line/col = 130/18 span = 3427:3436 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ushortNaN◄
+  Token[987]: WhiteSpace        line/col = 130/27 span = 3436:3437 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[988]: EndOfLine         line/col = 130/28 span = 3437:3438 (value.Size() = 4, value.Length() = 4)
+  Token[989]: WhiteSpace        line/col = 131/1 span = 3438:3439 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[990]: EndOfLine         line/col = 131/2 span = 3439:3440 (value.Size() = 4, value.Length() = 4)
+  Token[991]: Name         stru line/col = 132/1 span = 3440:3446 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[992]: WhiteSpace        line/col = 132/7 span = 3446:3447 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[993]: Name         ssho line/col = 132/8 span = 3447:3453 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sshort◄
+  Token[994]: BracketLeft  (    line/col = 132/14 span = 3453:3454 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[995]: Name         shor line/col = 132/15 span = 3454:3459 (value.Size() = 4, value.Length() = 4)
+    token.value = ►short◄
+  Token[996]: BracketRight )    line/col = 132/20 span = 3459:3460 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[997]: Operator     :    line/col = 132/21 span = 3460:3461 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[998]: WhiteSpace        line/col = 132/22 span = 3461:3462 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[999]: EndOfLine         line/col = 132/23 span = 3462:3463 (value.Size() = 4, value.Length() = 4)
+  Token[1000]: WhiteSpace        line/col = 133/1 span = 3463:3465 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1001]: Name         sign line/col = 133/3 span = 3465:3471 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[1002]: WhiteSpace        line/col = 133/9 span = 3471:3478 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[1003]: Operator     =    line/col = 133/16 span = 3478:3479 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1004]: WhiteSpace        line/col = 133/17 span = 3479:3480 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1005]: Name         true line/col = 133/18 span = 3480:3484 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[1006]: WhiteSpace        line/col = 133/22 span = 3484:3485 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1007]: EndOfLine         line/col = 133/23 span = 3485:3486 (value.Size() = 4, value.Length() = 4)
+  Token[1008]: WhiteSpace        line/col = 134/1 span = 3486:3488 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1009]: Name         defa line/col = 134/3 span = 3488:3500 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[1010]: WhiteSpace        line/col = 134/15 span = 3500:3501 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1011]: Operator     =    line/col = 134/16 span = 3501:3502 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1012]: WhiteSpace        line/col = 134/17 span = 3502:3503 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1013]: Name         ssho line/col = 134/18 span = 3503:3512 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sshortNaN◄
+  Token[1014]: WhiteSpace        line/col = 134/27 span = 3512:3513 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1015]: EndOfLine         line/col = 134/28 span = 3513:3514 (value.Size() = 4, value.Length() = 4)
+  Token[1016]: WhiteSpace        line/col = 135/1 span = 3514:3515 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1017]: EndOfLine         line/col = 135/2 span = 3515:3516 (value.Size() = 4, value.Length() = 4)
+  Token[1018]: Name         stru line/col = 136/1 span = 3516:3522 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[1019]: WhiteSpace        line/col = 136/7 span = 3522:3523 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1020]: Name         int  line/col = 136/8 span = 3523:3526 (value.Size() = 4, value.Length() = 4)
+    token.value = ►int◄
+  Token[1021]: BracketLeft  (    line/col = 136/11 span = 3526:3527 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[1022]: Name         __in line/col = 136/12 span = 3527:3534 (value.Size() = 4, value.Length() = 4)
+    token.value = ►__int__◄
+  Token[1023]: BracketRight )    line/col = 136/19 span = 3534:3535 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[1024]: Operator     :    line/col = 136/20 span = 3535:3536 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[1025]: WhiteSpace        line/col = 136/21 span = 3536:3537 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1026]: EndOfLine         line/col = 136/22 span = 3537:3538 (value.Size() = 4, value.Length() = 4)
+  Token[1027]: WhiteSpace        line/col = 137/1 span = 3538:3540 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1028]: Name         sign line/col = 137/3 span = 3540:3546 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[1029]: WhiteSpace        line/col = 137/9 span = 3546:3553 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[1030]: Operator     =    line/col = 137/16 span = 3553:3554 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1031]: WhiteSpace        line/col = 137/17 span = 3554:3555 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1032]: Name         true line/col = 137/18 span = 3555:3559 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[1033]: WhiteSpace        line/col = 137/22 span = 3559:3560 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1034]: EndOfLine         line/col = 137/23 span = 3560:3561 (value.Size() = 4, value.Length() = 4)
+  Token[1035]: WhiteSpace        line/col = 138/1 span = 3561:3563 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1036]: Name         bits line/col = 138/3 span = 3563:3570 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[1037]: WhiteSpace        line/col = 138/10 span = 3570:3576 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[1038]: Operator     =    line/col = 138/16 span = 3576:3577 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1039]: WhiteSpace        line/col = 138/17 span = 3577:3578 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1040]: Number       32   line/col = 138/18 span = 3578:3580 (value.Size() = 4, value.Length() = 4)
+    token.value = ►32◄
+  Token[1041]: WhiteSpace        line/col = 138/20 span = 3580:3581 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1042]: EndOfLine         line/col = 138/21 span = 3581:3582 (value.Size() = 4, value.Length() = 4)
+  Token[1043]: WhiteSpace        line/col = 139/1 span = 3582:3584 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1044]: Name         defa line/col = 139/3 span = 3584:3596 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[1045]: WhiteSpace        line/col = 139/15 span = 3596:3597 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1046]: Operator     =    line/col = 139/16 span = 3597:3598 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1047]: WhiteSpace        line/col = 139/17 span = 3598:3599 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1048]: Name         intN line/col = 139/18 span = 3599:3605 (value.Size() = 4, value.Length() = 4)
+    token.value = ►intNaN◄
+  Token[1049]: WhiteSpace        line/col = 139/24 span = 3605:3606 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1050]: EndOfLine         line/col = 139/25 span = 3606:3607 (value.Size() = 4, value.Length() = 4)
+  Token[1051]: WhiteSpace        line/col = 140/1 span = 3607:3608 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1052]: EndOfLine         line/col = 140/2 span = 3608:3609 (value.Size() = 4, value.Length() = 4)
+  Token[1053]: Name         stru line/col = 141/1 span = 3609:3615 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[1054]: WhiteSpace        line/col = 141/7 span = 3615:3616 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1055]: Name         uint line/col = 141/8 span = 3616:3620 (value.Size() = 4, value.Length() = 4)
+    token.value = ►uint◄
+  Token[1056]: BracketLeft  (    line/col = 141/12 span = 3620:3621 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[1057]: Name         int  line/col = 141/13 span = 3621:3624 (value.Size() = 4, value.Length() = 4)
+    token.value = ►int◄
+  Token[1058]: BracketRight )    line/col = 141/16 span = 3624:3625 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[1059]: Operator     :    line/col = 141/17 span = 3625:3626 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[1060]: WhiteSpace        line/col = 141/18 span = 3626:3627 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1061]: EndOfLine         line/col = 141/19 span = 3627:3628 (value.Size() = 4, value.Length() = 4)
+  Token[1062]: WhiteSpace        line/col = 142/1 span = 3628:3630 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1063]: Name         sign line/col = 142/3 span = 3630:3636 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[1064]: WhiteSpace        line/col = 142/9 span = 3636:3643 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[1065]: Operator     =    line/col = 142/16 span = 3643:3644 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1066]: WhiteSpace        line/col = 142/17 span = 3644:3645 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1067]: Name         fals line/col = 142/18 span = 3645:3650 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[1068]: WhiteSpace        line/col = 142/23 span = 3650:3651 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1069]: EndOfLine         line/col = 142/24 span = 3651:3652 (value.Size() = 4, value.Length() = 4)
+  Token[1070]: WhiteSpace        line/col = 143/1 span = 3652:3654 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1071]: Name         defa line/col = 143/3 span = 3654:3666 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[1072]: WhiteSpace        line/col = 143/15 span = 3666:3667 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1073]: Operator     =    line/col = 143/16 span = 3667:3668 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1074]: WhiteSpace        line/col = 143/17 span = 3668:3669 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1075]: Name         uint line/col = 143/18 span = 3669:3676 (value.Size() = 4, value.Length() = 4)
+    token.value = ►uintNaN◄
+  Token[1076]: WhiteSpace        line/col = 143/25 span = 3676:3677 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1077]: EndOfLine         line/col = 143/26 span = 3677:3678 (value.Size() = 4, value.Length() = 4)
+  Token[1078]: WhiteSpace        line/col = 144/1 span = 3678:3679 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1079]: EndOfLine         line/col = 144/2 span = 3679:3680 (value.Size() = 4, value.Length() = 4)
+  Token[1080]: Name         stru line/col = 145/1 span = 3680:3686 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[1081]: WhiteSpace        line/col = 145/7 span = 3686:3687 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1082]: Name         sint line/col = 145/8 span = 3687:3691 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sint◄
+  Token[1083]: BracketLeft  (    line/col = 145/12 span = 3691:3692 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[1084]: Name         int  line/col = 145/13 span = 3692:3695 (value.Size() = 4, value.Length() = 4)
+    token.value = ►int◄
+  Token[1085]: BracketRight )    line/col = 145/16 span = 3695:3696 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[1086]: Operator     :    line/col = 145/17 span = 3696:3697 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[1087]: WhiteSpace        line/col = 145/18 span = 3697:3698 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1088]: EndOfLine         line/col = 145/19 span = 3698:3699 (value.Size() = 4, value.Length() = 4)
+  Token[1089]: WhiteSpace        line/col = 146/1 span = 3699:3701 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1090]: Name         sign line/col = 146/3 span = 3701:3707 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[1091]: WhiteSpace        line/col = 146/9 span = 3707:3714 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[1092]: Operator     =    line/col = 146/16 span = 3714:3715 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1093]: WhiteSpace        line/col = 146/17 span = 3715:3716 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1094]: Name         true line/col = 146/18 span = 3716:3720 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[1095]: WhiteSpace        line/col = 146/22 span = 3720:3721 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1096]: EndOfLine         line/col = 146/23 span = 3721:3722 (value.Size() = 4, value.Length() = 4)
+  Token[1097]: WhiteSpace        line/col = 147/1 span = 3722:3724 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1098]: Name         defa line/col = 147/3 span = 3724:3736 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[1099]: WhiteSpace        line/col = 147/15 span = 3736:3737 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1100]: Operator     =    line/col = 147/16 span = 3737:3738 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1101]: WhiteSpace        line/col = 147/17 span = 3738:3739 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1102]: Name         sint line/col = 147/18 span = 3739:3746 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sintNaN◄
+  Token[1103]: WhiteSpace        line/col = 147/25 span = 3746:3747 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1104]: EndOfLine         line/col = 147/26 span = 3747:3748 (value.Size() = 4, value.Length() = 4)
+  Token[1105]: WhiteSpace        line/col = 148/1 span = 3748:3749 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1106]: EndOfLine         line/col = 148/2 span = 3749:3750 (value.Size() = 4, value.Length() = 4)
+  Token[1107]: Name         stru line/col = 149/1 span = 3750:3756 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[1108]: WhiteSpace        line/col = 149/7 span = 3756:3757 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1109]: Name         long line/col = 149/8 span = 3757:3761 (value.Size() = 4, value.Length() = 4)
+    token.value = ►long◄
+  Token[1110]: BracketLeft  (    line/col = 149/12 span = 3761:3762 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[1111]: Name         __in line/col = 149/13 span = 3762:3769 (value.Size() = 4, value.Length() = 4)
+    token.value = ►__int__◄
+  Token[1112]: BracketRight )    line/col = 149/20 span = 3769:3770 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[1113]: Operator     :    line/col = 149/21 span = 3770:3771 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[1114]: WhiteSpace        line/col = 149/22 span = 3771:3772 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1115]: EndOfLine         line/col = 149/23 span = 3772:3773 (value.Size() = 4, value.Length() = 4)
+  Token[1116]: WhiteSpace        line/col = 150/1 span = 3773:3775 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1117]: Name         sign line/col = 150/3 span = 3775:3781 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[1118]: WhiteSpace        line/col = 150/9 span = 3781:3788 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[1119]: Operator     =    line/col = 150/16 span = 3788:3789 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1120]: WhiteSpace        line/col = 150/17 span = 3789:3790 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1121]: Name         true line/col = 150/18 span = 3790:3794 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[1122]: WhiteSpace        line/col = 150/22 span = 3794:3795 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1123]: EndOfLine         line/col = 150/23 span = 3795:3796 (value.Size() = 4, value.Length() = 4)
+  Token[1124]: WhiteSpace        line/col = 151/1 span = 3796:3798 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1125]: Name         bits line/col = 151/3 span = 3798:3805 (value.Size() = 4, value.Length() = 4)
+    token.value = ►bitsize◄
+  Token[1126]: WhiteSpace        line/col = 151/10 span = 3805:3811 (value.Size() = 4, value.Length() = 4)
+    token.value = ►      ◄
+  Token[1127]: Operator     =    line/col = 151/16 span = 3811:3812 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1128]: WhiteSpace        line/col = 151/17 span = 3812:3813 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1129]: Number       64   line/col = 151/18 span = 3813:3815 (value.Size() = 4, value.Length() = 4)
+    token.value = ►64◄
+  Token[1130]: WhiteSpace        line/col = 151/20 span = 3815:3816 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1131]: EndOfLine         line/col = 151/21 span = 3816:3817 (value.Size() = 4, value.Length() = 4)
+  Token[1132]: WhiteSpace        line/col = 152/1 span = 3817:3819 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1133]: Name         defa line/col = 152/3 span = 3819:3831 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[1134]: WhiteSpace        line/col = 152/15 span = 3831:3832 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1135]: Operator     =    line/col = 152/16 span = 3832:3833 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1136]: WhiteSpace        line/col = 152/17 span = 3833:3834 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1137]: Name         sint line/col = 152/18 span = 3834:3841 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sintNaN◄
+  Token[1138]: WhiteSpace        line/col = 152/25 span = 3841:3842 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1139]: EndOfLine         line/col = 152/26 span = 3842:3843 (value.Size() = 4, value.Length() = 4)
+  Token[1140]: WhiteSpace        line/col = 153/1 span = 3843:3844 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1141]: EndOfLine         line/col = 153/2 span = 3844:3845 (value.Size() = 4, value.Length() = 4)
+  Token[1142]: Name         stru line/col = 154/1 span = 3845:3851 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[1143]: WhiteSpace        line/col = 154/7 span = 3851:3852 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1144]: Name         ulon line/col = 154/8 span = 3852:3857 (value.Size() = 4, value.Length() = 4)
+    token.value = ►ulong◄
+  Token[1145]: BracketLeft  (    line/col = 154/13 span = 3857:3858 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[1146]: Name         long line/col = 154/14 span = 3858:3862 (value.Size() = 4, value.Length() = 4)
+    token.value = ►long◄
+  Token[1147]: BracketRight )    line/col = 154/18 span = 3862:3863 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[1148]: Operator     :    line/col = 154/19 span = 3863:3864 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[1149]: WhiteSpace        line/col = 154/20 span = 3864:3865 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1150]: EndOfLine         line/col = 154/21 span = 3865:3866 (value.Size() = 4, value.Length() = 4)
+  Token[1151]: WhiteSpace        line/col = 155/1 span = 3866:3868 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1152]: Name         sign line/col = 155/3 span = 3868:3874 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[1153]: WhiteSpace        line/col = 155/9 span = 3874:3881 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[1154]: Operator     =    line/col = 155/16 span = 3881:3882 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1155]: WhiteSpace        line/col = 155/17 span = 3882:3883 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1156]: Name         fals line/col = 155/18 span = 3883:3888 (value.Size() = 4, value.Length() = 4)
+    token.value = ►false◄
+  Token[1157]: WhiteSpace        line/col = 155/23 span = 3888:3889 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1158]: EndOfLine         line/col = 155/24 span = 3889:3890 (value.Size() = 4, value.Length() = 4)
+  Token[1159]: WhiteSpace        line/col = 156/1 span = 3890:3892 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1160]: Name         defa line/col = 156/3 span = 3892:3904 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[1161]: WhiteSpace        line/col = 156/15 span = 3904:3905 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1162]: Operator     =    line/col = 156/16 span = 3905:3906 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1163]: WhiteSpace        line/col = 156/17 span = 3906:3907 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1164]: Name         uint line/col = 156/18 span = 3907:3914 (value.Size() = 4, value.Length() = 4)
+    token.value = ►uintNaN◄
+  Token[1165]: WhiteSpace        line/col = 156/25 span = 3914:3915 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1166]: EndOfLine         line/col = 156/26 span = 3915:3916 (value.Size() = 4, value.Length() = 4)
+  Token[1167]: WhiteSpace        line/col = 157/1 span = 3916:3917 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1168]: EndOfLine         line/col = 157/2 span = 3917:3918 (value.Size() = 4, value.Length() = 4)
+  Token[1169]: Name         stru line/col = 158/1 span = 3918:3924 (value.Size() = 4, value.Length() = 4)
+    token.value = ►struct◄
+  Token[1170]: WhiteSpace        line/col = 158/7 span = 3924:3925 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1171]: Name         slon line/col = 158/8 span = 3925:3930 (value.Size() = 4, value.Length() = 4)
+    token.value = ►slong◄
+  Token[1172]: BracketLeft  (    line/col = 158/13 span = 3930:3931 (value.Size() = 4, value.Length() = 4)
+    token.value = ►(◄
+  Token[1173]: Name         long line/col = 158/14 span = 3931:3935 (value.Size() = 4, value.Length() = 4)
+    token.value = ►long◄
+  Token[1174]: BracketRight )    line/col = 158/18 span = 3935:3936 (value.Size() = 4, value.Length() = 4)
+    token.value = ►)◄
+  Token[1175]: Operator     :    line/col = 158/19 span = 3936:3937 (value.Size() = 4, value.Length() = 4)
+    token.value = ►:◄
+  Token[1176]: WhiteSpace        line/col = 158/20 span = 3937:3938 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1177]: EndOfLine         line/col = 158/21 span = 3938:3939 (value.Size() = 4, value.Length() = 4)
+  Token[1178]: WhiteSpace        line/col = 159/1 span = 3939:3941 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1179]: Name         sign line/col = 159/3 span = 3941:3947 (value.Size() = 4, value.Length() = 4)
+    token.value = ►signed◄
+  Token[1180]: WhiteSpace        line/col = 159/9 span = 3947:3954 (value.Size() = 4, value.Length() = 4)
+    token.value = ►       ◄
+  Token[1181]: Operator     =    line/col = 159/16 span = 3954:3955 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1182]: WhiteSpace        line/col = 159/17 span = 3955:3956 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1183]: Name         true line/col = 159/18 span = 3956:3960 (value.Size() = 4, value.Length() = 4)
+    token.value = ►true◄
+  Token[1184]: WhiteSpace        line/col = 159/22 span = 3960:3961 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1185]: EndOfLine         line/col = 159/23 span = 3961:3962 (value.Size() = 4, value.Length() = 4)
+  Token[1186]: WhiteSpace        line/col = 160/1 span = 3962:3964 (value.Size() = 4, value.Length() = 4)
+    token.value = ►  ◄
+  Token[1187]: Name         defa line/col = 160/3 span = 3964:3976 (value.Size() = 4, value.Length() = 4)
+    token.value = ►defaultValue◄
+  Token[1188]: WhiteSpace        line/col = 160/15 span = 3976:3977 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1189]: Operator     =    line/col = 160/16 span = 3977:3978 (value.Size() = 4, value.Length() = 4)
+    token.value = ►=◄
+  Token[1190]: WhiteSpace        line/col = 160/17 span = 3978:3979 (value.Size() = 4, value.Length() = 4)
+    token.value = ► ◄
+  Token[1191]: Name         sint line/col = 160/18 span = 3979:3986 (value.Size() = 4, value.Length() = 4)
+    token.value = ►sintNaN◄
+  Token[1192]: WhiteSpace        line/col = 160/25 span = 3986:3987 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1193]: EndOfLine         line/col = 160/26 span = 3987:3988 (value.Size() = 4, value.Length() = 4)
+  Token[1194]: WhiteSpace        line/col = 161/1 span = 3988:3989 (value.Size() = 4, value.Length() = 4)
+    token.value = ►\r◄
+  Token[1195]: EndOfLine         line/col = 161/2 span = 3989:3990 (value.Size() = 4, value.Length() = 4)
+  Token[1196]: EndOfInput        line/col = 162/1 span = 3990:3990 (value.Size() = 4, value.Length() = 4)
+    token.value = ►◄

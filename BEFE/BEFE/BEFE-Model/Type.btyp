@@ -1,0 +1,193 @@
+#!Befe Type=Type, Publish=metadata
+#──────────────────────────────────────────────────────────────────────
+# File: Type.btyp - Declarations for the BEFE Type Type
+#──────────────────────────────────────────────────────────────────────
+#
+# *** See technical documentation for a more detailed description ***
+#
+# Note: Currently all BEFE MetaData is for descriptive purposes only as
+#       we don't actually interpret and apply these desclarations yet.
+#
+# Note: At some point we need to throw the "value" special attribute
+#       into type which allows us to treat the instance as a whole value
+#       instead of a set of Attributes.  It's a subtle difference between
+#       fully qualifying an attribute, and using the instance as a whole.
+#       For example: "a.b" is not the same as "a.b.value" or "a.b.sign" 
+#
+# Note: Need to add Attribute.Reader and Attribute.Writer MethRef
+#       for Reader/Writer methods
+#
+# Note: The .btyp language has, by default, a "__line__" language and the
+#       following declarations inherent in it, for minimal "bootstrap ease":
+#
+#         '='   ──► __assign__
+#         ':'   ──► __decl__
+#         '.'   ──► __operator__
+#         '..'  ──► __operator__
+#         '...' ──► __operator__
+#         '()'  ──► __bracketpair__
+#         '<>'  ──► __bracketpair__
+#         '{}'  ──► __bracketpair__
+#         '[]'  ──► __bracketpair__
+#         ','   ──► __separator__
+#         ';'   ──► __separator__
+#         '\n'  ──► __newline__
+#         ' '   ──► __whitespace__
+#         '\r'  ──► __whitespace__ 
+#         '\t'  ──► __whitespace__
+#         '\\'  ──► __escape__
+#         '/*'  ──► __comment__
+#         '//'  ──► __comment__
+#         '#'   ──► __comment__
+#         '#!'  ──► __preprocessor__
+#         '"'   ──► __quotechar__
+#         '\''  ──► __quotechar__
+#         '"""' ──► __quotemulti__
+#         "'''" ──► __quotemulti__
+#
+#       __namestart__ = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#       __namecont__  = "_$+-?*!0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011-2012, Bruce Ferris (UK)
+#──────────────────────────────────────────────────────────────────────
+
+# The following
+# First, some "always" stuff...
+__type__ 'Type'i:
+
+# Then, some "always" stuff built on that...
+Type 'TypeRef[erence]'iv:
+Type 'Id'i:
+Type 'TypeId'i:
+Type 'Cap[ability]'iv:
+Type 'Cap[abilit][y][ie]s'iv:
+Type 'Attribute'i:
+Type 'Attributes'i:
+Type 'Name'i:
+Type 'Names'i:
+Type 'N[ame]S[pace]Ref[erence]'iv:
+Type 'T[ype]S[pace]Ref[erence]'iv:
+Type 'Array'i:
+
+//
+// Type - Basic BEFE Type
+//
+
+Type Type:
+
+  Array Attributes: arrayOf = Attribute
+  
+  Attributes...
+  
+    TypeId  'Id[ent[ifier]]'iv:  final=true
+    NSRef   'N[ame]sp[ace]'iv:
+    
+    Name    'Name'iv:  Writer=PutName
+    Names   'Names'iv: Writer='BEFE:Deny'
+    
+    TypeRef 'Type[Of]'
+    Boolean 'Poly[Morph[ic]]': default = false
+    
+    // Other...
+    Array 'Att[r[ib[ute]]]s'iv: ArrayOf=Attribute
+    Array 'Prop[ertie]s'iv:     ArrayOf=Property
+    Array 'Op[er[ator]]s'iv:    ArrayOf=OpDecl
+    Array 'Proc[edure]s'iv:     ArrayOf=ProcDecl
+    Array 'Cap[abilitie]s'iv:   ArrayOf=CapDecl
+    Array 'States'i:            ArrayOf=State
+    Array 'Con[straint]s'iv:    ArrayOf=Constraint
+    
+  ...Attributes
+
+  Capabilities...          // These are Type Specific...
+  
+    Bit '[Is]Nullable'iv:        default=True
+    Bit '[Is]Container'iv:       default=True
+    Bit 'IsMorph[able]'iv:       default=False
+    Bit 'IsPoly[Morph[ic]]'iv:   default=False
+    Bit 'IsSeq[uence[d]]'iv:     default=False
+    Bit 'IsContainer'iv:         default=False
+    Bit 'IsLeaf'iv:              default=False
+    Bit 'IsFinal'iv:             default=False
+    Bit 'IsVolatile'iv:          default=False
+    Bit 'IsReadable'iv:          default=False
+    Bit 'IsWritable'iv:          default=False
+    Bit 'IsNameSp[ace]'iv:       default=false
+    Bit 'IsIdSp[ace]'iv:         default=False
+    Bit 'IsVers[ion][able]'iv:   default=False
+    Bit 'CanFinal[ise]'iv:       default=True
+    Bit 'CanMutate'iv:           default=True
+    Bit 'CanCopy'iv:             default=True
+    Bit 'CanMove'iv:             default=True
+    Bit 'CanBeConsume[ed]'iv:    default=True
+    Bit 'CanBeOwned'iv:          default=True
+    Bit 'CanOwn'iv:              default=True
+    Bit 'Own[s]Inst[ances]'iv:   default=False  // "Does this Type know and keep track of all its instances?"
+    
+  ...Capabilities
+   
+  States...                  // These are Instance Specific
+  
+    Bit 'IsNull'i:       reader=IsNull,       writer=SetNull
+    Bit 'IsEmpty'i:      reader=IsEmpty,      writer=SetEmpty
+    Bit 'IsConsumable'i: reader=IsConsumable, writer='Consumable(Bit)'
+    Bit 'IsMutable'i:    reader=IsMutable,    writer=Mutable
+    Bit 'IsValid'i:      reader=IsValid,      writer='BEFE:Deny'
+    
+  ...States
+
+  Constraints...
+  
+    // ***None formulated at this time***
+    
+  ...Constraints
+  
+  Methods...
+  ...Methods
+  
+...Type
+
+//
+// Attribute - Type Attribute
+//
+// Each Attribute declares a specific, possibly named, attribute of
+// a type.
+//
+
+Type Attribute...
+
+  Id      i'Id[ent[ifier]]': Writer='BEFE:Deny'
+  String  Name:
+  
+  Attributes...
+
+    Id      i'Id[ent[ifier]]':
+    Name    i'Name':
+    Integer i'Index':
+    TypeRef i'Type':
+    String  i'Default[Value]'
+    
+    // Deferred Attributes (to be resolved after declaration time)
+    MethodRef i'Writer':
+    MethodRef i'Reader':
+
+  ...Attributes
+
+  Constraints...
+  
+    ValidDefaultType: Expression = 'IsNull(DefaultValue.type) or DefaultValue.type.IsTypeOf(type)'
+                      Message    = 'DefaultValue is wrong Type'
+                      
+    DistinctIndex:    Expression = 'Attributes.Index is Distinct'
+                      Message    = 'Duplicate Index'
+                      
+    IndexNotNull:     Expression = '!IsNull(Index)'
+                      Message    = 'Index MUST be Specified'
+
+    IndexPositive:    Expression = 'Index >= 0'
+                      Message    = 'Index cannot be Negative'
+                      
+  ...Constraints
+  
+...Attribute

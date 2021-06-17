@@ -1,0 +1,718 @@
+//----------------------------------------------------------------------
+// File: ByteBuffer.cpp - C++ Implementation of the ByteBuffer class
+//----------------------------------------------------------------------
+//
+// This file contains the declaration of the iniial C++ static class
+// members, class methods, and instance methods of the ByteBuffer class.
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK)
+//----------------------------------------------------------------------
+
+#include "BEFE.h"
+#include "ByteBuffer.h"
+
+namespace BEF_NS {
+
+// Default configuration definitions
+#define DFLTREDUCEPCT 75  // Default reduction percent (shrink time percent)
+
+//----------------------------------------------------------------------
+//
+// Class members
+//
+//----------------------------------------------------------------------
+
+Int ByteBuffer::totalallocations  = 0;  // Total allocation calls
+Int ByteBuffer::activeallocations = 0;  // Currently active allocations
+
+//----------------------------------------------------------------------
+//
+// Class methods
+//
+//----------------------------------------------------------------------
+
+Int ByteBuffer::GetTotalAllocations() {
+  return totalallocations;
+}
+
+Int ByteBuffer::GetActiveAllocations() {
+  return activeallocations;
+}
+
+//----------------------------------------------------------------------
+//
+// C++ Instance Lifecycle methods
+//
+//----------------------------------------------------------------------
+
+ByteBuffer::ByteBuffer() {
+  StartUp();
+}
+
+ByteBuffer::ByteBuffer(AllocInc alloc) {
+  StartUp(alloc);
+}
+
+ByteBuffer::ByteBuffer(String &alloc) {
+  StartUp(alloc);
+}
+
+ByteBuffer::~ByteBuffer() {
+  ShutDown();
+}
+
+//----------------------------------------------------------------------
+//
+// BEFE Instance Lifecycle methods
+//
+//----------------------------------------------------------------------
+
+Status ByteBuffer::StartUp() {
+
+  this->alloc   = AllocInc();
+  this->curused = 0;
+  this->bytes   = NULL;
+
+  return Error::None;
+}
+
+Status ByteBuffer::StartUp(AllocInc alloc) {
+
+  Status result;
+
+  this->alloc    = AllocInc(alloc);
+  this->curalloc = 0;
+  this->curused  = 0;
+  this->bytes    = NULL;
+
+  result = this->alloc.Normalise();
+
+  return result;
+
+}
+
+Status ByteBuffer::StartUp(String &alloc) {
+
+  Status result;
+
+  this->alloc    = AllocInc(alloc);
+  this->curalloc = 0;
+  this->curused = 0;
+  this->bytes    = NULL;
+
+  result = this->alloc.Normalise();
+
+  return result;
+
+}
+
+Status ByteBuffer::ShutDown() {
+
+  alloc = AllocInc();
+
+  if (bytes) {
+    delete[] bytes;
+    bytes = NULL;
+  }
+
+  curalloc = 0;
+  curused  = 0;
+
+  return Error::None;
+
+}
+
+Status ByteBuffer::Clear() {
+
+  Status   result;
+  AllocInc savealloc;
+
+  savealloc = alloc;
+  result    = ShutDown();
+  alloc     = savealloc;
+
+  return result;
+
+}
+
+Status ByteBuffer::CopyTo(ByteBuffer &that) {
+
+  Status result;
+
+  // Clear destinaion
+  result = that.ShutDown();
+  if (result) goto SOMEERROR;
+
+  // Copy ourselves to them first...
+  MemoryCopyRaw((Byte *)this,(Byte *)&that,sizeof(ByteBuffer));
+  that.bytes = NULL;
+
+  // Make a copy of our Bytes is we have any
+  if (curalloc) {
+    that.bytes = MemoryAllocRaw(curalloc);
+    if (that.bytes == NULL) goto OUTOFMEMORY;
+    MemoryCopyRaw(bytes,that.bytes,curalloc);
+  }
+
+  goto OK;
+
+SOMEERROR:
+  goto DONE;
+OUTOFMEMORY:
+  result = Error::OutOfMemory;
+  goto DONE;
+OK:
+  result = Error::None;
+  goto DONE;
+
+DONE:
+
+  return result;
+}
+
+Status ByteBuffer::CopyFrom(ByteBuffer &that) {
+  Status result;
+  result = that.CopyTo(*this);
+  return result;
+}
+
+Status ByteBuffer::MoveTo(ByteBuffer &that) {
+
+  Status result;
+
+  // Clear destinaion
+  result = ShutDown();
+  if (result) goto SOMEERROR;
+
+  // Copy them to us, and restart them...
+  MemoryCopyRaw((Byte *)&that,(Byte *)this,sizeof(ByteBuffer));
+  result = that.StartUp();
+  if (result) goto SOMEERROR;
+
+  goto OK;
+
+SOMEERROR:
+  goto DONE;
+OK:
+  result = Error::None;
+  goto DONE;
+
+DONE:
+
+  return result;
+}
+
+Status ByteBuffer::MoveFrom(ByteBuffer &that) {
+  Status result;
+  result = that.MoveTo(*this);
+  return result;
+}
+
+//----------------------------------------------------------------------
+//
+// Byte buffer size
+//
+//----------------------------------------------------------------------
+
+Int ByteBuffer::Length() {
+  return curused;
+}
+
+Status ByteBuffer::SetLength(Int newlength) {
+
+  Status result;
+  Int    oldused;
+  Int    oldalloc;          // "old" (current) allocated bytes
+  Int    newalloc;          // "new" allocated allocated
+  Int    fillbytes;         // Number of bytes to fill
+  Byte  *newbytes;          // New buffer bytes
+
+  // Sanity checks on parameters
+  if (newlength < 0) goto INVALIDPARAMETER;
+
+  // If same size, nothing to do
+  if (newlength == curused) goto OK;
+
+  // Error if fixed size
+  if (alloc.GetInc() == 0) goto FIXEDSIZE;
+
+  // Save old length before adjustment
+  oldused  = curused;
+  oldalloc = curalloc;
+  if (oldalloc < 0) goto NEGATIVEALLOC;
+
+  // Figure out new allocation size based on whether we're
+  // increasing or decreasing in size...
+  if (newlength < curused)
+    newalloc = alloc.GetIncElements(newlength);
+  else
+    newalloc = alloc.GetDecElements(newlength);
+
+  // If same allocation size, it's easy...
+  if (newalloc == oldalloc) {
+    fillbytes = newlength-curused;
+    if (fillbytes == 0) goto OK;
+    if (bytes) {
+      if (fillbytes < 0)
+        MemoryFillRaw(bytes+curused+fillbytes,0xff,-fillbytes);
+      else
+        MemoryFillRaw(bytes+curused,0xff,fillbytes);
+    }
+    goto OK;
+  }
+
+  // Allocate new block
+  newbytes = MemoryAllocRaw(newalloc);
+  if (newbytes == NULL) goto OUTOFMEMORY;
+
+  // If increasing allocation size, fill with current bytes...
+  else if (newalloc > oldalloc) {
+    if (bytes && curused)
+      MemoryCopyRaw(bytes,newbytes,curused);
+  }
+
+  // Otherwise, decreasing allocation size, fill with current bytes...
+  else {
+    if (bytes && newlength)
+      MemoryCopyRaw(bytes,newbytes,newlength);
+  }
+
+  // Free the old one and set the new one
+  if (bytes)
+    MemoryFreeRaw(bytes);
+  bytes = newbytes;
+
+  curalloc = newalloc;
+  curused  = newlength;
+
+  goto OK;
+
+INVALIDPARAMETER:
+  result = Error::InvalidParameter;
+  goto DONE;
+FIXEDSIZE:
+  result = Error::SizeFixed;
+  goto DONE;
+NEGATIVEALLOC:
+  result = Error::InternalNegativeAlloc;
+  goto DONE;
+OUTOFMEMORY:
+  result = Error::OutOfMemory;
+  goto DONE;
+OK:
+  result = Error::None;
+  goto DONE;
+
+DONE:
+
+  return result;
+
+}
+
+Int ByteBuffer::Size() {
+  return curalloc;
+}
+
+Status ByteBuffer::SetSize(Int newsize) {
+
+  Status result;
+  Int    savused;
+
+  savused = curused;
+  result = SetLength(newsize);
+  if (result) goto DONE;
+  curused = savused;
+
+DONE:
+
+  return result;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Byte Contents
+//
+//----------------------------------------------------------------------
+
+Status ByteBuffer::Get(Int bindex, Byte *buf, Int bufmaxlen, Int &usedlen) {
+
+  Status      result;
+  Slice       slice;
+  Int         len;
+  Byte       *bytes;
+
+  // Initialise output
+  usedlen = 0;
+
+  // If everything's lined up okay, do it...
+  if (selfp != NULL && *selfp != NULL && buf != NULL) {
+
+    // Initialise our "self" pointer
+    self = *selfp;
+
+    // Calculate slice and size
+    slice = Slice(bindex,bindex+bufmaxlen).Resolve(self->GetUsedBytes());
+    len   = slice.Length();
+
+    // Get them
+    bytes = self->GetBuf() + slice.idx1;
+    usedlen = len;
+    if (slice.step == 1)
+      MemoryCopyRaw(bytes,buf,len);
+    else while (len > 0) {
+      *buf++ = *bytes;
+       bytes += slice.step;
+       len--;
+    }
+
+  }
+
+  return Error::None;
+
+}
+
+???
+
+Status ByteBuffer::SetBytes(pByteBuffer *selfp, Int bindex, Byte *buf, Int bufmaxlen, Int &usedlen) {
+
+  Status      result;
+  ByteBuffer *self;
+  Int         newsize;
+  Slice       slice;
+  Int         len;
+  Byte       *bytes;
+
+  // Initialise output
+  usedlen = 0;
+
+  // Validate parameters
+  if (selfp == NULL || bindex < 0 || bufmaxlen < 0) goto INVALIDPARAMETER;
+
+  // If nothing to do, don't do it...
+  if (buf == NULL || bufmaxlen == 0) goto OK;
+
+  // Initialise our "self" pointer
+  self = *selfp;
+
+  // Calculate slice and size
+  newsize = Max(self->curbytes,bindex+bufmaxlen);
+
+  // Resize if need be
+  if (newsize > self->bufsize) {
+    result = SetSize(selfp,newsize);
+    if (result) goto SOMEERROR;
+    self = *selfp;
+  }
+
+  // Calculate operating slice
+  slice = Slice(bindex,bindex+bufmaxlen).Resolve(self->bufsize);
+  len   = slice.Length();
+
+  // Set them
+  bytes = self->GetBuf() + slice.idx1;
+  usedlen = len;
+  if (slice.step == 1)
+    MemoryCopyRaw(buf,bytes,len);
+  else while (len > 0) {
+    *buf++ = *bytes;
+     bytes += slice.step;
+     len--;
+  }
+
+  // Update curlen if we changed it
+  if (slice.idx2 > self->curbytes)
+    self->curbytes = slice.idx2;
+
+  goto OK;
+
+INVALIDPARAMETER:
+  result = Error::InvalidParameter;
+  goto DONE;
+OK:
+  result = Error::None;
+  goto DONE;
+SOMEERROR:
+  goto DONE;
+
+DONE:
+
+  return Error::None;
+
+}
+
+Status ByteBuffer::AppendBytes (pByteBuffer *selfp, Byte *thebytes, Int numbytes) {
+
+  Status        result;
+  ByteBuffer *self;
+  Byte         *buf;
+
+  self = NULL;
+
+  // Validate parameters
+  if (selfp == NULL) goto INVALIDPARAMETER;
+  self = *selfp;
+
+  // If no bytes, nothing to do
+  if (thebytes == NULL || numbytes <= 0) goto OK;
+
+  // If no ByteBuffer yet, simply make a new one and populate it...
+  if (self == NULL) {
+    result = New(numbytes,NaN,selfp);
+    if (result) goto SOMEERROR;
+    self = *selfp;
+    buf = self->GetBuf();
+    MemoryCopyRaw(thebytes,buf,numbytes);
+    self->curbytes = numbytes;
+    goto OK;
+  }
+
+  // If not big enough, resize it...
+  if (self->curbytes+numbytes > self->bufsize) {
+    result = Resize(&self,self->curbytes+numbytes);
+    if (result) goto SOMEERROR;
+    *selfp = self;
+  }
+
+  // Copy the bytes in
+  buf = self->GetBuf();
+  MemoryCopyRaw(thebytes,buf+self->curbytes,numbytes);
+  self->curbytes += numbytes;
+
+  goto OK;
+
+OK:
+  result = Error::None;
+  goto DONE;
+INVALIDPARAMETER:
+  result = Error::InvalidParameter;
+  goto DONE;
+SOMEERROR:
+  goto DONE;
+
+DONE:
+
+  return result;
+
+}
+
+Status ByteBuffer::InsertBytes (pByteBuffer *selfp, Int bindex, Byte *thebytes, Int numbytes) {
+
+  Status        result;
+  ByteBuffer *self;
+  Byte         *buf;
+  Int           nummove;
+
+  self = NULL;
+
+  // Validate parameters
+  if (selfp == NULL) goto INVALIDPARAMETER;
+  self = *selfp;
+
+  // Normalise if negative
+  if (bindex < 0) bindex = self->curbytes + 1;
+
+  // Validate index
+  if (bindex < 0 || bindex > self->curbytes) goto OUTOFBOUNDS;
+
+  // If no bytes, nothing to do
+  if (thebytes == NULL || numbytes <= 0) goto OK;
+
+  // If no ByteBuffer yet, simply make a new one and populate it...
+  if (self == NULL) {
+    result = New(numbytes,NaN,selfp);
+    if (result) goto SOMEERROR;
+    self = *selfp;
+    buf = self->GetBuf();
+    MemoryCopyRaw(thebytes,buf,numbytes);
+    self->curbytes = numbytes;
+    goto OK;
+  }
+
+  // If not big enough, resize it...
+  if (self->curbytes+numbytes > self->bufsize) {
+    result = Resize(&self,self->curbytes+numbytes);
+    if (result) goto SOMEERROR;
+    *selfp = self;
+  }
+
+  // Move the bytes aside past the insertion point
+  buf = self->GetBuf();
+  nummove = self->curbytes - bindex;
+  if (nummove != 0)
+    MemoryCopyRaw(buf+bindex,buf+bindex+numbytes,nummove);
+
+  // Copy the bytes in
+  MemoryCopyRaw(thebytes,buf+bindex,numbytes);
+  self->curbytes += numbytes;
+
+  goto OK;
+
+OK:
+  result = Error::None;
+  goto DONE;
+INVALIDPARAMETER:
+  result = Error::InvalidParameter;
+  goto DONE;
+OUTOFBOUNDS:
+  result = Error::IndexOutOfBounds;
+  goto DONE;
+SOMEERROR:
+  goto DONE;
+DONE:
+
+  return result;
+}
+
+Status ByteBuffer::RemoveBytes (pByteBuffer *selfp, Int bindex, Int numbytes) {
+
+  Status        result;
+  ByteBuffer *self;
+  Byte         *buf;
+  Int           nummove;
+  Int           oldlen;
+
+  self = NULL;
+
+  // Validate parameters
+  if (selfp == NULL) goto INVALIDPARAMETER;
+  self = *selfp;
+
+  // Normalise if negative
+  if (bindex < 0) bindex = self->curbytes + 1;
+
+  // Validate index
+  if (bindex < 0 || bindex > self->curbytes) goto OUTOFBOUNDS;
+
+  // If no bytes, nothing to do
+  if (numbytes <= 0) goto OK;
+
+  // Only remove up to the end of the buffer
+  if (bindex+numbytes > self->curbytes) {
+    numbytes = self->curbytes - bindex;
+    if (numbytes <= 0) goto OK;
+  }
+
+  // Remove the bytes and fill the space at the end with 0xff
+  buf = self->GetBuf();
+  MemoryCopyRaw(buf+bindex+numbytes,buf+bindex,self->curbytes-numbytes);
+  oldlen = self->curbytes;
+  self->curbytes -= numbytes;
+  MemoryFillRaw(buf+self->curbytes,0xff,numbytes);
+
+  // If we reduced the size enough, shrink it...
+  if (self->curbytes*100/self->bufsize <= DFLTREDUCEPCT &&
+      self->curbytes > self->incbytes &&
+      self->incbytes != 0) {
+    result = Resize(selfp,(self->curbytes+self->incbytes-1)/self->incbytes*self->incbytes);
+    if (result) goto SOMEERROR;
+    self = *selfp;
+  }
+
+  goto OK;
+
+OK:
+  result = Error::None;
+  goto DONE;
+INVALIDPARAMETER:
+  result = Error::InvalidParameter;
+  goto DONE;
+OUTOFBOUNDS:
+  result = Error::IndexOutOfBounds;
+  goto DONE;
+SOMEERROR:
+  goto DONE;
+DONE:
+
+  return result;
+}
+
+Status ByteBuffer::ReplaceBytes (pByteBuffer *selfp, Int bindex, Int numbytes, Byte *newbytes, Int newlen) {
+
+  Status        result;
+  ByteBuffer *self;
+  Byte         *buf;
+  Int           nummove;
+  Int           oldlen;
+
+  self = NULL;
+
+  // Validate parameters
+  if (selfp == NULL) goto INVALIDPARAMETER;
+  self = *selfp;
+
+  // Normalise if negative
+  if (bindex < 0) bindex = self->curbytes + 1;
+
+  // Validate index
+  if (bindex < 0 || bindex > self->curbytes) goto OUTOFBOUNDS;
+
+  // Cheap and dirty for now, should fix this ASAP and do it in one go...
+  result = RemoveBytes(selfp,bindex,numbytes);
+  if (result) goto SOMEERROR;
+  self = *selfp; // <-- For debugging purposes
+  result = InsertBytes(selfp,bindex,newbytes,newlen);
+  if (result) goto SOMEERROR;
+  self = *selfp; // <-- For debugging purposes
+
+  goto OK;
+
+OK:
+  result = Error::None;
+  goto DONE;
+INVALIDPARAMETER:
+  result = Error::InvalidParameter;
+  goto DONE;
+OUTOFBOUNDS:
+  result = Error::IndexOutOfBounds;
+  goto DONE;
+SOMEERROR:
+  goto DONE;
+DONE:
+
+  return result;
+
+}
+
+//----------------------------------------------------------------------
+//
+// Instance methods
+//
+// Functions: Length            - Get length in bytes
+//            Size              - Get size (allocated) in bytes
+//            GetAllocBytes     - Get number of bytes allocated for the ByteBuffer
+//            GetIncrementBytes - Get number bytes to increment when resizing
+//            GetUsedBytes      - Get number of used bytes in the ByteBuffer
+//            GetBuf            - Return address of bytes themselves
+//
+
+Int ByteBuffer::Length() {
+  return curbytes;
+}
+
+Int ByteBuffer::Size() {
+  return bufsize;
+}
+
+Int ByteBuffer::GetAllocBytes() {
+  return bufsize;
+}
+
+Int ByteBuffer::GetIncrementBytes() {
+  return incbytes;
+}
+
+Int ByteBuffer::GetUsedBytes() {
+  return curbytes;
+}
+
+Byte *ByteBuffer::GetBuf() {
+  if (bufsize)
+    return (Byte *)this + sizeof(ByteBuffer);
+  else
+    return NULL;
+}
+*/
+
+}; // Namespace BEF_NS

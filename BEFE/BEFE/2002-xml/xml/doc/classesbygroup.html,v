@@ -1,0 +1,299 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2002.10.21.07.11.15;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.12.09.59.37;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>XML Parser - Classes by Group</title>
+</head>
+
+<body bgcolor="#FFFFCC">
+
+<h1 align="center">XML Parser Classes by Group</h1>
+<p align="center"><a href="index.html">home</a></p>
+<div align="center">
+  <center>
+  <table border="1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td valign="top" align="left" bgcolor="#000000" height="19">
+        <h4><font color="#FFFFCC">Group</font></h4>
+      </td>
+      <td bgcolor="#000000" height="19">
+        <h4><font color="#FFFFCC">Class Name</font></h4>
+      </td>
+      <td bgcolor="#000000" height="19">
+        <h4><font color="#FFFFCC">Description</font></h4>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19"></td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="5" height="120">
+        <h4>XML API</h4>
+      </td>
+      <td height="19">XMLDocument</td>
+      <td height="19">An XML document</td>
+    </tr>
+    <tr>
+      <td height="19">XMLCursor</td>
+      <td height="19">Document traversal object</td>
+    </tr>
+    <tr>
+      <td height="19">XMLElement</td>
+      <td height="19">An XML element</td>
+    </tr>
+    <tr>
+      <td height="20">XMLAttribute</td>
+      <td height="20">An XML attribute</td>
+    </tr>
+    <tr>
+      <td height="19">XMLString</td>
+      <td height="19">A string</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left">
+        <h4>XML Base</h4>
+      </td>
+      <td>XMLDocumentBase</td>
+      <td>Base implementation of XMLDocument</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left">
+        &nbsp;
+      </td>
+      <td>XMLCursorBase</td>
+      <td>Base implemetation of XMLCursor</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19">
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="9" height="69">
+        <h4>XML In Memory</h4>
+      </td>
+      <td height="19">XMLDocumentMem</td>
+      <td height="19">In-memory XML document</td>
+    </tr>
+    <tr>
+      <td height="19">XMLCursorParser</td>
+      <td height="19">Parsing XMLCursor</td>
+    </tr>
+    <tr>
+      <td height="19">XMLCursorFree</td>
+      <td height="19">Destructing XMLCursor</td>
+    </tr>
+    <tr>
+      <td>XMLElementMem</td>
+      <td>In-memory XML element (no name, attributes,contents)</td>
+    </tr>
+    <tr>
+      <td>XMLElementParent</td>
+      <td>Element with contents</td>
+    </tr>
+    <tr>
+      <td>XMLElementComplex</td>
+      <td>Element with attribute/contents (simple/complex types)</td>
+    </tr>
+    <tr>
+      <td>XMLElementPCDATA</td>
+      <td>Element with text contents (no name or attributes)</td>
+    </tr>
+    <tr>
+      <td>XMLElementText</td>
+      <td>Element with text value (Text, Entity, Comment, etc.)</td>
+    </tr>
+    <tr>
+      <td>XMLElementPI</td>
+      <td>Processing instruction (value only)</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19">
+        <h4></h4>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="4" height="94">
+        <h4>XML Parsing</h4>
+      </td>
+      <td height="19">XMLLex</td>
+      <td height="19">XML Lexical analyser (state driven, asks for more data)</td>
+    </tr>
+    <tr>
+      <td height="19">XMLLexToken</td>
+      <td height="19">XML Lexical token (output by XMLLex)</td>
+    </tr>
+    <tr>
+      <td height="19">XMLSyn</td>
+      <td height="19">XML Syntax analyser (state driven, asks for more data)</td>
+    </tr>
+    <tr>
+      <td height="19">XMLSynToken</td>
+      <td height="19">XML Syntax token (output by XMLSyn)</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19">
+        <h4></h4>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="2" height="44">
+        <h4>Memory Management</h4>
+      </td>
+      <td height="19">XMLHeap</td>
+      <td height="19">Manager for all XML Parser memory</td>
+    </tr>
+    <tr>
+      <td height="19">XMLObject</td>
+      <td height="19">Root type for all XML objects</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19">
+        <h4></h4>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="3" height="69">
+        <h4>IO Base</h4>
+      </td>
+      <td height="19">XMLIOManager</td>
+      <td height="19">Manages N I/O streams and associated buffers</td>
+    </tr>
+    <tr>
+      <td height="19">XMLIOStream</td>
+      <td height="19">Base class for I/O streams (also an XMLString)</td>
+    </tr>
+    <tr>
+      <td height="19">XMLIOBuffer</td>
+      <td height="19">Buffered portion of an I/O stream</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19">
+        <h4></h4>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="2" height="44">
+        <h4>IO Implementations</h4>
+      </td>
+      <td height="19">XMLIOStreamBuf</td>
+      <td height="19">XMLIOStream on files (read/write)</td>
+    </tr>
+    <tr>
+      <td height="19">XMLIOStreamCon</td>
+      <td height="19">XMLIOStream on console devices (stdin, stdout, stderr)</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19">
+        <h4></h4>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="5" height="119">
+        <h4>String Implementations</h4>
+      </td>
+      <td height="19">XMLStringHashed</td>
+      <td height="19">Base implementation for XMLString which retains hash</td>
+    </tr>
+    <tr>
+      <td height="19">XMLIOString</td>
+      <td height="19">File based string (part of the stream)</td>
+    </tr>
+    <tr>
+      <td height="19">XMLStringConst</td>
+      <td height="19">'const char *' based string</td>
+    </tr>
+    <tr>
+      <td height="19">XMLStringMem</td>
+      <td height="19">In memory string (very fragmenting)</td>
+    </tr>
+    <tr>
+      <td height="19">XMLIOStream</td>
+      <td height="19">Treats entire file as a single string</td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" colspan="3" height="19">
+        <h4></h4>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" align="left" rowspan="2" height="44">
+        <h4>Data Structures</h4>
+      </td>
+      <td height="19">XMLStringHashTable</td>
+      <td height="19">Hash table for sets of XMLString objects</td>
+    </tr>
+    <tr>
+      <td height="19">XMLStringHashTableEntry</td>
+      <td height="19">Entry in an XMLStringHashTable (references string)</td>
+    </tr>
+  </table>
+  </center>
+</div>
+<p align="center"><a href="index.html">home</a></p>
+
+</body>
+
+</html>
+@
+
+
+1.1
+log
+@Started on HTML documentation
+@
+text
+@d34 1
+a34 1
+        <h4>XML Base</h4>
+d56 19
+a75 1
+        <h4></h4>
+d79 2
+a80 2
+      <td valign="top" align="left" rowspan="3" height="69">
+        <h4>XML Implementations</h4>
+d86 26
+a111 2
+      <td height="19">XMLElementMem</td>
+      <td height="19">In-memory XML element</td>
+d114 2
+a115 2
+      <td height="19">XMLAttributeMem</td>
+      <td height="19">In-memory XML attribute</td>
+@
+

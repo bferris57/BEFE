@@ -1,0 +1,25 @@
+#!/usr/bin/python
+#ecoding=utf8
+befeTokens = {"file":"c:/svn/befe.befe/t.befe", "tokens":
+[
+    {"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":0,"span":"0:2"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"meth","lineNo":0,"colNo":2,"span":"2:8"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":8,"span":"8:9"}
+   ,{"type":"BLiteral","lineCount":0,"status":0x0,"value":"`pre","lineNo":0,"colNo":9,"span":"9:18"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":":","lineNo":0,"colNo":18,"span":"18:19"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":19,"span":"19:23"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"argu","lineNo":0,"colNo":23,"span":"23:32"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":32,"span":"32:33"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":"=","lineNo":0,"colNo":33,"span":"33:34"}
+   ,{"type":"BracketLeft","lineCount":0,"status":0x0,"value":"(","lineNo":0,"colNo":35,"span":"34:36"}
+   ,{"type":"BracketRight","lineCount":0,"status":0x0,"value":")","lineNo":0,"colNo":36,"span":"36:37"}
+   ,{"type":"Separator","lineCount":0,"status":0x0,"value":";","lineNo":0,"colNo":37,"span":"37:38"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":38,"span":"38:45"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"retu","lineNo":0,"colNo":45,"span":"45:55"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":55,"span":"55:56"}
+   ,{"type":"Operator","lineCount":0,"status":0x0,"value":"=","lineNo":0,"colNo":56,"span":"56:57"}
+   ,{"type":"WhiteSpace","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":57,"span":"57:58"}
+   ,{"type":"Name","lineCount":0,"status":0x0,"value":"prim","lineNo":0,"colNo":58,"span":"58:67"}
+   ,{"type":"EndOfInput","lineCount":0,"status":0x0,"value":"","lineNo":0,"colNo":67,"span":"67:67"}
+  ]
+}

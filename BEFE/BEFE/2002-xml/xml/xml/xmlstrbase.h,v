@@ -1,0 +1,164 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.3
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.25.08.31.33;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.21.08.11.09;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@More work on HTML parser
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlstrbase.h - Definitions for the XMLStringBase class
+  
+  DESCRIPTION
+    
+    This file contains the definitions for the base implementation of
+    all XMLString classes.
+    
+  CLASSES
+  
+    XMLStringBase   - Base implementation of an XMLString
+    XMLStringHashed - Base implementation for an XMLString that retains it's hash
+
+*/
+
+#ifndef _xmlstrbase_h
+#define _xmlstrbase_h
+
+#include "xml.h"
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLStringBase - Base implementation of XMLString
+//
+// DESCRIPTION
+//
+//  Implementations of the XMLString class should specialise this class.
+//
+
+class XMLStringBase : public XMLString {  
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLStringBase() = 0;
+  
+  // Get the value/len of the string
+  virtual XMLError Length(int *len) = 0;
+  virtual XMLError GetValue(byte *buf, int maxbufl, int *len = NULL);
+  
+  // Substringing
+  virtual XMLError SubString(int offset, int len, XMLString **substring) = 0;
+  
+  // Fragments
+  virtual int      DoesLock(void) = 0;
+  virtual XMLError LockFragment(int offset, byte **pointer, int *availlen) = 0;
+  virtual XMLError UnlockFragment(int offset) = 0;
+  
+  // Comparisons
+  virtual XMLError Equals(XMLString *that,int *answer);
+  virtual XMLError Compare(XMLString *that, int *answer);
+  
+  // Mutable calls
+  virtual int      IsMutable(void);
+  virtual XMLError Truncate(void);
+  virtual XMLError SetLength(int newlen, byte fillwith = 0x20);
+  virtual XMLError Append(byte *buf, int bufl);
+  virtual XMLError Append(char *buf, int bufl = -1);
+  virtual XMLError Append(XMLString *string);
+  virtual XMLError Lower(void);
+  virtual XMLError Upper(void);
+
+  // Hashing
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLStringHashed - An XMLString that retains it's hash value.
+//
+// DESCRIPTION
+//
+//  It's so common to have the same set of IsHashed(), Hash(), GetHash()
+//  implementations that we've created this class so it's only done once.
+//
+
+class XMLStringHashed : public XMLStringBase {  
+  //
+  // Public member functions
+  //
+public:
+  // Constructor
+  XMLStringHashed();
+  // Hashing
+  virtual int      IsHashed(void);
+  virtual XMLError Hash(void);
+  virtual XMLError GetHash(XMLHash *hash);
+  //
+  // Protected members
+  //
+protected:
+  XMLHash m_hash;
+};
+
+#endif // _xmlstrbase_h
+@
+
+
+1.2
+log
+@Finished XMLBitMapString, ready to test
+@
+text
+@d43 1
+d47 1
+d50 1
+d55 1
+d59 1
+d67 3
+@
+
+
+1.1
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d58 1
+@
+

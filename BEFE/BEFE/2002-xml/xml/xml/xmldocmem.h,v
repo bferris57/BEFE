@@ -1,0 +1,1128 @@
+head	1.28;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.28
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.24.03.31.29;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.24.02.54.49;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.23.13.05.43;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.23.07.42.41;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.22.15.12.56;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.22.07.09.01;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.21.08.37.31;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.21.05.41.44;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.20.13.13.52;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.20.11.26.55;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.20.07.43.32;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.20.06.58.07;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.19.23.06.39;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.19.12.26.01;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.18.05.02.14;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.18.04.18.52;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.18.04.10.13;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.14.21.15.45;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.13.17.27.40;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.13.17.20.37;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.13.11.41.37;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.13.11.23.14;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.13.10.15.22;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.13.08.25.31;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.12.17.48.43;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.28
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmldocmem.h - Definitions for the implementation of in-memory XML classes
+  
+  DESCRIPTION
+    
+    This file contains the definitions for an in-memory implementation of
+    the abstract XML classes.
+    
+    These classes can be used to build an entire or partial XML document
+    in memory.
+    
+    They can also be used in conjunction with stream based implementations
+    to provide the holding place for edits and modifications.
+
+  CLASSES
+  
+    XMLDocumentMem      - In-memory document
+    
+  NOTES
+
+    The current implementation is a bit rough because it simply uses
+    XMLHeap::Allocate() to get memory for the entire string.  We expect
+    this to get a bit more efficient in the future.
+*/
+
+#ifndef _xmldocmem_h
+
+#define _xmldocmem_h
+
+#include "xml.h"
+#include "xmldocbase.h"
+#include "xmlelmbase.h"
+#include "xmlhashtable.h"
+
+// External classes
+class XMLManagerBase;
+
+// Forward classes
+class XMLDocumentMem;
+class XMLElementMem;
+class XMLElementText;
+class XMLElementPI;
+class XMLElementParent;
+class XMLElementPCDATA;
+class XMLElementSimple;
+class XMLElementComplex;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLDocumentMem - An in-memory XML document
+//
+// DESCRIPTION
+//
+//  This class represents a single XML document.  
+//
+
+class XMLDocumentMem : public XMLDocumentBase {
+  
+  //
+  // Public member functions
+  //
+public:
+  // Constructor
+  XMLDocumentMem(XMLManagerBase *manager, int optimalnodes = 0);
+  virtual ~XMLDocumentMem();
+  
+  // Distinct strings
+  virtual int DistinctStrings(void);
+  
+  //
+  // Protected member functions
+  //
+protected:
+  // Factories (to create friendly related classes)
+  virtual XMLError NewString(XMLString **string);
+  virtual XMLError NewElement(XML::Class eclass, XMLElementBase **element);
+  
+  //
+  // Protected members
+  //
+protected:
+
+  // Optimal nodes to cache
+  int m_optimalnodes;
+  
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElementMem - Base class for in-memory XML element implementations
+//
+// DESCRIPTION
+//
+//  This class implements the behaviour common to all in-memoroy XML
+//  elements.
+//
+
+class XMLElementMem : public XMLElementBase {
+
+  friend class XMLDocumentMem;
+
+  //
+  // Protected member functions
+  //
+protected:
+  
+  // Capability
+  virtual int       IsMutable(void);
+  
+  // Location
+  virtual XMLError  GetLocation(XMLLocation *location);
+  virtual XMLError  SetLocation(const XMLLocation &location);
+
+  //
+  // Protected members
+  //
+protected:
+  // Location
+  XMLLocation  m_location;
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElementText - An XMLElement with a location and text value
+//
+// DESCRIPTION
+//
+//  This class implements a mutable XML textual element in memory.
+//
+//  It is used for Non-entity, entity, and CDATA text (PCDATA is
+//  a parent so it's implemented differently.)
+//
+
+class XMLElementText : public XMLElementMem {
+
+  friend class XMLDocumentMem;
+
+  //
+  // Public member functions
+  //
+public:
+  XMLElementText(XMLDocumentBase *doc);
+  ~XMLElementText();
+  
+  //
+  // Protected member functions
+  //
+protected:
+  
+  // Class
+  virtual XMLError  SetClass(XML::Class eclass);
+
+  // Simple types  
+  virtual XMLError  GetValue(XMLToken *value);
+  virtual XMLError  SetValue(XMLToken value);
+  
+  // Events
+  virtual XMLError  EventPrepareToDie(XMLDocument *doc);
+  
+  //
+  // Protected members
+  //
+protected:
+  // Document
+  XMLDocumentBase *m_doc;
+  
+  // Value
+  XMLToken         m_value;
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElementPI - An XMLElement with a name and value (Processing instruction)
+//
+// DESCRIPTION
+//
+//  This class implements a mutable XML processing instruction.
+//
+
+class XMLElementPI : public XMLElementText {
+
+  friend class XMLDocumentMem;
+
+  //
+  // Public member functions
+  //
+public:
+  XMLElementPI(XMLDocumentBase *doc);
+  ~XMLElementPI();
+  
+  //
+  // Protected member functions
+  //
+protected:
+  
+  // Class
+  virtual XMLError  SetClass(XML::Class eclass);
+
+  // Name
+  virtual XMLError  GetType(XMLToken *type);
+  virtual XMLError  SetType(XMLToken type);
+  
+  // Events
+  virtual XMLError  EventPrepareToDie(XMLDocument *doc);
+  
+  //
+  // Protected members
+  //
+protected:
+  
+  // Type  
+  XMLToken         m_type;
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElementParent - An XMLElement with contents
+//
+// DESCRIPTION
+//
+//  This class implements the base for all non-simple elements.
+//
+
+class XMLElementParent : public XMLElementMem {
+
+  friend class XMLDocumentMem;
+
+  //
+  // Public member functions
+  //
+public:
+
+  virtual ~XMLElementParent();
+
+  //
+  // Protected member functions
+  //
+protected:
+  
+  // Constructor
+  XMLElementParent();
+
+  // Class
+  virtual XMLError  SetClass(XML::Class eclass);
+
+  // Positioning
+  virtual XMLError  FirstChild(XMLElementBase **child);
+
+  // Event notification
+  virtual XMLError  EventRemovedChild(XMLElementBase *child);
+  virtual XMLError  EventAddedChild(XMLElementBase *child);
+    
+  //
+  // Protected members
+  //
+protected:
+  // First/last child
+  XMLElementBase *m_firstchild;
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElementPCDATA - An XMLElementParent with only Text, Entity, and CDATA
+//
+// DESCRIPTION
+//
+//  This class implements a PCDATA container.
+//
+
+class XMLElementPCDATA : public XMLElementParent {
+
+  friend class XMLDocumentMem;
+
+  //
+  // Protected member functions
+  //
+protected:
+  
+  // Constructor
+  XMLElementPCDATA();
+
+  // Class
+  virtual XMLError  SetClass(XML::Class eclass);
+
+  // Event notification
+  virtual XMLError  EventAddedChild(XMLElementBase *child);
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElementComplex - An XMLElementParent with type and attributes
+//
+// DESCRIPTION
+//
+//  This class implements a complex XMLElement.
+//
+
+class XMLElementComplex : public XMLElementParent {
+
+  friend class XMLDocumentMem;
+
+  //
+  // Protected member functions
+  //
+protected:
+  
+  // Constructor/destructor
+  XMLElementComplex(XMLDocumentBase *doc);
+  virtual ~XMLElementComplex();
+  
+  // Class
+  virtual XMLError  SetClass(XML::Class eclass);
+
+  // Element info
+  virtual XMLError  GetType(XMLToken *type);
+  virtual XMLError  SetType(XMLToken type);
+  
+  // Attributes
+  virtual XMLError  GetNAttributes(int *numattributes);
+  virtual XMLError  GetAttribute(int attrno, XMLToken *name, XMLToken *value);
+  virtual XMLError  FindAttribute(XMLToken name, XMLToken *value);
+  virtual XMLError  CreateAttribute(XMLToken name, XMLToken value);
+  virtual XMLError  DeleteAttribute(XMLToken name);
+  virtual XMLError  DeleteAttributes(void);
+ 
+  // Events
+  virtual XMLError  EventPrepareToDie(XMLDocument *doc);
+  
+  //
+  // Protected memberfunctions
+  //
+protected:
+ 
+  // Utility functions
+  XMLError SearchAttributes(XMLToken name, int *attrno, int createordelete = 0);
+  
+  // Protected members
+  //
+protected:
+
+  // Document
+  XMLDocumentBase *m_doc;
+  
+  // Type
+  XMLToken         m_type;
+  
+  // Each attribute (a tuple)
+  typedef struct {
+    XMLToken name;
+    XMLToken value;
+  } Attribute;
+
+  // Attribute list
+  unsigned short  m_maxattributes;  
+  unsigned short  m_numattributes;
+  Attribute      *m_attributes;
+  
+}; 
+
+#endif // _xmldocmem_h
+@
+
+
+1.27
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d108 1
+a108 1
+  friend XMLDocumentMem;
+d146 1
+a146 1
+  friend XMLDocumentMem;
+d194 1
+a194 1
+  friend XMLDocumentMem;
+d240 1
+a240 1
+  friend XMLDocumentMem;
+d288 1
+a288 1
+  friend XMLDocumentMem;
+d318 1
+a318 1
+  friend XMLDocumentMem;
+@
+
+
+1.26
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d338 1
+@
+
+
+1.25
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@d73 3
+@
+
+
+1.24
+log
+@All tokenised, ready to test
+@
+text
+@a218 2
+  // Document
+  XMLDocumentBase *m_doc;
+@
+
+
+1.23
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d141 1
+a141 1
+class XMLElementText : public XMLElementBase {
+d149 1
+a156 3
+  // Constructor
+  XMLElementText();
+  
+d161 2
+a162 2
+  virtual XMLError  GetValue(XMLString **value);
+  virtual XMLError  SetValue(XMLString *value);
+d164 2
+a165 2
+  // Owned value
+  virtual XMLError  OwnedSetValue(XMLString *value);
+d171 3
+d175 1
+a175 1
+  XMLString   *m_value;
+d197 1
+a204 3
+  // Constructor
+  XMLElementPI();
+  
+d209 2
+a210 2
+  virtual XMLError  GetType(XMLString **type);
+  virtual XMLError  SetType(XMLString *type);
+d212 2
+a213 2
+  // Owned strings (copies aren't made)
+  virtual XMLError  OwnedSetType(XMLString *type);
+d219 3
+d223 1
+a223 1
+  XMLString   *m_type;
+d237 1
+a237 1
+class XMLElementParent : public XMLElementBase {
+d308 1
+a308 1
+//  XMLElementComplex - An XMLElementParent with name and attributes
+d325 1
+a325 1
+  XMLElementComplex();
+d332 2
+a333 3
+  virtual XMLError  GetType(XMLString **type);
+  virtual XMLError  SetType(XMLString *type);
+  virtual XMLError  EqualsType(XMLString *string, int *equals);
+d337 3
+a339 3
+  virtual XMLError  FindAttribute(XMLString *name, XMLString **value);
+  virtual XMLError  CreateAttribute(XMLString *name, XMLString *value);
+  virtual XMLError  DeleteAttribute(XMLString *name);
+d342 3
+d351 1
+a351 5
+  XMLError SearchAttributes(XMLString *name, int *attrno);
+  
+  // Owned strings (copies aren't made)
+  virtual XMLError  OwnedSetType(XMLString *type);
+  virtual XMLError  OwnedCreateAttribute(XMLString *name, XMLString *value);
+d357 5
+a361 2
+  // Name
+  XMLString *m_type;
+d365 2
+a366 2
+    XMLString *name;
+    XMLString *value;
+@
+
+
+1.22
+log
+@Renamed xmlshash.* to xmlhashtable.*, XMLHashstring to XMLHashTable
+@
+text
+@d79 1
+a79 1
+  virtual XMLError NewElement(XML::Type type, XMLElementBase **element);
+d159 2
+a160 2
+  // Type
+  virtual XMLError  SetType(XML::Type type);
+d206 2
+a207 2
+  // Type
+  virtual XMLError  SetType(XML::Type type);
+d210 2
+a211 2
+  virtual XMLError  GetName(XMLString **name);
+  virtual XMLError  SetName(XMLString *name);
+d214 1
+a214 1
+  virtual XMLError  OwnedSetName(XMLString *name);
+d220 2
+a221 2
+  // Name  
+  XMLString   *m_name;
+d254 2
+a255 2
+  // Type
+  virtual XMLError  SetType(XML::Type type);
+d295 2
+a296 2
+  // Type
+  virtual XMLError  SetType(XML::Type type);
+d326 2
+a327 2
+  // Type
+  virtual XMLError  SetType(XML::Type type);
+d330 3
+a332 3
+  virtual XMLError  GetName(XMLString **name);
+  virtual XMLError  SetName(XMLString *name);
+  virtual XMLError  EqualsName(XMLString *string, int *equals);
+d350 1
+a350 1
+  virtual XMLError  OwnedSetName(XMLString *name);
+d358 1
+a358 1
+  XMLString *m_name;
+@
+
+
+1.21
+log
+@Implemented XMLManager
+@
+text
+@d37 1
+a37 1
+#include "xmlshash.h"
+@
+
+
+1.20
+log
+@Fixed XMLElementPI (should have been an XMLElementText)
+@
+text
+@d39 3
+d70 1
+a70 1
+  XMLDocumentMem(int optimalnodes = 0);
+@
+
+
+1.19
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@d185 1
+a185 1
+class XMLElementPI : public XMLElementBase {
+@
+
+
+1.18
+log
+@Implemented XMLDocumentBase
+@
+text
+@d36 1
+d76 1
+a76 1
+  virtual XMLError NewElement(XML::Type type, XMLElement **element);
+d100 1
+a100 1
+class XMLElementMem : protected XMLElement {
+d138 1
+a138 1
+class XMLElementText : protected XMLElementMem {
+d185 1
+a185 1
+class XMLElementPI : protected XMLElementText {
+d232 1
+a232 1
+class XMLElementParent : protected XMLElementMem {
+d255 1
+a255 1
+  virtual XMLError  FirstChild(XMLElement **child);
+d258 2
+a259 2
+  virtual XMLError  EventRemovedChild(XMLElement *child);
+  virtual XMLError  EventAddedChild(XMLElement *child);
+d266 1
+a266 1
+  XMLElement *m_firstchild;
+d280 1
+a280 1
+class XMLElementPCDATA : protected XMLElementParent {
+d296 1
+a296 1
+  virtual XMLError  EventAddedChild(XMLElement *child);
+d310 1
+a310 1
+class XMLElementComplex : protected XMLElementParent {
+@
+
+
+1.17
+log
+@Destructor working, walked big.xml 700K memory, 30 sec!
+@
+text
+@d35 1
+d59 1
+a59 1
+class XMLDocumentMem : public XMLDocument {
+@
+
+
+1.16
+log
+@Added XMLCursorFree - Almost working
+@
+text
+@a75 3
+  // Event notification
+  virtual XMLError EventRemovedElement(void);
+  
+@
+
+
+1.15
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@d65 1
+a65 1
+  XMLDocumentMem();
+d75 11
+@
+
+
+1.14
+log
+@Added node counts to and LeastCursor() to document
+@
+text
+@a67 4
+  // Node count
+  virtual int NodeCount(void);
+  virtual int NodeTotal(void);
+  
+a75 8
+  //
+  // Protected members
+  //
+protected:
+
+  // Number of nodes 
+  int m_nodecount;  // Current number of nodes
+  int m_nodetotal;  // Total number od nodes (life total)
+@
+
+
+1.13
+log
+@Completely loads and parses big.xml!
+@
+text
+@d58 1
+a58 1
+class XMLDocumentMem : protected XMLDocument {
+d68 4
+d79 9
+@
+
+
+1.12
+log
+@All parsing functions except cursor new after/below written
+@
+text
+@d199 3
+@
+
+
+1.11
+log
+@Added TestXMLDocumentMem to test suite
+@
+text
+@d152 3
+d315 1
+d332 4
+a335 1
+  //
+@
+
+
+1.10
+log
+@Added XMLElementPI for processing instructions
+@
+text
+@a74 1
+
+@
+
+
+1.9
+log
+@Added PI tokens to syntax analyser
+@
+text
+@d172 1
+a172 1
+class XMLElementPI : protected XMLElementPI {
+@
+
+
+1.8
+log
+@More XMLCursor behaviour - won't compile yet
+@
+text
+@d41 1
+d159 44
+@
+
+
+1.7
+log
+@XMLDocumentMem now creates all element types (text..complex)
+@
+text
+@d66 1
+d74 1
+a74 1
+  
+d275 6
+a280 1
+  
+@
+
+
+1.6
+log
+@Implemented XMLElementComplex
+@
+text
+@a298 2
+//class XMLElementSimple;
+
+@
+
+
+1.5
+log
+@Implemented XMLElementPCDATA
+@
+text
+@d35 1
+d237 62
+a299 1
+//class XMLElementComplex;
+@
+
+
+1.4
+log
+@Implemented XMLElementParent
+@
+text
+@d206 30
+a235 1
+//class XMLElementPCDATA;
+@
+
+
+1.3
+log
+@Implemented XMLElementMem and XMLElementText
+@
+text
+@d130 6
+a141 1
+  ~XMLElementText();
+d158 48
+a205 1
+//class XMLElementParent;
+@
+
+
+1.2
+log
+@More work on base XML classes
+@
+text
+@d13 2
+a14 1
+    These classes can be used to build an entire or partial XML document.
+d18 5
+a22 1
+        
+d37 1
+d39 5
+a43 1
+class XMLDocumentMem;
+d49 1
+a49 1
+//  XMLDocument - An in-memory XML document
+d57 1
+a57 1
+  friend XMLElementMem;
+d79 1
+a79 1
+//  XMLElementMem - An in-memory XMLElement
+d83 2
+a84 1
+//  This class implements a mutable XML element in memory.
+d90 8
+d99 4
+d104 1
+a104 1
+  // Public member functions
+d106 23
+a128 3
+public:
+  // Constructors/destructors
+  virtual ~XMLElementMem();
+d133 1
+d135 2
+a136 1
+  XMLElementMem::XMLElementMem();
+d138 2
+a139 10
+  // Element info
+  virtual XMLError  GetName(XMLString **name);
+  virtual XMLError  SetName(XMLString *name);
+  
+  // Attributes
+  virtual XMLError  GetNAttributes(int *numattributes);
+  virtual XMLError  FindAttribute(XMLString *name, XMLString **value);
+  virtual XMLError  CreateAttribute(XMLString *name, XMLString *value);
+  virtual XMLError  DeleteAttribute(XMLString *name);
+  virtual XMLError  DeleteAttributes(void);
+d145 7
+a151 8
+  // Positioning
+  virtual XMLError  FirstChild(XMLElement **child);
+  virtual XMLError  NextSibling(XMLElement **sibling);
+    
+  // Contents
+  virtual XMLError  AppendChild(XMLElement *newlastchild);
+  virtual XMLError  AppendChildBefore(XMLElement *before,XMLElement *newchild);
+  virtual XMLError  AppendChildAfter(XMLElement *after, XMLElement *newchild);
+d153 4
+a156 1
+}; 
+@
+
+
+1.1
+log
+@Renamed xmlinmem to xmldocmem and wrote XMLDocumentMem
+@
+text
+@a54 6
+  // Setters/getters
+  virtual XMLError GetURL(XMLString **url);
+  virtual XMLError SetURL(XMLString *url);
+  virtual XMLError GetVersion(XMLString **version);
+  virtual XMLError SetVersion(XMLString *version);
+  virtual XMLError NewXMLCursor(XMLCursor **cursor);
+a58 5
+  // Root element
+  virtual XMLError GetRootElement(XMLElement **root);
+  virtual XMLError NewRootElement(XMLElement **newroot);
+  virtual XMLError SetRootElement(XMLElement *element);
+
+d60 2
+a61 2
+  virtual XMLError NewXMLString(XMLString **string);
+  virtual XMLError NewXMLElement(XMLElement **element);
+a62 11
+  //
+  // Protected members
+  //
+protected:
+  // Document root
+  XMLElement *m_root;
+  XMLString  *m_url;
+  XMLString  *m_version;
+  // Cursor list
+  XMLCursor  *m_firstcursor;
+  XMLCursor  *m_lastcursor;
+d84 1
+d90 2
+a91 2
+  // Constructors/destructors
+  XMLElementMem(XMLDocument *doc);
+d93 1
+a93 11
+  virtual XML::Type GetType(void);
+  virtual XMLError  SetType(XML::Type type);
+
+  // Capability
+  virtual int       IsMutable(void);
+    
+  // Validity
+  virtual XMLError  GetValidity(XML::Validity *validity);
+  virtual XMLError  SetValidity(XML::Validity *validity);
+    
+  // Atomic
+a95 2
+  virtual XMLError  GetValue(XMLString **value);
+  virtual XMLError  SetValue(XMLString *value);
+d103 4
+d113 4
+a116 4
+  virtual XMLError  AppendChild(XMLElement **newlastchild);
+  virtual XMLError  AppendChildBefore(XMLElement *before,XMLElement **newchild);
+  virtual XMLError  AppendChildAfter(XMLElement *after, XMLElement **newchild);
+  
+@
+

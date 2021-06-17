@@ -1,0 +1,39 @@
+//----------------------------------------------------------------------
+// File: befe.compiler.befe - Compile-time model
+//----------------------------------------------------------------------
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+
+namespace befe.compiler
+
+'$options' map
+`$options`[`compile-time`] = true
+
+#
+# Define what's in the build...
+#
+
+build...
+
+  #
+  # Current list of compile-time files
+  #
+  
+  files = [
+    `befe.Compiler`i,
+    `befe.LexToken`i,
+    `befe.Namespace`i,
+    `befe.Name`i,
+    `befe.Class`i,
+    `befe.Struct`i,
+    `befe._basics`i,
+    `befe.Codeblock`i,
+    `befe.MinExp'i,
+    ]
+  ...files
+  
+...build

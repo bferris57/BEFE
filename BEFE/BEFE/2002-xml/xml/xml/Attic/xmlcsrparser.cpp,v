@@ -1,0 +1,2288 @@
+head	1.29;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.29
+date	2002.10.27.11.10.13;	author bferris;	state dead;
+branches;
+next	1.28;
+
+1.28
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.27.07.07.32;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.26.09.02.44;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.24.02.54.49;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.23.13.05.43;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.23.07.42.41;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.22.07.09.01;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.21.10.54.16;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.21.10.41.22;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.21.08.54.22;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.21.08.11.08;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.21.05.41.43;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.20.11.26.54;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.20.07.43.32;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.19.23.29.33;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.19.23.06.38;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.19.11.33.47;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.19.07.52.33;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.19.07.15.33;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.18.05.02.13;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.18.04.34.18;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.17.05.50.09;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.17.05.08.50;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.16.05.10.59;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.16.04.34.02;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.15.06.13.26;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.29
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlcsrparser.cpp - Implementation of the XMLCursorParser class
+  DESCRIPTION
+    
+    This file contains the implementation of a XML source parsing
+    cursor.  
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xmlcsrparser.h"
+#include "xmlelmbase.h"
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorParser::XMLCursorParser  - Constructor
+//  XMLCursorParser::~XMLCursorParser - Destructor
+//
+// NOTES
+//
+//  XMLCursorParser() does NOT take ownership of the string so ~XMLCursorParser()
+//  will NOT delete it.
+//
+
+XMLCursorParser::XMLCursorParser(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorBase(NULL)
+{
+
+  // Initialise string
+  m_string    = (XMLStringBase *)string;
+  if (string)
+    string->Length(&m_stringlen);
+  m_frag      = NULL;
+  m_fragoff   = 0;
+  m_fraglen   = 0;
+  
+  // Initialise state
+  m_state   = State_Normal;
+  
+  // Set our document
+  m_document = doc;
+  
+  // Initialise creation direction
+  m_createdown = 0;
+  
+  // Initialise current attribute name string
+  m_attributename = XMLTOKENNONE;
+  
+  // Register with the document
+  if (doc)
+    RegisterAsConstructor();
+  
+}
+
+XMLCursorParser::~XMLCursorParser() {
+
+  // Unregister from the document
+  if (m_document)
+    UnregisterAsConstructor();
+  
+  // Unlock the fragment if we've locked it
+  if (m_frag)
+    m_string->UnlockFragment(m_fragoff);
+    
+  // Free the attribute name if we're in the middle of creating one
+  ReleaseToken(&m_attributename);
+          
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorParser::Top  - Position to top element
+//  XMLCursorParser::Up   - Position up one element
+//  XMLCursorParser::Down - Position to first child element
+//  XMLCursorParser::Next - Position to next sibling element
+//
+// DESCRIPTION
+//
+//  These functions override the default positioning behaviour of a cursor
+//  because they don't make sense when parsing.
+//
+
+XMLError XMLCursorParser::Top(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorParser::Up(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorParser::Down(void) {
+  return XMLErrorCsrNotCapable;
+}
+  
+XMLError XMLCursorParser::Next(void) {
+  return XMLErrorCsrNotCapable;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorParser::Walk - The XML parser
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to construct one more XMLElement from the
+//  input stream.
+//
+
+XMLError XMLCursorParser::Walk(void) {
+
+  XMLError    result;     // Return code
+  StackEntry *tos;        // Current top of stack
+  XML::Class  eclass;     // An element type
+  int         dead;       // "Are we dead?"
+
+  // Initialise
+  dead = 0;
+  
+  // Clear parse error
+  m_parseerror = XMLErrorNone;
+  
+  // Until we've created something or have an error
+  for (;;) {
+  
+    // Get next syntax token
+    m_token = m_syntax.NextToken();
+
+    // If error, return syntax error
+    if (m_token.error) {
+      result = m_token.error;
+      goto DONE;
+    }
+    
+    // If unknown token type, we've got problems...
+    if (m_token.type <= xmlsyn_TokenNull ||
+        m_token.type >= xmlsyn_TokenMAX)
+      goto INTERNALERROR;
+       
+    // If syntax analyser needs more data      
+    if (m_token.type == xmlsyn_TokenNeedMoreData) {
+    
+      // If we have a locked fragment
+      if (m_frag) {
+        
+        // Unlock it
+        result = m_string->UnlockFragment(m_fragoff);
+        if (result) goto ERROR;
+
+        // Clear fragment pointer
+        m_frag = NULL;
+        
+      }
+      
+      // Position to next fragment
+      m_fragoff += m_fraglen;
+      
+      // If we've got some left...
+      if (m_fragoff < m_stringlen) {
+      
+        // Try locking it
+        result = m_string->LockFragment(m_fragoff,&m_frag,&m_fraglen);
+        if (result) goto ERROR;
+
+        // Pass the fragment to the syntax analyser
+        m_syntax.MoreData(m_frag,m_fraglen);
+        
+      }
+    
+      continue;
+    }
+          
+    // If we're finished (end of string)...
+    if (m_token.type == xmlsyn_TokenEndOfStream) {
+    
+      // If we weren't in the normal state, we've got problems...
+      if (m_state != State_Normal &&
+          m_state != State_InPI) goto UNEXPECTEDEOS;
+
+      // If we're supposed to create "down", error
+      if (m_createdown) goto UNTERMINATED;
+
+      // If we've got more than one on the stack...
+      if (m_stacksize > 1) {
+      
+        // Pop the stack
+        result = Pop();
+        if (result) goto ERROR;
+        
+        // This one hasn't been terminated
+        goto UNTERMINATED;
+      }
+      
+      // Time to commit suicide because our job is finished
+      result = UnregisterAsConstructor();
+      if (result) goto ERROR;
+      delete this;
+      dead = 1;
+                  
+      goto ENDOFDOC;
+      
+    }
+    
+    // If in normal state and this is a creating element...
+    if (m_state == State_Normal && m_token.type != xmlsyn_TokenElementClose) {
+    
+      // Make sure it's one that really creates
+      switch (m_token.type) {
+      
+      case xmlsyn_TokenProcessingInstruction:
+        eclass = XML::ClassPI;
+        break;
+      
+      case xmlsyn_TokenDTD:
+        eclass = XML::ClassDTD;
+        break;
+      
+      case xmlsyn_TokenElementOpen:
+        eclass = XML::ClassSimple;
+        break;
+      
+      case xmlsyn_TokenText:                 
+      case xmlsyn_TokenWhite:
+      case xmlsyn_TokenEntity:               
+        eclass = XML::ClassText;
+        break;
+
+      case xmlsyn_TokenComment:
+        eclass = XML::ClassComment;
+        break;
+        
+      case xmlsyn_TokenCDATA:
+        eclass = XML::ClassCDATA;
+        break;
+        
+      default:
+        goto INTERNALERROR;                
+      }
+      
+      // Create the new element (down or after)
+      if (m_createdown)
+        result = NewElementBelow(eclass,NULL);
+      else
+        result = NewElementAfter(eclass,NULL);
+      if (result) goto ERROR;
+      
+      // Force our create direction to be 'Create After'
+      m_createdown = 0;
+      
+    }
+    
+    // Call handler based on our state
+    switch (m_state) {
+    case State_Normal:    result = StateNormal();       break;
+    case State_InElement: result = StateInElement();    break;
+    case State_InPI:      result = StateInPI(); break;
+    default:              goto INTERNALERROR;
+    }
+
+    // If we have an error...
+    if (result) goto ERROR;
+
+    // If we're in normal state, we're finished
+    if (m_state == State_Normal)
+      break;    
+  }
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+UNEXPECTEDEOS:
+  result = XMLErrorUnexpectedEndOfInput;
+  goto DONE;
+
+UNTERMINATED:
+  result = XMLErrorUnterminatedElement;
+  goto DONE;
+
+ENDOFDOC:
+  result = XMLErrorCsrEndOfDocument;
+  goto DONE;
+          
+ERROR:
+  goto DONE;
+    
+DONE:
+
+  // Free stashed attribute name
+  if (!dead)
+    ReleaseToken(&m_attributename);
+  
+  // Save last parse error
+  m_parseerror = result;
+  
+  // Set parse location if we have an error
+  if (result != XMLErrorNone) {
+    m_parselocation.column = m_token.startcol;
+    m_parselocation.line   = m_token.startline;
+    m_parselocation.offset = m_token.startoff;
+  }
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorParser::StateNormal - Handle syntax token in State_Normal state
+//
+// DESCRIPTION
+//
+//  This function handles syntax tokens while in the State_Normal state.
+//
+// NOTE
+//
+
+XMLError XMLCursorParser::StateNormal() {
+
+  XMLError        result;  // Return code
+  XMLString      *string;  // TEMP: A string we created
+  XMLToken        token;   // TEMP: A token we created
+  StackEntry     *tos;     // Current stack entry
+  XML::Class      eclass;  // An element class
+  int             equals;  // Temp: "Do names compare?"
+  XMLElementBase *element; // An element
+  XMLToken        type;    // Type token
+  
+  // Initialise
+  string = NULL;
+  type   = XMLTOKENNONE;
+    
+  // Get current stack entry
+  tos = TOS();
+  if (tos == NULL) goto INTERNALERROR;
+  
+  // Based on the token type...
+  switch (m_token.type) {
+    
+  // Have a new processing instruction
+  case xmlsyn_TokenProcessingInstruction:      
+    
+    // Create a string for the PI's type
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+    
+    // Find the string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+    
+    // Set the PI's type
+    result = tos->element->SetType(token);
+    if (result) goto ERROR;
+
+    // It took, we don't own the string token now
+    token = XMLTOKENNONE;
+        
+    // Change state
+    m_state = State_InPI;
+    
+    break;
+    
+  // Have a DTD token
+  case xmlsyn_TokenDTD:
+  
+    // Create a string for the DTD's value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Get the value string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+
+    // We don't own the string now
+    string = NULL;
+            
+    // Set the DTD's value
+    result = tos->element->SetValue(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't have a token now
+    token = XMLTOKENNONE;
+        
+    break;
+      
+  // Have a new element start
+  case xmlsyn_TokenElementOpen:
+  
+    // Create a string for the element's name
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Get the string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+        
+    // Set the element's type
+    result = tos->element->SetType(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't own the token now
+    token = XMLTOKENNONE;
+        
+    // Change state
+    m_state= State_InElement;
+    
+    break;
+  
+  // Have the end of an element      
+  case xmlsyn_TokenElementClose:
+  
+    // If we're supposed to create "down"...
+    if (m_createdown) {
+    
+      // The element to test against is the TOS
+      element = tos->element;
+    }
+    
+    // If we're not supposed to create "down"...
+    else {
+    
+      // If the stack's < 2 deep it's mismatched
+      if (m_stacksize < 2) goto MISMATCHED;
+      
+      // The element is the 1 up
+      element = (tos-1)->element;
+    }
+    
+    // Get the element's class
+    eclass = element->GetClass();
+    
+    // If the element isn't a simple/complex one, it's not named
+    if (eclass != XML::ClassSimple &&
+        eclass != XML::ClassComplex)
+      goto MISMATCHED;
+      
+    // Create a string for the end element's type
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+    
+    // Get the element's type token
+    result = element->GetType(&type);
+    if (result) goto ERROR;
+    
+    // If they're not the same, mismatched
+    if (token != type) goto MISMATCHED;
+
+    // Release the token
+    result = ReleaseToken(&token);
+    if (result) goto ERROR;
+    token = XMLTOKENNONE;
+        
+    // If we're supposed to create "down"...
+    if (m_createdown) {
+    
+      // Simply say to "do NOT create down"
+      m_createdown = 0;
+    }
+      
+    // If we're not supposed to create "down"...
+    else {
+    
+      // Have to go up one
+      result = Pop();
+      if (result) goto ERROR;
+    }
+    
+    break;
+  
+  // Have some text, whitespace, entity, comment, CDATA
+  case xmlsyn_TokenText:
+  case xmlsyn_TokenWhite:
+  case xmlsyn_TokenEntity:
+  case xmlsyn_TokenComment:
+  case xmlsyn_TokenCDATA:
+    
+    // Create a string for the elements's value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+        
+    // Set the element's value
+    result = tos->element->SetValue(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't own the token now
+    token = XMLTOKENNONE;
+        
+    break;
+  
+  // Some other token
+  default:
+  
+    goto INTERNALERROR;
+  }
+      
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+MISMATCHED:
+  result = XMLErrorMismatchedEndElement;
+  goto DONE;
+      
+ERROR:
+  goto DONE;
+    
+DONE:
+
+  // Free the string/token if we have any
+  if (string)
+    delete string;
+  ReleaseToken(&token);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorParser::StateInElement - Handle syntax token in state InElement
+//
+// DESCRIPTION
+//
+//  This function handles syntax tokens while in the State_InElement state.
+//
+
+XMLError XMLCursorParser::StateInElement(void) {
+
+  XMLError    result;     // Return code
+  XMLString  *string;     // TEMP: A new string
+  XMLToken    token;      // TEMP: A new token
+  StackEntry *tos;        // Current element
+  
+  // Initialise
+  string = NULL;
+  token  = XMLTOKENNONE;
+
+  // Get current element
+  tos = TOS();
+  if (tos == NULL) goto INTERNALERROR;
+  
+  // Based on the token type...
+  switch (m_token.type) {
+  
+  // Have the end of an element      
+  case xmlsyn_TokenElementClose:
+  
+    // Change state 
+    m_state = State_Normal;
+    
+    break;
+  
+  // Have an attribute name
+  case xmlsyn_TokenElementAttributeName: 
+
+    // Create a string for the attribute name
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a string token
+    result = NewToken(string,&m_attributename);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+    
+    // Make sure the attribute doesn't already exist 
+    result = tos->element->FindAttribute(m_attributename);
+    
+    // If it was there...
+    if (result != XMLErrorXMLAttributeNotFound) {
+    
+      // Delete stashed attribute name
+      ReleaseToken(&m_attributename);
+      m_attributename = XMLTOKENNONE;
+      
+      // Report the error
+      goto DUPLICATEATTRIBUTE;
+    }
+
+    break;
+
+  // Have an attribute value            
+  case xmlsyn_TokenElementAttributeValue:
+    
+    // If we've got no attribute name, error
+    if (m_attributename == NULL) goto INTERNALERROR;
+    
+    // Create a string for the value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a string token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+        
+    // Create the attribute in the element
+    result = tos->element->CreateAttribute(m_attributename,token);
+    if (result) goto ERROR;
+    
+    // We don't own either tokens now
+    ReleaseToken(&m_attributename);
+    ReleaseToken(&token);
+    
+    break;
+          
+  case xmlsyn_TokenElementContents:      
+    
+    // Change the element's class to Complex
+    result = tos->element->SetClass(XML::ClassComplex);
+    if (result) goto ERROR;
+    
+    // Change state
+    m_state = State_Normal;
+
+    // Set creation direction
+    m_createdown = 1;
+        
+    break;
+  
+  // Have some whitespace (ignore it)
+  case xmlsyn_TokenWhite:
+  
+    break;
+    
+  // Some other token
+  default:
+  
+    goto INTERNALERROR;
+  }
+    
+  goto OK;
+  
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+DUPLICATEATTRIBUTE:
+  result = XMLErrorDuplicateAttribute;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+DONE:
+
+  // If we've still got a string/token, free them
+  if (string)
+    delete string;
+  if (token != XMLTOKENNONE)
+    ReleaseToken(&token);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorParser::StateInPI - Handle syntax token in state InPI
+//
+// DESCRIPTION
+//
+//  This function handles syntax tokens while in the State_InPI state.
+//
+
+XMLError XMLCursorParser::StateInPI(void) {
+
+  XMLError    result;     // Return code
+  XMLString  *string;     // A new string
+  XMLToken    token;      // A new token
+  StackEntry *tos;        // Current element
+  
+  // Initialise
+  string = NULL;
+  token  = XMLTOKENNONE;
+
+  // Get current element
+  tos = TOS();
+  if (tos == NULL) goto INTERNALERROR;
+  
+  // Based on the token type...
+  switch (m_token.type) {
+  
+  // Have processing instruction text
+  case xmlsyn_TokenProcessingText:
+
+    // Create a string for the PI's value
+    result = m_string->SubString(m_token.startoff,m_token.length,&string);
+    if (result) goto ERROR;
+
+    // Turn it into a token
+    result = NewToken(string,&token);
+    if (result) goto ERROR;
+    
+    // We don't own the string now
+    string = NULL;
+        
+    // Set the element's value
+    result = tos->element->SetValue(token);
+    if (result) goto ERROR;
+    
+    // It took, we don't own the token now
+    token = NULL;
+        
+    break;
+      
+  // Have end of PI
+  case xmlsyn_TokenProcessingEnd:
+  
+    // Switch state
+    m_state = State_Normal;
+    
+    break;
+    
+  // Some other token
+  default:
+  
+    goto INTERNALERROR;
+  }
+    
+  goto OK;
+  
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+
+DONE:
+
+  // If we've still got a string/token, free them
+  if (string)
+    delete string;
+  ReleaseToken(&token);
+    
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorWrite::XMLCursorWrite  - Constructor
+//  XMLCursorWrite::~XMLCursorWrite - Destructor
+//
+
+XMLCursorWrite::XMLCursorWrite(XMLDocumentBase *doc, XMLString *string)
+  : XMLCursorBase(NULL)
+{
+
+  // Initialise string
+  m_string    = (XMLStringBase *)string;
+  
+  // Set our document
+  m_document = doc;
+  
+}
+
+XMLCursorWrite::~XMLCursorWrite() {
+          
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorWrite::Write - Write XML representing current element
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to append text XML to a string.
+//
+// NOTES
+//
+//  If this function returns an error, the appended contents of the
+//  string are in an indeterminate state.
+//
+
+XMLError XMLCursorWrite::Write(void) {
+
+  XMLError    result;        // Return code
+  int         m_startdepth;  // Depth we started at
+  StackEntry *tos;           // Current top of stack
+  XML::Class  eclass;        // An element type
+  byte        op;            // Current op to output
+  XMLToken    token;         // Current token
+  XMLToken    token2;        // Another token
+  int         nattributes;   // Number of attributes
+  int         i;             // TEMP: Loop counter
+  int         next;          // "Should we position to next one?"
+    
+  // Sanity checks
+  if (m_document == NULL) goto NODOCUMENT;
+  if (m_string   == NULL) goto NOSTRING;
+
+  // Save current stack depth
+  m_startdepth = m_stacksize;
+
+  // If we're not positioned anywhere in the document
+  if (m_startdepth == 0) {
+  
+    // Simply walk once and we'll get the first one
+    result = Walk();
+    if (result && result != XMLErrorCsrEndOfDocument)
+      goto ERROR;
+      
+  }
+  
+  // For each element
+  while (result != XMLErrorCsrEndOfDocument && m_stacksize > m_startdepth) {
+
+    // Get TOS
+    tos = TOS();
+
+    // Get current element's class
+    eclass = tos->element->GetClass();
+
+    // Assume we'll position to next one
+    next = 1;
+        
+    // Based on current element class...
+    switch (eclass) {
+
+    // Complex/simple elements...    
+    case XML::ClassComplex:
+    case XML::ClassSimple:
+
+      // Emit '<'
+      result = m_string->Append("<");
+      if (result) goto ERROR;
+          
+      // Get and emit the element's type
+      result = tos->element->GetType(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      // Get number of attributes
+      result = tos->element->GetNAttributes(&nattributes);
+      if (result) goto ERROR;
+      
+      // For each attribute...
+      for (i = 0; i < nattributes;  i++) {
+
+        // Emit ' '
+        result = m_string->Append(" ");
+        if (result) goto ERROR;
+              
+        // Get the attribute name and value
+        result = tos->element->GetAttribute(i,&token,&token2);
+        if (result) goto ERROR;
+        
+        // Emit name=
+        result = EmitToken(token);
+        if (result) goto ERROR;
+        result = m_string->Append("=");
+        if (result) goto ERROR;
+        
+        // For now (yuck) we'll assume it's OK to output " around the value
+        // it's not really but just to get it going...
+        result = m_string->Append("\"");
+        if (result) goto ERROR;
+        result = EmitToken(token2);
+        if (result) goto ERROR;
+        result = m_string->Append("\"");
+        if (result) goto ERROR;
+      }
+      
+      // If simple class...
+      if (eclass == XML::ClassSimple) {
+      
+        // Emit "/>"
+        result = m_string->Append("/>");
+        if (result) goto ERROR;
+      }
+      
+      // If complex class...
+      else {
+      
+        // Emit '>'
+        result = m_string->Append(">");
+        if (result) goto ERROR;
+
+        // Try going down
+        result = Down();
+        if (result && result != XMLErrorCsrAtLeaf) goto ERROR;
+        
+        // If nothing down there...
+        if (result == XMLErrorCsrAtLeaf) {
+        
+          // Emit '</name>'
+          result = m_string->Append("</");
+          if (result) goto ERROR;
+          result = EmitToken(token);
+          if (result) goto ERROR;
+          result = m_string->Append(">");
+          if (result) goto ERROR;
+        }
+        
+        // If something down there...
+        else {
+        
+          // Don't position to next
+          next = 0;
+        }
+      }
+      
+      break;
+      
+    // PCDATA
+    case XML::ClassPCDATA:
+
+      // Try going down
+      result = Down();
+      if (result && result != XMLErrorCsrAtLeaf) goto ERROR;
+      
+      // If nothing down there...
+      if (result == XMLErrorCsrAtLeaf) {
+      }
+        
+      // If something down there...
+      else {
+      
+        // Don't position to next
+        next = 0;
+      }
+      
+      break;
+                
+    // Text
+    case XML::ClassText:
+    case XML::ClassEntity:
+
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      break;
+            
+    // CDATA
+    case XML::ClassCDATA:
+
+      // Emit "<![CDATA["
+      result = m_string->Append("<![CDATA[");
+      if (result) goto ERROR;
+          
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+
+      // Emit "]]>"
+      result = m_string->Append("]]>");
+      if (result) goto ERROR;
+            
+      break;
+            
+    // Comment
+    case XML::ClassComment:
+
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+
+      break;
+                
+    // Processing Instruction
+    case XML::ClassPI:
+    
+      // Emit the begin PI
+      result = m_string->Append("<?");
+      if (result) goto ERROR;
+
+      // Get and emit the type
+      result = tos->element->GetType(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+
+      // Emit the end PI
+      result = m_string->Append("?>");
+      if (result) goto ERROR;
+      
+      break;
+      
+    // DTD
+    case XML::ClassDTD:
+    
+      // Emit the begin DTD
+      result = m_string->Append("<!DOCTYPE");
+      if (result) goto ERROR;
+      
+      // Get and emit the value
+      result = tos->element->GetValue(&token);
+      if (result) goto ERROR;
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      // Emit the end DTD
+      result = m_string->Append(">");
+      if (result) goto ERROR;
+      
+      break;
+      
+    default:
+      
+      goto UNKNOWNCLASS;      
+    }
+
+    // Position to next element if we're supposed to
+    while (next) {
+    
+      // Try positioning to next
+      result = Next();
+      
+      // If we've reached the end of the document, we're finished
+      if (result == XMLErrorCsrEndOfDocument)
+        break;
+        
+      // If we got error other than Last Child...
+      if (result && result != XMLErrorCsrAtLastChild) goto ERROR;
+
+      // Assume we're not going to keep trying
+      next = 0;
+            
+      // If nothing there...
+      if (result == XMLErrorCsrAtLastChild) {
+      
+        // Assumption wrong, we'll keep trying next
+        next = 1;
+        
+        // Try up
+        result = Up();
+        if (result) goto ERROR;
+        
+        // If we're at the starting depth, we're finished
+        if (m_stacksize == m_startdepth)
+          break;
+          
+        // Get the TOS
+        tos = TOS();
+        
+        // Get the element's class
+        eclass = tos->element->GetClass();
+        if (result) goto ERROR;
+        
+        // If it's complex...
+        if (eclass == XML::ClassComplex) {
+        
+          // Get the element's type
+          result = tos->element->GetType(&token);
+          if (result) goto ERROR;
+          
+          // Emit '</'
+          result = m_string->Append("</");      
+          if (result) goto ERROR;
+          
+          // Emit the type
+          result = EmitToken(token);
+          if (result) goto ERROR;
+          
+          // Emit '>'
+          result = m_string->Append(">");      
+          if (result) goto ERROR;      
+        }
+      }      
+    }
+  }
+  
+  // We've reached the end of the doc, until back at original start node...
+  for (;;) {
+  
+    // Pop the stack
+    result = Pop();
+    if (result) goto ERROR;
+    
+    // Get top entry
+    tos = TOS();
+
+    // If we've run out, we're at the top of the document
+    if (tos == NULL)
+      break;
+      
+    // Get the element's class
+    eclass = tos->element->GetClass();
+    
+    // Based on the class...
+    switch (eclass) {
+    
+    // It's complex...
+    case XML::ClassComplex:
+    
+      // Get the element's type
+      result = tos->element->GetType(&token);
+      if (result) goto ERROR;
+      
+      // Emit '</'
+      result = m_string->Append("</");      
+      if (result) goto ERROR;
+      
+      // Emit the type
+      result = EmitToken(token);
+      if (result) goto ERROR;
+      
+      // Emit '>'
+      result = m_string->Append(">");      
+      if (result) goto ERROR;
+      
+      break;
+      
+    // Don't know what it is...
+    default:
+    
+      goto INTERNALERROR;
+    }
+    
+    // If we're at original depth, we're finished
+    if (m_stacksize <= m_startdepth)
+      break;
+  }
+  
+  goto OK;
+    
+NODOCUMENT:
+  result = XMLErrorCompileNoDocument;
+  goto DONE;
+  
+NOSTRING:
+  result = XMLErrorCompileNoString;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+UNKNOWNCLASS:
+  result = XMLErrorCompileUnknownClass;
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+        
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLCursorWrite::EmitToken - Emit a token
+//
+// DESCRIPTION
+//
+//  The purpose of this function is to output a single token.
+//
+
+XMLError XMLCursorWrite::EmitToken(XMLToken token) {
+
+  XMLError   result;   // Return code
+  XMLString *string;   // String to output
+  
+  // Get the token value string
+  result = ResolveToken(token,&string);
+  if (result) goto ERROR;
+    
+  // Emit the value
+  result = m_string->Append(string);
+  if (result) goto ERROR;
+    
+  goto OK;
+    
+ERROR:
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  return result;
+}
+
+@
+
+
+1.28
+log
+@Text writer working, don't like speed though
+@
+text
+@@
+
+
+1.27
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@d28 2
+a29 2
+//  XMLCursorParser() takes ownership of the string so ~XMLCursorParser()
+//  deletes it.  If you don't like that then take a copy first!
+a71 4
+  // Free the string
+  if (m_string)
+    delete m_string;
+
+d796 466
+@
+
+
+1.26
+log
+@Compiled XML writer almost working
+@
+text
+@d240 7
+a246 1
+      case xmlsyn_TokenComment:              
+d248 1
+a248 1
+        eclass = XML::ClassText;
+d250 1
+a250 1
+      
+@
+
+
+1.25
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@d655 4
+@
+
+
+1.24
+log
+@All tokenised, ready to test
+@
+text
+@d179 1
+a179 1
+        
+d371 1
+a371 1
+    result = tos->element->SetType(type);
+d375 1
+a375 1
+    type = XMLTOKENNONE;
+d451 1
+a451 1
+    // Get the element's type
+@
+
+
+1.23
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d54 1
+a54 1
+  m_attributename = NULL;
+d77 1
+a77 2
+  if (m_attributename)
+    delete m_attributename;
+d305 2
+a306 2
+  if (!dead && m_attributename)
+    delete m_attributename;
+d338 1
+d343 1
+d347 2
+a348 1
+  
+d363 9
+a371 2
+    // Set the PI's name
+    result = tos->element->OwnedSetType(string);
+d374 2
+a375 2
+    // It took, we don't have a string now
+    string = NULL;
+d388 8
+a395 1
+    
+d397 1
+a397 1
+    result = tos->element->OwnedSetValue(string);
+d400 2
+a401 2
+    // It took, we don't have a string now
+    string = NULL;
+d411 4
+d416 5
+a420 2
+    // Set the element's name
+    result = tos->element->OwnedSetType(string);
+d423 2
+a424 2
+    // It took, we don't have a string now
+    string = NULL;
+d462 4
+d467 5
+a471 2
+    // See if they compare
+    result = element->EqualsType(string,&equals);
+d474 8
+a481 3
+    // If not, it's mismatched
+    if (!equals) goto MISMATCHED;
+    
+d509 4
+d514 3
+d518 1
+a518 1
+    result = tos->element->OwnedSetValue(string);
+d521 2
+a522 2
+    // It took, we don't have a string now
+    string = NULL;
+d551 1
+a551 1
+  // Free the string if we have any
+d554 1
+d573 2
+a574 1
+  XMLString  *string;     // A new string
+d579 1
+d599 6
+a604 2
+    // Create a string for the name
+    result = m_string->SubString(m_token.startoff,m_token.length,&m_attributename);
+d607 5
+a611 2
+    // Make sure the attribute doesn't already exist
+    result = tos->element->FindAttribute(m_attributename,&string);
+d617 2
+a618 2
+      delete m_attributename;
+      m_attributename = NULL;
+d635 4
+d640 3
+d644 1
+a644 1
+    result = tos->element->OwnedCreateAttribute(m_attributename,string);
+d647 3
+a649 3
+    // We don't own either strings now
+    m_attributename = NULL;
+    string          = NULL;
+d694 1
+a694 1
+  // If we've still got a string, free it
+d697 2
+d718 1
+d723 1
+d738 4
+d743 3
+d747 1
+a747 1
+    result = tos->element->OwnedSetValue(string);
+d750 2
+a751 2
+    // It took, we don't have a string now
+    string = NULL;
+d785 1
+a785 1
+  // If we've still got a string, free it
+d788 1
+@
+
+
+1.22
+log
+@Implemented XMLManager
+@
+text
+@d130 1
+a130 1
+  XML::Type   type;       // An element type
+d227 1
+a227 1
+        type = XML::TypePI;
+d231 1
+a231 1
+        type = XML::TypeDTD;
+d235 1
+a235 1
+        type = XML::TypeSimple;
+d243 1
+a243 1
+        type = XML::TypeText;
+d252 1
+a252 1
+        result = NewElementBelow(type,NULL);
+d254 1
+a254 1
+        result = NewElementAfter(type,NULL);
+d340 1
+a340 1
+  XML::Type       type;    // An element type
+d357 1
+a357 1
+    // Create a string for the PI's name
+d362 1
+a362 1
+    result = tos->element->OwnedSetName(string);
+d397 1
+a397 1
+    result = tos->element->OwnedSetName(string);
+d429 1
+a429 1
+    type = element->GetType();
+d432 2
+a433 2
+    if (type != XML::TypeSimple &&
+        type != XML::TypeComplex)
+d436 1
+a436 1
+    // Create a string for the end element's name
+d441 1
+a441 1
+    result = element->EqualsName(string,&equals);
+@
+
+
+1.21
+log
+@Got rid of some includes in cursor parser
+@
+text
+@d26 5
+d68 1
+a68 1
+  // Unlock string if we've locked it
+d71 4
+@
+
+
+1.20
+log
+@Added GetParseError() to doc and cursor and tester
+@
+text
+@a17 4
+#include "xmlheap.h"
+#include "xmlstrmem.h"
+#include "memory.h"
+#include "miscellaneous.h"
+@
+
+
+1.19
+log
+@Parser handles syntax errors, values must have quotes now
+@
+text
+@d131 3
+d303 10
+@
+
+
+1.18
+log
+@Renamed source files for string implementations
+@
+text
+@d137 7
+a143 1
+    // If unknotn token type, we've got problems...
+@
+
+
+1.17
+log
+@Created XMLStringBase - API pretty clean for now
+@
+text
+@d19 1
+a19 1
+#include "xmlsmem.h"
+@
+
+
+1.16
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@d36 1
+a36 1
+  m_string    = string;
+@
+
+
+1.15
+log
+@Implemented XMLDocumentBase
+@
+text
+@d17 1
+d313 6
+a318 6
+  XMLError    result;  // Return code
+  XMLString  *string;  // TEMP: A string we created
+  StackEntry *tos;     // Current stack entry
+  XML::Type   type;    // An element type
+  int         equals;  // Temp: "Do names compare?"
+  XMLElement *element; // An element
+@
+
+
+1.14
+log
+@Added XMLCursorFree - Almost working
+@
+text
+@d30 1
+a30 1
+XMLCursorParser::XMLCursorParser(XMLDocument *doc, XMLString *string)
+@
+
+
+1.13
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@a21 4
+//
+// Handy defines
+//
+
+@
+
+
+1.12
+log
+@Got attributes parsing
+@
+text
+@d129 1
+d131 3
+d198 7
+a204 1
+            
+d295 1
+a295 1
+  if (m_attributename)
+@
+
+
+1.11
+log
+@Completely loads and parses big.xml!
+@
+text
+@d236 1
+a236 1
+      // Force our create direction to be 'After'
+d419 1
+a419 1
+      // Simply say to "create next not down"
+d530 10
+a539 2
+    // If it was there, report error
+    if (result != XMLErrorXMLAttributeNotFound) goto DUPLICATEATTRIBUTE;
+a540 6
+    // Wasn't there, stack attribute's name
+    m_attributename = string;
+    
+    // We don't own the string now
+    string = NULL;
+    
+@
+
+
+1.10
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@a126 1
+  XML::Type   newtype;    // Type of element to create
+d128 1
+d174 1
+a174 1
+    // IF we're finished (end of string)...
+d181 13
+a193 2
+      // If we've got anything on the stack something's unterminated
+      if (TOS() != NULL) goto UNTERMINATED;
+d195 2
+d199 2
+a200 2
+    // If in normal state and create a new element
+    if (m_state == State_Normal) {
+d206 1
+a206 1
+        newtype = XML::TypePI;
+d210 1
+a210 1
+        newtype = XML::TypeDTD;
+d214 1
+a214 1
+        newtype = XML::TypeSimple;
+d222 1
+a222 1
+        newtype = XML::TypeText;
+d231 1
+a231 1
+        result = NewElementBelow(newtype,NULL);
+d233 1
+a233 1
+        result = NewElementAfter(newtype,NULL);
+d272 5
+a276 1
+  result = XMLErrorUnexpectedEndOfInput;
+d278 1
+a278 1
+        
+d306 6
+a311 5
+  XMLError    result; // Return code
+  XMLString  *string; // TEMP: A string we created
+  StackEntry *tos;    // Current stack entry
+  XML::Type   type;   // An element type
+  int         equals; // Temp: "Do names compare?"
+d380 17
+d398 1
+a398 1
+    type = tos->element->GetType();
+d410 1
+a410 1
+    result = tos->element->EqualsName(string,&equals);
+d416 14
+a429 3
+    // It is, go up
+    result = Up();
+    if (result) goto ERROR;
+@
+
+
+1.9
+log
+@Separate DTD syntax token (contains whole contents)
+@
+text
+@d52 6
+d73 5
+a77 1
+      
+d126 5
+a130 5
+  XMLError result;
+  int      finished;
+  
+  // Until we've got something or have an error
+  finished = 0;
+d135 4
+a138 7
+  
+    // Based on the token type...
+    switch (m_token.type) {
+    
+    // NULL token (this shouldn't happen)
+    case xmlsyn_TokenNull:
+      
+d140 3
+a142 119
+    
+    // Have a new processing instruction
+    case xmlsyn_TokenProcessingInstruction:      
+      
+      // If we're not in normal state, error
+      if (m_state != State_Normal) goto UNEXPECTEDPI;
+    
+      // Change state
+      m_state = State_InProcessing;
+      
+      break;
+
+    // Have an end of processing instruction
+    case xmlsyn_TokenProcessingText:
+    
+      // If we're not in processing instruction, error
+      if (m_state != State_InProcessing) goto UNEXPECTEDPITEXT;
+      
+      // Change state
+      m_state = State_Normal;
+      
+      break;
+    
+    // Have a DTD token (skip for now)
+    case xmlsyn_TokenDTD:
+    
+      break;
+        
+    // Have a new element start
+    case xmlsyn_TokenElementOpen:
+    
+      // If we're not in normal state, error
+      if (m_state != State_Normal) goto UNEXPECTEDELEMENT;
+      
+      // Change state
+      m_state= State_InElement;
+      
+      break;
+    
+    // Have the end of an element      
+    case xmlsyn_TokenElementClose:
+    
+      // If we're not in an element, error
+      if (m_state != State_Normal &&
+          m_state != State_InElement) goto UNEXPECTEDENDELEMENT;
+      
+      // Change state 
+      m_state = State_Normal;
+      
+      break;
+    
+    // Have an attribute name
+    case xmlsyn_TokenElementAttributeName: 
+    
+      // If we're not in an element, error
+      if (m_state != State_InElement) goto UNEXPECTEDATTRIBUTENAME;
+      
+      break;
+
+    // Have an attribute value            
+    case xmlsyn_TokenElementAttributeValue:
+      
+      // If we're not in an element, error
+      if (m_state != State_InElement) goto UNEXPECTEDATTRIBUTEVALUE;
+      
+      break;
+            
+    case xmlsyn_TokenElementContents:      
+      
+      // If we're not in an element, error
+      if (m_state != State_InElement) goto UNEXPECTEDENDELEMENT;
+      
+      // Change state
+      m_state = State_Normal;
+      
+      break;
+    
+    // Have some text  
+    case xmlsyn_TokenText:
+
+      // If we're in an element, error
+      if (m_state != State_Normal) goto UNEXPECTEDTEXT;
+      
+      break;
+          
+    // Have some whitespace
+    case xmlsyn_TokenWhite:
+    
+      // If we're in an element, error
+      if (m_state != State_Normal) goto UNEXPECTEDWHITE;
+      
+      break;
+      
+    // Have an entity
+    case xmlsyn_TokenEntity:
+    
+      // If we're in an element, error
+      if (m_state != State_Normal) goto UNEXPECTEDENTITY;
+      
+      break;
+      
+    // Have a comment
+    case xmlsyn_TokenComment:
+    
+      // If we're in an element, error
+      if (m_state != State_Normal) goto UNEXPECTEDCOMMENT;
+      
+      break;
+      
+    // Have some CDATA
+    case xmlsyn_TokenCDATA:
+
+      // If we're in an element, error
+      if (m_state != State_Normal) goto UNEXPECTEDCDATA;
+      
+      break;
+    
+    // Syntax analyser needs more data      
+    case xmlsyn_TokenNeedMoreData:
+d171 5
+a175 4
+      break;
+      
+    // Syntax analyser hit end of string
+    case xmlsyn_TokenEndOfStream:
+d177 8
+a184 1
+      goto LASTCHILD;
+d186 2
+a187 2
+    // Some other token
+    default:
+d189 37
+a225 1
+      goto INTERNALERROR;
+d228 14
+a241 4
+    // If got something, break
+    if (finished)
+      break;
+      
+d253 120
+d374 40
+a413 3
+UNEXPECTEDPI:
+  result = XMLErrorSemUnexpectedPI;
+  goto DONE;
+d415 2
+a416 2
+UNEXPECTEDPITEXT:
+  result = XMLErrorSemUnexpectedPIText;
+d418 3
+a420 3
+  
+UNEXPECTEDELEMENT:
+  result = XMLErrorSemUnexpectedElement;
+d423 2
+a424 2
+UNEXPECTEDENDELEMENT:
+  result = XMLErrorSemUnexpectedEndElement;
+d426 93
+d520 21
+a540 2
+UNEXPECTEDATTRIBUTENAME:
+  result = XMLErrorSemUnexpectedAttribute;
+d543 2
+a544 2
+UNEXPECTEDATTRIBUTEVALUE:
+  result = XMLErrorSemUnexpectedValue;
+d547 1
+a547 2
+UNEXPECTEDTEXT:
+  result = XMLErrorSemUnexpectedText;
+d549 37
+d587 2
+a588 3
+UNEXPECTEDWHITE:
+  result = XMLErrorSemUnexpectedWhite;
+  goto DONE;
+d590 18
+a607 3
+UNEXPECTEDCOMMENT:
+  result = XMLErrorSemUnexpectedComment;
+  goto DONE;
+d609 7
+a615 3
+UNEXPECTEDENTITY:
+  result = XMLErrorSemUnexpectedEntity;
+  goto DONE;
+d617 4
+a620 3
+UNEXPECTEDCDATA:
+  result = XMLErrorSemUnexpectedCDATA;
+  goto DONE;
+d622 3
+a624 2
+LASTCHILD:
+  result = XMLErrorCsrAtLastChild;
+d629 5
+a633 1
+    
+d636 4
+a641 1
+
+@
+
+
+1.8
+log
+@Skeleton parser passing through simple.xml OK without errors
+@
+text
+@a125 4
+    // If it's a DTD, skip it
+    if (m_token.error == XMLErrorSynDTDNotImplementedYet)
+      continue;
+        
+d155 6
+a160 1
+      
+@
+
+
+1.7
+log
+@Added TestXMLDocumentMem to test suite
+@
+text
+@d125 5
+a129 1
+    
+d139 1
+a139 1
+    case xmlsyn_TokenProcessingOpen:      
+d150 1
+a150 1
+    case xmlsyn_TokenProcessingClose:
+d153 1
+a153 1
+      if (m_state != State_InProcessing) goto UNEXPECTEDPIEND;
+d175 2
+a176 1
+      if (m_state != State_InElement) goto UNEXPECTEDENDELEMENT;
+d178 1
+a178 1
+      // Change state
+d312 2
+a313 2
+UNEXPECTEDPIEND:
+  result = XMLErrorSemUnexpectedEndOfPI;
+@
+
+
+1.6
+log
+@Added XMLElementPI for processing instructions
+@
+text
+@d251 1
+a251 1
+        result = m_string.UnlockFragment(m_fragoff);
+d266 1
+a266 1
+        result = m_string.LockFragment(m_fragoff,&m_frag,&m_fraglen);
+d350 4
+a353 1
+  
+@
+
+
+1.5
+log
+@Some bare bones in XMLParser::Walk
+@
+text
+@d39 6
+a44 4
+  m_string  = string;
+  m_frag    = NULL;
+  m_fragoff = 0;
+  m_fraglen = 0;
+d243 2
+a244 1
+          
+d246 31
+d279 2
+d347 4
+a350 1
+
+@
+
+
+1.4
+log
+@Added 'processing instruction' to lex/syn
+@
+text
+@d114 2
+a115 2
+  XMLError    result;
+  XMLSynToken token;
+d118 1
+d122 1
+a122 1
+    token = m_syntax.NextToken();
+d125 1
+a125 1
+    switch (token.type) {
+d132 22
+d157 20
+a176 3
+    // Have a new processing instruction
+    case xmlsyn_TokenProcessingOpen:      
+    case xmlsyn_TokenElementClose:         
+d178 7
+d186 6
+d193 50
+a242 6
+    case xmlsyn_TokenText:                 
+    case xmlsyn_TokenWhite:                
+    case xmlsyn_TokenEntity:               
+    case xmlsyn_TokenComment:              
+    case xmlsyn_TokenCDATA:                
+    case xmlsyn_TokenNeedMoreData:         
+d249 6
+a254 1
+    }    
+d267 45
+@
+
+
+1.3
+log
+@Added string and state to parser
+@
+text
+@d99 72
+@
+
+
+1.2
+log
+@Changed Iterate() to Walk(), ready to write parser
+@
+text
+@d38 10
+a47 2
+  // Initialise stack
+  m_string = string;
+a48 1
+  m_stack        = NULL;
+d61 5
+a65 1
+    
+@
+
+
+1.1
+log
+@Added XMLCursorParser and constructor registration functions
+@
+text
+@d58 30
+@
+

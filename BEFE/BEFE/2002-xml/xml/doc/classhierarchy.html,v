@@ -1,0 +1,549 @@
+head	1.5;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.5
+date	2002.10.21.07.11.15;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.19.23.06.38;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.19.05.49.54;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.18.06.32.25;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.12.09.59.38;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.5
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>XML Parser - Class Hierarchy</title>
+</head>
+
+<body bgcolor="#FFFFCC">
+
+<h1 align="center">Class Hierarchy</h1>
+<div align="center">
+  <center>
+  <table border="0" cellpadding="0" cellspacing="5">
+    <tr>
+      <td align="right"><b>bold</b></td>
+      <td>=</td>
+      <td>API</td>
+    </tr>
+    <tr>
+      <td align="right"><i>italic</i></td>
+      <td>=</td>
+      <td>Implementation/Specialisation</td>
+    </tr>
+    <tr>
+      <td align="right"><b><i>bold-italic</i></b></td>
+      <td>=</td>
+      <td>API + Implementation</td>
+    </tr>
+    <tr>
+      <td align="right">plain</td>
+      <td>=</td>
+      <td>Worker</td>
+    </tr>
+  </table>
+  </center>
+</div>
+<p>&nbsp;</p>
+<div align="center">
+  <center>
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td colspan="6" valign="bottom">XMLLex</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Lexical Analyser</td>
+    </tr>
+    <tr>
+      <td colspan="6" valign="bottom">XMLLexToken</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Lexical Token</td>
+    </tr>
+    <tr>
+      <td colspan="6" valign="bottom">XMLObject</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Heap-aware object base</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom"><b>XMLCursor</b></td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Cursor for browsing structured documents</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="4" valign="bottom"><i>XMLCursorBase</i></td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Base XMLCursor functionality</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="3" valign="bottom">XMLCursorParser</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Constructing cursor</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom"><b>XMLDocument</b></td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Structured document</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="4" valign="bottom"><i>XMLDocumentBase</i></td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Base XMLDocument functionality</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="3" valign="bottom">XMLDocumentMem</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">In-memory implementation of structured document</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom"><b><i>XMLElement</i></b></td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Base XMLElement functionality</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td valign="bottom" colspan="4">XMLElementMem</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">In-memory element of structured document</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td valign="bottom" colspan="3">XMLElementParent</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">XMLElement with contents</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom" colspan="2"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td valign="bottom">XMLElementComplex</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">XMLElement for Complex/simple contents (type mutable)</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom" colspan="2"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td valign="bottom">XMLElementPCDATA</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Parsed character data (contents are text,entities,
+        CDATA, etc.)</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td valign="bottom" colspan="3">XMLElementText</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Text string</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom" colspan="2"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td valign="bottom">XMLElementPI</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Processing instructions (text string with name)</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom">XMLIOBuffer</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Buffer for holding parts of an XML IO stream</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom">XMLIOManager</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">IO Manager (owns buffers and streams)</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom"><b><i>XMLString</i></b></td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">General fragment based string</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="4" valign="bottom">XMLStringHashed</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">String with retained hash value</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="3" valign="bottom">XMLIOString</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">String based somewhere in an IO stream (offset,
+        length)</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="3" valign="bottom">XMLIOStream</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">IO stream (can be treated as a string)</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom" colspan="2"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td valign="bottom">XMLIOStreamBuf</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Buffered IO stream</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom" colspan="2"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td valign="bottom">XMLIOStreamCon</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Console device (stdin, stdout, stderr) stream, not
+        rewindable</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="3" valign="bottom">XMLStringConst</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">(const char *) based string</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom">XMLStringHash</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">String hash table</td>
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="5" valign="bottom">XMLStringHashEntry</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Entry in string hash table (points to string)</td>
+    </tr>
+    <tr>
+      <td valign="bottom" colspan="6">XMLSyn</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Syntax analyser</td>
+    </tr>
+    <tr>
+      <td valign="bottom" colspan="6">XMLSynToken</td>
+      <td valign="bottom" width="15"></td>
+      <td valign="bottom">Syntax token</td>
+    </tr>
+  </table>
+  </center>
+</div>
+<p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+<p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+<p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+<p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+<p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+<blockquote>
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <blockquote>
+    <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+    <blockquote>
+      <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+      <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+      <blockquote>
+        <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+        <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+      </blockquote>
+      <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+      <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+    </blockquote>
+  </blockquote>
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+  <p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+
+</blockquote>
+
+</body>
+
+</html>
+@
+
+
+1.4
+log
+@Completely loads and parses big.xml!
+@
+text
+@d45 1
+a45 1
+      <td colspan="5" valign="bottom">XMLLex</td>
+d50 1
+a50 1
+      <td colspan="5" valign="bottom">XMLLexToken</td>
+d55 1
+a55 1
+      <td colspan="5" valign="bottom">XMLObject</td>
+d61 1
+a61 1
+      <td colspan="4" valign="bottom"><b>XMLCursor</b></td>
+d68 1
+a68 1
+      <td colspan="3" valign="bottom"><i>XMLCursorBase</i></td>
+d76 1
+a76 1
+      <td colspan="2" valign="bottom">XMLCursorParser</td>
+d82 1
+a82 1
+      <td colspan="4" valign="bottom"><b><i>XMLDocument</i></b></td>
+d89 8
+d103 1
+a103 1
+      <td colspan="4" valign="bottom"><b><i>XMLElement</i></b></td>
+d110 1
+a110 1
+      <td valign="bottom" colspan="3">XMLElementMem</td>
+d118 1
+a118 1
+      <td valign="bottom" colspan="2">XMLElementParent</td>
+d126 1
+a126 1
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+d135 1
+a135 1
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+d145 1
+a145 1
+      <td valign="bottom" colspan="2">XMLElementText</td>
+d153 1
+a153 1
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+d160 1
+a160 1
+      <td colspan="4" valign="bottom">XMLIOBuffer</td>
+d166 1
+a166 1
+      <td colspan="4" valign="bottom">XMLIOManager</td>
+d172 1
+a172 1
+      <td colspan="4" valign="bottom"><b><i>XMLString</i></b></td>
+d179 1
+a179 1
+      <td colspan="3" valign="bottom">XMLStringHashed</td>
+d187 1
+a187 1
+      <td colspan="2" valign="bottom">XMLIOString</td>
+d196 1
+a196 1
+      <td colspan="2" valign="bottom">XMLIOStream</td>
+d204 1
+a204 1
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+d213 1
+a213 1
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+d223 1
+a223 1
+      <td colspan="2" valign="bottom">XMLStringConst</td>
+d229 1
+a229 1
+      <td colspan="4" valign="bottom">XMLStringHash</td>
+d235 1
+a235 1
+      <td colspan="4" valign="bottom">XMLStringHashEntry</td>
+d240 1
+a240 1
+      <td valign="bottom" colspan="5">XMLSyn</td>
+d245 1
+a245 1
+      <td valign="bottom" colspan="5">XMLSynToken</td>
+@
+
+
+1.3
+log
+@More hierarchy documentation
+@
+text
+@d173 1
+a173 1
+      <td valign="bottom">String which retains its hash</td>
+@
+
+
+1.2
+log
+@Class hierarchi format changes
+@
+text
+@d14 26
+d46 2
+d51 2
+d55 3
+a57 1
+      <td colspan="5" valign="bottom">XMLSyn</td>
+d60 4
+a63 1
+      <td colspan="5" valign="bottom">XMLSynToken</td>
+d66 5
+a70 1
+      <td colspan="5" valign="bottom">XMLObject</td>
+d73 6
+a78 2
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="4" valign="bottom">XMLAttribute</td>
+d82 3
+a84 1
+      <td colspan="4" valign="bottom">XMLAttributeMem</td>
+d87 5
+a91 2
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="4" valign="bottom">XMLCursor</td>
+d95 3
+a97 1
+      <td colspan="4" valign="bottom">XMLDocument</td>
+d102 3
+a104 1
+      <td colspan="3" valign="bottom">XMLDocumentMem</td>
+d107 2
+d110 3
+a112 1
+      <td colspan="4" valign="bottom">XMLElement</td>
+d115 3
+d119 3
+a121 1
+      <td colspan="4" valign="bottom">XMLElementMem</td>
+d124 25
+a148 2
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="4" valign="bottom">XMLIOBuffer</td>
+d152 3
+a154 1
+      <td colspan="4" valign="bottom">XMLIOManager</td>
+d159 2
+d164 3
+a166 1
+      <td colspan="4" valign="bottom">XMLString</td>
+d172 2
+d180 3
+d189 2
+d198 2
+d207 3
+d214 1
+a214 1
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+d216 2
+a217 6
+    </tr>
+    <tr>
+      <td valign="bottom"><img border="0" src="hierdownonly.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+      <td valign="bottom"><img border="0" src="hierbot.gif" width="21" height="21"></td>
+      <td colspan="2" valign="bottom">XMLStringHashed</td>
+d222 2
+d228 12
+@
+
+
+1.1
+log
+@Started on HTML documentation
+@
+text
+@d50 3
+a52 2
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td colspan="4" valign="bottom">XMLDocumentMem</td>
+d98 1
+a99 1
+      <td valign="bottom"></td>
+d105 2
+a106 2
+      <td valign="bottom"><img border="0" src="hierdown.gif" width="21" height="21"></td>
+      <td valign="bottom"></td>
+@
+

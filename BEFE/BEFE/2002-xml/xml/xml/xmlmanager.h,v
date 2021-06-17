@@ -1,0 +1,225 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.7
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.11.03.08.24.57;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.11.01.06.16.24;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.24.05.28.24;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.22.07.09.02;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlmanager.h - Definitions for the XMLManagerImp class
+  
+  DESCRIPTION
+    
+    This file contains the definitions for real implementation of the
+    XML manager.  The XMLManager declared in xml.h simply defers it's
+    operations to an instance of the XMLManagerImp class.  
+    
+    We did this to hide the internals from the API.
+*/
+
+#ifndef _xmlmanager_h
+
+#define _xmlmanager_h
+
+#include "xml.h"
+#include "xmlio.h"
+
+// External classes
+class XMLDocumentBase;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLManagerBase - XML Document Manager and Factory implementation
+//
+// DESCRIPTION
+//
+//  This class manages XML Documents and creates XML objects for the caller.
+//
+
+class XMLManagerBase : public XMLManager {
+
+  friend class XMLDocumentBase;
+  
+  //
+  // Public member functions
+  //
+public:
+  
+  // Constructors/destructors
+  XMLManagerBase();
+  virtual ~XMLManagerBase();
+
+  // IO Statistics
+  virtual void GetIOStatistics(XMLIOStatistics *stats);
+  
+  // XML Document factories
+  virtual XMLError CreateEmpty(XMLDocument **thedoc);
+  
+  // XML Document loading
+  virtual XMLError Load(char *url, XMLDocument **thedoc, XML::FileType type = XML::FileTypeXML);
+  virtual XMLError Load(XMLString *url, XMLDocument **thedoc, XML::FileType type = XML::FileTypeXML);
+  
+  // XML Document saving
+  virtual XMLError Save(XMLDocument *thedoc, char *url, int compiled = 0);
+  virtual XMLError Save(XMLDocument *thedoc, XMLString *url, int compiled = 0);
+  
+  // XML Strings
+  virtual XMLError NewString(XMLString **string, const char *staticstring);
+  virtual XMLError NewString(XMLString **string, char *createfrom, int len);
+  
+  // Tuning
+  virtual XMLError SetOptimalNodes(int optimalnodes);
+
+  //
+  // Protected member functions
+  //
+protected:
+
+  // Document chain management
+  XMLError ManageDocument(XMLDocumentBase *doc);
+  XMLError UnmanageDocument(XMLDocumentBase *doc);
+    
+  //
+  // Protected members
+  //
+protected:
+
+  // Optimal nodes
+  int              m_optimalnodes;
+
+  // Documents chain
+  int              m_numdocs;
+  XMLDocumentBase *m_firstdoc;
+  XMLDocumentBase *m_lastdoc;
+  
+  // IO Manager
+  XMLIOManager    *m_iomanager;
+  
+};
+  
+#endif // _xmlmanager_h
+@
+
+
+1.6
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@d40 1
+a40 1
+  friend XMLDocumentBase;
+@
+
+
+1.5
+log
+@Added 'compiled' option to manager load, added read test to txml
+@
+text
+@d58 2
+a59 2
+  virtual XMLError Load(char *url, XMLDocument **thedoc, int compiled = 0);
+  virtual XMLError Load(XMLString *url, XMLDocument **thedoc, int compiled = 0);
+@
+
+
+1.4
+log
+@Text writer working, don't like speed though
+@
+text
+@d58 2
+a59 2
+  virtual XMLError Load(char *url, XMLDocument **thedoc);
+  virtual XMLError Load(XMLString *url, XMLDocument **thedoc);
+@
+
+
+1.3
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d58 2
+a59 2
+  virtual XMLError LoadFrom(char *url, XMLDocument **thedoc);
+  virtual XMLError LoadFrom(XMLString *url, XMLDocument **thedoc);
+d62 2
+a63 4
+  virtual XMLError Save(XMLDocument *thedoc, char *url);
+  virtual XMLError Save(XMLDocument *thedoc, XMLString *url);
+  virtual XMLError SaveCompiled(XMLDocument *thedoc, char *url);
+  virtual XMLError SaveCompiled(XMLDocument *thedoc, XMLString *url);
+@
+
+
+1.2
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d56 2
+d60 6
+@
+
+
+1.1
+log
+@Implemented XMLManager
+@
+text
+@d51 3
+@
+

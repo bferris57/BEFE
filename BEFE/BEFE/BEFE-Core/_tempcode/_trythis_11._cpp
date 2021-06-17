@@ -1,0 +1,88 @@
+#include "BEFE.h"
+#include "Win32.h"
+#include "oci.h"
+
+namespace BEF_NS {
+
+void *oraMalloc(Befe *befe, UInt size) {
+  Byte *mem;
+  mem = Malloc(Min(size,16));
+  if (mem)
+    MemoryZeroRaw(mem,size);
+  return mem;
+}
+
+void *oraRealloc(Befe *befe, void *buf, UInt size) {
+  WARN("oraRealloc not implemented yet");
+  return NULL;
+}
+
+void oraFree(Befe *befe, void *buf) {
+  WARN("oraFree not implemented yet");
+  return;
+}
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+Status trythis() {
+
+  UInt       fg;
+  Int        ocistat;
+  OCIEnv    *ociEnv;
+  Byte      *userMem;
+  OCIError  *ociErr;
+  OCISvcCtx *svcCtx;
+  Byte       errMsg[256];
+ 
+  // Allocate the OCI Environment
+  ociEnv  = NULL;
+  userMem = NULL;
+  /*
+  ocistat = OCIEnvCreate  ( &ociEnv, 
+                            OCI_NO_UCB, 
+                            (void *)TheBefe,             //const void   *ctxp, 
+                            (void* (*)(void*, size_t))&oraMalloc,
+                            (void* (*)(void*, void*, size_t))&oraRealloc,
+                            (void (*)(void*, void*))&oraFree,
+                            0,
+                            NULL);
+  */
+  ocistat = OCIEnvCreate  ( &ociEnv, 
+                            OCI_NO_UCB, 
+                            NULL,             //const void   *ctxp, 
+                            NULL,
+                            NULL,
+                            NULL,
+                            0,
+                            NULL);
+  
+  // Allocate an OCI Handles
+  userMem = NULL;
+  ociErr  = NULL;
+  svcCtx  = NULL;
+  ocistat = OCIHandleAlloc ( ociEnv, (void **)&ociErr, OCI_HTYPE_ERROR,  0, NULL);
+  ocistat = OCIHandleAlloc ( ociEnv, (void **)&svcCtx, OCI_HTYPE_SVCCTX, 0, NULL);
+
+  // Try logging on
+  ocistat = OCILogon(ociEnv, 
+                     ociErr,
+                     &svcCtx,
+                     (OraText *)"befe", 4,
+                     (OraText *)"befe", 4,
+                     (OraText *)"BEFE", 4);
+  if (ocistat) {
+     OCIErrorGet(ociErr, (ub4) 1, (text *) NULL, &ocistat, errMsg, sizeof(errMsg), OCI_HTYPE_ERROR);
+     Cout << (char const *)errMsg << '\n';
+  }
+    
+  ocistat = OCILogoff(svcCtx, (OCIError *)&ociErr);
+  ocistat = OCITerminate(OCI_DEFAULT);
+  
+  return Error::None;  
+}
+
+}; // Namespace BEF_NS

@@ -1,0 +1,106 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.4
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.12.16.24.31;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.04.17.35.44;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.29.18.34.50;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    miscellaneous.h - Definitions for miscellaneous functions
+  
+  DESCRIPTION
+    
+    This file contains the definitions for commonly used but uncatagorised
+    functions.
+    
+*/
+
+#ifndef _miscellaneous_h
+
+#define _miscellaneous_h
+
+// Compute next prime after a number
+int NextPrime(int seed);
+
+// CRC32 generation
+void crc32init(void);
+unsigned long crc32(char *buf, int bufl, unsigned long seed = 0xffffffffl);
+
+// Integer -> ascii
+void itoa(int theint, char *buf, int bufmaxl);
+
+// Commonly used macros
+#ifndef MIN
+#  define MIN(a,b) ( ((a)<=(b))?(a):(b) )
+#endif
+#ifndef MAX
+#  define MAX(a,b) ( ((a)<=(b))?(b):(a) )
+#endif
+#ifndef ABS
+#  define ABS(a)   ( ((a)<0) ? (-a):(a) )
+#endif
+
+#endif // _miscellaneous_h
+@
+
+
+1.3
+log
+@Removed xmlbase.h and finalised doc/elem/cursor
+@
+text
+@d26 3
+@
+
+
+1.2
+log
+@Added CRC32 algorithm to compute string hash
+@
+text
+@d26 11
+@
+
+
+1.1
+log
+@More XMLIOStreamBUF work - ...::Read not finished
+@
+text
+@d22 4
+@
+

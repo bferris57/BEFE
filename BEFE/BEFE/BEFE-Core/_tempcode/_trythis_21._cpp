@@ -1,0 +1,254 @@
+//!befe-publish src
+//----------------------------------------------------------------------
+// File: trythis.cpp - Transient test code
+//----------------------------------------------------------------------
+//
+// The trythis() function is a general purpose 'whipping boy' for
+// use during BEFE development.  It is hooked into the Unit Tests
+// with the TestType::TryThis type and into the BEFE Command Shell
+// as the 't' or 'TryThis' test to invoke it from the command line.
+//
+// So, the following command line should invoke this function...
+//
+//   befe +tests trythis
+//
+//     or
+//
+//   befe +tests t
+//
+// Typically, it contains the latest things we're trying or the
+// beginnings of test code that will eventually end up in a Unit Test
+// in the future.
+//
+// We've provided it here in the delivered examples so you can
+// plug your own stuff into the Unit Tests and try them from
+// "inside BEFE" instead of "outside BEFE".
+//
+// Note: The comments in trythis() can be uncommented if the body
+//       is empty.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011-2012, Bruce Ferris (UK) Email: befe@bferris.co.uk
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "BEFEMacros.h"
+#include "BEFEWrappers.h"
+#include "LexFormat.h"
+#include "MatchNode.h"
+#include "UTF8.h"
+
+namespace BEFE { // Namespace BEFE...
+
+// Forward function prototypes
+Status BuildVarTerm(String const &var, MatchNodes &tree);
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+
+Status trythis() {
+
+  Status       status;
+  LexFormatOut lex;
+  MatchNodes   tree;
+  MatchNode    nodes[32];
+
+  lex.indentCols = 2;
+  
+  Cout << "trythis: sizeof(MatchNode) = " << sizeof(MatchNode) << '\n';
+  Cout << "trythis: sizeof(nodes)     = " << sizeof(nodes) << '\n';
+  status = tree.SetStorage(*(MatchNode *)nodes, sizeof(nodes)/sizeof(MatchNode));
+  if (status) goto SOMEERROR;
+
+  // Build equivalent nodes for VarTerm "E[xit]", insensitive...
+  status = BuildVarTerm(String("E[xit][P[lease]]").Insensitive(), tree);
+  if (status) goto SOMEERROR;
+  //status = tree.FindRoot();
+  //if (status) goto SOMEERROR;
+
+  // Display the Nodes...  
+  status = lex.DisplayMatchNodes(tree);
+  if (status) goto SOMEERROR;
+  
+  // Handle errors
+  while (false) {
+    SOMEERROR: break;
+  }
+  
+  return status;
+  
+}
+
+//----------------------------------------------------------------------
+//
+// BuildVarTerm - Build a VerTerm MatchNode Tree
+//
+
+Status BuildVarTerm(String const &var, MatchNodes &tree) {
+  
+  Status    status;
+  MatchNode node;
+  UInt      i;
+  UInt      numChars;
+  Char      c;
+  UInt      numLeafChars;
+  UInt      charIndex;
+  UInt      numStructNodes;
+  UInt      level;
+  UInt      prevLevel;
+  UInt      maxLevel;
+  
+  status = tree.SetEmpty();
+  if (status) goto SOMEERROR;
+  numChars = var.Length();
+  if (numChars == 0) goto OK;
+  numLeafChars = 0;
+  
+  //
+  // First pass, build the leafChars, and determine maxLevel...
+  //
+  // Note: We populate node[i].res1 with the VarTerm level (or depth)
+  //       for leafChar "i"
+  //
+  
+  level    = 0;
+  maxLevel = 0;
+  
+  for (i=0; i < numChars; i++) { // For each character...
+
+    c = var.Get(i);
+    status = node.Reset();
+    if (status) goto SOMEERROR;
+
+    if (c == '[') {
+      level++;
+      maxLevel = Max(maxLevel, level);
+      continue;
+    }
+    else if (c == ']') {
+      if (level == 0) goto UNSTARTED;
+      level--;
+      continue;
+    }
+      
+    if (var.IsSensitive()) {
+      node.type = MatchNode::TypeChar;
+      node.span.idx1 = c;
+      node.occurs.min = 1;
+      node.occurs.max = 1;
+    }
+
+    else {
+      node.type = MatchNode::TypeCharEither;
+      status = UTF8::UnfoldSimple(c,c);
+      if (status) goto SOMEERROR;
+      node.span.idx1 = c;
+      status = UTF8::FoldSimple(c,c);
+      if (status) goto SOMEERROR;
+      node.span.idx2 = c;
+      node.occurs.min = 1;
+      node.occurs.max = 1;
+    }
+  
+    node.res1 = level;
+
+    status = tree.Append(node);
+    if (status) goto SOMEERROR;
+    numLeafChars++;
+    
+  } // ...for each character
+  
+  // Make sure all terms are finished
+  if (level != 0) goto UNFINISHED;
+  
+  //
+  // Second pass, build a MatchNode for each level...
+  //
+  // Note: We use node.res1 in the structured MatchNodes to as a
+  //       stack to store the starting leafChar index for level TOS,
+  //       where TOS is the level.
+  //
+  
+  prevLevel = 0;
+  numStructNodes = 0;
+  
+  // Build first one (top of stack)...
+  status = node.Reset();
+  if (status) goto SOMEERROR;
+  node.type = MatchNode::TypeAnd;
+  node.span.idx1 = 0;
+  node.span.idx2 = UInt32NaN;
+  node.occurs.min = 1;
+  node.occurs.max = 1;
+  node.res1 = 0;
+  status = tree.Append(node);
+  if (status) goto SOMEERROR;
+  numStructNodes++;
+  
+  // For each leaf Char
+  charIndex = 0;
+  for (i=0; i < numChars; i++) { // For each leaf Char...
+  
+    c = var.Get(i);
+    
+    // If it's a non-structural character...
+    if (c != '[' && c != ']') {
+      charIndex++;
+      continue;
+    }
+    
+    // If this is a higher level...
+    if (c == '[') {
+      
+      level++;
+      
+      // Terminate previous Structured Node
+      tree.nodes[numLeafChars+prevLevel].span.idx2 = charIndex;
+      
+      // Push new level on stack
+      status = node.Reset();
+      if (status) goto SOMEERROR;
+      node.type = MatchNode::TypeSeq;
+      node.span.idx1 = charIndex;
+      node.span.idx2 = UInt32NaN;
+      node.occurs.min = 0;
+      node.occurs.max = 1;
+      node.res1 = charIndex;
+      status = tree.Append(node);
+      if (status) goto SOMEERROR;
+      numStructNodes++;
+      
+    }
+    
+    // Else, lower level, terminate previous level's structured MatchNode...
+    else {
+      tree.nodes[numLeafChars+prevLevel].span.idx2 = charIndex;
+    }
+    
+  } // ...For each leaf Char
+  
+  // Terminate top level
+  if (numStructNodes == 0) goto INTERNAL;
+  tree.nodes[numLeafChars+numStructNodes-1].span.idx2 = numLeafChars;
+  
+  //
+  // Finally, form the root structured MatchNode...
+  //
+  
+  // Handle errors
+  while (false) {
+    OK:         status = Error::None;                  break;
+    UNSTARTED:  status = Error::VarTermUnstartedTerm;  break;
+    UNFINISHED: status = Error::VarTermUnfinishedTerm; break;
+    INTERNAL:   status = Error::Internal;              break;
+    SOMEERROR:                                         break;
+  }
+  
+  return status;
+  
+}
+
+} // Namespace BEFE

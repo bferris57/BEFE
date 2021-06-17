@@ -1,0 +1,116 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.3
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.28.08.35.35;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.26.05.53.18;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlheap.h - Definitions for the XML heap objects
+  
+  DESCRIPTION
+    
+    This file contains the definitions for the XML heap objects.  These
+    are containers and wrappers for all XML objects.
+
+    The basic class is XMLObject.  This is a simple wrapper object that
+    currently doesn't do anything other than keep track of heap statistics.    
+  NOTES
+*/
+
+#ifndef _xmlheap_h
+
+#define _xmlheap_h
+
+#include "xml.h"
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLHeap - The XML heap manager
+//
+// DESCRIPTION
+//
+//  This class manages all XML memory
+//
+ 
+class XMLHeap {
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  XMLHeap();
+  ~XMLHeap();
+  // Memory allocation, freeing, etc.
+  static XMLError Allocate(int numbytes, byte **memory);
+  static XMLError Free(byte *memory);
+};
+
+#endif //_xmlheap_h
+@
+
+
+1.2
+log
+@More work on IO manager
+@
+text
+@d47 1
+a47 1
+#endif _xmlheap_h
+@
+
+
+1.1
+log
+@Added xmlheap.h and xmlio.h
+@
+text
+@d21 2
+d27 1
+a27 1
+//  XMLString - A general string
+d31 1
+a31 1
+//  This class represents a single XML string.  
+d34 1
+a34 1
+class XMLObject {
+d40 5
+a44 2
+  XMLObject();
+  ~XMLObject();
+a45 1
+
+@
+

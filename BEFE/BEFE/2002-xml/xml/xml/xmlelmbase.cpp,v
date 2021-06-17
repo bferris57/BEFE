@@ -1,0 +1,534 @@
+head	1.6;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.6
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.23.13.05.44;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.23.07.42.42;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.21.12.05.00;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.6
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmlelmbase.cpp - Implementation of the XMLElementBase class
+  DESCRIPTION
+    This file contains the default implementation for all XML Elements.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmlelmbase.h"
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementBase::XMLElementBase       - Constructor
+//  XMLElementBase::~XMLElementBase      - Destructor
+//  XMLElementBase::GetClass             - Get the element's class
+//  XMLElementBase::SetClass             - Set the element's class
+//  XMLElementBase::IsMutable            - "Is this element mutable?"
+//  XMLElementBase::GetValidity          - Get the element's validity
+//  XMLElementBase::SetValidity          - Set the element's validity
+//  XMLElementBase::GetType              - Get the element's type
+//  XMLElementBase::SetType              - Set the element's type
+//  XMLElementBase::EqualsType           - Does element's type equal string contents?
+//  XMLElementBase::GetNAttributes       - Get number of attributes
+//  XMLElementBase::GetAttribute         - Get attribute name & value tokens
+//  XMLElementBase::FindAttribute        - Find an attribute
+//  XMLElementBase::CreateAttribute      - Create an attribute
+//  XMLElementBase::DeleteAttribute      - Delete given attribute
+//  XMLElementBase::DeleteAttributes     - Delete all attributes
+//  XMLElementBase::GetValue             - Get the element's value
+//  XMLElementBase::SetValue             - Set the element's value
+//  XMLElementBase::FirstChild           - Get first child element
+//  XMLElementBase::NextSibling          - Get next sibling
+//  XMLElementBase::EventRemoved         - Event: Removed from document
+//  XMLElementBase::EventParented        - Event: You've been parented
+//  XMLElementBase::EventChangedSiblings - Event: You're siblings have changed
+//  XMLElementBase::EventAddedChild      - Event: You've got a new child
+//  XMLElementBase::EventRemovedChild    - Event: A child has been removed
+//  XMLElementBase::GetLocation          - Get the element's location
+//  XMLElementBase::SetLocation          - Set the element's location
+//  XMLElementBase::ReleaseToken         - Release a token reference
+//
+// DESCRIPTION
+//
+//  These functions provide the default behaviour for all XMLElements.
+//
+// NOTE
+//
+//  The default implementation of XMLElementBase assumes the element is not
+//  mutable and has no children.
+//
+//  It also assumes the implementation does not care about structure
+//  change events except for sibling relationships.
+//
+
+XMLElementBase::XMLElementBase(XML::Class eclass) {
+
+  // Element chain
+  m_prevsibling = NULL;
+  m_nextsibling = NULL;
+  
+  // Element info
+  m_class     = eclass;
+  m_validity = XML::ValidityUnknown;  
+  
+}
+
+XMLElementBase::~XMLElementBase() {
+
+  // Remove from chain if in it
+  if (m_nextsibling)
+    m_nextsibling->m_prevsibling = m_prevsibling;
+  if (m_prevsibling)
+    m_prevsibling->m_nextsibling = m_nextsibling;
+    
+}
+
+XML::Class XMLElementBase::GetClass(void) {
+  return m_class;
+}
+
+XMLError XMLElementBase::SetClass(XML::Class eclass) {
+
+  // Sanity checks
+  if (eclass < XML::ClassUnknown || eclass >= XML::ClassMAX)
+    return XMLErrorInvalidParameters;
+    
+  return XMLErrorXMLNotMutable;
+}
+
+int XMLElementBase::IsMutable(void) {
+  return 0;
+}
+    
+XML::Validity XMLElementBase::GetValidity(void) {
+  
+  return m_validity;
+}
+
+XMLError XMLElementBase::SetValidity(XML::Validity validity) {
+
+  // Sanity checks
+  if (validity < XML::ValidityUnknown || validity >= XML::ValidityMAX)
+    return XMLErrorInvalidParameters;
+  
+  // Set it
+  m_validity = validity;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementBase::GetType(XMLToken *type) {
+
+  *type = XMLTOKENNONE;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::SetType(XMLToken type) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLElementBase::GetNAttributes(int *numattributes) {
+
+  if (numattributes == NULL)
+    return XMLErrorInvalidParameters;
+  
+  *numattributes = 0;
+  
+  return XMLErrorNone;
+  
+}
+
+XMLError XMLElementBase::GetAttribute(int attrno, XMLToken *name, XMLToken *value) {
+
+  if (attrno < 0 || name == NULL || value == NULL)
+    return XMLErrorInvalidParameters;
+ 
+  *name  = 0;
+  *value = 0;
+     
+  return XMLErrorNone;
+}
+  
+#pragma argsused
+
+XMLError XMLElementBase::FindAttribute(XMLToken name, XMLToken *value) {
+
+  if (value == NULL)
+    return XMLErrorInvalidParameters;
+    
+  *value = 0;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::CreateAttribute(XMLToken name, XMLToken value) {
+
+  return XMLErrorXMLNotMutable;  
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::DeleteAttribute(XMLToken name) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLElementBase::DeleteAttributes(void) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+XMLError XMLElementBase::GetValue(XMLToken *value) {
+
+  *value = XMLTOKENNONE;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::SetValue(XMLToken value) {
+
+  return XMLErrorXMLNotMutable;  
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::FirstChild(XMLElementBase **child) {
+  // Sanity checks
+  if (child == NULL)
+    return XMLErrorInvalidParameters;
+  
+  // Assume we have no children (specialisations will implement them if required)  
+  *child = NULL;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementBase::NextSibling(XMLElementBase **sibling) {
+
+  // Sanity checks
+  if (sibling == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Return it
+  *sibling = m_nextsibling;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementBase::EventRemoved() {
+
+  // Clear our siblings
+  m_nextsibling = NULL;
+  m_prevsibling = NULL;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::EventPrepareToDie(XMLDocument *doc) {
+
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::EventParented(XMLElementBase *parent) {
+  return XMLErrorNone;
+}
+
+XMLError XMLElementBase::EventChangedNextSibling(XMLElementBase *nextsibling) {
+
+  // Set sibling
+  m_nextsibling = nextsibling;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementBase::EventChangedPreviousSibling(XMLElementBase *prevsibling) {
+
+  // Set sibling
+  m_prevsibling = prevsibling;
+  
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::EventAddedChild(XMLElementBase *child) {
+  return XMLErrorNone;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::EventRemovedChild(XMLElementBase *child) {
+  return XMLErrorNone;
+}
+
+XMLError XMLElementBase::GetLocation(XMLLocation *location) {
+
+  // Sanity checks
+  if (location == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Set it
+  location->Unknown();
+
+  return XMLErrorNone;    
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::SetLocation(const XMLLocation &location) {
+  return XMLErrorNone;
+}
+
+XMLError XMLElementBase::ReleaseToken(XMLDocumentBase *doc, XMLToken *token) {
+
+  XMLError result;
+  
+  if (*token != XMLTOKENNONE) {
+    result = doc->RemoveToken(*token);
+    if (result)
+      return result;
+    *token = XMLTOKENNONE;
+  }
+  
+  return XMLErrorNone;
+}
+
+
+@
+
+
+1.5
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d161 1
+a161 1
+  *value = NULL;
+@
+
+
+1.4
+log
+@All tokenised, ready to test
+@
+text
+@d31 1
+d143 11
+@
+
+
+1.3
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d46 1
+a46 3
+//  XMLElementBase::OwnedSetTYpe         - Set element's type with owned string
+//  XMLElementBase::OwnedCreateAttribute - Create attribute with owned strings
+//  XMLElementBase::OwnedSetValue        - Set element's value with owned string
+d117 1
+a117 1
+XMLError XMLElementBase::GetType(XMLString **type) {
+d119 1
+a119 3
+  if (type == NULL)
+    return XMLErrorInvalidParameters;
+  *type = NULL;
+d126 1
+a126 1
+XMLError XMLElementBase::SetType(XMLString *type) {
+a130 10
+XMLError XMLElementBase::EqualsType(XMLString *string, int *equals) {
+
+  if (equals == NULL || string == NULL)
+    return XMLErrorInvalidParameters;
+    
+  *equals = 0;
+
+  return XMLErrorNone;
+}
+
+d142 1
+a142 1
+XMLError XMLElementBase::FindAttribute(XMLString *name, XMLString **value) {
+d144 3
+a146 1
+  if (name == NULL || value == NULL)
+d156 1
+a156 1
+XMLError XMLElementBase::CreateAttribute(XMLString *name, XMLString *value) {
+a157 3
+  if (name == NULL)
+    return XMLErrorInvalidParameters;
+    
+d161 3
+a163 1
+XMLError XMLElementBase::DeleteAttribute(XMLString *name) {
+a164 3
+  if (name == NULL)
+    return XMLErrorInvalidParameters;
+    
+d173 1
+a173 1
+XMLError XMLElementBase::GetValue(XMLString **value) {
+d175 1
+a175 4
+  if (value == NULL)
+    return XMLErrorInvalidParameters;
+    
+  *value = NULL;
+d182 1
+a182 1
+XMLError XMLElementBase::SetValue(XMLString *value) {
+d223 7
+d280 1
+a280 1
+#pragma argsused
+d282 10
+a291 3
+XMLError XMLElementBase::OwnedSetType(XMLString *type) {
+
+  return XMLErrorXMLNotMutable;
+a293 14
+#pragma argsused
+
+XMLError XMLElementBase::OwnedCreateAttribute(XMLString *name, XMLString *value) {
+
+  return XMLErrorXMLNotMutable;
+}
+
+#pragma argsused
+
+XMLError XMLElementBase::OwnedSetValue(XMLString *value) {
+
+  return XMLErrorXMLNotMutable;
+}
+ 
+@
+
+
+1.2
+log
+@Worked on Cursor::GetURI, fixed GetName() not returning copy
+@
+text
+@d20 4
+a23 4
+//  XMLElementBase::XMLElementBase           - Constructor
+//  XMLElementBase::~XMLElementBase          - Destructor
+//  XMLElementBase::GetType              - Get the element's type
+//  XMLElementBase::SetType              - Set the element's type
+d27 3
+a29 3
+//  XMLElementBase::GetName              - Get the element's name
+//  XMLElementBase::SetName              - Set the element's name
+//  XMLElementBase::EqualsName           - Does element's name equal string contents?
+d46 1
+a46 1
+//  XMLElementBase::OwnedSetName         - Set element's name with owned string
+d63 1
+a63 1
+XMLElementBase::XMLElementBase(XML::Type type) {
+d70 1
+a70 1
+  m_type     = type;
+d85 2
+a86 2
+XML::Type XMLElementBase::GetType(void) {
+  return m_type;
+d89 1
+a89 1
+XMLError XMLElementBase::SetType(XML::Type type) {
+d92 1
+a92 1
+  if (type < XML::TypeUnknown || type >= XML::TypeMAX)
+d119 1
+a119 1
+XMLError XMLElementBase::GetName(XMLString **name) {
+d121 1
+a121 1
+  if (name == NULL)
+d123 1
+a123 1
+  *name = NULL;
+d130 1
+a130 1
+XMLError XMLElementBase::SetName(XMLString *name) {
+d135 1
+a135 1
+XMLError XMLElementBase::EqualsName(XMLString *string, int *equals) {
+d294 1
+a294 1
+XMLError XMLElementBase::OwnedSetName(XMLString *name) {
+@
+
+
+1.1
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@d123 1
+a123 1
+  *name == NULL;
+@
+

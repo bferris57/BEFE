@@ -1,0 +1,32 @@
+File "befe.bnf\BEFE-BNF.bnf"...
+anonymise: occurs = 0..
+Rules: <action>     : AND (0:) NAME
+Rules: <equals>     : AND (1:1) OPERATOR."="
+Rules: <signed>     : OR (1:1) "\u00b1" _anon_1
+Rules: <white>      : AND (1:1) WHITE
+Rules: ACTION       : TYPE (1:1) 
+Rules: COMMENT      : TYPE (1:1) 
+Rules: DQUOTE       : TYPE (1:1) 
+Rules: EOF          : TYPE (1:1) 
+Rules: EOL          : TYPE (1:1) 
+Rules: HEX          : TYPE (1:1) 
+Rules: INT          : TYPE (1:1) 
+Rules: NAME         : TYPE (1:1) 
+Rules: OPERATOR     : TYPE (1:1) 
+Rules: OPERATOR."=" : TOKEN (1:1) "="
+Rules: QNAME        : TYPE (1:1) 
+Rules: RANGE        : TYPE (1:1) 
+Rules: SQUOTE       : TYPE (1:1) 
+Rules: WHITE        : TYPE (1:1) 
+Rules: _anon_0      : AND (0:) "|" term
+Rules: _anon_1      : AND (1:1) "signed" <white>
+Rules: _anon_2      : AND (0:) factor
+Rules: _anon_3      : AND (1:1) "(" expression ")"
+Rules: _anon_4      : AND (1:1) "[" expression "]"
+Rules: _anon_5      : AND (1:1) "{" <action> "}"
+Rules: any_character: AND (1:1) 0x00..0xff
+Rules: expression   : AND (1:1) term _anon_0
+Rules: factor       : OR (1:1) <name> quoted_symbol _anon_3 _anon_4 _anon_5
+Rules: quoted_symbol: OR (1:1) DQUOTE SQUOTE
+Rules: rule         : AND (1:1) <name> "::=" expression
+Rules: term         : AND (1:1) factor _anon_2

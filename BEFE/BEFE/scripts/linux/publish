@@ -1,0 +1,76 @@
+#!/bin/bash
+#----------------------------------------------------------------------
+#
+# File: $BEFE_SVN/scripts/publish - Publish 'befe'
+#
+# This script publishes one of the following targets as a hard link in
+# /usr/binbefe...
+#
+#   dev   - Publish ~/.codelite/BEFE/BEFECore/Debug/befe-dev
+#   rel   - Publish $build/bin/Befe
+#   debug - Publish $build/bin/BefeDebug
+#
+#----------------------------------------------------------------------
+
+dev=~/.codelite/BEFE/BEFECore
+link=/usr/bin/befe
+target=
+WARN="*** Warning:"
+ERROR="*** Error:"
+
+#
+# Make sure $BEFE stuff is setup...
+#
+
+if test -z $BEFE_Build
+then
+  echo "$WARN \$BEFE_Build is not set"
+  exit 1
+fi
+if test -z $BEFE_SVN
+then
+  echo "$WARN \$BEFE_SVN is not set"
+  exit 1
+fi
+
+#
+# Validate what to publish and set up $target and $link...
+#
+
+case $1 in
+  dev)
+    echo "***Publish Dev"
+    target=$dev/Debug/befe-dev
+    ;;
+  rel)
+    echo "***Publish Built Befe"
+    target=$BEFE_Build/bin/Befe
+    ;;
+  debug)
+    echo "***Publish Built BefeDebug"
+    target=$BEFE_Build/bin/BefeDebug
+    ;;
+  *)
+    echo "Unknown option '$1', expected 'dev', 'rel', or 'debug'"
+    ;;
+esac
+
+# If nothing do do, exit
+if test -z "$target"
+  then
+    exit 1
+fi
+
+#
+# Do it...
+#
+
+if test -f $link
+then
+  echo "***Removing '$link'..."
+  sudo rm $link 
+fi
+echo "***Creating link '$link'..."
+sudo ln $target $link
+
+exit 0

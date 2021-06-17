@@ -1,0 +1,1207 @@
+head	1.14;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.14
+date	2002.10.24.08.42.47;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.12.06.52.12;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.06.07.42.05;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.05.16.09.54;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.05.06.42.09;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.02.05.58.46;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.01.21.48.23;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.09.30.06.46.23;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.09.30.06.10.30;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.09.30.05.08.28;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.30.02.43.51;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.29.18.47.42;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.29.18.34.50;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.29.10.20.14;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.14
+log
+@Complete IO stats - We're reading 2 times what we should!
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmliosbuf.cpp - Implementation of the XMLIOStreamBuf class
+  DESCRIPTION
+    This file contains the implementation of a IO buffered stream that can
+    only read/write file system files.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmlio.h"
+#include "xmlerrors.h"
+#include "xmliosbuf.h"
+
+#include "string.h"
+#include "stdio.h"
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamBuf::XMLIOStreamBuf  - Constructor
+//  XMLIOStreamBuf::~XMLIOStreamBuf - Destructor
+//
+
+XMLIOStreamBuf::XMLIOStreamBuf(XMLIOManager *manager) :
+  XMLIOStream(manager) 
+{
+  m_file = NULL;
+  Close(); // Ignore error, it will reset our members
+}
+
+XMLIOStreamBuf::~XMLIOStreamBuf() {
+  // Close if it's open
+  if (IsOpen())
+    Close();
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamBuf::CanRead       - "Can this driver read?"
+//  XMLIOStreamBuf::CanWrite      - "Can this driver write?"
+//  XMLIOStreamBuf::CanPosition   - "Can this driver do random stream positioning?"
+//  XMLIOStreamBuf::CanRewind     - "Can this driver rewind to beginning?"
+//  XMLIOStreamBuf::CanLockBuffer - "Can this driver lock buffers?" 
+//
+
+int XMLIOStreamBuf::CanRead() {
+  return 1;
+}
+
+int XMLIOStreamBuf::CanWrite() {
+  return 1;
+}
+
+int XMLIOStreamBuf::CanPosition() {
+  return 1;
+}
+
+int XMLIOStreamBuf::CanRewind() {
+  return 1;
+}
+
+int XMLIOStreamBuf::CanLockBuffer() {
+  return 1;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamBuf::IsOpen        - "Is this stream open?"
+//  XMLIOStreamBuf::GetAccessMode - Return current access mode
+//  XMLIOStreamBuf::Open          - Open a file
+//  XMLIOStreamBuf::Close         - Close an open file
+//  XMLIOStreamBuf::Length        - Return current length of the stream
+//
+
+int XMLIOStreamBuf::IsOpen() {
+  if (m_file)
+    return 1;
+  return 0;
+}
+
+XMLIOManager::AccessMode XMLIOStreamBuf::GetAccessMode(void) {
+  return m_access;
+}
+
+XMLError XMLIOStreamBuf::Open(char *url, int urllen, XMLIOManager::AccessMode access) {
+ 
+  XMLError  result;
+  char     *openmode;
+  char      filename[1024];
+
+  // Sanity checks
+  if (url == NULL || urllen <= 0) goto BADPARAMETERS;
+  if (IsOpen()) goto ALREADYOPEN;
+
+  // Initialise physical/logical position
+  m_reading      = 0;
+  m_writing      = 0;
+  m_filesize     = 0;
+  m_fileoffset   = 0;
+  m_curoffset    = 0;
+  m_curbufoffset = 0;
+  
+  // Figure out the open mode to use...
+  switch (access) {
+  case XMLIOManager::ForRead:
+    openmode = "rb";
+    m_reading = 1;
+    m_maxbufs = 4;
+    break;
+  case XMLIOManager::ForWrite:
+    openmode = "wb+";
+    m_writing = 1;
+    m_maxbufs = 1;
+    break;
+  case XMLIOManager::ForReadAndWrite:
+    openmode = "wb";
+    m_reading = 1;
+    m_writing = 1;
+    m_maxbufs = 2;
+    break;
+  default:
+    goto BADPARAMETERS;
+  }
+
+  // Get a local copy of the file name and NUL terminate it
+  if (urllen > sizeof(filename)-1) goto NOTFOUND;
+  strncpy(filename,(char *)url,urllen);
+  filename[urllen] = 0;
+    
+  // Try opening it...
+  m_file = fopen(filename,openmode);
+  if (m_file == NULL) goto NOTFOUND;
+  
+  // Set to be unbuffered
+  //setbuf(m_file,NULL);
+  //setvbuf(m_file, NULL, _IONBF , 0);
+  
+  // Compute file's physical size (position back at start of file)
+  fseek(m_file,0,SEEK_END);
+  m_stats.seekcallsphysical++;
+  m_filesize   = ftell(m_file);  
+  m_stats.tellcallsphysical++;
+  m_fileoffset = 0;
+  fseek(m_file,0,SEEK_SET);
+  m_stats.seekcallsphysical++;
+  m_cursize = m_filesize;
+  
+  // Create our hash table
+  HashBufs(m_hashsize);
+  
+  // Save the open mode
+  m_access = access;
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ALREADYOPEN:
+  result = XMLErrorIOStreamAlreadyOpen;
+  goto DONE;
+NOTFOUND:
+  result = XMLErrorIOURLNotFound;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOStreamBuf::Close(void) {
+
+  XMLError result;
+  XMLError tresult;
+    
+  // If open, close it
+  if (IsOpen()) {
+    // Call XMLIOStream close to release buffers (this will call back on any dirty buffers)
+    result = XMLIOStream::Close();
+    if (result) goto ERROR;
+    // Close the file
+    fclose(m_file);
+    m_file = NULL;
+    result = XMLErrorNone;  
+  }
+  
+  // If it wasn't open, let the caller know
+  else
+    result = XMLErrorIOStreamNotOpen;
+  
+  // Reset our member variables
+  m_access       = XMLIOManager::ForNeither;
+  m_filesize     = 0;
+  m_fileoffset   = 0;
+  m_curoffset    = 0;
+  m_curbufoffset = 0;
+  m_file         = NULL;
+
+  goto DONE;
+    
+ERROR:
+  goto DONE;
+DONE:
+  return result;  
+}
+
+XMLError XMLIOStreamBuf::Length(int *len) {
+
+  XMLError result;
+
+  // Sanity checks
+  if (len == NULL) goto BADPARAMETERS;
+  if (!IsOpen())   goto NOTOPEN;
+      
+  // Set the length
+  *len = m_cursize;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+NOTOPEN:
+  result = XMLErrorIOStreamNotOpen;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result; 
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamBuf::Read     - Read bytes (readlen<request = "EOS", 0=EOS)
+//  XMLIOStreamBuf::ReadSome - Read a convenient number of bytes (readlen<requst <> "EOS" 0=EOS)
+//
+// DESCRIPTION
+//
+//  These functions attempt to read N bytes from the current stream position.
+//
+//  Read() will keep reading until maxbufl is exhausted OR end of stream is
+//  encountered.
+//
+//  ReadSome() will keep reading until maxbufl is exhausted OR it reaches
+//  the end of an IO buffer.  Use this is the caller doesn't really expect
+//  bytesread < maxbufl to mean "End of Stream".
+//
+//  If you pass these functions a NULL buffer the data will still be read
+//  into the IO buffer(s).
+//
+//  If you pass ReadSome() the address of an XMLIOBuffer pointer it will
+//  populate it with the buffer's address.
+
+XMLError XMLIOStreamBuf::Read(byte *buf, int maxbufl, int *bytesread) {
+
+  XMLError result;
+  int      readcount;
+  
+  // Sanity checks
+  if (bytesread == NULL) goto BADPARAMETERS;
+    
+  // Try reading some until we've got what we want or EOS or error
+  *bytesread = 0;
+  while (maxbufl) {
+    result = ReadSome(buf,maxbufl,&readcount);
+    if (result) goto ERROR;
+    // Bail if none read
+    if (readcount == 0) break;
+    // Increment stuff
+    buf        += readcount;
+    maxbufl    -= readcount;
+    *bytesread += readcount;
+    
+  }
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+  goto DONE;  
+DONE:
+  return result;  
+}
+
+XMLError XMLIOStreamBuf::ReadSome(byte *buf, int maxbufl, int *bytesread, XMLIOBuffer **thebuf) {
+
+  XMLError     result;                              // Return result
+  XMLIOBuffer *iobuf;                               // The IO buffer
+  int          iobufsize;                           // The buffer's size
+  int          iobufoffset;                         // The buffer's stream offset
+  byte        *iobufdata;                           // The buffer's data address
+  int          readcount;                           // Number of bytes fread read
+  int          delta;                               // How far into the buf we're starting to read
+  int          seekstatus;                          // Return from fseek()
+  int          logicalread;                         // Logical bytes read
+  
+  // Sanity checks
+  if (maxbufl < 0) goto BADPARAMETERS;
+  if (m_manager == NULL) goto NOTMANAGED;
+  if (!IsOpen()) goto NOTOPEN;
+  if (m_access != XMLIOManager::ForRead &&
+      m_access != XMLIOManager::ForReadAndWrite)
+    goto NOTREADING;
+  
+  // Initialise
+  if (bytesread)
+    *bytesread = 0;
+  
+  // If we're already at the end of the stream, let the caller know by returning 0 bytes
+  if (m_curoffset == m_filesize)
+    goto OK;
+  
+  // See if we can find the buffer in memory...
+  result = FindBuf(m_curoffset,&iobuf);
+  if (result) goto ERROR;
+    
+  // If we didn't find it, create a new one and populate it
+  if (iobuf == NULL) {
+  
+    // Allocate and hash the buffer
+    result = AllocateBuf(m_curoffset,&iobuf);
+    if (result) goto ERROR;
+    if (iobuf == NULL) goto INTERNALERROR;
+    result = iobuf->Hash();
+    if (result) goto ERROR;
+    iobufoffset = iobuf->GetOffset();
+    
+    // If we're not positioned at the physical position required, seek there
+    if (iobufoffset != m_fileoffset) {
+      seekstatus = fseek(m_file,iobufoffset,SEEK_SET);
+      m_stats.seekcallsphysical++;
+      if (seekstatus) goto SEEKERROR;
+      m_fileoffset = iobufoffset;
+    }
+
+    // Read data into it...
+    result = iobuf->GetPointer(&iobufdata);
+    if (result) goto ERROR;
+    readcount = fread((void *)iobufdata,1,(size_t)iobuf->GetSize(),m_file);
+    
+    // If we didn't read any data, free the buffer and bail
+    if (readcount <= 0) {
+      iobuf->SetLockCount(0);
+      goto OK;
+    }
+
+    // Update stats
+    m_stats.physicalreads++;
+    m_stats.bytesreadphysical += readcount;
+    
+    // Change physical position to reflect what we read
+    m_fileoffset += readcount;
+        
+  }
+
+  // We now have a buffer, synch the current buffer offset
+  iobufoffset = iobuf->GetOffset();
+  iobufsize = iobuf->GetSize();
+  result = iobuf->GetPointer(&iobufdata);
+  if (result) goto ERROR;
+  if (iobufdata == NULL) goto INTERNALERROR;
+
+  // Frig with the size/data to make it look as if m_curoffset
+  // is the first byte in the buffer
+  delta = m_curoffset - iobufoffset;
+  iobufsize   -= delta;
+  iobufdata   += delta;
+    
+  // If partial buffer, compute size we're going to give to the caller
+  if (iobufsize > m_filesize - m_curoffset)
+    logicalread = m_filesize - m_curoffset;
+  else
+    logicalread = iobufsize;
+  // Truncate the bytes read if the caller wants less than we can give
+  if (logicalread > maxbufl)
+    logicalread = maxbufl;
+
+  // Treat this as a logical read
+  m_stats.bytesreadlogical += logicalread;
+
+  // Give the length to the caller
+  if (bytesread)
+    *bytesread = logicalread;
+      
+  // Give the bytes to the caller
+  if (buf && bytesread && *bytesread) {
+    // Move to caller's buffer
+    memcpy((void *)buf,(void *)iobufdata,(size_t)*bytesread);
+    // Set current logical position
+    m_curoffset += *bytesread;
+  }
+
+  // Give the IO buffer to the caller if required
+  if (thebuf)
+    *thebuf = iobuf;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;  
+SEEKERROR:
+  result = XMLErrorIOInternalFileError;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+NOTOPEN:
+  result = XMLErrorIOStreamNotOpen;
+  goto DONE;
+NOTREADING:
+  result = XMLErrorIOReadAccessDenied;
+  goto DONE;
+ENDOFSTREAM:
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamBuf::Write     - Write bytes
+//  XMLIOStreamBuf::WriteSome - Write a convenient number of bytes
+//
+// DESCRIPTION
+//
+//  These functions attempt to write N bytes from the current stream position.
+//
+//  Write() will keep writing until maxbufl is exhausted.
+//
+//  WriteSome() will keep writing until maxbufl is exhausted OR it reaches
+//  the end of an IO buffer.  It's generally uncommon to use this function
+//  but it's here anyway to make the write code symetric with the read code.
+//
+
+
+XMLError XMLIOStreamBuf::Write(byte *buf, int bufl) {
+
+  XMLError result;
+  int      writecount;
+  
+  // Try writing some until we've got what we want or EOS or error
+  while (bufl > 0) {
+  
+    // Ask WriteSome() to do it
+    result = WriteSome(buf,bufl,&writecount);
+    if (result) goto ERROR;
+    
+    // Bail if none written
+    if (writecount == 0) break;
+    // Increment stuff
+    buf  += writecount;
+    bufl -= writecount;
+  }
+  
+  goto OK;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+ERROR:
+  goto DONE;  
+DONE:
+  return result;  
+}
+
+XMLError XMLIOStreamBuf::WriteSome(byte *buf, int bufl, int *byteswritten) {
+
+  XMLError     result;                              // Return result
+  XMLIOBuffer *iobuf;                               // The IO buffer
+  int          iobufsize;                           // The buffer's size
+  byte        *iobufdata;                           // The buffer's data address
+  int          iobufoffset;                         // The buffer's physical offset
+  
+  // Sanity checks
+  if (buf == NULL || bufl < 0 || byteswritten == NULL) goto BADPARAMETERS;
+  if (m_manager == NULL) goto NOTMANAGED;
+  if (!IsOpen()) goto NOTOPEN;
+  if (m_access != XMLIOManager::ForWrite &&
+      m_access != XMLIOManager::ForReadAndWrite) goto NOTWRITING;
+  
+  // Initialise
+  *byteswritten = 0;
+  
+  // If we weren't asked to write anything we're finished
+  if (bufl == 0) goto OK;
+  
+  // See if we can find the buffer in memory...
+  result = FindBuf(m_curoffset,&iobuf);
+  if (result) goto ERROR;
+    
+  // If we didn't find it ask Read() to read the buffer.
+  if (iobuf == NULL) {
+  
+    // Calculate the buffer offset
+    iobufoffset = GetBufferOffset(m_curoffset);
+    
+    // If it's not beyond end of stream
+    if (iobufoffset < m_filesize) {
+      // Ask ReadSome() to read in the block
+      result = ReadSome(NULL,0,NULL);
+      if (result) goto ERROR;
+      // See if we can find the buffer now...
+      result = FindBuf(m_curoffset,&iobuf);
+      if (result) goto ERROR;
+      if (iobuf == NULL) goto INTERNALERROR;
+    }
+    
+    // If it is beyond end of stream, allocate a buffer
+    else {
+      // Allocate and hash the buffer
+      result = AllocateBuf(m_curoffset,&iobuf);
+      if (result) goto ERROR;
+      if (iobuf == NULL) goto INTERNALERROR;
+      result = iobuf->Hash();
+      if (result) goto ERROR;
+    }
+    
+  }
+  
+  // We have a buffer get the info
+  iobufoffset = iobuf->GetOffset();
+  iobufsize   = iobuf->GetSize();
+  
+  // figure out how much we're going to write
+  *byteswritten = bufl;
+  if (m_curoffset + *byteswritten > iobufoffset + iobufsize)
+    *byteswritten = iobufoffset + iobufsize - m_curoffset;
+
+  // Tell the buffer to write the data
+  result = iobuf->WriteBytes(m_curoffset,buf,*byteswritten);
+  if (result) goto ERROR;
+  
+  // Set our logical position
+  m_curoffset += *byteswritten;
+  if (m_curoffset > m_cursize)
+    m_cursize = m_curoffset;
+      
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;  
+SEEKERROR:
+  result = XMLErrorIOInternalFileError;
+  goto DONE;
+NOTMANAGED:
+  result = XMLErrorIOStreamNotManaged;
+  goto DONE;
+NOTOPEN:
+  result = XMLErrorIOStreamNotOpen;
+  goto DONE;
+NOTWRITING:
+  result = XMLErrorIOWriteAccessDenied;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamBuf::Seek   - Seek to an offset in the stream
+//  XMLIOStreamBuf::Rewind - Rewind (seek(0))
+//  XMLIOStreamBuf::Tell   - Return current offset in the stream
+//
+
+XMLError XMLIOStreamBuf::Seek(int offset) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (offset < 0) goto BADPARAMETERS;
+  if (offset > m_cursize) goto ENDOFSTREAM;
+  
+  // Do it
+  m_curoffset = offset;
+  m_curbufoffset = 0;
+  
+  // Update stats
+  m_stats.seekcallslogical++;
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ENDOFSTREAM:
+  result = XMLErrorIOStreamSeekPastEOS;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+XMLError XMLIOStreamBuf::Rewind(void) {
+
+  return Seek(0);
+}
+
+XMLError XMLIOStreamBuf::Tell(int *offset) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (offset == NULL) goto BADPARAMETERS;
+  
+  // Do it
+  *offset = m_curoffset;
+  
+  // Update stats
+  m_stats.tellcallslogical++;
+  
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLIOStreamBuf::FlushBuffer - Flush contents of an IO buffer to disk
+//
+// NOTES
+//
+//  This function is called internally when an IO buffer is dirty and it's
+//  time to flush it.
+//
+
+XMLError XMLIOStreamBuf::FlushBuffer(XMLIOBuffer *iobuf) {
+
+  XMLError  result;                                 // Return value
+  int       iobufoffset;                            // The IO buffer's stream offset
+  int       iobufsize;                              // The IO buffer's size
+  byte     *iobufdata;                              // The IO buffer's data
+  int       numtowrite;                             // Number of bytes to write
+  int       numwritten;                             // Number of bytes written
+  int       newoffset;                              // New physical position in file
+  int       seekstatus;                             // Return status from fseek()
+
+  // Get the buffer into
+  iobufoffset = iobuf->GetOffset();
+  iobufsize   = iobuf->GetSize();
+  result      = iobuf->GetPointer(&iobufdata);
+  if (result) goto ERROR;
+  
+  // Figure out how much to write (may be partial buf because at EOS)
+  numtowrite = m_cursize - iobufoffset;
+  if (numtowrite > iobufsize)
+    numtowrite = iobufsize;
+    
+  // If we're not positioned at the physical position required, seek there
+  if (iobufoffset != m_fileoffset) {
+    seekstatus = fseek(m_file,iobufoffset,SEEK_SET);
+    m_stats.seekcallsphysical++;
+    if (seekstatus) goto IOERROR;
+    m_fileoffset = iobufoffset;
+  }
+
+  // Get current file position to make sure that's where we think we are
+  newoffset = ftell(m_file);
+  m_stats.tellcallsphysical++;
+  if (newoffset != m_fileoffset) goto INTERNALERROR;
+  
+  // Write it
+  numwritten = fwrite((void *)iobufdata, 1, (size_t)numtowrite, m_file);
+  m_fileoffset += numwritten;
+  if (numwritten >= 0) {
+    m_stats.physicalwrites++;
+    m_stats.byteswritephysical += numwritten;
+  }
+  if (numwritten != numtowrite) goto IOERROR;
+  
+  // Get current file position to make sure that's where we think we are
+  newoffset = ftell(m_file);
+  m_stats.tellcallsphysical++;
+  if (newoffset != m_fileoffset) goto INTERNALERROR;
+    
+  goto OK;
+
+IOERROR:
+  result = XMLErrorIOInternalFileError;
+  goto DONE;
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+ERROR:
+  goto DONE;
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+DONE:
+  return result;  
+}
+
+
+@
+
+
+1.13
+log
+@1) Added common class XMLStringHashed (saves rewriting Hash(), GetHash(), etc.)
+2) XMLIOStream to inherit from XMLStringHashed so we can treat the whole
+   stream as a single string.
+@
+text
+@d79 5
+a83 4
+//  XMLIOStreamBuf::IsOpen - "Is this stream open?"
+//  XMLIOStreamBuf::Open   - Open a file
+//  XMLIOStreamBuf::Close  - Close an open file
+//  XMLIOStreamBuf::Length - Return current length of the stream
+d92 4
+d151 1
+d153 1
+d156 1
+d204 1
+a204 1
+  m_access       = (XMLIOManager::AccessMode)-1;
+d288 1
+d315 1
+d351 1
+d367 4
+d390 10
+a399 9
+  if (bytesread) {
+    if (iobufsize > m_filesize - m_curoffset)
+      *bytesread = m_filesize - m_curoffset;
+    else
+      *bytesread = iobufsize;
+    // Truncate the bytes read if the caller wants less than we can give
+    if (*bytesread > maxbufl)
+      *bytesread = maxbufl;
+  }
+d401 4
+d474 2
+d478 1
+d619 3
+d638 1
+d652 3
+d704 1
+d711 1
+d717 4
+d725 1
+@
+
+
+1.12
+log
+@Added XMLIOStreamCon class for console I/O
+@
+text
+@d152 1
+a152 1
+  Hash(m_hashsize);
+@
+
+
+1.11
+log
+@XMLIOString works with big.xml!
+@
+text
+@d26 2
+a27 2
+//  XMLIOStreamBuf::XMLIOStreamBuf  - Class constructor
+//  XMLIOStreamBuf::~XMLIOStreamBuf - Class destructor
+d441 1
+a441 1
+//  WriteSome() will keep reading until maxbufl is exhausted OR it reaches
+@
+
+
+1.10
+log
+@XMLIOString works with 1 buffer
+@
+text
+@d114 1
+a114 1
+    m_maxbufs = 1;
+a298 1
+  int          newoffset;                           // Stream offset fseek actually went to
+d305 1
+d340 3
+a342 4
+      newoffset = fseek(m_file,m_fileoffset,SEEK_SET);
+      m_fileoffset = newoffset;
+      if (newoffset != iobufoffset)
+        goto SEEKERROR;
+a370 1
+  iobufoffset += delta;
+d376 2
+a377 2
+    if (m_fileoffset - iobufoffset < iobufsize)
+      *bytesread = m_fileoffset - iobufoffset;
+d657 2
+a658 1
+  int       newoffset;                              // Stream offset fseek() returned
+d673 3
+a675 4
+    newoffset = fseek(m_file,m_fileoffset,SEEK_SET);
+    m_fileoffset = newoffset;
+    if (newoffset != iobufoffset)
+      goto IOERROR;
+@
+
+
+1.9
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d595 1
+a595 1
+  m_curoffset = 0;
+@
+
+
+1.8
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d257 3
+d296 1
+a296 1
+XMLError XMLIOStreamBuf::ReadSome(byte *buf, int maxbufl, int *bytesread) {
+d394 5
+a398 1
+    
+d581 1
+a581 1
+//  XMLIOStreamBuf::Seek - Seek to an offset in the stream
+d583 1
+d615 22
+@
+
+
+1.7
+log
+@More testing/debugging XMLIOStreamBuf Write/Read
+@
+text
+@d47 5
+a51 5
+//  XMLIOStreamBuf::CanRead      - "Can this driver read?"
+//  XMLIOStreamBuf::CanWrite     - "Can this driver write?"
+//  XMLIOStreamBuf::CanPosition  - "Can this driver do random stream positioning?"
+//  XMLIOStreamBuf::CanRewind    - "Can this driver rewind to beginning?"
+//  XMLIOStreamBuf::CanBufLock   - "Can this driver lock buffers?" 
+d70 1
+a70 1
+int XMLIOStreamBuf::CanBufLock() {
+d82 1
+d209 26
+@
+
+
+1.6
+log
+@XMLIOStreamBuf Write() tested
+@
+text
+@d33 1
+d186 1
+d557 1
+a557 1
+  if (offset > m_filesize) goto ENDOFSTREAM;
+@
+
+
+1.5
+log
+@XMLIOStreamBuf Open/Read/Close tested
+@
+text
+@a103 1
+  m_cursize      = 0;
+d115 1
+a115 1
+    openmode = "w+";
+d147 1
+d509 2
+d609 1
+a609 1
+  numtowrite = m_filesize - iobufoffset;
+d621 4
+d626 1
+a626 1
+  numwritten = fwrite((void *)iobufdata, (size_t)numtowrite, 1, m_file);
+d630 4
+d638 3
+@
+
+
+1.4
+log
+@Finished XMLIOStreamBuf - Ready to test
+@
+text
+@d20 1
+d113 1
+d118 1
+d124 1
+d140 3
+a142 2
+  setbuf(m_file,NULL);
+
+d145 2
+a146 1
+  m_fileoffset = ftell(m_file);  
+d149 6
+d184 2
+a185 1
+    fclose(m_file);  
+d238 1
+d245 3
+a247 2
+    buf     += readcount;
+    maxbufl -= readcount;
+d273 1
+d332 12
+a343 1
+  
+a344 1
+  iobufsize = iobuf->GetSize();
+a355 3
+  result = iobuf->GetPointer(&iobufdata);
+  if (result) goto ERROR;
+  if (iobufdata == NULL) goto INTERNALERROR;
+@
+
+
+1.3
+log
+@Finished initial XMLIOStreamBuf except for write() and FlushBuffer()
+@
+text
+@d134 3
+d180 1
+a180 1
+  m_accessmode   = (XMLIOManager::AccessMode)-1;
+d200 1
+a200 1
+//  XMLIOStreamBuf::ReadSome - Read a convenient number of bytes (readlan<requst <> "EOS" 0=EOS)
+d204 1
+a204 1
+//  These function attempt to read N bytes from the current stream position.
+d213 2
+d255 1
+a256 1
+  int          bufoffset;                           // The buffer's physical offset
+d260 1
+a260 1
+  if (buf == NULL || maxbufl <= 0 || bytesread == NULL) goto BADPARAMETERS;
+d263 3
+d268 2
+a269 1
+  *bytesread = 0;
+d280 1
+a280 1
+  if (buf == NULL) {
+d284 2
+a285 1
+    if (result || buf == NULL) goto ERROR;
+d288 1
+a288 1
+    newoffset = iobuf->GetOffset();
+d291 1
+a291 1
+    if (m_curbufoffset != m_fileoffset) {
+d293 2
+a294 2
+      if (newoffset != m_curbufoffset) {
+        m_fileoffset = newoffset;
+a295 2
+      }
+      newoffset = m_fileoffset;
+d310 1
+a310 1
+    m_fileoffset = newoffset + readcount;
+d315 1
+a315 1
+  m_curbufoffset = iobuf->GetOffset();
+d317 1
+a317 2
+  // If partial buffer, compute size we want to give caller,
+  // otherwise we want to give the entire buffer
+d319 9
+a327 8
+  if (m_fileoffset - m_curbufoffset < iobufsize)
+    *bytesread = m_fileoffset - m_curbufoffset;
+  else
+    *bytesread = iobufsize;
+
+  // Truncate the bytes read if the caller wants less than we can give
+  if (*bytesread > maxbufl)
+    *bytesread = maxbufl;
+d333 7
+a339 5
+  memcpy((void *)buf,(void *)iobufdata,(size_t)*bytesread);
+  
+  // Set current logical position
+  m_curoffset += *bytesread;
+  
+d354 3
+d375 12
+a386 1
+//  XMLIOStreamBuf::Write - Write some bytes
+a388 1
+#pragma argsused
+d391 123
+a513 1
+  return XMLErrorNotImplemented;
+d563 2
+a564 1
+//  This function is called when an IO buffer wants to be flushed.
+d567 28
+a594 1
+#pragma argsused
+d596 17
+a612 2
+XMLError XMLIOStreamBuf::FlushBuffer(XMLIOBuffer *thebuf) {
+  return XMLErrorNotImplemented;
+@
+
+
+1.2
+log
+@More XMLIOStreamBUF work - ...::Read not finished
+@
+text
+@d211 20
+a230 1
+#pragma argsused
+d232 10
+a241 2
+XMLError XMLIOStreamBuf::Read(byte *buf, int maxbufl, int *bytesread) {
+  return XMLErrorNotImplemented;
+d357 70
+@
+
+
+1.1
+log
+@Started on XMLIOStreamBuf implementation
+@
+text
+@d16 1
+a16 1
+
+d98 9
+a107 1
+  m_reading = m_writing = 0;
+d114 1
+a114 1
+    openmode = "wb+";
+d118 1
+a118 1
+    openmode = "rwb+";
+d134 5
+d177 6
+a182 4
+  m_accessmode = (XMLIOManager::AccessMode)-1;
+  m_filesize   = 0;
+  m_curpos     = 0;
+  m_file       = NULL;
+d190 139
+@
+

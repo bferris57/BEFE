@@ -1,0 +1,64 @@
+#!befe-model +Base:DataModel
+#---------------------------------------------------------
+# File: Types.txt - BEFE Model: Types
+#---------------------------------------------------------
+
+Model [B[EFE]][_]D[ata]M[odel]...
+
+  Title    = "BEFE Data Model"
+  Id       = "{2619442C-D37D-4CA2-98C1-A190DC94761F}"
+  Revision = 1
+
+  Type Model:
+  Type Type:
+  Type Attribute:
+  Type Value:
+  Type Object:
+
+  Type Prim[itive]:  
+  
+    Primitive Bit[s]:
+    Primitive Char:
+    Primitive Number:
+    Primitive Int[eger]:
+    Primitive Float[ing[Point]]:
+    Primitive Complex:
+    Primitive Fraction:
+    Primitive String:
+
+  Type Collect[ion]:  
+    Collection Seq[uence]:
+    Collection Array:
+    Collection Sparse:
+    Collection Map:
+
+  Type Struct[ure]:
+  Type Union:
+  Type Enum[eration]:
+  Type Alias:
+  Type Id[ent[ifier]]:
+  Type Id[ent[ifier]]Sp[ace]:
+  Type Diff[erent[iator]]:
+  Type Constraint:
+  Type ConstraintC[on[text]]:
+  Type Name:
+  Type Var[iable]Term:
+  
+  Type Range:
+  Type Span:
+  Type Slice:
+
+  Type Procedure:
+    Procedure Function:
+    Procedure Method:
+    
+  Sequence Call[ing]Seq[uence]:
+  
+    CallSeq DefaultCall:
+    CallSeq In[put]Call:
+    CallSeq Out[put]Call:
+    CallSeq In[put]Out[put]:
+    CallSeq MixedCall:
+    CallSeq VarCall:
+    
+...Types

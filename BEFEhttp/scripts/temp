@@ -1,0 +1,8 @@
+#!/usr/bin/env python
+#  coding=utf-8
+
+import os
+
+path = '/home/bferris57/befe/BEFE/temp/_src/main.cpp'
+if os.path.exists(path) and os.path.isfile(path):
+  os.remove(path)

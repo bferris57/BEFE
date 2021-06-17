@@ -1,0 +1,190 @@
+#!befe-wiki
+#------------------------------------------------------------------------
+# BEFE-Decl.wiki - Brief overview description of the BEFE Declaration Syntax
+#------------------------------------------------------------------------
+
+«Overview»...
+
+  What we're doing here is describing the BEFE Declaration Syntax (<BEFE-Decl>)
+  in a semi-EBNF form but using artistic license to explain it clearly...
+  
+    NOTE: From now on we'll call this the BEFE-Decl "language" -- we probably
+          won't stick to using that name but it does for now.
+          
+  BEFE-Decl is, like Python, a line-based language for the same simple 
+  reasons Guido van Rossom used: To make it readable by getting rid of all
+  that "{...}" stream of consciousness crap and, instead, use indentation
+  to indicate structured declarations.
+  
+  Now, knowing it's line based, there's several main topics discussed
+  below, in order...
+  
+    o «Whitespace and EOL»
+    o «EOL Comments»
+    o «Multi-line Comments»
+    o «Line Continuation»
+    o «Basic Declaration Syntax»
+    
+...«Overview»
+
+«Input "Source"»...
+
+  Before we even begin any thing else, it's important to note that BEFE only
+  deals with ASCII or UTF-8 input "source file/stream encoding".  The reasons
+  for this are various but, basicically, it means we DO NOT handle those silly
+  UTF-16/UCS-2 files like some people (Microsoft) use because we're completely
+  opposed to the whole concept of them when UTF-8 works just fine and makes
+  your files/streams smaller anyway.
+  
+  We do, even though we don't like it, allow a leading UTF-8 "BOM", or "Byte
+  Order Mark" at the beginning of the input files.  If a UTF-8 BOM is present
+  in the input file/stream, it MUST be in the form 0xEF 0xBB 0xBF in the first
+  three bytes.  Any other weird encoding BOM (like UTF-16 BE, UTF-16 LE, etc.)
+  causes BEFE to reject the input file.
+  
+    Note: There's absolutely no reason for a BOM in UTF-8 so we here at BEFE
+          can't for the life of us figure out why some software (like Microsoft
+          Windows Notepad) places this silly sequence at the beginning if you
+          specify UTF-8 encoding.  Still, we recognise it and simply ignore it.
+          
+  Enough said.
+  
+...«Input "Source"»
+
+«Whitespace and EOL»...
+
+  We've already indicated that BEFE-Decl is a "line based syntax" but first
+  it's probably best to tell you what we consider as "line" to be\...
+  
+  As you're probably aware, there's been a long time hurrah and "point of view"
+  fight between Unix (and Apple) and Microsoft as to what and "end of line", 
+  or EOL, is.  The Unix and Apple people generally consider the ASCII "line feed"
+  character (0x0A) to be the "one and only" end of line character.  However,
+  and for some absolutely forgotten reason (other than ignorance or orneriness,
+  you decide) Microsoft decided that a CR/LF combination (0x0D 0x0A) indicates
+  and "end of line".
+  
+  Well, we figure that since BOTH forms have the LF (0x0A) in common, we'll
+  stick to the Unix/Apple way of doing things.  The question is, then, what do
+  we do about any CR (0x0D) characters we encounter before or after an LF?
+  
+  What we do, whether you like it or not, is to consider it "whitespace" along
+  with any other ASCII character less than or equal to 0x20 (SPACE).
+  
+  We figure that if you've got those character in your text file you'll have
+  to deal with lots of other problems than we'll be giving you AND there's
+  no self-respecting language we know of that will allow those characters in
+  a name, number, or treat them as an "operator" so, in doing this we're actually
+  being a bit "forgiving" and less likely to burp while processing your
+  declarations.
+  
+  Word of warning, however, that means that we treat HT (the TAB key) as a
+  SINGLE whitespace instead of getting into the mess of having to let you 
+  declare what "tab stops" you actually wanted in your text.  So, just don't
+  expect us to treat HT as anything other than a single "whitespace"
+  character.
+  
+...«Whitespace an EOL»
+
+«EOL Comments»...
+
+  We support two forms of end of line (EOL) comments, the standard Unix/Linux
+  '#' character like Python, "bash", and other common languages do.
+  
+  We also, because we're somewhat devoted to the C/C++ world, we also accept
+  the C++ "//" character.
+  
+  These, two forms (unless inside "string literals") indicate that from there
+  on in the line is a comment (that include any trailing CR if you're using
+  Microsoft(ish) text files.
+  
+  However, what about when you want a multi-line comment because "it just doesn't
+  fit on one line"?
+  
+  Well...
+  
+...«EOL Comments»
+
+«Multi-line Comments»...
+
+  As far as handling multi-line comments we've seen several forms and handle
+  each of them because if they show up in BEFE-Decl files then they don't conflict
+  with anything else.  These forms are...
+  
+    o The Python \'\'\'...\'\'\' and \"\"\"...\"\"\" styles (see below)
+    o The C/C++/Java \"\/*\.\.\.\*\/\" style
+    o BEFE's additional \#\#\#\.\.\.\#\#\# style
+  
+  Just like in Python, C, C++, and Java, these combinations clearly don't apply
+  if they occur inside a string literal.  Plus, in Python at least, the "'''...'''"
+  style actually indicates a "multi-line string literal" but it happens to be
+  a usable side-effect that Python throws away multi-line string literals of they're
+  just sitting in your code and not being assigned to anything (at least that's
+  why Guido van Rossom recommends them) so they act as multi-line comments if, and
+  only if, they don't interfere with the other code sitting right in front of it.
+  
+  Still, in BEFE we treat all three styles in the same way...  Just throw away
+  the stuff inside of them -- well, sort of, but we'll cover special cases where
+  we do actually process the comment's contents somewhere later here.)
+      
+...«Multi-line Comments»
+
+«Line Continuation»...
+
+  Finally, before we get on to the meat of things here, it's probably best to clear
+  up from the start how to continue declarations between one line and another...
+  
+  Typically, declarations are pretty much line based (actually EOL is considered
+  a "declaration separator" but we'll cover that later.
+  
+  So, if your declaration is too long to fit on a single line, what do you do?
+  
+  Simple, just like Python (pretty much) you simply use '\' as the last non-comment and
+  non-whitespace character.  This means your declaration will continue to the next line
+  regardless of indentation.  Of course, it also means you have to do this on each line
+  if you want it to carry on across lines without having indentation taking its effect.
+  
+...«Line Continuation»
+
+«Blank Lines»...
+
+  Oh, almost forgot...  Blank lines in declarations are pretty much ignored except in
+  special cases covered in the sections describing those cases.
+  
+...<Blank Lines>
+
+«Basic Declaration Syntax»...
+
+  Basic declaration syntax is a sequence of <decl> terms separated by a <separator>
+  character, where {separator} is an EOL, ',' or ';'.
+  
+  So, the string "a b, c d" is a <decl> "a b" followed by a <decl> "c d".
+  
+  A <decl> is in one of the following basic forms...
+  
+    o <elementName>
+    o <typeName> <elementName>
+    o <decl> : <spec>
+    o <decl> = <value>
+    
+  So, the string "a b: xxx" is recognised as a <decl> of <type> 'a' <name> 'b'
+  followed by a <spec> of "xxx", and the string "a b = yyy" is recognise as a
+  <decl> of <type> 'a' <name> 'b' followed by a <value> 'xxx'.
+
+  The specifics of each of the following are described separately below, where
+  more <...> terms will be introduced...
+  
+    o <typeName>
+    o <elementName>
+    o <spec>
+    o <value>
+    
+...<Basic Declaration Syntax>
+
+«Type names (<typeName>)»...
+
+...«Type names <typeName>)»
+
+«Element names (<elementName>)»...
+
+...«Element names (<elementName>)»

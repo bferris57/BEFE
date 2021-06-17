@@ -1,0 +1,304 @@
+//----------------------------------------------------------------------
+// File: BuildLex.cpp - Build Lexical Processing Functions
+//----------------------------------------------------------------------
+//
+// These functions are used to process BEFE Build declarations and
+// instructions specified in a file.
+//
+// *** See technical documentation for a more detailed description ***
+//
+//----------------------------------------------------------------------
+// Copyright (©) 2011, Bruce Ferris (UK), all rights reserved
+//----------------------------------------------------------------------
+#include "BEFE.h"
+#include "Build.h"
+#include "BuildLex.h"
+#include "LexToken.h"
+
+namespace BEF_NS { // Namespace BEF_NS...
+
+//----------------------------------------------------------------------
+//
+// Function: BuildParse - Parse a single Build File
+//
+// Usage: status = BuildParse(line, lineno, lexToks, bldToks, numLines, lineType)
+//
+// Where: input       - IN:    Input String (file contents)
+//        lexToks     - INOUT: Lexical Tokens (***see below***)
+//        bldToks     - OUT:   Build Tokens in the line (we append)
+//        numLines    - OUT:   Number of input Lines
+//        numErrors   - OUT:   Number of error tokens
+//
+// This function parses a complete Build File line, and appends all valid
+// BuildTokens onto the end of the bldToks parameter.
+//
+// Note: For now, if a syntax error is detected it will be the
+//       last one appended to the bldToks parameter for that line.
+//
+// Note: Although it's none of the caller's business what we put
+//       in lexToks, or even what we use them for, we pass it as
+//       a parameter so the caller's instance allocates the
+//       memory once.  This significantly helps reduce the number
+//       of memory allocations across all input files if lexToks
+//       is reused.
+//
+
+Status BuildParse(String const  &input,
+                  LexTokens     &lexToks,
+                  BuildTokens   &bldToks,
+                  UInt          &numLines,
+                  UInt          &numErrors
+                  ) {
+  
+  Status      status;       // Return status
+  Byte       *buf;          // Line buffer
+  UInt        byteCount;    // Line Byte count
+  UInt        charCount;    // Line Char count
+  UInt        lineNo;       // Current Line number (0..N)
+  UInt        nxtLineNo;    // Next Line number
+  UInt        nxtStartCol;  // Next Start Column
+  LexToken    prvTok;       // Previous input token
+  LexToken    curTok;       // Current input token
+  LexToken    nxtTok1;      // Next input token (curTok+1)
+  LexToken    nxtTok2;      // Next input token (curTok+2);
+  UInt        curIdx;       // Current input token index
+  BuildToken  bldTok;       // Temporary output MessageToken
+  UInt        numInToks;    // Number of LexTokens in so far
+  UInt        numOutToks;   // Number of BuildTokens out so far
+  Boolean     finished;     // "Are we finished with this pass yet?"
+  Boolean     keep;         // "Keep this token?"
+  Boolean     syntaxErr;    // "Is this a syntax error?"
+  String      tString;      // Transient String
+  
+  // Get the line buffer and length
+  ((String *)&input)->_BufByteAndCharCount(buf, byteCount, charCount);
+  if (IsNull(buf) || byteCount == 0) goto OK;
+  lineNo = 0;
+  
+  //
+  // First pass, Get the LexTokens and weed out the
+  // crap we don't want...
+  //
+  
+  numLines    = 1;
+  numErrors   = 0;
+  
+  numInToks   = 0;
+  numOutToks  = 0;
+  nxtLineNo   = lineNo + 1;
+  status = lexToks.Clear();
+  if (status) goto SOMEERROR;
+  prvTok.range = Range(0,NaN);
+
+  finished  = false;
+  while (!finished) {
+    
+    // Get the next token
+    status = LexToken::Next(buf, byteCount, prvTok, curTok);
+    if (status) goto SOMEERROR;
+    
+    // Process it...
+    keep      = false;
+    syntaxErr = false;
+
+    switch (curTok.type) {
+      case LexTokenType::Null:               break;
+      case LexTokenType::BeginString:        break;
+      case LexTokenType::Comment:
+        if (curTok.numLines) {
+          tString = String(buf+curTok.range.idx1, curTok.range.Length());
+          numLines   += curTok.numLines;
+          nxtLineNo   = lineNo + curTok.numLines;
+          nxtStartCol = lineNo + tString.Length() - tString.Find('\n',Range(curTok.range.Length()-1, 0));
+        }
+        break;
+      case LexTokenType::HashLine:                            break;
+      case LexTokenType::WhiteSpace:                          break;
+      case LexTokenType::Alpha:              keep = true;     break;
+      case LexTokenType::Numeric:            keep = true;     break;
+      case LexTokenType::Operator:           keep = true;     break;
+      case LexTokenType::BracketDelim:
+      case LexTokenType::NonBracketDelim:
+        syntaxErr = true;
+        bldTok.errorNo = Error::UtilBuildOpNotValidHere;
+        break;
+      case LexTokenType::StringSensitive:    keep = true;     break;
+      case LexTokenType::StringInsensitive:  keep = true;     break;
+      case LexTokenType::MinExpSensitive:    keep = true;     break;
+      case LexTokenType::MinExpInsensitive:  keep = true;     break;
+      case LexTokenType::LongStringLiteral:
+        syntaxErr = true;
+        bldTok.errorNo = Error::UtilBuildLongStrLitInvalid;
+        break;
+      case LexTokenType::EndOfLine:         numLines++;       break;
+      case LexTokenType::Unknown:                             break;
+      case LexTokenType::EndString:         finished  = true; break;
+      default: goto INTERNAL;
+    }
+    
+    // Handle syntax error
+    if (syntaxErr) goto SYNTAX;
+    
+    // Ignore if we're supposed to
+    prvTok = curTok;    
+    if (!keep) continue;
+    
+    // Strip off quotes if String Literal
+    if (curTok.type == LexTokenType::StringSensitive) {
+      curTok.range.idx1++;
+      curTok.range.idx2--;
+    }
+    
+    // Append to lexToks
+    status = lexToks.Append(curTok);
+    if (status) goto SOMEERROR;
+    numInToks++;
+    
+  }
+  
+  // If no input tokens, we're finished
+  if (numInToks == 0) goto OK;
+  
+  /*
+  //
+  // Second pass, Figure out which form it is and populate msgToks
+  // appropriately...
+  //
+  //   o <Name>...
+  //   o ...<Name>
+  //   o <Path>
+  //
+  
+  bldTok.lineNo   = lineNo;
+  bldTok.numLines = 0;
+  bldTok.errorNo  = Error::UtilBuildExpectedName;
+
+  // Make sure first one is a <Name> or '...'
+  curTok = lexToks.Get(0);
+  if (curTok.type != LexTokenType::Alpha && curTok.type != LexTokenType::Operator) goto SYNTAX;
+  if (curTok.type == LexTokenType::Operator && line.Get(curTok.range) != "...")    goto SYNTAX;
+  
+  // Handle ...<Name>
+  if (curTok.type == LexTokenType::Operator) {
+    
+    // Make sure it's followed by a name
+    if (numInToks < 2) {
+      curTok.range = Range(curTok.range.idx2+1,NaN);
+      goto SYNTAX;
+    }
+    curTok = lexToks.Get(1);
+    if (curTok.type != LexTokenType::Alpha) goto SYNTAX;
+    
+    // Maks sure it's not followed by anything else
+    if (numInToks > 2) {
+      curTok = lexToks.Get(2);
+      bldTok.errorNo = Error::UtilBuildExpectedEOL;
+      goto SYNTAX;
+    }
+    
+    // Fine, append the valid BuildToken
+    bldTok.type    = BuildToken::TypeEndList;
+    bldTok.errorNo = Error::None;
+    bldTok.range   = curTok.range;
+    status = bldToks.Append(bldTok);
+    if (status) goto SOMEERROR;
+    numOutToks++;
+
+    // Set Line type
+    lineType = BuildLineType::EndList;
+    
+    goto OK;
+    
+  }
+  
+  // Handle <Name>...
+  curTok = lexToks.Get(1);
+  if (curTok.type == LexTokenType::Operator && line.Get(curTok.range) == "...") {
+
+    // Make sure it's not followed by other stuff...
+    if (numInToks > 2) {
+      bldTok.errorNo = Error::UtilBuildExpectedEOL;
+      curTok = lexToks.Get(2);
+      goto SYNTAX;
+    }
+
+    // Append the MessageToken...
+    bldTok.type    = BuildToken::TypeBeginList;
+    bldTok.errorNo = Error::None;
+    bldTok.range.idx1 = lexToks.Get(0).range.idx1;
+    bldTok.range.idx2 = lexToks.Get(1).range.idx2;
+    status = bldToks.Append(bldTok);
+    numOutToks++;
+
+    // Set LineType...
+    goto OK;
+
+  }
+
+  // Nope, it better be a Path...
+  bldTok.type    = BuildToken::TypePath;
+  bldTok.errorNo = Error::None;
+  bldTok.range.idx1 = lexToks.Get(0).range.idx1;
+  bldTok.range.idx2 = lexToks.Get(0).range.idx2;
+    
+  curTok = LexToken();
+  curTok.range.idx1 = 0;
+  curTok.range.idx2 = startCol;
+
+  for (curIdx=0; curIdx < numInToks; curIdx++) { 
+    
+    prvTok = curTok;
+    status = lexToks.Get(curIdx, curTok);
+    if (status) goto SOMEERROR;
+    
+    // Handle multi-line Comment...
+    if (curTok.type == LexTokenType::Comment) {
+      if (line.Get(Range(curTok.range.idx1,curTok.range.idx1+1)) != "/*" || curTok.numLines)
+        break;
+      continue;
+    }
+      
+    // 
+    // If it's a Name/Number/String...
+    if (curTok.type == LexTokenType::Alpha ||
+        curTok.type == LexTokenType::Numeric ||
+        curTok.type == LexTokenType::StringLiteral) {
+    }
+      
+    // Append it to the MessageTokens...
+    bldTok.errorNo = Error::None;
+    curTok = lexToks.Get(curIdx);
+    bldTok.range = curTok.range;
+    status = bldToks.Append(bldTok);
+    if (status) goto SOMEERROR;
+    numOutToks++;
+    
+  }
+  */
+  
+  //  
+  // Handle errors
+  //
+
+  status = Error::None;
+  while(false) {
+    OK:             status = Error::None;           break;
+    NOTIMPLEMENTED: status = Error::NotImplemented; break;
+    INTERNAL:       status = Error::Internal;       break;
+    SOMEERROR:                                      break;
+    SYNTAX:         
+      bldTok.type   = BuildToken::TypeError;
+      bldTok.lineNo = lineNo;
+      bldTok.range  = curTok.range;
+      status = bldToks.Append(bldTok);
+      if (status) status = Error::Internal;
+      numOutToks++;
+      numErrors++;
+      break;
+  }
+  
+  return status;
+  
+}
+
+} // ...Namespace BEF_NS

@@ -1,0 +1,32 @@
+#-----------------------------------------------------------------------
+# File: TypeNotes.txt - Thoughts about Type System
+#-----------------------------------------------------------------------
+
+Types...
+
+  Type
+  Attribute
+  Prim[itive]
+    Bit[s]
+    Number
+	  Int[eger]
+	  Float[ing[Point]]
+	  Complex
+	  Fraction
+	String
+  Struct[ure[d]]
+    Value
+    Object
+    Type
+    Class
+    Union
+  Enum[eration]
+  Seq[uence]
+  Alias
+  Id[ent[ifier]]
+  Diff[erent[iator]]
+  Constraint
+  ConstraintC[on[text]]
+  Model
+  
+...BaseTypes

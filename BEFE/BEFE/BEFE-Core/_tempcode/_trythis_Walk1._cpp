@@ -1,0 +1,215 @@
+#include "BEFE.h"
+#include "Command.h"
+#include "VarTerm.h"
+#include "FileStream.h"
+
+namespace BEF_NS {
+
+struct WalkInfo {
+
+  Boolean doFiles;
+  Time    theTime;
+  UInt32  subDirCount;
+  UInt32  fileCount;
+  Strings srcFiles;
+
+  WalkInfo() {
+    StartUp();
+  }
+
+  void StartUp() {
+    srcFiles.StartUp();
+    Clear();
+  }
+
+  void Clear() {
+    doFiles     = false;
+    subDirCount = 0;
+    fileCount   = 0;
+    srcFiles.Clear();
+  }
+
+};
+
+Status Walker(String const &subDir, Int32 &context) {
+
+  Status    status;
+  Strings   files;
+  UInt      numFiles;
+  UInt      fileNo;
+  String    file;
+  WalkInfo *info;
+
+  info = (WalkInfo *)context;
+  info->subDirCount++;
+
+  status = Error::None;
+
+  if (!info->doFiles) goto DONE;
+
+  status = TheOS->GetFiles(subDir,files);
+  if (status) goto DONE;
+  numFiles = files.Length();
+  info->fileCount += numFiles;
+
+  for (fileNo=0; fileNo < numFiles; fileNo++) {
+    file = files.Get(fileNo);
+    if (file.GetSlice(-2) == ".h" ||
+        file.GetSlice(-4) == ".cpp" ||
+        file.GetSlice(-2) == ".c") {
+      status = info->srcFiles.Append(file);
+      if (status) goto DONE;
+    }
+  }
+
+DONE:
+
+  return status;
+
+}
+
+Status WalkDir(char const *dir, WalkInfo &info) {
+
+  Status     status;
+  Time       start;
+  Time       end;
+  Int32      context;
+  UInt32     numFiles;
+  UInt       idx;
+  String     file;
+
+  FileStream fstream;
+
+  info.StartUp();
+  info.doFiles = true;
+
+  Cout << "Walking '" << dir << "'...\n";
+
+  context = (Int32)&info;
+  start.Set();
+  status = TheOS->Walk(dir,Walker,context);
+  end.Set();
+  if (status) {
+    Cout << "Error from TheOS->Walk... " << ErrorString(status) << '\n';
+    goto DONE;
+  }
+  Cout << "  There are " << info.subDirCount       << " Sub-Directories\n";
+  Cout << "  There are " << info.fileCount         << " Files\n";
+  Cout << "  There are " << info.srcFiles.Length()  << " .h, .cpp, or .c Files\n";
+  Cout << "    Elapsed time: " << ToString(start,end) << '\n';
+
+  if (gVerbose) { // Verbose...
+
+    numFiles = info.srcFiles.Length();
+    for (idx=0; idx < numFiles; idx++) {
+      file = info.srcFiles.Get(idx);
+      if (idx == 0)
+        Cout << "\nSource Files...\n\n";
+      Cout << "  " << file << '\n';
+    }
+
+  } // ...Verbose
+
+  goto OK;
+
+OK:
+  status = Error::None;
+  goto DONE;
+
+DONE:
+
+  return status;
+
+}
+
+Status trythis() {
+
+  Status     status;
+  WalkInfo   info;
+  FileStream inStream;
+  String     line;
+  UInt       numLines;
+  UInt       totLen;
+  FileStream outStream;
+  UInt       fileIdx;
+  String     inFileName;
+
+  status = WalkDir("d:/Cloud/Dropbox/SVN/bferris/c++",info);
+  if (status) goto ERRORWalkDir;
+
+  status = outStream.SetName("d:/play/AllSource.befe");
+  if (status) goto ERRORSetOutName;
+  status = outStream.SetSize(0);
+  if (status) goto ERRORSetSize;
+
+  numLines = 0;
+  totLen   = 0;
+
+  for (fileIdx=0; fileIdx < info.srcFiles.Length(); fileIdx++) {
+
+    inFileName = info.srcFiles.Get(fileIdx);
+
+    status = inStream.SetName(inFileName);
+    if (status) goto ERRORSetInName;
+
+    Cout << "Reading " << inFileName << "...\n";
+
+    do {
+
+      status = inStream.GetLine(line);
+      if (status == Error::StreamAtEnd) break;
+      if (status) goto ERRORGetLine;
+      totLen += line.Length();
+      numLines++;
+
+      if (gVeryVerbose)
+        Cout << "Line " << numLines << ": " << line << '\n';
+
+      status = outStream.PutLine(line);
+      if (status) goto ERRORPutLine;
+      // TEMP...
+      //break;
+      // ...TEMP
+
+    } while (true);
+
+  }
+
+  Cout << "  " << numLines << " lines\n";
+  if (numLines) {
+    Cout << "  " << totLen          << " total characters\n";
+    Cout << "  " << totLen/numLines << " average characters per line\n";
+  }
+
+  goto OK;
+
+ERRORWalkDir:
+  ERROR("trythis(WalkDir)",status);
+  goto DONE;
+ERRORSetOutName:
+  ERROR("trythis(FileStream.SetName) outStream",status);
+  goto DONE;
+ERRORSetInName:
+  ERROR("trythis(FileStream.SetName) inStream",status);
+  goto DONE;
+ERRORSetSize:
+  ERROR("trythis(FileStream.SetSize)",status);
+  goto DONE;
+ERRORGetLine:
+  ERROR("trythis(FileStream.GetLine)",status);
+  goto DONE;
+ERRORPutLine:
+  ERROR("trythis(FileStream.PutLine)",status);
+  goto DONE;
+OK:
+  WARN("Read Lines from FileStream worked!!!");
+  status = Error::None;
+  goto DONE;
+
+DONE:
+
+  return status;
+
+}
+
+}; // Namespace BEF_NS

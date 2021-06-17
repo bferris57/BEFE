@@ -1,0 +1,902 @@
+head	1.46;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.46
+date	2002.11.03.08.24.56;	author bferris;	state Exp;
+branches;
+next	1.45;
+
+1.45
+date	2002.11.01.06.04.12;	author bferris;	state Exp;
+branches;
+next	1.44;
+
+1.44
+date	2002.10.31.06.03.13;	author bferris;	state Exp;
+branches;
+next	1.43;
+
+1.43
+date	2002.10.30.04.41.50;	author bferris;	state Exp;
+branches;
+next	1.42;
+
+1.42
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.41;
+
+1.41
+date	2002.10.23.09.05.50;	author bferris;	state Exp;
+branches;
+next	1.40;
+
+1.40
+date	2002.10.23.07.42.42;	author bferris;	state Exp;
+branches;
+next	1.39;
+
+1.39
+date	2002.10.22.23.45.39;	author bferris;	state Exp;
+branches;
+next	1.38;
+
+1.38
+date	2002.10.22.07.09.01;	author bferris;	state Exp;
+branches;
+next	1.37;
+
+1.37
+date	2002.10.21.08.54.22;	author bferris;	state Exp;
+branches;
+next	1.36;
+
+1.36
+date	2002.10.19.14.37.35;	author bferris;	state Exp;
+branches;
+next	1.35;
+
+1.35
+date	2002.10.19.12.26.01;	author bferris;	state Exp;
+branches;
+next	1.34;
+
+1.34
+date	2002.10.19.11.33.47;	author bferris;	state Exp;
+branches;
+next	1.33;
+
+1.33
+date	2002.10.19.07.52.34;	author bferris;	state Exp;
+branches;
+next	1.32;
+
+1.32
+date	2002.10.19.07.15.33;	author bferris;	state Exp;
+branches;
+next	1.31;
+
+1.31
+date	2002.10.19.05.50.21;	author bferris;	state Exp;
+branches;
+next	1.30;
+
+1.30
+date	2002.10.18.03.05.05;	author bferris;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	2002.10.17.05.50.09;	author bferris;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2002.10.16.04.34.02;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.15.06.13.26;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.14.22.10.17;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.14.21.15.45;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.14.20.05.55;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.14.06.06.38;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.13.17.20.37;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.13.10.15.23;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.13.08.25.31;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.06.09.09.43;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.06.07.42.05;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.05.19.11.00;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.05.16.09.54;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.05.06.42.09;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.03.22.26.43;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.02.20.59.49;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.01.21.48.23;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.01.19.11.57;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.09.29.18.47.42;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.09.29.18.34.50;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.09.29.10.20.14;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.09.29.08.55.17;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.09.29.08.34.03;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.09.29.07.30.50;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.28.08.35.35;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.28.06.45.03;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.28.06.34.10;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.27.05.59.20;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.46
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlerrors.h - Definitions for the XML error codes
+  
+  DESCRIPTION
+    
+    This file contains the definitions for all XML errors.
+    
+*/
+
+#ifndef _xmlerrors_h
+
+#define _xmlerrors_h
+
+//
+// Error codes
+//
+
+enum XMLErrors {
+
+  // General
+   XMLErrorBaseGeneral = 0
+    ,XMLErrorNone              = 0                  // No error
+    ,XMLErrorInternal          = 1                  // Internal error
+    ,XMLErrorOutOfMemory       = 2                  // Out of memory
+    ,XMLErrorNotImplemented    = 3                  // Method not implemented
+    ,XMLErrorInvalidParameters = 4                  // Invalid parmeters passed
+  
+  // XML Manager errors
+  ,XMLErrorBaseManager    = 50                      // XML Manager errors
+    ,XMLErrorMgrFailedToInitialise        = 51        // Failed to initialise properly
+    ,XMLErrorMgrDocumentIsNotOurs         = 52        // Specified document is not owned by this manager
+    ,XMLErrorMgrDocumentIsAlreadyManaged  = 53        // Document is already managed
+    ,XMLErrorMgrUnknownFileType           = 54        // Unknown file type (XML, Compiled, etc.)
+    
+  // Parsing
+  ,XMLErrorBaseLex        = 100                     // Lexical errors
+  
+  ,XMLErrorBaseSyntax     = 200                     // Syntax errors
+    ,XMLErrorSynWhiteSpaceNotAllowed = 201           // Whitespace not allowed here
+    ,XMLErrorSynLiteralNotTerminated = 202           // Quoted literal not terminated properly
+    ,XMLErrorSynEntityNotTerminated  = 203           // Entity (&...;) not terminated properly
+    ,XMLErrorSynExpectedStartOfTag   = 204           // Expected '<'
+    ,XMLErrorSynExpectedEndOfTag     = 205           // Expected '>'
+    ,XMLErrorSynExpectedElementName  = 206           // Expected <name>[:<name>[...]]
+    ,XMLErrorSynExpectedAttribute    = 207           // Expected <attr>=<value>, '/', or '>'
+    ,XMLErrorSynExpectedValue        = 208           // Expected "<value>"
+    ,XMLErrorSynExpectedEquals       = 209           // Expected '='
+    ,XMLErrorSynExpectedPIName       = 210           // Expected name after '<?'
+    ,XMLErrorSynExpectedDTDName      = 211           // Expected name after '<!'
+
+  ,XMLErrorBaseSemantic   = 300                     // Semantic errors
+    ,XMLErrorDuplicateAttribute      = 301             // Attribute already exists
+    ,XMLErrorUnexpectedEndOfInput    = 302             // End of input encountered
+    ,XMLErrorUnterminatedElement     = 303             // Unterminated element
+    ,XMLErrorMismatchedEndElement    = 304             // End doesn't match name
+      
+  ,XMLErrorBaseValidate   = 400                     // Validation errors
+  
+  ,XMLErrorBaseDTD        = 500                     // DTD specific validation errors
+  
+  ,XMLErrorBaseXSchema    = 600                     // XSchema specific validation errors
+   
+  // I/O 
+  ,XMLErrorIO             = 1000                    // General I/O errors
+    ,XMLErrorIOReadAccessDenied     = 1001            // Stream will not allow reading
+    ,XMLErrorIOWriteAccessDenied    = 1002            // Stream will not allow writing
+    ,XMLErrorIOOperationDenied      = 1003            // Requested operation denied
+    ,XMLErrorIODifferentManager     = 1004            // Cannot reparent buffer to different IO manager
+    ,XMLErrorIONoHashTable          = 1005            // Cannot hash, stream has no hash table
+    ,XMLErrorIOBufferUnderrun       = 1006            // Buffer underrun
+    ,XMLErrorIOBufferOverrun        = 1007            // Buffer overrun
+    ,XMLErrorIONoBuffer             = 1008            // Buffer has no buffer data
+    ,XMLErrorIOStreamNotManaged     = 1009            // Stream has no IO manager
+    ,XMLErrorIOBufferNotFound       = 1010            // IO Buffer not found for given stream offset
+    ,XMLErrorIOURLNotFound          = 1011            // URL not found
+    ,XMLErrorIOBufferNotStreamed    = 1012            // IO Buffer not associated with a stream
+    ,XMLErrorIOBufferLocked         = 1013            // Can't free buffer, it's locked
+    ,XMLErrorIOError                = 1014            // Encountered OS I/O error
+  
+  ,XMLErrorBaseStream     = 1200                    // I/O stream errors  
+    ,XMLErrorIOStreamNotOpen        = 1201            // The IO stream is not open
+    ,XMLErrorIOStreamAlreadyOpen    = 1202            // The IO stream is already open
+    ,XMLErrorIOInternalFileError    = 1203            // File system returned an error
+    ,XMLErrorIOStreamSeekPastEOS    = 1204            // Seek past end of stream requested
+  
+  // Strings
+  ,XMLErrorBaseString     = 1300                    // String errors
+    ,XMLErrorStringTruncated        = 1301            // Caller's buffer too small
+    ,XMLErrorStringNotFound         = 1302            // The string wasn't found
+    ,XMLErrorOffsetBeyondString     = 1303            // Specified offset/offset+len was beyond end of string
+    ,XMLErrorStringBadHash          = 1304            // String has invalid hash
+    ,XMLErrorStringNotMutable       = 1305            // String is not mutable
+    ,XMLErrorStringNotCapable       = 1306            // String can't perform requested operation
+    ,XMLErrorStringBadIndex         = 1307            // Invalid string table index
+    ,XMLErrorStringIndexUsed        = 1308            // String table index already used
+
+  // XML parsing/management basic errors
+  ,XMLErrorXML            = 1400                    // Basic XML manipulation errors
+    ,XMLErrorXMLNotMutable          = 1401            // The XML element is not mutable
+    ,XMLErrorXMLUnknownClass        = 1402            // Unknown element class
+    ,XMLErrorXMLInvalidClass        = 1403            // Invalid class for this element
+    ,XMLErrorXMLAttributeNotFound   = 1404            // Given attribute not found
+    ,XMLErrorXMLAttributeExists     = 1405            // Given attribute already exists
+    ,XMLErrorXMLNotCapable          = 1406            // Cannot perform requested operation
+    
+  // XML document errors
+  ,XMLErrorDoc            = 1500                    // XML Document errors
+    ,XMLErrorDocCursorNotMine       = 1501            // The cursor doesn't belong to the document
+    ,XMLErrorDocNotCapable          = 1502            // Document cannot perform requested operation
+    ,XMLErrorDocSourceAlreadySet    = 1503            // Source XML already set
+    ,XMLErrorDocSourceHasContents   = 1504            // Can't set source, already have contents
+    ,XMLErrorDocHasConstructor      = 1505            // Document already has a constructor
+    ,XMLErrorDocHasDestructor       = 1506            // Document already has a destructor
+    ,XMLErrorDocInvalidToken        = 1507            // Invalid token number
+
+  // XML cursor errors
+  ,XMLErrorCsr            = 1600                    // XML Cursor errors
+    ,XMLErrorCsrNotPositioned         = 1601          // No current cursor position
+    ,XMLErrorCsrNotCapable            = 1602          // Cursor cannot perform requested operation
+    ,XMLErrorCsrNoDocument            = 1603          // Cursor not associated with a document
+    ,XMLErrorCsrNotSameDocument       = 1604          // Cannot compare, cursors don't have same document
+    ,XMLErrorCsrCannotCompare         = 1605          // Cannot compare, incomplete cursor information
+    ,XMLErrorCsrAtLeaf                = 1606          // Can't position Down, at leaf node
+    ,XMLErrorCsrAtLastChild           = 1607          // Can't position Next, at last child
+    ,XMLErrorCsrDuplicateRegistration = 1608          // Another cursor has already registered
+    ,XMLErrorCsrAlreadyRegistered     = 1609          // Cursor already registered
+    ,XMLErrorCsrNotRegistered         = 1610          // Cursor not registered
+    ,XMLErrorCsrEndOfDocument         = 1611          // Cannot walk, at end of document
+    ,XMLErrorCsrAlreadyHasChildren    = 1612          // Operation invalid, element already has children
+  
+  // XML Compiler errors
+  ,XMLErrorCompile        = 1700                    // XML compiled write/read errors
+    ,XMLErrorCompileNoDocument        = 1701          // Not associated with a document  
+    ,XMLErrorCompileNoString          = 1702          // Not assocated with an input/output string
+    ,XMLErrorCompileUnknownClass      = 1703          // Unknown element class encountered
+    ,XMLErrorCompileExpectedToken     = 1704          // Expected token op (reader)
+    ,XMLErrorCompileExpectedText      = 1705          // Expected text op (reader)
+    ,XMLErrorCompileUnknownVersion    = 1706          // Compiled XML has unknown version
+    ,XMLErrorCompileMalformed         = 1707          // Malformed compiled XML
+    
+  // End
+  ,XMLErrorBaseHigh       = 9999
+};
+
+#endif // _xmlerrors_h
+@
+
+
+1.45
+log
+@Finished compile reader, ready to test
+@
+text
+@d37 1
+@
+
+
+1.44
+log
+@More work on compile reader
+@
+text
+@d141 2
+@
+
+
+1.43
+log
+@Added NewIndex() to XMLStringTable
+@
+text
+@d139 2
+@
+
+
+1.42
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d98 1
+@
+
+
+1.41
+log
+@Added token table to XMLDocumentBase - Not used yet
+@
+text
+@d132 6
+@
+
+
+1.40
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d116 1
+@
+
+
+1.39
+log
+@Coded XMLStringTable
+@
+text
+@d102 2
+a103 2
+    ,XMLErrorXMLUnknownType         = 1402            // Unknown element type
+    ,XMLErrorXMLInvalidType         = 1403            // Invalid type for this element
+@
+
+
+1.38
+log
+@Implemented XMLManager
+@
+text
+@d97 1
+@
+
+
+1.37
+log
+@Parser handles syntax errors, values must have quotes now
+@
+text
+@d32 6
+@
+
+
+1.36
+log
+@Ready to test parser for real!
+@
+text
+@d43 1
+a43 1
+    ,XMLErrorSynExpectedValue        = 208           // Expected <value>
+@
+
+
+1.35
+log
+@All parsing functions except cursor new after/below written
+@
+text
+@d123 1
+@
+
+
+1.34
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@d99 1
+@
+
+
+1.33
+log
+@Separate DTD syntax token (contains whole contents)
+@
+text
+@d49 4
+a52 11
+    ,XMLErrorSemUnexpectedPI         = 301            // Unexpected start of processing instruction
+    ,XMLErrorSemUnexpectedPIText     = 302            // Unexpected processing instruction text
+    ,XMLErrorSemUnexpectedElement    = 303            // Unexpected start of element
+    ,XMLErrorSemUnexpectedEndElement = 304            // Unexpected end of element
+    ,XMLErrorSemUnexpectedAttribute  = 305            // Unexpected attribute name
+    ,XMLErrorSemUnexpectedValue      = 306            // Unexpected attribute value
+    ,XMLErrorSemUnexpectedText       = 307            // Unexpected text
+    ,XMLErrorSemUnexpectedWhite      = 308            // Unexpected whitespace
+    ,XMLErrorSemUnexpectedComment    = 309            // Unexpected comment
+    ,XMLErrorSemUnexpectedEntity     = 310            // Unexpected entity
+    ,XMLErrorSemUnexpectedCDATA      = 311            // Unexpected CDATA
+@
+
+
+1.32
+log
+@Skeleton parser passing through simple.xml OK without errors
+@
+text
+@d45 2
+a46 2
+    ,XMLErrorSynDTDNotImplementedYet = 210           // DTD not implemented yet (skipping)
+    ,XMLErrorSynExpectedPIName       = 211           // Expected name after '<?'
+@
+
+
+1.31
+log
+@Plugged walker into document tester
+@
+text
+@d46 1
+d50 1
+a50 1
+    ,XMLErrorSemUnexpectedEndOfPI    = 302            // Unexpected end of processing instruction
+@
+
+
+1.30
+log
+@Implemented SubString() in all string classes
+@
+text
+@d127 1
+@
+
+
+1.29
+log
+@Some bare bones in XMLParser::Walk
+@
+text
+@d93 1
+a93 1
+    ,XMLErrorOffsetBeyondString     = 1303            // Specified offset was beyond end of string
+d96 1
+@
+
+
+1.28
+log
+@Changed Iterate() to Walk(), ready to write parser
+@
+text
+@d48 12
+a59 1
+  
+@
+
+
+1.27
+log
+@Added XMLCursorParser and constructor registration functions
+@
+text
+@d100 2
+@
+
+
+1.26
+log
+@More traversing behaviour in XMLCursorBase, calls parser now
+@
+text
+@d103 10
+a112 7
+    ,XMLErrorCsrNotPositioned       = 1601            // No current cursor position
+    ,XMLErrorCsrNotCapable          = 1602            // Cursor cannot perform requested operation
+    ,XMLErrorCsrNoDocument          = 1603            // Cursor not associated with a document
+    ,XMLErrorCsrNotSameDocument     = 1604            // Cannot compare, cursors don't have same document
+    ,XMLErrorCsrCannotCompare       = 1605            // Cannot compare, incomplete cursor information
+    ,XMLErrorCsrAtLeaf              = 1606            // Can't position Down, at leaf node
+    ,XMLErrorCsrAtLastChild         = 1607            // Can't position Next, at last child
+@
+
+
+1.25
+log
+@More XMLCursor behaviour - won't compile yet
+@
+text
+@d108 2
+@
+
+
+1.24
+log
+@Finished XMLCursorBase initial implementation
+@
+text
+@d97 3
+@
+
+
+1.23
+log
+@Implemented most of XMLCursorBase
+@
+text
+@d102 3
+@
+
+
+1.22
+log
+@Implemented XMLElementComplex
+@
+text
+@d98 5
+@
+
+
+1.21
+log
+@Implemented XMLElementMem and XMLElementText
+@
+text
+@d91 2
+d97 1
+a97 1
+          
+@
+
+
+1.20
+log
+@More work on base XML classes
+@
+text
+@d89 2
+@
+
+
+1.19
+log
+@Added mutable calls to XMLString
+@
+text
+@d89 4
+@
+
+
+1.18
+log
+@Added XMLIOStreamCon class for console I/O
+@
+text
+@d84 1
+d88 1
+a88 1
+    ,XMLErrorXMLNotMutable          = 1401            // The XML document is not mutable
+@
+
+
+1.17
+log
+@Added default factory code for XML elements (returns NotMutable)
+@
+text
+@d59 12
+a70 10
+    ,XMLErrorIODifferentManager     = 1003            // Cannot reparent buffer to different IO manager
+    ,XMLErrorIONoHashTable          = 1004            // Cannot hash, stream has no hash table
+    ,XMLErrorIOBufferUnderrun       = 1005            // Buffer underrun
+    ,XMLErrorIOBufferOverrun        = 1006            // Buffer overrun
+    ,XMLErrorIONoBuffer             = 1007            // Buffer has no buffer data
+    ,XMLErrorIOStreamNotManaged     = 1008            // Stream has no IO manager
+    ,XMLErrorIOBufferNotFound       = 1009            // IO Buffer not found for given stream offset
+    ,XMLErrorIOURLNotFound          = 1010            // URL not found
+    ,XMLErrorIOBufferNotStreamed    = 1011            // IO Buffer not associated with a stream
+    ,XMLErrorIOBufferLocked         = 1012            // Can't free buffer, it's locked
+@
+
+
+1.16
+log
+@XMLIOString works with big.xml!
+@
+text
+@d82 5
+a86 1
+      
+@
+
+
+1.15
+log
+@XMLIOString works with 1 buffer
+@
+text
+@d66 3
+a68 2
+    ,XMLErrorIOURLNotFound          = 1210            // URL not found
+    ,XMLErrorIOBufferNotStreamed    = 1211            // IO Buffer not associated with a stream
+d74 1
+a74 1
+    ,XMLErrorIOStreamSeekPastEOS    = 1203            // Seek past end of stream requested
+@
+
+
+1.14
+log
+@XMLStringConst and XMLStringHash working - Crap hash though!
+@
+text
+@d80 1
+@
+
+
+1.13
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d30 1
+a30 1
+    ,XMLErrorInvalidParameters = 4
+@
+
+
+1.12
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d78 2
+@
+
+
+1.11
+log
+@Finished base implementation of XMLString
+@
+text
+@d67 1
+@
+
+
+1.10
+log
+@Finished initial XMLIOStreamBuf except for write() and FlushBuffer()
+@
+text
+@d73 5
+a77 1
+    
+@
+
+
+1.9
+log
+@More XMLIOStreamBUF work - ...::Read not finished
+@
+text
+@d72 1
+@
+
+
+1.8
+log
+@Started on XMLIOStreamBuf implementation
+@
+text
+@d71 1
+@
+
+
+1.7
+log
+@Implemented BufLock() and BufUnlock() in XMLIOStream
+@
+text
+@d56 11
+a66 12
+  ,XMLErrorBaseIO         = 1000                    // General I/O errors
+    ,XMLErrorIOReadAccessDenied     = 1001           // Stream will not allow reading
+    ,XMLErrorIOWriteAccessDenied    = 1002           // Stream will not allow writing
+    ,XMLErrorIODifferentManager     = 1003           // Cannot reparent buffer to different IO manager
+    ,XMLErrorIONoHashTable          = 1004           // Cannot hash, stream has no hash table
+    ,XMLErrorIOBufferUnderrun       = 1005           // Buffer underrun
+    ,XMLErrorIOBufferOverrun        = 1006           // Buffer overrun
+    ,XMLErrorIONoBuffer             = 1007           // Buffer has no buffer data
+    ,XMLErrorIOStreamNotManaged     = 1008           // Stream has no IO manager
+    ,XMLErrorIOBufferNotFound       = 1009           // IO Buffer not found for given stream offset
+  
+  ,XMLErrorBaseManager    = 1100                    // I/O Manager errors
+d69 3
+a71 1
+  
+@
+
+
+1.6
+log
+@IO construct/destruct tidy & added hash stuff to XMLIOStream
+@
+text
+@d65 1
+@
+
+
+1.5
+log
+@Reworked xmlio for hashing etc.
+@
+text
+@d64 1
+@
+
+
+1.4
+log
+@More work on IO manager
+@
+text
+@d59 5
+@
+
+
+1.3
+log
+@Wrong enum declaration
+@
+text
+@d26 5
+a30 4
+    ,XMLErrorNone           = 0                     // No error
+    ,XMLErrorInternal       = 1                     // Internal error
+    ,XMLErrorOutOfMemory    = 2                     // Out of memory
+    ,XMLErrorNotImplemented = 3                     // Method not implemented
+d57 2
+@
+
+
+1.2
+log
+@Moved error codes from local .h to xmlerrors.h
+@
+text
+@d22 1
+a22 1
+enum {
+d63 1
+a63 1
+} XMLErrorBase;
+@
+
+
+1.1
+log
+@Added xmlerrors.h for all XML error codes
+@
+text
+@d26 4
+a29 3
+   
+    ,XMLErrorInternal     = 1                       // Internal error
+    ,XMLErrorOutOfMemory  = 2                       // Out of memory
+d35 11
+a45 1
+  
+@
+

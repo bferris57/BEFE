@@ -1,0 +1,413 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.7
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.22.23.45.39;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.22.18.08.38;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.22.15.12.56;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.04.05.32.44;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.03.22.26.43;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.02.20.59.50;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmlhashtable.h - Definitions for the XML String hash table
+  
+  DESCRIPTION
+
+    The XMLHashTable class implements a hash table for XMLString
+    instances.
+  
+*/
+
+#ifndef _xmlhashtable_h
+
+#define _xmlhashtable_h
+
+#include "xml.h"
+
+// Forward class prototypes
+
+class XMLHashTable;
+class XMLHashTableEntry;
+
+//
+//  XMLHashStatistics - Hash table statistics
+//
+// DESCRIPTION
+//
+//  This structure is used to report statistics on a hash table.
+//
+
+typedef struct {
+
+  int    blcount;                                   // Number of buckets
+  int    blsumlength;                               // Number of entries
+  int    blminlength;                               // Minimum bucket length
+  int    blmaxlength;                               // Maximum bucket length
+  double blavglength;                               // Average bucket length
+  double blstdlength;                               // Std dev bucket length
+  
+} XMLHashStatistics;
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLHashTable - Manage a set of XMLHashTableEntry instances.
+//
+// DESCRIPTION
+//
+//  This class implements an in-memory hash table to find any number of
+//  XMLString instances.
+//
+//  Once an XMLString has been inserted in the table, the table assumes
+//  ownership of it until Remove() has been called OR the caller told
+//  us they own it.
+//
+
+class XMLHashTable : public XMLObject {
+  
+  //
+  // Public member functions
+  //
+
+public:
+  
+  // Constructor/destructor
+  XMLHashTable(int optbucketsize = 0, int minincrement = 0);
+  virtual ~XMLHashTable();
+  
+  // Query
+  virtual int      Length(void);
+  
+  // Find
+  virtual XMLError Find(XMLString *lookfor, XMLString **found);
+  
+  // Add a new one
+  virtual XMLError Add(XMLString *string, int hashowned = 1);
+  
+  // Delete an exact existing one
+  virtual XMLError Remove(XMLString *lookfor);
+    
+  // Get hash table statistics
+  virtual void GetStatistics(XMLHashStatistics *stats);
+
+  //
+  // Protected member functions
+  //
+  
+protected:
+
+  // Entry alloc/free
+  virtual XMLError NewEntry(XMLHashTableEntry **entry, XMLString *string, int owned);
+  virtual XMLError DelEntry(XMLHashTableEntry *entry);
+  
+  // Find entry
+  virtual XMLError FindEntry(
+    XMLString          *lookfor,
+    XMLHashTableEntry **found,
+    int                 exact = 0,
+    XMLHash            *bucket= NULL);
+
+  // Expand/contract the hash table if required
+  virtual XMLError Rehash(int newentries);
+
+  //
+  // Protected members
+  //
+
+protected:
+
+  // ALlocation
+  
+  // Rehash() info
+  int                 m_optbucketsize; // Optimal bucket size
+  int                 m_minincrement;  // Minimum expand/collapse increment
+  
+  // The real info
+  int                 m_numbuckets;    // Current number of buckets
+  XMLHashTableEntry **m_buckets;       // Hash table bucket list
+  int                 m_numentries;    // Current number of entries
+  
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLHashTableEntry - Manage a single entry in an XMLHashTable table
+//
+// DESCRIPTION
+//
+//  Each instance of this class represents a single string in the hash table.
+//
+//  This class is pretty mindless since it's only used to maintain the hash
+//  forward/backward chains and a pointer to the string.
+//
+
+class XMLHashTableEntry : public XMLObject {
+
+  friend class XMLHashTable;
+  
+  //
+  // Protected member functions
+  //
+
+protected:
+
+  XMLHashTableEntry(XMLString *thestring = NULL,int owned = 1);
+  ~XMLHashTableEntry();
+  void       Insert(XMLHashTableEntry **head,XMLHashTableEntry **tail = NULL);
+  void       Remove(XMLHashTableEntry **head,XMLHashTableEntry **tail = NULL);
+  XMLString *GetString(void);
+  void       SetString(XMLString *thestring, int owned = 1);
+  int        IsStringOwned(void);
+  void       Clean(void);
+  
+  //
+  // Protected members
+  //
+  
+protected:
+
+  XMLHashTableEntry *m_nextentry;
+  XMLHashTableEntry *m_preventry;
+  XMLString         *m_string;
+  
+};
+
+#endif // _xmlhashtable_h
+@
+
+
+1.6
+log
+@Coded XMLStringTable
+@
+text
+@d142 1
+a142 1
+  friend XMLHashTable;
+@
+
+
+1.5
+log
+@Made XMLHashTable able to be specialised
+@
+text
+@a71 4
+  // Entry alloc/free
+  virtual XMLError NewEntry(XMLHashTableEntry **entry, XMLString *string, int owned);
+  virtual XMLError DelEntry(XMLHashTableEntry *entry);
+  
+d93 4
+d150 1
+a150 1
+  XMLHashTableEntry(XMLString *thestring,int owned = 1);
+d152 2
+a153 2
+  void       Insert(XMLHashTableEntry **head);
+  void       Remove(XMLHashTableEntry **head);
+d155 3
+d171 1
+a171 1
+#endif _xmlhashtable_h
+@
+
+
+1.4
+log
+@Renamed xmlshash.* to xmlhashtable.*, XMLHashstring to XMLHashTable
+@
+text
+@d68 1
+a68 1
+  // Constructor
+d70 6
+a75 1
+  ~XMLHashTable();
+d77 2
+a78 1
+  int      Length(void);
+d80 2
+a81 1
+  XMLError Find(XMLString *lookfor, XMLString **found);
+d83 2
+a84 1
+  XMLError Add(XMLString *string, int hashowned = 1);
+d86 1
+a86 1
+  XMLError Remove(XMLString *lookfor);
+d89 1
+a89 1
+  void GetStatistics(XMLHashStatistics *stats);
+d98 1
+a98 1
+  XMLError FindEntry(
+d105 1
+a105 1
+  XMLError Rehash(int newentries);
+d113 2
+@
+
+
+1.3
+log
+@Added hash statistics
+@
+text
+@d5 1
+a5 1
+    xmlshash.h - Definitions for the XML String hash table
+d9 1
+a9 1
+    The XMLStringHash class implements a hash table for XMLString
+a11 5
+  NOTES
+  
+    We need to change this to allocate memory using a memory
+    stream once we've written XMLIOStreamMemory.
+    
+d14 1
+a14 1
+#ifndef _xmlshash_h
+d16 1
+a16 1
+#define _xmlshash_h
+d22 2
+a23 2
+class XMLStringHash;
+class XMLStringHashEntry;
+d48 1
+a48 1
+//  XMLStringHash - Manage a set of XMLStringHashEntry instances.
+d60 1
+a60 1
+class XMLStringHash : public XMLObject {
+d69 2
+a70 2
+  XMLStringHash(int optbucketsize = 0, int minincrement = 0);
+  ~XMLStringHash();
+d91 4
+a94 4
+    XMLString           *lookfor,
+    XMLStringHashEntry **found,
+    int                  exact = 0,
+    XMLHash             *bucket= NULL);
+d106 2
+a107 2
+  int                  m_optbucketsize;             // Optimal bucket size
+  int                  m_minincrement;              // Minimum expand/collapse increment
+d110 3
+a112 3
+  int                  m_numbuckets;                // Current number of buckets
+  XMLStringHashEntry **m_buckets;                   // Hash table bucket list
+  int                  m_numentries;                // Current number of entries
+d120 1
+a120 1
+//  XMLStringHashEntry - Manage a single entry in an XMLStringHash table
+d130 1
+a130 1
+class XMLStringHashEntry : public XMLObject {
+d132 1
+a132 1
+  friend XMLStringHash;
+d140 4
+a143 4
+  XMLStringHashEntry(XMLString *thestring,int owned = 1);
+  ~XMLStringHashEntry();
+  void       Insert(XMLStringHashEntry **head);
+  void       Remove(XMLStringHashEntry **head);
+d152 3
+a154 3
+  XMLStringHashEntry *m_nextentry;
+  XMLStringHashEntry *m_preventry;
+  XMLString          *m_string;
+d158 1
+a158 1
+#endif _xmlshash_h
+@
+
+
+1.2
+log
+@XMLStringConst and XMLStringHash working - Crap hash though!
+@
+text
+@d30 19
+d85 3
+@
+
+
+1.1
+log
+@Added XMLStringHash and XMLStringConst classes
+@
+text
+@d42 2
+a43 1
+//  ownership of it until Remove() has been called on the string.
+d55 1
+a55 1
+  XMLStringHash(int optbucketsize = 0);
+d62 2
+a63 2
+  XMLError Add(XMLString *string);
+  // Delete an existing one
+d90 1
+a90 1
+  int                  m_hysteresis;                // To keep from alloc/realloc too much
+d123 1
+a123 1
+  XMLStringHashEntry(XMLString *thestring);
+d125 3
+a127 2
+  void Insert(XMLStringHashEntry **head);
+  void Remove(XMLStringHashEntry **head);
+@
+

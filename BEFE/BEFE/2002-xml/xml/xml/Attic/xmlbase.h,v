@@ -1,0 +1,147 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.2
+date	2002.10.12.16.24.31;	author bferris;	state dead;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.06.23.31.13;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@Removed xmlbase.h and finalised doc/elem/cursor
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xml.h - Definitions for the internal XML base classes
+  
+  DESCRIPTION
+    
+    This file contains the definitions for high level abstract classes
+    used to implement XML documents.
+    
+    While stub implementations of these classes are implemented in xml.c,
+    sub-classes of these classes need to be written for these classes to
+    be useful.
+    
+  NOTES
+
+    The default behaviour of these function is to return an error 
+    indicating that the element, document, etc. is not mutable.
+*/
+
+#ifndef _xmlbase_h
+#define _xmlbase_h
+
+#include "xml.h"
+
+// Commonly used macros
+#ifndef MIN
+#  define MIN(a,b) ( ((a)<=(b))?(a):(b) )
+#endif
+#ifndef MAX
+#  define MAX(a,b) ( ((a)<=(b))?(b):(a) )
+#endif
+#ifndef ABS
+#  define ABS(a)   ( ((a)<0) ? (-a):(a) )
+#endif
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLElement - XML Element
+//
+// DESCRIPTION
+//
+//  This class represents a single XML element.  
+//
+
+class XMLElement : public XMLObject {
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLElement() = 0;
+  
+  // Type
+  virtual XML::Type GetType(void) = 0;
+
+  // Capability
+  virtual int       IsMutable(void);
+    
+  // Validity
+  virtual XMLError  GetValidity(XML::Validity *validity) = 0;
+  
+  // Atomic
+  virtual XMLError GetTypeName(XMLString **name) = 0;
+  virtual XMLError SetTypeName(XMLString **name) = 0;
+  virtual XMLError GetValue(XMLString **value) = 0;
+  virtual XMLError SetValue(XMLString *value) = 0;
+  
+  // Attributes
+  virtual XMLError GetNAttributes(int *numattributes) = 0;
+  virtual XMLError GetAttribute(int attrno,XMLAttribute **attr) = 0;
+  virtual XMLError FindAttribute(XMLString *name,int *attrno) = 0;
+  
+  // Elements
+  virtual XMLError GetNElements(void) = 0;
+  virtual XMLError GetElement(int elemno,XMLElement *elem) = 0;
+  
+
+}; 
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLAttribute - XML Element attribute
+//
+// DESCRIPTION
+//
+//  This class represents a single XML element attribute.  
+//
+
+class XMLAttribute : XMLObject {
+  //
+  // Public member functions
+  //
+public:
+  // Constructors/destructors
+  virtual ~XMLAttribute() = 0;
+  // Getters/setters
+  virtual XMLError GetName(XMLString *name) = 0;
+  virtual XMLError SetName(XMLString *name) = 0;
+  virtual XMLError GetValue(XMLString *value) = 0;
+  virtual XMLError SetValue(XMLString *value) = 0;
+}; 
+
+#endif /* _xmlbase_h */
+@
+
+
+1.1
+log
+@Reworked xml.h and XMLPath to be more APIish and semi-marshallable
+@
+text
+@@
+

@@ -1,0 +1,60 @@
+#include "BEFE.h"
+
+namespace BEF_NS {
+
+//----------------------------------------------------------------------
+//
+// trythis
+//
+//----------------------------------------------------------------------
+
+Status trythis() {
+
+  //UInt fg;  
+  //fg = Cout.SetForegroundColour(Console::Yellow);
+  //Cout << "*** Nothing for trythis to do at the moment ***\n";
+  //Cout.SetForegroundColour(fg);
+ 
+  Status status;
+  Cycle  cycle;
+  Bytes  bytes;
+  Int    i;
+  Int    curPos;
+  String where;
+  Byte   byte;
+  UInt   oldType;
+  
+  Cout << "Bytes Cycle...\n";
+
+  oldType = bytes.SetIndexType(Sequence::IndexType::Ring);
+  Cout << "  oldType = 0x" << ToHexString(oldType) << '\n';
+  
+  where = "Bytes.Append";
+  status = bytes.Append((Byte *)"0123456789abcdef",16);
+  if (status) goto SOMEERROR;
+
+  // Walk weirdly...
+  curPos = 0;
+  Cout << "  Ring Bytes = '";
+  for (i=0; i < 16; i++) {
+    byte = '#';
+    status = bytes.Get(curPos, byte);
+    curPos += i+1;
+    Cout << (char)byte;
+  }
+  Cout << "'\n";
+  
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    SOMEERROR: break;
+  }
+
+  if (status)
+    ERROR(String("trythis: ")+where, status);
+    
+  return status;
+  
+}
+
+}; // Namespace BEF_NS

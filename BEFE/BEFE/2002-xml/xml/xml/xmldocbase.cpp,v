@@ -1,0 +1,1488 @@
+head	1.16;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.16
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.30.04.41.50;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.29.06.12.50;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.27.11.10.14;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.26.09.10.30;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.24.12.50.14;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.24.03.31.28;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.23.13.05.43;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.23.09.05.49;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.22.14.57.11;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.22.07.09.01;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.21.10.41.22;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.21.05.41.43;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.16
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmldocbase.cpp - Implementation of the XMLDocumentBase class
+  DESCRIPTION
+    This file contains the default implementation of for all
+    XMLDocument classes.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xml.h"
+#include "xmldocbase.h"
+#include "xmlelmbase.h"
+#include "xmlmanager.h"
+#include "xmlcsrbase.h"
+#include "xmlcsrfree.h"
+#include "xmlstrmem.h"
+#include <memory.h>
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::XMLDocumentBase  - Constructor
+//  XMLDocumentBase::~XMLDocumentBase - Destructor
+//
+//
+
+XMLDocumentBase::XMLDocumentBase(XMLManagerBase *manager) {
+
+  // Clear manager info
+  m_manager = NULL;
+  m_nextdoc = NULL;
+  m_prevdoc = NULL;
+  
+  // If we have a manager...
+  if (manager) {
+  
+    // Set our manager
+    m_manager = manager;
+    
+    // Ask manager to manage us
+    manager->ManageDocument(this);
+    
+  }
+  
+  // Document root
+  m_root    = NULL;
+    
+  // Cursor list
+  m_firstcursor = NULL;
+  m_lastcursor = NULL;
+
+  // Constructor/destructor cursors
+  m_constructor = NULL;
+  m_destructor  = NULL;
+  
+  // Clear token table
+  m_tokens      = NULL;
+
+  // Clear input string table
+  m_numinstrings = 0;
+  m_maxinstrings = 0;
+  m_instrings    = NULL;
+    
+  // Clear statistics
+  m_nodecount = 0;
+  m_nodetotal = 0;
+  m_highwidth = 0;
+  m_highdepth = 0;
+
+}
+
+XMLDocumentBase::~XMLDocumentBase() {
+
+  XMLError result; // Return code
+  int      i;      // TEMP: Loop counter
+  
+  // If we have a manager...
+  if (m_manager) {
+  
+    // Ask manager to manage us
+    m_manager->ManageDocument(this);  
+  }
+  
+  // Remove root if we have one
+  if (m_root)
+    delete m_root;
+
+  // Remove cursors from document
+  result = XMLErrorNone;
+  while (m_firstcursor && result == XMLErrorNone)
+    result = RemoveCursor(m_firstcursor);
+
+  // Remove constructor/destructor cursors
+  if (m_constructor)
+    delete m_constructor;
+  if (m_destructor)
+    delete m_destructor;
+
+  // Remove token table
+  if (m_tokens)
+    delete m_tokens;
+
+  // Release input strings
+  for (i = 0; i < m_numinstrings; i++)
+    delete m_instrings[i];
+    
+  // Release input string table
+  if (m_instrings)
+    delete[] m_instrings;
+                        
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::NewCursor   - Create new cursor on the document
+//
+//
+
+XMLError XMLDocumentBase::NewCursor(XMLCursor **cursor) {
+
+  // Sanity checks
+  if (cursor == NULL)
+    return XMLErrorInvalidParameters;
+  
+  // Create a new generic cursor
+  *cursor = new XMLCursorBase(this);
+  if (*cursor == NULL)
+    return XMLErrorOutOfMemory;
+        
+  return XMLErrorNone;
+  
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::NewToken            - Add new reference to a token string
+//  XMLDocumentBase::RemoveToken         - Remove reference a given token string
+//  XMLDocumentBase::ResolveToken        - Get string for a given token
+//  XMLDocumentBase::ResolveString       - Find the token associated with a string
+//  XMLDocumentBase::RegisterInputString - Register a new owned input string
+//
+// DESCRIPTION
+//
+//  These functions manage the token <-> string tables for the document.
+//
+// NOTES
+//
+//  New token assumes ownership of the string.  If the token is found
+//  it will delete the string.  If the token is not found, the string
+//  will be placed in the token table.
+//
+
+XMLError XMLDocumentBase::NewToken(XMLString *string, XMLToken *index) {
+
+  XMLError result; // Return code
+  int      wasnew; // "Was this token new?"
+  
+  // Sanity checks
+  if (string == NULL || index == NULL) goto BADPARAMETERS;
+  
+  // If no token table...
+  if (m_tokens == NULL) {
+  
+    // Create a new one
+    m_tokens = new XMLStringTable();
+    if (m_tokens == NULL) goto OUTOFMEMORY;    
+    
+    // Tell it to keep unused strings
+    m_tokens->KeepUnusedStrings();
+    
+  }
+  
+  // Add it
+  result = m_tokens->AddReference(string,index,&wasnew);
+  if (result) goto ERROR;
+  
+  // If it wasn't new, delete the string
+  if (!wasnew)
+    delete string;
+    
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLDocumentBase::RemoveToken(XMLToken index) {
+
+  XMLError result;
+
+  // If no token table, it's invalid
+  if (m_tokens == NULL) goto BADTOKEN;
+    
+  // Find it
+  result = m_tokens->RemoveReference(index);
+  if (result) goto ERROR;
+
+  goto OK;
+    
+BADTOKEN:
+  result = XMLErrorDocInvalidToken;
+  goto DONE;
+
+ERROR:
+  if (result != XMLErrorStringBadIndex) goto DONE;
+  goto BADTOKEN;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLDocumentBase::ResolveToken(XMLToken index, XMLString **string) {
+  XMLError result;
+
+  // Sanity checks
+  if (string == NULL) goto BADPARAMETERS;
+  
+  // If no token table, it's invalid
+  if (m_tokens == NULL) goto BADTOKEN;
+    
+  // Resolve it
+  result = m_tokens->FindString(index,string);
+  if (result) goto ERROR;
+
+  goto OK;
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+BADTOKEN:
+  result = XMLErrorDocInvalidToken;
+  goto DONE;
+
+ERROR:
+  if (result != XMLErrorStringBadIndex) goto DONE;
+  goto BADTOKEN;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLDocumentBase::ResolveString(XMLString *string,XMLToken *token) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (string == NULL || token == NULL) goto BADPARAMETERS;
+  
+  // If no token table, no token
+  if (m_tokens == NULL) {
+   
+     // Tell caller we didn't find it
+     *token = XMLTOKENNONE;
+     goto OK;
+  }
+  
+  // Try finding it
+  result = m_tokens->FindIndex(string,token);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ 
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+XMLError XMLDocumentBase::RegisterInputString(XMLString *string) {
+
+  XMLError    result;   // Return code
+  int         i;        // TEMP: Loop counter
+  XMLString **newtable; // New input string table
+  
+  // Sanity checks
+  
+  // For each registered string...
+  for (i = 0; i < m_numinstrings; i++) {
+  
+    // If already registered, ignore it
+    if (m_instrings[i] == string)
+      goto OK;
+  
+  }
+
+  // If not enough room in current table
+  if (m_numinstrings >= m_maxinstrings) {
+  
+    // Allocate a new table
+    m_maxinstrings += 10;
+    newtable = new XMLString *[m_maxinstrings];
+    if (newtable == NULL) goto OUTOFMEMORY;
+    
+    // If we have a current table...
+    if (m_instrings) {
+    
+      // Copy current table to new table
+      memcpy((void *)newtable, (void *)m_instrings, m_numinstrings * sizeof(XMLString *));
+      
+      // Release current table
+      delete[] m_instrings;
+    }
+    
+    // Save the new table
+    m_instrings = newtable;
+    
+  }
+  
+  // Add it to the end of the table
+  m_instrings[m_numinstrings] = string;
+  
+  // Bump table size
+  m_numinstrings++;
+  
+  goto OK;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::EventRemovedElement - Handle "removed element" event
+//
+// DESCRIPTION
+//
+//  These function handles the "removed element" event.
+//
+
+XMLError XMLDocumentBase::EventRemovedElement(XMLElementBase *element) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (element == NULL) goto BADPARAMETERS;
+    
+  // Decrement node count
+  if (m_nodecount)
+    m_nodecount--;
+  
+  // If we've removed the root...
+  if (element == m_root) {
+  
+    // Clear the root element
+    m_root = NULL;
+    
+  }
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::NodeCount         - Return current node count (current count)
+//  XMLDocumentBase::NodeTotal         - Return total nodes (lifetime count)
+//  XMLDocumentBase::HighestWidth      - Maximum child width
+//  XMLDocumentBase::HighestDepth      - Maximum depth
+//  XMLDocumentBase::DistinctStrings   - Number of distinct strings (default -1)
+//
+// DESCRIPTION
+//
+//  These functions return document statistics.
+//
+
+int XMLDocumentBase::NodeCount(void) {
+  return m_nodecount;
+}
+
+int XMLDocumentBase::NodeTotal(void) {
+  return m_nodetotal;
+}
+
+int XMLDocumentBase::HighestWidth(void) {
+  return m_highwidth;
+}
+
+int XMLDocumentBase::HighestDepth(void) {
+  return m_highdepth;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::HighestToken - Compute the highest used token number
+//
+// DESCRIPTION
+//
+//  This function returns the highest token in the document's token table.
+//
+//  If there are no tokens, 0 is returned.
+//
+
+XMLError XMLDocumentBase::HighestToken(XMLToken *hightoken) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (hightoken == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // If no token table, no highest
+  if (m_tokens == NULL) {
+    *hightoken = (XMLToken)0;
+    return XMLErrorNone;
+  }
+  
+  // Ask the token table...
+  result = m_tokens->LastIndex((int *)hightoken);
+  
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::UsedTokens - Compute the number of used tokens in the document
+//
+// DESCRIPTION
+//
+//  This function returns the number of used tokens in the document.
+//
+
+int XMLDocumentBase::UsedTokens(void) {
+
+  // If no tokens, return 0
+  if (m_tokens == NULL)
+    return 0;
+    
+  // Otherwise, it's the token table length
+  return m_tokens->Length();
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::GetLastParseError - Return latest parsing error and location (if any)
+//
+// DESCRIPTION
+//
+//  This function returns the last parser error encountered in it's constructor
+//  (if it has a constructor.)
+//
+
+XMLError XMLDocumentBase::GetLastParseError(XMLLocation *location) {
+
+  XMLError result;
+  
+  // If we don't have a constructor...
+  if (m_constructor == NULL) {
+    
+    // Clear location
+    if (location)
+      location->Unknown();
+      
+    // Return the error
+    return XMLErrorNone;
+  }
+  
+  // We have a constructor, ask it
+  result = m_constructor->GetLastParseError(location);
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::SetOptimalNodes - Set the document's optimal number of nodes
+//
+
+XMLError XMLDocumentBase::SetOptimalNodes(int optimalnodes) {
+
+  m_optimalnodes = optimalnodes;
+  
+  return XMLErrorNone;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::GetRootElement - Get the root element
+//  XMLDocumentBase::SetRootElement - Set the root element
+//
+
+XMLError XMLDocumentBase::GetRootElement(XMLElementBase **root) {
+
+  XMLError result;
+    
+  // Sanity checks
+  if (root == NULL) goto BADPARAMETERS;
+  
+  // Do it
+  *root = m_root;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLDocumentBase::SetRootElement(XMLElementBase *element) {
+
+  XMLError result;
+  
+  // Remove existing root if any
+  if (m_root) {
+    delete m_root;
+    m_root = NULL;
+  }
+  
+  // Tie it in
+  m_root = element;
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentBase::RemoveCursor   - Remove cursor from cursor chain
+//  XMLDocumentBase::AddCursor      - Add cursor to cursor chain
+//  XMLDocumentBase::LeastCursor    - Return least cursor
+//  XMLDocumentBase::GetConstructor - Get the document's constructor
+//  XMLDocumentBase::SetConstructor - Set the document's constructor
+//  XMLDocumentBase::GetDestructor  - Get the document's destructor
+//  XMLDocumentBase::SetDestructor  - Set the document's destructor
+//
+// DESCRIPTION
+//
+//  These functions perform maintanence on the document's cursor chain.
+//
+// NOTES
+//
+//  Since we know all cursors are, at least, an XMLCursorBase, we do some
+//  dirty casting.
+
+XMLError XMLDocumentBase::RemoveCursor(XMLCursorBase *cursor) {
+
+  XMLError       result;
+  
+  // Sanity checks
+  if (cursor == NULL) goto BADPARAMETERS;
+  
+  // Make sure the cursor belongs to this document
+  if (cursor->m_document != this) goto NOTTHISDOCUMENT;
+
+  // Remove it...
+  if (cursor->m_nextcursor)
+    cursor->m_nextcursor->m_prevcursor = cursor->m_prevcursor;
+  else
+    m_lastcursor = cursor->m_prevcursor;
+  if (cursor->m_prevcursor)
+    cursor->m_prevcursor->m_nextcursor = cursor->m_nextcursor;
+  else
+    m_firstcursor = cursor->m_nextcursor;
+  cursor->m_document = NULL;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NOTTHISDOCUMENT:
+  result = XMLErrorDocCursorNotMine;
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;      
+}
+
+XMLError XMLDocumentBase::AddCursor(XMLCursorBase *cursor) {
+
+  XMLError       result;
+  
+  // Sanity checks
+  if (cursor == NULL) goto BADPARAMETERS;
+  
+  // Remove it from previous owner if any
+  if (cursor->m_document) {
+    result = cursor->m_document->RemoveCursor(cursor);
+    if (result) goto ERROR;
+  }
+  
+  // Add it to the beginning
+  cursor->m_document = this;
+  cursor->m_prevcursor = NULL;
+  cursor->m_nextcursor = m_firstcursor;
+  if (cursor->m_nextcursor)
+    cursor->m_nextcursor->m_prevcursor = cursor;
+  else
+    m_lastcursor = cursor;
+  m_firstcursor = cursor;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+int leastcalls = 0;
+
+XMLError XMLDocumentBase::LeastCursor(XMLCursorBase **least) {
+
+  XMLError       result;
+  XMLCursorBase *cursor;
+  XMLCursorBase *nextcursor;
+  int            comparison;
+  
+  leastcalls++;
+  
+  // Sanity checks
+  if (least == NULL) goto BADPARAMETERS;
+  
+  // Assume it's the first one
+  cursor = m_firstcursor;
+  
+  // Until we've looked at all cursors
+  nextcursor = cursor;
+  while (nextcursor) {
+  
+    // Position to next cursor
+    nextcursor = nextcursor->m_nextcursor;
+    
+    // If no next cursor, we're finished
+    if (nextcursor == NULL) 
+      break;
+        
+    // Compare the two
+    result = nextcursor->Compare(cursor,&comparison);
+    if (result) goto ERROR;
+    
+    // If next is less, that's the one we want
+    if (comparison < 0)
+      cursor = nextcursor;
+  }
+  
+  // If we don't have one, assume it's the constructor (if there is any)
+  if (cursor == NULL)
+    cursor = m_constructor;
+    
+  // Return it to the caller
+  *least = cursor;
+
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+XMLCursorBase *XMLDocumentBase::GetConstructor(void) {
+  return m_constructor;
+}
+
+XMLError XMLDocumentBase::SetConstructor(XMLCursorBase *constructor) {
+
+  // If we already have a constructor...
+  if (m_constructor) {
+   
+    // If caller specified a non-NULL constructor, error
+    if (constructor)
+      return XMLErrorDocHasConstructor;
+      
+    // Delete current constructor
+    delete m_constructor;
+  }
+  
+  // Set the new constructor
+  m_constructor = constructor;
+  
+  return XMLErrorNone;
+}
+
+XMLCursorBase *XMLDocumentBase::GetDestructor(void) {
+  return m_destructor;
+}
+
+XMLError XMLDocumentBase::SetDestructor(XMLCursorBase *destructor) {
+
+  // If we already have a destructor...
+  if (m_destructor) {
+   
+    // If caller specified a non-NULL destructor, error
+    if (destructor)
+      return XMLErrorDocHasDestructor;
+      
+    // Delete current destructor
+    delete m_destructor;
+  }
+  
+  // Set the new destructor
+  m_destructor = destructor;
+  
+  return XMLErrorNone;
+}
+
+@
+
+
+1.15
+log
+@Added NewIndex() to XMLStringTable
+@
+text
+@d15 2
+@
+
+
+1.14
+log
+@Added RegisterInputString() to XMLDocumentBase
+@
+text
+@d61 6
+a66 1
+  
+@
+
+
+1.13
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@d19 1
+d72 2
+a73 1
+  XMLError result;
+d100 9
+a108 1
+                  
+d138 5
+a142 4
+//  XMLDocumentBase::NewToken      - Add new reference to a token string
+//  XMLDocumentBase::RemoveToken   - Remove reference a given token string
+//  XMLDocumentBase::ResolveToken  - Get string for a given token
+//  XMLDocumentBase::ResolveString - Find the token associated with a string
+d306 61
+@
+
+
+1.12
+log
+@XMLManager didn't register the writer, destructor didn't check for no cursors
+@
+text
+@a16 1
+#include "xmlcsrparser.h"
+@
+
+
+1.11
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d656 1
+a656 1
+  while (nextcursor->m_nextcursor) {
+d661 4
+@
+
+
+1.10
+log
+@Initial XMLBitMapString implementation and test - Need Test() and Set()
+@
+text
+@d377 12
+a388 1
+int XMLDocumentBase::DistinctStrings(void) {
+d390 34
+a423 1
+  // If no tokens, -1 distinct strings
+d425 1
+a425 1
+    return -1;
+@
+
+
+1.9
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d378 7
+a384 1
+  return -1;
+@
+
+
+1.8
+log
+@All tokenised, ready to test
+@
+text
+@d159 4
+d354 1
+d375 4
+@
+
+
+1.7
+log
+@Added token table to XMLDocumentBase - Not used yet
+@
+text
+@d129 4
+a132 3
+//  XMLDocumentBase::NewToken     - Add new reference to a token string
+//  XMLDocumentBase::RemoveToken  - Remove reference a given token string
+//  XMLDocumentBase::ResolveToken - Get string for a given token
+d145 1
+a145 1
+XMLError XMLDocumentBase::NewToken(XMLString *string, int *index) {
+d191 1
+a191 1
+XMLError XMLDocumentBase::RemoveToken(int index) {
+d221 1
+a221 1
+XMLError XMLDocumentBase::ResolveToken(int index, XMLString **string) {
+d256 19
+d276 18
+@
+
+
+1.6
+log
+@Debugged XMLManager
+@
+text
+@d59 3
+d95 5
+a99 1
+              
+d123 131
+@
+
+
+1.5
+log
+@Implemented XMLManager
+@
+text
+@d402 2
+d410 2
+@
+
+
+1.4
+log
+@Added GetParseError() to doc and cursor and tester
+@
+text
+@d15 1
+d30 1
+a30 1
+XMLDocumentBase::XMLDocumentBase() {
+d32 16
+a49 2
+  m_url     = NULL;
+  m_version = NULL;
+a58 3
+  // Source string
+  m_source    = NULL;
+  
+d71 7
+a80 4
+  if (m_url)
+    delete m_url;
+  if (m_version)
+    delete m_version;
+a98 4
+//  XMLDocumentBase::GetURL      - Get URL
+//  XMLDocumentBase::SetURL      - Set URL
+//  XMLDocumentBase::GetVersion  - Get version string
+//  XMLDocumentBase::SetVersion  - Set version string
+a102 222
+XMLError XMLDocumentBase::GetURL(XMLString **url) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+
+  // Sanity checks
+  if (url == NULL) goto BADPARAMETERS;
+    
+  // If no URL, it's easy
+  if (m_url == NULL) {
+  
+    // Return no URL
+    *url = NULL;
+    goto OK;
+  
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_url);
+  if (result) goto ERROR;
+  
+  // Give new string to caller
+  *url = newstring;
+  newstring = NULL;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+
+}
+  
+XMLError XMLDocumentBase::SetURL(XMLString *url) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+  
+  // If no URL, it's easy
+  if (url == NULL) {
+  
+    // Delete current URL (if any)
+    if (m_url)
+      delete m_url;
+      
+    // Clear the current URL
+    m_url = NULL;
+    goto OK;
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(url);
+  if (result) goto ERROR;
+  
+  // Delete current URL (if any)
+  if (m_url)
+    delete m_url;
+    
+  // Save new URL
+  m_url = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+}
+
+XMLError XMLDocumentBase::GetVersion(XMLString **version) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+
+  // Sanity checks
+  if (version == NULL) goto BADPARAMETERS;
+    
+  // If no version, it's easy
+  if (m_version == NULL) {
+  
+    // Return no URL
+    *version = NULL;
+    goto OK;
+  
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_version);
+  if (result) goto ERROR;
+  
+  // Give new string to caller
+  *version = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+    
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+
+}
+  
+XMLError XMLDocumentBase::SetVersion(XMLString *version) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+  
+  // If no version, it's easy
+  if (version == NULL) {
+  
+    // Delete current version (if any)
+    if (m_version)
+      delete m_version;
+      
+    // Clear the current version
+    m_version = NULL;
+    goto OK;
+  }
+
+  // Have version, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_version);
+  if (result) goto ERROR;
+  
+  // Delete current version (if any)
+  if (m_version)
+    delete m_version;
+    
+  // Save new version
+  m_version = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+}
+
+d233 1
+a233 5
+//  XMLDocumentBase::SetSourceXML - Set the XML input (to be parsed)
+//
+// DESCRIPTION
+//
+//  This function sets the source string or parsed XML.
+d236 1
+a236 1
+XMLError XMLDocumentBase::SetSourceXML(XMLString *input) {
+d238 1
+a238 1
+  XMLCursorBase *parser;
+a239 22
+  // Sanity checks
+  if (input == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // If we already have a source...
+  if (m_source) 
+    return XMLErrorDocSourceAlreadySet;
+    
+  // If we already have contents, error
+  if (m_root)
+    return XMLErrorDocSourceHasContents;
+
+  // No contents, create a parsing cursor
+  m_constructor = new XMLCursorParser(this,input);
+  if (m_constructor == NULL)
+    return XMLErrorOutOfMemory;
+
+  // Create a destructor while we're at it
+  m_destructor = new XMLCursorFree(this);
+  if (m_destructor == NULL) 
+    return XMLErrorOutOfMemory;
+            
+d242 1
+a242 1
+    
+d321 1
+a321 1
+XMLError XMLDocumentBase::RemoveCursor(XMLCursor *cursor) {
+a323 1
+  XMLCursorBase *cursorbase;
+a327 3
+  // Dirty casting
+  cursorbase = (XMLCursorBase *)cursor;
+  
+d329 1
+a329 1
+  if (cursorbase->m_document != this) goto NOTTHISDOCUMENT;
+d332 2
+a333 2
+  if (cursorbase->m_nextcursor)
+    cursorbase->m_nextcursor->m_prevcursor = cursorbase->m_prevcursor;
+d335 3
+a337 3
+    m_lastcursor = cursorbase->m_prevcursor;
+  if (cursorbase->m_prevcursor)
+    cursorbase->m_prevcursor->m_nextcursor = cursorbase->m_nextcursor;
+d339 2
+a340 2
+    m_firstcursor = cursorbase->m_nextcursor;
+  cursorbase->m_document = NULL;
+d361 1
+a361 1
+XMLError XMLDocumentBase::AddCursor(XMLCursor *cursor) {
+a363 1
+  XMLCursorBase *cursorbase;
+a367 3
+  // Dirty casting
+  cursorbase = (XMLCursorBase *)cursor;
+  
+d369 2
+a370 2
+  if (cursorbase->m_document) {
+    result = cursorbase->m_document->RemoveCursor(cursorbase);
+d375 5
+a379 5
+  cursorbase->m_document = this;
+  cursorbase->m_prevcursor = NULL;
+  cursorbase->m_nextcursor = m_firstcursor;
+  if (cursorbase->m_nextcursor)
+    cursorbase->m_nextcursor->m_prevcursor = cursorbase;
+d381 2
+a382 2
+    m_lastcursor = cursorbase;
+  m_firstcursor = cursorbase;
+d402 1
+a402 1
+XMLError XMLDocumentBase::LeastCursor(XMLCursor **least) {
+d413 1
+a413 1
+  cursor = (XMLCursorBase *)m_firstcursor;
+d420 1
+a420 1
+    nextcursor = (XMLCursorBase *)nextcursor->m_nextcursor;
+d456 1
+a456 1
+XMLCursor *XMLDocumentBase::GetConstructor(void) {
+d460 1
+a460 1
+XMLError XMLDocumentBase::SetConstructor(XMLCursor *constructor) {
+d474 1
+a474 1
+  m_constructor = (XMLCursorBase *)constructor;
+d479 1
+a479 1
+XMLCursor *XMLDocumentBase::GetDestructor(void) {
+d483 1
+a483 1
+XMLError XMLDocumentBase::SetDestructor(XMLCursor *destructor) {
+d497 1
+a497 1
+  m_destructor = (XMLCursorBase *)destructor;
+@
+
+
+1.3
+log
+@Renamed source files for string implementations
+@
+text
+@d337 1
+a337 2
+//  This function handles the "removed element" event by decrementing the
+//  number of elements.
+d376 1
+d381 4
+a384 4
+//  XMLDocumentBase::NodeCount    - Return current node count (current count)
+//  XMLDocumentBase::NodeTotal    - Return total nodes (lifetime count)
+//  XMLDocumentBase::HighestWidth - Maximum child width
+//  XMLDocumentBase::HighestDepth - Maximum depth
+d405 33
+@
+
+
+1.2
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@d18 1
+a18 1
+#include "xmlsmem.h"
+@
+
+
+1.1
+log
+@Implemented XMLDocumentBase
+@
+text
+@d341 1
+a341 1
+XMLError XMLDocumentBase::EventRemovedElement(XMLElement *element) {
+d455 1
+a455 1
+XMLError XMLDocumentBase::GetRootElement(XMLElement **root) {
+d480 1
+a480 1
+XMLError XMLDocumentBase::SetRootElement(XMLElement *element) {
+@
+

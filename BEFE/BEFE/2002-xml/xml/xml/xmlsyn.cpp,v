@@ -1,0 +1,1159 @@
+head	1.18;
+access;
+symbols
+	start:1.1.1.1 bruce:1.1.1;
+locks; strict;
+comment	@// @;
+
+
+1.18
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.11.04.06.50.29;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.11.03.11.57.14;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.27.07.07.32;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.26.19.08.41;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.21.08.54.22;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.19.23.06.39;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.19.11.33.48;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.19.07.52.34;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.19.07.15.33;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.18.03.57.53;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.17.05.08.50;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.09.28.06.45.03;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.28.06.34.10;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.25.05.57.57;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.24.19.15.38;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches
+	1.1.1.1;
+next	;
+
+1.1.1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.18
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmlsyn.cpp - Implementation of the XMLSyn class
+  DESCRIPTION
+    This file contains the implementation of the XMLSyn and related classes.
+    
+*/
+
+//------------------------------------------------------------------------------
+
+#include "xmlsyn.h"
+#include <string.h>
+
+// Forward function declarations
+
+static XMLSynTokenType MapLexToSyn(XMLLexTokenType);
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLSyn::XMLSyn - Class Constructor
+//
+//
+
+XMLSyn::XMLSyn() {
+
+  // Assume "Strict quotes" and "Strict values"
+  m_strictquotes = 1;
+  m_strictvalues = 1;
+  
+  // Reset everthing else
+  Rewind();
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLSyn::StrictQuotes - Turn on/off the "Strict Quotes" option
+//  XMLSyn::StrictValues - Turn on/off the "Strict Values" option
+//
+
+void XMLSyn::StrictQuotes(int option) {
+
+  m_strictquotes = (option) ? 1 : 0;
+  
+  return;
+}
+
+void XMLSyn::StrictValues(int option) {
+
+  m_strictvalues = (option) ? 1 : 0;
+  
+  return;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLSyn::Rewind - Rewind (initialise) an XMLSyn class
+//
+// DESCRIPTION
+//
+//  This function initialises an XMLSyn class to a known, good, start state
+//
+
+void XMLSyn::Rewind() {
+
+  // Flags
+  m_state = State_Ready;
+  
+  // Lexical token  
+  m_lextok.type = xmllex_TokenUnknown;
+  m_reuselextok = 0;
+  
+  // Other stuff
+  m_lex.Rewind();
+  m_inendtag     = 0;
+  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLSyn::MoreData - Give the Syntax Analyser more data
+//
+// DESCRIPTION
+//
+//  This function is used to give the Syntax Analyser more data from the
+//  stream.
+//
+// NOTES
+//
+//  Never call this function unless a previous call to XMLSyn::NextToken()
+//  produced a token of type xmlsyn_TokenNeedMoreData.
+//
+
+void XMLSyn::MoreData(byte *buf, int len) {
+
+  m_lex.MoreData(buf,len);
+    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLSyn::NextToken - Get next token
+//
+// DESCRIPTION
+//
+//  This function is used to return the next token in the Syntax Analyser stream.
+//
+// NOTES
+//
+//  If more data is required, the returned token will be a
+//  xmlsyn_TokenNeedMore.  If, after asking for more and no call to
+//  XMLSyn::MoreData() is called, subsequent calls will return a
+//  xmlsyn_TokenEndOfStream until XMLSyn::Rewind() or XMLSyn::MoreData() is
+//  called.
+//
+//
+
+XMLSynToken XMLSyn::NextToken() {
+
+//
+// Local declarations
+//
+
+  XMLSynToken  result;                              // Token to return
+      
+//
+// Start of code
+//
+
+  // If we've got a buffered '?>', return that one
+  if (m_state == State_EndPI) {
+  
+    // Switch state
+    m_state = State_Ready;
+    
+    // Set the return token
+    result = m_buftok;
+    
+    goto DONE;
+  }  
+  
+  // Until we're finished...
+
+  for (;;) {
+
+    // If we're not to reuse current lexical token...
+    if (!m_reuselextok) {
+    
+      // Get the next lexical token
+      m_lextok = m_lex.NextToken();
+    }
+    
+    // In either case we're not going to reuse it until told to
+    m_reuselextok = 0;
+    
+    // Assume exact match between syntax and lex tokens
+    result.length    = m_lextok.length;
+    result.startcol  = m_lextok.startcol;
+    result.startline = m_lextok.startline;
+    result.startoff  = m_lextok.startoff;
+    result.type      = MapLexToSyn(m_lextok.type);
+    result.error     = XMLErrorNone;
+    
+    // Handle control cases
+    if (m_lextok.type == xmllex_TokenNeedMoreData) {
+      result.type = xmlsyn_TokenNeedMoreData;
+      goto DONE;
+    }
+    if (m_lextok.type == xmllex_TokenEndOfStream) {
+      result.type = xmlsyn_TokenEndOfStream;
+      goto DONE;
+    }
+            
+    //
+    // Based on current state...
+    //
+
+    switch (m_state) {
+    
+    // Waiting for text, whitespace, or start tag...    
+    case State_Ready:
+      
+      // Handle words/whitespace/entities/comments/CDATA...
+      if (m_lextok.type == xmllex_TokenWord  ||
+          m_lextok.type == xmllex_TokenWhite ||
+          m_lextok.type == xmllex_TokenEntity||
+          m_lextok.type == xmllex_TokenComment ||
+          m_lextok.type == xmllex_TokenCDATA )
+        goto DONE;
+
+      // If it's either type of start tag, change state...
+      if (m_lextok.type == xmllex_TokenOpen) {
+        m_state = State_StartOfTag;
+        break;
+      }
+      else if (m_lextok.type == xmllex_TokenOpenProcessing) {
+        m_state = State_StartPI;
+        break;
+      }
+
+      // If it's a DTD token, skip it until matching '>'...
+      if (m_lextok.type == xmllex_TokenDTD) {
+      
+        // Initialise buffered token
+        m_buftok.error     = XMLErrorNone;
+        m_buftok.type      = xmlsyn_TokenDTD;
+        m_buftok.startcol  = m_lextok.startcol + m_lextok.length;
+        m_buftok.startline = m_lextok.startline;
+        m_buftok.startoff  = m_lextok.startoff + m_lextok.length;
+        m_buftok.length    = 0;
+        
+        // Set state
+        m_state = State_SkippingDTD;
+        
+        // Initialise DTD skipping level (has '<', etc. inside it!)
+        m_DTDlevel = 1;
+        
+        break;
+      }
+            
+      // Otherwise, it's something unexpected, turn into a word
+      result.type = xmlsyn_TokenText;
+      goto DONE;
+
+    // We're skipping DTD
+    case State_SkippingDTD:
+
+      // Add lexical token to buffered token
+      m_buftok.length += result.length;
+          
+      // Handle '<'
+      if (m_lextok.type == xmllex_TokenOpen) {
+        m_DTDlevel++;
+        break;
+      }
+      
+      // Handle '>'
+      if (m_lextok.type == xmllex_TokenClose) {
+      
+        // One less DTD level
+        m_DTDlevel--;
+        
+        // If at end of entire DTD...
+        if (m_DTDlevel == 0) {
+          
+          // Set state
+          m_state = State_Ready;
+
+          // Don't put trailing '>' on the token
+          m_buftok.length--;
+                    
+          // Return buffered token
+          result = m_buftok;
+          
+          goto DONE;
+        }
+        
+        break;
+      }
+      
+      break;
+    
+    // We're ready to start processing instruction, expect a name
+    case State_StartPI:
+
+      // Make sure we got a name (word)
+      if (m_lextok.type != xmllex_TokenWord) {
+        result.error = XMLErrorSynExpectedPIName;
+        goto DONE;
+      }
+
+      // Setup return token
+      result.type = xmlsyn_TokenProcessingInstruction;
+    
+      // Bump state
+      m_state = State_ExpectPIText;
+                      
+      // Initialise buffered PI text 
+      m_buftok.error     = XMLErrorNone;
+      m_buftok.type      = xmlsyn_TokenProcessingText;
+      m_buftok.startcol  = m_lextok.startcol + m_lextok.length;
+      m_buftok.startline = m_lextok.startline;
+      m_buftok.startoff  = m_lextok.startoff + m_lextok.length;
+      m_buftok.length    = 0;
+      
+      goto DONE;
+    
+    // We're expecting processing text or '?>'
+    case State_ExpectPIText:
+
+      // If we've got '?>'
+      if (m_lextok.type == xmllex_TokenCloseProcessing) {
+      
+        // Move buffered token (if any) to result
+        result = m_buftok;
+        
+        // Switch state
+        m_state = State_EndPI;
+        
+        // Buffer the '?>'
+        m_buftok.error     = XMLErrorNone;
+        m_buftok.type      = xmlsyn_TokenProcessingEnd;
+        m_buftok.startcol  = m_lextok.startcol;
+        m_buftok.startline = m_lextok.startline;
+        m_buftok.startoff  = m_lextok.startoff;
+        m_buftok.length    = m_lextok.length;
+        goto DONE;
+      }
+      
+      // Append lex token to buffered processing text
+      m_buftok.length += m_lextok.length;
+      
+      break;
+      
+    // We got a '<', expecting '/' or element name...    
+    case State_StartOfTag:
+    
+       m_inendtag = 0;
+       
+       // Handle '/'
+       if (m_lextok.type == xmllex_TokenEnd) {
+       
+          // If already in end tag, error
+          if (m_inendtag) {
+            result.error = XMLErrorSynExpectedElementName;
+            goto DONE;
+          }
+            
+          // Flag the fact that we're in an end tag
+          m_inendtag = 1;
+          m_state = State_ExpectElementName;
+          
+          break;
+          
+       }
+      
+       // fall through to next state
+    
+    // Expecting an element name   
+    case State_ExpectElementName:
+    
+      // Handle element name...
+      if (m_lextok.type == xmllex_TokenWord) {
+
+        if (m_inendtag) {
+          result.type = xmlsyn_TokenElementClose;
+          m_state = State_ExpectEndOfTag;
+        }
+        else {
+          result.type = xmlsyn_TokenElementOpen;
+          m_state = State_ExpectAttribute;
+        }
+                
+        goto DONE;
+        
+      }
+      
+      // Otherwise, error
+      result.error = XMLErrorSynExpectedElementName;
+      goto DONE;
+    
+    // Expecting <attr>=<value> or '/', '>' or '?>'
+    case State_ExpectAttribute:
+
+      // Ignore whitespace
+      if (m_lextok.type == xmllex_TokenWhite)
+        break;
+
+      // Handle '/'
+      if (m_lextok.type == xmllex_TokenEnd) {
+        m_state = State_ExpectEndOfTag;
+        m_inendtag = 1;
+        result.type = xmlsyn_TokenElementClose;
+        goto DONE;
+      }
+              
+      // Handle <attr>
+      if (m_lextok.type == xmllex_TokenWord) {
+        result.type = xmlsyn_TokenElementAttributeName;
+        m_state = State_ExpectEquals;
+        goto DONE;
+      }
+
+      // If not '>' or '?>, return error
+      if ( m_lextok.type != xmllex_TokenClose &&
+           m_lextok.type != xmllex_TokenCloseProcessing ) {
+        result.error = XMLErrorSynExpectedAttribute;
+        goto DONE;
+      }
+      
+      // Fall through
+      
+    // Expecting '>'
+    case State_ExpectEndOfTag:
+    
+      // Ignore whitespace
+      if (m_lextok.type == xmllex_TokenWhite)
+        break;
+
+      // Everything but '>' or '?>' is an error
+      if ( m_lextok.type != xmllex_TokenClose ) {
+        result.error = XMLErrorSynExpectedEndOfTag;
+        goto DONE;
+      }
+      
+      // If we're not in an end of tag, emit 'Element Contents' token
+      m_state = State_Ready;
+      if (!m_inendtag) {
+        result.type = xmlsyn_TokenElementContents;
+        result.startcol += result.length;
+        result.startoff += result.length;
+        result.length = 0;
+        goto DONE;
+      }
+      
+      break;
+      
+    // Expecting '='
+    case State_ExpectEquals:
+    
+      // Handle '='
+      if (m_lextok.type == xmllex_TokenEquals) {
+        m_state = State_ExpectValue;
+        break;
+      }
+        
+      // If enforcing "strict values", error
+      if (m_strictvalues) {
+        
+        result.error = XMLErrorSynExpectedEquals;
+        m_state = State_ExpectAttribute;
+        goto DONE;
+      }
+      
+      // No value for this attribute, fake an empty value...
+      result.length = 0;
+        
+      // Change token type to attribute value        
+      result.type = xmlsyn_TokenElementAttributeValue;
+        
+      // Change state
+      m_state = State_ExpectAttribute;
+        
+      goto DONE;
+      
+    
+    // Expecting <value> (hopefully starting with quotes)  
+    case State_ExpectValue:
+    
+      // Handle literal (must be at least 2 long for start/end quotes)
+      if (result.length >= 2 &&
+          (m_lextok.type == xmllex_TokenLiteralSingle ||
+           m_lextok.type == xmllex_TokenLiteralDouble )  ) {
+
+        // Strip off leading/trailing quotes
+        result.startoff++;
+        result.length -= 2;
+        
+        // Change token typ to attribute value        
+        result.type = xmlsyn_TokenElementAttributeValue;
+        
+        // Change state
+        m_state = State_ExpectAttribute;
+        
+        goto DONE;
+        
+      }
+
+      // If not "Strict quotes" and it's a word... 
+      if (!m_strictquotes && m_lextok.type == xmllex_TokenWord) {
+        
+        // Change token typ to attribute value        
+        result.type = xmlsyn_TokenElementAttributeValue;
+        
+        // Save current to buffered token
+        m_buftok = result;
+        
+        // Change state
+        m_state = State_ContinueValue;
+        
+        continue;
+      }
+            
+      // Otherwise, error
+      result.error = XMLErrorSynExpectedValue;
+      goto DONE;
+    
+    // Expecting non-quoted attribute value (used only with non-strict quotes)
+    case State_ContinueValue:
+
+      // If it's one we should tack on to buffered token...
+      if (m_lextok.type == xmllex_TokenEnd ||
+          m_lextok.type == xmllex_TokenWord) {
+          
+        // Adjust buffered token
+        m_buftok.length += m_lextok.length;
+        
+        continue;
+      }
+      
+      // It's not one we tack on to buffered token, flag that we're reusing the lex token
+      m_reuselextok = 1;
+      
+      // Move buffered token to result
+      result = m_buftok;
+      
+      // Change state
+      m_state = State_ExpectAttribute;
+      
+      goto DONE;
+      
+    // Unhandled token    
+    default:
+      result.error = XMLErrorInternal;
+      ;
+    }
+  
+  }
+  
+//  
+// We're finished
+//
+
+DONE:
+
+  return result;
+}
+
+//
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLSynToken::GetTypeName          - Get text representation of a syntax token's type
+//  XMLSynToken::GetMaxTypeNameLength - Get maximum length of a syntax token's type name
+//
+
+const char *XMLSynToken::GetTypeName() {
+
+  const char *tokenrepr;                            // Token representation
+    
+  // Get the token type
+  switch (type) {
+  case xmlsyn_TokenNull:                  tokenrepr = "NULL"      ; break;
+  case xmlsyn_TokenElementOpen:           tokenrepr = "<elem>"    ; break;
+  case xmlsyn_TokenProcessingInstruction: tokenrepr = "?<elem>"   ; break;
+  case xmlsyn_TokenProcessingText:        tokenrepr = "<?...?>"   ; break;
+  case xmlsyn_TokenElementClose:          tokenrepr = "/<elem>"   ; break;
+  case xmlsyn_TokenElementAttributeName:  tokenrepr = "<attr>"    ; break;
+  case xmlsyn_TokenElementAttributeValue: tokenrepr = "<value>"   ; break;
+  case xmlsyn_TokenElementContents:       tokenrepr = "<contents>"; break;
+  case xmlsyn_TokenText:                  tokenrepr = "<text>"    ; break;
+  case xmlsyn_TokenWhite:                 tokenrepr = "<white>"   ; break;
+  case xmlsyn_TokenEntity:                tokenrepr = "<entity>"  ; break;
+  case xmlsyn_TokenComment:               tokenrepr = "Comment"   ; break;
+  case xmlsyn_TokenCDATA:                 tokenrepr = "CDATA"     ; break;
+  case xmlsyn_TokenNeedMoreData:          tokenrepr = "More Data" ; break;
+  case xmlsyn_TokenEndOfStream:           tokenrepr = "EOS"       ; break;
+  default:                                tokenrepr = "?"         ; break;
+  }
+
+  return tokenrepr;
+  
+}
+
+int XMLSynToken::GetMaxTypeNameLength(void) {
+  XMLSynTokenType oldtype;
+  int             len;
+  
+  oldtype = type;
+  type    = xmlsyn_TokenElementContents; // <--- This is the longest one
+  len = strlen(GetTypeName());
+  type = oldtype;
+
+  return len;
+
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  MapLexToSyn - Get default token mapping between Lexical and Syntactic tokens
+//
+// DESCRIPTION
+//
+//  In many cases a default mapping between these two types makes lex->syn
+//  token conversion quite easy.  In other cases you have to watch out!
+
+XMLSynTokenType MapLexToSyn(XMLLexTokenType lextype) {
+
+  XMLSynTokenType result;
+  
+  switch (lextype) {
+  case xmllex_TokenWord:           result = xmlsyn_TokenText         ; break;
+  case xmllex_TokenWhite:          result = xmlsyn_TokenWhite        ; break;
+  case xmllex_TokenEntity:         result = xmlsyn_TokenEntity       ; break;
+  case xmllex_TokenLiteralSingle:  result = xmlsyn_TokenText         ; break;
+  case xmllex_TokenLiteralDouble:  result = xmlsyn_TokenText         ; break;
+  case xmllex_TokenComment:        result = xmlsyn_TokenComment      ; break;
+  case xmllex_TokenCDATA:          result = xmlsyn_TokenCDATA        ; break;
+  case xmllex_TokenNeedMoreData:   result = xmlsyn_TokenNeedMoreData ; break;
+  case xmllex_TokenEndOfStream:    result = xmlsyn_TokenEndOfStream  ; break;
+  default:                         result = xmlsyn_TokenNull         ; break;
+  }
+
+  return result;
+    
+}
+
+@
+
+
+1.17
+log
+@More work on HTMLTidy and HTML parsing
+@
+text
+@d103 1
+a103 1
+void XMLSyn::MoreData(char *buf, int len) {
+@
+
+
+1.16
+log
+@More work on HTML parser
+@
+text
+@d30 1
+a30 1
+  // Assume "Strict quotes"
+d32 1
+d43 1
+d53 7
+d438 15
+a452 2
+      // Otherwise, error
+      result.error = XMLErrorSynExpectedEquals;
+d454 1
+d456 1
+@
+
+
+1.15
+log
+@Text writer working, don't like speed though
+@
+text
+@d30 4
+d41 14
+d69 1
+d148 9
+a156 2
+    // Get the next lexical token
+    m_lextok = m_lex.NextToken();
+d433 2
+a434 1
+      
+d438 1
+a438 1
+      if (result.length > 2 &&
+d441 4
+d446 1
+d448 2
+d452 12
+a463 3
+        // Strip off leading/trailing quotes
+        result.startoff++;
+        result.length -= 2;
+d465 2
+a466 1
+        goto DONE;
+d468 1
+d470 1
+a470 1
+      
+d475 25
+@
+
+
+1.14
+log
+@Parsing/compiling w3c's document works OK now
+@
+text
+@d224 4
+a227 1
+          
+@
+
+
+1.13
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d369 4
+@
+
+
+1.12
+log
+@Parser handles syntax errors, values must have quotes now
+@
+text
+@d197 1
+a197 1
+      // Otherwise, it's something unexpected, turn into a word and return error
+a198 1
+      result.error = XMLErrorSynExpectedStartOfTag;
+@
+
+
+1.11
+log
+@Completely loads and parses big.xml!
+@
+text
+@d404 5
+a408 5
+      // Handle WORD/literal
+      if (m_lextok.type == xmllex_TokenWord          ||
+          m_lextok.type == xmllex_TokenLiteralSingle ||
+          m_lextok.type == xmllex_TokenLiteralDouble ) {
+          
+d411 5
+@
+
+
+1.10
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@d272 1
+a272 1
+        m_state = State_Ready;
+@
+
+
+1.9
+log
+@Separate DTD syntax token (contains whole contents)
+@
+text
+@d113 12
+d274 7
+@
+
+
+1.8
+log
+@Skeleton parser passing through simple.xml OK without errors
+@
+text
+@d167 10
+a176 1
+        result.error = XMLErrorSynDTDNotImplementedYet;
+d178 2
+d181 2
+a182 1
+        goto DONE;
+d192 4
+a195 1
+    
+d199 1
+a199 1
+        continue;
+d204 2
+d207 5
+a211 1
+        if (m_DTDlevel == 0)
+d213 8
+a220 1
+        continue;
+d223 1
+a223 2
+      // Otherwise, skip the lex token
+      continue;
+d241 6
+a246 6
+      m_PIText.error     = XMLErrorNone;
+      m_PIText.type      = xmlsyn_TokenProcessingText;
+      m_PIText.startcol  = m_lextok.startcol + m_lextok.length;
+      m_PIText.startline = m_lextok.startline;
+      m_PIText.startoff  = m_lextok.startoff + m_lextok.length;
+      m_PIText.length    = 0;
+d257 1
+a257 1
+        result = m_PIText;
+d266 1
+a266 1
+      m_PIText.length += m_lextok.length;
+@
+
+
+1.7
+log
+@Added PI tokens to syntax analyser
+@
+text
+@a112 12
+  // If we've buffered an 'End of processing instruction', return it
+  if (m_state == xmlsyn_TokenProcessingClose) {
+  
+    // Return buffered to caller
+    result = m_PIText;
+    
+    // Change state
+    m_state = State_Ready;
+    
+    goto DONE;
+  }
+  
+a157 1
+        m_inPI = 0;
+d161 1
+a161 2
+        m_state = State_StartPIText;
+        m_inPI = 1;
+d198 8
+a205 2
+    // We're ready to start processing instruction text (buffer in m_PIText)
+    case State_StartPIText:
+d207 6
+a212 4
+      // Skip leading whitespace
+      if (m_lextok.type == xmllex_TokenWhite)
+        continue;
+      
+d214 1
+a214 1
+      m_PIText.error     = 0;
+d216 1
+a216 1
+      m_PIText.startcol  = m_lextok.startcol;
+d218 1
+a218 1
+      m_PIText.startoff  = m_lextok.startoff;
+d221 2
+a222 2
+      // Fall through
+      
+d233 1
+a233 1
+        m_state = State_HaveEndPI;
+d235 1
+a235 8
+        // Save info about '?>'
+        m_PIText.type = xmlsyn_TokenProcessingClose;
+        m_PIText.startoff = m_lextok.startoff;
+        m_PIText.startline = m_lextok.startline;
+        m_PIText.startcol  = m_lextok.startcol;
+        m_PIText.length    = m_lextok.length;
+        
+        break;
+d241 1
+a241 1
+      continue;
+d249 1
+a249 1
+       if (m_lextok.type == xmllex_TokenEnd && !m_inPI) {
+d278 1
+a278 1
+          result.type = (m_inPI)?xmlsyn_TokenProcessingOpen:xmlsyn_TokenElementOpen;
+a292 9
+      // If we're in a processing instruction...
+      if (m_inPI) {
+        result.type = xmlsyn_TokenProcessingText;
+        result.startcol += result.length;
+        result.startoff += result.length;
+        goto DONE;
+      }
+      
+
+d298 1
+a298 1
+      if (m_lextok.type == xmllex_TokenEnd && !m_inPI) {
+d325 1
+a325 2
+      if ( (!m_inPI && m_lextok.type != xmllex_TokenClose) ||
+           ( m_inPI && m_lextok.type != xmllex_TokenCloseProcessing) ) {
+d332 2
+a333 2
+      if (!m_inendtag || m_inPI) {
+        result.type = (m_inPI) ? xmlsyn_TokenElementClose: xmlsyn_TokenElementContents;
+a336 1
+        m_inPI        = 0;
+d406 2
+a407 1
+  case xmlsyn_TokenProcessingOpen:        tokenrepr = "?<elem>"   ; break;
+@
+
+
+1.6
+log
+@Added 'processing instruction' to lex/syn
+@
+text
+@d113 12
+d174 1
+a174 1
+        m_state = State_StartOfTag;
+d191 1
+a191 1
+      
+a192 1
+    
+d211 29
+d241 15
+d305 9
+@
+
+
+1.5
+log
+@Wrong enum declaration
+@
+text
+@d158 1
+a158 1
+        m_inspecial = 0;
+d161 1
+a161 1
+      else if (m_lextok.type == xmllex_TokenOpenSpecial) {
+d163 1
+a163 1
+        m_inspecial = 1;
+d207 1
+a207 1
+       if (m_lextok.type == xmllex_TokenEnd && !m_inspecial) {
+d236 1
+a236 1
+          result.type = (m_inspecial)?xmlsyn_TokenSpecialOpen:xmlsyn_TokenElementOpen;
+d256 1
+a256 1
+      if (m_lextok.type == xmllex_TokenEnd && !m_inspecial) {
+d272 1
+a272 1
+           m_lextok.type != xmllex_TokenCloseSpecial ) {
+d283 2
+a284 2
+      if ( (!m_inspecial && m_lextok.type != xmllex_TokenClose) ||
+           ( m_inspecial && m_lextok.type != xmllex_TokenCloseSpecial) ) {
+d291 2
+a292 2
+      if (!m_inendtag || m_inspecial) {
+        result.type = (m_inspecial) ? xmlsyn_TokenElementClose: xmlsyn_TokenElementContents;
+d295 2
+a296 2
+        result.length    = 0;
+        m_inspecial      = 0;
+d366 1
+a366 1
+  case xmlsyn_TokenSpecialOpen:           tokenrepr = "?<elem>"   ; break;
+@
+
+
+1.4
+log
+@Moved error codes from local .h to xmlerrors.h
+@
+text
+@a13 1
+#include "xml.h"   // Just here to get parsing of xml.h (will remove later)
+@
+
+
+1.3
+log
+@More classes added to xml.h
+@
+text
+@d127 1
+a127 1
+    result.error     = xmlsyn_ErrorNone;
+d170 1
+a170 1
+        result.error = xmlsyn_ErrorDTDNotImplementedYet;
+d178 1
+a178 1
+      result.error = xmlsyn_ErrorExpectedStartOfTag;
+d212 1
+a212 1
+            result.error = xmlsyn_ErrorExpectedElementName;
+d246 1
+a246 1
+      result.error = xmlsyn_ErrorExpectedElementName;
+d274 1
+a274 1
+        result.error = xmlsyn_ErrorExpectedAttribute;
+d286 1
+a286 1
+        result.error = xmlsyn_ErrorExpectedEndOfTag;
+d313 1
+a313 1
+      result.error = xmlsyn_ErrorExpectedEquals;
+d331 1
+a331 1
+      result.error = xmlsyn_ErrorExpectedValue;
+d335 1
+a335 1
+      result.error = xmlsyn_ErrorInternal;
+@
+
+
+1.2
+log
+@Added code to skip DTD
+@
+text
+@d14 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d166 9
+a174 1
+      
+d180 21
+@
+
+
+1.1.1.1
+log
+@Start
+@
+text
+@@

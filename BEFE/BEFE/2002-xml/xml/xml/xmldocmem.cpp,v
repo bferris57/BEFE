@@ -1,0 +1,3024 @@
+head	1.29;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.29
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	2002.10.26.19.08.40;	author bferris;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	2002.10.24.03.31.29;	author bferris;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	2002.10.24.02.54.49;	author bferris;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	2002.10.23.13.05.43;	author bferris;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	2002.10.23.07.42.41;	author bferris;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	2002.10.22.07.09.01;	author bferris;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	2002.10.21.12.05.00;	author bferris;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2002.10.21.08.28.47;	author bferris;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2002.10.21.07.11.16;	author bferris;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2002.10.20.13.13.52;	author bferris;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2002.10.20.11.26.54;	author bferris;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2002.10.20.07.43.32;	author bferris;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2002.10.20.06.58.07;	author bferris;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2002.10.19.23.06.38;	author bferris;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2002.10.19.12.26.01;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.10.19.11.33.47;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.18.04.18.52;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.18.04.10.13;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.17.05.12.12;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.14.21.15.44;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.13.17.27.40;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.13.17.20.37;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.13.11.41.37;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.13.11.23.14;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.13.10.15.22;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.13.08.25.31;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.12.17.48.43;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.29
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+ FILE
+    
+  xmldocmem.cpp - Implementation of the XMLDocument and XMLElement in memory.
+  
+ DESCRIPTION
+  
+  This file contains the implementation of the main in-memory XML document
+  classes.
+
+*/
+
+#include "xml.h"
+#include "xmldocmem.h"
+#include "xmlcsrbase.h"
+#include "xmlstrmem.h"
+#include "xmlheap.h"
+
+#include <memory.h>
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentMem::XMLDocumentMem  - Constructor
+//  XMLDocumentMem::~XMLDocumentMem - Destructor
+//
+//
+
+XMLDocumentMem::XMLDocumentMem(XMLManagerBase *manager, int optimalnodes) 
+  : XMLDocumentBase(manager)
+{
+
+  m_optimalnodes = optimalnodes;
+  
+}
+
+XMLDocumentMem::~XMLDocumentMem() {
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentMem::DistinctStrings - Return number of distinct strings
+//
+// DESCRIPTION
+//
+//  This function returns the number of entries in the token table.
+//
+
+int XMLDocumentMem::DistinctStrings(void) {
+
+  int len;
+  
+  // If no table, no strings
+  if (m_tokens == NULL)
+    return 0;
+
+  // Have a table, return its length
+  len = m_tokens->Length();
+  
+  return len;    
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentMem::NewString  - Create friendly XMLString
+//  XMLDocumentMem::NewElement - Create friendly XMLElement
+//
+
+XMLError XMLDocumentMem::NewString(XMLString **string) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (string == NULL) goto BADPARMS;
+  
+  // Create a new string
+  *string = new XMLStringMem();
+  if (*string == NULL) goto NOMEM;
+  
+  goto OK;
+  
+BADPARMS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLDocumentMem::NewElement(XML::Class eclass, XMLElementBase **element) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (element == NULL) goto BADPARMS;
+  
+  // Create a new element based on the type
+  switch (eclass) {
+  
+  // Unhandled types
+  case XML::ClassComplex:
+  case XML::ClassSimple:
+    *element = new XMLElementComplex(this);
+    if (*element == NULL) goto NOMEM;
+    result = (*(XMLElementComplex **)element)->SetClass(eclass);
+    if (result) goto ERROR;
+    goto DONE;
+  
+  // PCDATA  
+  case XML::ClassPCDATA:
+    *element = new XMLElementPCDATA();
+    if (*element == NULL) goto NOMEM;
+    result = (*(XMLElementPCDATA **)element)->SetClass(eclass);
+    if (result) goto ERROR;
+    break;
+    
+  // Simple text types
+  case XML::ClassText:
+  case XML::ClassEntity:
+  case XML::ClassCDATA: 
+  case XML::ClassComment:
+  case XML::ClassDTD:
+    *element = new XMLElementText(this);
+    if (*element == NULL) goto NOMEM;
+    result = (*(XMLElementText **)element)->SetClass(eclass);
+    if (result) goto ERROR;
+    break;
+    
+  // Processing instructions
+  case XML::ClassPI:
+    *element = new XMLElementPI(this);
+    if (*element == NULL) goto NOMEM;
+    result = (*(XMLElementPI **)element)->SetClass(eclass);
+    if (result) goto ERROR;
+    break;
+  
+  // Some type we don't know about
+  default:
+    goto BADTYPE;
+  
+  }
+  
+  // Increment nodes counts
+  m_nodetotal++;
+  m_nodecount++;
+  
+  // If we have more than the optimal nodes...
+  if (m_optimalnodes > 0 && m_nodecount > m_optimalnodes) {
+  
+    // If we have a destructor cursor...
+    if (m_destructor) {
+    
+      // Tell it to walk (remove nodes)
+      result = m_destructor->Walk();
+      if (result) goto ERROR;
+    }
+    
+  }
+  
+  goto OK;
+  
+BADPARMS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+BADTYPE:
+  result = XMLErrorXMLUnknownClass;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementMem::IsMutable     - "Is this element mutable?"
+//  XMLElementMem::GetLocation   - Get the text element's location
+//  XMLElementMem::SetLocation   - Set the text element's location
+//  XMLElementMem::ReleaseToken  - Release a given token (if set)
+//
+
+int XMLElementMem::IsMutable(void) {
+  return 1;
+}
+
+XMLError XMLElementMem::GetLocation(XMLLocation *location) {
+
+  if (location == NULL)
+    return XMLErrorInvalidParameters;
+  
+  *location = m_location;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementMem::SetLocation(const XMLLocation &location) {
+
+  m_location = location;
+
+  return XMLErrorNone;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementText::XMLElementText    - Constructor
+//  XMLElementText::~XMLElementText   - Destructor
+//  XMLElementText::EventPrepareToDie - Release tokens we own
+//  XMLElementText::SetClass          - Set the text element's class
+//  XMLElementText::GetValue          - Get the text element's value
+//  XMLElementText::SetValue          - Set the text element's value
+//
+
+XMLElementText::XMLElementText(XMLDocumentBase *doc) {
+
+  m_doc   = doc;
+  m_value = XMLTOKENNONE;
+  
+}
+
+XMLElementText::~XMLElementText() {
+
+  // Release tokens (we already should have)
+  EventPrepareToDie(m_doc);
+  
+}
+
+XMLError XMLElementText::SetClass(XML::Class eclass) {
+
+   // Make sure it's a valid type for a text element...
+   switch (eclass) {
+   case XML::ClassText:
+   case XML::ClassEntity:
+   case XML::ClassCDATA:
+   case XML::ClassComment:
+   case XML::ClassDTD:
+     break;
+   default:
+     return XMLErrorXMLInvalidClass;
+   }
+   
+   // Do it
+   m_class = eclass;
+   
+   return XMLErrorNone;
+   
+}
+
+XMLError XMLElementText::GetValue(XMLToken *value) {
+
+  // Sanity checks
+  if (value == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Return the value (we don't copy 'cause we're internal)
+  *value = m_value;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementText::SetValue(XMLToken value) {
+
+  XMLError   result;
+
+  // Release current token if we have one
+  result = ReleaseToken(m_doc,&m_value);
+  if (result) goto ERROR;
+  
+  // Set the new value
+  m_value = value;
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+    
+DONE:
+
+  return result;
+}
+
+XMLError XMLElementText::EventPrepareToDie(XMLDocument *doc) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (doc != m_doc)
+    return XMLErrorInternal;
+    
+  // Release the tokens
+  result = ReleaseToken(m_doc,&m_value);
+  
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementPI::XMLElementPI  - Constructor
+//  XMLElementPI::~XMLElementPI - Destructor
+//  XMLElementPI::SetClass      - Set the PI element's class
+//  XMLElementPI::GetType       - Get the PI element's type
+//  XMLElementPI::SetType       - Set the PI element's type
+//
+
+XMLElementPI::XMLElementPI(XMLDocumentBase *doc)
+  : XMLElementText(doc) {
+
+  m_type = 0;
+  
+}
+
+XMLElementPI::~XMLElementPI() {
+
+  // Prepare to die (should have already been called)
+  EventPrepareToDie(m_doc);
+      
+}
+  
+XMLError XMLElementPI::SetClass(XML::Class eclass) {
+
+  // Make sure it's a PI
+  if (eclass != XML::ClassPI)
+    return XMLErrorXMLInvalidClass;
+
+  // Do it
+  m_class = eclass;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementPI::GetType(XMLToken *type) {
+
+  XMLError   result;
+
+  // Sanity checks
+  if (type == NULL)
+    return XMLErrorInvalidParameters;
+
+  // Return it
+  *type = m_type;
+    
+  return XMLErrorNone;
+}
+
+XMLError XMLElementPI::SetType(XMLToken type) {
+
+  XMLError   result;
+
+  // Release current type token
+  result = ReleaseToken(m_doc,&m_type);
+  if (result) goto ERROR;
+  
+  // Set the new one
+  m_type = type;
+  
+  goto OK;    
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}   
+
+XMLError XMLElementPI::EventPrepareToDie(XMLDocument *doc) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (doc != m_doc)
+    return XMLErrorInternal;
+    
+  // Release the tokens
+  result = ReleaseToken(m_doc,&m_type);
+  
+  return result;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementParent::XMLElementParent  - Constructor
+//  XMLElementParent::~XMLElementParent - Destructor
+//  XMLElementParent::SetClass          - Set the text element's class
+//  XMLElementParent::FirstChild        - Return our first child
+//  XMLElementParent::EventRemovedChild - Event: A child was removed
+//  XMLElementParent::EventAddedChild   - Event: A child was added
+//
+  
+XMLElementParent::XMLElementParent() {
+
+  m_firstchild = NULL;
+  
+}
+
+XMLElementParent::~XMLElementParent()
+{
+
+  XMLError        result;
+  XMLElementBase *nextchild;
+  
+  // Delete all our children
+  while (m_firstchild) {
+  
+    // Get child's next sibling
+    result = m_firstchild->NextSibling(&nextchild);
+    if (result) break;
+
+    // Delete the child
+    delete m_firstchild;
+    
+    // Position to next sibling
+    m_firstchild = nextchild;      
+  }
+    
+}
+
+XMLError XMLElementParent::SetClass(XML::Class eclass) {
+
+  // Make sure it's a valid parent type
+  switch (eclass) {
+  case XML::ClassComplex:
+  case XML::ClassPCDATA:
+  case XML::ClassComment:
+    break;
+  default:
+    return XMLErrorXMLInvalidClass; 
+  }
+  
+  // Set it
+  m_class = eclass;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementParent::FirstChild(XMLElementBase **child) {
+
+  // Sanity checks
+  if (child == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Return it
+  *child = m_firstchild;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementParent::EventRemovedChild(XMLElementBase *child) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (child == NULL) goto BADPARAMETERS;
+  
+  // If we've got a child and it's our first one, update our first child
+  if (m_firstchild == child) {
+  
+    // Get the child's next sibling into m_firstchild
+    result = child->NextSibling(&m_firstchild);
+    if (result) goto ERROR;    
+    
+    // If no next sibling...
+    if (m_firstchild == NULL) {
+    
+      // If we're complex...
+      if (m_class == XML::ClassComplex) {
+      
+        // Set class to simple now...
+        result = SetClass(XML::ClassSimple);
+        if (result) goto ERROR;
+      }
+    }
+  }
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLElementParent::EventAddedChild(XMLElementBase *child) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (child == NULL) goto BADPARAMETERS;
+  
+  // If don't have a first child, this is it
+  if (child && m_firstchild == NULL) {
+  
+    // Set m_firstchild
+    m_firstchild = child;
+    
+    // If we're class simple...
+    if (m_class == XML::ClassSimple) {
+    
+      // Change to complex
+      result = SetClass(XML::ClassComplex);
+      if (result) return result;
+    }
+  }
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementPCDATA::XMLElementPCDATA  - Constructor
+//  XMLElementPCDATA::SetClass          - Set the element's class
+//
+  
+XMLElementPCDATA::XMLElementPCDATA() {
+  
+  m_class = XML::ClassPCDATA;
+
+}
+
+XMLError XMLElementPCDATA::SetClass(XML::Class eclass) {
+
+  if (eclass != XML::ClassPCDATA)
+    return XMLErrorXMLInvalidClass;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementPCDATA::EventAddedChild(XMLElementBase *child) {
+
+  XML::Class eclass;
+  
+  // Sanity checks
+  if (child == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Make sure the child is a valid type
+  eclass = child->GetClass();
+  if (eclass != XML::ClassText &&
+      eclass != XML::ClassEntity &&
+      eclass != XML::ClassCDATA)
+    return XMLErrorXMLInvalidClass;
+  
+  return XMLErrorNone;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementComplex::XMLElementComplex  - Constructor
+//  XMLElementComplex::~XMLElementComplex - Destructor
+//  XMLElementComplex::SetClass           - Set the element's class
+//  XMLElementComplex::GetType            - Get the element's type
+//  XMLElementComplex::SetType            - Set the element's type
+//  XMLElementComplex::EqualsType         - "Element's type equals string?"
+//  XMLElementComplex::GetNAttributes     - Get number of attributes
+//  XMLElementComplex::GetAttribute       - Get attribute's name & value tokens
+//  XMLElementComplex::FindAttribute      - Find an attribute
+//  XMLElementComplex::CreateAttribute    - Create a new attribute/name pair
+//  XMLElementComplex::DeleteAttribute    - Delete a named attribute
+//  XMLElementComplex::DeleteAttributes   - Delete all attributes
+//
+// DESCRIPTION
+//
+//  These functions manage an XMLElementComplex instance.
+//
+
+#define ATTRIBALLOCATIONINC 10
+
+XMLElementComplex::XMLElementComplex(XMLDocumentBase *doc) {
+
+  m_doc           = doc;
+  m_type          = XMLTOKENNONE;
+  m_maxattributes = 0;
+  m_numattributes = 0;
+  m_attributes    = NULL;
+  
+}
+
+XMLElementComplex::~XMLElementComplex() {
+
+  // Prepare to die (should have already been called)
+  EventPrepareToDie(m_doc);
+}
+
+XMLError XMLElementComplex::SetClass(XML::Class eclass) {
+
+  XMLError        result;
+  XMLElementBase *nextchild;
+  
+  // Handle simple class
+  if (eclass == XML::ClassSimple) {
+  
+    // If we have contents, delete them...
+    while (m_firstchild) {
+    
+      // Get the child's next sibling
+      result = m_firstchild->NextSibling(&nextchild);
+      if (result)
+        goto ERROR;
+        
+      // Delete it
+      delete m_firstchild;
+      
+      // Next sibling is now first sibling
+      m_firstchild = nextchild;
+    }    
+  }
+  
+  // Handle complex class
+  else if (eclass == XML::ClassComplex) {
+  }
+  
+  // Otherwise error
+  else
+    goto BADCLASS;
+
+  // It's OK to switch class
+  m_class = eclass;
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+  
+BADCLASS:
+  result = XMLErrorXMLInvalidClass;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;    
+}
+
+XMLError XMLElementComplex::GetType(XMLToken *type) {
+
+  XMLError   result;
+  XMLString *typecopy;
+
+  // Sanity checks
+  if (type == NULL)
+    return XMLErrorInvalidParameters;
+
+  // Return it
+  *type = m_type;
+  
+  return XMLErrorNone;
+}
+
+XMLError XMLElementComplex::SetType(XMLToken type) {
+
+  XMLError   result;
+
+  // Release current token
+  result = ReleaseToken(m_doc,&m_type);
+  if (result) goto ERROR;
+
+  // Set it
+  m_type = type;
+    
+  goto OK;    
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+XMLError XMLElementComplex::GetNAttributes(int *numattributes) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (numattributes == NULL) goto BADPARAMETERS;
+  
+  // If we have attributes, return the number of attributes
+  if (m_attributes)
+    *numattributes = m_numattributes;
+  
+  // No attributes, return none
+  else
+    *numattributes = 0;
+    
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLElementComplex::GetAttribute(int attrno, XMLToken *name, XMLToken *value) {
+
+  XMLError   result;
+  
+  // Sanity checks
+  if (attrno < 0 || attrno >= m_numattributes)
+    return XMLErrorInvalidParameters;
+
+  // Return the name if the caller want is
+  if (name)
+    *name = m_attributes[attrno].name;
+    
+  // Return the value if the caller wants it
+  if (value)
+    *value = m_attributes[attrno].value;
+        
+  return XMLErrorNone;
+}
+
+XMLError XMLElementComplex::FindAttribute(XMLToken name, XMLToken *value) {
+
+  XMLError   result;
+  int        attrno;
+  
+  // Sanity checks
+  if (name == 0) goto BADPARAMETERS;
+  
+  // Search the attribute list for the attribute
+  result = SearchAttributes(name,&attrno);
+  if (result) goto ERROR;
+  
+  // If not found, error
+  if (attrno < 0) goto NOTFOUND;
+
+  // Return the value if the caller wants it
+  if (value)
+    *value = m_attributes[attrno].value;
+        
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+    
+NOTFOUND:
+  result = XMLErrorXMLAttributeNotFound;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+  
+}
+
+XMLError XMLElementComplex::CreateAttribute(XMLToken name, XMLToken value) {
+
+  XMLError   result;
+  int        attrno;
+
+  // Sanity checks
+  if (name == 0) goto BADPARAMETERS;
+  
+  // Find it
+  result = SearchAttributes(name,&attrno,1);
+  if (result) goto ERROR;
+  
+  // If already there...
+  if (attrno >= 0) {
+  
+    // Release value
+    result = ReleaseToken(m_doc,&m_attributes[attrno].value);
+    if (result) goto ERROR;
+    
+  }
+
+  // Set the value
+  m_attributes[attrno].value = value;
+    
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+XMLError XMLElementComplex::DeleteAttribute(XMLToken name) {
+
+  XMLError result;
+  int      attrno;
+  
+  // Sanity checks
+  if (name == 0) goto BADPARAMETERS;
+  
+  // Find it
+  result = SearchAttributes(name,&attrno,-1);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLElementComplex::DeleteAttributes(void) {
+
+  XMLError result;
+  int      attrno;
+  
+  // If no attributes it's easy...
+  if (m_numattributes == 0) goto OK;
+  
+  // Until we've freed all entries...
+  for (attrno = 0; m_numattributes; attrno++) {
+  
+    // Continue if empty slot
+    if (m_attributes[attrno].name == XMLTOKENNONE)
+      continue;
+      
+    // Release tokens
+    result = ReleaseToken(m_doc,&m_attributes[attrno].name);
+    if (result) goto ERROR;
+    result = ReleaseToken(m_doc,&m_attributes[attrno].value);
+    if (result) goto ERROR;
+      
+    // One less attribute
+    m_numattributes--;
+  }
+  
+  // Free the list if we have one
+  if (m_attributes) {
+    result = XMLHeap::Free((byte *)m_attributes);
+    m_attributes    = NULL;
+    m_maxattributes = 0;
+    if (result) goto ERROR;
+  }
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLElementComplex::EventPrepareToDie(XMLDocument *doc) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (doc != m_doc)
+    return XMLErrorInternal;
+    
+  // Release type
+  result = ReleaseToken(m_doc,&m_type);
+  if (result)
+    return result;
+    
+  // Release atributes
+  result = DeleteAttributes();
+  if (result)
+    return result;
+    
+  return XMLErrorNone;
+
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementComplex::SearchAttributes - Search for a named attribute
+//
+// DESCRIPTION
+//
+//  This internal function searches the attribute list (if any) for a named
+//  attribute.  If found, it returns it's attribute number in attrno.
+//
+//  If not found it returns -1 in attrno.
+//
+//  If createordelete is 0 ("Just search"), if the attribute is not found
+//  attrno will be set to -1.
+//
+//  If createordelete is -1 ("Delete if found"), if the attribute is not
+//  found attrno will be set to -1.  If it is found it is deleted.
+//
+//  If createordelete is 1 ("Add if not found"), if the attribute is not
+//  found it will be created. The attribute number returned in attrno.
+//
+// NOTES
+//
+//  We don't do any sanity checking because this function is only called
+//  in this source file.
+//
+
+XMLError XMLElementComplex::SearchAttributes(XMLToken name, int *pattrno, int createordelete) {
+
+  XMLError   result;  // Return code
+  int        attrno;  // Local copy of attribute number
+  Attribute *newlist; // New list we've created
+
+  // Initialise
+  newlist = NULL;
+      
+  // Search for it...
+  for (attrno = 0; attrno < m_maxattributes; attrno++) {
+  
+    // Skip if empty
+    if (m_attributes[attrno].name == 0)
+      continue;
+      
+    // See if name compares
+    if (m_attributes[attrno].name == name)
+      break;
+    
+  }
+  
+  // If not found and not adding...
+  if (attrno >= m_maxattributes && createordelete <= 0) {
+  
+    // Let caller know we didn't find it
+    if (pattrno)
+      *pattrno = -1;
+    
+    goto OK;
+  }
+      
+  // If found and not deleting...
+  else if (attrno < m_maxattributes && createordelete >= 0) {
+  
+    goto OK;
+  }
+  
+  // If deleting...
+  if (createordelete < 0) {
+  
+    // Release the tokens
+    result = ReleaseToken(m_doc, &m_attributes[attrno].name);
+    if (result) goto ERROR;
+    result = ReleaseToken(m_doc, &m_attributes[attrno].value);
+    if (result) goto ERROR;
+    
+    // We've got one less now
+    m_numattributes--;
+    
+  }
+  
+  // We're adding...
+  else {
+  
+    // If no free space, realloc it
+    if (m_numattributes >= m_maxattributes) {
+  
+      // Allocate new memory
+      result = XMLHeap::Allocate(sizeof(Attribute)*(m_maxattributes + ATTRIBALLOCATIONINC), (byte **)&newlist);
+      if (result) goto ERROR;
+      
+      // If we have current attributes copy them...
+      if (m_attributes)
+        memcpy((void *)newlist, (void *)(m_attributes+m_maxattributes), sizeof(Attribute)*ATTRIBALLOCATIONINC);      
+    
+      // Clear the new stuff
+      memset((void *)(newlist+m_maxattributes), 0, sizeof(Attribute)*ATTRIBALLOCATIONINC);
+    
+      // Release old memory (if any)
+      if (m_attributes) {
+        result = XMLHeap::Free((byte *)m_attributes);
+        if (result) goto INTERNALERROR;
+      }
+    
+      // Set the new size and memory
+      m_maxattributes += ATTRIBALLOCATIONINC;
+      m_attributes     = newlist;
+      
+      // We don't own the new list now
+      newlist = NULL;
+      
+    }
+
+    // Find first free slot
+    for (attrno = 0;
+         attrno < m_maxattributes && m_attributes[attrno].name != 0;
+         attrno++);
+    if (attrno >= m_maxattributes) goto INTERNALERROR;
+
+    // Populate the slot
+    m_attributes[attrno].name  = name;
+    m_attributes[attrno].value = XMLTOKENNONE;
+
+    // We have one more attribute now
+    m_numattributes++;
+    
+  }
+  
+  // Return the attribute number to the caller
+  if (pattrno)
+    *pattrno = attrno;
+  
+  goto OK;
+  
+ERROR:
+  goto DONE;
+
+INTERNALERROR:
+  result = XMLErrorInternal;
+  goto DONE;
+    
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Clear anything we've left hanging about
+  if (newlist)
+    XMLHeap::Free((byte *)newlist);
+    
+  return result;
+}
+
+
+@
+
+
+1.28
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d345 1
+a345 1
+  m_type = NULL;
+d806 1
+a806 1
+  if (name == NULL) goto BADPARAMETERS;
+d848 1
+a848 1
+  if (name == NULL) goto BADPARAMETERS;
+d890 1
+a890 1
+  if (name == NULL) goto BADPARAMETERS;
+d1024 1
+a1024 1
+    if (m_attributes[attrno].name == NULL)
+d1097 1
+a1097 1
+         attrno < m_maxattributes && m_attributes[attrno].name != NULL;
+@
+
+
+1.27
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d362 3
+d1072 1
+a1072 1
+  
+d1078 1
+a1078 1
+      memset((void *)(newlist+m_maxattributes), 0, ATTRIBALLOCATIONINC);
+@
+
+
+1.26
+log
+@Added DistinctStrings() stat query to XMLDocument
+@
+text
+@d626 1
+d776 19
+@
+
+
+1.25
+log
+@All tokenised and working (needs ExactHashAndLen() though)
+@
+text
+@d47 25
+@
+
+
+1.24
+log
+@All tokenised, ready to test
+@
+text
+@d996 1
+a996 1
+  else if (createordelete >= 0) {
+@
+
+
+1.23
+log
+@Changed 'Type' to 'Class' and 'Name' to 'Type'
+@
+text
+@d94 1
+a94 1
+    *element = new XMLElementComplex();
+d114 1
+a114 1
+    *element = new XMLElementText();
+d122 1
+a122 1
+    *element = new XMLElementPI();
+d181 1
+a181 1
+//  XMLElementMem::IsMutable  - "Is this element mutable?"
+d184 1
+d212 6
+a217 6
+//  XMLElementText::XMLElementText  - Constructor
+//  XMLElementText::~XMLElementText - Destructor
+//  XMLElementText::SetClass        - Set the text element's class
+//  XMLElementText::GetValue        - Get the text element's value
+//  XMLElementText::SetValue        - Set the text element's value
+//  XMLElementText::OwnedSetValue   - Set the text element's value (we own the string)
+d220 1
+a220 1
+XMLElementText::XMLElementText() {
+d222 2
+a223 1
+  m_value = NULL;
+d229 3
+a231 4
+  // Delete the value if there is one
+  if (m_value)
+    delete m_value;
+    
+d233 1
+a233 1
+  
+d255 1
+a255 1
+XMLError XMLElementText::GetValue(XMLString **value) {
+d267 1
+a267 1
+XMLError XMLElementText::SetValue(XMLString *value) {
+a269 1
+  XMLString *valuecopy;
+d271 2
+a272 14
+  // Initialise
+  valuecopy = NULL;
+  
+  // Copy the value if we have one...
+  if (value) {
+  
+    valuecopy = new XMLStringMem();
+    if (valuecopy == NULL) goto OUTOFMEMORY;
+    result = valuecopy->Append(value);
+    if (result) goto ERROR;
+  }
+  
+  // Defer to OwnedSetValue()
+  result = OwnedSetValue(valuecopy);
+d275 2
+a276 2
+  // We don't own the copy now
+  valuecopy = NULL;
+a278 4
+
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+a288 4
+  // Free the copy if we've still got it
+  if (valuecopy)
+    delete valuecopy;
+    
+d292 1
+a292 1
+XMLError XMLElementText::OwnedSetValue(XMLString *value) {
+d294 5
+a298 3
+  // Release current value if any
+  if (m_value)
+    delete m_value;
+d300 2
+a301 2
+  // Set it (we don't copy 'cause we're internal)
+  m_value = value;
+d303 1
+a303 1
+  return XMLErrorNone;
+a314 1
+//  XMLElementPI::OwnedSetType  - Set the PI element's type (we own the string)
+d317 2
+a318 1
+XMLElementPI::XMLElementPI() {
+d326 3
+a328 4
+  // Delete the type if there is one
+  if (m_type)
+    delete m_type;
+    
+d340 1
+a340 1
+XMLError XMLElementPI::GetType(XMLString **type) {
+a342 1
+  XMLString *typecopy;
+d348 2
+a349 20
+  // If we have a type...
+  if (m_type) {
+      
+    // Create new empty string
+    *type = new XMLStringMem();
+    if (*type == NULL)
+      return XMLErrorOutOfMemory;
+    
+    // Append the value
+    result = (*type)->Append(m_type);
+    if (result)
+      return result;
+      
+  }
+  
+  // If we don't have a type
+  else {
+  
+    // Return null type
+    *type = NULL;
+a350 2
+  }
+  
+d354 1
+a354 1
+XMLError XMLElementPI::SetType(XMLString *type) {
+a356 1
+  XMLString *typecopy;
+d358 3
+a360 2
+  // Initialise
+  typecopy = NULL;
+d362 2
+a363 11
+  // If type given...
+  if (type) {
+  
+    // Create empty string
+    typecopy = new XMLStringMem();
+    if (typecopy == NULL) goto OUTOFMEMORY;
+    
+    // Append the value
+    result = typecopy->Append(type);
+    if (result) goto ERROR;
+  }
+a364 7
+  // Set the name
+  result = OwnedSetType(typecopy);
+  if (result) goto ERROR;
+
+  // We don't own the copy now
+  typecopy = NULL;
+    
+a366 4
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+a375 4
+  // Free the copy if we've still got it
+  if (typecopy)
+    delete typecopy;
+    
+d379 1
+a379 1
+XMLError XMLElementPI::OwnedSetType(XMLString *type) {
+d381 5
+a385 3
+  // Free current type if we've got one
+  if (m_type)
+    delete m_type;
+d387 2
+a388 2
+  // Set it
+  m_type = type;
+d390 3
+a392 2
+  return XMLErrorNone;
+}   
+d613 1
+a613 1
+XMLElementComplex::XMLElementComplex() {
+d615 2
+a616 1
+  m_type          = NULL;
+d625 2
+a626 4
+  if (m_type)
+    delete m_type;
+  if (m_attributes)
+    XMLHeap::Free((byte *)m_attributes);
+d682 1
+a682 1
+XMLError XMLElementComplex::GetType(XMLString **type) {
+d691 2
+a692 22
+  // If we have a type...
+  if (m_type) {
+      
+    // Ccreate empty string
+    *type = new XMLStringMem();
+    if (*type == NULL)
+      return XMLErrorOutOfMemory;
+    
+    // Append the value
+    result = (*type)->Append(m_type);
+    if (result)
+      return result;
+      
+  }
+  
+  // If we don't have a type
+  else {
+  
+    // Return null type
+    *type = NULL;
+    
+  }
+d697 1
+a697 1
+XMLError XMLElementComplex::SetType(XMLString *type) {
+a699 1
+  XMLString *typecopy;
+d701 2
+a702 17
+  // Initialise
+  typecopy = NULL;
+  
+  // If type given...
+  if (type) {
+  
+    // Create empty string
+    typecopy = new XMLStringMem();
+    if (typecopy == NULL) goto OUTOFMEMORY;
+    
+    // Append the value
+    result = typecopy->Append(type);
+    if (result) goto ERROR;
+  }
+  
+  // Set the name
+  result = OwnedSetType(typecopy);
+d705 2
+a706 2
+  // We don't own the copy now
+  typecopy = NULL;
+a709 4
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+a718 4
+  // Free the copy if we've still got it
+  if (typecopy)
+    delete typecopy;
+    
+a721 20
+XMLError XMLElementComplex::EqualsType(XMLString *string, int *equals) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (equals == NULL)
+    return NULL;
+
+  // If our type is NULL, they're not equal
+  if (m_type == NULL) {
+    *equals = 0;
+    return XMLErrorNone;
+  }
+  
+  // See if they're equal
+  result = m_type->Equals(string,equals);
+  
+  return result;
+}
+
+d752 1
+a752 1
+XMLError XMLElementComplex::FindAttribute(XMLString *name, XMLString **value) {
+d794 1
+a794 1
+XMLError XMLElementComplex::CreateAttribute(XMLString *name, XMLString *value) {
+a797 2
+  XMLString *namecopy;
+  XMLString *valuecopy;
+a798 4
+  // Initialise
+  namecopy  = NULL;
+  valuecopy = NULL;
+    
+d802 2
+a803 4
+  // Copy the name string
+  namecopy = new XMLStringMem();
+  if (namecopy == NULL) goto OUTOFMEMORY;
+  result = namecopy->Append(name);
+d806 5
+a810 5
+  // Copy the value (if we have one)
+  if (value) {
+    valuecopy = new XMLStringMem();
+    if (valuecopy == NULL) goto OUTOFMEMORY;
+    result = valuecopy->Append(value);
+d812 1
+d814 4
+a817 9
+  
+  // Defer to OwnedCreateAttribute()
+  result = OwnedCreateAttribute(namecopy,valuecopy);
+  if (result) goto ERROR;
+  
+  // We don't own these now
+  namecopy = NULL;
+  valuecopy = NULL;
+  
+a823 4
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+a832 6
+  // Free the string copies if we still have them
+  if (namecopy)
+    delete namecopy;
+  if (valuecopy)
+    delete valuecopy;
+    
+d836 1
+a836 1
+XMLError XMLElementComplex::DeleteAttribute(XMLString *name) {
+d845 1
+a845 1
+  result = SearchAttributes(name,&attrno);
+a847 13
+  // Release stuff that's there
+  if (m_attributes[attrno].name)
+    delete m_attributes[attrno].name;
+  if (m_attributes[attrno].value)
+    delete m_attributes[attrno].value;
+    
+  // Clear the entry
+  m_attributes[attrno].name  = NULL;
+  m_attributes[attrno].value = NULL;
+  
+  // We have one less attributes now
+  m_numattributes--;
+  
+d878 1
+a878 1
+    if (m_attributes[attrno].name == NULL)
+d881 5
+a885 4
+    // Free any stuff that's there
+    delete m_attributes[attrno].name;
+    if (m_attributes[attrno].value)
+      delete m_attributes[attrno].value;
+d913 21
+d948 9
+d963 1
+a963 1
+XMLError XMLElementComplex::SearchAttributes(XMLString *name, int *attrno) {
+d965 7
+a971 3
+  XMLError result;
+  int      equals;
+  
+d973 1
+a973 1
+  for (*attrno = 0; *attrno < m_maxattributes; (*attrno)++) {
+d976 1
+a976 1
+    if (m_attributes[*attrno].name == NULL)
+d980 2
+a981 2
+    result = m_attributes[*attrno].name->Equals(name,&equals);
+    if (result) goto ERROR;
+d983 8
+a990 2
+    // If found, break
+    if (equals) break;
+d992 1
+a993 4
+  
+  // If not found, tell caller
+  if (*attrno >= m_maxattributes)
+    *attrno = -1;
+d995 2
+a996 1
+  goto OK;
+d998 2
+a999 3
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+d1001 2
+a1002 2
+ERROR:
+  goto DONE;
+d1004 10
+a1013 21
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLElementComplex::OwnedSetType         - Set element's type with owned string
+//  XMLElementComplex::OwnedCreateAttribute - Create attribute with owned strings
+//
+
+XMLError XMLElementComplex::OwnedSetType(XMLString *type) {
+
+  // Delete existing name if any
+  if (m_type)
+    delete m_type;
+
+  // Set the name  
+  m_type = type;
+d1015 2
+a1016 8
+  return XMLErrorNone;
+}
+
+XMLError XMLElementComplex::OwnedCreateAttribute(XMLString *name, XMLString *value) {
+
+  XMLError   result;
+  int        attrno;
+  Attribute *newlist;
+d1018 2
+a1019 6
+  // Sanity checks
+  if (name == NULL) goto BADPARAMETERS;
+
+  // Find it
+  result = SearchAttributes(name,&attrno);
+  if (result) goto ERROR;
+d1021 3
+a1023 2
+  // If it already exists, error
+  if (attrno >= 0) goto EXISTS;
+d1025 20
+a1044 18
+  // If no free space, realloc it
+  else if (m_numattributes >= m_maxattributes) {
+  
+    // Allocate new memory
+    result = XMLHeap::Allocate(sizeof(Attribute)*(m_maxattributes + ATTRIBALLOCATIONINC), (byte **)&newlist);
+    if (result) goto ERROR;
+  
+    // If we have current attributes copy them...
+    if (m_attributes)
+      memcpy((void *)newlist, (void *)(m_attributes+m_maxattributes), sizeof(Attribute)*ATTRIBALLOCATIONINC);      
+    
+    // Clear the new stuff
+    memset((void *)(newlist+m_maxattributes), 0, ATTRIBALLOCATIONINC);
+    
+    // Release old memory (if any)
+    if (m_attributes) {
+      result = XMLHeap::Free((byte *)m_attributes);
+      if (result) goto INTERNALERROR;
+a1045 5
+    
+    // Set the new size and memory
+    m_maxattributes += ATTRIBALLOCATIONINC;
+    m_attributes     = newlist;
+  }
+d1047 5
+a1051 5
+  // Find first free slot
+  for (attrno = 0;
+       attrno < m_maxattributes && m_attributes[attrno].name != NULL;
+       attrno++);
+  if (attrno >= m_maxattributes) goto INTERNALERROR;
+d1053 3
+a1055 3
+  // Populate the slot
+  m_attributes[attrno].name  = name;
+  m_attributes[attrno].value = value;
+d1057 2
+a1058 2
+  // We have one more attribute now
+  m_numattributes++;
+d1060 6
+d1067 2
+a1068 3
+    
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+a1070 7
+ERROR:
+  goto DONE;
+  
+EXISTS:
+  result = XMLErrorXMLAttributeExists;
+  goto DONE;
+  
+d1074 1
+a1074 1
+  
+d1081 5
+a1085 1
+  return result;  
+d1087 1
+@
+
+
+1.22
+log
+@Implemented XMLManager
+@
+text
+@d81 1
+a81 1
+XMLError XMLDocumentMem::NewElement(XML::Type type, XMLElementBase **element) {
+d89 1
+a89 1
+  switch (type) {
+d92 2
+a93 2
+  case XML::TypeComplex:
+  case XML::TypeSimple:
+d96 1
+a96 1
+    result = (*(XMLElementComplex **)element)->SetType(type);
+d101 1
+a101 1
+  case XML::TypePCDATA:
+d104 1
+a104 1
+    result = (*(XMLElementPCDATA **)element)->SetType(type);
+d109 5
+a113 5
+  case XML::TypeText:
+  case XML::TypeEntity:
+  case XML::TypeCDATA: 
+  case XML::TypeComment:
+  case XML::TypeDTD:
+d116 1
+a116 1
+    result = (*(XMLElementText **)element)->SetType(type);
+d121 1
+a121 1
+  case XML::TypePI:
+d124 1
+a124 1
+    result = (*(XMLElementPI **)element)->SetType(type);
+d165 1
+a165 1
+  result = XMLErrorXMLUnknownType;
+d213 1
+a213 1
+//  XMLElementText::SetType         - Set the text element's type
+d216 1
+a216 1
+//  XMLElementText::OwnedSetvalue   - Set the text element's value (we own the string)
+d233 1
+a233 1
+XMLError XMLElementText::SetType(XML::Type type) {
+d236 6
+a241 6
+   switch (type) {
+   case XML::TypeText:
+   case XML::TypeEntity:
+   case XML::TypeCDATA:
+   case XML::TypeComment:
+   case XML::TypeDTD:
+d244 1
+a244 1
+     return XMLErrorXMLInvalidType;
+d248 1
+a248 1
+   m_type = type;
+d330 2
+d333 1
+a333 3
+//  XMLElementPI::GetName       - Get the PI element's name
+//  XMLElementPI::SetName       - Set the PI element's name
+//  XMLElementPI::OwnedSetname  - Set the PI element's name (we own the string)
+d338 1
+a338 1
+  m_name = NULL;
+d344 3
+a346 3
+  // Delete the name if there is one
+  if (m_name)
+    delete m_name;
+d350 1
+a350 1
+XMLError XMLElementPI::SetType(XML::Type type) {
+d353 2
+a354 2
+  if (type != XML::TypePI)
+    return XMLErrorXMLInvalidType;
+d359 1
+a359 1
+XMLError XMLElementPI::GetName(XMLString **name) {
+d362 1
+a362 1
+  XMLString *namecopy;
+d365 1
+a365 1
+  if (name == NULL)
+d368 2
+a369 2
+  // If we have a name...
+  if (m_name) {
+d371 3
+a373 3
+    // Copy the name
+    *name = new XMLStringMem();
+    if (*name == NULL)
+d377 1
+a377 1
+    result = (*name)->Append(m_name);
+d383 1
+a383 1
+  // If we don't have a name
+d386 2
+a387 2
+    // Return null name
+    *name = NULL;
+d394 1
+a394 1
+XMLError XMLElementPI::SetName(XMLString *name) {
+d397 1
+a397 1
+  XMLString *namecopy;
+d400 1
+a400 1
+  namecopy = NULL;
+d402 2
+a403 2
+  // If name given...
+  if (name) {
+d405 3
+a407 3
+    // Copy the name
+    namecopy = new XMLStringMem();
+    if (namecopy == NULL) goto OUTOFMEMORY;
+d410 1
+a410 1
+    result = namecopy->Append(name);
+d415 1
+a415 1
+  result = OwnedSetName(namecopy);
+d419 1
+a419 1
+  namecopy = NULL;
+d437 2
+a438 2
+  if (namecopy)
+    delete namecopy;
+d443 1
+a443 1
+XMLError XMLElementPI::OwnedSetName(XMLString *name) {
+d445 3
+a447 3
+  // Free current name if we've got one
+  if (m_name)
+    delete m_name;
+d450 1
+a450 1
+  m_name = name;
+d459 3
+a461 3
+//  XMLElementParent::XMLElementText    - Constructor
+//  XMLElementParent::~XMLElementText   - Destructor
+//  XMLElementParent::SetType           - Set the text element's type
+d495 1
+a495 1
+XMLError XMLElementParent::SetType(XML::Type type) {
+d498 4
+a501 4
+  switch (type) {
+  case XML::TypeComplex:
+  case XML::TypePCDATA:
+  case XML::TypeComment:
+d504 1
+a504 1
+    return XMLErrorXMLInvalidType; 
+d508 1
+a508 1
+  m_type = type;
+d543 1
+a543 1
+      if (m_type == XML::TypeComplex) {
+d545 2
+a546 2
+        // Set type to simple now...
+        result = SetType(XML::TypeSimple);
+d583 2
+a584 2
+    // If we're type simple...
+    if (m_type == XML::TypeSimple) {
+d587 1
+a587 1
+      result = SetType(XML::TypeComplex);
+d616 1
+a616 1
+//  XMLElementPCDATA::SetType           - Set the element's type
+d621 1
+a621 1
+  m_type = XML::TypePCDATA;
+d625 1
+a625 1
+XMLError XMLElementPCDATA::SetType(XML::Type type) {
+d627 2
+a628 2
+  if (type != XML::TypePCDATA)
+    return XMLErrorXMLInvalidType;
+d635 1
+a635 1
+  XML::Type type;
+d642 5
+a646 5
+  type = child->GetType();
+  if (type != XML::TypeText &&
+      type != XML::TypeEntity &&
+      type != XML::TypeCDATA)
+    return XMLErrorXMLInvalidType;
+d657 2
+d660 1
+a660 3
+//  XMLElementComplex::GetName            - Get the element's name
+//  XMLElementComplex::SetName            - Set the element's name
+//  XMLElementComplex::EqualsName         - "Element's name equals string?"
+d676 1
+a676 1
+  m_name          = NULL;
+d685 2
+a686 2
+  if (m_name)
+    delete m_name;
+d691 1
+a691 1
+XMLError XMLElementComplex::SetType(XML::Type type) {
+d696 2
+a697 2
+  // Handle simple type
+  if (type == XML::TypeSimple) {
+d715 2
+a716 2
+  // Handle complex type
+  else if (type == XML::TypeComplex) {
+d721 1
+a721 1
+    goto BADTYPE;
+d723 2
+a724 2
+  // It's OK to switch types
+  m_type = type;
+d731 2
+a732 2
+BADTYPE:
+  result = XMLErrorXMLInvalidType;
+d744 1
+a744 1
+XMLError XMLElementComplex::GetName(XMLString **name) {
+d747 1
+a747 1
+  XMLString *namecopy;
+d750 1
+a750 1
+  if (name == NULL)
+d753 2
+a754 2
+  // If we have a name...
+  if (m_name) {
+d756 3
+a758 3
+    // Copy the name
+    *name = new XMLStringMem();
+    if (*name == NULL)
+d762 1
+a762 1
+    result = (*name)->Append(m_name);
+d768 1
+a768 1
+  // If we don't have a name
+d771 2
+a772 2
+    // Return null name
+    *name = NULL;
+d779 1
+a779 1
+XMLError XMLElementComplex::SetName(XMLString *name) {
+d782 1
+a782 1
+  XMLString *namecopy;
+d785 1
+a785 1
+  namecopy = NULL;
+d787 2
+a788 2
+  // If name given...
+  if (name) {
+d790 3
+a792 3
+    // Copy the name
+    namecopy = new XMLStringMem();
+    if (namecopy == NULL) goto OUTOFMEMORY;
+d795 1
+a795 1
+    result = namecopy->Append(name);
+d800 1
+a800 1
+  result = OwnedSetName(namecopy);
+d804 1
+a804 1
+  namecopy = NULL;
+d822 2
+a823 2
+  if (namecopy)
+    delete namecopy;
+d828 1
+a828 1
+XMLError XMLElementComplex::EqualsName(XMLString *string, int *equals) {
+d836 2
+a837 2
+  // If our name is NULL, they're not equal
+  if (m_name == NULL) {
+d843 1
+a843 1
+  result = m_name->Equals(string,equals);
+d1136 1
+a1136 1
+//  XMLElementComplex::OwnedSetName         - Set element's name with owned string
+d1140 1
+a1140 1
+XMLError XMLElementComplex::OwnedSetName(XMLString *name) {
+d1143 2
+a1144 2
+  if (m_name)
+    delete m_name;
+d1147 1
+a1147 1
+  m_name = name;
+@
+
+
+1.21
+log
+@Worked on Cursor::GetURI, fixed GetName() not returning copy
+@
+text
+@d32 3
+a34 1
+XMLDocumentMem::XMLDocumentMem(int optimalnodes) {
+@
+
+
+1.20
+log
+@Renamed source files for string implementations
+@
+text
+@d359 3
+d365 8
+d374 14
+a387 2
+  // Do it
+  *name = m_name;
+d674 1
+a674 1
+  m_name = NULL;
+d744 3
+d750 8
+d759 14
+a772 2
+  // Return the name
+  *name = m_name;
+@
+
+
+1.19
+log
+@Added XMLElementBase, got rid of XMLElement (it's not exposed in API)
+@
+text
+@d18 1
+a18 1
+#include "xmlsmem.h"
+@
+
+
+1.18
+log
+@Destructor working, walked big.xml 700K memory, 30 sec!
+@
+text
+@d79 1
+a79 1
+XMLError XMLDocumentMem::NewElement(XML::Type type, XMLElement **element) {
+d180 2
+a181 2
+//  XMLElement::GetLocation   - Get the text element's location
+//  XMLElement::SetLocation   - Set the text element's location
+d451 2
+a452 2
+  XMLError    result;
+  XMLElement *nextchild;
+d488 1
+a488 1
+XMLError XMLElementParent::FirstChild(XMLElement **child) {
+d500 1
+a500 1
+XMLError XMLElementParent::EventRemovedChild(XMLElement *child) {
+d545 1
+a545 1
+XMLError XMLElementParent::EventAddedChild(XMLElement *child) {
+d608 1
+a608 1
+XMLError XMLElementPCDATA::EventAddedChild(XMLElement *child) {
+d668 2
+a669 2
+  XMLError    result;
+  XMLElement *nextchild;
+@
+
+
+1.17
+log
+@Added XMLCursorFree - Almost working
+@
+text
+@a178 19
+//  XMLDocumentMem::EventRemovedElement - Handle "removed element" event
+//
+// DESCRIPTION
+//
+//  This function handles the "removed element" event by decrementing the
+//  number of elements.
+//
+
+XMLError XMLDocumentMem::EventRemovedElement(void) {
+
+  m_nodecount--;
+  
+  return XMLErrorNone;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+@
+
+
+1.16
+log
+@More readiness for destructor
+
+Plugged in width/depth counters and stat query.
+
+Made constructor delete itself after it's job was finished.  It
+registers it's width/depth with document before destroying itself.
+@
+text
+@d17 1
+d32 4
+a35 1
+XMLDocumentMem::XMLDocumentMem() {
+d136 13
+d173 19
+@
+
+
+1.15
+log
+@Added node counts to and LeastCursor() to document
+@
+text
+@a31 4
+
+  // Clear node counts
+  m_nodecount = 0;
+  m_nodetotal = 0;
+a155 20
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentMem::NodeCount - Return current node count (current count)
+//  XMLDocumentMem::NodeTotal - Return total nodes (lifetime count)
+//
+// DESCRIPTION
+//
+//  These functions return document node counts.
+//
+
+int XMLDocumentMem::NodeCount(void) {
+  return m_nodecount;
+}
+
+int XMLDocumentMem::NodeTotal(void) {
+  return m_nodetotal;
+@
+
+
+1.14
+log
+@Completely loads and parses big.xml!
+@
+text
+@d32 4
+d132 4
+d160 20
+@
+
+
+1.13
+log
+@All parsing functions except cursor new after/below written
+@
+text
+@d107 1
+d218 1
+d310 1
+d350 49
+d492 12
+d529 1
+a529 2
+  if (child == NULL)
+    return XMLErrorInvalidParameters;
+d532 1
+a532 1
+  if (child && m_firstchild == child) {
+d536 8
+d545 2
+d548 14
+a561 1
+  return XMLErrorNone;  
+@
+
+
+1.12
+log
+@Parser finished, just some leftover functions to write
+@
+text
+@d192 1
+d243 46
+d528 1
+d626 12
+a637 3
+  // Destroy old name if we have one
+  if (m_name)
+    delete m_name;
+d639 5
+d645 44
+a688 1
+  m_name = name;
+d690 1
+a690 1
+  return XMLErrorNone;
+d769 7
+a775 2
+  Attribute *newlist;
+  
+d778 5
+a782 3
+
+  // Find it
+  result = SearchAttributes(name,&attrno);
+d785 7
+a791 2
+  // If it already exists, error
+  if (attrno >= 0) goto EXISTS;
+d793 3
+a795 2
+  // If no free space, realloc it
+  else if (m_numattributes >= m_maxattributes) {
+d797 3
+a799 3
+    // Allocate new memory
+    result = XMLHeap::Allocate(sizeof(Attribute)*(m_maxattributes + ATTRIBALLOCATIONINC), (byte **)&newlist);
+    if (result) goto ERROR;
+a800 31
+    // If we have current attributes copy them...
+    if (m_attributes)
+      memcpy((void *)newlist, (void *)(m_attributes+m_maxattributes), sizeof(Attribute)*ATTRIBALLOCATIONINC);      
+    
+    // Clear the new stuff
+    memset((void *)(newlist+m_maxattributes), 0, ATTRIBALLOCATIONINC);
+    
+    // Release old memory (if any)
+    if (m_attributes) {
+      result = XMLHeap::Free((byte *)m_attributes);
+      if (result) goto INTERNALERROR;
+    }
+    
+    // Set the new size and memory
+    m_maxattributes += ATTRIBALLOCATIONINC;
+    m_attributes     = newlist;
+  }
+
+  // Find first free slot
+  for (attrno = 0;
+       attrno < m_maxattributes && m_attributes[attrno].name != NULL;
+       attrno++);
+  if (attrno >= m_maxattributes) goto INTERNALERROR;
+
+  // Populate the slot
+  m_attributes[attrno].name  = name;
+  m_attributes[attrno].value = value;
+
+  // We have one more attribute now
+  m_numattributes++;
+    
+d802 1
+a802 1
+    
+a805 3
+
+ERROR:
+  goto DONE;
+d807 2
+a808 2
+EXISTS:
+  result = XMLErrorXMLAttributeExists;
+d811 1
+a811 2
+INTERNALERROR:
+  result = XMLErrorInternal;
+d820 6
+d975 100
+@
+
+
+1.11
+log
+@Added XMLElementPI for processing instructions
+@
+text
+@d114 1
+a114 1
+  case XML::TypeProcessingInstruction:
+d280 1
+a280 1
+  if (type != XML::TypeProcessingInstruction)
+@
+
+
+1.10
+log
+@Added PI tokens to syntax analyser
+@
+text
+@d256 58
+@
+
+
+1.9
+log
+@Added XML::TypeComment element type
+@
+text
+@d112 8
+@
+
+
+1.8
+log
+@More XMLCursor behaviour - won't compile yet
+@
+text
+@d106 1
+d207 1
+d290 1
+@
+
+
+1.7
+log
+@XMLDocumentMem now creates all element types (text..complex)
+@
+text
+@a36 1
+
+@
+
+
+1.6
+log
+@Implemented XMLElementComplex
+@
+text
+@d89 4
+a92 1
+    result = XMLErrorNotImplemented;
+d440 1
+a440 1
+    delete m_attributes;
+@
+
+
+1.5
+log
+@Implemented XMLElementPCDATA
+@
+text
+@d18 3
+a88 1
+  case XML::TypePCDATA:
+d91 8
+d399 416
+@
+
+
+1.4
+log
+@Implemented XMLElementParent
+@
+text
+@d350 41
+@
+
+
+1.3
+log
+@Implemented XMLElementMem and XMLElementText
+@
+text
+@d230 119
+@
+
+
+1.2
+log
+@More work on base XML classes
+@
+text
+@d82 13
+a94 2
+  default:
+    *element = new XMLElementMem();
+d96 2
+d99 5
+d115 8
+a122 1
+    
+d131 99
+@
+
+
+1.1
+log
+@Renamed xmlinmem to xmldocmem and wrote XMLDocumentMem
+@
+text
+@a28 10
+
+  // Document root
+  m_root    = NULL;
+  m_url     = NULL;
+  m_version = NULL;
+    
+  // Cursor list
+  m_firstcursor = NULL;
+  m_lastcursor = NULL;
+
+a31 81
+
+  // Remove root if we have one
+  if (m_root)
+    delete m_root;
+  if (m_url)
+    delete m_url;
+  if (m_version)
+    delete m_version;
+
+  // Remove cursors from document
+  while (m_firstcursor)
+    m_firstcursor->SetDocument(NULL);
+          
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentMem::GetURL       - Get URL
+//  XMLDocumentMem::SetURL       - Set URL
+//  XMLDocumentMem::GetVersion   - Get version string
+//  XMLDocumentMem::SetVersion   - Set version string
+//  XMLDocumentMem::NewXMLCursor - Create new cursor on the document
+//
+//
+
+XMLError XMLDocumentMem::GetURL(XMLString **url) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+
+  // Sanity checks
+  if (url == NULL) goto BADPARAMETERS;
+    
+  // If no URL, it's easy
+  if (m_url == NULL) {
+  
+    // Return no URL
+    *url = NULL;
+    goto OK;
+  
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_url);
+  if (result) goto ERROR;
+  
+  // Give new string to caller
+  *url = newstring;
+  newstring = NULL;
+  
+  goto OK;
+
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+      
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+
+a32 2
+  
+XMLError XMLDocumentMem::SetURL(XMLString *url) {
+a33 17
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+  
+  // If no URL, it's easy
+  if (url == NULL) {
+  
+    // Delete current URL (if any)
+    if (m_url)
+      delete m_url;
+      
+    // Clear the current URL
+    m_url = NULL;
+    goto OK;
+  }
+a34 195
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(url);
+  if (result) goto ERROR;
+  
+  // Delete current URL (if any)
+  if (m_url)
+    delete m_url;
+    
+  // Save new URL
+  m_url = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+}
+
+XMLError XMLDocumentMem::GetVersion(XMLString **version) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+
+  // Sanity checks
+  if (version == NULL) goto BADPARAMETERS;
+    
+  // If no version, it's easy
+  if (m_version == NULL) {
+  
+    // Return no URL
+    *version = NULL;
+    goto OK;
+  
+  }
+
+  // Have URL, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_version);
+  if (result) goto ERROR;
+  
+  // Give new string to caller
+  *version = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+    
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+
+}
+  
+XMLError XMLDocumentMem::SetVersion(XMLString *version) {
+
+  XMLError   result;
+  XMLString *newstring;
+  
+  // Initialise
+  newstring = NULL;
+  
+  // If no version, it's easy
+  if (version == NULL) {
+  
+    // Delete current version (if any)
+    if (m_version)
+      delete m_version;
+      
+    // Clear the current version
+    m_version = NULL;
+    goto OK;
+  }
+
+  // Have version, create string to put it into
+  newstring = new XMLStringMem();
+  if (newstring == NULL) goto OUTOFMEM;
+  result = newstring->Append(m_version);
+  if (result) goto ERROR;
+  
+  // Delete current version (if any)
+  if (m_version)
+    delete m_version;
+    
+  // Save new version
+  m_version = newstring;
+  newstring = NULL;
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+OUTOFMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+
+ERROR:
+  goto DONE;
+  
+DONE:
+  // If we still have a new string laying about, delete it
+  if (newstring)
+    delete newstring;
+    
+  return result;
+}
+
+XMLError XMLDocumentMem::NewXMLCursor(XMLCursor **cursor) {
+
+  XMLError result;
+  XMLCursor *newcursor;
+  
+  // Initialise
+  newcursor = NULL;
+  
+  // Sanity checks
+  if (cursor == NULL) goto BADPARAMETERS;
+
+  // Create a cursor  
+  newcursor = new XMLCursor();
+  if (newcursor == NULL) goto NOMEM;
+  
+  // Set the cursor's document
+  result = newcursor->SetDocument(this);
+  if (result) goto ERROR;
+
+  // Return the cursor to the caller
+  *cursor = newcursor;
+  newcursor = NULL;
+    
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+NOMEM:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // If we still have an allocated cursor hanging about, delete it
+  if (newcursor)
+    delete cursor;
+    
+  return result;
+}
+  
+d39 2
+a40 2
+//  XMLDocumentMem::GetRootElement - Get the root elemn
+//  XMLDocumentMem::NewRootElement - Set the root element
+d43 1
+a43 58
+XMLError XMLDocumentMem::GetRootElement(XMLElement **root) {
+
+  XMLError result;
+    
+  // Sanity checks
+  if (root == NULL) goto BADPARAMETERS;
+  
+  // Do it
+  *root = m_root;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+XMLError XMLDocumentMem::SetRootElement(XMLElement *element) {
+
+  XMLError result;
+  
+  // Remove existing root if any
+  if (m_root) {
+    delete m_root;
+    m_root = NULL;
+  }
+  
+  // Tie it in
+  m_root = element;
+  
+  goto OK;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLDocumentMem::NewXMLString  - Create friendly XMLString
+//  XMLDocumentMem::NewXMLElement - Create friendly XMLElement
+//
+
+XMLError XMLDocumentMem::NewXMLString(XMLString **string) {
+d73 1
+a73 1
+XMLError XMLDocumentMem::NewXMLElement(XMLElement **element) {
+d80 7
+a86 3
+  // Create a new string
+  *element = new XMLElementMem(this);
+  if (*element == NULL) goto NOMEM;
+@
+

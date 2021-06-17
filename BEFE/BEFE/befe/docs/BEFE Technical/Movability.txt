@@ -1,0 +1,44 @@
+Header...
+Movability and "movable classes"
+...Header
+
+Defines...
+<Movability>
+<Movable>
+...Defines
+
+This is a discussion on the concept of <Movability> as required for
+<memory implementations> of <classes>.
+
+The idea of <Movability> can be applied to <Classes> that need to
+be <Movable> in memory.  As such, these classes will expose a standardised
+set of <Movability Methods>. The reason behind these standards are
+because of the semantics of the the methods (see <Method Naming Standards>).
+
+This Movability concept comes into play mainly for <Structured Value Classes>.
+
+With a simple <flat value> class or structure, taking a copy of it doesn't
+present much of an overhead because it's simply a matter of using
+<MemoryCopyRaw> to move the bytes in one fell swoop.
+
+However, when <Structured Values> need to be moved in memory two distinct
+options arise...
+
+  o Copy
+  o Move
+
+With <Copy Semantics>, the idea is to create an entire copy of the values
+to be moved. With <scalar values> the idea is quite simpe and fairly straight
+forward to recognize and implement.  It is also intuitively understood by
+most "consumers" of the value.  However, with both <sequenced values> and
+<Structured values>, several problems start arise with <Copy Semantics>.
+
+For example, 
+
+<Movability Semantics> provides a conceptual 
+This class is used as a movable wrapper around a dynamic ByteBuffer
+instance.  We use the phrase "dynamic" meaning the ByteBuffer acts 
+on its own and moves itself around in memory without as required.
+
+As such, it demands a more usable "front end" class to wrap it and
+act more like a normal "value" class.

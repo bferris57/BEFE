@@ -1,0 +1,331 @@
+head	1.7;
+access;
+symbols
+	start:1.1.1.1 bruce:1.1.1;
+locks; strict;
+comment	@ * @;
+
+
+1.7
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.26.19.08.41;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.20.01.09.23;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.18.03.57.53;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.17.05.08.50;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.24.19.15.38;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches
+	1.1.1.1;
+next	;
+
+1.1.1.1
+date	2002.09.24.18.25.51;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmllex.h - Definitions for the XMLLex class
+  
+  DESCRIPTION
+    
+    This file contains the class and other declarations for the
+    XMLLex class.
+ 
+    Given an input stream as a sequence of buffers, The XMLLex class
+    returns a stream of XMLLexTokens.
+    
+  NOTES
+  
+    This XMLLex class does NOT support unicode XML.
+    
+    This lexical analyser can be used to pull apart HTML, XHTML, DTD, and XML.
+    It guarantees that each successive non-control tokens NEVER skip over things
+    in the input stream SO, depending on the language being tokenised, the 
+    syntax analyser can contatenate successive tokens if it needs to (like, 
+    all elements inside of a comment, all non-element text, etc.
+
+    Any multi-character delimeted token (like quoted strings, entities, etc.)
+    must be validated by the caller because they may not be terminated
+    properly (the XMLLex just reports how long they are NOT that they are
+    valid.)    
+*/
+
+#ifndef _xmllex_h
+
+#define _xmllex_h
+
+#include "portkit.h"
+
+//------------------------------------------------------------------------------
+//
+// Enums and typedefs
+//
+
+// Lexical token type
+
+enum XMLLexTokenType {
+   xmllex_TokenUnknown                              // Unknown token
+  // Data tokens
+  ,xmllex_TokenWhite                                // Any whitespace
+  ,xmllex_TokenOpen                                 // '<'
+  ,xmllex_TokenClose                                // '>'
+  ,xmllex_TokenOpenProcessing                       // '<?'
+  ,xmllex_TokenCloseProcessing                      // '?>'
+  ,xmllex_TokenEnd                                  // '/'
+  ,xmllex_TokenWord                                 // Some word (could be a name, etc.)
+  ,xmllex_TokenEquals                               // '='
+  ,xmllex_TokenLiteralSingle                        // String literal starting with '
+  ,xmllex_TokenLiteralDouble                        // String literal starting with "
+  ,xmllex_TokenEntity                               // '&...;'
+  ,xmllex_TokenComment                              // '<!-- .. -->'
+  ,xmllex_TokenCDATA                                // '<![CDATA[ ... ]]>'
+  // DTD tokens
+  ,xmllex_TokenDTD                                   // '<!DOCTYPE'
+  // Control tokens
+  ,xmllex_TokenNeedMoreData                         // "Need some more stream data"
+  ,xmllex_TokenEndOfStream                          // "End of the token stream"
+
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLLexToken - XML Lexical Token
+//
+// DESCRIPTION
+//
+//  This class represents a single lexical token in an XML source
+//  stream.
+//
+ 
+class XMLLexToken {
+  //
+  // Public members
+  //
+public:
+  XMLLexTokenType type;                             // Token type
+  int             startoff;                         // Start offset in stream (0..n)
+  int             startline;                        // Start line (1..n)
+  int             startcol;                         // Start column (1..n)
+  int             length;                           // Length of token (chars)
+  //
+  // Public member functions
+  //
+public:
+  const char *GetTypeName(void);                    // Get text representation of the type's name
+  int         GetMaxTypeNameLength(void);           // Get maximum length of a type's name
+};
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLLex - XML Lexical Analyser
+//
+// DESCRIPTION
+//
+//  This class is responsible for breaking a stream of XML source
+//  into lexical tokens.
+//
+ 
+class XMLLex {
+  
+  //
+  // Public member functions
+  //
+
+public:
+  
+  // Constructor
+  XMLLex();
+
+  // Tell the Lexer "We're starting from the beginning"
+  void Rewind();
+  
+  // Tell the Lexer "Here's some data"
+  void MoreData(byte *buf, int len);
+  
+  // Get next token
+  XMLLexToken NextToken();
+
+  //
+  // Private members
+  //
+
+private:
+
+  // State
+  enum {
+    State_Ready,                                    // Ready to process
+    State_NeedMore,                                 // We've just asked for more data
+    State_AtEos,                                    // We're at the end of the stream
+  } m_state;
+  
+  // < > count
+  int         m_opencount;
+  
+  // Current token
+  XMLLexToken m_curtok;
+
+  // The character buffer (points into local buffer)
+  byte       *m_buf;
+  int         m_bufl;
+  byte        m_localbuf[1024];                     // Adjust this size for optimisation
+  
+  // Caller's stream buffer (we move parts of this into m_localbuf)
+  byte       *m_callerbuf;
+  int         m_callerbufl;
+  
+  // Current position in stream
+  int         m_curline;                            // Current line (1..n)
+  int         m_curcol;                             // Current column (1..n)
+  int         m_curoff;                             // Current stream offset (0..n)
+  
+  // Tab size (rounds to multiple of...)
+  int         m_tabsize;                            // What's the tab size?
+  
+};
+
+#endif // _xmlsyn_h
+@
+
+
+1.6
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d36 2
+d126 1
+a126 1
+  void MoreData(char *buf, int len);
+d151 1
+a151 1
+  char       *m_buf;
+d153 1
+a153 1
+  char        m_localbuf[1024];                     // Adjust this size for optimisation
+d156 1
+a156 1
+  char       *m_callerbuf;
+@
+
+
+1.5
+log
+@All parsing OK, lex problem was TABs!
+@
+text
+@d142 3
+@
+
+
+1.4
+log
+@Added PI tokens to syntax analyser
+@
+text
+@d159 3
+@
+
+
+1.3
+log
+@Added 'processing instruction' to lex/syn
+@
+text
+@d48 1
+a49 1
+  ,xmllex_TokenClose                                // '>'
+@
+
+
+1.2
+log
+@Added code to skip DTD
+@
+text
+@d48 1
+a48 1
+  ,xmllex_TokenOpenSpecial                          // '<?'
+d50 1
+a50 1
+  ,xmllex_TokenCloseSpecial                         // '?>'
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d44 1
+a44 1
+  xmllex_TokenUnknown,                              // Unknown token
+d46 15
+a60 13
+  xmllex_TokenWhite,                                // Any whitespace
+  xmllex_TokenOpen,                                 // '<'
+  xmllex_TokenOpenSpecial,                          // '<?'
+  xmllex_TokenClose,                                // '>'
+  xmllex_TokenCloseSpecial,                         // '?>'
+  xmllex_TokenEnd,                                  // '/'
+  xmllex_TokenWord,                                 // Some word (could be a name, etc.)
+  xmllex_TokenEquals,                               // '='
+  xmllex_TokenLiteralSingle,                        // String literal starting with '
+  xmllex_TokenLiteralDouble,                        // String literal starting with "
+  xmllex_TokenEntity,                               // '&...;'
+  xmllex_TokenComment,                              // '<!-- .. -->'
+  xmllex_TokenCDATA,                                // '<![CDATA[ ... ]]>'
+d62 2
+a63 2
+  xmllex_TokenNeedMoreData,                         // "Need some more stream data"
+  xmllex_TokenEndOfStream                           // "End of the token stream"
+@
+
+
+1.1.1.1
+log
+@Start
+@
+text
+@@

@@ -1,0 +1,993 @@
+head	1.13;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.13
+date	2002.11.03.08.24.57;	author bferris;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2002.11.01.06.16.24;	author bferris;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2002.10.28.04.43.33;	author bferris;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2002.10.27.11.10.14;	author bferris;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.27.09.32.33;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.26.19.08.41;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.26.09.10.30;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.26.09.02.45;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.10.25.21.40.08;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.10.24.05.28.24;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.10.22.14.57.11;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.10.22.07.25.47;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.10.22.07.09.02;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.13
+log
+@Added XMLCursorHTMLReader class
+@
+text
+@/* Copyright (C) 2002, Bruce Ferris */
+/*----------------------------------------------------------------------------
+
+  FILE
+    xmlmanager.cpp - Implementation of the XMLManager class
+  DESCRIPTION
+    This file contains the implementation of the general XML manager.    
+*/
+
+#include "xml.h"
+#include "xmlmanager.h"
+#include "xmldocbase.h"
+#include "xmldocmem.h"
+#include "xmlcsrtext.h"
+#include "xmlcsrfree.h"
+#include "xmlstrconst.h"
+#include "xmlstrmem.h"
+#include "xmlio.h"
+#include "xmlcsrcompile.h"
+#include "xmlcsrhtml.h"
+
+//
+// Handy defines
+//
+
+// Validate that we have an IO manager (caller must have ERROR label)
+#define VALIDATEIOMANAGER if (m_iomanager == NULL) { \
+                            result = XMLErrorMgrFailedToInitialise; \
+                            goto ERROR; \
+                            }
+                            
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::XMLManagerBase  - Constructor
+//  XMLManagerBase::~XMLManagerBase - Destructor
+//
+
+XMLManagerBase::XMLManagerBase() {
+
+  // Initialise optimal nodes
+  m_optimalnodes = 100;
+  
+  // Initialise document chain
+  m_numdocs = 0;
+  m_firstdoc = NULL;
+  m_lastdoc  = NULL;
+  
+  // Allocate an IO manager
+  m_iomanager = new XMLIOManager();
+  
+}
+
+XMLManagerBase::~XMLManagerBase() {
+
+  XMLError result;
+
+  // Free all documents
+  while (m_firstdoc)
+    delete m_firstdoc;  
+
+  // Free IO manager
+  if (m_iomanager)
+    delete m_iomanager;
+        
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::GetIOStatistics - Get current IO statistics
+//
+// DESCRIPTION
+//
+//  This function returns the current IO statistics into the caller's
+//  buffer.
+//
+
+void XMLManagerBase::GetIOStatistics(XMLIOStatistics *stats) {
+
+  m_iomanager->GetStatistics(stats);
+  
+  return;
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::CreateEmpty - Create an empty document
+//
+// DESCRIPTION
+//
+//  This function creates an empty XMLDocument instance.
+//
+
+XMLError XMLManagerBase::CreateEmpty(XMLDocument **thedoc) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (thedoc == NULL) goto BADPARAMETERS;
+  
+  // Create the new document
+  *thedoc = new XMLDocumentMem(this,m_optimalnodes);
+  if (*thedoc == NULL) goto OUTOFMEMORY;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::Load - Load document from a URL (specified in char *)
+//  XMLManagerBase::Load - Load document from a URL (specified in XMLString)
+//
+// DESCRIPTION
+//
+//  These functions create new XMLDocument instances and loads their contents
+//  from a URL.
+//
+
+XMLError XMLManagerBase::Load(char *url, XMLDocument **thedoc, XML::FileType type) {
+
+  XMLError   result;
+  XMLString *string;
+  
+  // Initialise
+  string = NULL;
+  
+  // Sanity checks
+  if (url == NULL || thedoc == NULL) goto BADPARAMETERS;
+
+  // Create a string from the url
+  result = NewString(&string,url);
+  if (result) goto ERROR;
+  
+  // Call lower level LoadFrom()
+  result = Load(string,thedoc,type);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Free string if we still have it
+  if (string)
+    delete string;
+    
+  return result;  
+}
+
+XMLError XMLManagerBase::Load(XMLString *url, XMLDocument **thedoc, XML::FileType type) {
+
+  XMLError         result;      // Return code
+  XMLStringBase   *durl;        // Dirty casted URL string
+  XMLStringBase   *lurl;        // Locally created url string (we know this is contiguous)
+  XMLDocumentBase *doc;         // The new document
+  XMLIOStream     *source;      // Source stream (string)
+  int              urllen;      // Full length of the passed URL
+  byte            *frag;        // Locked fragment address
+  int              availlen;    // Available length of the locked fragment
+  XMLCursorBase   *constructor; // Constructor cursor
+  XMLCursorBase   *destructor;  // Destructor cursor
+  
+  // Initialise
+  doc         = NULL;
+  source      = NULL;
+  lurl        = NULL;
+  availlen    = -1;
+  constructor = NULL;
+  destructor  = NULL;
+  
+  // Sanity checks
+  if (url == NULL || thedoc == NULL) goto BADPARAMETERS;
+  VALIDATEIOMANAGER;
+  
+  // Create a new in-memory document
+  result = CreateEmpty((XMLDocument **)&doc);
+  if (result) goto ERROR;
+  
+  // Dirty cast the string
+  durl = (XMLStringBase *)url;
+  
+  // Get the string length
+  result = durl->Length(&urllen);
+  if (result) goto ERROR;
+  
+  // Try to lock the whole string
+  result = durl->LockFragment(0,&frag,&availlen);
+  if (result) goto ERROR;
+  
+  // If we couldn't lock entire string (it's probably on disk)...
+  if (availlen != urllen) {
+  
+    // Create an in-memory string instead
+    lurl = new XMLStringMem(url);
+    if (lurl == NULL) goto OUTOFMEMORY;
+    
+    // Now, lock it
+    result = lurl->LockFragment(0,&frag,&availlen);
+    if (result) goto ERROR;
+    
+  }
+  
+  // Open the stream
+  result = m_iomanager->OpenRead((char *)frag,availlen,&source);
+  if (result) goto ERROR;
+
+  // Create a constructor cursor (based on file type)
+  switch (type) {
+  case XML::FileTypeXML:      constructor = new XMLCursorTextReader   (doc,source); break;
+  case XML::FileTypeXHTML:    constructor = new XMLCursorTextReader   (doc,source); break;
+  case XML::FileTypeCompiled: constructor = new XMLCursorCompileReader(doc,source); break;
+  case XML::FileTypeHTML:     constructor = new XMLCursorHTMLReader   (doc,source); break;
+  default:                    goto UNKNOWNTYPE;
+  }
+
+  // If we couldn't construct, error  
+  if (constructor == NULL) goto OUTOFMEMORY;
+
+  // We don't own the stream or the constructor now
+  source      = NULL;
+  constructor = NULL;
+
+  // Create a destructor cursor
+  destructor = new XMLCursorFree(doc);
+  if (destructor == NULL) goto OUTOFMEMORY;
+  
+  // We don't own the destructor now
+  destructor = NULL;
+ 
+  // Give the document to the caller
+  *thedoc = doc;
+  doc = NULL;
+    
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+
+UNKNOWNTYPE:
+  result = XMLErrorMgrUnknownFileType;
+  goto DONE;
+  
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Free any things we created and are still lying about
+  if (doc)
+    delete doc;
+  if (source)
+    source->Close();
+  if (lurl)
+    delete lurl;
+  if (availlen >= 0)
+    durl->UnlockFragment(0);
+  if (constructor)
+    delete constructor;
+  if (destructor)
+    delete destructor;
+        
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::Save         - Save XML document to a URL (URL is char *)
+//  XMLManagerBase::Save         - Save XML document to a URL (URL is XMLString)
+//
+// DESCRIPTION
+//
+//  These functions save XML documents in 'text' or 'compiled' format to
+//  to URL.
+//
+
+XMLError XMLManagerBase::Save(XMLDocument *thedoc, char *url, int compiled) {
+
+  XMLError   result;
+  XMLString *string;
+  
+  // Initialise
+  string = NULL;
+  
+  // Sanity checks
+  if (url == NULL || thedoc == NULL) goto BADPARAMETERS;
+
+  // Create a string from the url
+  result = NewString(&string,url);
+  if (result) goto ERROR;
+  
+  // Call lower level Save()
+  result = Save(thedoc, string, compiled);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Free string if we still have it
+  if (string)
+    delete string;
+    
+  return result;  
+}
+
+#pragma argsused
+
+XMLError XMLManagerBase::Save(XMLDocument *thedoc, XMLString *url, int compiled) {
+
+  XMLError               result;      // Return code
+  XMLStringBase         *durl;        // Dirty casted URL string
+  XMLStringBase         *lurl;        // Locally created url string (we know this is contiguous)
+  XMLDocumentBase       *doc;         // Dirty casted document
+  XMLIOStream           *dest;        // Destination stream (string)
+  int                    urllen;      // Full length of the passed URL
+  byte                  *frag;        // Locked fragment address
+  int                    availlen;    // Available length of the locked fragment
+  XMLCursorWriter       *writer;      // Document writer
+  
+  // Initialise
+  dest   = NULL;
+  lurl   = NULL;
+  writer = NULL;
+  
+  // Sanity checks
+  if (thedoc == NULL || url == NULL) goto BADPARAMETERS;
+  VALIDATEIOMANAGER;
+  
+  // Dirty cast the document
+  doc = (XMLDocumentBase *)thedoc;
+  
+  // Make sure we own the document
+  if (doc->m_manager != this) goto NOTOURS;
+  
+  // Dirty cast the string
+  durl = (XMLStringBase *)url;
+  
+  // Get the URL string length
+  result = durl->Length(&urllen);
+  if (result) goto ERROR;
+  
+  // Try to lock the whole string
+  result = durl->LockFragment(0,&frag,&availlen);
+  if (result) goto ERROR;
+  
+  // If we couldn't lock entire string (it's probably on disk)...
+  if (availlen != urllen) {
+  
+    // Create an in-memory string instead
+    lurl = new XMLStringMem(url);
+    if (lurl == NULL) goto OUTOFMEMORY;
+    
+    // Now, lock it
+    result = lurl->LockFragment(0,&frag,&availlen);
+    if (result) goto ERROR;
+    
+  }
+  
+  // Open the stream
+  result = m_iomanager->OpenWrite((char *)frag,availlen,&dest);
+  if (result) goto ERROR;
+
+  // Create a writing cursor
+  if (compiled)
+    writer = new XMLCursorCompileWriter(doc,dest);
+  else
+    writer = new XMLCursorTextWriter(doc,dest);
+  if (writer == NULL) goto OUTOFMEMORY;
+    
+  // Ask the writer to write
+  result = writer->Write();
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+ 
+NOTOURS:
+  result = XMLErrorMgrDocumentIsNotOurs;
+  goto DONE;
+   
+ERROR:
+  goto DONE;
+
+OUTOFMEMORY:
+  result = XMLErrorOutOfMemory;
+  goto DONE;
+  
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Free any things we created and are still lying about
+  if (writer)
+    delete writer;
+  if (dest)
+    dest->Close();
+  if (availlen >= 0)
+    durl->UnlockFragment(0);
+  if (lurl)
+    delete lurl;
+        
+  return result;  
+}
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::NewString - Create new empty string
+//  XMLManagerBase::NewString - Create new string from (const char *)
+//  XMLManagerBase::NewString - Create new string and populate with copy of (char *)
+//
+// DESCRIPTION
+//
+//  These functions as as factories for XMLStrings.
+//
+
+XMLError XMLManagerBase::NewString(XMLString **string, const char *staticstring) {
+
+  // Sanity checks
+  if (string == NULL || staticstring == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Do it
+  *string = new XMLStringConst(staticstring);
+  if (*string == NULL)
+    return XMLErrorOutOfMemory;
+    
+  return XMLErrorNone;
+}
+
+XMLError XMLManagerBase::NewString(XMLString **string, char *createfrom, int len) {
+
+  XMLError result;
+  
+  // Sanity checks
+  if (string == NULL)
+    return XMLErrorInvalidParameters;
+    
+  // Create the string
+  *string = new XMLStringMem();
+  if (*string == NULL)
+    return XMLErrorOutOfMemory;
+    
+  // If we were given a string...
+  if (createfrom) {
+  
+    // Append to it
+    result = (*string)->Append(createfrom,len);
+    if (result)
+      return result;
+  }
+  
+  return XMLErrorNone;    
+}
+  
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::SetOptimalNodes - Set optimal nodes for subsequent documents
+//
+// DESCRIPTION
+//
+//  This function sets the optimal nodes used for all new XML documents.
+//
+  
+XMLError XMLManagerBase::SetOptimalNodes(int optimalnodes) {
+
+  m_optimalnodes = optimalnodes;
+  
+  return XMLErrorNone;
+}
+
+
+//------------------------------------------------------------------------------
+//
+// FUNCTION
+//
+//  XMLManagerBase::ManageDocument   - Manage a given document
+//  XMLManagerBase::UnmanageDocument - Unmanage a given document
+//
+// DESCRIPTION
+//
+//  These functions add/remove documents from the manager's document chain.
+//
+
+XMLError XMLManagerBase::ManageDocument(XMLDocumentBase *doc) {
+
+  // Sanity checks
+  if (doc->m_manager != NULL ||
+      doc->m_prevdoc != NULL ||
+      doc->m_nextdoc != NULL)
+    return XMLErrorMgrDocumentIsAlreadyManaged;
+
+  // Put it on the head of the chain
+  doc->m_nextdoc = m_firstdoc;
+  m_firstdoc = doc;
+  
+  // If it's the first one...
+  if (m_lastdoc == NULL)
+    m_lastdoc = doc;
+    
+  return XMLErrorNone;  
+}
+
+XMLError XMLManagerBase::UnmanageDocument(XMLDocumentBase *doc) {
+  
+  // Sanity checks
+  if (doc->m_manager != this)
+    return XMLErrorMgrDocumentIsNotOurs;
+  
+  // Remove from previous doc's next chain
+  if (doc->m_prevdoc)
+    doc->m_prevdoc->m_nextdoc = doc->m_nextdoc;
+  else
+    m_firstdoc = doc->m_nextdoc;
+
+  // Remove from next doc's prev chain    
+  if (doc->m_nextdoc)
+    doc->m_nextdoc->m_prevdoc = doc->m_prevdoc;
+  else
+    m_lastdoc = doc->m_prevdoc;
+
+  // Clear document's manager
+  doc->m_manager = NULL;
+      
+  return XMLErrorNone;
+}
+
+
+@
+
+
+1.12
+log
+@Added 'compiled' option to manager load, added read test to txml
+@
+text
+@d20 1
+d142 1
+a142 1
+XMLError XMLManagerBase::Load(char *url, XMLDocument **thedoc, int compiled) {
+d158 1
+a158 1
+  result = Load(string,thedoc,compiled);
+d183 1
+a183 1
+XMLError XMLManagerBase::Load(XMLString *url, XMLDocument **thedoc, int compiled) {
+d240 10
+a249 5
+  // Create a constructor cursor 
+  if (!compiled)
+    constructor = new XMLCursorTextReader(doc,source);
+  else
+    constructor = new XMLCursorCompileReader(doc,source);
+d251 1
+a251 1
+  
+d276 4
+@
+
+
+1.11
+log
+@Couple of cleanups in text writer
+@
+text
+@d141 1
+a141 1
+XMLError XMLManagerBase::Load(char *url, XMLDocument **thedoc) {
+d157 1
+a157 1
+  result = Load(string,thedoc);
+d182 1
+a182 1
+XMLError XMLManagerBase::Load(XMLString *url, XMLDocument **thedoc) {
+d239 5
+a243 2
+  // Create a constructor cursor
+  constructor = new XMLCursorTextReader(doc,source);
+@
+
+
+1.10
+log
+@Moved parser to xmlcsrtext, generic Reader/Writer cursors
+@
+text
+@d440 2
+a447 2
+  if (writer)
+    delete writer;
+@
+
+
+1.9
+log
+@Text writer working, don't like speed though
+@
+text
+@d14 1
+a14 1
+#include "xmlcsrparser.h"
+d240 1
+a240 1
+  constructor = new XMLCursorParser(doc,source);
+d243 2
+a244 2
+  // We don't own the source string or the constructor now
+  source = NULL;
+d360 1
+a360 2
+  XMLCursorWrite        *writertext;  // Compiled document writer
+  XMLCursorCompileWrite *writercomp;  // Compiled document writer
+d363 3
+a365 4
+  dest       = NULL;
+  lurl       = NULL;
+  writertext = NULL;
+  writercomp = NULL;
+a405 10
+  if (compiled) {
+    writercomp = new XMLCursorCompileWrite(doc,dest);
+    if (writercomp == NULL) goto OUTOFMEMORY;
+  }
+  else {
+    writertext = new XMLCursorWrite(doc,dest);
+    if (writertext == NULL) goto OUTOFMEMORY;
+  }
+  
+  // Register the cursor with the document
+d407 1
+a407 1
+    result = doc->AddCursor(writercomp);
+d409 3
+a411 3
+    result = doc->AddCursor(writertext);
+  if (result) goto DONE;
+  
+d413 1
+a413 4
+  if (compiled)
+    result = writercomp->Write();
+  else
+    result = writertext->Write();
+d446 2
+a447 4
+  if (writertext)
+    delete writertext;
+  if (writercomp)
+    delete writercomp;
+@
+
+
+1.8
+log
+@Compiler works on big, GPFs, still working on w3c.org file
+@
+text
+@d132 2
+a133 2
+//  XMLManagerBase::LoadFrom    - Load document from a URL (specified in char *)
+//  XMLManagerBase::LoadFrom    - Load document from a URL (specified in XMLString)
+d141 1
+a141 1
+XMLError XMLManagerBase::LoadFrom(char *url, XMLDocument **thedoc) {
+d157 1
+a157 1
+  result = LoadFrom(string,thedoc);
+d182 1
+a182 1
+XMLError XMLManagerBase::LoadFrom(XMLString *url, XMLDocument **thedoc) {
+a299 2
+//  XMLManagerBase::SaveCompiled - Save compiled XML document to a URL (URL is char *)
+//  XMLManagerBase::SaveCompiled - Save compiled XML document to a URL (URL is XMLString)
+d307 1
+a307 1
+XMLError XMLManagerBase::Save(XMLDocument *thedoc, char *url) {
+d323 1
+a323 1
+  result = Save(thedoc, string);
+d350 1
+a350 47
+XMLError XMLManagerBase::Save(XMLDocument *thedoc, XMLString *url) {
+
+  return XMLErrorNotImplemented;
+}
+
+XMLError XMLManagerBase::SaveCompiled(XMLDocument *thedoc, char *url) {
+
+  XMLError   result;
+  XMLString *string;
+  
+  // Initialise
+  string = NULL;
+  
+  // Sanity checks
+  if (url == NULL || thedoc == NULL) goto BADPARAMETERS;
+
+  // Create a string from the url
+  result = NewString(&string,url);
+  if (result) goto ERROR;
+  
+  // Call lower level Save()
+  result = SaveCompiled(thedoc, string);
+  if (result) goto ERROR;
+  
+  goto OK;
+  
+BADPARAMETERS:
+  result = XMLErrorInvalidParameters;
+  goto DONE;
+  
+ERROR:
+  goto DONE;
+
+OK:
+  result = XMLErrorNone;
+  goto DONE;
+  
+DONE:
+
+  // Free string if we still have it
+  if (string)
+    delete string;
+    
+  return result;  
+}
+
+XMLError XMLManagerBase::SaveCompiled(XMLDocument *thedoc, XMLString *url) {
+d360 2
+a361 1
+  XMLCursorCompileWrite *writer;      // Compiled document writer
+d364 4
+a367 3
+  dest   = NULL;
+  lurl   = NULL;
+  writer = NULL;
+d408 8
+a415 2
+  writer = new XMLCursorCompileWrite(doc,dest);
+  if (writer == NULL) goto OUTOFMEMORY;
+d418 4
+a421 1
+  result = doc->AddCursor(writer);
+d425 4
+a428 1
+  result = writer->Write();
+d430 1
+a430 1
+    
+d461 4
+a464 2
+  if (writer)
+    delete writer;
+d467 2
+a468 2
+}  
+  
+@
+
+
+1.7
+log
+@XMLManager didn't register the writer, destructor didn't check for no cursors
+@
+text
+@d246 1
+a246 1
+  
+d253 1
+a253 1
+  
+@
+
+
+1.6
+log
+@Compiled XML writer almost working
+@
+text
+@d457 4
+@
+
+
+1.5
+log
+@Plugged compile write into manager... Need to write emit functions
+@
+text
+@d373 1
+a373 1
+  result = Save(thedoc, string);
+@
+
+
+1.4
+log
+@Added beginnings of IO statistics, separated txmlutils
+@
+text
+@d19 1
+d294 202
+@
+
+
+1.3
+log
+@Debugged XMLManager
+@
+text
+@d71 19
+@
+
+
+1.2
+log
+@Got XMLManager working
+@
+text
+@d41 1
+a41 1
+  m_optimalnodes = 1;
+@
+
+
+1.1
+log
+@Implemented XMLManager
+@
+text
+@d223 1
+a223 1
+  // We don't own the source string now
+d225 1
+a230 11
+  // Give the constructor to the document
+  result = doc->SetConstructor(constructor);
+  if (result) goto ERROR;
+  
+  // We don't own the constructor now
+  constructor = NULL;
+  
+  // Give the destructor to the document
+  result = doc->SetDestructor(destructor);
+  if (result) goto ERROR;
+  
+d238 1
+@
+

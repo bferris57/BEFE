@@ -1,0 +1,3777 @@
+            <tr class="tb-sub" id="anc-1"><td><a href="/time/zones/a">A</a></td><td>
+							Alpha Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +1</td></tr>
+          
+            <tr><td><a href="/time/zones/acdt">ACDT</a></td><td>
+							Australian Central Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">CDT &ndash; Central Daylight Time</span><br><span class="smaller abb-other">CDST &ndash; Central Daylight Savings Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +10:30</td></tr>
+          
+            <tr><td><a href="/time/zones/acst">ACST</a></td><td>
+							Australian Central Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">CST &ndash; Central Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +9:30</td></tr>
+          
+            <tr><td><a href="/time/zones/act">ACT</a></td><td>
+							Acre Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="act-australia">ACT</a></td><td>
+							Australian Central Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +9:30 / +10:30</td></tr>
+          
+            <tr><td><a href="/time/zones/acwst">ACWST</a></td><td>
+							Australian Central Western Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +8:45</td></tr>
+          
+            <tr><td><a href="/time/zones/adt-arabia">ADT</a></td><td>
+							Arabia Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">AST &ndash; Arabia Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/adt">ADT</a></td><td>
+							Atlantic Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">ADST &ndash; Atlantic Daylight Saving Time</span><br><span class="smaller abb-other">AST &ndash; Atlantic Summer Time</span>
+							<br><span class="smaller abb-other">HAA &ndash; Heure Avancée de l'Atlantique (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br>Atlantic<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/aedt">AEDT</a></td><td>
+							Australian Eastern Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">EDT &ndash; Eastern Daylight Time</span><br><span class="smaller abb-other">EDST &ndash; Eastern Daylight Saving Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Australia<br>Pacific<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/aest">AEST</a></td><td>
+							Australian Eastern Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">EST &ndash; Eastern Standard Time</span><br><span class="smaller abb-other">AET &ndash; Australian Eastern Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr><td><a href="aet">AET</a></td><td>
+							Australian Eastern Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +10:00 / +11:00</td></tr>
+          
+            <tr><td><a href="/time/zones/aft">AFT</a></td><td>
+							Afghanistan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +4:30</td></tr>
+          
+            <tr><td><a href="/time/zones/akdt">AKDT</a></td><td>
+							Alaska Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">ADST &ndash; Alaska Daylight Saving Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -8</td></tr>
+          
+            <tr><td><a href="/time/zones/akst">AKST</a></td><td>
+							Alaska Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">AT &ndash; Alaska Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -9</td></tr>
+          
+            <tr><td><a href="/time/zones/almt">ALMT</a></td><td>
+							Alma-Ata Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/amst">AMST</a></td><td>
+							Amazon Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/amst-armenia">AMST</a></td><td>
+							Armenia Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">AMDT &ndash; Armenia Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/amt">AMT</a></td><td>
+							Amazon Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/amt-armenia">AMT</a></td><td>
+							Armenia Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/anast">ANAST</a></td><td>
+							Anadyr Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/anat">ANAT</a></td><td>
+							Anadyr Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/aqtt">AQTT</a></td><td>
+							Aqtobe Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/art">ART</a></td><td>
+							Argentina Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/ast-arabia">AST</a></td><td>
+							Arabia Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">AST &ndash; Arabic Standard Time</span><br><span class="smaller abb-other">AST &ndash; Al Manamah Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/ast">AST</a></td><td>
+							Atlantic Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">AT &ndash; Atlantic Time</span>
+							<br><span class="smaller abb-other">AST &ndash; Tiempo Estándar del Atlántico  (Spanish)</span><br><span class="smaller abb-other">HNA &ndash; Heure Normale de l'Atlantique (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br>Atlantic<br>Caribbean<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="at">AT</a></td><td>
+							Atlantic Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>North America<br>Atlantic<br></td>
+              
+              
+              <td>UTC -3:00 / -4:00</td></tr>
+          
+            <tr><td><a href="/time/zones/awdt">AWDT</a></td><td>
+							Australian Western Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">WDT &ndash; Western Daylight Time</span><br><span class="smaller abb-other">WST &ndash; Western Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/awst">AWST</a></td><td>
+							Australian Western Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">WST &ndash; Western Standard Time</span><br><span class="smaller abb-other">WAT &ndash; Western Australia Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/azost">AZOST</a></td><td>
+							Azores Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">AZODT &ndash; Azores Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Atlantic<br></td>
+              
+              
+              <td>UTC +0</td></tr>
+          
+            <tr><td><a href="/time/zones/azot">AZOT</a></td><td>
+							Azores Time
+
+							
+							
+							<br><span class="smaller abb-other">AZOST &ndash; Azores Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Atlantic<br></td>
+              
+              
+              <td>UTC -1</td></tr>
+          
+            <tr><td><a href="/time/zones/azst">AZST</a></td><td>
+							Azerbaijan Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/azt">AZT</a></td><td>
+							Azerbaijan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/aoe">AoE</a></td><td>
+							Anywhere on Earth
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -12</td></tr>
+          
+            <tr class="tb-sub" id="anc-2"><td><a href="/time/zones/b">B</a></td><td>
+							Bravo Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +2</td></tr>
+          
+            <tr><td><a href="/time/zones/bnt">BNT</a></td><td>
+							Brunei Darussalam Time
+
+							
+							
+							<br><span class="smaller abb-other">BDT &ndash; Brunei Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/bot">BOT</a></td><td>
+							Bolivia Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/brst">BRST</a></td><td>
+							Brasília Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">BST &ndash; Brazil Summer Time</span><br><span class="smaller abb-other">BST &ndash; Brazilian Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -2</td></tr>
+          
+            <tr><td><a href="/time/zones/brt">BRT</a></td><td>
+							Brasília Time
+
+							
+							
+							<br><span class="smaller abb-other">BT &ndash; Brazil Time</span><br><span class="smaller abb-other">BT &ndash; Brazilian Time</span>
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/bst-bangladesh">BST</a></td><td>
+							Bangladesh Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/bst-bougainville">BST</a></td><td>
+							Bougainville Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/bst">BST</a></td><td>
+							British Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">BDT &ndash; British Daylight Time</span><br><span class="smaller abb-other">BDST &ndash; British Daylight Saving Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Europe<br></td>
+              
+              
+              <td>UTC +1</td></tr>
+          
+            <tr><td><a href="/time/zones/btt">BTT</a></td><td>
+							Bhutan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr class="tb-sub" id="anc-3"><td><a href="/time/zones/c">C</a></td><td>
+							Charlie Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/cast">CAST</a></td><td>
+							Casey Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/cat">CAT</a></td><td>
+							Central Africa Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +2</td></tr>
+          
+            <tr><td><a href="/time/zones/cct">CCT</a></td><td>
+							Cocos Islands Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Indian Ocean<br></td>
+              
+              
+              <td>UTC +6:30</td></tr>
+          
+            <tr><td><a href="/time/zones/cdt">CDT</a></td><td>
+							Central Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">CDST &ndash; Central Daylight Saving Time</span><br><span class="smaller abb-other">NACDT &ndash; North American Central Daylight Time</span>
+							<br><span class="smaller abb-other">HAC &ndash; Heure Avancée du Centre (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="/time/zones/cdt-cuba">CDT</a></td><td>
+							Cuba Daylight Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Caribbean<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/cest">CEST</a></td><td>
+							Central European Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">CEDT &ndash; Central European Daylight Time</span><br><span class="smaller abb-other">ECST &ndash; European Central Summer Time</span>
+							<br><span class="smaller abb-other">MESZ &ndash; Mitteleuropäische Sommerzeit (German)</span><br>
+							
+							
+							</td>
+              
+              <td>Europe<br>Antarctica<br></td>
+              
+              
+              <td>UTC +2</td></tr>
+          
+            <tr><td><a href="/time/zones/cet">CET</a></td><td>
+							Central European Time
+
+							
+							
+							<br><span class="smaller abb-other">ECT &ndash; European Central Time</span><br><span class="smaller abb-other">CET &ndash; Central Europe Time</span>
+							<br><span class="smaller abb-other">MEZ &ndash; Mitteleuropäische Zeit (German)</span><br>
+							
+							
+							</td>
+              
+              <td>Europe<br>Africa<br>Antarctica<br></td>
+              
+              
+              <td>UTC +1</td></tr>
+          
+            <tr><td><a href="/time/zones/chadt">CHADT</a></td><td>
+							Chatham Island Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">CDT &ndash; Chatham Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +13:45</td></tr>
+          
+            <tr><td><a href="/time/zones/chast">CHAST</a></td><td>
+							Chatham Island Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12:45</td></tr>
+          
+            <tr><td><a href="/time/zones/chost">CHOST</a></td><td>
+							Choibalsan Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">CHODT &ndash; Choibalsan Daylight Time</span><br><span class="smaller abb-other">CHODST &ndash; Choibalsan Daylight Saving Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/chot">CHOT</a></td><td>
+							Choibalsan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/chut">CHUT</a></td><td>
+							Chuuk Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr><td><a href="/time/zones/cidst">CIDST</a></td><td>
+							Cayman Islands Daylight Saving Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Caribbean<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/cist">CIST</a></td><td>
+							Cayman Islands Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">CIT &ndash; Cayman Islands Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Caribbean<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="/time/zones/ckt">CKT</a></td><td>
+							Cook Island Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -10</td></tr>
+          
+            <tr><td><a href="/time/zones/clst">CLST</a></td><td>
+							Chile Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">CLDT &ndash; Chile Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>South America<br>Antarctica<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/clt">CLT</a></td><td>
+							Chile Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">CT &ndash; Chile Time</span><br><span class="smaller abb-other">CLST &ndash; Chile Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>South America<br>Antarctica<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/cot">COT</a></td><td>
+							Colombia Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="/time/zones/cst">CST</a></td><td>
+							Central Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">CT &ndash; Central Time</span><br><span class="smaller abb-other">NACST &ndash; North American Central Standard Time</span>
+							<br><span class="smaller abb-other">CST &ndash; Tiempo Central Estándar (Spanish)</span><br><span class="smaller abb-other">HNC &ndash; Heure Normale du Centre (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br>Central America<br></td>
+              
+              
+              <td>UTC -6</td></tr>
+          
+            <tr><td><a href="/time/zones/cst-china">CST</a></td><td>
+							China Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/cst-cuba">CST</a></td><td>
+							Cuba Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Caribbean<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="ct">CT</a></td><td>
+							Central Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -5:00 / -6:00</td></tr>
+          
+            <tr><td><a href="/time/zones/cvt">CVT</a></td><td>
+							Cape Verde Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC -1</td></tr>
+          
+            <tr><td><a href="/time/zones/cxt">CXT</a></td><td>
+							Christmas Island Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/chst">ChST</a></td><td>
+							Chamorro Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">GST &ndash; Guam Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr class="tb-sub" id="anc-4"><td><a href="/time/zones/d">D</a></td><td>
+							Delta Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/davt">DAVT</a></td><td>
+							Davis Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/ddut">DDUT</a></td><td>
+							Dumont-d'Urville Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr class="tb-sub" id="anc-5"><td><a href="/time/zones/e">E</a></td><td>
+							Echo Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/easst">EASST</a></td><td>
+							Easter Island Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">EADT &ndash; Easter Island Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="/time/zones/east">EAST</a></td><td>
+							Easter Island Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -6</td></tr>
+          
+            <tr><td><a href="/time/zones/eat">EAT</a></td><td>
+							Eastern Africa Time
+
+							
+							
+							<br><span class="smaller abb-other">EAT &ndash; East Africa Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Africa<br>Indian Ocean<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/ect">ECT</a></td><td>
+							Ecuador Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="/time/zones/edt">EDT</a></td><td>
+							Eastern Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">EDST &ndash; Eastern Daylight Savings Time</span><br><span class="smaller abb-other">NAEDT &ndash; North American Eastern Daylight Time</span>
+							<br><span class="smaller abb-other">HAE &ndash; Heure Avancée de l'Est  (French)</span><br><span class="smaller abb-other">EDT &ndash; Tiempo de verano del Este (Spanish)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br>Caribbean<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/eest">EEST</a></td><td>
+							Eastern European Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">EEDT &ndash; Eastern European Daylight Time</span>
+							<br><span class="smaller abb-other">OESZ &ndash; Osteuropäische Sommerzeit (German)</span><br>
+							
+							
+							</td>
+              
+              <td>Europe<br>Asia<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/eet">EET</a></td><td>
+							Eastern European Time
+
+							
+							
+							
+							<br><span class="smaller abb-other">OEZ &ndash; Osteuropäische Zeit (German)</span><br>
+							
+							
+							</td>
+              
+              <td>Europe<br>Asia<br>Africa<br></td>
+              
+              
+              <td>UTC +2</td></tr>
+          
+            <tr><td><a href="/time/zones/egst">EGST</a></td><td>
+							Eastern Greenland Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">EGST &ndash; East Greenland Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC +0</td></tr>
+          
+            <tr><td><a href="/time/zones/egt">EGT</a></td><td>
+							East Greenland Time
+
+							
+							
+							<br><span class="smaller abb-other">EGT &ndash; Eastern Greenland Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -1</td></tr>
+          
+            <tr><td><a href="/time/zones/est">EST</a></td><td>
+							Eastern Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">ET &ndash; Eastern Time </span><br><span class="smaller abb-other">NAEST &ndash; North American Eastern Standard Time</span>
+							<br><span class="smaller abb-other">ET &ndash; Tiempo del Este  (Spanish)</span><br><span class="smaller abb-other">HNE &ndash; Heure Normale de l'Est (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br>Caribbean<br>Central America<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="et">ET</a></td><td>
+							Eastern Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>North America<br>Caribbean<br></td>
+              
+              
+              <td>UTC -4:00 / -5:00</td></tr>
+          
+            <tr class="tb-sub" id="anc-6"><td><a href="/time/zones/f">F</a></td><td>
+							Foxtrot Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/fet">FET</a></td><td>
+							Further-Eastern European Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Europe<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/fjst">FJST</a></td><td>
+							Fiji Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">FJDT &ndash; Fiji Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +13</td></tr>
+          
+            <tr><td><a href="/time/zones/fjt">FJT</a></td><td>
+							Fiji Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/fkst">FKST</a></td><td>
+							Falkland Islands Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">FKDT &ndash; Falkland Island Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/fkt">FKT</a></td><td>
+							Falkland Island Time
+
+							
+							
+							<br><span class="smaller abb-other">FKST &ndash; Falkland Island Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/fnt">FNT</a></td><td>
+							Fernando de Noronha Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -2</td></tr>
+          
+            <tr class="tb-sub" id="anc-7"><td><a href="/time/zones/g">G</a></td><td>
+							Golf Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/galt">GALT</a></td><td>
+							Galapagos Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -6</td></tr>
+          
+            <tr><td><a href="/time/zones/gamt">GAMT</a></td><td>
+							Gambier Time
+
+							
+							
+							<br><span class="smaller abb-other">GAMT &ndash; Gambier Islands Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -9</td></tr>
+          
+            <tr><td><a href="/time/zones/get">GET</a></td><td>
+							Georgia Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/gft">GFT</a></td><td>
+							French Guiana Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/gilt">GILT</a></td><td>
+							Gilbert Island Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/gmt">GMT</a></td><td>
+							Greenwich Mean Time
+
+							
+							
+							<br><span class="smaller abb-other">UTC &ndash; Coordinated Universal Time</span><br><span class="smaller abb-other">GT &ndash; Greenwich Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Europe<br>Africa<br>North America<br>Antarctica<br></td>
+              
+              
+              <td>UTC +0</td></tr>
+          
+            <tr><td><a href="/time/zones/gst">GST</a></td><td>
+							Gulf Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/gst-southgeorgia">GST</a></td><td>
+							South Georgia Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -2</td></tr>
+          
+            <tr><td><a href="/time/zones/gyt">GYT</a></td><td>
+							Guyana Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr class="tb-sub" id="anc-8"><td><a href="/time/zones/h">H</a></td><td>
+							Hotel Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/hadt">HADT</a></td><td>
+							Hawaii-Aleutian Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">HDT &ndash; Hawaii Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -9</td></tr>
+          
+            <tr><td><a href="/time/zones/hast">HAST</a></td><td>
+							Hawaii-Aleutian Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">HST &ndash; Hawaii Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br>Pacific<br></td>
+              
+              
+              <td>UTC -10</td></tr>
+          
+            <tr><td><a href="/time/zones/hkt">HKT</a></td><td>
+							Hong Kong Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/hovst">HOVST</a></td><td>
+							Hovd Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">HOVDT &ndash; Hovd Daylight Time</span><br><span class="smaller abb-other">HOVDST &ndash; Hovd Daylight Saving Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/hovt">HOVT</a></td><td>
+							Hovd Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr class="tb-sub" id="anc-9"><td><a href="/time/zones/i">I</a></td><td>
+							India Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/ict">ICT</a></td><td>
+							Indochina Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/idt">IDT</a></td><td>
+							Israel Daylight Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/iot">IOT</a></td><td>
+							Indian Chagos Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Indian Ocean<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/irdt">IRDT</a></td><td>
+							Iran Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">IRST &ndash; Iran Summer Time</span><br><span class="smaller abb-other">IDT &ndash; Iran Daylight Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +4:30</td></tr>
+          
+            <tr><td><a href="/time/zones/irkst">IRKST</a></td><td>
+							Irkutsk Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/irkt">IRKT</a></td><td>
+							Irkutsk Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/irst">IRST</a></td><td>
+							Iran Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">IT &ndash; Iran Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +3:30</td></tr>
+          
+            <tr><td><a href="/time/zones/ist">IST</a></td><td>
+							India Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">IT &ndash; India Time</span><br><span class="smaller abb-other">IST &ndash; Indian Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5:30</td></tr>
+          
+            <tr><td><a href="/time/zones/ist-ireland">IST</a></td><td>
+							Irish Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">IST &ndash; Irish Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Europe<br></td>
+              
+              
+              <td>UTC +1</td></tr>
+          
+            <tr><td><a href="/time/zones/ist-israel">IST</a></td><td>
+							Israel Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +2</td></tr>
+          
+            <tr class="tb-sub" id="anc-10"><td><a href="/time/zones/jst">JST</a></td><td>
+							Japan Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr class="tb-sub" id="anc-11"><td><a href="/time/zones/k">K</a></td><td>
+							Kilo Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr><td><a href="/time/zones/kgt">KGT</a></td><td>
+							Kyrgyzstan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/kost">KOST</a></td><td>
+							Kosrae Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/krast">KRAST</a></td><td>
+							Krasnoyarsk Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/krat">KRAT</a></td><td>
+							Krasnoyarsk Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/kst">KST</a></td><td>
+							Korea Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">KST &ndash; Korean Standard Time</span><br><span class="smaller abb-other">KT &ndash; Korea Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/kuyt">KUYT</a></td><td>
+							Kuybyshev Time
+
+							
+							
+							<br><span class="smaller abb-other">SAMST &ndash; Samara Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Europe<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr class="tb-sub" id="anc-12"><td><a href="/time/zones/l">L</a></td><td>
+							Lima Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/lhdt">LHDT</a></td><td>
+							Lord Howe Daylight Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/lhst">LHST</a></td><td>
+							Lord Howe Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +10:30</td></tr>
+          
+            <tr><td><a href="/time/zones/lint">LINT</a></td><td>
+							Line Islands Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +14</td></tr>
+          
+            <tr class="tb-sub" id="anc-13"><td><a href="/time/zones/m">M</a></td><td>
+							Mike Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/magst">MAGST</a></td><td>
+							Magadan Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">MAGST &ndash; Magadan Island Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/magt">MAGT</a></td><td>
+							Magadan Time
+
+							
+							
+							<br><span class="smaller abb-other">MAGT &ndash; Magadan Island Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/mart">MART</a></td><td>
+							Marquesas Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -9:30</td></tr>
+          
+            <tr><td><a href="/time/zones/mawt">MAWT</a></td><td>
+							Mawson Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/mdt">MDT</a></td><td>
+							Mountain Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">MDST &ndash; Mountain Daylight Saving Time</span><br><span class="smaller abb-other">NAMDT &ndash; North American Mountain Daylight Time</span>
+							<br><span class="smaller abb-other">HAR &ndash; Heure Avancée des Rocheuses (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -6</td></tr>
+          
+            <tr><td><a href="/time/zones/mht">MHT</a></td><td>
+							Marshall Islands Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/mmt">MMT</a></td><td>
+							Myanmar Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6:30</td></tr>
+          
+            <tr><td><a href="/time/zones/msd">MSD</a></td><td>
+							Moscow Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">Moscow Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Europe<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/msk">MSK</a></td><td>
+							Moscow Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">MCK &ndash; Moscow Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Europe<br>Asia<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr><td><a href="/time/zones/mst">MST</a></td><td>
+							Mountain Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">MT &ndash; Mountain Time</span><br><span class="smaller abb-other">NAMST &ndash; North American Mountain Standard Time</span>
+							<br><span class="smaller abb-other">HNR &ndash; Heure Normale des Rocheuses (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -7</td></tr>
+          
+            <tr><td><a href="mt">MT</a></td><td>
+							Mountain Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -6:00 / -7:00</td></tr>
+          
+            <tr><td><a href="/time/zones/mut">MUT</a></td><td>
+							Mauritius Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/mvt">MVT</a></td><td>
+							Maldives Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/myt">MYT</a></td><td>
+							Malaysia Time
+
+							
+							
+							<br><span class="smaller abb-other">MST &ndash; Malaysian Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr class="tb-sub" id="anc-14"><td><a href="/time/zones/n">N</a></td><td>
+							November Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -1</td></tr>
+          
+            <tr><td><a href="/time/zones/nct">NCT</a></td><td>
+							New Caledonia Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/ndt">NDT</a></td><td>
+							Newfoundland Daylight Time
+
+							
+							
+							
+							<br><span class="smaller abb-other">HAT &ndash; Heure Avancée de Terre-Neuve (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -2:30</td></tr>
+          
+            <tr><td><a href="/time/zones/nft">NFT</a></td><td>
+							Norfolk Time
+
+							
+							
+							<br><span class="smaller abb-other">NFT &ndash; Norfolk Island Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Australia<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/novst">NOVST</a></td><td>
+							Novosibirsk Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">OMSST &ndash; Omsk Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/novt">NOVT</a></td><td>
+							Novosibirsk Time
+
+							
+							
+							<br><span class="smaller abb-other">OMST &ndash; Omsk Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/npt">NPT</a></td><td>
+							Nepal Time 
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5:45</td></tr>
+          
+            <tr><td><a href="/time/zones/nrt">NRT</a></td><td>
+							Nauru Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/nst">NST</a></td><td>
+							Newfoundland Standard Time
+
+							
+							
+							
+							<br><span class="smaller abb-other">HNT &ndash; Heure Normale de Terre-Neuve (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -3:30</td></tr>
+          
+            <tr><td><a href="/time/zones/nut">NUT</a></td><td>
+							Niue Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -11</td></tr>
+          
+            <tr><td><a href="/time/zones/nzdt">NZDT</a></td><td>
+							New Zealand Daylight Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br>Antarctica<br></td>
+              
+              
+              <td>UTC +13</td></tr>
+          
+            <tr><td><a href="/time/zones/nzst">NZST</a></td><td>
+							New Zealand Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br>Antarctica<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr class="tb-sub" id="anc-15"><td><a href="/time/zones/o">O</a></td><td>
+							Oscar Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -2</td></tr>
+          
+            <tr><td><a href="/time/zones/omsst">OMSST</a></td><td>
+							Omsk Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">NOVST &ndash; Novosibirsk Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/omst">OMST</a></td><td>
+							Omsk Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">OMST &ndash; Omsk Time</span><br><span class="smaller abb-other">NOVT &ndash; Novosibirsk Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/orat">ORAT</a></td><td>
+							Oral Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr class="tb-sub" id="anc-16"><td><a href="/time/zones/p">P</a></td><td>
+							Papa Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/pdt">PDT</a></td><td>
+							Pacific Daylight Time
+
+							
+							
+							<br><span class="smaller abb-other">PDST &ndash; Pacific Daylight Saving Time</span><br><span class="smaller abb-other">NAPDT &ndash; North American Pacific Daylight Time</span>
+							<br><span class="smaller abb-other">HAP &ndash; Heure Avancée du Pacifique (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -7</td></tr>
+          
+            <tr><td><a href="/time/zones/pet">PET</a></td><td>
+							Peru Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="/time/zones/petst">PETST</a></td><td>
+							Kamchatka Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/pett">PETT</a></td><td>
+							Kamchatka Time
+
+							
+							
+							<br><span class="smaller abb-other">PETT &ndash; Petropavlovsk-Kamchatski Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/pgt">PGT</a></td><td>
+							Papua New Guinea Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr><td><a href="/time/zones/phot">PHOT</a></td><td>
+							Phoenix Island Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +13</td></tr>
+          
+            <tr><td><a href="/time/zones/pht">PHT</a></td><td>
+							Philippine Time
+
+							
+							
+							<br><span class="smaller abb-other">PST &ndash; Philippine Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/pkt">PKT</a></td><td>
+							Pakistan Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">PKT &ndash; Pakistan Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/pmdt">PMDT</a></td><td>
+							Pierre & Miquelon Daylight Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -2</td></tr>
+          
+            <tr><td><a href="/time/zones/pmst">PMST</a></td><td>
+							Pierre & Miquelon Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/pont">PONT</a></td><td>
+							Pohnpei Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/pst">PST</a></td><td>
+							Pacific Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">PT &ndash; Pacific Time</span><br><span class="smaller abb-other">NAPST &ndash; North American Pacific Standard Time</span>
+							<br><span class="smaller abb-other">PT &ndash; Tiempo del Pacífico (Spanish)</span><br><span class="smaller abb-other">HNP &ndash; Heure Normale du Pacifique (French)</span><br>
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -8</td></tr>
+          
+            <tr><td><a href="/time/zones/pst-pitcairn">PST</a></td><td>
+							Pitcairn Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -8</td></tr>
+          
+            <tr><td><a href="pt">PT</a></td><td>
+							Pacific Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -7:00 / -8:00</td></tr>
+          
+            <tr><td><a href="/time/zones/pwt">PWT</a></td><td>
+							Palau Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/pyst">PYST</a></td><td>
+							Paraguay Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/pyt">PYT</a></td><td>
+							Paraguay Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/pyt-korea">PYT</a></td><td>
+							Pyongyang Time
+
+							
+							
+							<br><span class="smaller abb-other">PYST &ndash; Pyongyang Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8:30</td></tr>
+          
+            <tr class="tb-sub" id="anc-17"><td><a href="/time/zones/q">Q</a></td><td>
+							Quebec Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/qyzt">QYZT</a></td><td>
+							Qyzylorda Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr class="tb-sub" id="anc-18"><td><a href="/time/zones/r">R</a></td><td>
+							Romeo Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -5</td></tr>
+          
+            <tr><td><a href="/time/zones/ret">RET</a></td><td>
+							Reunion Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/rott">ROTT</a></td><td>
+							Rothera Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr class="tb-sub" id="anc-19"><td><a href="/time/zones/s">S</a></td><td>
+							Sierra Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -6</td></tr>
+          
+            <tr><td><a href="/time/zones/sakt">SAKT</a></td><td>
+							Sakhalin Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/samt">SAMT</a></td><td>
+							Samara Time
+
+							
+							
+							<br><span class="smaller abb-other">SAMT &ndash; Samara Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Europe<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/sast">SAST</a></td><td>
+							South Africa Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">SAST &ndash; South African Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +2</td></tr>
+          
+            <tr><td><a href="/time/zones/sbt">SBT</a></td><td>
+							Solomon Islands Time
+
+							
+							
+							<br><span class="smaller abb-other">SBT &ndash; Solomon Island Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/sct">SCT</a></td><td>
+							Seychelles Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +4</td></tr>
+          
+            <tr><td><a href="/time/zones/sgt">SGT</a></td><td>
+							Singapore Time
+
+							
+							
+							<br><span class="smaller abb-other">SST &ndash; Singapore Standard Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/sret">SRET</a></td><td>
+							Srednekolymsk Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/srt">SRT</a></td><td>
+							Suriname Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/sst">SST</a></td><td>
+							Samoa Standard Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -11</td></tr>
+          
+            <tr><td><a href="/time/zones/syot">SYOT</a></td><td>
+							Syowa Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br></td>
+              
+              
+              <td>UTC +3</td></tr>
+          
+            <tr class="tb-sub" id="anc-20"><td><a href="/time/zones/t">T</a></td><td>
+							Tango Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -7</td></tr>
+          
+            <tr><td><a href="/time/zones/taht">TAHT</a></td><td>
+							Tahiti Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC -10</td></tr>
+          
+            <tr><td><a href="/time/zones/tft">TFT</a></td><td>
+							French Southern and Antarctic Time
+
+							
+							
+							<br><span class="smaller abb-other">KIT &ndash; Kerguelen (Islands) Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Indian Ocean<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/tjt">TJT</a></td><td>
+							Tajikistan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/tkt">TKT</a></td><td>
+							Tokelau Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +13</td></tr>
+          
+            <tr><td><a href="/time/zones/tlt">TLT</a></td><td>
+							East Timor Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/tmt">TMT</a></td><td>
+							Turkmenistan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr><td><a href="/time/zones/tot">TOT</a></td><td>
+							Tonga Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +13</td></tr>
+          
+            <tr><td><a href="/time/zones/tvt">TVT</a></td><td>
+							Tuvalu Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr class="tb-sub" id="anc-21"><td><a href="/time/zones/u">U</a></td><td>
+							Uniform Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -8</td></tr>
+          
+            <tr><td><a href="/time/zones/ulast">ULAST</a></td><td>
+							Ulaanbaatar Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">ULAST &ndash; Ulan Bator Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/ulat">ULAT</a></td><td>
+							Ulaanbaatar Time
+
+							
+							
+							<br><span class="smaller abb-other">ULAT &ndash; Ulan Bator Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/aboututc.html">UTC</a></td><td>
+							Coordinated Universal Time
+
+							
+							
+							
+							</td>
+              
+              <td>Worldwide<br></td>
+              
+              
+              <td>UTC</td></tr>
+          
+            <tr><td><a href="/time/zones/uyst">UYST</a></td><td>
+							Uruguay Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -2</td></tr>
+          
+            <tr><td><a href="/time/zones/uyt">UYT</a></td><td>
+							Uruguay Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/uzt">UZT</a></td><td>
+							Uzbekistan Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr class="tb-sub" id="anc-22"><td><a href="/time/zones/v">V</a></td><td>
+							Victor Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -9</td></tr>
+          
+            <tr><td><a href="/time/zones/vet">VET</a></td><td>
+							Venezuelan Standard Time
+
+							
+							
+							
+							<br><span class="smaller abb-other">HLV &ndash; Hora Legal de Venezuela (Spanish)</span><br>
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -4</td></tr>
+          
+            <tr><td><a href="/time/zones/vlast">VLAST</a></td><td>
+							Vladivostok Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr><td><a href="/time/zones/vlat">VLAT</a></td><td>
+							Vladivostok Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr><td><a href="/time/zones/vost">VOST</a></td><td>
+							Vostok Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Antarctica<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/vut">VUT</a></td><td>
+							Vanuatu Time
+
+							
+							
+							<br><span class="smaller abb-other">EFATE &ndash; Efate Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +11</td></tr>
+          
+            <tr class="tb-sub" id="anc-23"><td><a href="/time/zones/w">W</a></td><td>
+							Whiskey Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -10</td></tr>
+          
+            <tr><td><a href="/time/zones/wakt">WAKT</a></td><td>
+							Wake Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/warst">WARST</a></td><td>
+							Western Argentine Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>South America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/wast">WAST</a></td><td>
+							West Africa Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +2</td></tr>
+          
+            <tr><td><a href="/time/zones/wat">WAT</a></td><td>
+							West Africa Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +1</td></tr>
+          
+            <tr><td><a href="/time/zones/west">WEST</a></td><td>
+							Western European Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">WEDT &ndash; Western European Daylight Time</span>
+							<br><span class="smaller abb-other">WESZ &ndash; Westeuropäische Sommerzeit (German)</span><br>
+							
+							
+							</td>
+              
+              <td>Europe<br>Africa<br></td>
+              
+              
+              <td>UTC +1</td></tr>
+          
+            <tr><td><a href="/time/zones/wet">WET</a></td><td>
+							Western European Time
+
+							
+							
+							<br><span class="smaller abb-other">GMT &ndash; Greenwich Mean Time</span>
+							<br><span class="smaller abb-other">WEZ &ndash; Westeuropäische Zeit (German)</span><br>
+							
+							
+							</td>
+              
+              <td>Europe<br>Africa<br></td>
+              
+              
+              <td>UTC +0</td></tr>
+          
+            <tr><td><a href="/time/zones/wft">WFT</a></td><td>
+							Wallis and Futuna Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +12</td></tr>
+          
+            <tr><td><a href="/time/zones/wgst">WGST</a></td><td>
+							Western Greenland Summer Time
+
+							
+							
+							<br><span class="smaller abb-other">WGST &ndash; West Greenland Summer Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -2</td></tr>
+          
+            <tr><td><a href="/time/zones/wgt">WGT</a></td><td>
+							West Greenland Time
+
+							
+							
+							<br><span class="smaller abb-other">WGT &ndash; Western Greenland Time</span>
+							
+							
+							
+							</td>
+              
+              <td>North America<br></td>
+              
+              
+              <td>UTC -3</td></tr>
+          
+            <tr><td><a href="/time/zones/wib">WIB</a></td><td>
+							Western Indonesian Time
+
+							
+							
+							<br><span class="smaller abb-other">WIB &ndash; Waktu Indonesia Barat</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +7</td></tr>
+          
+            <tr><td><a href="/time/zones/wit">WIT</a></td><td>
+							Eastern Indonesian Time
+
+							
+							
+							<br><span class="smaller abb-other">WIT &ndash; Waktu Indonesia Timur</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/wita">WITA</a></td><td>
+							Central Indonesian Time
+
+							
+							
+							<br><span class="smaller abb-other">WITA &ndash; Waktu Indonesia Tengah</span>
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +8</td></tr>
+          
+            <tr><td><a href="/time/zones/wst">WST</a></td><td>
+							West Samoa Time
+
+							
+							
+							<br><span class="smaller abb-other">ST &ndash; Samoa Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +13</td></tr>
+          
+            <tr><td><a href="/time/zones/wst-africa">WST</a></td><td>
+							Western Sahara Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +1</td></tr>
+          
+            <tr><td><a href="/time/zones/wt">WT</a></td><td>
+							Western Sahara Standard Time
+
+							
+							
+							<br><span class="smaller abb-other">WT &ndash; Western Sahara Time</span>
+							
+							
+							
+							</td>
+              
+              <td>Africa<br></td>
+              
+              
+              <td>UTC +0</td></tr>
+          
+            <tr class="tb-sub" id="anc-24"><td><a href="/time/zones/x">X</a></td><td>
+							X-ray Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -11</td></tr>
+          
+            <tr class="tb-sub" id="anc-25"><td><a href="/time/zones/y">Y</a></td><td>
+							Yankee Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC -12</td></tr>
+          
+            <tr><td><a href="/time/zones/yakst">YAKST</a></td><td>
+							Yakutsk Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr><td><a href="/time/zones/yakt">YAKT</a></td><td>
+							Yakutsk Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +9</td></tr>
+          
+            <tr><td><a href="/time/zones/yapt">YAPT</a></td><td>
+							Yap Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Pacific<br></td>
+              
+              
+              <td>UTC +10</td></tr>
+          
+            <tr><td><a href="/time/zones/yekst">YEKST</a></td><td>
+							Yekaterinburg Summer Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +6</td></tr>
+          
+            <tr><td><a href="/time/zones/yekt">YEKT</a></td><td>
+							Yekaterinburg Time
+
+							
+							
+							
+							
+							
+							
+							</td>
+              
+              <td>Asia<br></td>
+              
+              
+              <td>UTC +5</td></tr>
+          
+            <tr class="tb-sub" id="anc-26"><td><a href="/time/zones/z">Z</a></td><td>
+							Zulu Time Zone
+
+							
+							
+							
+							</td>
+              
+              <td>Military<br></td>
+              
+              
+              <td>UTC +0</td></tr>

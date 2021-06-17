@@ -1,0 +1,278 @@
+head	1.10;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.10
+date	2002.11.10.07.41.46;	author Bruce;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2002.10.24.08.42.47;	author bferris;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2002.10.21.07.16.08;	author bferris;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2002.10.02.06.05.52;	author bferris;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2002.10.01.21.48.23;	author bferris;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2002.09.30.02.43.51;	author bferris;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2002.09.29.18.34.50;	author bferris;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2002.09.29.10.20.14;	author bferris;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2002.09.28.08.35.36;	author bferris;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.09.28.06.45.54;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.10
+log
+@Converted to GNU/C++ and using makefile
+@
+text
+@/*----------------------------------------------------------------------------
+
+  FILE
+    
+    xmliosbuf.h - Definitions for the XML 'memory-buffer' I/O stream class
+  
+  DESCRIPTION
+
+    The XMLIOStreamMBuf class implements an in-memory IO stream.
+    
+    It's contents are kept in IO buffers. If the consumer wishes, they can
+    lock the buffer (see XMLIOStream::BufLock and XMLIOStream::BufUnlock).
+  NOTES
+*/
+
+#ifndef _xmliosbuf_h
+
+#define _xmliosbuf_h
+
+#include "xmlio.h"
+#include "stdio.h"
+#include "stdlib.h"
+
+//------------------------------------------------------------------------------
+//
+// CLASS
+//
+//  XMLIOStreamBuf - Manage Stream I/O using XMLIOBufs
+//
+// DESCRIPTION
+//
+//  This class is used to manage an in-memory IO stream using buffers.
+//
+ 
+class XMLIOStreamBuf : public XMLIOStream {
+  //
+  // Public member functions
+  //
+public:
+  // Constructor
+  XMLIOStreamBuf(XMLIOManager *manager);
+  // Methods we're implementing
+  virtual ~XMLIOStreamBuf();
+  virtual int CanRead(void);
+  virtual int CanWrite(void);
+  virtual int CanPosition(void);
+  virtual int CanRewind(void);
+  virtual int CanLockBuffer(void);
+  virtual int IsOpen(void);
+  virtual XMLIOManager::AccessMode GetAccessMode(void);
+  virtual XMLError Open(char *url, int urllen,XMLIOManager::AccessMode access);
+  virtual XMLError Close(void);
+  virtual XMLError Length(int *len);
+  virtual XMLError Read(byte *buf, int maxbufl, int *charsread);
+  virtual XMLError ReadSome(byte *buf, int maxbufl, int *charsread, XMLIOBuffer **iobuf = NULL);
+  virtual XMLError Write(byte *buf, int bufl);
+  virtual XMLError WriteSome(byte *buf, int maxbufl, int *byteswritten);
+  virtual XMLError Seek(int offset);
+  virtual XMLError Rewind(void);
+  virtual XMLError Tell(int *offset);
+  //
+  // Protected member functions
+  //
+protected:
+  virtual XMLError FlushBuffer(XMLIOBuffer *thebuf);
+  //
+  // Protected members
+  //
+protected:
+  // General flags
+  XMLIOManager::AccessMode  m_access;               // Open access mode
+  unsigned                  m_reading : 1;          // "Are we reading?"
+  unsigned                  m_writing : 1;          // "Are we writing?"
+  // Current file info
+  int                       m_filesize;             // File's current size
+  int                       m_fileoffset;           // File's current position
+  // Logical position info
+  int                       m_cursize;              // Logical EOF
+  int                       m_curoffset;            // Logical offset in file
+  int                       m_curbufoffset;         // Buffer offset associated with Logical position (<=m_curpos)
+  // The open file
+  FILE                     *m_file;                 // The open file (NULL = Not open)
+};
+
+#endif // _xmliosbuf_h
+@
+
+
+1.9
+log
+@Complete IO stats - We're reading 2 times what we should!
+@
+text
+@d85 1
+a85 1
+#endif _xmliosbuf_h
+@
+
+
+1.8
+log
+@Removed all : protected and : private (need to use friend instead)
+@
+text
+@d50 1
+@
+
+
+1.7
+log
+@Implemented Rewind()/Unwind() at root stream level
+@
+text
+@d35 1
+a35 1
+class XMLIOStreamBuf : protected XMLIOStream {
+@
+
+
+1.6
+log
+@Finished writing XMLIOString implementation - not tested yet
+@
+text
+@d54 1
+a54 1
+  virtual XMLError ReadSome(byte *buf, int maxbufl, int *charsread);
+d59 1
+@
+
+
+1.5
+log
+@Finished XMLIOStreamBuf - Ready to test
+@
+text
+@d48 1
+a48 1
+  virtual int CanBufLock(void);
+d52 1
+@
+
+
+1.4
+log
+@More XMLIOStreamBUF work - ...::Read not finished
+@
+text
+@d55 1
+d68 1
+a68 1
+  XMLIOManager::AccessMode  m_accessmode;           // Open access mode
+@
+
+
+1.3
+log
+@Started on XMLIOStreamBuf implementation
+@
+text
+@d35 1
+a35 1
+class XMLIOStreamBuf : public XMLIOStream {
+d52 2
+a53 2
+  virtual XMLError Read(byte *buf, int maxbufl, int charstoread, int *charsread);
+  virtual XMLError ReadSome(byte *buf, int maxbufl, int charstoread, int *charsread);
+d66 1
+a67 3
+  int                       m_filesize;             // File size
+  int                       m_curpos;               // Current position in file
+  FILE                     *m_file;                 // The open file (NULL = Not open)
+d70 9
+@
+
+
+1.2
+log
+@More work on IO manager
+@
+text
+@d11 2
+a12 4
+    It's entire contents are kept in memory buffers until the stream
+    is closed.  It's also a rather crude resource hog but it provides
+    some kind of stream functionality without getting really clever
+    for now.
+d21 2
+d50 1
+a50 1
+  virtual XMLError Open(char *url, int urllen);
+d57 15
+a71 3
+  virtual XMLError BufLock(int offset, int len);
+  virtual XMLError BufUnlock(int offset, int len);
+  virtual XMLError Readstring(int offset, int len, char *buf);
+@
+
+
+1.1
+log
+@Starting XMLIO coding
+@
+text
+@d40 20
+a59 3
+  // Constructors/destructors
+  XMLIOStream();
+  virtual ~XMLIOStream() = 0;
+@
+

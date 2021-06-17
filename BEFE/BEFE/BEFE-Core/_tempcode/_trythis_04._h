@@ -1,0 +1,66 @@
+#ifndef TRYTHIS_H
+
+#include "primitives.h"
+#include "Sort.h"
+#include "BufferStream.h"
+
+namespace BEF_NS { // Namespace BEF_NS...
+
+//----------------------------------------------------------------------
+//
+// SortTarget Classes
+//
+
+struct MySortTarget : public SortTarget {
+  
+           MySortTarget();
+  virtual ~MySortTarget();
+  
+  virtual Status StartUp();
+  virtual Status ShutDown();
+  virtual Status Clear();
+  virtual Status Reset();
+  
+  virtual UInt   Length () const;
+  
+  virtual Int    Compare(UInt elm1, UInt elm2) const;
+  virtual Status Swap   (UInt elm1, UInt elm2) const;
+  virtual Status Move   (UInt elm1, UInt elm2) const;
+  
+  virtual Status BuildSorted(UInts const &sorted);
+  
+  // File name
+  String   fileName; 
+  // File contents
+  Buffer   contents;
+  Byte    *buf;
+  UInt     numBytes;
+  UInt     numRead;
+  // Word pointers
+  UInt     numWords;
+  Buffer   cpBuffer;         // (char const *) pointers Buffer
+  Byte   **cp;               // (char const *) Entries
+  // Hash List
+  Buffer   hlBuffer;         // (hash, cpIndex) Buffer
+  UInt    *hl;               // (hash, cpIndex) Entries
+  // Statistics...
+  UInt     wordLen;          // Length of current word
+  UInt     minWordLen;       // Minimum word length
+  UInt     maxWordLen;       // Maximum word length
+  UInt     totWordLen;       // Total word lengths
+  
+};
+
+//----------------------------------------------------------------------
+//
+// Handy Functions
+//
+
+void   DisplayHashes(String leader, BufferStream &hashes);
+void   DisplaySortedHashes(String leader, BufferStream &hashes, UInts const &sortedOrder);
+String PromptLine(String const &prompt);
+Char   PromptChar(String const &prompt);
+
+} // ...Namespace BEF_NS
+
+#endif // TRYTHIS_H

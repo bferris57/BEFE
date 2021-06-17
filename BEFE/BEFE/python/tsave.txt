@@ -1,0 +1,39 @@
+"Creating __dict.py..."
+"Testing BEFE_Parse.py..."
+parseExpression: Pass3...
+parseExpression: Pass4...
+parseExpression: Pass5...
+Pass5: Removing single child
+Pass5: Removing single child
+Pass5: Removing single child
+c:/SVN/python/t.befe: ***No Errors***
+c:/SVN/python/t.befe: ***No Warnings***
+  [0]: type='file' name='__dict.py' flags=[1, 2, 3, 4, 5]
+    [2]: type='name:dotted:expr:' name=None 123/1 value=1 word0='a' wordN = 'd' flags=[2, 3, 4, 5]
+      [1]: type='name:' name='a' 123/1 word0='a' flags=[2, 3, 4, 5]
+      [8]: type='name:' name='.' flags=[2, 3, 4, 5]
+      [3]: type='name:' name='b' 123/3 word0='b' flags=[2, 3, 4, 5]
+      [4]: type='name:' name='.' 123/4 value=1 word0='.' wordN = '.' flags=[2, 3, 4, 5]
+      [5]: type='name:' name='c' 123/5 word0='c' flags=[2, 3, 4, 5]
+      [6]: type='name:' name='.' 123/6 value=1 word0='.' wordN = '.' flags=[2, 3, 4, 5]
+      [7]: type='name:' name='d' 123/7 word0='d' flags=[2, 3, 4, 5]
+    [26]: type='expr:operator:' name='call' 124/1 word0='a' wordN = ')'
+      [10]: type='name:dotted:expr:' name=None 124/1 value=1 word0='a' wordN = 'd' flags=[2, 3, 4, 5]
+        [9]: type='name:' name='a' 124/1 word0='a' flags=[2, 3, 4, 5]
+        [17]: type='name:' name='.' flags=[2, 3, 4, 5]
+        [15]: type='name:' name='.' 124/9 value=1 word0='.' wordN = '.' flags=[2, 3, 4, 5]
+        [16]: type='name:' name='d' 124/10 word0='d' flags=[2, 3, 4, 5]
+      [11]: type='tuple:' name=None 124/3 word0='(' wordN = ')' flags=[2, 3, 4, 5]
+        [27]: type='expr:operator:' name='call' 124/4 word0='b' wordN = ')'
+          [12]: type='name:' name='b' 124/4 word0='b' flags=[2, 3, 4, 5]
+          [13]: type='tuple:' name=None 124/5 word0='(' wordN = ')' flags=[2, 3, 4, 5]
+            [14]: type='name:' name='c' 124/6 word0='c' flags=[2, 3, 4, 5]
+    [28]: type='expr:operator:' name='call' 125/1 word0='a' wordN = ')'
+      [19]: type='name:dotted:expr:' name=None 125/1 value=1 word0='a' wordN = 'd' flags=[2, 3, 4, 5]
+        [18]: type='name:' name='a' 125/1 word0='a' flags=[2, 3, 4, 5]
+        [25]: type='name:' name='.' flags=[2, 3, 4, 5]
+        [20]: type='name:' name='b' 125/3 word0='b' flags=[2, 3, 4, 5]
+        [23]: type='name:' name='.' 125/7 value=1 word0='.' wordN = '.' flags=[2, 3, 4, 5]
+        [24]: type='name:' name='d' 125/8 word0='d' flags=[2, 3, 4, 5]
+      [21]: type='tuple:' name=None 125/4 word0='(' wordN = ')' flags=[2, 3, 4, 5]
+        [22]: type='name:' name='c' 125/5 word0='c' flags=[2, 3, 4, 5]

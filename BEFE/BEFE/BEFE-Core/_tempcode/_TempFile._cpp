@@ -1,0 +1,86 @@
+//----------------------------------------------------------------------
+//
+// Class functions
+//
+// Function: NewSequentialFileName - Find a unique sequential file that doesn't exist
+//
+// Usage:    status = NewSequentialFileName(startat,path,prefix,suffix,thefile)
+//
+// Where:    startat - INOUT: Next sequential number to start at (like 0, 100, etc.)
+//           path    - IN:    Full path to the directory to search
+//           prefix  - IN:    Prefix to prepend to the file name (e.g. "BEFE-", etc.)
+//           suffix  - IN:    Suffix to append to the file name (e.g. ".tmp", etc.)
+//           thefile - OUT:   The full name of the file that doesn't exist
+//
+//           status  - OUT: Error (0 = None, !0 = "Couldn't do it")
+//
+// Determine a unique sequential file name with given path/prefix-xxxxxxxx.suffix
+// that does not exist.
+//
+// The integer referenced by startat will be updated sequentially until we find
+// a file that doesn't already exist.
+//
+
+Status File::NewSequentialFileName(Int &startat, String &path, String &prefix,String &suffix,String &thefile) {
+
+  Status result;
+
+  OperatingSystem *os;
+
+  Char   lastchar;
+  String fullfilename;
+  Byte   hexbuf[8];
+
+  os = TheOS;
+  if (os == NULL) goto OPNOTSET;
+
+  // Put path out there
+  fullfilename = path;
+
+  // Need to append delimeter to path if it's not already there
+  lastchar = fullfilename.GetChar(-1);
+  if (lastchar != os->GetFileSeparator())
+    fullfilename.Append(os->GetFileSeparator());
+
+  // Now, append the prefix
+  fullfilename.AppendFrom(prefix);
+
+  // For each file name, try opening it, if it opens, gotta try the next one...
+  while (true) {
+    // Get the Hex ASCII...
+    IntToHex(startat++,hexbuf);
+
+    // Form the file name
+    thefile = fullfilename;
+    thefile.AppendFrom(hexbuf,8);
+    thefile.AppendFrom(suffix);
+
+    // If we can open it, we need to try again
+    if (TheOS->Exists(thefile))
+      continue;
+
+    // Didn't open, we've got it
+    break;
+
+  }
+
+  goto OK;
+
+OPNOTSET:
+  result = Error::OperatingSystemNotSet;
+  goto DONE;
+OK:
+  result = Error::None;
+  goto DONE;
+SOMEERROR:
+  goto DONE;
+
+DONE:
+
+  // Clear the file if error
+  if (result)
+    thefile.Clear();
+
+  return result;
+}
+

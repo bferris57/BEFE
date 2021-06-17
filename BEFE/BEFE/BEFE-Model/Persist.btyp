@@ -1,0 +1,78 @@
+#!Befe type=Type publish=metadata
+#-----------------------------------------------------------------------
+# File: Persist.txt - The BEFE Lex Persistent Declarations
+#-----------------------------------------------------------------------
+#
+# The purpose of a Persistent type is to declare the difference between
+# how something is stored in memory an how it is stored on disk.
+#
+# This is all caused by the incredibly wacked-out Intel way of wanting
+# to keep mult-byte "words" in memory in little-endian form instead of
+# the obviously more natural big-endian form.
+#
+# However, there's "more sane" processors that keep things in memory
+# in big-endian form.
+#
+# So, in order to share data between them, often on disk or over
+# communication channels, the common standard is to keep things
+# big-endian on disk and in "native" form in memory.
+#
+# The Persistent types bridge this gap.
+#
+# *** See technical documentation for a more detailed description ***
+#
+#-----------------------------------------------------------------------
+# Copyright (©) 2011, Bruce Ferris (UK)
+#-----------------------------------------------------------------------
+
+#
+# Persistent - This is the SuperType of all data that's both in memory
+#              and on disk/comms
+#
+
+StorageType "Persist[ent]":
+
+  TypeRef "Mem[ory]Type"  // This tells us what type we're basing this on
+
+  Enum    'Endian': baseType=UInt, values = (Native=0, "L[ittle]E[nd[ian]]", "B[ig]E[nd[ian]]")
+  
+  Endian  'Mem[ory]End[ian]':
+  UInt    'Mem[ory]Pad[ToBits]':
+  Endian  'Persist[ent]End[ian]': defaultValue=BigEndian
+  UInt    'Persist[ent]Pad[ToBits]':
+  
+#
+# Primitive Persistent types
+#
+
+Persist "P[ersist]Bit":     MemType = Bit // NOTE: Anything less than a Byte in size is rather silly, at 
+                                          //       this point, to define endian for because we're not
+                                          //       going through the bother of generating code that
+                                          //       flips bit order within bytes just to make it persistent,
+                                          //       are we?  We're not dealing with underlying bus/hardware
+                                          //       here at this point, that's for later, maybe...  ;-)
+                                          //
+                                          //       But, for consistency's sake we'll still provide it here
+                                          //       to make bit stuff fit in with the rest of the declarations.
+
+Persist "P[ersist]Byte":    MemType = Byte
+Persist "P[ersist]UInt8":   MemType = UInt8
+Persist "P[ersist]SInt8":   MemType = UInt8
+Persist "P[ersist]Int8":    MemType = UInt8
+Persist "P[ersist]Boolean": MemType = Boolean
+Persist "P[ersist]UInt16":  MemType = UInt16
+Persist "P[ersist]SInt16":  MemType = UInt16
+Persist "P[ersist]Int16":   MemType = UInt16
+Persist "P[ersist]UInt32":  MemType = UInt32
+Persist "P[ersist]SInt32":  MemType = UInt32
+Persist "P[ersist]Int32":   MemType = UInt32
+Persist "P[ersist]UInt64":  MemType = UInt64
+Persist "P[ersist]SInt64":  MemType = UInt64
+Persist "P[ersist]Int64":   MemType = UInt64
+
+Persist "P[ersist]Char":    MemType = Char
+Persist "P[ersist]Short":   MemType = Short
+Persist "P[ersist]Int":     MemType = Int
+Persist "P[ersist]Long":    MemType = Long
+
+//and so on, need to fill this out...

@@ -1,0 +1,47 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2002.10.12.09.59.39;	author bferris;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Started on HTML documentation
+@
+text
+@<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>XML Parser</title>
+</head>
+
+<body bgcolor="#FFFFCC">
+
+<h1 align="center">Bruce's XML Parser</h1>
+<p>&nbsp;</p>
+<p>Welcome to Bruce's XML Parser page.</p>
+<p>Please select one of the following links for more information...</p>
+<p><a href="file:///X:/doc/classesbygroup.html">Classes by group</a></p>
+<p><a href="file:///X:/doc/classesbyname.html">Classes by name</a></p>
+
+<p><a href="classhierarchy.html">Class Hierarchy</a></p>
+
+</body>
+
+</html>
+@

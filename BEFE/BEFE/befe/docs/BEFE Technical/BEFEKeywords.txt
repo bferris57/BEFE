@@ -1,0 +1,183 @@
+#──────────────────────────────────────────────────────────────────────
+# File: BEFEKeywords.txt - BEFE Keywords
+#──────────────────────────────────────────────────────────────────────
+#
+# This contains a first stab at declaring all the BEFE defined terms
+# and "keywords" for use everywhere including Source, Documentation,
+# Presentations, et cetera.
+#
+# Note: At this point it is more "indicative" and "formal"
+#
+#──────────────────────────────────────────────────────────────────────
+# Copyright (©) 2011, Bruce Ferris (UK)
+#──────────────────────────────────────────────────────────────────────
+
+#
+Prim[itive][s]
+Value[s]
+Type[s]
+Class[es]
+Synon[ym[ous]]
+Enum[er[ation]]
+Array[s]
+Sparse[s]
+Map[s]
+//Expr[ession][s]
+Reference[s]
+Pointer[s]
+Addr[ess][es]
+Offset
+Relative[Off[set]][s]
+Abs[olute]Off[set][s]
+
+# Built-in Strongly Primitive Types
+Int1
+Int2
+Int3
+Int4
+Int7
+Int8
+Int15
+Int16
+Int24
+Int31
+Int32
+Int63
+Int64
+Int127
+Int128
+Int255
+Int256
+
+# Built-in Loosely Primitive Types
+Boolean
+Byte
+Short
+Int
+Float
+Long
+Double
+
+# Built-in Mathematical Types
+Imagin[ary]
+Complex
+Real
+Rational
+//???Natural
+//???Prime
+
+# Built-in Scalar Value Types
+Char
+String
+Integer
+Number
+OraNumber
+Fraction
+
+# First level Declaration Identifier
+Func[tion][s]
+Meth[od][s]
+Memb[er][s]
+Att[rib[ute]][s]
+Param[eter][s]
+Var[iable]
+Expression
+Literal
+
+# Modifiers
+In[put][s]
+Out[put][s]
+I[n[put]]O[ut[put]][s]
+Type[s]
+Name[s]
+Id[ent[ifier]][s]
+Loose[ly][Typ[ed]]
+Strong[ly][Typ[ed]]
+Multi[ple][Typ[ed]]
+Multi[ply][Typ[ed]] // ◄── Synonym of Multi[ple][Typ[ed]]
+Inh[erit][s][From]
+Fix[ed]Siz[e]
+Var[iable]Siz[e]
+Fix[ed]Len[gth]
+Var[iable]Len[gth]
+Static
+Dyn[amic]
+Signed
+UnSigned
+
+# C++ Lifecycle Primitives
+Constr[uctor]
+CopyConstr[uctor]
+Destr[uctor]
+
+# C++ Lifecycle Methods
+Alloc[ate]
+Free
+New
+Create     // ◄── Equivalent to New
+Del[ete]
+Destroy    // ◄── Equivalent to Del[ete]
+Move
+
+# BEFE Lifecycle Methods
+Start[Up]
+Shut[Down]
+Cl[ea]r
+Reset
+Len[gth]
+Siz[e]
+Consum[able]
+Movable
+Consume
+Empty
+IsEmpty
+Null
+IsNull
+NaN
++NaN
+-NaN
+IsNaN
+Inf[inity]
++Inf[inity]
+-Inf[inity]
+Is
+
+# Comparison Methods
+Compare
+Eq[ual[s]][To]
+N[ot]E[qual[s]][To]
+L[ess]T[han]
+L[ess][T[han]][O[r]]E[q[ual[s]]][To]
+G[reat[er]]T[han]
+G[reat[er]][T[han][O[r]]E[q[ual[s]]][To]
+
+# Bitwise Methods
+
+# Logical Methods
+Not
+And
+Or
+Ex[cl[usive]]O[r]
+
+# Numeric Modifiers...
+Zero
+One
+Two
+C[omp[lement]]
+Signed
+UnSigned
+Positive
+Negative
+
+# Various Others...
+Mantissa
+Sign
+Numer[ator]
+Denom[inator]
+Base[Of] [ ['['] <N> ]']']] // ◄── Where <N> is a Positive Expression >= 2
+Int[Of][ '[' <N> ']']       // ◄── Where <N> is a literal or Positive Expression
+
+# Possibly, but I don't want them...
+Virtual
+Final
+Const

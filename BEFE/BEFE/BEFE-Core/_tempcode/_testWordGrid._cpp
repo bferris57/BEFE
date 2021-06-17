@@ -1,0 +1,64 @@
+#include "BEFE.h"
+#include "globals.h"
+#include "Time.h"
+#include "Test.h"
+#include "word/WordList.h"
+#include "word/WordGrid.h"
+
+using namespace std;
+
+namespace BEF_NS
+{
+
+Status TestWordGrid::Run() {
+
+  const char *ind = "  ";
+
+  Time     t1;
+  Time     t2;
+  Time     et;
+
+  WordList *wordlist;
+  WordGrid *grid;
+  Word      word;
+  Status    result;
+
+  out << indent << "***Testing WordGrid..." << endl;
+
+  t1.Set();
+
+  // Load the dictionary
+  wordlist = new WordList();
+  //result = wordlist.LoadFromFile((Char *)"d:\\cloud\\dropbox\\lists\\corncob_lowercase.txt");
+  result = wordlist->LoadFromFile((Char *)"d:\\cloud\\dropbox\\lists\\websters_2nd.txt");
+  if (result) goto ERROR;
+
+  // Create the word grid
+  grid = new WordGrid();
+  result = grid->Setup(wordlist,1000,1000);
+  if (result) goto ERROR;
+  result = grid->FillRandom();
+  if (result) goto ERROR;
+
+  // Clear the word list and grid
+  delete grid;
+  delete wordlist;
+
+  // Write elapsed time
+  t2.Set();
+  et = t1.Delta(t2);
+  if (gVerbose)
+    out << indent << "Elapsed: " << et.GetAs(Time::Seconds) << "s" << et.GetAs(Time::Milliseconds) << "ms" << endl;
+
+  goto DONE;
+
+ERROR:
+  out << indent << "!!!Error " << result << " !!!" << endl;
+  goto DONE;
+
+DONE:
+
+  return Error::None;
+}
+
+}; // Namespace BEF_NS
