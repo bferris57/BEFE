@@ -304,8 +304,10 @@ if __name__ == '__main__':
     srcdir = args[0]
     dstdir = args[1]
   else:
-    srcdir  = expand('~/usb_src/Movies')
-    dstdir  = expand('~/usb_dst/Movies')
+    #srcdir  = expand('~/usb_src/Movies')
+    #dstdir  = expand('~/usb_dst/Movies')
+    srcdir  = expand('~/usb_src/bb/_Fave')
+    dstdir  = expand('~/usb_dst/bb/_Fave')
     #srcdir  = expand('~/befe')
     #dstdir  = expand('~/sd1_dst/befe')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
