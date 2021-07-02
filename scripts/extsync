@@ -153,18 +153,17 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
         numwrite = dfd.write(block)
         if numwrite != len(block):
           red('Expected to write %d bytes, but actually wrote %d'%(len(block),numwrite))
-        if len(block) < blocksize:
-          break
         dfd.flush()
         offset += len(block)
       else:
         if filesize >= 1024*1024:
           time.sleep(.01)
         offset += blocksize
-  if dfd:
-    dfd.flush()
-    dfd.close()
-    dfd = None
+    if dfd:
+      dfd.flush()
+      dfd.close()
+      dfd = None
+
   print("Finished")
   
   if not pretend:
@@ -240,7 +239,7 @@ if __name__ == '__main__':
 
   showpercent = True
   overwrite   = False
-  maxfiles    = 1000
+  maxfiles    = 10000
   ignore      = False
   #pretend     = True  # DEBUG
   pretend     = False
