@@ -164,7 +164,7 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
       dfd.close()
       dfd = None
 
-  print("Finished")
+  print("Finished\n")
   
   if not pretend:
     if overwrite:
@@ -232,10 +232,9 @@ def getFileMap(srcdir):
 # Main
 #
 
-
 statefile   = expand(os.path.dirname(__file__)) + '/.extsync'
 
-if __name__ == '__main__':
+def main(args):
 
   showpercent = True
   overwrite   = False
@@ -247,8 +246,6 @@ if __name__ == '__main__':
   # 
   # Handle arguments...
   #
-
-  args = sys.argv[1:]
 
   if len(args) == 1 and args[0] in '??': usage()
 
@@ -367,8 +364,19 @@ if __name__ == '__main__':
           if numfiles >= maxfiles: break
       else:
         error("Error: Unknown result type from copyOneFile: %s"%repr(type(result)))
-      open(statefile,'w').write('WROTE %s\n'%repr(dfile))
-  green('\nThat\'s it!\n')
+      open(statefile,'w').write('WROTE %s'%repr(dfile))
+  green('\nThat\'s it!')
 
-  sys.exit()
+if __name__ == '__main__':
+
+  try:
+
+    os.system('setterm -cursor off')
+    main(sys.argv[1:])
+
+  finally:
+
+    os.system('setterm -cursor on')
+
+    sys.exit()
 
