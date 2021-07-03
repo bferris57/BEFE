@@ -164,7 +164,7 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
       dfd.close()
       dfd = None
 
-  print("Finished\n")
+  print("Finished")
   
   if not pretend:
     if overwrite:
