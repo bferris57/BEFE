@@ -9,7 +9,6 @@
 #
 #================================================================================
 
-from   utils.walker import walk
 import                     os
 import                     sys
 import                     shutil
@@ -154,18 +153,17 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
         numwrite = dfd.write(block)
         if numwrite != len(block):
           red('Expected to write %d bytes, but actually wrote %d'%(len(block),numwrite))
-        if len(block) < blocksize:
-          break
         dfd.flush()
         offset += len(block)
       else:
         if filesize >= 1024*1024:
           time.sleep(.01)
         offset += blocksize
-  if dfd:
-    dfd.flush()
-    dfd.close()
-    dfd = None
+    if dfd:
+      dfd.flush()
+      dfd.close()
+      dfd = None
+
   print("Finished")
   
   if not pretend:
@@ -234,15 +232,13 @@ def getFileMap(srcdir):
 # Main
 #
 
-
 statefile   = expand(os.path.dirname(__file__)) + '/.extsync'
-blue('DEBUG: statefile = %s'%repr(statefile))
 
-if __name__ == '__main__':
+def main(args):
 
   showpercent = True
   overwrite   = False
-  maxfiles    = 5
+  maxfiles    = 10000
   ignore      = False
   #pretend     = True  # DEBUG
   pretend     = False
@@ -250,8 +246,6 @@ if __name__ == '__main__':
   # 
   # Handle arguments...
   #
-
-  args = sys.argv[1:]
 
   if len(args) == 1 and args[0] in '??': usage()
 
@@ -306,10 +300,12 @@ if __name__ == '__main__':
     srcdir = args[0]
     dstdir = args[1]
   else:
-    #srcdir  = expand('~/usb_src/Movies/_By Date/1970s')
-    #dstdir  = expand('~/sd_dst/Movies/_By Date/1970s')
-    srcdir  = expand('~/befe')
-    dstdir  = expand('~/sd1_dst/befe')
+    #srcdir  = expand('~/usb_src/Movies')
+    #dstdir  = expand('~/usb_dst/Movies')
+    srcdir  = expand('~/usb_src/bb/_Fave')
+    dstdir  = expand('~/usb_dst/bb/_Fave')
+    #srcdir  = expand('~/befe')
+    #dstdir  = expand('~/sd1_dst/befe')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
     error('<srcdir> %s is not a directory'%repr(srcdir))
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
@@ -368,8 +364,19 @@ if __name__ == '__main__':
           if numfiles >= maxfiles: break
       else:
         error("Error: Unknown result type from copyOneFile: %s"%repr(type(result)))
-      open(statefile,'w').write('WROTE %s\n'%repr(dfile))
-  green('\nThat\'s it!\n')
+      open(statefile,'w').write('WROTE %s'%repr(dfile))
+  green('\nThat\'s it!')
 
-  sys.exit()
+if __name__ == '__main__':
+
+  try:
+
+    os.system('setterm -cursor off')
+    main(sys.argv[1:])
+
+  finally:
+
+    os.system('setterm -cursor on')
+
+    sys.exit()
 
