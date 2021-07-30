@@ -58,17 +58,31 @@ int main(int argc, char **argv) {
 
   string   curarg;
   average  avg;
-  int      bad = 0;
+  int      bad     = 0;
+  bool     verbose = false;
 
   for(int i=1; i < argc; i++) {
+
     curarg = string(argv[i]);
+    if (curarg == "-v") {
+      verbose = false;
+      continue;
+    }
+    if (curarg == "+v") {
+      verbose = true;
+      continue;
+    }
+
     if (isFloat(curarg)) {
       avg.add_value(stof(curarg));
-      cout << i << ": '" << curarg << "'\t-- running average = " << avg.get() << endl;
+      if (verbose)
+        cout << i << ": '" << curarg << "'\t-- running average = " << avg.get() << endl;
     } else {
-      cout << i << ": Ignoring '" << curarg << "'" << endl;
+      if (verbose)
+        cout << i << ": Ignoring '" << curarg << "'" << endl;
       bad++;
     }
+
   }
 
   cout << "Final average: " << avg.get() << endl;
