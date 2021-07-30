@@ -40,9 +40,10 @@ class FloatSum {
 //------------------------------------------------------------------------------
 //
 // Function: isFloat - Is a string a valid floating point number?
+//           main    - Executable tester (each arg should be a float string)
 //
 
-bool isFloat(string myString) {
+static bool isFloat(string myString) {
   try {
     float f = stof(myString);
   } catch(exception e) {

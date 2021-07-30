@@ -133,10 +133,10 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
     else:
       dfd = None
     prevpercent = -1
-    blocksize = 1024*1024 # 1MB at a time if show percentage
+    blocksize = 65536 # 1MB at a time if show percentage
     offset = 0
     while offset < filesize:
-      if filesize < 1024*1024:
+      if filesize <= blocksize:
         percent = 0
       else:
         percent = int(float(offset)/filesize * 1000)/10.0
@@ -156,7 +156,7 @@ def copyOneFile(srcfile,dstfile,pretend=False,overwrite=False,showpercent=False)
         dfd.flush()
         offset += len(block)
       else:
-        if filesize >= 1024*1024:
+        if filesize >= blocksize:
           time.sleep(.01)
         offset += blocksize
     if dfd:
@@ -238,7 +238,7 @@ def main(args):
 
   showpercent = True
   overwrite   = False
-  maxfiles    = 10000
+  maxfiles    = 1
   ignore      = False
   #pretend     = True  # DEBUG
   pretend     = False
@@ -302,8 +302,8 @@ def main(args):
   else:
     #srcdir  = expand('~/usb_src/Movies')
     #dstdir  = expand('~/usb_dst/Movies')
-    srcdir  = expand('~/usb_src/bb/_Fave')
-    dstdir  = expand('~/usb_dst/bb/_Fave')
+    srcdir  = expand('~/usb_src/bb/_Other')
+    dstdir  = expand('~/usb_dst/bb/_Other')
     #srcdir  = expand('~/befe')
     #dstdir  = expand('~/sd1_dst/befe')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
