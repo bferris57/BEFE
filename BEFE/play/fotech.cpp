@@ -16,28 +16,30 @@ using namespace std;
 // Class: FloatSum - Sum a set of floats
 //
 
-class FloatSum {
+class average {
 
-  private: float n;   // Number of floats so far
+  private: int   n;   // Number of floats so far
   private: float sum; // Running sum
 
-  public: FloatSum() {
-    n =   0.0;
+  public: average() {
+    n =   0;
     sum = 0.0;
   }
 
-  public: void push(float that) {
-    n += 1.0;
+  public: void add_value(float that) {
+    n++;
     sum += that;
   }
 
-  public: float average() {
+  public: float get() {
     return sum/n;
   }
 
 };
 
 //------------------------------------------------------------------------------
+//
+// FOR TESTING...
 //
 // Function: isFloat - Is a string a valid floating point number?
 //           main    - Executable tester (each arg should be a float string)
@@ -55,21 +57,21 @@ static bool isFloat(string myString) {
 int main(int argc, char **argv) {
 
   string   curarg;
-  FloatSum sum;
+  average  avg;
   int      bad = 0;
 
   for(int i=1; i < argc; i++) {
     curarg = string(argv[i]);
     if (isFloat(curarg)) {
-      sum.push(stof(curarg));
-      cout << i << ": '" << curarg << "'\t-- running average = " << sum.average() << endl;
+      avg.add_value(stof(curarg));
+      cout << i << ": '" << curarg << "'\t-- running average = " << avg.get() << endl;
     } else {
       cout << i << ": Ignoring '" << curarg << "'" << endl;
       bad++;
     }
   }
 
-  cout << "Final average: " << sum.average() << endl;
+  cout << "Final average: " << avg.get() << endl;
 
   return (bad)?-1:0;
 
