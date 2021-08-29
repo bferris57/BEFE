@@ -20,6 +20,7 @@
 #include "BEFEMacros.h"
 #include "linux.h"
 #include "ToAscii.h"
+#include <cstdlib>
 
 namespace BEFE { // Namespace BEFE...
 
@@ -28,61 +29,6 @@ namespace BEFE { // Namespace BEFE...
 // Internal (static) Functions...
 //
 //----------------------------------------------------------------------
-
-// For some odd reason, this isn't in MinGW's winnt.h...
-#define HEAP_CREATE_ENABLE_EXECUTE 0x00040000
-
-HANDLE CurrentHeap() {
-
-  //return GetProcessHeap();
-
-  if (gProcessHeapHand == 0) {
-
-    BOOL bResult;
-
-    bResult = HeapSetInformation(NULL, (HEAP_INFORMATION_CLASS)1, NULL, 0);
-
-    gProcessHeapHand = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE+HEAP_GENERATE_EXCEPTIONS, 1024*1024, 1024*1024*1024);
-    //gProcessHeapHand = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, 1024*1024, 30*1024*1024);
-    if (gProcessHeapHand == NULL) {
-      Cout << "CurrentHeap: Failed to create a new heap with, GetLastError() = " << (Int)GetLastError() << '\n';
-      return NULL;
-    }
-
-    bResult = HeapSetInformation(gProcessHeapHand, (HEAP_INFORMATION_CLASS)1, NULL, 0);
-    if (!bResult) {
-      Cout << "CurrentHeap: Failed to enable heap terminate-on-corruption.\n"
-           << "             LastError = " << (Int)GetLastError << '\n';
-      return (HANDLE)0;
-    }
-
-  }
-
-  return gProcessHeapHand;
-
-}
-
-Status DisplayHeapInfo() {
-
-  BOOL  bResult;
-  ULONG heapInformation;
-
-  bResult = HeapQueryInformation(CurrentHeap(),
-                                 HeapCompatibilityInformation,
-                                 &heapInformation,
-                                 sizeof(heapInformation),
-                                 NULL);
-  if (bResult == FALSE) {
-    Cout << "DisplayHeapInfo: Failed to retrieve heap features, GetLastError() = "
-         << (Int)GetLastError() << '\n';
-      return Error::Internal;
-  }
-
-  Cout << "DisplayHeapInfo: HeapCompatibilityInformation is " << (Int)heapInformation << '\n';
-
-  return Error::None;
-
-}
 
 //----------------------------------------------------------------------
 //
@@ -94,16 +40,9 @@ Status StartUp() {
 
   LinuxOperatingSystem  *theOS;
 
-  // Get current process Handle if we don't have it already
-  if (!gProcessHand)
-    gProcessHand = GetCurrentProcess();
-
-  // Allocate Process heap if we don't have it already
-  CurrentHeap();
-
   // Allocate everything
   theOS        = new LinuxOperatingSystem();
-  /*theConsole   =*/ new Win32Console();
+  /*theConsole   =  new LinuxConsole(); */
   /*thePlatform  =*/ new LinuxPlatform();
   /*theProcess   =*/ new LinuxProcess();
   /*theProcessor =*/ new LinuxProcessor();
@@ -146,7 +85,7 @@ void ShutDown() {
 
 void Exit(Status status) {
   ShutDown();
-  ExitProcess(status);
+  exit(status);
 }
 
 //----------------------------------------------------------------------
@@ -159,50 +98,23 @@ static UInt mallocCounter = 0;
 static UInt freeCounter   = 0;
 
 void ValidateHeap() {
-
-  Byte    ourBuf[9];
-  UInt    fg;
-  Boolean ok;
-
-  ok = HeapValidate(CurrentHeap(), 0, NULL);
-  if (!ok) {
-    if (Cout.GetCursor().x != 0) Cout << '\n';
-    fg = Cout.SetForegroundColour(Console::Red);      
-    ToHexAscii(mallocCounter, ourBuf);
-    Cout << "Malloc: mallocCounter = 0x" << (char const *)ourBuf;
-    ToHexAscii(freeCounter, ourBuf);
-    Cout << ", freeCounter = 0x" << (char const *)ourBuf;
-    Cout << " -- Heap Invalid!!!\n";
-    if (gMemoryValidateAbort) {
-      Cout << "***ABORTING***\n";
-      Cout.SetForegroundColour(fg);
-      TerminateProcess(gProcessHand,1);
-    }
-    Cout.SetForegroundColour(fg);
-  }
-
 }
 
 Byte *Malloc(UInt size) {
 
-  Byte    *bytes;
-  Byte    *tbytes;
+  Byte *bytes;
+  Byte *tbytes;
 
-  bytes     = NULL;
+  bytes = (Byte *)malloc(size);
 
-  // Validate Heap if we're supposed to...
-  mallocCounter++;
-  if (gMemoryValidate && CurrentHeap())
-    ValidateHeap();
-
-  // Allocate the memory
-  bytes = (Byte *)HeapAlloc(CurrentHeap(), HEAP_GENERATE_EXCEPTIONS, size);
-    
   // Fill it with UInt8NaN...
   if (bytes && size) {
     tbytes = bytes;
     while (size) {*tbytes++ = UInt8NaN; size--;}
   }
+
+  // For debugging...
+  mallocCounter++;
 
   return bytes;
   
@@ -210,42 +122,14 @@ Byte *Malloc(UInt size) {
 
 void Free(Byte *theMem) {
 
-  Boolean ok;
-
-  if (gMemoryValidate && CurrentHeap())
-    ValidateHeap();
-
-  if (!IsNull(theMem) && CurrentHeap()) {
-    
-    // Validate Heap if we're supposed to...
-    freeCounter++;
-    if (gMemoryValidate) {
-
-      Byte ourBuf[9];
-      UInt fg;
-    
-      ok = HeapValidate(CurrentHeap(), 0, NULL);
-      if (!ok) {
-        if (Cout.GetCursor().x != 0) Cout << '\n';
-        fg = Cout.SetForegroundColour(Console::Red);      
-        ToHexAscii(mallocCounter, ourBuf);
-        Cout << "Free:   mallocCounter = 0x" << (char const *)ourBuf;
-        ToHexAscii(freeCounter, ourBuf);
-        Cout << ", freeCounter = 0x" << (char const *)ourBuf;
-        Cout << " -- Heap Invalid!!!\n";
-        if (gMemoryValidateAbort) {
-          Cout << "***ABORTING***\n";
-          Cout.SetForegroundColour(fg);
-          TerminateProcess(gProcessHand,1);
-        }
-        Cout.SetForegroundColour(fg);
-      }
-    }  
-    
-    // Free the memory...
-    HeapFree(CurrentHeap(), 0, theMem);
-    
+  // Free the memory...
+  if (theMem) {
+   free(theMem);
   }
+
+  // For debugging...
+  freeCounter++;
+
 }
 
 Byte *Memmove(Byte *dst, Byte *src, Int len) {
