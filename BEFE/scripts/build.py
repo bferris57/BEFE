@@ -139,6 +139,7 @@ def PathWalker(path):
     if wanted and os.path.isdir(path):
       contents = os.listdir(path)
       if contents:
+        contents.sort()
         stack.append(contents)
         continue
 
