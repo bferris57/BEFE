@@ -33,6 +33,9 @@ public:
      PhyPost_None           // 0x00 - Unknown or Not Specified
     ,PhyPort_Win32MinGW     // 0x01 - Windows32-MinGW (i386-32)
     ,PhyPort_Linux32        // 0x02 - Linux32 (i386-32)
+    ,PhyPort_Win64Mingw     // 0x03 - Windows32-MinGW (i386-64)
+    ,PhyPort_Linux64        // 0x04 - Linux64 (i386-64)
+
     
     ,NumPhysicalPorts
 
@@ -228,6 +231,17 @@ public:
   virtual Boolean Is_OSX() const;
                              
 }; // ...Class Platform
+
+//
+// Macro to answer "Are we 32 or 64 bit pointers?"...
+//
+
+#if ((ULONG_MAX) == (UINT_MAX))
+# define IS32BIT
+#else
+# define IS64BIT
+#endif
+
 
 } // ...Namespace BEFE
 

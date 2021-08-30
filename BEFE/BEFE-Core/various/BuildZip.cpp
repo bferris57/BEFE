@@ -28,7 +28,7 @@ typedef struct BuildZipContext ZipContext;
 // OSWalker context and function for Build._Zip...
 //
 
-Status Build::ZipWalker(String const &dir, UInt32 context) { // Build.ZipWalker...
+Status Build::ZipWalker(String const &dir, Ptr context) { // Build.ZipWalker...
   
   Status      status;
   String      theDir;
@@ -103,7 +103,7 @@ Status Build::_Zip(UInt zipWhat) { // Build._Zip...
     Cout << String(' ')*indent << "Locating Files to " << (Is_Windows()?"ZIP":"TAR") << "...";
   zip.baseDir = befe_Build;
   zip.zipDirs = String("bin,doc,home,inc,lib,obj,src").Split(',');
-  status = WalkPath(befe_Build, ZipWalker, (UInt32)&zip);
+  status = WalkPath(befe_Build, ZipWalker, (Ptr)&zip);
   if (status) goto SOMEERROR;
   if (gVerbose)
     Cout << ' ' << zip.theFiles.Length() << " files to " << (Is_Windows()?"ZIP":"TAR") << '\n';

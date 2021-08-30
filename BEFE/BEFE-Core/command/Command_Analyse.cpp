@@ -53,7 +53,7 @@ struct WalkContext {
 
 };
 
-static Status Walker(String const &dir, UInt32 context) {
+static Status Walker(String const &dir, Ptr context) {
 
   Status       status;
   WalkContext *ctxt;
@@ -265,7 +265,7 @@ Status Command_Analyse(CommandLayer *layer, BcmdCommand &cmd) {
 
       // Get the info
       walkInfo.Init(layer, path);
-      status = os->WalkPath(path, Walker, (UInt32)&walkInfo);
+      status = os->WalkPath(path, Walker, (Ptr) &walkInfo);
       if (status) goto SOMEERROR;
 
       // Add the info from the base directory

@@ -41,6 +41,8 @@ typedef StringMapPrimitive<UInt> NamedUInts;
 BEFE_INLINE Boolean IsNull(NamedUInts const &that) {return that.IsNull();}
 BEFE_INLINE Boolean IsEmpty(NamedUInts const &that) {return that.IsEmpty();}
 
+typedef StringMapPrimitive<void *> NamedPtrs;
+
 
 } // ...Namespace BEFE
 

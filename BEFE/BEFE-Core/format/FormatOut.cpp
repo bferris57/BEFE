@@ -338,7 +338,7 @@ Status FormatOut::StringInfo(String *string,Strings &strinfo) {
     goto OK;
   }
   s.SetEmpty();
-  s << "String @ 0x" << ToHexString((Int)string,8);
+  s << "String @ 0x" << ToHexString((Ptr)string,8);
   strinfo.Append(s);
 
   // Format flags

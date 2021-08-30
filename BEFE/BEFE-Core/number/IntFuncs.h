@@ -31,7 +31,7 @@ UInt    IntNextPrime(UInt i);
 UInt    IntGCD(UInt a, UInt b);
 UInt    IntLCM(UInt a, UInt b);
 
-UInt32  IntCrc32(UInt8 *s, UInt len);
+UInt32  IntCrc32(Ptr p, UInt len);
 UInt32  IntCrc32(UInt32 seed, UInt c);
 
 void    BitRange(UInt num, UInt &bit0, UInt &bit1);

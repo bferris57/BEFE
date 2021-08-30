@@ -104,8 +104,8 @@ Boolean   IsValidPathName(String const &filename);
 String    ApplyRelativePath(String const &relpath);
 String    ApplyRelativePath(String const &path, String const &relpath);
 Status    ApplyRelativePath(String const &path, String const &relpath, String &replacement);
-Status    WalkPath(char const *dir, OSPathWalker walker, UInt32 context);
-Status    WalkPath(String const &dir, OSPathWalker walker, UInt32 context);
+Status    WalkPath(char const *dir, OSPathWalker walker, Ptr context);
+Status    WalkPath(String const &dir, OSPathWalker walker, Ptr context);
 
 // TheBefe->TheOS: File/Directory Operatios
 Status    MoveFile(String const &fromFileName, String const &toFileName);

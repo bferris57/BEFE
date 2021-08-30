@@ -99,8 +99,8 @@ class CommandShell { // Class CommandShell...
   // Private Members
   //
 
-  public:    NamedUInts  layers;        // ◄── The UInt is Actually a (CommandLayer *)
-  protected: UInts       stack;         // Stack of (CommandLayer *)
+  public:    NamedPtrs   layers;        // ◄── The UInt is Actually a (CommandLayer *)
+  protected: Ptrs        stack;         // Stack of (CommandLayer *)
   protected: UInt        popCount;
   protected: Bcmds       inputs;        // Bcmd inputs
 

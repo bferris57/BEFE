@@ -1,6 +1,6 @@
 //!befe-publish inc
 //----------------------------------------------------------------------
-// File: Id.h - Declarations for the Id and Id64 Class
+// File: Id.h - Declarations for the Id, Id32, and Id64 Classes
 //----------------------------------------------------------------------
 //
 // This class is a <Foundation Class> for <Ids>. As such, it appears
@@ -23,7 +23,12 @@
 namespace BEFE { // Namespace BEFE...
 
 // Generic typedefs
-typedef struct Id32 Id;
+#ifdef IS64BIT
+  typedef struct Id64 Id;
+#endif
+#ifdef IS32BIT
+  typedef struct Id32 Id;
+#endif
 
 //----------------------------------------------------------------------
 //
@@ -67,14 +72,11 @@ struct Id32 { // Struct Id32...
   BEFE_inline UInt32 operator++  (int)            {return value++;};
   BEFE_inline operator UInt32 const  ()          {return value;}
   
-}; // ...Struct Id
+}; // ...Struct Id32
 
 //----------------------------------------------------------------------
 //
 // Id64 Struct
-//
-// Note: NOT IMPLEMENTED YET!!! We're holding off until we get File
-//       stuff finished and we get entire presistence model formalised.
 //
 
 struct Id64 { // Struct Id64...
@@ -82,20 +84,40 @@ struct Id64 { // Struct Id64...
   // Friend classes
   friend class IdSpace;
 
-  // Public Instance methods
-   Id64()            {value = 0xffffffffffffffffULL;};
-  ~Id64()            {};
-
-  Id64 &operator =     (const Id64 &that) {value = that.value; return *this;};
-        operator Int64 ()                 {value = (Int64)value; return *this;};
-        operator UInt64()                 {value = (UInt64)value; return *this;};
-
   // Members
   UInt64 value;
+  
+  //
+  // Public Instance methods
+  //
 
+  // C++ Lifecycle
+  BEFE_inline  Id64()                           {value = UInt64NaN;};
+  BEFE_inline  Id64(Id64 const &thatId)         {value = thatId.value;};
+  BEFE_inline  Id64(UInt64 thatId)              {value = thatId;};
+  BEFE_inline ~Id64()                           {};
+
+  BEFE_inline Id64 &operator = (Id64 const &that) {value = that.value; return *this;};
+  BEFE_inline Id64 &operator = (UInt64 someId)    {value = someId; return *this;};
+  BEFE_inline       operator UInt64 () const      {return value;};
+
+  // BEFE Lifecycle
+  Boolean IsNull() const         {return (value == UInt64NaN);}
+  Status  SetNull()              {value = UInt64NaN; return Error::None;}
+  
+  // Comparison operators
+  BEFE_inline bool operator==    (const Id64 &that) {return value == that.value;};
+  BEFE_inline bool operator==    (UInt64 that)      {return value == that;};
+  BEFE_inline bool operator!=    (const Id64 &that) {return value != that.value;};
+  BEFE_inline bool operator!=    (UInt64 that)      {return value != that;};
+
+  // Various other operators
+  BEFE_inline UInt64 operator++  ()               {return ++value;};
+  BEFE_inline UInt64 operator++  (int)            {return value++;};
+  BEFE_inline operator UInt64 const  ()           {return value;}
+  
 }; // ...Struct Id64
 
-//----------------------------------------------------------------------
 //
 // Struct Id128
 //

@@ -15,6 +15,8 @@
 #include "BEFE.h"
 #include "BEFEMacros.h"
 #include "Integer.h"
+#include "Platform.h"
+#include "Primitives.h"
 
 namespace BEFE { // Namespace BEFE...
 
@@ -592,17 +594,27 @@ UInt  Hash(UInt i) {
   return hash;
 }
 
+/* !!!DEPRECATED???!!!
 UInt Hash(UInt8 *addr) {
-  UInt hash;
-  UInt j;
 
-  hash = (UInt)addr;
+  UInt32 hash;
+  UInt32 temp[2];
+
+#if IS64BIT
+  temp[0] = (UInt32)addr;
+#else
+   *(UInt64 *)&temp[0] = (UInt64)addr; 
+   temp[0] ^= temp[1];
+#endif
+
+  hash = temp[0];
   for (j=0;j<sizeof(addr);j++) {
     hash = IntCrc32(hash,((UInt)addr)&0x0f);
     addr = (UInt8 *)(((UInt)addr)>>8);
   }
   return hash;
 }
+*/
 
 UInt Hash(const char *s) {
 

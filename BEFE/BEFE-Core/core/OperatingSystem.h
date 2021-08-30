@@ -32,7 +32,7 @@ namespace BEFE { // Namespace BEFE...
 // OperatingSystem Type declarations
 //
 
-typedef Status (*OSPathWalker)(String const &dir, UInt32 context);
+typedef Status (*OSPathWalker)(String const &dir, Ptr context);
 
 //----------------------------------------------------------------------
 //
@@ -145,8 +145,8 @@ class OperatingSystem { // Class OperatingSystem...
   public: virtual String    ApplyRelativePath(String const &relPath) const;
   public: virtual String    ApplyRelativePath(String const &path, String const &relPath) const;
   public: virtual Status    ApplyRelativePath(String const &path, String const &relPath, String &replacement) const;
-  public: virtual Status    WalkPath(char const *dir, OSPathWalker walker, UInt32 context);
-  public: virtual Status    WalkPath(String const &dir, OSPathWalker walker, UInt32 context);
+  public: virtual Status    WalkPath(char const *dir, OSPathWalker walker, Ptr context);
+  public: virtual Status    WalkPath(String const &dir, OSPathWalker walker, Ptr context);
 
   public: virtual Status    SetDefaultSearchPaths();
   public: virtual Strings   GetSearchPaths();

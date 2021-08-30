@@ -313,7 +313,7 @@ class Befe { // Class Befe...
   protected: CryptKey      cryptKey;
   
   // Callbacks...
-  protected: NamedInts     callbacks;
+  protected: NamedPtrs     callbacks;
 	
 }; // ...Class Befe
 

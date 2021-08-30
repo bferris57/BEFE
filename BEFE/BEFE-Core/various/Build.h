@@ -153,8 +153,8 @@ class Build { // Class Build...
   
   // Static methods
   //   Implemented in BuildFiles.cpp
-  protected: static Status InputWalker(String const &dir, UInt32 context);
-  protected: static Status CleanWalker(String const &dir, UInt32 context);
+  protected: static Status InputWalker(String const &dir, Ptr context);
+  protected: static Status CleanWalker(String const &dir, Ptr context);
   
   // Display
   //   Implemented in BuildDisplay.cpp
@@ -184,7 +184,7 @@ class Build { // Class Build...
   
   // Zip File
   //   Implemented in BuildZip.cpp
-  protected: static Status ZipWalker(String const &dir, UInt32 context);
+  protected: static Status ZipWalker(String const &dir, Ptr context);
 
   protected: Status _Zip(UInt zipWhat);
   

@@ -292,7 +292,8 @@ def compileSource():
   cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++0x -fno-exceptions ' \
         '-finline-functions -nodefaultlibs -fno-rtti'
   # TEMP...
-  cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
+  #cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
+  cmd += ' -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
   # ...TEMP
 
   fileCount = 0
@@ -315,6 +316,7 @@ def compileSource():
     tcmd = cmd%(spath,dpath,BEFE_Inc)
     #green('DEBUG: tcmd = %s'%repr(tcmd))
     print('  '+sfile+'...')
+ 
     sys.stdout.flush()
 
     rc,out,err = execute(tcmd)
@@ -327,6 +329,29 @@ def compileSource():
 
     fileCount += 1
 
+  return errCount
+
+
+def createExecutable():
+
+  cmd = 'ld '
+  cmd += '-I '+BEFE_Obj+'/*.o '
+  cmd += '-o '+BEFE_Bin+'/befe '
+  #cmd += '-static -std=c++0x -fno-exceptions '
+  cmd += '-static '
+  cmd += '-lrt -luuid '
+  cmd += '-Xlinker -m elf_i386 '
+
+  sys.stdout.flush()
+  errCount = 0
+
+  rc,out,err = execute(cmd)
+  sys.stdout.flush()
+  if rc:
+    errCount += 1
+    print("Error...")
+    Prefix(err,prefix='...',samePrefix=True,fore='red',style='bright')
+ 
   return errCount
 
 #-------------------------------------------------------------------------------
@@ -391,3 +416,7 @@ if __name__ == "__main__":
 
     print('Linking...')
     print('os.getcwd() = %s'%os.getcwd())
+    errCount = createExecutable()
+    if errCount:
+      print('  %d errors'%errCount)
+

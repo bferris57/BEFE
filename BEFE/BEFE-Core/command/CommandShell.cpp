@@ -96,7 +96,7 @@ Status CommandShell::RegisterLayer(CommandLayer &layer) {
 
   if (!layers.HasKey(layer.name)) {
     layer.SetShell(this);
-    status = layers.Set(layer.name,(UInt)&layer);
+    status = layers.Set(layer.name,(Ptr)&layer);
   }
   else
     status = Error::None;
@@ -122,18 +122,15 @@ Status CommandShell::FindLayer(String const &layerName, CommandLayer *&pTheLayer
   
   Status        status;
   UInt          layerNo;
-  union {
-    UInt          theLayerUInt;
-    CommandLayer *theLayer;
-  };
+  CommandLayer *theLayer;
   
   pTheLayer = NULL;
   
   for (layerNo=0; layerNo < layers.Length(); layerNo++) {
-    theLayerUInt = layers.Get(layerName);
-    if (!BEFE::IsNull(theLayerUInt) && theLayer->name == layerName)
+    theLayer = (CommandLayer *)layers.Get(layerName);
+    if (!BEFE::IsNull(theLayer) && theLayer->name == layerName)
       break;
-    status = layers.Get(layerName, theLayerUInt);
+    status = layers.Get(layerName, (Ptr &)theLayer);
     if (!status && !BEFE::IsNull(theLayer) && theLayer->name == layerName)
       break;
   }
@@ -177,7 +174,7 @@ Status CommandShell::PushLayer(String const &layerName, BcmdCommand &cmd) {
   }
 
   // Add it to the shell stack
-  status = stack.Append((UInt)theLayer);
+  status = stack.Append((Ptr)theLayer);
   if (status) goto SOMEERROR;
 
   // Handle errors
@@ -288,7 +285,7 @@ Status CommandShell::MainLoop(BcmdCommand &pCmd) {
 
   union {
     CommandLayer *layer;
-    UInt          layerUInt;
+    Ptr           layerPtr;
   };
   
   UInt         contigErrors;  // Number of contiguous command line errors
@@ -433,9 +430,9 @@ Status CommandShell::MainLoop(BcmdCommand &pCmd) {
     while (popCount && stack.Length()) {
 
       // Tell this one we're leaving...
-      status = stack.Get(-1, layerUInt);
+      status = stack.Get(-1, layerPtr);
       if (status) goto SOMEERROR;
-      if (BEFE::IsNull(layerUInt) || layerUInt == 0) goto NULLPOINTER;
+      if (BEFE::IsNull(layerPtr) || layerPtr == 0) goto NULLPOINTER;
       status = layer->Leave();
       if (status) goto SOMEERROR;
       
@@ -684,7 +681,7 @@ Status CommandShell::ExecuteCommand(BcmdCommand &cmd) { // ComandShell.ExecuteCo
 
   union {
     CommandLayer *layer;
-    UInt          layerUInt;
+    Ptr           layerPtr;
   };
 
   if (!TheBefe) goto NOBEFE;
@@ -727,9 +724,9 @@ Status CommandShell::ExecuteCommand(BcmdCommand &cmd) { // ComandShell.ExecuteCo
     if (stack.Length()) {
 
       // Tell this one we're leaving...
-      status = stack.Get(-1, layerUInt);
+      status = stack.Get(-1, layerPtr);
       if (status) goto SOMEERROR;
-      if (BEFE::IsNull(layerUInt) || layerUInt == 0) goto NULLPOINTER;
+      if (BEFE::IsNull(layerPtr) || layerPtr == 0) goto NULLPOINTER;
       status = layer->Leave();
       if (status) goto SOMEERROR;
       

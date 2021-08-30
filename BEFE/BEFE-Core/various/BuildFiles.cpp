@@ -22,7 +22,7 @@ static char const *BUILD_outputDirs[] = {"bin","src","inc","lib","obj","doc","ho
 // OSWalker context and function for Build.GetInputFileNames...
 //
 
-Status Build::InputWalker(String const &dir, UInt32 context) { // Build.InputWalker...
+Status Build::InputWalker(String const &dir, Ptr context) { // Build.InputWalker...
   
   Status  status;
   Build  *build;
@@ -92,7 +92,7 @@ Status Build::InputWalker(String const &dir, UInt32 context) { // Build.InputWal
 // OSWalker context and function for Build.CleanOutputDirectories...
 //
 
-Status Build::CleanWalker(String const &dir, UInt32 context) { // Build.CleanWalker...
+Status Build::CleanWalker(String const &dir, Ptr context) { // Build.CleanWalker...
   
   Status  status;
   Build  *build;
@@ -154,7 +154,7 @@ Status Build::_DetermineFileNames() { // Build._DetermineFileNames...
 
   // Do it
   befe_GIT = settings.Get("BEFE_GIT");
-  status = WalkPath(befe_GIT, InputWalker, (UInt)this);
+  status = WalkPath(befe_GIT, InputWalker, (Ptr)this);
   if (status) goto SOMEERROR;
   
   // Handle errors
@@ -183,7 +183,7 @@ Status Build::_CleanOutputDirectories() { // Build._CleanOutputDirectories...
   if (gVerbose)
     Cout << String(' ')*indent << "Cleaning Output Directories...";
 
-  status = WalkPath(befe_Build, CleanWalker, (UInt)this);
+  status = WalkPath(befe_Build, CleanWalker, (Ptr)this);
   if (status) goto SOMEERROR;
 
   if (gVerbose) Cout << '\n';

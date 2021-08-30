@@ -67,6 +67,7 @@ String ToHexString(Int64  num, UInt len);   // ◄── len is in "destination 
 String ToHexString(UInt64 num);
 String ToHexString(UInt64 num, UInt len);   // ◄── len is in "destination Chars"
 String ToHexString(Byte *bp, UInt len);     // ◄── len is in "Source Bytes" NOT "Destination Chars"
+String ToHexString(Ptr p, UInt len);        // ◄── len is in "Source Bytes" NOT "Destination Chars"
 
 // Time -> String handy form
 String ToString(Time t1, Time t2);

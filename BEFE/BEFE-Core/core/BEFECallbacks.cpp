@@ -18,7 +18,7 @@ namespace BEFE { // Namespace BEFE...
 Status Befe::RegisterCallback(String const &name, void *callBack) {
 	
 	Status status;
-	Int    someInt;
+	void * somePtr;
 	
 	// Make sure callbacks is set to "Insensitive" if it's time...
 	if (callbacks.Length() == 0) {
@@ -27,13 +27,13 @@ Status Befe::RegisterCallback(String const &name, void *callBack) {
 	}
 	
 	// See if it's there...
-	status = FindCallback(name, (void **)&someInt);
+	status = FindCallback(name, (void **)&somePtr);
  	if (status == 0) goto ISREG;
 	if (status != Error::BEFECallbackNotRegistered) goto SOMEERROR;
 	
 	// Register it...
-	someInt = (Int)callBack;
-	status = callbacks.Set(name, someInt);
+	somePtr = callBack;
+	status = callbacks.Set(name, somePtr);
 	if (status) goto SOMEERROR;
 	
 	// Handle errors
@@ -70,18 +70,18 @@ Status Befe::RemoveCallback(String const &name) {
 Status Befe::FindCallback(String const &name, void **callBack) {
 	
 	Status status;
-	Int    someInt;
+	void * somePtr;
 	
 	// Make sure we were given an address to return it in...
 	if (callBack == NULL) goto BADPARAMETER;
 	
 	// See if it's there...
-	status = callbacks.Get(name, someInt);
+	status = callbacks.Get(name, somePtr);
 	if (status == Error::IndexNotFound) goto NOTFOUND;
 	if (status) goto SOMEERROR;
 	
 	// Return it
-	*callBack = (void *)someInt;
+	*callBack = (void *)somePtr;
 	
 	// Handle errors
 	status = Error::None;

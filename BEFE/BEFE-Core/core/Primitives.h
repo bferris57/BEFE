@@ -95,7 +95,7 @@ namespace BEFE { // Namespace BEFE...
 //
 
 //
-// General Integer Sizes...
+// General Scalar Sizes...
 //
 //   For code that cares more about the logical nature of the
 //   functionality than the specific implementation
@@ -114,6 +114,7 @@ typedef signed   int       SInt;
 typedef signed   long long Long;    // ◄── Just like Java.  Get used to this as well!
 typedef unsigned long long ULong;
 typedef signed   long long SLong;
+typedef void *             Ptr;
 
 //
 // Specific Integer Sizes...

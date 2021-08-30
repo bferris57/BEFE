@@ -165,7 +165,7 @@ Lex &Lex::NotConsumable() const {
 
 Status Lex::IsAttached(LexWorkspace &theWs) const {
   
-  if (workspaceIds.Exists((UInt)&theWs))
+  if (workspaceIds.Exists((Id)&theWs))
     return true;
   else
     return false;

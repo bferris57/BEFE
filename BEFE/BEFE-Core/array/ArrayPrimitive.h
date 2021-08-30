@@ -221,6 +221,11 @@ BEFE_INLINE Status  SetNull (Doubles &t)       {return ((Doubles *)&t)->SetNull(
 BEFE_INLINE Boolean IsEmpty (Doubles const &t) {return ((Doubles *)&t)->IsEmpty();}
 BEFE_INLINE Status  SetEmpty(Doubles &t)       {return ((Doubles *)&t)->SetEmpty();}
 
+// Ptrs
+typedef ArrayPrimitive<Ptr> Ptrs;
+//BEFE_INLINE Boolean IsEmpty (Ptr const &t) {return ((Ptr *)&t)->IsEmpty();}
+//BEFE_INLINE Status  SetEmpty(Ptr &t)       {return ((Ptr *)&t)->SetEmpty();}
+
 // Ranges
 typedef ArrayPrimitive<Range> Ranges;
 BEFE_INLINE Boolean IsNull  (Ranges const &t) {return ((Ranges *)&t)->IsNull();}

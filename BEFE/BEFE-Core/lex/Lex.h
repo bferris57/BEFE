@@ -90,6 +90,7 @@
 #include "Cache.h"
 #include "Sparse.h"
 #include "Map.h"
+#include "Id.h"
 
 #include "LexState.h"
 #include "LexRange.h"
@@ -109,9 +110,9 @@ struct Lex;
 
 // Various miscellaneous ones we use to make the code more readable...
 typedef SparsePrimitive<Id>          LexWorkspaceIds;
-typedef SparsePrimitive<UInt>        IdLexWorkspaces;
+typedef SparsePrimitive<Id>          IdLexWorkspaces;
 typedef SparsePrimitive<Id>          StreamIds;
-typedef SparsePrimitive<UInt>        IdStreams;
+typedef SparsePrimitive<Id>          IdStreams;
 typedef StringMapValue<LexLanguage>  NamedLexLanguages;
 
 //----------------------------------------------------------------------
@@ -215,10 +216,10 @@ struct Lex {
 	// Protected Members...
   protected: Boolean           isConsumable:1;  // "IsConsumable" flag
   protected: Id                highWorkspaceId; // Highest LexWorkspaceId so far
-  protected: LexWorkspaceIds   workspaceIds;    // Sparse of LexWorkspace Ids, indexed by LexWorkspace Address as UInt
+  protected: LexWorkspaceIds   workspaceIds;    // Sparse of LexWorkspace Ids, indexed by LexWorkspace Address
   protected: IdLexWorkspaces   idWorkspaces;    // Sparse of LexWorkspace Addresses index by Id
 	protected: Id                highStreamId;    // Highest LexStreamId so far
-	protected: StreamIds         streamIds;       // Sparse of LexStream Ids, indexed by LexStream Address as UInt
+	protected: StreamIds         streamIds;       // Sparse of LexStream Ids, indexed by LexStream Address
 	protected: IdStreams         idStreams;       // Sparse of LexStream Addresses indexed by Id
   protected: Id                highLanguageId;  // Highest LexWorkspaceId so far
 	protected: NamedLexLanguages languages;       // Language Specifications
