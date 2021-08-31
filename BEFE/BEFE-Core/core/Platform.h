@@ -236,12 +236,23 @@ public:
 // Macro to answer "Are we 32 or 64 bit pointers?"...
 //
 
-#if ((ULONG_MAX) == (UINT_MAX))
-# define IS32BIT
+// Check windows
+#if _WIN32 || _WIN64
+#if _WIN64
+#define IS64BIT
 #else
-# define IS64BIT
+#define IS32BIT
+#endif
 #endif
 
+// Check GCC
+#if __GNUC__
+#if __x86_64__ || __ppc64__
+#define IS64BIT
+#else
+#define IS32BIT
+#endif
+#endif
 
 } // ...Namespace BEFE
 

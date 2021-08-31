@@ -26,7 +26,8 @@ namespace BEFE { // Namespace BEFE...
 #ifdef IS64BIT
   typedef struct Id64 Id;
 #endif
-#ifdef IS32BIT
+#ifdef IS32BITA
+# error This should not be happening!!!
   typedef struct Id32 Id;
 #endif
 
@@ -94,7 +95,7 @@ struct Id64 { // Struct Id64...
   // C++ Lifecycle
   BEFE_inline  Id64()                           {value = UInt64NaN;};
   BEFE_inline  Id64(Id64 const &thatId)         {value = thatId.value;};
-  BEFE_inline  Id64(UInt64 thatId)              {value = thatId;};
+  BEFE_inline  Id64(UInt64 thatId)              {value = (UInt64)thatId;};
   BEFE_inline ~Id64()                           {};
 
   BEFE_inline Id64 &operator = (Id64 const &that) {value = that.value; return *this;};

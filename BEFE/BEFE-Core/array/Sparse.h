@@ -23,7 +23,7 @@
 //   o Given index N, it may or may not be present
 //
 //   o Negative indexes don't mean anything in a Sparse, so indexes
-//       are UInts unlike Array which uses Ints
+//       are UInts/ULongs unlike Array which uses Ints
 //
 //   o Length indicates the number of present entries in the Sparse
 //       array, unlike Array where it indicates the highest index + 1

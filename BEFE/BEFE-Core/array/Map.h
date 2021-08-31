@@ -21,7 +21,7 @@
 //
 // Even though the UIntMap Template Instances are pretty much equivalent
 // to a Sparse Template instance, they are provided here so they can
-// be through of as a "Map" instead of a "Sparse Array".
+// be thought of as a "Map" instead of a "Sparse Array".
 //
 // As such, the indexes are forced to be Distinct, whereas a Sparse
 // Array doesn't enforce such a restriction by default.
