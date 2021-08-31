@@ -23,7 +23,7 @@
 //   o Given index N, it may or may not be present
 //
 //   o Negative indexes don't mean anything in a Sparse, so indexes
-//       are UInts/ULongs unlike Array which uses Ints
+//       are a PtrInt unlike Array which uses Ints
 //
 //   o Length indicates the number of present entries in the Sparse
 //       array, unlike Array where it indicates the highest index + 1
@@ -36,13 +36,6 @@
 //       Sparse implements "USpan" at the index level, meaning it's an
 //       inclusive unsigned Span unlike a Slice, which is exclusive
 //       signed range with a step
-//
-//   o Slicing DOES, however, make sense at the second level (Sub Index)
-//       so it could be supported there if needed.  This is why sub-indexes
-//       are Ints instead of UInts as they are at the Suv-Index level.
-//
-//       Note: We haven't implemented Slice Get methods yet but we will
-//             if and when there's a significant call for it.
 //
 //   o ...more to come here, perhaps...
 //
@@ -69,7 +62,7 @@ class _SparseBase { // Class _SparseBase...
 
   // Friend Classes/templates
   friend class _MapBase;
-  template <typename T> friend class UIntMapPrimitive;
+  template <typename T> friend class UIntMapPrimitive;???
   template <typename V> friend class UIntMapValue;
   template <typename T> friend class StringMapPrimitive;
   template <typename V> friend class StringMapValue;
@@ -94,7 +87,7 @@ class _SparseBase { // Class _SparseBase...
   public: Status      SetEmpty();
   public: Status      MoveFrom(_SparseBase const &that);
   public: Status      CopyFrom(_SparseBase const &that);
-  //public: Status     &NewIterator(UInt iterType, Iterator *&newIter); // ◄── Not implemented yet
+  //public: Status     &NewIterator(???UInt iterType, Iterator *&newIter); // ◄── Not implemented yet
 
   public: _SparseBase &Consumable() const;
   public: _SparseBase &NotConsumable() const;

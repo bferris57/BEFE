@@ -115,6 +115,14 @@ typedef signed   long long Long;    // ◄── Just like Java.  Get used to th
 typedef unsigned long long ULong;
 typedef signed   long long SLong;
 typedef void *             Ptr;
+// Pointer as UInt equivalent...
+#ifdef IS64BIT
+typedef unsigned long long PtrInt;
+#endif
+#ifdef IS32BITA
+typedef unsigned  int      PtrInt;
+#endif
+
 
 //
 // Specific Integer Sizes...
