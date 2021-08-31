@@ -62,8 +62,10 @@ class _SparseBase { // Class _SparseBase...
 
   // Friend Classes/templates
   friend class _MapBase;
-  template <typename T> friend class UIntMapPrimitive;???
+  template <typename T> friend class UIntMapPrimitive;
   template <typename V> friend class UIntMapValue;
+  template <typename T> friend class PtrIntMapPrimitive;
+  template <typename V> friend class PtrIntMapValue;
   template <typename T> friend class StringMapPrimitive;
   template <typename V> friend class StringMapValue;
   
@@ -100,28 +102,28 @@ class _SparseBase { // Class _SparseBase...
   public: Status      _Contains(Byte *that, Boolean &answer) const;
   
   // Contents Info Methods
-  public: UInt        Length() const;                 // ◄── Number of Elements (at both levels)
-  public: UInt        Length(UInt index) const;       // ◄── Number of entries (at given Index)
-  public: UInt        DistinctLength() const;         // ◄── Number of distinct index entries
-  public: UInt        Size() const;                   // ◄── Number of Storage Units used
-  public: UInt        ElementSize() const;            // ◄── Storage Units per Element
-  public: UInt        UnitSize() const;               // ◄── Size of Storage Unit in bits (see StorageUnit)
-  public: USpan       IndexSpan() const;              // ◄── Span of valid Index values
-  public: USpan       SubIndexSpan(UInt index) const; // ◄── Span of valid SubIndex values
-  public: Boolean     Exists(UInt index) const;       // ◄── "Does Index N exist?"
+  public: UInt        Length() const;                   // ◄── Number of Elements (at both levels)
+  public: UInt        Length(PtrInt index) const;       // ◄── Number of entries (at given Index)
+  public: UInt        DistinctLength() const;           // ◄── Number of distinct index entries
+  public: UInt        Size() const;                     // ◄── Number of Storage Units used
+  public: UInt        ElementSize() const;              // ◄── Storage Units per Element
+  public: UInt        UnitSize() const;                 // ◄── Size of Storage Unit in bits (see StorageUnit)
+  public: USpan       IndexSpan() const;                // ◄── Span of valid Index values
+  public: USpan       SubIndexSpan(PtrInt index) const; // ◄── Span of valid SubIndex values
+  public: Boolean     Exists(PtrInt index) const;       // ◄── "Does Index N exist?"
 
   // Abstract Element Methods
-  public: Status      _Get(UInt index, void *buf) const;
-  public: Status      _Get(UInt index, Int subindex, void *buf) const;
-  public: Status      _Set(UInt index, void *buf);
-  public: Status      _Set(UInt index, Int subindex, void *buf);
+  public: Status      _Get(PtrInt index, void *buf) const;
+  public: Status      _Get(PtrInt index, PtrInt subindex, void *buf) const;
+  public: Status      _Set(PtrInt index, void *buf);
+  public: Status      _Set(PtrInt index, PtrInt subindex, void *buf);
   public: Status      _Append(void *buf);
-  public: Status      _Append(UInt index, void *buf);
-  public: Status      _Remove(UInt index);
-  public: Status      _Remove(UInt index, Int subindex);
+  public: Status      _Append(PtrInt index, void *buf);
+  public: Status      _Remove(PtrInt index);
+  public: Status      _Remove(PtrInt index, PtrInt subindex);
 
   // Physical Element Methods
-  public: Status      _GetPhysicalElement(UInt phyIndex, UInt &index, void *buf) const;
+  public: Status      _GetPhysicalElement(PtrInt phyIndex, PtrInt &index, void *buf) const;
 
   //
   // Protected methods
@@ -137,11 +139,11 @@ class _SparseBase { // Class _SparseBase...
 
   // Given an index (which may be Null) and subindex (which may be Null),
   //   Resolve where in the Array to insert/append it
-  protected: Status ResolveInsert(UInt i, Int s, UInt &resolved) const;
+  protected: Status ResolveInsert(PtrInt i, PtrInt s, PtrInt &resolved) const;
 
   // Given an index and subindex (which may be NaN),
   //   Resolve where in the Array to get/remove it from
-  protected: Status ResolveGet(UInt i, Int s, UInt &resolved) const;
+  protected: Status ResolveGet(PtrInt i, PtrInt s, PtrInt &resolved) const;
   
   //
   // Protected Instance members and methods
@@ -155,7 +157,7 @@ class _SparseBase { // Class _SparseBase...
   protected: UInt    _reserved:4;     // ***Reserved for future use***
   protected: UInt8   mapKeyType;      // ◄── Used by MapBase Class
   protected: UInt16  elmSize;         // Element size (excluding header)
-  //protected: Id      _firstIter;      // ***Reserved for possible future use by Iterators***
+  protected: Id      _firstIter;      // ***Reserved for possible future use by Iterators***
   public:    Buffer  buffer;          // ◄── This is where we store everything
   
   // Note: The following are only for use by Sparse/Map templates and
@@ -171,9 +173,9 @@ class _SparseBase { // Class _SparseBase...
   public:    Byte const *_GetPhyAddress (UInt phyIndex) const;
   protected: UInt        _GetPhyElementSize() const;
   protected: UInt        _GetPhyHeaderSize() const;
-  public:    Byte const *_GetLogAddress (UInt logIndex) const;
-  public:    Byte const *_GetLogAddress (UInt logIndex, Int subIndex) const;
-  protected: Status      _PhyInsert(UInt phyIndex, UInt logIndex, Byte *&phyElm);
+  public:    Byte const *_GetLogAddress (PtrInt logIndex) const;
+  public:    Byte const *_GetLogAddress (PtrInt logIndex, PtrInt subIndex) const;
+  protected: Status      _PhyInsert(PtrInt phyIndex, PtrInt logIndex, Byte *&phyElm);
   protected: Status      _PhyRemove(UInt phyIndex);
   
 }; // ...Class _SparseBase
@@ -219,7 +221,7 @@ template <typename T> class SparsePrimitive : public _SparseBase { // Template S
   }
   
   // Get Methods
-  public: T Get(UInt index) const {
+  public: T Get(PtrInt index) const {
     Status status;
     T      local;
     status = _Get(index, (Byte *)&local);
@@ -228,16 +230,16 @@ template <typename T> class SparsePrimitive : public _SparseBase { // Template S
     return local;
   }
 
-  public: Status Get(UInt index, T &that) const {
+  public: Status Get(PtrInt index, T &that) const {
     return _Get(index, (Byte *)&that);
     }
     
   // Set/Append/Insert Methods
-  public: Status Set(UInt index, T that) {
+  public: Status Set(PtrInt index, T that) {
     return _Set(index, (Byte *)&that);
   }
 
-  public: Status Set(UInt index, Int subindex, T that) {
+  public: Status Set(PtrInt index, PtrInt subindex, T that) {
     return _Set(index, subindex, (Byte *)&that);
   }
   
@@ -249,16 +251,16 @@ template <typename T> class SparsePrimitive : public _SparseBase { // Template S
     return _Append(index, (Byte *)&that);
   }
 
-  public: Status Remove(UInt index) {
+  public: Status Remove(PtrInt index) {
     return _Remove(index);
   }
   
-  public: Status Remove(UInt index, Int subindex) {
+  public: Status Remove(PtrInt index, PtrInt subindex) {
     return _Remove(index, subindex);
   }
   
   // Physical Element Methods
-  public: Status GetPhysical(UInt phyIndex, UInt &index, T &that) const {
+  public: Status GetPhysical(PtrInt phyIndex, PtrInt &index, T &that) const {
     return _GetPhysicalElement(phyIndex, index, (void *)&that);
   }
 
@@ -333,7 +335,7 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
     
     Status status;
     UInt   numElms;
-    UInt   curIdx;
+    PtrInt curIdx;
     V     *thisElm;
     V     *thatElm;
     
@@ -383,7 +385,7 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
     UInt     phyElmSize;
     UInt     phyHdrSize;
     UInt     numElms;
-    UInt     curIdx;
+    PtrInt   curIdx;
   
     answer = false;
     ((SparseValue<V> *)this)->_BufAndSize(buf, bufSize);
@@ -402,7 +404,7 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
   }
 
   // Get Methods
-  public: V Get(UInt index) const {
+  public: V Get(PtrInt index) const {
     
     //Status status;
     V     *valPtr;
@@ -416,7 +418,7 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
 
   }
 
-  public: Status Get(UInt index, V &that) const {
+  public: Status Get(PtrInt index, V &that) const {
 
     Status  retStatus;
     Status  status;
@@ -436,7 +438,7 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
   }
     
   // Set/Append/Insert Methods
-  public: Status Set(UInt index, V const &that) {
+  public: Status Set(PtrInt index, V const &that) {
     
     Status  status;
     V      *element;
@@ -451,7 +453,7 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
     
   }
 
-  public: Status Set(UInt index, Int subIndex, V const &that) {
+  public: Status Set(PtrInt index, PtrInt subIndex, V const &that) {
     
     Status  status;
     V      *element;
@@ -480,7 +482,7 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
     
   }
 
-  public: Status Append(UInt index, V const &that) {
+  public: Status Append(PtrInt index, V const &that) {
 
     Status status;
     V      local;
@@ -494,17 +496,17 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
     
   }
 
-  public: Status Remove(UInt index) {
+  public: Status Remove(PtrInt index) {
     return _Remove(index);
   }
   
-  public: Status Remove(UInt index, Int subindex) {
+  public: Status Remove(PtrInt index, PtrInt subindex) {
     return _Remove(index, subindex);
   }
   
   // Physical Element Methods
   /*
-  public: V *GetPhysical(UInt phyIndex, UInt &index) const {
+  public: V *GetPhysical(PtrInt phyIndex, PtrInt &index) const {
     V *that;
     that = _GetPhyAddress(phyIndex, index, (void *)&that);    
     return that;
@@ -516,11 +518,11 @@ template <typename V> class SparseValue : public _SparseBase { // Template Spars
   
   protected: Status _ResetElements() {
     
-    Status retStatus;
-    Status status;
-    UInt   numElms;
-    UInt   curIdx;
-    V     *curElm;
+    Status  retStatus;
+    Status  status;
+    UInt    numElms;
+    PtrInt  curIdx;
+    V      *curElm;
     
     retStatus = Error::None;
     numElms = Length();

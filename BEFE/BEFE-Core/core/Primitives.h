@@ -37,6 +37,28 @@
   #define NULL 0
 #endif
 
+//
+// Macro to answer "Are we 32 or 64 bit pointers?"...
+//
+
+// Check windows
+#if _WIN32 || _WIN64
+#  if _WIN64
+#    define IS64BIT
+#  else
+#    define IS32BIT
+#  endif
+#endif
+
+// Check GCC
+#if __GNUC__
+#  if __x86_64__ || __ppc64__
+#    define IS64BIT
+#  else
+#    define IS32BIT
+#  endif
+#endif
+
 // Note: We don't like preprocessor macros but you gotta use one now
 //       and again...
 #ifndef BEFE_INLINE
@@ -119,8 +141,8 @@ typedef void *             Ptr;
 #ifdef IS64BIT
 typedef unsigned long long PtrInt;
 #endif
-#ifdef IS32BITA
-typedef unsigned  int      PtrInt;
+#ifdef IS32BIT
+typedef unsigned int       PtrInt;
 #endif
 
 
