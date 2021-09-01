@@ -46,7 +46,7 @@ Status CacheFile::StartUp() {
 
   Status status;
 
-  BEFE::SetNull(id);
+  id = NULL;
   openCount  = 0;
   isUsed     = false;
   isFree     = false;

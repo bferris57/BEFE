@@ -53,7 +53,7 @@ CacheInfo &CacheInfo::operator = (CacheInfo const &that) {
 // BEFE Lifecycle...
 Status CacheInfo::StartUp() {
 
-  BEFE::SetNull(id);
+  id = NULL;
   BEFE::SetNull(snapTime);
   BEFE::SetNull(blockSize);
   BEFE::SetNull(maxBlocks);

@@ -55,7 +55,7 @@ Status CacheFileInfo::StartUp() {
   Status retStatus;
   Status status;
   
-  BEFE::SetNull(id);
+  id = NULL;
   BEFE::SetNull(snapTime);
   retStatus = fullName.StartUp();
   BEFE::SetNull(fullName);

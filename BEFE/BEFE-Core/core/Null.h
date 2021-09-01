@@ -146,38 +146,38 @@ enum : UInt8 {
 // NOTE: We have to return Int32 instead of Status in some of the functions
 //       below because Status isn't declared yet.  Grrr...
 BEFE_INLINE Boolean IsNull(Ptr v)             { return (v == 0 || v == (void *)-1); };
-BEFE_INLINE void    SetNull(Ptr v)            { v = NULL; };
-BEFE_INLINE Boolean IsNull(char const *ptr)   {return ptr == 0 || ptr == (char const *)-1;}
-BEFE_INLINE Int32   SetNull(char const *&ptr) {ptr = 0; return 0;}
-BEFE_INLINE Boolean IsNull(Byte *ptr)         {return ptr == 0 || ptr == (Byte *) -1;}
-BEFE_INLINE Int32   SetNull(Byte *&ptr)       {ptr = 0; return 0;}
+BEFE_INLINE void    SetNull(Ptr *v)           { *v = (PtrInt)NULL; };
+BEFE_INLINE Boolean IsNull(char const *ptr)   { return ptr == 0 || ptr == (char const *)-1;}
+BEFE_INLINE Int32   SetNull(char const *&ptr) { ptr = 0; return 0;}
+BEFE_INLINE Boolean IsNull(Byte *ptr)         { return ptr == 0 || ptr == (Byte *) -1;}
+BEFE_INLINE Int32   SetNull(Byte *&ptr)       { ptr = 0; return 0;}
 
-BEFE_INLINE Boolean IsFalse(Boolean b)      { return (b == False);}
-BEFE_INLINE Boolean IsTrue(Boolean b)       { return (b == True);}
-BEFE_INLINE Boolean IsNull(Boolean b)       { return (b != False && b != True);}
-BEFE_INLINE void    SetNull(Boolean &b)     { b = 0xFFu;}
-BEFE_INLINE void    SetFalse(Boolean &b)    { b = False;}
-BEFE_INLINE void    SetTrue(Boolean &b)     { b = True;}
+BEFE_INLINE Boolean IsFalse(Boolean b)        { return (b == False);}
+BEFE_INLINE Boolean IsTrue(Boolean b)         { return (b == True);}
+BEFE_INLINE Boolean IsNull(Boolean b)         { return (b != False && b != True);}
+BEFE_INLINE void    SetNull(Boolean &b)       { b = 0xFFu;}
+BEFE_INLINE void    SetFalse(Boolean &b)      { b = False;}
+BEFE_INLINE void    SetTrue(Boolean &b)       { b = True;}
 
-BEFE_INLINE Boolean IsNull(Int8 b)          { return (b == SInt8NaN);}
-BEFE_INLINE void    SetNull(Int8 &b)        { b = SInt8NaN;}
-BEFE_INLINE Boolean IsNull(UInt8 b)         { return (b == UInt8NaN);}
-BEFE_INLINE void    SetNull(UInt8 &b)       { b = UInt8NaN;}
+BEFE_INLINE Boolean IsNull(Int8 b)            { return (b == SInt8NaN);}
+BEFE_INLINE void    SetNull(Int8 &b)          { b = SInt8NaN;}
+BEFE_INLINE Boolean IsNull(UInt8 b)           { return (b == UInt8NaN);}
+BEFE_INLINE void    SetNull(UInt8 &b)         { b = UInt8NaN;}
 
-BEFE_INLINE Boolean IsNull(Int16 b)         { return (b == SInt16NaN);}
-BEFE_INLINE void    SetNull(Int16 &b)       { b = SInt16NaN;}
-BEFE_INLINE Boolean IsNull(UInt16 b)        { return (b == UInt16NaN);}
-BEFE_INLINE void    SetNull(UInt16 &b)      { b = UInt16NaN;}
+BEFE_INLINE Boolean IsNull(Int16 b)           { return (b == SInt16NaN);}
+BEFE_INLINE void    SetNull(Int16 &b)         { b = SInt16NaN;}
+BEFE_INLINE Boolean IsNull(UInt16 b)          { return (b == UInt16NaN);}
+BEFE_INLINE void    SetNull(UInt16 &b)        { b = UInt16NaN;}
 
-BEFE_INLINE Boolean IsNull(Int32 b)         { return (b == SInt32NaN);}
-BEFE_INLINE void    SetNull(Int32 &b)       { b = SInt32NaN;}
-BEFE_INLINE Boolean IsNull(UInt32 b)        { return (b == UInt32NaN);}
-BEFE_INLINE void    SetNull(UInt32 &b)      { b = UInt32NaN;}
+BEFE_INLINE Boolean IsNull(Int32 b)           { return (b == SInt32NaN);}
+BEFE_INLINE void    SetNull(Int32 &b)         { b = SInt32NaN;}
+BEFE_INLINE Boolean IsNull(UInt32 b)          { return (b == UInt32NaN);}
+BEFE_INLINE void    SetNull(UInt32 &b)        { b = UInt32NaN;}
 
-BEFE_INLINE Boolean IsNull(Int64 b)         { return (b == SInt64NaN);}
-BEFE_INLINE void    SetNull(Int64 &b)       { b = SInt64NaN;}
-BEFE_INLINE Boolean IsNull(UInt64 b)        { return (b == UInt64NaN);}
-BEFE_INLINE void    SetNull(UInt64 &b)      { b = UInt64NaN;}
+BEFE_INLINE Boolean IsNull(Int64 b)           { return (b == SInt64NaN);}
+BEFE_INLINE void    SetNull(Int64 &b)         { b = SInt64NaN;}
+BEFE_INLINE Boolean IsNull(UInt64 b)          { return (b == UInt64NaN);}
+BEFE_INLINE void    SetNull(UInt64 &b)        { b = UInt64NaN;}
 
 
 } // ...Namespace BEFE

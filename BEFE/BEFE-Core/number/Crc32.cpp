@@ -119,7 +119,7 @@ Status Crc32Ring::StartUp() {
   BEFE::SetNull(size);
   BEFE::SetNull(bot);
   BEFE::SetNull(top);
-  BEFE::SetNull(*(void **)&ring);
+  ring = NULL;
 
   return Error::None;
   

@@ -26,7 +26,7 @@ Status BmsgLine::StartUp() {
   isConsumable = false;
   BEFE::SetNull(lineNo);
   BEFE::SetNull(numTokens);
-  BEFE::SetNull(*(void **)&token0);
+  token0 = NULL;
   retStatus = tokens.StartUp();
   
   return retStatus;
@@ -88,7 +88,7 @@ Status BmsgLine::CopyFrom(BmsgLine const &that) {
       status = MoveFrom(that);
     else {
       isConsumable = false;      
-      BEFE::SetNull(*(void **)&token0);
+      BEFE::SetNull((void **)&token0);
       status = tokens.CopyFrom(that.tokens);
     }
 

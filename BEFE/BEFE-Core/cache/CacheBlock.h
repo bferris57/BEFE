@@ -16,6 +16,7 @@
 #include "Primitives.h"
 #include "Cache.h"
 #include "Array.h"
+#include "Id.h"
 
 namespace BEFE { // Namespace BEFE...
 

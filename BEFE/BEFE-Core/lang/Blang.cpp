@@ -45,7 +45,8 @@ Status Blang::StartUp() {
 
   status = tokens.StartUp();
   if (status && !retStatus) retStatus = status;
-  BEFE::SetNull(*(void **)&token0);
+  token0 = NULL;
+
   BEFE::SetNull(curTokNo);
   BEFE::SetNull(lookBehind);
   BEFE::SetNull(lookAhead);

@@ -53,7 +53,7 @@ CacheBlockInfo &CacheBlockInfo::operator = (CacheBlockInfo const &that) {
 Status CacheBlockInfo::StartUp() {
 
   BEFE::SetNull(index);
-  BEFE::SetNull(fileId);
+  fileId = NULL;
   BEFE::SetNull(blockNo);
   BEFE::SetNull(snapTime);
 

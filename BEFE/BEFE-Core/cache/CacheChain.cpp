@@ -227,7 +227,7 @@ Status Cache::_BlockUnchainFile(UInt blockIdx) { // Cache._BlockUnchainFile...
   theBlock = theBlocks + blockIdx;
   
   // Nothing to do if not already chained...
-  if (BEFE::IsNull(theBlock->fileId) || BEFE::IsNull(theBlock->blockNo) || !theBlock->isUsed) goto OK;
+  if (BEFE::IsNull((PtrInt)theBlock->fileId) || BEFE::IsNull(theBlock->blockNo) || !theBlock->isUsed) goto OK;
 
   // Find the file...
   theFiles = (CacheFile *)files._GetAddress(0);
@@ -257,7 +257,7 @@ Status Cache::_BlockUnchainFile(UInt blockIdx) { // Cache._BlockUnchainFile...
   }
 
   // Clean up some left over stuff
-  BEFE::SetNull(theBlock->fileId);
+  theBlock->fileId = NULL;
   BEFE::SetNull(theBlock->blockNo);
   BEFE::SetNull(theBlock->nextBlockInFileIdx);
   BEFE::SetNull(theBlock->prevBlockInFileIdx);

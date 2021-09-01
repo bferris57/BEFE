@@ -53,7 +53,7 @@ Status CacheBlock::StartUp() {
   BEFE::SetNull(blockNo);
   BEFE::SetNull(nextBlockIdx);
   BEFE::SetNull(prevBlockIdx);
-  BEFE::SetNull(fileId);
+  fileId = NULL;
   BEFE::SetNull(nextBlockInFileIdx);
   BEFE::SetNull(prevBlockInFileIdx);
   BEFE::SetNull(blockLen);
