@@ -165,7 +165,7 @@ Lex &Lex::NotConsumable() const {
 
 Status Lex::IsAttached(LexWorkspace &theWs) const {
   
-  if (workspaceIds.Exists(&theWs))
+  if (workspaceIds.Contains((PtrInt)&theWs))
     return true;
   else
     return false;
@@ -177,10 +177,10 @@ Status Lex::Attach(LexWorkspace &theWs) {
   Status status;
 
   if (!BEFE::IsNull(*(void **)&theWs.lex) && theWs.lex != this) goto ATTACHEDOTHER;
-  if (!BEFE::IsNull((void *)&theWs.lex) && workspaceIds.Exists((UInt)&theWs)) goto ALREADYATTACHED;
+  if (!BEFE::IsNull((void *)&theWs.lex) && workspaceIds.Contains((PtrInt)&theWs)) goto ALREADYATTACHED;
   status = theWs._Attach(*this);
   
-  status = workspaceIds.Set((UInt)&theWs, ++highWorkspaceId);
+  status = workspaceIds.Set((PtrInt)&theWs, ++highWorkspaceId);
   if (status) goto SOMEERROR;
   
   // Handle errors
@@ -199,8 +199,8 @@ Status Lex::Detach(LexWorkspace &theWs) {
   Status status;
   
   if (!BEFE::IsNull((void *)theWs.lex) && theWs.lex != this) goto ATTACHEDOTHER;
-  if (!workspaceIds.Exists((UInt)&theWs)) goto NOTATTACHED;
-  status = workspaceIds.Remove((UInt)&theWs);
+  if (!workspaceIds.Contains((PtrInt)&theWs)) goto NOTATTACHED;
+  status = workspaceIds.Remove((PtrInt)&theWs);
   if (status) goto SOMEERROR;
   status = theWs._Detach();
   if (status) goto SOMEERROR;
@@ -223,7 +223,7 @@ Status Lex::Detach(LexWorkspace &theWs) {
 
 Boolean Lex::IsAttached(LexStream &theStream) const {
   
-  if (streamIds.Exists((UInt)&theStream))
+  if (streamIds.Contains((PtrInt)&theStream))
     return true;
   else
     return false;
@@ -235,10 +235,10 @@ Status Lex::Attach(LexStream &theStream) {
   Status status;
 
   if (!BEFE::IsNull(*(void **)&theStream.lex) && theStream.lex != this) goto ATTACHEDOTHER;
-  if (!BEFE::IsNull((void *)&theStream.lex) && streamIds.Exists((UInt)&theStream)) goto ALREADYATTACHED;
+  if (!BEFE::IsNull((void *)&theStream.lex) && streamIds.Contains((PtrInt)&theStream)) goto ALREADYATTACHED;
   status = theStream._Attach(*this);
   
-  status = streamIds.Set((UInt)&theStream, ++highStreamId);
+  status = streamIds.Set((PtrInt)&theStream, ++highStreamId);
   if (status) goto SOMEERROR;
   
   // Handle errors
@@ -257,8 +257,8 @@ Status Lex::Detach(LexStream &theStream) {
   Status status;
   
   if (!BEFE::IsNull((void *)theStream.lex) && theStream.lex != this) goto ATTACHEDOTHER;
-  if (!streamIds.Exists((UInt)&theStream)) goto NOTATTACHED;
-  status = streamIds.Remove((UInt)&theStream);
+  if (!streamIds.Contains((PtrInt)&theStream)) goto NOTATTACHED;
+  status = streamIds.Remove((PtrInt)&theStream);
   if (status) goto SOMEERROR;
   status = theStream._Detach();
   if (status) goto SOMEERROR;
