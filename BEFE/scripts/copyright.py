@@ -138,42 +138,43 @@ def PathWalker(path):
 # Purpose:  Fix copyright in source files
 #
 
-def fixSource():
+def fixCopyright():
 
   # Do it...
   walker = PathWalker(BEFE_SrcRoot)
   total = 0
   fixed = 0
   for path in walker:
-    WantIt = True
-    if path.find('/.') >= 0: WantIt = False
-    if dontWant in path:    WantIt = False
-    if not WantIt:
+    wantIt = path.endswith('.h') or path.endswith('.cpp')
+    if not wantIt:
       continue
     if not os.path.isfile(path):
-      continue
-    ext = os.path.splitext(path)[1].lower()
-    if not ext in dests:
       continue
 
     total += 1
 
     # Fix it if need be...
-    lines = os.readlines(path)
+    if total%10 == 0:
+      print('.',end='')
+      sys.stdout.flush()
+
+    lines = open(path,'r').readlines()
     fixedIt = False
-    for line in lines:
-      if not line.startwith '#':   break
-      if not 'Copyright ' in line: continue
-      if not '2004-'      in line: continue
+    for lineno in range(0,len(lines)):
+      line = lines[lineno]
+      if not '// Copyright ' in line: continue
+      if not '2004'      in line: continue
       pos = line.find('-')
       if pos < 0: continue
       line = line[:pos] + line[pos+5:]
+      lines[lineno] = line
       fixedIt = True
       break
     if fixedIt:
       fixed += 1
-#     os.writelines(path,lines)
+      open(path,'w').writelines(lines)
 
+  print('')
   print("  Total Files =",total)
   print("  Fixed Files =",fixed)
 

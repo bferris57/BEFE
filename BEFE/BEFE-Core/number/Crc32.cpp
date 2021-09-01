@@ -8,7 +8,7 @@
 //       web and didn't seem to have a licence like GPL associated with it.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #define CRC32_CPP
 

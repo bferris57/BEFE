@@ -35,7 +35,7 @@
 //       At least that's the theory...
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef LIFECYCLE_H // LIFECYCLE_H...
 #define LIFECYCLE_H

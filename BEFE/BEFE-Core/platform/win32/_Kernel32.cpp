@@ -6,7 +6,7 @@
 // kernel32 functions -- THE BASTARDS!!!
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #include "BEFE.h"
 #include "Win32.h"

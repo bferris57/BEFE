@@ -9,7 +9,7 @@
 // *** See technical documentation for a more detailed description ***
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #include "BEFE.h"
 #include "File.h"

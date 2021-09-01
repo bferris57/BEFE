@@ -26,7 +26,7 @@
 //       of these "special Ids" in the context of that IdSpace.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef IDSPACE_H // IDSPACE_H...
 #define IDSPACE_H

@@ -11,7 +11,7 @@
 // exists in the dictionary.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef DICTIONARY_H // DICTIONARY_H...
 

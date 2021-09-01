@@ -17,7 +17,7 @@
 // Network and fill in the gaps properly.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef NETWORK_H // NETWORK_H...
 #define NETWORK_H

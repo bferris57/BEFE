@@ -6,7 +6,7 @@
 // The MinExpStack class is used to perform analysis for MinExp.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef _MINEXPSTACK_H // _MINEXPSTACK_H...
 #define _MINEXPSTACK_H

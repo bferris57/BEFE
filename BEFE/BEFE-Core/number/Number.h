@@ -6,7 +6,7 @@
 //  The Number Class implements a general purpose Number.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef NUMBER_H // NUMBER_H...
 #define NUMBER_H

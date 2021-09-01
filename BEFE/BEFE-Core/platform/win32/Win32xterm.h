@@ -16,7 +16,7 @@
 // *** See technical documentation for a more detailed description ***
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef WIN32XTERM_H // WIN32XTERM_H...
 #define WIN32XTERM_H

@@ -14,7 +14,7 @@
 //        Bcmd instance) is to return Error::StreamAtEnd.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef BCMD_H // BCMD_H...
 #define BCMD_H

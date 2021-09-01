@@ -49,7 +49,7 @@
 // out before you start using these functions.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef FORMATOUT_H // FORMATOUT_H...
 #define FORMATOUT_H

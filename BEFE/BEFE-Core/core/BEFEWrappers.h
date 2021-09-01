@@ -16,7 +16,7 @@
 //       just have to code it yourself (it's rather easy, you know!)
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef BEFEWRAPPERS_H  // BEFEWRAPPERS_H...
 #define BEFEWRAPPERS_H

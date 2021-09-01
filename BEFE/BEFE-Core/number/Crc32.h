@@ -46,7 +46,7 @@
 //   http://en.wikipedia.org/wiki/Cyclical_redundancy_checking
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef CRC32_H // CRC32_H...
 #define CRC32_H

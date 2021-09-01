@@ -76,7 +76,7 @@
 // PRECISION LIMITS: -1e-130..1e+130
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef ORANUMBER_H // ORANUMBER_H...
 #define ORANUMBER_H

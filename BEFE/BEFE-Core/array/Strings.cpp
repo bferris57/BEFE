@@ -5,7 +5,7 @@
 // This file implements the String class, an Array of String instances.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #include "BEFE.h"
 #include "Strings.h"

@@ -31,7 +31,7 @@
 //       So, ***BEWARE***
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef _BEFE_STRING_H // _BEFE_STRING_H...
 #define _BEFE_STRING_H

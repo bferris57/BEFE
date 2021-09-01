@@ -39,7 +39,7 @@
 //       or backwards (negative relative indexes).
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef UTF8_H // UTF8_H...
 #define UTF8_H

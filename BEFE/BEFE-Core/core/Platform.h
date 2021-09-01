@@ -14,7 +14,7 @@
 //       behaviour for the implementation Classes.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef PLATFORM_H // PLATFORM_H...
 #define PLATFORM_H

@@ -6,7 +6,7 @@
 // The TestArray Class tests various aspects of Array behaviour.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef TESTARRAY_H // TESTARRAY_H...
 #define TESTARRAY_H

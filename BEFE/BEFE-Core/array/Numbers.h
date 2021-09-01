@@ -7,7 +7,7 @@
 // this class is a variable length array of Numbers.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef NUMBERS_H // NUMBERS_H...
 #define NUMBERS_H

@@ -8,7 +8,7 @@
 //        language. In essense, it's an ordered list of BcmdArgs.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef BCMDCOMMAND_H // BCMDCOMMAND_H...
 #define BCMDCOMMAND_H

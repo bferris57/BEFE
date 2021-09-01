@@ -7,7 +7,7 @@
 // this class is a variable length array of Strings.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef STRINGS_H // STRINGS_H...
 #define STRINGS_H

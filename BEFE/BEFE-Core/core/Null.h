@@ -27,7 +27,7 @@
 //       IsTrue(), IsFalse(), et cetera along with IsNull(Boolean)
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef NULL_H // NULL_H...
 #define NULL_H

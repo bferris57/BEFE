@@ -33,7 +33,7 @@
 //       keeps us from having to pass a length around everywhere.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef TOASCII_H // TOASCII_H...
 #define TOASCII_H

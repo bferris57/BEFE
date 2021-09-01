@@ -9,7 +9,7 @@
 // formatting.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef LEXFORMAT_H // LEXWORKSPACE_H...
 #define LEXFORMAT_H

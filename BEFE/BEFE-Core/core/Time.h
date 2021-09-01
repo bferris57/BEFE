@@ -19,7 +19,7 @@
 // of the timestamp on the Gregorian calendar.
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef TIME_H  // TIME_H...
 #define TIME_H

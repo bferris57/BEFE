@@ -7,7 +7,7 @@
 // *** See technical documentation for a more detailed description ***
 //
 //----------------------------------------------------------------------
-// Copyright (©) 2004-2017, Bruce Ferris (UK) Email: befe@bferris.co.uk
+// Copyright (©) 2004, Bruce Ferris (UK) Email: befe@bferris.co.uk
 //----------------------------------------------------------------------
 #ifndef LEXTOKEN_H // LEXTOKEN_H...
 #define LEXTOKEN_H
