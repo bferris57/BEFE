@@ -40,7 +40,7 @@ Status LexStream::StartUp() {
   isParsing    = false;
   inputType    = InputTypeNone;
   
-  BEFE::SetNull(*(void **)&lex);
+  lex = NULL;
   
   retStatus = languageName.StartUp();
   status = inputFileName.StartUp();
@@ -85,7 +85,7 @@ Status LexStream::ShutDown() {
     status = lex->Detach(*this);
     if (status && !retStatus) retStatus = status;
   }
-  BEFE::SetNull(*(void **)&lex);
+  lex = NULL;
   status = lang.ShutDown();
   if (status && !retStatus) retStatus = status;
   
@@ -159,7 +159,7 @@ Status LexStream::MoveFrom(LexStream const &that) {
     MemoryCopyRaw((Byte *)&that, (Byte *)this, sizeof(that));
 
     tLex = (Lex *)that.lex;
-    BEFE::SetNull(*(void **)&lex);
+    lex = NULL;
 		if (!BEFE::IsNull(tLex)) {
 
       status = tLex->Detach(*(LexStream *)&that);
@@ -271,7 +271,7 @@ Status LexStream::_Detach() { // LexStream._Detach...
   Status status;
   
   if (!BEFE::IsNull((void *)lex)) {
-    BEFE::SetNull(*(void **)&lex);
+    lex = NULL;
     status = ResetBuffer();
     if (status) goto SOMEERROR;
   }
@@ -643,8 +643,8 @@ Status LexStream::_FinishParsing() { // LexStream._FinishParsing...
     // Reset the language
     status = lang.Reset();
     if (status && !retStatus) retStatus = status;
-    BEFE::SetNull(*(void **)&states);
-    BEFE::SetNull(*(void **)&actions);
+    states  = NULL;
+    actions = NULL;
     
     // We're finished parsing now
     isParsing = false;

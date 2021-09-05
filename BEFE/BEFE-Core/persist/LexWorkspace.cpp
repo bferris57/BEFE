@@ -16,6 +16,7 @@
 #include "LexWorkspace.h"
 #include "LexWs.h"
 #include "PersistHead.h"
+#include "Error.h"
 
 namespace BEFE { // Namespace BEFE...
 
@@ -53,7 +54,7 @@ Status LexWorkspace::StartUp() {
   Status retStatus;
   
   isOpen = false;
-  BEFE::SetNull(*(void **)&lex);
+  lex = NULL;
   BEFE::SetNull(fileName);
   BEFE::SetNull(fileId);
   BEFE::SetNull(blkSize);
@@ -116,7 +117,7 @@ Status LexWorkspace::Reset() {
 }
 
 Boolean LexWorkspace::IsNull() const {
-  return Error::NotImplemented;
+  return false;
 }
 
 Status LexWorkspace::SetNull() {
@@ -140,7 +141,7 @@ Status LexWorkspace::CopyFrom(LexWorkspace const &that) {
 }
 
 Boolean LexWorkspace::IsConsumable() const {
-  return Error::NotImplemented;
+  return false;
 }
 
 LexWorkspace &LexWorkspace::Consumable() const {
@@ -181,8 +182,7 @@ Status LexWorkspace::_Detach() {
   
   Status status;
   
-  if (BEFE::IsNull(&lex)) goto NOTATTACHED;
-  BEFE::SetNull(*(void **)&lex);
+  if (BEFE::IsNull(lex)) goto NOTATTACHED;
   
   // Handle errors
   status = Error::None;

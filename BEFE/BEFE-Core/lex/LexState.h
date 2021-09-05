@@ -40,7 +40,7 @@ struct LexState {
   // Members
   //
   
-  Id32      id;               // Id
+  Id        id;               // Id
   String    name;             // Name
   StateType type;             // State Type (See LexStateType above)
   Byte      byteActions[128]; // Lex.ActionNo per Byte ◄── (if type==TypeByte)

@@ -623,7 +623,7 @@ Status LexActionBracketRight(LexStream &stream, Char theChar) {
 Status LexActionOpDot(LexStream &stream, Char theChar) {
 
   Status status;
-  Id32   stateId;
+  Id     stateId;
   Int    stateIdx;
   
   status = stream.curTok.value.Append(theChar);
@@ -647,7 +647,7 @@ Status LexActionOpDot(LexStream &stream, Char theChar) {
 Status LexActionOpDotDot(LexStream &stream, Char theChar) {
 
   Status status;
-  Id32   stateId;
+  Id     stateId;
   Int    stateIdx;
   
   status = stream.curTok.value.Append(theChar);

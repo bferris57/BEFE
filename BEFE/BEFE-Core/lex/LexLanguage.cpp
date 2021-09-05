@@ -593,10 +593,10 @@ Boolean LexLanguage::StateExists(String const &name) const {
   return stateName2Id.HasKey(name);
 }
 
-Id32 LexLanguage::GetStateId(String const &name) const {
+Id LexLanguage::GetStateId(String const &name) const {
   
   Status status;
-  Id32   id;
+  Id     id;
   
   BEFE::SetNull(id);
   if (stateName2Id.HasKey(name)) {
@@ -650,7 +650,7 @@ LexState LexLanguage::GetState(String const &name) const {
 Status LexLanguage::GetState(String const &name, LexState &state) const {
   
   Status status;
-  Id32   stateId;
+  Id     stateId;
   UInt   stateIdx;
   String theName;
 
@@ -858,12 +858,12 @@ Boolean LexLanguage::ActionExists(String const &name) const {
   return actionName2Id.HasKey(name);
 }
 
-Id32 LexLanguage::GetActionId(String const &name) const {
+Id LexLanguage::GetActionId(String const &name) const {
   
   //Status status;
-  Id32   id;
+  Id     id;
  
-  BEFE::SetNull(id); 
+  id = NULL; 
   if (actionName2Id.HasKey(name))
     /*status =*/ actionName2Id.Get(name, id);
   return id;

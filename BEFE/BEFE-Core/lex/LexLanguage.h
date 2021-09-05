@@ -95,7 +95,7 @@ class LexLanguage { // Class LexLanguage...
   public: Status    ClearStates();
   public: UInt      NumberOfStates() const;
   public: Boolean   StateExists(String const &name) const;
-  public: Id32      GetStateId(String const &name) const;
+  public: Id        GetStateId(String const &name) const;
   public: Strings   GetStateNames() const;
   public: Ids       GetStateIds() const;
   public: LexState  GetState(String const &name) const;
@@ -114,7 +114,7 @@ class LexLanguage { // Class LexLanguage...
   public: Boolean   ActionExists(String const &name) const;
   public: Strings   GetActionNames() const;
   public: Ids       GetActionIds() const;
-  public: Id32      GetActionId(String const &name) const;
+  public: Id        GetActionId(String const &name) const;
   public: LexAction GetAction(String const &name) const;
   public: Status    GetAction(String const &name, LexAction &action) const;
   public: LexAction GetAction(Id actionId) const;

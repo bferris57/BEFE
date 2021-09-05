@@ -110,9 +110,9 @@ struct Lex;
 
 // Various miscellaneous ones we use to make the code more readable...
 typedef SparsePrimitive<PtrInt>      LexWorkspaceIds;
-typedef SparsePrimitive<Id>          IdLexWorkspaces;
+typedef SparsePrimitive<PtrInt>      IdLexWorkspaces;
 typedef SparsePrimitive<PtrInt>      StreamIds;
-typedef SparsePrimitive<Id>          IdStreams;
+typedef SparsePrimitive<PtrInt>      IdStreams;
 typedef StringMapValue<LexLanguage>  NamedLexLanguages;
 
 //----------------------------------------------------------------------

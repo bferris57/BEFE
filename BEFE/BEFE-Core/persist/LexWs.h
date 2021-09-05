@@ -40,9 +40,9 @@
 namespace BEFE { // Namespace BEFE...
 
 // Ids...
-typedef Id32 LexWsBlobId;
-typedef Id32 LexWsFileId;
-typedef Id32 LexWsStringId;
+typedef Id LexWsBlobId;
+typedef Id LexWsFileId;
+typedef Id LexWsStringId;
 
 namespace LexWs { //Namespace LexWs...
 
@@ -122,8 +122,8 @@ struct LexWsArrayHead { // Struct LexWsArrayHead...
   //
 
   Byte   blockType;         // Block Type (see enum BlockType above)
-  Id32   nameId;            // StringId of name
-  Id32   hiId;              // High Id so far
+  Id     nameId;            // StringId of name
+  Id     hiId;              // High Id so far
   UShort entrySize;         // Low Entry size (Bytes)
   UShort entriesPerBlock;   // Number of entries per Low Array Block
   UInt32 numEntries;        // Number of Entries
@@ -185,7 +185,7 @@ struct LexWsHead {
   // Members
   //
 
-  Id32   workspaceId;
+  Id     workspaceId;
   UInt32 blkSize;
   Time   timeCreated;
   Time   timeUpdated;

@@ -223,7 +223,7 @@ Status LexState::ToStrings(Strings &strings) { // LexState.ToStrings...
   leadIn  = GetEnvironmentValue("BEFE_QuoteLeadIn");
   leadOut = GetEnvironmentValue("BEFE_QuoteLeadOut");
 
-  status = strings.Append(String("LexState @ 0x") << ToHexString((UInt)&byteActions[0], 8) << "...");
+  status = strings.Append(String("LexState @ 0x") << ToHexString((PtrInt)&byteActions[0], 8) << "...");
   if (status) goto SOMEERROR;
   
   if (IsNull()) {

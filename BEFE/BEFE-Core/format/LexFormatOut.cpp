@@ -292,7 +292,7 @@ Status LexFormatOut::Display(LexWorkspace &ws) {
   leadOut = GetEnvironmentValue("BEFE_QuoteLeadOut");
   indent = String(' ')*indentCols;
   
-  Cout << indent << "LexWorkspace @ 0x" << ToHexString((UInt)&ws,8);
+  Cout << indent << "LexWorkspace @ 0x" << ToHexString((PtrInt)&ws,8);
   if (gVerbose) Cout << "...";
   Cout << '\n';
 
@@ -422,7 +422,7 @@ Status LexFormatOut::DisplayLanguage(LexLanguage &lang) {
  
   Cout <<  indent
        << "LexLanguage '" << lang.name << "'" 
-       << " (&0x" << ToHexString((UInt)&lang,8) << ')';
+       << " (&0x" << ToHexString((PtrInt)&lang,8) << ')';
        
   if (!gVerbose) {
     Cout << '\n';
@@ -639,7 +639,7 @@ Status LexFormatOut::DisplayAction(LexLanguage &lang, UInt actionNo) {
   if (!BEFE::IsNull(action.charHandler))
     Cout << String(' ')*(maxNameLen-action.name.Length())
          << " handler = 0x"
-         << ToHexString((UInt32)action.charHandler, 8);
+         << ToHexString((PtrInt)action.charHandler, 8);
   Cout << '\n';
   
   // Handle errors

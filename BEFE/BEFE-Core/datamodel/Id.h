@@ -22,15 +22,6 @@
 
 namespace BEFE { // Namespace BEFE...
 
-// Generic typedefs
-#ifdef IS64BIT
-  typedef struct Id64 Id;
-#endif
-#ifdef IS32BITA
-# error This should not be happening!!!
-  typedef struct Id32 Id;
-#endif
-
 //----------------------------------------------------------------------
 //
 // Id32 Struct
@@ -59,8 +50,8 @@ struct Id32 { // Struct Id32...
   BEFE_inline       operator UInt32 () const      {return value;};
 
   // BEFE Lifecycle
-  Boolean IsNull() const         {return (value == UInt32NaN);}
-  Status  SetNull()              {value = UInt32NaN; return Error::None;}
+  Boolean          IsNull() const {return (value == 0);}
+  BEFE_INLINE void SetNull(Id32 *v) { *v = 0; };
   
   // Comparison operators
   BEFE_inline bool operator==    (const Id32 &that) {return value == that.value;};
@@ -103,9 +94,9 @@ struct Id64 { // Struct Id64...
   BEFE_inline       operator UInt64 () const      {return value;};
 
   // BEFE Lifecycle
-  Boolean IsNull() const         {return (value == UInt64NaN);}
-  Status  SetNull()              {value = UInt64NaN; return Error::None;}
-  
+  Boolean IsNull() const            {return (value == UInt64NaN);}
+  BEFE_INLINE void SetNull(Id64 *v) { *v = 0; };
+
   // Comparison operators
   BEFE_inline bool operator==    (const Id64 &that) {return value == that.value;};
   BEFE_inline bool operator==    (UInt64 that)      {return value == that;};
@@ -155,9 +146,18 @@ class Id128 { // Class Id128...
 // Id BEFE Lifecycle...
 //
 
+// Generic typedefs
+#ifdef IS64BIT
+  typedef struct Id64 Id;
+#endif
+#ifdef IS32BITA
+# error This should not be happening!!!
+  typedef struct Id32 Id;
+#endif
+
 // BEFE Lifecycle
-BEFE_INLINE Boolean  IsNull   (Id32 const &rThis)  {return rThis.IsNull();}
-BEFE_INLINE Status   SetNull  (Id32 &rThis)        {BEFE::SetNull(rThis.value); return Error::None;}
+BEFE_INLINE Boolean  IsNull   (Id *rThis)  {return IsNull(rThis->value);}
+BEFE_INLINE Status   SetNull  (Id &rThis)        {BEFE::SetNull(rThis.value); return Error::None;}
 
 } // ...Namespace BEFE
 

@@ -87,7 +87,6 @@ class _SparseBase { // Class _SparseBase...
   public: Status      SetEmpty();
   public: Status      MoveFrom(_SparseBase const &that);
   public: Status      CopyFrom(_SparseBase const &that);
-  //public: Status     &NewIterator(???UInt iterType, Iterator *&newIter); // ◄── Not implemented yet
 
   public: _SparseBase &Consumable() const;
   public: _SparseBase &NotConsumable() const;
@@ -214,6 +213,25 @@ template <typename T> class SparsePrimitive : public _SparseBase { // Template S
     return *(SparsePrimitive<T> *)this;
   }
   
+  public: UInt Find(T const that,UInt startOffset) const {
+   
+    USpan span;
+    UInt  idx;
+    
+    span = LogicalIndexSpan();
+    for (idx = startOffset; idx < span.idx2; idx++)
+      if (((T *)buffer)[idx] == that)
+        break;
+    if (idx >= span.idx2)
+      return UIntNaN;
+    return idx;
+
+  }
+
+  public: UInt Find(T that) {
+    return Find(that,0);
+  }
+
   public: Boolean Contains(T const &that) const {
     return _Contains((Byte *)&that);
   }
@@ -228,7 +246,7 @@ template <typename T> class SparsePrimitive : public _SparseBase { // Template S
     return local;
   }
 
-  public: Status Get(UInt index, T &that) const {
+  public: Status Get(UInt index, T *that) const {
     return _Get(index, (Byte *)&that);
     }
     
@@ -258,7 +276,7 @@ template <typename T> class SparsePrimitive : public _SparseBase { // Template S
   }
   
   // Physical Element Methods
-  public: Status GetPhysical(UInt &index, T &that) const {
+  public: Status GetPhysical(UInt &index, T *that) const {
     return _GetPhysicalElement(index, (void **)that);
   }
 

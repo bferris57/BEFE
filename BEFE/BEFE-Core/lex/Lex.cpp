@@ -281,18 +281,16 @@ Status Lex::Detach(LexStream &theStream) {
 
 Status Lex::DetachWorkspaces() {
 	
-	Status status;
-	Id     workspaceId;
+	Status        status;
   union {
-  	LexWorkspace *theWorkspace;
-    UInt          theUIntWorkspace;
+    PtrInt        theWorkspaceId;
+    LexWorkspace *theWorkspace;
   };
 
   while (workspaceIds.Length()) {
-    //theUIntWorkspace = (UInt)&theWorkspace;
-		status = workspaceIds.GetPhysical(0, theUIntWorkspace, workspaceId);
+		status = workspaceIds.Get(0, &theWorkspaceId);
 		if (status) goto SOMEERROR;
-		if (!BEFE::IsNull((void *)theWorkspace)) {
+		if (!BEFE::IsNull(theWorkspace)) {
 			status = theWorkspace->_Detach();
 			if (status) goto SOMEERROR;
 			status = workspaceIds.Remove(0);
@@ -313,20 +311,18 @@ Status Lex::DetachWorkspaces() {
 Status Lex::DetachStreams() {
 	
 	Status status;
-	Id     streamId;
   union {
-  	LexStream *theStream;
-    UInt       theUIntStream;
+	  PtrInt     streamId;
+    LexStream *theStream;
   };
 
   while (streamIds.Length()) {
-    //theUIntStream = (UInt)&theStream;
-		status = streamIds.GetPhysical(0, theUIntStream, streamId);
+		status = streamIds.Get(0, &streamId);
 		if (status) goto SOMEERROR;
-		if (!BEFE::IsNull((void *)theStream)) {
+		if (!BEFE::IsNull(theStream)) {
 			status = theStream->_Detach();
 			if (status) goto SOMEERROR;
-			status = streamIds.Remove((UInt)theStream);
+			status = streamIds.Remove(0);
 			if (status) goto SOMEERROR;
 		}
 	}
@@ -352,11 +348,11 @@ UInt Lex::GetLanguageCount() {
 
 Id Lex::GetLanguageId(String const &name) {
   
-  Id theId;
+  PtrInt theId;
   
   BEFE::SetNull(theId);
   
-  return theId;
+  return (Id)theId;
 }
 
 Status Lex::GetLanguageId(String const &name, Id &langId) {

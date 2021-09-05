@@ -46,7 +46,7 @@ Status LexAction::StartUp() {
 
   BEFE::SetNull(id);
   status = name.StartUp();
-  BEFE::SetNull(*(void **)&charHandler);
+  charHandler = NULL;
 
   return status;
 
@@ -63,7 +63,7 @@ Status LexAction::ShutDown() {
 }
 
 Status LexAction::Clear() {
-  BEFE::SetNull(*(void **)&charHandler);
+  charHandler = NULL;
   return Error::None;
 }  
 
@@ -100,7 +100,7 @@ Boolean LexAction::IsEmpty() const {
 
 Status LexAction::SetEmpty() {
   
-  BEFE::SetNull(*(void **)&charHandler);
+  charHandler = NULL;
   
   return Error::None;
   
@@ -178,7 +178,7 @@ String LexAction::ToString() const {
     if ( BEFE::IsNull((Byte *)charHandler) )
       out += CONSTR_Null;
     else
-      out += String("0x") << ToHexString((UInt)charHandler, 8);
+      out += String("0x") << ToHexString((PtrInt)charHandler, 8);
   }
   
   return out.Consumable();
