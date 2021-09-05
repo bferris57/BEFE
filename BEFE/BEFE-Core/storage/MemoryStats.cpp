@@ -181,7 +181,7 @@ void MemoryStats::LogMemoryAlloc(Byte *thebytes, UInt len) {
   // Save the stats
   newCounts[sizeidx]++;
   maxCountDiff = Max(maxCountDiff,(UInt)Abs((Int)newCount-(Int)delCount));
-  if (MemoryInfoSize) {
+  if (MemoryInfoSize != 0) {
     ((MemoryInfo *)thebytes)->alloccounter = newCount;
     ((MemoryInfo *)thebytes)->size         = len;
     //Cout << "MemoryStats.LogMemoryAlloc: newBytes = " << (void *)delBytes << '\n';
@@ -193,14 +193,14 @@ void MemoryStats::LogMemoryAlloc(Byte *thebytes, UInt len) {
   // Log it
   if (gLogMemory && gLogMemoryAlloc && firstNewCount != UNaN) {
     // Save newCount in the block if we're keeping the stats
-    if (MemoryInfoSize) {
+    if (MemoryInfoSize != 0) {
       ((MemoryInfo *)thebytes)->alloccounter = newCount;
     }
     // Print the message
-    if (MemoryInfoSize) {
-      ToHexAscii((Int)newCount,                8, buf1);
-      ToHexAscii((Int)thebytes+MemoryInfoSize, 8, buf2);
-      ToHexAscii(len,                             buf3);
+    if (MemoryInfoSize != 0) {
+      ToHexAscii((Int)newCount,                   8, buf1);
+      ToHexAscii((PtrInt)thebytes+MemoryInfoSize, 8, buf2);
+      ToHexAscii(len,                                buf3);
       cursor = Cout.GetCursor();
       if (cursor.x != 0)
         Cout << '\n';
@@ -212,7 +212,7 @@ void MemoryStats::LogMemoryAlloc(Byte *thebytes, UInt len) {
            << ")\n";
     }
     else {
-      ToHexAscii((UInt)thebytes, 8, buf1);
+      ToHexAscii((PtrInt)thebytes, 8, buf1);
       ToAscii(newCount, buf2);
       ToHexAscii(len, buf3);
       if (!Cout.OutputIsRedirected() && cursor.x != 0)
@@ -261,7 +261,7 @@ void MemoryStats::LogMemoryFree(Byte *thebytes) {
 
   maxCountDiff = Max(maxCountDiff,(UInt)Abs((Int)newCount-(Int)delCount));
 
-  if (MemoryInfoSize) {
+  if (MemoryInfoSize != 0) {
     theInfo = (MemoryInfo *)(thebytes - MemoryInfoSize);
     if ( !IsNull(theInfo->alloccounter) && !IsNull(theInfo->size))
       delBytes += theInfo->size;
@@ -279,7 +279,7 @@ void MemoryStats::LogMemoryFree(Byte *thebytes) {
   if (gLogMemory && gLogMemoryFree) {
     if (theInfo) {
       ToHexAscii(theInfo->alloccounter, 8, buf1);
-      ToHexAscii((UInt)thebytes,        8, buf2);
+      ToHexAscii((PtrInt)thebytes,      8, buf2);
       ToHexAscii(theInfo->size,            buf3);
       cursor = Cout.GetCursor();
       if (cursor.x != 0)
@@ -290,8 +290,8 @@ void MemoryStats::LogMemoryFree(Byte *thebytes) {
            << ")\n";
     }
     else {
-      ToHexAscii(delCount,    8,  buf1);
-      ToAscii((UInt)thebytes, 8, buf2);
+      ToHexAscii(delCount,      8,  buf1);
+      ToAscii((PtrInt)thebytes, 8, buf2);
       cursor = Cout.GetCursor();
       if (cursor.x != 0)
         Cout << '\n';

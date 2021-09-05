@@ -12,6 +12,7 @@
 #define MEMORYUTILS_H
 
 #include "Primitives.h"
+#include <cstddef>
 
 //
 // Various Bit related functions
@@ -25,7 +26,7 @@ class MemoryInfo {
           UInt size;
 };
 
-#define MemoryInfoSize (sizeof(MemoryInfo)/sizeof(UInt)*sizeof(UInt))
+#define MemoryInfoSize (sizeof(MemoryInfo)/sizeof(PtrInt)*sizeof(PtrInt))
 
 } // ...Namespace BEFE
 
@@ -51,27 +52,27 @@ namespace BEFE { // Namespace BEFE...
     MEMORY_MINBYTES = 16
   };
 
-  typedef Byte *(*MemoryAllocBytesFunc)(UInt   size);
-  typedef void  (*MemoryFreeBytesFunc) (Byte *thebytes) ;
+  typedef Byte *(*MemoryAllocBytesFunc)(size_t  size);
+  typedef void  (*MemoryFreeBytesFunc) (Byte   *thebytes) ;
 
   // Heap (or not) memory allocation
-  Byte *MemoryAllocBytes(UInt size);
+  Byte *MemoryAllocBytes(size_t size);
   void  MemoryFreeBytes(Byte *thebytes);
 
   // Raw (non-heap) memory allocation and initialisation
-  Byte *MemoryAllocRaw(UInt size);
+  Byte *MemoryAllocRaw(size_t size);
   void  MemoryFreeRaw(Byte *thebytes);
-  void  MemoryZeroRaw(Byte *thebytes, UInt size);
-  void  MemoryFillRaw(Byte *thebytes, Byte val, UInt size);
-  void  MemoryCopyRaw(Byte *src, Byte *dst, UInt size);
-  Int   MemoryCompareRaw(Byte *src, Byte *dst, UInt size);
-  void  MemoryExchangeRaw(Byte *src, Byte *dst, UInt size);
+  void  MemoryZeroRaw(Byte *thebytes, size_t size);
+  void  MemoryFillRaw(Byte *thebytes, Byte val, size_t size);
+  void  MemoryCopyRaw(Byte *src, Byte *dst, size_t size);
+  Int   MemoryCompareRaw(Byte *src, Byte *dst, size_t size);
+  void  MemoryExchangeRaw(Byte *src, Byte *dst, size_t size);
   
   // In-place Reversing Memory Order
-  void  MemoryReverseBytes(Byte *thebytes, UInt length);   // ◄── Length in Bytes
-  void  MemoryReverseShorts(Short *thebytes, UInt length); // ◄── Length in Shorts
-  void  MemoryReverseInts(Byte *thebytes, UInt length);    // ◄── Length in Ints
-  void  MemoryReverseLongs(Byte *thebytes, UInt length);   // ◄── Length in Longs
+  void  MemoryReverseBytes(Byte *thebytes, size_t length);   // ◄── Length in Bytes
+  void  MemoryReverseShorts(Short *thebytes, size_t length); // ◄── Length in Shorts
+  void  MemoryReverseInts(Byte *thebytes, size_t length);    // ◄── Length in Ints
+  void  MemoryReverseLongs(Byte *thebytes, size_t length);   // ◄── Length in Longs
   
   // Out-of-place Reverse Bytes...
   UInt16 ReverseBytes(UInt16 i);

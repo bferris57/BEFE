@@ -11,6 +11,7 @@
 //----------------------------------------------------------------------
 #include "BEFE.h"
 #include "BEFEMacros.h"
+#include "MemoryUtils.h"
 #include "MemoryStats.h"
 #include <new>
 
@@ -19,17 +20,17 @@
 // Operator new/delete
 //
 
-void *operator new (BEFE::UInt size) {
+void *operator new (size_t size) {
   return (void *)BEFE::MemoryAllocBytes(size);
 }
 
-void* operator new[] (BEFE::UInt size) {
+void* operator new[] (size_t size) {
 
   return (void *)BEFE::MemoryAllocBytes(size);
 
 }
 
-void* operator new[] (BEFE::UInt size, const std::nothrow_t& nothrow_constant) {
+void* operator new[] (size_t size, const std::nothrow_t& nothrow_constant) {
 
   return BEFE::MemoryAllocBytes(size);
 
@@ -58,7 +59,7 @@ void operator delete[] (void* ptr, const std::nothrow_t& nothrow_constant) {
 
 namespace BEFE { // Namespace BEFE...
 
-Byte *MemoryAllocBytes(UInt size) {
+Byte *MemoryAllocBytes(PtrInt size) {
 
   Byte *thebytes;
 
@@ -150,8 +151,13 @@ void MemoryZeroRaw(Byte *thebytes, UInt size) {
   if (TheBefe)
     TheBefe->TheMemoryStats.LogMemoryZero(thebytes,size);
   // Helpful catch
+#ifdef IS64BIT
+  if ((PtrInt)thebytes == 0xffffffffffffffffll)
+    BEFE_WARN("!!!! Somebody's trying to free 0xffffffffffffffff !!!!");
+#else
   if ((UInt)thebytes == 0xffffffff)
     BEFE_WARN("!!!! Somebody's trying to free 0xffffffff !!!!");
+#endif
   // For now...
   if (!IsNull(thebytes)) while (size > 0) {
     *thebytes++ = 0x00;
