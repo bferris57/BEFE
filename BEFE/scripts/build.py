@@ -289,7 +289,7 @@ def copySource():
 
 def compileSource():
 
-  cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++0x -fno-exceptions ' \
+  cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++11 -fno-exceptions ' \
         '-finline-functions -nodefaultlibs -fno-rtti'
   # TEMP...
   #cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
