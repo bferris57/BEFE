@@ -460,13 +460,13 @@ Status UTF8::LoadFolding(String const &fileName) {
   status = simpleFold.SetLength(foldCommon.Length() + foldSimple.Length());
   if (status) goto SOMEERROR;
   for (foldNo=0; foldNo < foldCommon.Length(); foldNo++) {
-    status = foldCommon.GetPhysical(foldNo, char0.value, char2);
+    status = foldCommon.GetPhysical(foldNo, &char2);
     if (status) goto SOMEERROR;
     status = simpleFold.Append(char0.value, char2);
     if (status) goto SOMEERROR;
   }
   for (foldNo=0; foldNo < foldSimple.Length(); foldNo++) {
-    status = foldSimple.GetPhysical(foldNo, char0.value, char2);
+    status = foldSimple.GetPhysical(foldNo, &char2);
     if (status) goto SOMEERROR;
     status = simpleFold.Append(char0.value, char2);
     if (status) goto SOMEERROR;
@@ -477,13 +477,13 @@ Status UTF8::LoadFolding(String const &fileName) {
   status = simpleUnfold.SetLength(unfoldCommon.Length() + unfoldSimple.Length());
   if (status) goto SOMEERROR;
   for (foldNo=0; foldNo < unfoldCommon.Length(); foldNo++) {
-    status = unfoldCommon.GetPhysical(foldNo, char0.value, char2);
+    status = unfoldCommon.GetPhysical(foldNo, &char2);
     if (status) goto SOMEERROR;
     status = simpleUnfold.Append(char0.value, char2);
     if (status) goto SOMEERROR;
   }
   for (foldNo=0; foldNo < unfoldSimple.Length(); foldNo++) {
-    status = unfoldSimple.GetPhysical(foldNo, char0.value, char2);
+    status = unfoldSimple.GetPhysical(foldNo, &char2);
     if (status) goto SOMEERROR;
     status = simpleUnfold.Append(char0.value, char2);
     if (status) goto SOMEERROR;
@@ -617,7 +617,7 @@ Status UTF8::FoldSimple(Char in, Char &out) {
   }
   
   // Try Simple...
-  status = simpleFold.Get(in.value,out);
+  status = simpleFold.Get(in.value,&out);
   if (status && status != Error::IndexNotFound) goto SOMEERROR;
   if (status)
     out = in;
@@ -706,7 +706,7 @@ Status UTF8::UnfoldSimple(Char in, Char &out) {
   }
   
   // Try Simple...
-  status = simpleUnfold.Get(in.value,out);
+  status = simpleUnfold.Get(in.value,&out);
   if (status && status != Error::IndexNotFound) goto SOMEERROR;
   if (status)
     out = in;

@@ -866,7 +866,7 @@ Status ToStrings(Byte *buf, UInt len, UInt startoffset, Strings &strings) {
 };
 
 Status ToStrings(Buffer const &buf, Strings &strings) {
-  return ToStrings(buf.GetBuf(), buf.Length(), (UInt)buf.GetBuf(), strings);
+  return ToStrings(buf.GetBuf(), buf.Length(), 0, strings);
 }
 
 Status ToStrings(Buffer const &buf, UInt startoffset, Strings &strings) {
@@ -874,7 +874,7 @@ Status ToStrings(Buffer const &buf, UInt startoffset, Strings &strings) {
 }
 
 Status ToStrings(BufferStream const &stream, Strings &strings) {
-  return ToStrings(stream.GetBuf(), stream.Length(), (UInt)stream.GetBuf(), strings);
+  return ToStrings(stream.GetBuf(), stream.Length(), 0, strings);
 }
 
 Status ToStrings(BufferStream const &stream, UInt startoffset, Strings &strings) {

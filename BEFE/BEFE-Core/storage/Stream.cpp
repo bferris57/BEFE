@@ -226,7 +226,7 @@ Stream &Stream::operator<< (Long that) {
 }
 
 Stream &Stream::operator<< (void *that) {
-  *this << ToHexString((UInt)that);
+  *this << ToHexString((PtrInt)that);
   return (*this);
 }
 

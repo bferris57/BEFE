@@ -112,15 +112,15 @@ class _SparseBase { // Class _SparseBase...
   // Abstract Element Methods
   public: Status      _Get(UInt index, void *buf) const;
   public: Status      _Get(UInt index, Int subindex, void *buf) const;
-  public: Status      _Set(PtrInt index, void *buf);
-  public: Status      _Set(PtrInt index, Int subindex, void *buf);
+  public: Status      _Set(UInt index, void *buf);
+  public: Status      _Set(UInt index, Int subindex, void *buf);
   public: Status      _Append(void *buf);
   public: Status      _Append(UInt index, void *buf);
   public: Status      _Remove(UInt index);
   public: Status      _Remove(UInt index, Int subindex);
 
   // Physical Element Methods
-  public: Status      _GetPhysicalElement(UInt &index, void **buf) const;
+  public: Status      _GetPhysicalElement(UInt index, void *buf) const;
 
   //
   // Protected methods
@@ -136,11 +136,11 @@ class _SparseBase { // Class _SparseBase...
 
   // Given an index (which may be Null) and subindex (which may be Null),
   //   Resolve where in the Array to insert/append it
-  protected: Status ResolveInsert(UInt i, UInt s, UInt &resolved) const;
+  protected: Status ResolveInsert(UInt i, Int s, UInt *resolved) const;
 
   // Given an index and subindex (which may be NaN),
   //   Resolve where in the Array to get/remove it from
-  protected: Status ResolveGet(UInt i, UInt s, UInt &resolved) const;
+  protected: Status ResolveGet(UInt i, Int s, UInt &resolved) const;
   
   //
   // Protected Instance members and methods

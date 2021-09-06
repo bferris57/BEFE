@@ -165,7 +165,9 @@ public:
   public: virtual Stream &operator<< (Int    that);
   public: virtual Stream &operator<< (UInt   that);
   public: virtual Stream &operator<< (Long   that);
-  public: virtual Stream &operator<< (void   *that);
+  public: virtual Stream &operator<< (ULong  that);
+  public: virtual Stream &operator<< (Ptr    that);
+  public: virtual Stream &operator<< (size_t that);
 
   // Capabilities
   public: virtual Int     GetCapability() const;// Get capabilities

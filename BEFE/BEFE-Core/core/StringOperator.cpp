@@ -243,17 +243,18 @@ String &String::operator << (char * str) {
   return *this;
 }
 
+
 String &String::operator << (void *ptr) {
 
-  Byte  buf[12];
-  Byte *cp;
+  String hex;
 
-  Itoa((int)ptr,buf,16);
-  for (cp=buf;*cp;cp++)
-    if (*cp >= 'a' && *cp <= 'f')
-      *cp = *cp - 'a' + 'A';
+#ifdef IS64Bit
+  hex = ToHexString((Ptr)ptr,16);
+#else
+  hex = ToHexString((Ptr)ptr,8);
+#endif
 
-  Append((const char *)buf);
+  Append(hex);
   return *this;
 }
 

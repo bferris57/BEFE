@@ -338,9 +338,9 @@ def createExecutable():
   cmd += '-I '+BEFE_Obj+'/*.o '
   cmd += '-o '+BEFE_Bin+'/befe '
   #cmd += '-static -std=c++0x -fno-exceptions '
-  cmd += '-static '
-  cmd += '-lrt -luuid '
-  cmd += '-Xlinker -m elf_i386 '
+  #cmd += '-static '
+  #cmd += '-lrt '
+  #cmd += '-Xlinker -m elf_i386 '
 
   sys.stdout.flush()
   errCount = 0

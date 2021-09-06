@@ -1,4 +1,3 @@
-//!befe-publish src
 //----------------------------------------------------------------------
 // File: Test.cpp - Implementation of the Test Class (BEFE Unit Tester)
 //----------------------------------------------------------------------
@@ -29,12 +28,14 @@ Test::Test() : out(Cout),indent("") {
 }
 
 Test::Test(Int thetests) : out(Cout) {
-  int *d;
-  int *s;
 
-  d = (int *)&out;
-  s = (int *)&Cout;
-  *d = (int)s;
+  //int *d;
+  //int *s;
+
+  //d = (int *)&out;
+  //s = (int *)&Cout;
+  //*d = (int)s;
+
   indent = "";
   indent = "";
   Run(thetests);

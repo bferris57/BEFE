@@ -367,11 +367,11 @@ Status OperatingSystem::ApplyRelativePath(String const &path, String const &relp
   return Error::NotCapable;
 }
 
-Status OperatingSystem::WalkPath(char const *dir, OSPathWalker walker, UInt32 context) {
+Status OperatingSystem::WalkPath(char const *dir, OSPathWalker walker, Ptr context) {
   return WalkPath(String(dir),walker,context);
 }
 
-Status OperatingSystem::WalkPath(String const &baseDir, OSPathWalker walker, UInt32 context) {
+Status OperatingSystem::WalkPath(String const &baseDir, OSPathWalker walker, Ptr context) {
 
   Status  status;
   Strings dirs;

@@ -542,7 +542,7 @@ Status _SparseBase::_Append(UInt index, void *buf) {
   
   // See if we can find where it insert it
   BEFE::SetNull(subIndex);
-  status = ResolveInsert(index, subIndex, resIndex);
+  status = ResolveInsert(index, subIndex, &resIndex);
   if (status) goto SOMEERROR;
 
   // Allocate the buffer if it's empty
@@ -640,7 +640,7 @@ Status _SparseBase::_Remove(UInt index, Int subindex) {
 // Physical Element Methods
 //
 
-Status _SparseBase::_GetPhysicalElement(UInt phyIndex, UInt &index, void *callerBuf) const {
+Status _SparseBase::_GetPhysicalElement(UInt phyIndex, void *callerBuf) const {
 
   Status  status;
   Byte   *buf;
@@ -648,7 +648,6 @@ Status _SparseBase::_GetPhysicalElement(UInt phyIndex, UInt &index, void *caller
   UInt    numElms;
   
   // Not sure what to do if it's self-indexing...
-  BEFE::SetNull(index);
   if (BEFE::IsNull(callerBuf)) goto INVALIDPARAM;
   
   // Figure out where it is
@@ -660,7 +659,6 @@ Status _SparseBase::_GetPhysicalElement(UInt phyIndex, UInt &index, void *caller
   buf = buf + (elmSize + HEADSIZE)*phyIndex;
   
   // Get the info
-  index = *(UInt *)buf;
   MemoryCopyRaw(buf+HEADSIZE, (Byte *)callerBuf, elmSize);
   
   // Handle errors
@@ -899,7 +897,7 @@ USpan _SparseBase::PhysicalIndexSpan(UInt index) const {
     
 }
 
-Status _SparseBase::ResolveInsert(UInt index, Int subindex, UInt &resolved) const {
+Status _SparseBase::ResolveInsert(UInt index, Int subindex, UInt *resolved) const {
   
   Status status;
   USpan  phySpan;
@@ -910,17 +908,19 @@ Status _SparseBase::ResolveInsert(UInt index, Int subindex, UInt &resolved) cons
   if ( BEFE::IsNull(phySpan.idx1) || BEFE::IsNull(phySpan.idx2) ) goto FINISHED;
 
   // Adjust the resolved index
-  resolved = phySpan.idx1;
+  if (!resolved) goto NULLPOINTER;
+  *resolved = phySpan.idx1;
   len = phySpan.Length();
   if ( !BEFE::IsNull(subindex) )
-    resolved += Min((UInt)subindex,len);
+    *resolved += Min((UInt)subindex,len);
   else
-    resolved += len;
+    *resolved += len;
     
   // Handle errors
   status = Error::None;
   while (false) {
-    FINISHED: status = Error::None; break;
+    FINISHED: status    = Error::None;                break;
+    NULLPOINTER: status = Error::InternalNullPointer; break;
   }
   
   return status;

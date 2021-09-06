@@ -359,7 +359,7 @@ struct WalkContext {
   Strings sourceFiles;
 };
   
-static Status Walker(String const &dir, UInt32 context) {
+static Status Walker(String const &dir, Ptr context) {
   
   Status       status;
   WalkContext *walkContext;
@@ -448,7 +448,7 @@ Status TestCache::testBlockLoadSource() {
   if (status) goto SOMEERROR;
   
   // Get the list of header and source files...
-  status = WalkPath(befe_GIT, Walker, (UInt32)&walkContext);
+  status = WalkPath(befe_GIT, Walker, (Ptr)&walkContext);
   if(status) goto SOMEERROR;
   if (gVerbose && !gVeryVerbose) {
     out << walkContext.headerFiles.Length() << " Total .h   files...\n";

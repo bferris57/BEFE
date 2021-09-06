@@ -39,7 +39,7 @@ Status TestMorphing::Run() { // TestMorphing.Run...
   string = (char *)"This String that contains two UTF-8 characters... ¶©";
   string._BufAndSize(buf,bufSize);
   strings.SetEmpty();
-  status = ToStrings(buf,(UInt)bufSize,(UInt)buf,strings);
+  status = ToStrings(buf,(UInt)bufSize,(UInt)0,strings);
   if (status) goto TOSTRINGSFAILED;
 
   if (gVerbose)
@@ -70,7 +70,7 @@ Status TestMorphing::Run() { // TestMorphing.Run...
   // Try displaying the Bytes buffer in hex...
   bytes.BufAndSize(buf,bufSize);
   strings.SetEmpty();
-  status = ToStrings(buf,bufSize,(UInt)buf,strings);
+  status = ToStrings(buf,bufSize,0,strings);
   if (status) goto TOSTRINGSFAILED;
 
   if (gVeryVerbose) {
@@ -100,7 +100,7 @@ Status TestMorphing::Run() { // TestMorphing.Run...
   dstBuf = buf;
   string._BufAndSize(buf,bufSize);
   strings.SetEmpty();
-  status = ToStrings(buf,bufSize,(UInt)buf,strings);
+  status = ToStrings(buf,bufSize,0,strings);
   if (status) goto TOSTRINGSFAILED;
 
   if (gVeryVerbose) {

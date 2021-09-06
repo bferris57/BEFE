@@ -333,7 +333,7 @@ Status TestArray::testBytes() {
     out << "  Class Bytes...\n";
 
   if (gVeryVerbose)
-    out << "    sizeof(Bytes) = " << sizeof(Bytes) << Endl;
+    out << "    sizeof(Bytes) = 0x" << (Ptr)sizeof(Bytes) << Endl;
 
   // Test Append...
   if (gVeryVerbose)
@@ -737,7 +737,7 @@ Status TestArray::testSparse1() {
   if (gVeryVerbose)
     out << "    Array contents...\n";
   for (index=0; index < 10; index++) {
-    status = sarray.Get(index,ints[0]);
+    status = sarray.Get(index,ints);
     if (status && index != 5 && index != 7) {
       if (status == Error::IndexNotDistinct && index > 5 && index%2 == 0) continue;
       BEFE_ERROR(String("Getting index ")+index,status);
@@ -775,10 +775,10 @@ Status TestArray::testSparse2() {
   ihash2   = string2.HashInsensitive();
   
   if (gVeryVerbose) {
-    out << "    sizeof(String)      = " << sizeof(String)      << '\n';
-    out << "    sizeof(Strings)     = " << sizeof(Strings)     << '\n';
-    out << "    sizeof(_SparseBase) = " << sizeof(_SparseBase) << '\n';
-    out << "    sizeof(_ArrayBase)  = " << sizeof(_ArrayBase)  << '\n';
+    out << "    sizeof(String)      = 0x" << (Ptr)sizeof(String)      << '\n';
+    out << "    sizeof(Strings)     = 0x" << (Ptr)sizeof(Strings)     << '\n';
+    out << "    sizeof(_SparseBase) = 0x" << (Ptr)sizeof(_SparseBase) << '\n';
+    out << "    sizeof(_ArrayBase)  = 0x" << (Ptr)sizeof(_ArrayBase)  << '\n';
     out << "    String 1 = '" << string1 << "' SHash = 0x"  << ToHexString(shash1,8) << " IHash = 0x" << ToHexString(ihash1,8) << '\n';
     out << "    String 2 = '" << string2 << "' SHash = 0x"  << ToHexString(shash2,8) << " IHash = 0x" << ToHexString(ihash2,8) << '\n';
   }

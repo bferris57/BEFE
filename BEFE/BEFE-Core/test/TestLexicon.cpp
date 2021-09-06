@@ -30,7 +30,7 @@ namespace BEFE { // Namespace BEFE...
 // Function: LexPathWalker - Lexical Analysis path walker
 //
 
-Status LexPathWalker(String const &dir, UInt32 context) { // LexPathWalker...
+Status LexPathWalker(String const &dir, Ptr context) { // LexPathWalker...
   
   Status   status;
   Strings *theFiles;
@@ -85,7 +85,7 @@ struct LexFilePathWalkerContext {
   UInt          counter;
 };
 
-Status LexFilePathWalker(String const &dir, UInt32 context) { // LexFileWalker...
+Status LexFilePathWalker(String const &dir, Ptr context) { // LexFileWalker...
   
   Status  status;
   String  curDir;
@@ -217,7 +217,7 @@ Status testLexLangCpp() { // testLexLangCpp...
 
       if (true) {
         searchPath = GetEnvironmentValue("BEFE_GIT");
-        status = WalkPath(searchPath, LexPathWalker, (UInt32)&theFiles);
+        status = WalkPath(searchPath, LexPathWalker, (Ptr)&theFiles);
         if (status) goto SOMEERROR;
       }
       else
@@ -492,8 +492,8 @@ Status testLexWorkspace() { // testLexWorkspace...
       if (status)
         BEFE_ERROR(String("ws.BlobNew[") << i << ']', status);
       if (status) goto SOMEERROR;
-      if (gVeryVerbose)
-        Cout << indent << "blob[" << i << "].Id = " << blobId << '\n';
+      //if (gVeryVerbose)
+      //  Cout << indent << "blob[" << i << "].Id = 0x" << ((PtrInt)blobId) << '\n';
     }
     
     exists = ws.BlobExists((Id)5);
@@ -541,7 +541,7 @@ Status testLexWorkspace() { // testLexWorkspace...
     ctxt.indent  = indent;
     ctxt.counter = 0;
     
-    status = WalkPath(dirName, LexFilePathWalker, (UInt32)&ctxt);
+    status = WalkPath(dirName, LexFilePathWalker, (Ptr)&ctxt);
     if (status) goto SOMEERROR;
 
     Cout << indent << "Files processed: " << ctxt.counter << '\n';
