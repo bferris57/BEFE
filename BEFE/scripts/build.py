@@ -32,6 +32,7 @@ BEFE_BuildDir = root + '/temp'
 BEFE_Src      = BEFE_BuildDir + '/_src'
 BEFE_Inc      = BEFE_BuildDir + '/_inc'
 BEFE_Obj      = BEFE_BuildDir + '/_obj'
+BEFE_Lib      = BEFE_BuildDir + '/_lib'
 BEFE_Bin      = BEFE_BuildDir + '/_bin'
 #print("DEBUG: BEFE_SrcRoot  = %s"%repr(BEFE_SrcRoot))
 #print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
@@ -289,8 +290,8 @@ def copySource():
 
 def compileSource():
 
-  cmd = 'g++ -Wall -c %s -o %s -I %s -std=c++11 -fno-exceptions ' \
-        '-finline-functions -nodefaultlibs -fno-rtti'
+  cmd = 'gcc -Wall -c %s -o %s -I %s -std=c++11 -fno-exceptions ' \
+        '-finline-functions -nodefaultlibs -fno-rtti --disable-stack-protector '
   # TEMP...
   #cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
   cmd += ' -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
@@ -332,14 +333,48 @@ def compileSource():
   return errCount
 
 
+def createLibrary():
+
+  lib = BEFE_Lib + '/libbefe.a'
+  if os.path.exists(lib) and os.path.isfile(lib):
+    os.remove(lib)
+
+  errCount = 0
+  fileCount = 0
+
+  cmd = 'ar -rcs ' + lib + ' '
+  
+  for path in PathWalker(BEFE_Obj):
+    if not os.path.isfile(path):   continue
+    if not path.endswith('.o'):    continue
+    if path.endswith('/main.o'):  continue
+
+    if fileCount%10 == 0:
+      if fileCount == 0: print(' ',end='')
+      print('.',end='')
+      sys.stdout.flush()
+    fileCount += 1
+
+    rc,out,err = execute(cmd+path)
+    sys.stdout.flush()
+    if rc:
+      errCount += 1
+      print("Error...")
+      Prefix(err,prefix='...',samePrefix=True,fore='red',style='bright')
+
+  print('')
+  sys.stdout.flush()
+
+  return errCount
+
 def createExecutable():
 
   cmd = 'ld '
-  cmd += '-I '+BEFE_Obj+'/*.o '
   cmd += '-o '+BEFE_Bin+'/befe '
-  #cmd += '-static -std=c++0x -fno-exceptions '
-  #cmd += '-static '
-  #cmd += '-lrt '
+  cmd += '-lrt -luuid -lc -lssp '
+  cmd += BEFE_Lib + '/libbefe.a '
+  cmd += BEFE_Obj + '/main.o '
+  #cmd += '-lrt -luuid '
   #cmd += '-Xlinker -m elf_i386 '
 
   sys.stdout.flush()
@@ -411,6 +446,14 @@ if __name__ == "__main__":
     errCount = compileSource()
     if errCount:
       print('  %d errors'%errCount)
+
+  if True:
+
+    print('Creating libraries...')
+    errCount = createLibrary()
+    if errCount:
+      print('  %d errors'%errCount)
+      sys.exit(1)
 
   if link or True:
 

@@ -1,0 +1,192 @@
+Alloc.o
+_ArrayBase.o
+
+BcmdArg.o ------------+---> libbefeshell.a
+BcmdCommand.o         |
+Bcmd.o                |
+Blang.o               |
+BmsgLine.o            |
+Bmsg.o                |
+BmsgToken.o           |
+cmdutils.o            |
+Command_Analyse.o     |
+Command_Build.o       |
+Command_Crypt.o       |
+CommandDecl.o         |
+CommandLayer_BEFE.o   |
+CommandLayer_Lang.o   |
+CommandLayer.o        |
+CommandLayer_OS.o     |
+CommandShell.o        |
+Help.o ---------------+      
+
+BEFECallbacks.o
+BEFEEnviron.o
+BEFE.o
+BEFEWrappers.o
+
+BufferLow.o
+Buffer.o
+BufferStream.o
+BuildDisplay.o
+
+BuildFiles.o ----+---> libbefeshell.a
+BuildMisc.o      |
+Build.o          |
+BuildSettings.o  |
+BuildZip.o ------+
+
+Bytes.o
+CacheBlockInfo.o
+CacheBlock.o
+CacheChain.o
+CacheFileInfo.o
+CacheFile.o
+CacheFormat.o
+CacheInfo.o
+Cache.o
+Char.o
+Class.o
+Console.o
+Crc32.o
+Crypt0.o
+CryptFileHead.o
+CryptKey.o
+Crypt.o
+Cycle.o
+Dictionary.o
+Error.o
+FileInfo.o
+File.o
+FileStream.o
+FormatOut.o
+Globals.o
+Ids.o
+IdSpaceInfoExt.o
+IdSpace.o
+IntegerDigit.o
+IntegerFull.o
+Integer.o
+IntegerOperator.o
+IntFuncs.o
+
+LexAction.o --------------+---> libbefelang.a
+LexFormatOut.o            |
+LexFuncs.o                |
+LexLangActions.o          |
+LexLangBefe.o             |
+LexLangCpp.o              |
+LexLanguage.o ------------+
+Lex.o                     |
+LexRange.o                |
+LexState.o                |
+LexStream.o               |
+LexToken.o                |
+LexWorkspaceBlob.o        |
+LexWorkspaceFile.o        |
+LexWorkspaceIdEntry.o     |
+LexWorkspace.o            |
+LexWorkspaceString.o      |
+LexWsArrayHead.o          |
+LexWsBlob.o               |
+LexWsBlockHead.o          |
+LexWsFile.o               |
+LexWsHead.o               |
+LexWsString.o ------------+
+
+Lines.o
+linux.o
+main.o
+_MapBase.o
+Match.o
+MD5Calc.o
+MD5.o
+MemoryStats.o
+MemoryUtils.o
+MessageMessages.o
+Message.o
+MessageRange.o
+MessageRanges.o
+MinExp.o
+_MinExpStack.o
+Network.o
+Number.o
+Numbers.o
+OperatingSystem.o
+OraNumber.o
+PersistAnon.o
+PersistAtomic.o
+PersistHead.o
+PersistNamed.o
+Persist.o
+Platform.o
+Process.o
+Processor.o
+Range.o
+_SanityCheck.o
+SBuffer.o
+Slice.o
+SortBubble.o
+SortInsertion.o
+SortMerge.o
+SortSelection.o
+Span.o
+_SparseBase.o
+Stream.o
+StringAppend.o
+StringBuild.o
+StringCompare.o
+StringConstruct.o
+StringFind.o
+StringFolding.o
+StringFormat.o
+StringGeneral.o
+StringGet.o
+StringInsert.o
+StringJoin.o
+StringManip.o
+String.o
+StringOperator.o
+StringPersist.o
+StringQuery.o
+StringRemove.o
+StringReplace.o
+StringReverse.o
+Strings.o
+StringSpace.o
+StringSplit.o
+StringSubscript.o
+
+TestArray.o ------+---> libbefetest.a
+TestBcmd.o        |
+TestCache.o       |
+TestConsole.o     |
+TestContains.o    |
+TestFile.o        |
+TestIdSpace.o     |
+TestLexicon.o     |
+TestMD5.o         |
+TestMessage.o     |
+TestMinExp.o      |
+TestMorphing.o    |
+TestNull.o        |
+TestNumber.o      |
+Test.o            |
+TestSequence.o    |
+TestStream.o      |
+TestString.o      |
+TestTime.o        |
+TestUTF8.o        |
+TestUUID.o -------+
+
+Time.o
+ToAscii.o
+ToString.o
+ToStrings.o
+t.out
+trythis.o
+URange.o
+USpan.o
+UTF8Fold.o
+UTF8.o
+UUID.o
