@@ -291,10 +291,10 @@ def copySource():
 def compileSource():
 
   cmd = 'gcc -Wall -c %s -o %s -I %s -std=c++11 -fno-exceptions ' \
-        '-finline-functions -nodefaultlibs -fno-rtti --disable-stack-protector '
+        '-finline-functions -nodefaultlibs -fno-rtti -fno-stack-protector'
   # TEMP...
   #cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
-  cmd += ' -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
+  #cmd += ' -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
   # ...TEMP
 
   fileCount = 0
@@ -350,7 +350,7 @@ def createLibrary():
     if path.endswith('/main.o'):  continue
 
     if fileCount%10 == 0:
-      if fileCount == 0: print(' ',end='')
+      if fileCount == 0: print('  ',end='')
       print('.',end='')
       sys.stdout.flush()
     fileCount += 1
@@ -371,7 +371,7 @@ def createExecutable():
 
   cmd = 'ld '
   cmd += '-o '+BEFE_Bin+'/befe '
-  cmd += '-lrt -luuid -lc -lssp '
+  cmd += '-lrt -luuid -lc '
   cmd += BEFE_Lib + '/libbefe.a '
   cmd += BEFE_Obj + '/main.o '
   #cmd += '-lrt -luuid '
