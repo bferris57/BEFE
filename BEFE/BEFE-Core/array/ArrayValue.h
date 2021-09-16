@@ -14,6 +14,8 @@
 #include "Primitives.h"
 #include "Array.h"
 
+using namespace std;
+
 namespace BEFE { // Namespace BEFE...
 
 //----------------------------------------------------------------------

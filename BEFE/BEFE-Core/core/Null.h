@@ -146,7 +146,7 @@ enum : UInt8 {
 // NOTE: We have to return Int32 instead of Status in some of the functions
 //       below because Status isn't declared yet.  Grrr...
 BEFE_INLINE Boolean IsNull(Ptr v)             { return (v == 0 || v == (void *)-1); };
-BEFE_INLINE void    SetNull(Ptr *v)           { *v = (PtrInt)NULL; };
+BEFE_INLINE void    SetNull(Ptr &v)           { v = (Ptr)NULL; };
 BEFE_INLINE Boolean IsNull(char const *ptr)   { return ptr == 0 || ptr == (char const *)-1;}
 BEFE_INLINE Int32   SetNull(char const *&ptr) { ptr = 0; return 0;}
 BEFE_INLINE Boolean IsNull(Byte *ptr)         { return ptr == 0 || ptr == (Byte *) -1;}
@@ -178,6 +178,9 @@ BEFE_INLINE Boolean IsNull(Int64 b)           { return (b == SInt64NaN);}
 BEFE_INLINE void    SetNull(Int64 &b)         { b = SInt64NaN;}
 BEFE_INLINE Boolean IsNull(UInt64 b)          { return (b == UInt64NaN);}
 BEFE_INLINE void    SetNull(UInt64 &b)        { b = UInt64NaN;}
+
+BEFE_INLINE Boolean IsNull(size_t b)          { return (b == 0);}
+BEFE_INLINE void    SetNull(size_t &b)        { b = 0;}
 
 
 } // ...Namespace BEFE

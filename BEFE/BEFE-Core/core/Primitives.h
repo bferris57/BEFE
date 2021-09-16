@@ -37,6 +37,8 @@
   #define NULL 0
 #endif
 
+#include <cstddef> // For size_t
+
 //
 // Macro to answer "Are we 32 or 64 bit pointers?"...
 //

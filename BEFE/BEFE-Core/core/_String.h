@@ -185,6 +185,7 @@ class String { // String Class...
   
   public: String &operator *= (UInt mult);
   public: String &operator *= (Int mult);
+  public: String &operator *= (size_t mult);
   
   public: String  operator *  (UInt mult) const;
   public: String  operator *  (Int mult) const;

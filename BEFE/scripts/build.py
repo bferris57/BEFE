@@ -34,7 +34,6 @@ BEFE_Inc      = BEFE_BuildDir + '/_inc'
 BEFE_Obj      = BEFE_BuildDir + '/_obj'
 BEFE_Lib      = BEFE_BuildDir + '/_lib'
 BEFE_Bin      = BEFE_BuildDir + '/_bin'
-#print("DEBUG: BEFE_SrcRoot  = %s"%repr(BEFE_SrcRoot))
 #print("       BEFE_BuildDir = %s"%repr(BEFE_BuildDir))
 
 # Handy flags
@@ -290,8 +289,9 @@ def copySource():
 
 def compileSource():
 
-  cmd = 'gcc -Wall -c %s -o %s -I %s -std=c++11 -fno-exceptions ' \
-        '-finline-functions -nodefaultlibs -fno-rtti -fno-stack-protector'
+  cmd = 'gcc -g -Wall -c %s -o %s -I %s -std=c++17 -fno-exceptions ' \
+        '-finline-functions -nodefaultlibs -fno-rtti -fno-stack-protector ' \
+        '-fno-use-cxa-atexit -fno-threadsafe-statics -shared -lstdc++ '
   # TEMP...
   #cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
   #cmd += ' -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
@@ -315,7 +315,6 @@ def compileSource():
       continue
 
     tcmd = cmd%(spath,dpath,BEFE_Inc)
-    #green('DEBUG: tcmd = %s'%repr(tcmd))
     print('  '+sfile+'...')
  
     sys.stdout.flush()
@@ -371,11 +370,14 @@ def createExecutable():
 
   cmd = 'ld '
   cmd += '-o '+BEFE_Bin+'/befe '
-  cmd += '-lrt -luuid -lc '
-  cmd += BEFE_Lib + '/libbefe.a '
-  cmd += BEFE_Obj + '/main.o '
-  #cmd += '-lrt -luuid '
+  cmd += '-static -lrt -static -luuid -static -lc '
+  #cmd += BEFE_Obj + '/main.o '
+  #cmd += BEFE_Lib + '/libbefe.a '
+  #cmd += '-lrt -luuid -stdlib=libc++ '
   #cmd += '-Xlinker -m elf_i386 '
+  for path in PathWalker(BEFE_Obj):
+    if not path.endswith('.o'): continue
+    cmd += path+' '
 
   sys.stdout.flush()
   errCount = 0
@@ -447,7 +449,7 @@ if __name__ == "__main__":
     if errCount:
       print('  %d errors'%errCount)
 
-  if True:
+  if False and not errCount:
 
     print('Creating libraries...')
     errCount = createLibrary()
@@ -455,10 +457,9 @@ if __name__ == "__main__":
       print('  %d errors'%errCount)
       sys.exit(1)
 
-  if link or True:
+  if link and not errCount:
 
     print('Linking...')
-    print('os.getcwd() = %s'%os.getcwd())
     errCount = createExecutable()
     if errCount:
       print('  %d errors'%errCount)

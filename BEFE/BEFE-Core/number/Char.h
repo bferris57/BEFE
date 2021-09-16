@@ -192,7 +192,7 @@ BEFE_INLINE Status   SetNull       (Char &rThis)                     {return rTh
             Char    &Mutable       (Char &rThis)                     ;
             Char    &Immutable     (Char &rThis)                     ;
             UInt     Length        (Char const &rThis)               ;
-            UInt     Size          (Char const &rThis)               ;
+            size_t   Size          (Char const &rThis)               ;
 
 } // ...Namespace BEFE
 

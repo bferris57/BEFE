@@ -30,7 +30,7 @@ void* operator new[] (size_t size) {
 
 }
 
-void* operator new[] (size_t size, const std::nothrow_t& nothrow_constant) {
+void* operator new[] (size_t size, size_t nothrow_constant) {
 
   return BEFE::MemoryAllocBytes(size);
 
@@ -40,7 +40,7 @@ void  operator delete (void* ptr) {
   return BEFE::MemoryFreeBytes((BEFE::Byte *)ptr);
 }
 
-void  operator delete (void* ptr, const std::nothrow_t& nothrow_constant) {
+void  operator delete (void* ptr, size_t nothrow_constant) {
   return BEFE::MemoryFreeBytes((BEFE::Byte *)ptr);
 }
 
@@ -48,7 +48,7 @@ void operator delete[] (void* ptr) {
   return BEFE::MemoryFreeBytes((BEFE::Byte *)ptr);
 }
 
-void operator delete[] (void* ptr, const std::nothrow_t& nothrow_constant) {
+void operator delete[] (void* ptr, size_t nothrow_constant) {
   return BEFE::MemoryFreeBytes((BEFE::Byte *)ptr);
 }
 
@@ -59,7 +59,7 @@ void operator delete[] (void* ptr, const std::nothrow_t& nothrow_constant) {
 
 namespace BEFE { // Namespace BEFE...
 
-Byte *MemoryAllocBytes(PtrInt size) {
+Byte *MemoryAllocBytes(size_t size) {
 
   Byte *thebytes;
 
@@ -101,7 +101,7 @@ void MemoryFreeBytes(Byte *thebytes) {
 //       The "raw" functions are for use by MemoryHeap only.
 //
 
-Byte *MemoryAllocRaw(UInt size) {
+Byte *MemoryAllocRaw(size_t size) {
 
   Byte *thebytes;
 
@@ -146,7 +146,7 @@ DONE:
 // NOTE: This should go into port specific code so we don't call anything,
 //       we do it ourselves.
 
-void MemoryZeroRaw(Byte *thebytes, UInt size) {
+void MemoryZeroRaw(Byte *thebytes, size_t size) {
 
   if (TheBefe)
     TheBefe->TheMemoryStats.LogMemoryZero(thebytes,size);
@@ -166,7 +166,7 @@ void MemoryZeroRaw(Byte *thebytes, UInt size) {
   return;
 }
 
-void MemoryFillRaw(Byte *thebytes, Byte val, UInt size) {
+void MemoryFillRaw(Byte *thebytes, Byte val, size_t size) {
   if (TheBefe)
     TheBefe->TheMemoryStats.LogMemoryFill(thebytes,size,val&0xff);
   // For now...
@@ -177,7 +177,7 @@ void MemoryFillRaw(Byte *thebytes, Byte val, UInt size) {
   return;
 }
 
-void MemoryCopyRaw(Byte *src, Byte *dst, UInt size) {
+void MemoryCopyRaw(Byte *src, Byte *dst, size_t size) {
 
   if (src && dst && size)
     Memmove(dst,src,size);
@@ -188,7 +188,7 @@ void MemoryCopyRaw(Byte *src, Byte *dst, UInt size) {
   return;
 }
 
-Int MemoryCompareRaw(Byte *src, Byte *dst, UInt size) {
+Int MemoryCompareRaw(Byte *src, Byte *dst, size_t size) {
   
   while (size) {
     if (*src < *dst) return -1;
@@ -200,7 +200,7 @@ Int MemoryCompareRaw(Byte *src, Byte *dst, UInt size) {
   
 }
 
-void  MemoryExchangeRaw(Byte *src, Byte *dst, UInt size) {
+void MemoryExchangeRaw(Byte *src, Byte *dst, size_t size) {
 
   while (size) {
     *dst ^= *src;
@@ -218,11 +218,11 @@ void  MemoryExchangeRaw(Byte *src, Byte *dst, UInt size) {
 // Reversing Memory Order
 //
 
-void  MemoryReverseBytes(Byte *start, UInt length) {
+void  MemoryReverseBytes(Byte *start, size_t length) {
   
   Byte *end;
   
-  if (!IsNull(length) && length != 0) {
+  if (length != 0) {
     end = start + length - 1;
     while (end > start) {
       *start   ^= *end;
@@ -235,7 +235,7 @@ void  MemoryReverseBytes(Byte *start, UInt length) {
   
 }
 
-void  MemoryReverseShorts(Short *start, UInt length) {
+void  MemoryReverseShorts(Short *start, size_t length) {
   
   Short *end;
   
@@ -251,7 +251,7 @@ void  MemoryReverseShorts(Short *start, UInt length) {
   
 }
 
-void  MemoryReverseInts(Int *start, UInt length) {
+void  MemoryReverseInts(Int *start, size_t length) {
   
   Int *end;
   
@@ -267,7 +267,7 @@ void  MemoryReverseInts(Int *start, UInt length) {
   
 }
 
-void  MemoryReverseLongs(Long *start, UInt length) {
+void  MemoryReverseLongs(Long *start, size_t length) {
   
   Long *end;
   

@@ -53,7 +53,7 @@ void DisplayStrings(Strings &strings, UInt indent) {
   
 }
 
-void DisplayMemory(Byte *vbuf, UInt len, UInt startoffset, UInt indent) {
+void DisplayMemory(Byte *vbuf, size_t len, UInt startoffset, UInt indent) {
 
   Status  status;
   Strings strings;
@@ -81,7 +81,7 @@ void DisplayMemory(Byte *vbuf, UInt len, UInt startoffset, UInt indent) {
 
 }
 
-void DisplayMemory(Byte *vbuf, UInt len, UInt startoffset) {
+void DisplayMemory(Byte *vbuf, size_t len, UInt startoffset) {
   DisplayMemory(vbuf,len,startoffset,0);
 }
 
@@ -732,7 +732,7 @@ Status ToStrings(StreamStats const &stats, Strings &info) {
 // Memory -> Strings
 //
 
-Strings ToStrings(Byte *vbuf, UInt len, UInt startoffset) {
+Strings ToStrings(Byte *vbuf, size_t len, UInt startoffset) {
   
   Strings strings;
   
@@ -787,7 +787,7 @@ Strings ToStrings(BufferStream const &stream, UInt startoffset) {
 // Memory -> Strings normal form
 //
 
-Status ToStrings(Byte *buf, UInt len, UInt startoffset, Strings &strings) {
+Status ToStrings(Byte *buf, size_t len, UInt startoffset, Strings &strings) {
 
   Byte    hexbuf[48];
   String  chrStr;
