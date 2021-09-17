@@ -21,7 +21,7 @@
 #include "linux.h"
 #include "ToAscii.h"
 #include <cstdlib>
-#include <cstring> // For memcpy
+#include <cstring>  // For memcpy
 
 namespace BEFE { // Namespace BEFE...
 

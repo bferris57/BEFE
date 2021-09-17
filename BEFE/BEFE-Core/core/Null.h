@@ -91,14 +91,14 @@ enum : signed   int       { SInt32NaN = (SInt32)0x80000000    , SIntNaN   = SInt
 enum : signed   int       { NaN32     = SInt32NaN             , IntNaN    = SInt32NaN , NaN  = NaN32 };
 
 // Int64 NaN...
-enum : unsigned long long { UInt64NaN = 0xffffffffffffffffULL };
-enum : signed long long   { SInt64NaN = (SInt64)0x8000000000000000ULL }; // ◄── Compiler demands "manual" typecast
-enum : signed long long   { NaN64     = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
-enum : unsigned long long { UNaN64    = UInt64NaN             };
-enum : signed long long   { NaNLong   = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
-enum : signed long long   { LongNaN   = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
-enum : unsigned long long { ULongNaN  = UInt64NaN             };
-enum : signed long long   { SLongNan  = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
+enum : unsigned LONGLONG  { UInt64NaN = 0xffffffffffffffffULL };
+enum : signed LONGLONG    { SInt64NaN = (SInt64)0x8000000000000000ULL }; // ◄── Compiler demands "manual" typecast
+enum : signed LONGLONG    { NaN64     = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
+enum : unsigned LONGLONG  { UNaN64    = UInt64NaN             };
+enum : signed LONGLONG    { NaNLong   = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
+enum : signed LONGLONG    { LongNaN   = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
+enum : unsigned LONGLONG  { ULongNaN  = UInt64NaN             };
+enum : signed LONGLONG    { SLongNan  = (SInt64)SInt64NaN     }; // ◄── Compiler demands "manual" typecast
 
 //
 // IsNaN functions...
@@ -179,8 +179,8 @@ BEFE_INLINE void    SetNull(Int64 &b)         { b = SInt64NaN;}
 BEFE_INLINE Boolean IsNull(UInt64 b)          { return (b == UInt64NaN);}
 BEFE_INLINE void    SetNull(UInt64 &b)        { b = UInt64NaN;}
 
-BEFE_INLINE Boolean IsNull(size_t b)          { return (b == 0);}
-BEFE_INLINE void    SetNull(size_t &b)        { b = 0;}
+//BEFE_INLINE Boolean IsNull(size_t b)          { return (b == 0);}
+//BEFE_INLINE void    SetNull(size_t &b)        { b = 0;}
 
 
 } // ...Namespace BEFE

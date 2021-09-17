@@ -225,6 +225,16 @@ Stream &Stream::operator<< (Long that) {
   return (*this) << (char *)buf;
 }
 
+Stream &Stream::operator<< (ULong that) {
+  Byte buf[ToAscii_MaxNumLen];
+  if (that == ULongNaN)
+    Strcpy(buf,"ULongNan");
+  else
+    ToAscii(that,buf);
+
+  return (*this) << (char *)buf;
+}
+
 Stream &Stream::operator<< (void *that) {
   *this << ToHexString((PtrInt)that);
   return (*this);
