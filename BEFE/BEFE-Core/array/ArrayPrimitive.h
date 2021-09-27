@@ -72,7 +72,7 @@ template <typename T> class ArrayPrimitive : public _ArrayBase {  // Template Ar
     T      local;
     status = _Get(index, (Byte *)&local);
     if (status)
-      local = NULL;
+      BEFE::SetNull(local);
     return local;
   }
   

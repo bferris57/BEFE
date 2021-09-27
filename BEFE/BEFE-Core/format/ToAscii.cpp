@@ -12,7 +12,7 @@
 
 namespace BEFE { // Namespace BEFE...
 
-void ToAscii_MidEllipsis(Byte *buf, UInt len) {
+void ToAscii_MidEllipsis(Byte *buf, size_t len) {
 
   UInt bufLen;
   UInt firstLen;
@@ -34,7 +34,7 @@ void ToAscii_MidEllipsis(Byte *buf, UInt len) {
   
 }
 
-void ToAscii_LeftPad(Byte *buf, UInt len, Byte *outBuf) {
+void ToAscii_LeftPad(Byte *buf, size_t len, Byte *outBuf) {
 
   UInt bufLen;
   UInt diff;
@@ -61,7 +61,7 @@ void ToAscii(Int16 num, Byte *buf) {
   return ToAscii((Int64)num, buf);
 }
 
-void ToAscii(Int16 num, UInt len, Byte *buf) {
+void ToAscii(Int16 num, size_t len, Byte *buf) {
 
   Byte ourBuf[ToAscii_MaxNumLen];
   
@@ -89,7 +89,7 @@ void ToAscii(UInt16 num, Byte *buf) {
 
 }
 
-void ToAscii(UInt16 num, UInt len, Byte *buf) {
+void ToAscii(UInt16 num, size_t len, Byte *buf) {
 
   Byte ourBuf[ToAscii_MaxNumLen];
 
@@ -117,7 +117,7 @@ void ToAscii(Int32 num, Byte *buf) {
 
 }
 
-void ToAscii(Int32 num, UInt len, Byte *buf) {
+void ToAscii(Int32 num, size_t len, Byte *buf) {
 
   Byte ourBuf[ToAscii_MaxNumLen];
 
@@ -145,7 +145,7 @@ void ToAscii(UInt32 num, Byte *buf) {
 
 }
 
-void ToAscii(UInt32 num, UInt len, Byte *buf) {
+void ToAscii(UInt32 num, size_t len, Byte *buf) {
 
   Byte ourBuf[ToAscii_MaxNumLen];
 
@@ -165,7 +165,7 @@ void ToAscii(UInt32 num, UInt len, Byte *buf) {
 
 }
 
-void ToAscii(UInt64 num, UInt len, Byte *buf) {
+void ToAscii(UInt64 num, size_t len, Byte *buf) {
 
   Byte ourBuf[ToAscii_MaxNumLen];
 
@@ -252,7 +252,7 @@ void ToAscii(UInt64 num, Byte *buf) {
 
 }
 
-void ToAscii(Int64 num, UInt len, Byte *buf) {
+void ToAscii(Int64 num, size_t len, Byte *buf) {
 
   Byte ourBuf[ToAscii_MaxNumLen];
 
@@ -316,7 +316,7 @@ void ToHexAscii(UInt32 num, Byte *buf) {
   
 }
 
-void ToHexAscii(UInt32 num, UInt len, Byte *buf) {
+void ToHexAscii(UInt32 num, size_t len, Byte *buf) {
 
   Byte  ourBuf[8];
   Byte *bp;

@@ -52,20 +52,20 @@ enum {
 void ToAscii(Int16  num, Byte *buf);
 void ToAscii(Int32  num, Byte *buf);
 void ToAscii(Int64  num, Byte *buf);
-//void ToAscii(Int8   num, UInt len, Byte *buf);
-void ToAscii(Int16  num, UInt len, Byte *buf);
-void ToAscii(Int32  num, UInt len, Byte *buf);
-void ToAscii(Int64  num, UInt len, Byte *buf);
+//void ToAscii(Int8   num, size_t len, Byte *buf);
+void ToAscii(Int16  num, size_t len, Byte *buf);
+void ToAscii(Int32  num, size_t len, Byte *buf);
+void ToAscii(Int64  num, size_t len, Byte *buf);
 
 // UInt -> Ascii...
 //void ToAscii(UInt8  num, Byte *buf);
 void ToAscii(UInt16 num, Byte *buf);
 void ToAscii(UInt32 num, Byte *buf);
 void ToAscii(UInt64 num, Byte *buf);
-//void ToAscii(UInt8  num, UInt len, Byte *buf);
-void ToAscii(UInt16 num, UInt len, Byte *buf);
-void ToAscii(UInt32 num, UInt len, Byte *buf);
-void ToAscii(UInt64 num, UInt len, Byte *buf);
+//void ToAscii(UInt8  num, size_t len, Byte *buf);
+void ToAscii(UInt16 num, size_t len, Byte *buf);
+void ToAscii(UInt32 num, size_t len, Byte *buf);
+void ToAscii(UInt64 num, size_t len, Byte *buf);
 
 // Int -> HexAscii...
 //void ToHexAscii(Int8   num, Byte *buf);

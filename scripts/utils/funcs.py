@@ -122,7 +122,7 @@ quiet   = False
 # Notes:    If prefix is None, stdout will not be displayed.
 #
 
-def execute(cmd,prefix='',showout=False,showerr=False,env=os.environ,debug=False):
+def execute(cmd,prefix='',showout=False,showerr=False,env=os.environ,debug=False,shell=False):
 
     if type(cmd) == list:
       args = cmd
@@ -136,7 +136,7 @@ def execute(cmd,prefix='',showout=False,showerr=False,env=os.environ,debug=False
       stdout = subprocess.PIPE
       stderr = subprocess.PIPE
 
-    p = subprocess.run(args,stdin=sys.stdin,stdout=stdout,stderr=stderr,env=env)
+    p = subprocess.run(args,stdin=sys.stdin,stdout=stdout,stderr=stderr,env=env,shell=shell)
 
     rc  = p.returncode
     out = str(p.stdout,'utf-8')

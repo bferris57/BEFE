@@ -37,6 +37,8 @@
   #define NULL 0
 #endif
 
+#include <cstddef> // For size_t
+
 //
 // Macro to answer "Are we 32 or 64 bit pointers?"...
 //
@@ -54,10 +56,13 @@
 #if __GNUC__
 #  if __x86_64__ || __ppc64__
 #    define IS64BIT
+#    define LONGLONG long
 #  else
 #    define IS32BIT
+#    define LONGLONG long long
 #  endif
 #endif
+
 
 // Note: We don't like preprocessor macros but you gotta use one now
 //       and again...
@@ -133,13 +138,20 @@ typedef signed   short     SShort;
 typedef signed   int       Int;     // ◄── All hell breaks loose if this changes from 4 bytes!
 typedef unsigned int       UInt;
 typedef signed   int       SInt;
-typedef signed   long long Long;    // ◄── Just like Java.  Get used to this as well!
-typedef unsigned long long ULong;
-typedef signed   long long SLong;
+#ifdef IS32BIT
+  typedef signed   LONGLONG  Long;    // ◄── Just like Java.  Get used to this as well!
+  typedef unsigned LONGLONG  ULong;
+  typedef signed   LONGLONG  SLong;
+#else
+  typedef signed   long     Long;
+  typedef unsigned long     ULong;
+  typedef signed   long     SLong;
+#endif
+
 typedef void *             Ptr;
 // Pointer as UInt equivalent...
 #ifdef IS64BIT
-typedef unsigned long long PtrInt;
+typedef unsigned LONGLONG  PtrInt;
 #endif
 #ifdef IS32BIT
 typedef unsigned int       PtrInt;
@@ -158,21 +170,21 @@ typedef unsigned int       PtrInt;
 typedef signed   char      SInt8;
 typedef signed   short     SInt16;
 typedef signed   int       SInt32;
-typedef signed   long long SInt64;
+typedef signed   LONGLONG  SInt64;
 
 // Implicitly signed integers
 //   (<, <=, >, >= and >> undefined if different signs)
 typedef signed   char      Int8;
 typedef signed   short     Int16;
 typedef signed   int       Int32;
-typedef signed   long long Int64;
+typedef signed   LONGLONG  Int64;
 
 // Definitely unsigned integers
 //   (<, <=, >, >= and >> defined)
 typedef unsigned char      UInt8;
 typedef unsigned short     UInt16;
 typedef unsigned int       UInt32;
-typedef unsigned long long UInt64;
+typedef unsigned LONGLONG  UInt64;
 
 //----------------------------------------------------------------------
 //

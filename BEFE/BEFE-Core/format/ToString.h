@@ -36,38 +36,38 @@ String ToString(Boolean b);
 String ToString(Int16  num);
 String ToString(Int32  num);
 String ToString(Int64  num);
-//String ToString(Int8   num, UInt len);
-String ToString(Int16  num, UInt len);
-String ToString(Int32  num, UInt len);
-String ToString(Int64  num, UInt len);
+//String ToString(Int8   num, size_t len);
+String ToString(Int16  num, size_t len);
+String ToString(Int32  num, size_t len);
+String ToString(Int64  num, size_t len);
 
 // UInt -> String...
 //String ToString(UInt8  num);
 String ToString(UInt16 num);
 String ToString(UInt32 num);
 String ToString(UInt64 num);
-//String ToString(UInt8  num, UInt len);
-String ToString(UInt16 num, UInt len);
-String ToString(UInt32 num, UInt len);
-String ToString(UInt64 num, UInt len);
+//String ToString(UInt8  num, size_t len);
+String ToString(UInt16 num, size_t len);
+String ToString(UInt32 num, size_t len);
+String ToString(UInt64 num, size_t len);
 
 // Integer -> String...
 String ToString(Integer const &num);
-String ToString(Integer const &num, UInt len);
+String ToString(Integer const &num, size_t len);
 
 // Int -> HexString...
 //String ToHexString(Int8  num);
 //String ToHexString(Int16 num);
 String ToHexString(Int32  num);
-String ToHexString(Int32  num, UInt len);   // ◄── len is in "destination Chars"
+String ToHexString(Int32  num, size_t len);   // ◄── len is in "destination Chars"
 String ToHexString(UInt32 num);
-String ToHexString(UInt32 num, UInt len);   // ◄── len is in "destination Chars"
+String ToHexString(UInt32 num, size_t len);   // ◄── len is in "destination Chars"
 String ToHexString(Int64  num);
-String ToHexString(Int64  num, UInt len);   // ◄── len is in "destination Chars"
+String ToHexString(Int64  num, size_t len);   // ◄── len is in "destination Chars"
 String ToHexString(UInt64 num);
-String ToHexString(UInt64 num, UInt len);   // ◄── len is in "destination Chars"
-String ToHexString(Byte *bp, UInt len);     // ◄── len is in "Source Bytes" NOT "Destination Chars"
-String ToHexString(Ptr p, UInt len);        // ◄── len is in "Source Bytes" NOT "Destination Chars"
+String ToHexString(UInt64 num, size_t len);   // ◄── len is in "destination Chars"
+String ToHexString(Byte *bp, size_t len);     // ◄── len is in "Source Bytes" NOT "Destination Chars"
+String ToHexString(Ptr p, size_t len);        // ◄── len is in "Source Bytes" NOT "Destination Chars"
 
 // Time -> String handy form
 String ToString(Time t1, Time t2);

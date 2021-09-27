@@ -34,13 +34,13 @@ class MemoryInfo {
 // C++ operator new/delete
 //
 
-//void* operator new    (size_t size);
-//void* operator new[]  (size_t size);
+void* operator new    (size_t size);
+void* operator new[]  (size_t size);
 //void* operator new[]  (size_t size, const std::nothrow_t& nothrow_constant);
-//void  operator delete (void* ptr);
-//void  operator delete (void* ptr, const std::nothrow_t& nothrow_constant);
-//void  operator delete[] (void* ptr);
-//void  operator delete[] (void* ptr, const std::nothrow_t& nothrow_constant);
+void  operator delete (void* ptr);
+void  operator delete (void* ptr, size_t nothrow_constant);
+void  operator delete[] (void* ptr);
+void  operator delete[] (void* ptr, size_t nothrow_constant);
 
 //
 // Memory management
@@ -81,9 +81,9 @@ namespace BEFE { // Namespace BEFE...
   
   // Memory statistics
   void PrintMemoryStatistics();
-  void PrintMemory(const void *buf, UInt len);
-  void PrintMemory(const void *buf, UInt len, const char *indent);
-  void PrintMemory(const void *buf, UInt len, Int startoffset, const char *indent);
+  void PrintMemory(const void *buf, size_t len);
+  void PrintMemory(const void *buf, size_t len, const char *indent);
+  void PrintMemory(const void *buf, size_t len, Int startoffset, const char *indent);
 
 } // ...Namespace BEFE
 

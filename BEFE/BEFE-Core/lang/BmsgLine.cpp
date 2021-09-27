@@ -88,7 +88,7 @@ Status BmsgLine::CopyFrom(BmsgLine const &that) {
       status = MoveFrom(that);
     else {
       isConsumable = false;      
-      BEFE::SetNull((void **)&token0);
+      token0 = NULL;
       status = tokens.CopyFrom(that.tokens);
     }
 

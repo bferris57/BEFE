@@ -206,6 +206,15 @@ String &String::operator *= (Int theMult) {
   return *this;
 }
 
+String &String::operator *= (size_t theMult) {
+  if (BEFE::IsNull(theMult))
+    mult = 1;
+  else
+    mult = Min(255, Abs(theMult));
+  return *this;
+}
+
+
 String String::operator * (Int theMult) const {
   String local = *this;
   local *= theMult;

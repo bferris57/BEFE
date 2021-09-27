@@ -105,7 +105,7 @@ String ToString(Int16 num) {
   return ToString((Int64)num);
 }
 
-String ToString(Int16 num, UInt len) {
+String ToString(Int16 num, size_t len) {
 
   String string;
 
@@ -127,7 +127,7 @@ String ToString(UInt16 num) {
   return ToString((UInt64)num);
 }
 
-String ToString(UInt16 num, UInt len) {
+String ToString(UInt16 num, size_t len) {
 
   String string;
 
@@ -149,7 +149,7 @@ String ToString(Int32 num) {
   return (num==NaN) ? String("NaN") : ToString((Int64)num);
 }
 
-String ToString(Int32 num, UInt len) {
+String ToString(Int32 num, size_t len) {
 
   String string;
   
@@ -176,7 +176,7 @@ String ToString(UInt32 num) {
   return (num==UNaN) ? String("UNaN") : ToString((UInt64)num);
 }
 
-String ToString(UInt32 num, UInt len) {
+String ToString(UInt32 num, size_t len) {
 
   String string;
 
@@ -266,7 +266,7 @@ String ToString(UInt64 num) {
 
 }
 
-String ToString(Int64 num, UInt len) {
+String ToString(Int64 num, size_t len) {
 
   String string;
 
@@ -281,7 +281,7 @@ String ToString(Int64 num, UInt len) {
 
 }
 
-String ToString(UInt64 num, UInt len) {
+String ToString(UInt64 num, size_t len) {
 
   String string;
 
@@ -305,7 +305,7 @@ String ToString(Integer const &num) {
   return num.ToString();
 }
 
-String ToString(Integer const &num, UInt len) {
+String ToString(Integer const &num, size_t len) {
 
   String string;
 
@@ -345,7 +345,7 @@ String ToHexString(Int32 num) {
   
 }
 
-String ToHexString(Int32 num, UInt len) {
+String ToHexString(Int32 num, size_t len) {
   
   String answer;
   
@@ -394,7 +394,7 @@ String ToHexString(UInt32 num) {
 
 }
 
-String ToHexString(UInt32 num, UInt len) {
+String ToHexString(UInt32 num, size_t len) {
 
   String  string;
   Byte    buf[8];
@@ -491,7 +491,7 @@ String ToHexString(Int64 num) {
   
 }
 
-String ToHexString(Int64 num, UInt len) {
+String ToHexString(Int64 num, size_t len) {
   
   String answer;
   
@@ -547,7 +547,7 @@ String ToHexString(UInt64 num) {
 
 }
 
-String ToHexString(UInt64 num, UInt len) {
+String ToHexString(UInt64 num, size_t len) {
 
   String  string;
   Byte    buf[16];
@@ -626,7 +626,7 @@ String ToHexString(UInt64 num, UInt len) {
 
 }
 
-String ToHexString(Byte *bytes, UInt len) {
+String ToHexString(Byte *bytes, size_t len) {
   
   String str;
   Byte   b;
