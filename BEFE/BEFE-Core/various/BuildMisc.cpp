@@ -64,7 +64,7 @@ struct PublishContext {
   
 };
 
-static Status PublishWalker(String const &dir, UInt32 context) { // Build.PublishWalker...
+static Status PublishWalker(String const &dir, Ptr context) { // Build.PublishWalker...
   
   Status          status;
   PublishContext *pubContext;
@@ -169,7 +169,7 @@ Status Build::_GetPublishableFiles(String const &dirPath, String const &targetTy
 
   // Set up context and walk it...
   context.targetType = targetType;
-  status = WalkPath(dirPath, PublishWalker, (UInt)&context);
+  status = WalkPath(dirPath, PublishWalker, (Ptr)&context);
   if (status) goto SOMEERROR;
   context.files.Consumable();
   files = context.files;
