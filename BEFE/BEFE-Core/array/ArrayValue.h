@@ -39,7 +39,7 @@ template <typename V> class ArrayValue : public _ArrayBase { // Template ArrayVa
 	return *this;
   }
   public: V &operator[](Int index) {
-  	static V bogus;
+  	V bogus;
   	V *that = (V *)_GetAddress(index);
   	if (!that)
   		that = &bogus;

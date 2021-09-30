@@ -290,8 +290,9 @@ def copySource():
 def compileSource():
 
   cmd = 'gcc -g -Wall -c %s -o %s -I %s -std=c++17 -fno-exceptions ' \
-        '-finline-functions -nodefaultlibs -fno-rtti -fno-stack-protector ' \
-        '-fno-use-cxa-atexit -fno-threadsafe-statics -shared -lstdc++ '
+        '-finline-functions -fno-rtti -fno-stack-protector ' \
+        '-fno-use-cxa-atexit -fno-threadsafe-statics -shared -lstdc++ ' \
+        '' # Was: '-fnodefaultlibs '
   # TEMP...
   #cmd += ' -m32 -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'
   #cmd += ' -fno-pic -fno-threadsafe-statics -fno-use-cxa-atexit'

@@ -647,6 +647,13 @@ String ToHexString(Byte *bytes, size_t len) {
   
 }
 
+String ToHexString(Ptr bytes, size_t len) {
+
+  return ToHexString((Byte *)bytes, len);
+
+}
+
+
 //----------------------------------------------------------------------
 //
 // Time -> String handy form

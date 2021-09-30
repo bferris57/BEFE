@@ -41,8 +41,6 @@
 
 #include <stddef.h>       // For offsetof()
 
-#ifdef BEFE_PortWindows # BEFE_PortWindows...
-
 // For LexLangTest...
 #include "LexFormat.h"
 #include "LexLang.h"
@@ -50,14 +48,13 @@
 // ...For LexLangTest
 
 // For trythis()...
-#include "Win32.h"
 #include "ToString.h"
 #include "Time.h"
 #include "CommandShell.h"
+#include "IntFuncs.h"
 // ...For
 
 namespace BEFE { // Namespace BEFE...
-
 
 //----------------------------------------------------------------------
 //
@@ -78,10 +75,6 @@ void ErrorMessage(String const &str) {
 
 }
 
-#include "IntFuncs.h"
-
-//extern CommandShell *theShell;
-
 Status trythis() {
 
   Boolean oldWarn = gShowWarnings;
@@ -96,4 +89,3 @@ Status trythis() {
 
 } // Namespace BEFE
 
-#endif # ...BEFE_PortWindows
