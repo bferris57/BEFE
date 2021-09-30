@@ -369,7 +369,8 @@ def createLibrary():
 
 def createExecutable():
 
-  cmd = 'ld '
+  #cmd = 'ld '
+  cmd = 'gcc '
   cmd += '-o '+BEFE_Bin+'/befe '
   cmd += '-lc -lrt -luuid '
   for path in PathWalker(BEFE_Obj):
