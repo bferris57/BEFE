@@ -370,7 +370,7 @@ def createExecutable():
 
   cmd = 'ld '
   cmd += '-o '+BEFE_Bin+'/befe '
-  cmd += '-static -lrt -static -luuid '
+  cmd += '-lc -lrt -luuid '
   for path in PathWalker(BEFE_Obj):
     if not path.endswith('.o'): continue
     cmd += path+' '

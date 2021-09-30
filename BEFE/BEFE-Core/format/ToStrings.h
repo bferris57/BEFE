@@ -30,8 +30,8 @@ namespace BEFE {
 void    DisplayStrings(Strings &strings);
 void    DisplayStrings(Strings &strings, UInt indent);
 
-void    DisplayMemory(Byte *vbuf, UInt len, UInt startoffset,UInt indent);
-void    DisplayMemory(Byte *vbuf, UInt len, UInt startoffset);
+void    DisplayMemory(Byte *vbuf, size_t len, UInt startoffset,UInt indent);
+void    DisplayMemory(Byte *vbuf, size_t len, UInt startoffset);
 
 // Instance -> Strings handy form
 Strings ToStrings(Process           &process);
@@ -54,14 +54,14 @@ Status  ToStrings(FileInfo    const &info,      Strings &strings);
 Status  ToStrings(StreamStats const &info,      Strings &strings);
 
 // Memory -> Strings
-Strings ToStrings(Byte *vbuf, UInt len, UInt startoffset);
+Strings ToStrings(Byte *vbuf, size_t len, UInt startoffset);
 Strings ToStrings(Buffer const &buf);
 Strings ToStrings(Buffer const &buf, UInt startoffset);
 Strings ToStrings(BufferStream const &stream);
 Strings ToStrings(BufferStream const &stream, UInt startoffset);
 
 // Memory -> Strings normal form
-Status  ToStrings(Byte *vbuf, UInt len, UInt startoffset, Strings &strings);
+Status  ToStrings(Byte *vbuf, size_t len, UInt startoffset, Strings &strings);
 Status  ToStrings(Buffer const &buf, Strings &strings);
 Status  ToStrings(Buffer const &buf, UInt startoffset, Strings &strings);
 Status  ToStrings(BufferStream const &buf, Strings &strings);
