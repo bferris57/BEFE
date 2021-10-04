@@ -58,6 +58,7 @@
 #    define IS64BIT
 #    define LONGLONG long
 #  else
+#    warning "!!! 32 bit !!!"
 #    define IS32BIT
 #    define LONGLONG long long
 #  endif
@@ -135,11 +136,11 @@ typedef signed   char      SByte;   // ◄── Yuck!  That's Java talk that is
 typedef signed   short     Short;
 typedef unsigned short     UShort;
 typedef signed   short     SShort;
-typedef signed   int       Int;     // ◄── All hell breaks loose if this changes from 4 bytes!
+typedef signed   int       Int;
 typedef unsigned int       UInt;
 typedef signed   int       SInt;
 #ifdef IS32BIT
-  typedef signed   LONGLONG  Long;    // ◄── Just like Java.  Get used to this as well!
+  typedef signed   LONGLONG  Long;
   typedef unsigned LONGLONG  ULong;
   typedef signed   LONGLONG  SLong;
 #else

@@ -22,6 +22,33 @@
 
 namespace BEFE { // Namespace BEFE...
 
+// General purpose
+//   implemented in win32utils.cpp
+Long    LinuxFileTimeToTime(FILETIME ftime);
+Status  LinuxGetProcessExecutableName(String &thestring);
+Status  LinuxGetProcessExecutablePath(String &thestring);
+Long    LinuxGetPhysicalMemory();
+UInt    LinuxGetMemoryPageSize();
+Boolean LinuxMemoryIsReadable(void *addr);
+Boolean LinuxMemoryIsWritable(void *addr);
+Strings LinuxGetDeviceNames();
+Status  LinuxGetLogicalDrives(Strings &drives);
+Status  LinuxGetDeviceName(Int devno,String &name);
+Int     LinuxGetDeviceByName(Byte *buf, Int bufl);
+Int     LinuxGetDeviceByName(String &devname);
+String  LinuxGetDeviceDescription(String &devname);
+Status  LinuxGetStorageLimits(String devname, Int &bpc, Int &nfc, Int &tc);
+Status  LinuxRandomUUID(UUID &uuid);
+Status  LinuxGetCommandLine(String &cmdLine);
+
+// Network info
+//   implemented in win32utils.cpp
+Status LinuxGetHostAndDomains(String &host, Strings &domain);
+Status LinuxGetDNSDomains(Strings &array);
+Status LinuxGetMACAddresses(Strings &array);
+                                                                                                                                    99,23         21%
+
+
 //----------------------------------------------------------------------
 //
 // Classes: LinuxPlatform        - Linux Platform class

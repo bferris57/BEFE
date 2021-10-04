@@ -277,7 +277,7 @@ void ToAscii(Int64 num, size_t len, Byte *buf) {
 // Int -> HexAscii...
 //
 
-void ToHexAscii(UInt32 num, Byte *buf) {
+void ToHexAscii(UInt num, Byte *buf) {
 
   Byte  ourBuf[8];
   Byte *bp;
@@ -292,7 +292,7 @@ void ToHexAscii(UInt32 num, Byte *buf) {
   }
   
   // Convert to hex...
-  bp   = ourBuf + sizeof(ourBuf) - 1;
+  bp   = ourBuf + (sizeof(UInt)<<1) - 1;
   do {
     *bp = num & 0x0f;
     if (*bp < 10)
@@ -303,7 +303,7 @@ void ToHexAscii(UInt32 num, Byte *buf) {
   } while (num);
 
   // Give it to them...
-  movLen = sizeof(ourBuf) - (bp-ourBuf) - 1;
+  movLen = (sizeof(UInt)<<1) - (bp-ourBuf) - 1;
   Memmove(buf, bp+1, movLen);
   buf += movLen;
   *buf = 0x00;
@@ -316,7 +316,7 @@ void ToHexAscii(UInt32 num, Byte *buf) {
   
 }
 
-void ToHexAscii(UInt32 num, size_t len, Byte *buf) {
+void ToHexAscii(UInt num, size_t len, Byte *buf) {
 
   Byte  ourBuf[8];
   Byte *bp;
@@ -332,7 +332,7 @@ void ToHexAscii(UInt32 num, size_t len, Byte *buf) {
   
   // Else, convert to hex...
   else {
-    bp   = ourBuf + sizeof(ourBuf) - 1;    
+    bp   = ourBuf + sizeof(UInt)*2 - 1;    
     do {
       *bp = num & 0x0f;
       if (*bp < 10)
@@ -344,10 +344,101 @@ void ToHexAscii(UInt32 num, size_t len, Byte *buf) {
   }
 
   // If expected length is greater than 8, pad...
-  while (len > 8) { *buf++ = '.'; len--; }
+  while (len > sizeof(UInt)*2) { *buf++ = '.'; len--; }
   
   // If truncated...
-  movLen = sizeof(ourBuf) - (bp-ourBuf) - 1;
+  movLen = sizeof(UInt)*2 - (bp-ourBuf) - 1;
+  if (len < movLen)
+    while (len) { *buf++ = '#'; len--; }
+    
+  // Else, give it to them...
+  else {
+    while (len > movLen) { *buf++ = '0'; len--; }
+    Memmove(buf, bp+1, movLen);
+    buf += movLen;
+  }
+  
+  *buf = 0x00;
+  
+  while (false) {
+    DONE: break;
+  }
+  
+  return;
+  
+}
+
+void ToHexAscii(PtrInt num, Byte *buf) {
+
+  Byte  ourBuf[sizeof(PtrInt)*2];
+  Byte *bp;
+  UInt  movLen;
+  
+  if (!buf) goto DONE;
+  
+  // If UNaN...
+  if ( BEFE::IsNull(num) ) {
+    Strcpy(buf,"UNaN");
+    goto DONE;
+  }
+  
+  // Convert to hex...
+  bp   = ourBuf + sizeof(PtrInt)*2 - 1;
+  do {
+    *bp = num & 0x0f;
+    if (*bp < 10)
+      *bp-- += '0';
+    else
+	  *bp-- += ('A'-10);
+    num >>= 4;
+  } while (num);
+
+  // Give it to them...
+  movLen = sizeof(PtrInt)*2 - (bp-ourBuf) - 1;
+  Memmove(buf, bp+1, movLen);
+  buf += movLen;
+  *buf = 0x00;
+
+  while (false) {
+    DONE: break;
+  }
+  
+  return;
+  
+}
+
+void ToHexAscii(PtrInt num, size_t len, Byte *buf) {
+
+  Byte  ourBuf[sizeof(PtrInt)*2];
+  Byte *bp;
+  UInt  movLen;
+  
+  if (!buf) goto DONE;
+  
+  // If UNaN...
+  if ( IsNull(num) ) {
+    Memmove(ourBuf,(Byte *)"....UNaN",8);
+    goto DONE;
+  }
+  
+  // Else, convert to hex...
+  else {
+    bp   = ourBuf + sizeof(PtrInt)*2 - 1;    
+    do {
+      *bp = num & 0x0f;
+      if (*bp < 10)
+        *bp-- += '0';
+      else
+        *bp-- += ('A'-10);
+      num >>= 4;
+    } while (num);
+  }
+
+  // If expected length is greater than 8, pad...
+  while (len > sizeof(PtrInt)*2) { *buf++ = '.'; len--; }
+  
+  // If truncated...
+  movLen = sizeof(PtrInt)*2 - (bp-ourBuf) - 1;
   if (len < movLen)
     while (len) { *buf++ = '#'; len--; }
     

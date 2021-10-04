@@ -18,8 +18,9 @@
 //----------------------------------------------------------------------
 #include "BEFE.h"
 #include "BEFEMacros.h"
-#include "linux.h"
+#include "Linux.h"
 #include "ToAscii.h"
+
 #include <cstdlib>
 #include <cstring>  // For memcpy
 
