@@ -24,7 +24,6 @@ namespace BEFE { // Namespace BEFE...
 
 // General purpose
 //   implemented in win32utils.cpp
-Long    LinuxFileTimeToTime(FILETIME ftime);
 Status  LinuxGetProcessExecutableName(String &thestring);
 Status  LinuxGetProcessExecutablePath(String &thestring);
 Long    LinuxGetPhysicalMemory();

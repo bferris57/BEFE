@@ -103,13 +103,9 @@ String LinuxOperatingSystem::GetHostName() {
 
 Long LinuxOperatingSystem::GetCurrentTime() {
 
-  SYSTEMTIME     systemTime;
-  FILETIME       fileTime;
   Long           t;
 
-  GetSystemTime( &systemTime );
-  SystemTimeToFileTime( &systemTime, &fileTime );
-  t = LinuxFileTimeToTime(fileTime);
+???
 
   return t;
 

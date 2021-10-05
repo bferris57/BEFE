@@ -47,19 +47,6 @@ const char *LinuxReservedFileChars = "<>\"/\\|?*";
 // General purpose functions
 //
 
-Long LinuxFileTimeToTime(FILETIME fileTime) {
-
-  ULARGE_INTEGER uli;
-  Long           t;
-
-  uli.LowPart = fileTime.dwLowDateTime; // could use memcpy here!
-  uli.HighPart = fileTime.dwHighDateTime;
-  t = (Long)uli.QuadPart/10000 - ((Long)Time::EpochDaysSince1601*(1000L*60L*60L*24L));
- 
-  return t;
-
-}
-
 Status LinuxGetProcessExecutableName(String &thestring) {
 
   DWORD   processid;
