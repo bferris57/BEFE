@@ -14,6 +14,9 @@
 #include "OperatingSystem.h"
 #include "Linux.h"
 
+#include <sys/time.h> // For gettimeofday()
+#include "limits.h"   // For PATH_MAX
+
 namespace BEFE { // Namespace BEFE...
 
 //----------------------------------------------------------------------
@@ -103,9 +106,11 @@ String LinuxOperatingSystem::GetHostName() {
 
 Long LinuxOperatingSystem::GetCurrentTime() {
 
+  struct timeval now;
   Long           t;
 
-???
+  gettimeofday(&now,NULL);
+  t = now.tv_sec*1000 + now.tv_usec/1000 - Time::EpochDaysSince1970 * Time::SecondsPerDay;
 
   return t;
 

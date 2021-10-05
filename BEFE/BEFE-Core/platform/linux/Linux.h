@@ -45,8 +45,6 @@ Status  LinuxGetCommandLine(String &cmdLine);
 Status LinuxGetHostAndDomains(String &host, Strings &domain);
 Status LinuxGetDNSDomains(Strings &array);
 Status LinuxGetMACAddresses(Strings &array);
-                                                                                                                                    99,23         21%
-
 
 //----------------------------------------------------------------------
 //
