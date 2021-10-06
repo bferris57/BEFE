@@ -47,6 +47,7 @@ const char *LinuxReservedFileChars = "<>\"/\\|?*";
 // General purpose functions
 //
 
+/* TEMP...
 Status LinuxGetProcessExecutableName(String &thestring) {
 
   DWORD   processid;
@@ -821,6 +822,7 @@ Status LinuxGetCommandLine(String &cmdLine) {
   return Error::None;
 
 }
+... TEMP */
 
 
 } // ...Namespace BEFE

@@ -15,6 +15,8 @@
 #include "Linux.h"
 
 #include <sys/time.h> // For gettimeofday()
+#include <unistd.h>   // For various stuff
+#include <sys/stat.h> // For stat etc.
 #include "limits.h"   // For PATH_MAX
 
 namespace BEFE { // Namespace BEFE...
@@ -42,38 +44,38 @@ Status LinuxOperatingSystem::ShutDown() {
 
 Status LinuxOperatingSystem::_StartUp() {
 
-  Byte buf[PATH_MAX];
-  UInt dirLen;
-  
   OperatingSystem::StartUp();
 
   if (!TheBefe->TheOS)
     TheBefe->TheOS = this;
     
   // If no vtable, make one...
-  if (*(UInt *)this == 0) {
+  if (*(PtrInt *)this == 0) {
     LinuxOperatingSystem x;
-    *(Int32 **)this = *(Int32 **)&x;
+    *(PtrInt **)this = *(PtrInt **)&x;
   }
 
   //
   // Initialise members
   //
 
-  shortname     = "win32";
-  name          = "Windows32";
+  shortname     = "linux";
+  name          = "Linux";
   description.StartUp();
   version.StartUp();
-  vendor        = "Microsoft";
+  vendor        = "???";
   memoryPageSize = LinuxGetMemoryPageSize();
   fileseparator = '.';
-  pathseparator = '\\';
-  listseparator = ';';
+  pathseparator = '/';
+  listseparator = ':';
   hostname.StartUp();
-  apps16 = true;
+  apps16 = false;
   apps32 = true;
-  dirLen = GetSystemWow64Directory((LPTSTR)&buf[0], sizeof(buf)-1);
-  apps64 = dirLen != 0;
+#ifdef IS64BIT
+  apps64 = true;
+#else
+  apps64 = false;
+#endif
   
   return Error::None;
 
@@ -118,13 +120,10 @@ Long LinuxOperatingSystem::GetCurrentTime() {
 
 Long LinuxOperatingSystem::GetLocalTime() {
 
-  SYSTEMTIME     localTime;
-  FILETIME       fileTime;
   Long           t;
 
-  ::GetLocalTime( &localTime );
-  SystemTimeToFileTime( &localTime, &fileTime );
-  t = LinuxFileTimeToTime(fileTime);
+  // For now...
+  t = GetCurrentTime();
 
   return t;
 
@@ -140,16 +139,11 @@ String LinuxOperatingSystem::GetDeviceDescription(String &devname) {
 
 Boolean LinuxOperatingSystem::IsFile(String const &fName) {
 
-  Boolean  exists;
-  Status   status;
-  UShort   buf[PATH_MAX];
-  UInt     bufl;
-  UInt     attributes;
-  UInt     genCount;
-  UInt     natCount;
-  UShort  *tBuf;
-  
-  exists = true;
+  Status      status;
+  Boolean     exists;
+  Byte        buf[PATH_MAX];
+  UInt        bufl;
+  int         rc;
   
   // Doesn't exist if it doesn't have a name
   if (fName.Length() == 0) goto NOPE;
@@ -158,26 +152,15 @@ Boolean LinuxOperatingSystem::IsFile(String const &fName) {
 	if (!IsFullPath(fName)) goto NOPE;
 	
   // Get the full name bytes
-  status = LinuxW_FromString(fName, buf, PATH_MAX, bufl);
+  status = fName.ToBytes(buf, sizeof(buf), bufl);
   if (status) goto NOPE;
   if (bufl) 
     bufl--;
     
-  // Convert to Native format if needed
-  natCount = fName.Count('\\');
-  genCount = fName.Count('/');
-  if (genCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '/') *tBuf = '\\';
-  
-  // Strip off trailing '\'
-  if (bufl && buf[bufl-1] == '\\')
-    buf[bufl-1] = 0x00;
-
   // Get the attributes
-  attributes = GetFileAttributesW((LPCWSTR)buf);
-  if (attributes == INVALID_FILE_ATTRIBUTES ||
-      (attributes & FILE_ATTRIBUTE_DIRECTORY)
-	 ) goto NOPE;
+  rc = access((const char *)&buf, F_OK);
+  if (rc) goto NOPE;
+  exists = true;
 
   // Handle errors
   while (false) {
