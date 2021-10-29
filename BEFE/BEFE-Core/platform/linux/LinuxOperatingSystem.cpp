@@ -13,6 +13,7 @@
 #include "Time.h"
 #include "OperatingSystem.h"
 #include "Linux.h"
+#include "LinuxFile.h"
 
 namespace BEFE { // Namespace BEFE...
 
@@ -231,9 +232,6 @@ Status LinuxOperatingSystem::CreateDirectories(String &dirName) {
   String  theDir;
   Strings parts;
   UInt    curIdx;
-  UShort  winDir[PATH_MAX+1];
-  UInt    winDirLen;
-  Boolean ok;
   
   // Make sure it's a full path...
 	if (!IsFullPath(dirName)) goto NOTFULL;
@@ -247,11 +245,11 @@ Status LinuxOperatingSystem::CreateDirectories(String &dirName) {
     goto NOTDIR;
   }
 
-  parts = theDir.Split('\\');
+  parts = theDir.Split('/');
   theDir = parts.Get(0);
   for (curIdx=1; curIdx < parts.Length(); curIdx++) {
     // Build subdirectory name up to here...
-    theDir += '\\';
+    theDir += '/';
     theDir += parts.Get(curIdx);
     // If it already exists, make sure it's a directory
     if (Exists(theDir)) {
@@ -259,11 +257,8 @@ Status LinuxOperatingSystem::CreateDirectories(String &dirName) {
       continue;
     }
     // Doesn't exist, create it...
-    status = LinuxW_FromString(theDir, winDir, PATH_MAX, winDirLen);
+    status = LinuxCreateDirectory(theDir);
     if (status) goto SOMEERROR;
-    winDir[winDirLen] = 0;
-    ok = CreateDirectoryW((LPCWSTR)winDir,NULL);
-    if (!ok) goto OSERR;
   }
   
   // Handle errors
@@ -271,7 +266,6 @@ Status LinuxOperatingSystem::CreateDirectories(String &dirName) {
   while (false) {
 		NOTFULL:   status = Error::NotFullPath;      break;
     NOTDIR:    status = Error::FileNameIsNotDir; break;
-    OSERR:     status = Error::OSError;          break;
     OK:        status = Error::None;             break;
     SOMEERROR:                                   break;
   }
@@ -282,283 +276,19 @@ Status LinuxOperatingSystem::CreateDirectories(String &dirName) {
 
 Status LinuxOperatingSystem::GetDirectories(String const &fullName, Strings &subdirs) {
 
-  Status   status;
-  String   subdir;
-  UShort   buf[PATH_MAX];
-  UInt     bufl;
-  HANDLE   hsearch;
-  UInt     namelen;
-  UInt     genCount;
-  UInt     natCount;
-  UShort  *tBuf;
-  String   tDirName;
-  
-  WIN32_FIND_DATAW info;
-
-  // Doesn't exist if it doesn't have a name
-  if (fullName.Length() == 0) goto OK;
-
-  // Make sure it's a full path...
-	if (!IsFullPath(fullName)) goto NOTFULL;
-	
-  // Get the full name bytes
-  status = LinuxW_FromString(fullName, buf, sizeof(buf)-3, bufl);
-  if (status) goto SOMEERROR;
-  if (bufl) bufl--;
-
-  // Convert to Native format if needed
-  natCount = fullName.Count('\\');
-  genCount = fullName.Count('/');
-  if (genCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '/') *tBuf = '\\';
-
-  // Make sure it ends in '\' and append a '*'
-  if (buf[bufl-1] != '\\') {
-    buf[bufl++] = '\\';
-  }
-  buf[bufl++] = '*';
-  buf[bufl] = 0x00;
-    
-  // Try getting first file name
-  hsearch = FindFirstFileW((LPCWSTR)buf,&info);
-  if (hsearch == INVALID_HANDLE_VALUE) goto OK;
-
-  // For each one...
-  do {
-    if (info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-      // Ignore if hidden and we're not supposed to show it...
-      if (!gShowHiddenDirectories && (info.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) )
-        continue;
-      // Normal processing
-      subdir  = fullName;
-      namelen = LinuxW_Strlen((UShort *)info.cFileName);
-      if (natCount == 0 && genCount && subdir.Get(-1) != '/')
-        subdir += '/';
-      if (natCount && subdir.Get(-1) != '\\')
-        subdir += '\\';
-      // Skip '.' and '..'
-      if (namelen <= 2 && info.cFileName[0] == '.' &&
-          (namelen == 1 || info.cFileName[1] == '.'))
-        continue;
-      // Append it to the list
-      tDirName = LinuxW_ToString((UShort *)info.cFileName);
-      subdir.Append(tDirName);
-      subdirs.Append(subdir.Consumable());
-    }
-  } while (FindNextFileW(hsearch,&info));
-
-  // Close the search handle
-  FindClose(hsearch);
-
-  // Handle errors...
-  status = Error::None;
-  while (false) {
-		NOTFULL:   status = Error::NotFullPath; break;
-    OK:        status = Error::None;        break;
-    SOMEERROR:                              break;
-  }
-
-  return status;
+  return Error::NotImplemented;
 
 }
 
 Status LinuxOperatingSystem::GetFiles(String const &fullName, Strings &files) {
 
-  Status   status;
-  String   file;
-  UShort   buf[PATH_MAX];
-  UInt     bufl;
-  HANDLE   hsearch;
-  UInt     namelen;
-  UInt     genCount;
-  UInt     natCount;
-  UShort  *tBuf;
-  String   tFileName;
-  
-  WIN32_FIND_DATAW info;
-
-  // Doesn't exist if it doesn't have a name
-  if (fullName.Length() == 0) goto OK;
-
-  // Make sure it's a full path...
-	if (!IsFullPath(fullName)) goto NOTFULL;
-	
-  // Get the full name in Bytes...
-  status = LinuxW_FromString(fullName, buf, sizeof(buf)-3, bufl);
-  if (status) goto SOMEERROR;
-  if (bufl) bufl--;
-  
-  // Convert to Native format if needed
-  natCount = fullName.Count('\\');
-  genCount = fullName.Count('/');
-  if (genCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '/') *tBuf = '\\';
-
-  // Make sure it ends in '\' and append a '*'
-  if (buf[bufl-1] != '\\') {
-    buf[bufl++] = '\\';
-  }
-  buf[bufl++] = '*';
-  buf[bufl] = 0x00;
-    
-  // Try getting first file name
-  hsearch = FindFirstFileW((LPCWSTR)buf, &info);
-  if (hsearch == INVALID_HANDLE_VALUE) goto OK;
-
-  // For each one...
-  do {
-
-    if ((info.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY |
-                                  FILE_ATTRIBUTE_ENCRYPTED |
-                                  FILE_ATTRIBUTE_REPARSE_POINT |
-                                  FILE_ATTRIBUTE_OFFLINE) ) == 0
-       ) {
-
-      // Ignore if hidden and we're not supposed to show it...
-      if (!gShowHiddenFiles && (info.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) )
-        continue;
-      // Normal processing
-      file  = fullName;
-      namelen = LinuxW_Strlen((UShort *)info.cFileName);
-      if (natCount == 0 && genCount && fullName.Get(-1) != '/')
-        file += '/';
-      if (natCount && fullName.Get(-1) != '\\')
-        file += '\\';
-
-      // Skip '.' and '..'
-      if (namelen <= 2 && info.cFileName[0] == '.' &&
-          (namelen == 1 || info.cFileName[1] == '.'))
-        continue;
-
-      // Append it to the list
-      tFileName = LinuxW_ToString((UShort *)info.cFileName);
-      file.Append(tFileName);
-      files.Append(file.Consumable());
-
-    }
-  } while (FindNextFileW(hsearch,&info));
-
-  // Close the search handle
-  FindClose(hsearch);
-
-  // Handle errors
-  status = Error::None;
-  while (false) {
-		NOTFULL:   status = Error::NotFullPath; break;
-    OK:        status = Error::None;        break;
-    SOMEERROR:                              break;
-  }
-
-  return status;
+  return Error::NotImplemented;
 
 }
 
 Status LinuxOperatingSystem::GetFilesInfo(String const &fullPath, FileInfos &files) {
 
-  Status    status;
-  String    natDirName;
-  String    file;
-  UShort    buf[PATH_MAX];
-  UInt      bufl;
-  HANDLE    hsearch;
-  UInt      namelen;
-  FileInfo  fInfo;
-  UInt      genCount;
-  UInt      natCount;
-  UShort   *tBuf;
-  String    tString;
-  
-  WIN32_FIND_DATAW findInfo;
-
-  if (fullPath.Length() == 0) goto OK;
-  
-  // Make sure it's a full path...
-	if (!IsFullPath(fullPath)) goto NOTFULL;
-	
-  // Transform the name to native and into our local buf
-  status = LinuxW_FromString(fullPath, buf, PATH_MAX, bufl);
-  if (status) goto SOMEERROR;
-  bufl--;
-    
-  // Convert to Native format if needed
-  natCount = fullPath.Count('\\');
-  genCount = fullPath.Count('/');
-  if (genCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '/') *tBuf = '\\';
-
-  // Get the full name bytes
-  if (bufl+1 >= PATH_MAX-3) goto TOOLONG;
-  if (buf[bufl-1] != '\\') {
-    buf[bufl] = '\\';
-    bufl++;
-  }
-  buf[bufl] = '*';
-  bufl++;
-  buf[bufl] = 0x00;
-
-  // Try getting first file name
-  hsearch = FindFirstFileW((LPCWSTR)buf,&findInfo);
-  if (hsearch == INVALID_HANDLE_VALUE) goto OK;
-
-  // For each one...
-  do {
-
-    if ((findInfo.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY |
-                                      FILE_ATTRIBUTE_ENCRYPTED |
-                                      FILE_ATTRIBUTE_REPARSE_POINT |
-                                      FILE_ATTRIBUTE_OFFLINE) ) == 0
-       ) { // It's a file...
-
-      // Ignore if hidden and we're not supposed to show it...
-      if (!gShowHiddenFiles && (findInfo.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) )
-        continue;
-      // Normal processing
-      file = fullPath;
-      namelen = LinuxW_Strlen((UShort *)findInfo.cFileName);
-      if (natCount == 0 && genCount && fullPath.Get(-1) != '/')
-        file += '/';
-      if (natCount && fullPath.Get(-1) != '\\')
-        file += '\\';
-      tString = LinuxW_ToString((UShort *)findInfo.cFileName).Consumable();
-      file.Append(tString);
-
-      // Skip '.' and '..'
-      if (namelen <= 2 && findInfo.cFileName[0] == '.' &&
-          (namelen == 1 || findInfo.cFileName[1] == '.'))
-        continue;
-
-      // Populate the info
-      fInfo.name = file.Consumable();
-      fInfo.size = (ULong)findInfo.nFileSizeHigh;
-      fInfo.size <<= 32;
-      fInfo.size += (UInt)findInfo.nFileSizeLow;
-      // Note: These times MAY BE WRONG according to Microsoft...
-      //       So, we may need to change it to use GetFileInformationByHandle
-      //       (see notes at http://msdn.microsoft.com/en-us/library/windows/desktop/aa364418%28v=vs.85%29.aspx)
-      fInfo.creationTime = LinuxFileTimeToTime(findInfo.ftCreationTime);
-      fInfo.accessTime   = LinuxFileTimeToTime(findInfo.ftLastAccessTime);
-      fInfo.updateTime   = LinuxFileTimeToTime(findInfo.ftLastWriteTime);
-
-      // Append it
-      status = files.Append(fInfo.Consumable());
-      if (status) break;
-
-    } // ...It's a file
-
-  } while (!status && FindNextFileW(hsearch,&findInfo));
-
-  // Close the search handle
-  FindClose(hsearch);
-
-  // Handle errors...
-  while (false) {
-		NOTFULL:   status = Error::NotFullPath;     break;
-    OK:        status = Error::None;            break;
-    TOOLONG:   status = Error::FileNameTooLong; break;
-    SOMEERROR:                                  break;
-  }
-
-  return status;
+  return Error::NotImplemented;
 
 }
 
@@ -732,268 +462,38 @@ Boolean LinuxOperatingSystem::IsPath(String const &path) const {
 
 Boolean LinuxOperatingSystem::IsFullPath(String const &path) const {
 
-  UInt    pathLen;
-  Char    chars[3];
-  Boolean answer;
-
-  pathLen = path.Length();
-
-  // Must be at least three long
-  if (pathLen < 3) goto NOPE;
-
-  // Get the first three characters
-  chars[0] = path.Get(0);
-  chars[1] = path.Get(1);
-  chars[2] = path.Get(2);
-
-  // Special case for Network (SMB) file names
-  if ((chars[0] == '\\' && chars[1] == '\\') ||
-      (chars[0] == '/'  && chars[1] == '/' ) ) goto YEP;
-
-  // Make sure it's <Drive Letter>:
-  if (  chars[1] == ':' &&
-       (chars[2] == '\\' || chars[2] == '/') &&
-       ((chars[0] >= 'a' && chars[1] <= 'z') || (chars[0] >= 'A' && chars[1] <= 'Z') )
-     ) goto YEP;
-
-  // Handle errors
-  answer = false;
-  while (false) {
-    NOPE: answer = false; break;
-    YEP:  answer = true;  break;
-  }
-
-  return answer;
+  return LinuxIsFullPath(path);
 
 }
 
 Boolean LinuxOperatingSystem::IsRelativePath(String const &path) const {
 
-  Status  status;
-  Strings parts;
-  UInt    numParts;
-  UInt    partNo;
-  String  part;
-  Boolean answer;
-  Char    firstChar;
-
-  // Special case for empty, local, and remote paths
-  if (path.Length() == 0) goto NOPE;
-  if (IsRemotePath(path)) goto NOPE;
-  if (IsLocalPath(path)) goto NOPE;
-
-  // Special case if starts with '~'...
-  firstChar = path.Get(0);
-  if (firstChar == '~' || firstChar == '!' || firstChar == '@') goto YEP;
-  
-  // Special case for  '\'...
-  if (firstChar == '\\' || firstChar == '/') goto YEP;
-
-  // Special case for no '\' or '/'...
-  if (path.Count('\\') == 0 && path.Count('/') == 0) goto YEP;
-  
-  // Pull apart by the Path Separator
-  status = PathSplit(path,parts);
-  if (status) goto SOMEERROR;
-  numParts = parts.Length();
-
-  // For each Part...
-  for (partNo=0; partNo < numParts; partNo++) {
-
-    part = parts.Get(partNo);
-    if (part.Length() == 0) continue;
-    if (part == ".." || part == ".") break;
-    if (!IsValidFileName(part)) goto NOPE;
-
-  }
-
-  answer = (partNo < numParts);
-  
-  // Handle errors...
-  status = Error::None;
-  while (false) {
-    SOMEERROR:
-    NOPE:      answer = false; break;
-    YEP:       answer = true;  break;
-  }
-
-  return answer;
+  return LinuxIsRelativePath(path);
 
 }
 
 Boolean LinuxOperatingSystem::IsLocalPath(String const &fullPath) const {
   
-  Int foundPosColon;
-  Int foundPos;
-  
-  if (!IsFullPath(fullPath))
-    return false;
-  foundPosColon = fullPath.Find(':');
-  if (IsNull(foundPosColon)) 
-    return false;
-  foundPos = fullPath.Find('/');
-  if (foundPos >= 0)
-    return foundPosColon < foundPos;
-  foundPos = fullPath.Find('\\');
-  if (foundPos >= 0)
-    return foundPosColon < foundPos;
-  
-  return false;
-  
+  return LinuxIsLocalPath(fullPath);
+
 }
 
 Boolean LinuxOperatingSystem::IsRemotePath(String const &fullPath) const {
-  String firstTwo;
-  firstTwo = fullPath.Get(Span(0,2));
-  return firstTwo == "//" || firstTwo == "\\\\";
+
+  return LinuxIsRemotePath(fullPath);
+
 }
 
 Boolean LinuxOperatingSystem::IsValidFileName(String const &fileName) const {
 
-  Boolean  answer;
-  Byte    *buf;
-  UInt     size;
-  Byte    *curChar;
-  Byte    *firstDot;
-  Byte    theChar;
-  UInt    reml;
-
-  char    *cp;
-
-  fileName._BufAndSize(buf, size);
-
-  // Invalid if empty or too long...
-  if (size <= 0 || size >= PATH_MAX) goto NOPE;
-
-  // Validate the characters used in the name...
-  //   (and find the first '.', or end of file)
-  firstDot = NULL;
-  curChar  = buf;
-  reml = size;
-  while (reml > 0) {
-    // Get the character
-    theChar = *curChar++;
-    reml--;
-    // If it's less than 0x20, it's bad
-    if (theChar < 0x20) goto NOPE;
-    // If it's in the list of bad chars, it's bad
-    for (cp=(char *)LinuxReservedFileChars;*cp;cp++)
-      if (*cp == theChar) goto NOPE;
-    // If it's a '.' and we don't have the first one yet, save where it is
-    if (theChar == '.' && IsNull(firstDot))
-      firstDot = curChar-1;
-  }
-  if (IsNull(firstDot))
-    firstDot = buf + size - 1;
-
-  // Validate last character
-  theChar = buf[size-1];
-  if (theChar == ' ' || theChar == '.') goto NOPE;
-
-  // If everything before the first '.' or end of string is a reserved
-  // win32 device name, it's not valid
-  if ( !IsNull(LinuxGetDeviceByName(buf, firstDot-buf)) ) goto NOPE;
-
-  // *** It seems to qualify as a "valid file name" according to Microsoft
-  answer = true;
-  
-  // Handle errors
-  while (false) {
-    NOPE: answer = false; break;
-  }
-
-  return answer;
+  return LinuxIsValidFileName(fileName);
 
 }
 
 Boolean LinuxOperatingSystem::IsValidPathName(String const &fullpath) const {
 
-  Boolean answer;
-  Status  status;
-  Strings parts;
-  Int     numparts;
-  Int     devno;
-  Char    achar;
-  Int     partno;
-  String  part;
-  UInt    valStart;         // Part validation starting index
+  return LinuxIsValidPathName(fullpath);
 
-  // If empty, it's not valid
-  if (fullpath.Length() <= 0) goto NOPE;
-
-  // Split it into consitituent parts
-  status = PathSplit(fullpath,parts);
-  if (status) goto NOPE;
-  numparts = parts.Length();
-  if (numparts <= 0) goto NOPE;
-
-  // If it's a network path...
-  if (numparts > 2 && parts.Get(0).Length() == 0 && parts.Get(1).Length() == 0) {
-
-    valStart  = 2;
-
-  }
-
-  // It's not a network path...
-  else {  // ...It's a "local" path
-
-    valStart  = 1;
-
-    // Validate the first part.  This must be either a drive letter followed by
-    // a ':', or a reserved drive name.  In the first case, there has to be
-    // more parts.  In the second case there can't be any more parts
-
-    status = parts.Get(0,part);
-    if (status) goto NOPE;
-
-    // If two letters, it HAS TO be a drive number followed by a ':'...
-    if (part.Length() == 2) {
-      achar = part.Get(0);
-      // Turn into uppercase
-      if (achar >= 'a' && achar <= 'z')
-        achar = achar - 'a' + 'A';
-      // Must be a drive letter
-      if (achar < 'A' || achar > 'Z') goto NOPE;
-      // Must be followed by ':'
-      achar = part.Get(1);
-      if (achar != ':') goto NOPE;
-      // It's a drive letter, must be followed by more parts
-      if (numparts == 1) goto NOPE;
-    }
-
-    // Not two letters, make sure it's a reserved device name
-    else {
-      // Not two letters, see if it's a reserved device name
-      devno = LinuxGetDeviceByName(part);
-      if ( IsNull(devno) ) goto NOPE;
-      // If there's other parts, it's not valid
-      if (numparts > 1) goto NOPE;
-      goto YEP;
-    }
-
-  } // ...It's a "local" path
-
-  // First part's okay and it's a drive letter and we have more parts...
-  // Make sure the remaining parts are valid file/directory names...
-  //
-  // Note: Ignore empty last part
-  //
-  for (partno=valStart; partno < numparts; partno++) {
-    status = parts.Get(partno,part);
-    if (status) goto NOPE;
-    if (partno == numparts-1 && part.Length() == 0) break;
-    if (!IsValidFileName(part)) goto NOPE;
-  }
-
-  // Handle errors...
-  answer = true;
-  while (false) {
-    NOPE: answer = false; break;
-    YEP:  answer = true;  break;
-  }
-
-  return answer;
-  
 }
 
 String LinuxOperatingSystem::ApplyRelativePath(String const &path, String const &relpath) const {
@@ -1160,84 +660,20 @@ Status LinuxOperatingSystem::ApplyRelativePath(String const &pPath, String const
 
 Status LinuxOperatingSystem::_LowMoveFile(String const &fromNativeFileName, String const &toNativeFileName) {
   
-  Status  status;
-  UShort  fromBuf[PATH_MAX+1];
-  UInt    fromLen;
-  UShort  toBuf[PATH_MAX+1];
-  UInt    toLen;
-  Boolean ok;
-  
-  status = LinuxW_FromString(fromNativeFileName, fromBuf, PATH_MAX, fromLen);
-  if (status) goto SOMEERROR;
-  fromBuf[fromLen] = 0;
-  status = LinuxW_FromString(toNativeFileName, toBuf, PATH_MAX, toLen);
-  if (status) goto SOMEERROR;
-  toBuf[toLen] = 0;
-  ok = MoveFileW((LPCWSTR)fromBuf, (LPCWSTR)toBuf);
-  if (!ok) goto OSERROR;
-  
-  // Handle errors
-  status = Error::None;
-  while (false) {
-    OSERROR:   status = Error::OSError;           break;
-    SOMEERROR:                                    break;
-  }
-  
-  return status;
-  
+    return Error::NotImplemented;
+
 }
 
 Status LinuxOperatingSystem::_LowCopyFile(String const &fromNativeFileName, String const &toNativeFileName) {
   
-  Status  status;
-  UShort  fromBuf[PATH_MAX+1];
-  UInt    fromLen;
-  UShort  toBuf[PATH_MAX+1];
-  UInt    toLen;
-  Boolean ok;
-  
-  status = LinuxW_FromString(fromNativeFileName, fromBuf, PATH_MAX, fromLen);
-  if (status) goto SOMEERROR;
-  fromBuf[fromLen] = 0;
-  status = LinuxW_FromString(toNativeFileName, toBuf, PATH_MAX, toLen);
-  if (status) goto SOMEERROR;
-  toBuf[toLen] = 0;
-  ok = CopyFileW((LPCWSTR)fromBuf, (LPCWSTR)toBuf, TRUE);
-  if (!ok) goto OSERROR;
-  
-  // Handle errors
-  status = Error::None;
-  while (false) {
-    OSERROR:   status = Error::OSError;           break;
-    SOMEERROR:                                    break;
-  }
-  
-  return status;
-  
+    return Error::NotImplemented;
+
 }
 
 Status LinuxOperatingSystem::_LowDeleteFile(String const &nativeFileName) {
   
-  Status  status;
-  UShort  nameBuf[PATH_MAX+1];
-  UInt    nameLen;
-  Boolean ok;
-  
-  status = LinuxW_FromString(nativeFileName, nameBuf, PATH_MAX, nameLen);
-  if (status) goto SOMEERROR;
-  nameBuf[nameLen] = 0;
-  ok = DeleteFileW((LPCWSTR)nameBuf);
-  if (!ok) goto OSERROR;
-  
-  // Handle errors
-  status = Error::None;
-  while (false) {
-    OSERROR:   status = Error::OSError;           break;
-    SOMEERROR:                                    break;
-  }
-  
-  return status;
-  
+    return Error::NotImplemented;
+
 }
 
 /*
@@ -1289,26 +725,18 @@ String LinuxOperatingSystem::GetTempPath() {
   if (temppath.Length() == 0) {
     tempvar = "BEFE_Temp";
     temppath = TheBefe->TheProcess->GetEnvironmentValue(String(tempvar));
-    if (temppath.Length() == 0)
-      LinuxRegGetValueString("HKEY_CURRENT_USER/Environment:BEFE_Temp",temppath);
   }
   if (temppath.Length() == 0) {
     tempvar = "BEFE_Root";
     temppath = TheBefe->TheProcess->GetEnvironmentValue(String("BEFE_Root"));
-    if (temppath.Length() == 0)
-      LinuxRegGetValueString("HKEY_CURRENT_USER/Environment:BEFE_Root",temppath);
   }
   if (temppath.Length() == 0) {
     tempvar = "TEMP";
     temppath = TheBefe->TheProcess->GetEnvironmentValue(String("TEMP"));
-    if (temppath.Length() == 0)
-      LinuxRegGetValueString("HKEY_CURRENT_USER/Environment:TEMP",temppath);
   }
   if (temppath.Length() == 0) {
     tempvar = "TMP";
     temppath = TheBefe->TheProcess->GetEnvironmentValue(String("TMP"));
-    if (temppath.Length() == 0)
-      LinuxRegGetValueString("HKEY_CURRENT_USER/Environment:TMP",temppath);
   }
 
   // Trim it and strip off any trailing path separators
@@ -1375,23 +803,8 @@ String LinuxOperatingSystem::GetTempFileName() {
 
 Status LinuxOperatingSystem::NewRandomUUID(UUID &newUUID) {
   
-  Status  status;
-  HRESULT oleError;
-  
-  oleError = BEFE::CoCreateGuid((GUID *)&newUUID);
-  if (oleError) {
-    newUUID = UUID();
-    status = Error::LinuxOLEError;
-  }
-  else {
-    // Turn the parts into big-endian order...
-    newUUID.value.microsoft.data1 = ReverseBytes(newUUID.value.microsoft.data1);
-    newUUID.value.microsoft.data2 = ReverseBytes(newUUID.value.microsoft.data2);
-    newUUID.value.microsoft.data3 = ReverseBytes(newUUID.value.microsoft.data3);
-    status = Error::None;
-  }  
-  return status;
-  
+    return Error::NotImplemented;
+
 }
 
 //----------------------------------------------------------------------
@@ -1401,12 +814,6 @@ Status LinuxOperatingSystem::NewRandomUUID(UUID &newUUID) {
 
 Status LinuxOperatingSystem::InitVars() {
 
-  if (description.IsNull()) {  
-    LinuxRegGetValueString("HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion:ProductName",description);
-    LinuxRegGetValueString("HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion:CurrentVersion",version);
-    LinuxRegGetValueString("HKEY_CURRENT_USER/Volatile Environment:USERDOMAIN", hostname);
-  }
-  
   return Error::None;
   
 }

@@ -19,6 +19,7 @@
 #include "OperatingSystem.h"
 #include "Network.h"
 #include "File.h"
+#include "LinuxFile.h"
 
 #include <sys/time.h> // For gettimeofday()
 #include <unistd.h>   // For various stuff
@@ -30,6 +31,7 @@ namespace BEFE { // Namespace BEFE...
 
 // General purpose
 //   implemented in Linux.cpp
+Time    LinuxTimespecToTime(struct timespec spec);
 Status  LinuxGetProcessExecutableName(String &thestring);
 Status  LinuxGetProcessExecutablePath(String &thestring);
 Long    LinuxGetPhysicalMemory();
@@ -55,7 +57,7 @@ Boolean LinuxIsValidPathName(String const &fullpath);
 Boolean LinuxIsValidPathName(String const &fullpath);
 Status  LinuxPathSplit(String const &path, Strings &parts);
 Status  LinuxPathJoin(Strings const &parts, String &full);
-Time    LinuxTimespecToTime(struct timespec spec);
+Status  LinuxCreateDirectory(String const &dir);
 
 // Network info
 //   implemented in win32utils.cpp

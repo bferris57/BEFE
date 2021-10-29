@@ -27,7 +27,7 @@ namespace BEFE { // Namespace BEFE...
 
 //----------------------------------------------------------------------
 //
-// Internal (static) Functions...
+// Various Functions...
 //
 //----------------------------------------------------------------------
 
@@ -403,6 +403,12 @@ Boolean LinuxIsValidPathName(String const &fullpath) {
 
   return answer;
   
+}
+
+Status LinuxCreateDirectory(String const &dir) {
+
+  return Error::NotImplemented;
+
 }
 
 //----------------------------------------------------------------------
