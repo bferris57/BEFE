@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+g++ -I/home/bruce/befe/BEFE/temp/_inc -o t t.cpp

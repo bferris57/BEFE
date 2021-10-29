@@ -410,21 +410,21 @@ if __name__ == "__main__":
   compile = True
   link    = True
   for arg in args:
-    if arg == '+clean':
+    if arg in ('+clean','clean'):
       clean = True
     elif arg == '-clean':
       clean = False
     elif arg == '-copy':
       copy = False
-    elif arg == '+copy':
+    elif arg in ('+copy','copy'):
       copy = True
     elif arg in ('-c','-compile'):
       compile = False
-    elif arg in ('+c','+compile'):
+    elif arg in ('+c','+compile','compile'):
       compile = True
     elif arg == '-link':
       link = False
-    elif arg == '+link':
+    elif arg in ('+link','link'):
       link = True
     else:
       usage()

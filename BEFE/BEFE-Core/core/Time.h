@@ -43,6 +43,7 @@ class Time {
                      Days         = Day,
                      Weeks        = Week};
 
+  public: static const Int SecondsPerDay       = 60*60*24;
   public: static const Int DaysPerLeapYear     = 366;
   public: static const Int DaysPerNonLeapYear  = DaysPerLeapYear-1;
   public: static const Int DaysPerQuadYear     = DaysPerLeapYear+3*DaysPerNonLeapYear;

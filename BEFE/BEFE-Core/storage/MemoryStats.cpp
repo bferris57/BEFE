@@ -198,8 +198,8 @@ void MemoryStats::LogMemoryAlloc(Byte *thebytes, UInt len) {
     }
     // Print the message
     if (MemoryInfoSize != 0) {
-      ToHexAscii((Int)newCount,                   8, buf1);
-      ToHexAscii((PtrInt)thebytes+MemoryInfoSize, 8, buf2);
+      ToHexAscii((PtrInt)newCount,                  (sizeof(PtrInt)<<1), buf1);
+      ToHexAscii((PtrInt)(thebytes+MemoryInfoSize), (sizeof(PtrInt)<<1), buf2);
       ToHexAscii(len,                                buf3);
       cursor = Cout.GetCursor();
       if (cursor.x != 0)
@@ -212,7 +212,7 @@ void MemoryStats::LogMemoryAlloc(Byte *thebytes, UInt len) {
            << ")\n";
     }
     else {
-      ToHexAscii((PtrInt)thebytes, 8, buf1);
+      ToHexAscii((PtrInt)thebytes, (sizeof(PtrInt)<<1), buf1);
       ToAscii(newCount, buf2);
       ToHexAscii(len, buf3);
       if (!Cout.OutputIsRedirected() && cursor.x != 0)
