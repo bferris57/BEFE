@@ -299,11 +299,6 @@ Boolean LinuxIsValidFileName(String const &fileName) {
   theChar = buf[size-1];
   if (theChar == ' ' || theChar == '.') goto NOPE;
 
-  // If everything before the first '.' or end of string is a reserved
-  // win32 device name, it's not valid
-  if ( !IsNull(LinuxGetDeviceByName(buf, firstDot-buf)) ) goto NOPE;
-
-  // *** It seems to qualify as a "valid file name" according to Microsoft
   answer = true;
   
   // Handle errors
@@ -325,7 +320,6 @@ Boolean LinuxIsValidPathName(String const &fullpath) {
   Char    achar;
   Int     partno;
   String  part;
-  UInt    valStart;         // Part validation starting index
 
   // If empty, it's not valid
   if (fullpath.Length() <= 0) goto NOPE;
@@ -336,58 +330,7 @@ Boolean LinuxIsValidPathName(String const &fullpath) {
   numparts = parts.Length();
   if (numparts <= 0) goto NOPE;
 
-  // If it's a network path...
-  if (numparts > 2 && parts.Get(0).Length() == 0 && parts.Get(1).Length() == 0) {
-
-    valStart  = 2;
-
-  }
-
-  // It's not a network path...
-  else {  // ...It's a "local" path
-
-    valStart  = 1;
-
-    // Validate the first part.  This must be either a drive letter followed by
-    // a ':', or a reserved drive name.  In the first case, there has to be
-    // more parts.  In the second case there can't be any more parts
-
-    status = parts.Get(0,part);
-    if (status) goto NOPE;
-
-    // If two letters, it HAS TO be a drive number followed by a ':'...
-    if (part.Length() == 2) {
-      achar = part.Get(0);
-      // Turn into uppercase
-      if (achar >= 'a' && achar <= 'z')
-        achar = achar - 'a' + 'A';
-      // Must be a drive letter
-      if (achar < 'A' || achar > 'Z') goto NOPE;
-      // Must be followed by ':'
-      achar = part.Get(1);
-      if (achar != ':') goto NOPE;
-      // It's a drive letter, must be followed by more parts
-      if (numparts == 1) goto NOPE;
-    }
-
-    // Not two letters, make sure it's a reserved device name
-    else {
-      // Not two letters, see if it's a reserved device name
-      devno = LinuxGetDeviceByName(part);
-      if ( IsNull(devno) ) goto NOPE;
-      // If there's other parts, it's not valid
-      if (numparts > 1) goto NOPE;
-      goto YEP;
-    }
-
-  } // ...It's a "local" path
-
-  // First part's okay and it's a drive letter and we have more parts...
-  // Make sure the remaining parts are valid file/directory names...
-  //
-  // Note: Ignore empty last part
-  //
-  for (partno=valStart; partno < numparts; partno++) {
+  for (partno=0; partno < numparts; partno++) {
     status = parts.Get(partno,part);
     if (status) goto NOPE;
     if (partno == numparts-1 && part.Length() == 0) break;
