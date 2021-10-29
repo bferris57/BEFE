@@ -18,6 +18,7 @@
 #include <unistd.h>   // For various stuff
 #include <sys/stat.h> // For stat etc.
 #include "limits.h"   // For PATH_MAX
+#include <cstring>    // For memcpy
 
 namespace BEFE { // Namespace BEFE...
 
@@ -173,14 +174,14 @@ Boolean LinuxOperatingSystem::IsFile(String const &fName) {
 
 Boolean LinuxOperatingSystem::IsDirectory(String const &dirName) {
 
-  Boolean  exists;
-  Status   status;
-  UShort   buf[PATH_MAX];
-  UInt     bufl;
-  UInt     attributes;
-  UInt     genCount;
-  UInt     natCount;
-  UShort  *tBuf;
+  Boolean      exists;
+  Byte         buf[PATH_MAX];
+  UInt         bufl;
+  struct stat  info;
+  UInt         winCount;
+  UInt         natCount;
+  Byte        *tBuf;
+  int          rc;
   
   // Doesn't exist if it doesn't have a name
   if (dirName.Length() == 0) goto NOPE;
@@ -189,30 +190,29 @@ Boolean LinuxOperatingSystem::IsDirectory(String const &dirName) {
 	if (!IsFullPath(dirName)) goto NOPE;
 	
   // Get the full name bytes
-  status = Linux_FromString(dirName, buf, PATH_MAX, bufl);
-  if (status) goto NOPE;
-  if (bufl) 
-    bufl--;
+  dirName._BufAndSize(tBuf,bufl);
+  if (!tBuf || !bufl) goto NOPE;
+  if (bufl >= PATH_MAX) goto NOPE;
+  memcpy(buf, tBuf, bufl);
+  buf[bufl] = 0x00;
     
   // Convert to Native format if needed
-  natCount = dirName.Count('\\');
-  genCount = dirName.Count('/');
-  if (genCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '/') *tBuf = '\\';
+  natCount = dirName.Count('/');
+  winCount = dirName.Count('\\');
+  if (winCount && !natCount)
+    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '\\') *tBuf = '/';
   
-  // Strip off trailing '\'
-  if (bufl && buf[bufl-1] == '\\')
+  // Strip off trailing '/'
+  if (bufl && buf[bufl-1] == '/')
     buf[bufl-1] = 0x00;
 
-  // Get the attributes
-  attributes = GetFileAttributesW((LPCWSTR)buf);
-  if (attributes == INVALID_FILE_ATTRIBUTES) goto NOPE;
-
-  if (attributes & FILE_ATTRIBUTE_DIRECTORY) goto YEP;
+  // stat it...
+  rc = stat((const char *)buf, &info);
+  if (rc) goto NOPE;
+  if (info.st_mode & S_IFDIR) goto YEP;
 
   // Handle errors...
-  exists = false;
-  while (false) {
+  while (true) {
     NOPE: exists = false; break;
     YEP:  exists = true;  break;
   }
