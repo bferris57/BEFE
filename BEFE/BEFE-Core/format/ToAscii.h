@@ -73,7 +73,7 @@ void ToAscii(UInt64 num, size_t len, Byte *buf);
 //void ToHexAscii(Int32  num, Byte *buf);
 //void ToHexAscii(Int64  num, Byte *buf);
 void ToHexAscii(UInt num, Byte *buf);
-void ToHexAscii(UInt num, UInt len, Byte *buf);
+void ToHexAscii(UInt num, size_t len, Byte *buf);
 
 } // ...Namespace BEFE
 
