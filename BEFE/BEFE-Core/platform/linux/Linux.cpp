@@ -33,6 +33,370 @@ namespace BEFE { // Namespace BEFE...
 
 //----------------------------------------------------------------------
 //
+// Various file/path functions...
+//
+//----------------------------------------------------------------------
+
+const Char  pathseparator = '/';
+const char *LinuxReservedFileChars = "<>:\"'/\\|?*";
+
+Status LinuxStat(String const &dirName, struct stat *retInfo) {
+
+  Status       status;
+  Byte         buf[PATH_MAX];
+  UInt         bufl;
+  UInt         winCount;
+  UInt         natCount;
+  Byte        *tBuf;
+  struct stat  info;
+  int          rc;
+  
+  // Doesn't exist if it doesn't have a name
+  if (dirName.Length() == 0) goto NONAME;
+
+  // Doesn't exist if it's not a full path...
+	if (!LinuxIsFullPath(dirName)) goto BADNAME;
+	
+  // Get the full name bytes
+  dirName._BufAndSize(tBuf,bufl);
+  if (!tBuf || !bufl) goto BADNAME;
+  if (bufl >= PATH_MAX) goto TOOLONG;
+  memcpy(buf, tBuf, bufl);
+  buf[bufl] = 0x00;
+    
+  // Convert to Native format if needed
+  natCount = dirName.Count('/');
+  winCount = dirName.Count('\\');
+  if (winCount && !natCount)
+    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '\\') *tBuf = '/';
+  
+  // Strip off trailing '/'
+  if (bufl && buf[bufl-1] == '/')
+    buf[bufl-1] = 0x00;
+
+  // stat it...
+  rc = stat((const char *)buf, &info);
+  if (rc) goto NOTEXIST;
+  if (retInfo)
+    *retInfo = info;
+
+  // Handle errors...
+  status = Error::None;
+  while (true) {
+    BADNAME:  status = Error::FileInvalidPathName; break;
+    NONAME:   status = Error::FileNoName;          break;
+    TOOLONG:  status = Error::FileNameTooLong;     break;
+    NOTEXIST: status = Error::FileDoesNotExist;    break;
+  }
+ 
+  return status;
+
+}
+
+Status LinuxPathSplit(String const &path, Strings &parts) {
+
+  Status status;
+  Char   splitchar;
+
+  if (path.Count('\\') != 0)
+    splitchar = '\\';
+  else if (path.Count('/') != 0)
+    splitchar = '/';
+  else
+    splitchar = (char)0;
+
+  status = Error::None;
+  status = path.SplitToStrings(splitchar,parts);
+
+  return status;
+
+}
+
+Status LinuxPathJoin(Strings const &parts, String &full) {
+
+  Status status;
+
+  full.SetEmpty();
+  full = parts.Join(pathseparator);
+
+  status = Error::None;
+
+  // Sanity check...
+  if (parts.Length() != 0 && full.Length() == 0)
+    status = Error::Internal;
+
+  return status;
+
+}
+
+Boolean LinuxIsFullPath(String const &path) {
+
+  UInt    pathLen;
+  Char    chars[3];
+  Boolean answer;
+
+  pathLen = path.Length();
+
+  // Must be at least three long
+  if (pathLen < 3) goto NOPE;
+
+  // Get the first three characters
+  chars[0] = path.Get(0);
+  chars[1] = path.Get(1);
+  chars[2] = path.Get(2);
+
+  // Special case for Network (SMB) file names
+  if ((chars[0] == '\\' && chars[1] == '\\') ||
+      (chars[0] == '/'  && chars[1] == '/' ) ) goto YEP;
+
+  // Make sure it's <Drive Letter>:
+  if (  chars[1] == ':' &&
+       (chars[2] == '\\' || chars[2] == '/') &&
+       ((chars[0] >= 'a' && chars[1] <= 'z') || (chars[0] >= 'A' && chars[1] <= 'Z') )
+     ) goto YEP;
+
+  // Handle errors
+  answer = false;
+  while (false) {
+    NOPE: answer = false; break;
+    YEP:  answer = true;  break;
+  }
+
+  return answer;
+
+}
+
+Boolean LinuxIsRelativePath(String const &path) {
+
+  Status  status;
+  Strings parts;
+  UInt    numParts;
+  UInt    partNo;
+  String  part;
+  Boolean answer;
+  Char    firstChar;
+
+  // Special case for empty, local, and remote paths
+  if (path.Length() == 0) goto NOPE;
+  if (LinuxIsRemotePath(path)) goto NOPE;
+  if (LinuxIsLocalPath(path)) goto NOPE;
+
+  // Special case if starts with '~'...
+  firstChar = path.Get(0);
+  if (firstChar == '~' || firstChar == '!' || firstChar == '@') goto YEP;
+  
+  // Special case for  '\'...
+  if (firstChar == '\\' || firstChar == '/') goto YEP;
+
+  // Special case for no '\' or '/'...
+  if (path.Count('\\') == 0 && path.Count('/') == 0) goto YEP;
+  
+  // Pull apart by the Path Separator
+  status = LinuxPathSplit(path,parts);
+  if (status) goto SOMEERROR;
+  numParts = parts.Length();
+
+  // For each Part...
+  for (partNo=0; partNo < numParts; partNo++) {
+
+    part = parts.Get(partNo);
+    if (part.Length() == 0) continue;
+    if (part == ".." || part == ".") break;
+    if (!LinuxIsValidFileName(part)) goto NOPE;
+
+  }
+
+  answer = (partNo < numParts);
+  
+  // Handle errors...
+  status = Error::None;
+  while (false) {
+    SOMEERROR:
+    NOPE:      answer = false; break;
+    YEP:       answer = true;  break;
+  }
+
+  return answer;
+
+}
+
+Boolean LinuxIsLocalPath(String const &fullPath) {
+  
+  Int foundPosColon;
+  Int foundPos;
+  
+  if (!LinuxIsFullPath(fullPath))
+    return false;
+  foundPosColon = fullPath.Find(':');
+  if (IsNull(foundPosColon)) 
+    return false;
+  foundPos = fullPath.Find('/');
+  if (foundPos >= 0)
+    return foundPosColon < foundPos;
+  foundPos = fullPath.Find('\\');
+  if (foundPos >= 0)
+    return foundPosColon < foundPos;
+  
+  return false;
+  
+}
+
+Boolean LinuxIsRemotePath(String const &fullPath) {
+  String firstTwo;
+  firstTwo = fullPath.Get(Span(0,2));
+  return firstTwo == "//" || firstTwo == "\\\\";
+}
+
+Boolean LinuxIsValidFileName(String const &fileName) {
+
+  Boolean  answer;
+  Byte    *buf;
+  UInt     size;
+  Byte    *curChar;
+  Byte    *firstDot;
+  Byte    theChar;
+  UInt    reml;
+
+  char    *cp;
+
+  fileName._BufAndSize(buf, size);
+
+  // Invalid if empty or too long...
+  if (size <= 0 || size >= PATH_MAX) goto NOPE;
+
+  // Validate the characters used in the name...
+  //   (and find the first '.', or end of file)
+  firstDot = NULL;
+  curChar  = buf;
+  reml = size;
+  while (reml > 0) {
+    // Get the character
+    theChar = *curChar++;
+    reml--;
+    // If it's less than 0x20, it's bad
+    if (theChar < 0x20) goto NOPE;
+    // If it's in the list of bad chars, it's bad
+    for (cp=(char *)LinuxReservedFileChars;*cp;cp++)
+      if (*cp == theChar) goto NOPE;
+    // If it's a '.' and we don't have the first one yet, save where it is
+    if (theChar == '.' && IsNull(firstDot))
+      firstDot = curChar-1;
+  }
+  if (IsNull(firstDot))
+    firstDot = buf + size - 1;
+
+  // Validate last character
+  theChar = buf[size-1];
+  if (theChar == ' ' || theChar == '.') goto NOPE;
+
+  // If everything before the first '.' or end of string is a reserved
+  // win32 device name, it's not valid
+  if ( !IsNull(LinuxGetDeviceByName(buf, firstDot-buf)) ) goto NOPE;
+
+  // *** It seems to qualify as a "valid file name" according to Microsoft
+  answer = true;
+  
+  // Handle errors
+  while (false) {
+    NOPE: answer = false; break;
+  }
+
+  return answer;
+
+}
+
+Boolean LinuxIsValidPathName(String const &fullpath) {
+
+  Boolean answer;
+  Status  status;
+  Strings parts;
+  Int     numparts;
+  Int     devno;
+  Char    achar;
+  Int     partno;
+  String  part;
+  UInt    valStart;         // Part validation starting index
+
+  // If empty, it's not valid
+  if (fullpath.Length() <= 0) goto NOPE;
+
+  // Split it into consitituent parts
+  status = LinuxPathSplit(fullpath,parts);
+  if (status) goto NOPE;
+  numparts = parts.Length();
+  if (numparts <= 0) goto NOPE;
+
+  // If it's a network path...
+  if (numparts > 2 && parts.Get(0).Length() == 0 && parts.Get(1).Length() == 0) {
+
+    valStart  = 2;
+
+  }
+
+  // It's not a network path...
+  else {  // ...It's a "local" path
+
+    valStart  = 1;
+
+    // Validate the first part.  This must be either a drive letter followed by
+    // a ':', or a reserved drive name.  In the first case, there has to be
+    // more parts.  In the second case there can't be any more parts
+
+    status = parts.Get(0,part);
+    if (status) goto NOPE;
+
+    // If two letters, it HAS TO be a drive number followed by a ':'...
+    if (part.Length() == 2) {
+      achar = part.Get(0);
+      // Turn into uppercase
+      if (achar >= 'a' && achar <= 'z')
+        achar = achar - 'a' + 'A';
+      // Must be a drive letter
+      if (achar < 'A' || achar > 'Z') goto NOPE;
+      // Must be followed by ':'
+      achar = part.Get(1);
+      if (achar != ':') goto NOPE;
+      // It's a drive letter, must be followed by more parts
+      if (numparts == 1) goto NOPE;
+    }
+
+    // Not two letters, make sure it's a reserved device name
+    else {
+      // Not two letters, see if it's a reserved device name
+      devno = LinuxGetDeviceByName(part);
+      if ( IsNull(devno) ) goto NOPE;
+      // If there's other parts, it's not valid
+      if (numparts > 1) goto NOPE;
+      goto YEP;
+    }
+
+  } // ...It's a "local" path
+
+  // First part's okay and it's a drive letter and we have more parts...
+  // Make sure the remaining parts are valid file/directory names...
+  //
+  // Note: Ignore empty last part
+  //
+  for (partno=valStart; partno < numparts; partno++) {
+    status = parts.Get(partno,part);
+    if (status) goto NOPE;
+    if (partno == numparts-1 && part.Length() == 0) break;
+    if (!LinuxIsValidFileName(part)) goto NOPE;
+  }
+
+  // Handle errors...
+  answer = true;
+  while (false) {
+    NOPE: answer = false; break;
+    YEP:  answer = true;  break;
+  }
+
+  return answer;
+  
+}
+
+//----------------------------------------------------------------------
+//
 // Various overall Process specific functions
 //
 //----------------------------------------------------------------------
@@ -133,7 +497,7 @@ void Free(Byte *theMem) {
 
 }
 
-Byte *Memmove(Byte *dst, Byte *src, Int len) {
+Byte *Memcpy(Byte *dst, Byte *src, Int len) {
 
   Byte *result;
 

@@ -20,10 +20,16 @@
 #include "Network.h"
 #include "File.h"
 
+#include <sys/time.h> // For gettimeofday()
+#include <unistd.h>   // For various stuff
+#include <sys/stat.h> // For stat etc.
+#include "limits.h"   // For PATH_MAX
+#include <cstring>    // For memcpy
+
 namespace BEFE { // Namespace BEFE...
 
 // General purpose
-//   implemented in win32utils.cpp
+//   implemented in Linux.cpp
 Status  LinuxGetProcessExecutableName(String &thestring);
 Status  LinuxGetProcessExecutablePath(String &thestring);
 Long    LinuxGetPhysicalMemory();
@@ -39,6 +45,16 @@ String  LinuxGetDeviceDescription(String &devname);
 Status  LinuxGetStorageLimits(String devname, Int &bpc, Int &nfc, Int &tc);
 Status  LinuxRandomUUID(UUID &uuid);
 Status  LinuxGetCommandLine(String &cmdLine);
+Status  LinuxStat(String path, struct stat &info);
+Boolean LinuxIsFullPath(String const &path);
+Boolean LinuxIsRelativePath(String const &path);
+Boolean LinuxIsLocalPath(String const &fullPath);
+Boolean LinuxIsRemotePath(String const &fullPath);
+Boolean LinuxIsValidFileName(String const &fileName);
+Boolean LinuxIsValidPathName(String const &fullpath);
+Boolean LinuxIsValidPathName(String const &fullpath);
+Status  LinuxPathSplit(String const &path, Strings &parts);
+Status  LinuxPathJoin(Strings const &parts, String &full);
 
 // Network info
 //   implemented in win32utils.cpp

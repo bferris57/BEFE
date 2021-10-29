@@ -14,12 +14,6 @@
 #include "OperatingSystem.h"
 #include "Linux.h"
 
-#include <sys/time.h> // For gettimeofday()
-#include <unistd.h>   // For various stuff
-#include <sys/stat.h> // For stat etc.
-#include "limits.h"   // For PATH_MAX
-#include <cstring>    // For memcpy
-
 namespace BEFE { // Namespace BEFE...
 
 //----------------------------------------------------------------------
@@ -243,7 +237,7 @@ Boolean LinuxOperatingSystem::Exists(String const &fileOrDirName) {
 
   Status   status;
   Boolean  exists;
-  UShort   buf[PATH_MAX];
+  Byte     buf[PATH_MAX];
   UInt     bufl;
   UInt     attributes;
   UInt     genCount;
