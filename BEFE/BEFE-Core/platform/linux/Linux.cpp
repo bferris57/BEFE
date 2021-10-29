@@ -31,6 +31,16 @@ namespace BEFE { // Namespace BEFE...
 //
 //----------------------------------------------------------------------
 
+Time LinuxTimespecToTIme(struct timespec &spec) {
+
+  Long val;
+
+  val = (spec.tv_sec - Time::EpochDaysSince1970)*100000L + ((spec.tv_nsec+500)/1000);
+
+  return Time(val);
+
+}
+  
 //----------------------------------------------------------------------
 //
 // Various file/path functions...

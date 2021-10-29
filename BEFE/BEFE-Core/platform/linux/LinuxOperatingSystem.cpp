@@ -136,204 +136,90 @@ Boolean LinuxOperatingSystem::IsFile(String const &fName) {
 
   Status      status;
   Boolean     exists;
-  Byte        buf[PATH_MAX];
-  UInt        bufl;
-  int         rc;
-  
-  // Doesn't exist if it doesn't have a name
-  if (fName.Length() == 0) goto NOPE;
+  struct stat info;
 
-  // Make sure it's a full path...
-	if (!IsFullPath(fName)) goto NOPE;
-	
-  // Get the full name bytes
-  status = fName.ToBytes(buf, sizeof(buf), bufl);
-  if (status) goto NOPE;
-  if (bufl) 
-    bufl--;
-    
-  // Get the attributes
-  rc = access((const char *)&buf, F_OK);
-  if (rc) goto NOPE;
-  exists = true;
+  exists = false;
+  status = LinuxStat(fName,info);
+  if (status) goto DONE;
+  if (info.st_mode & S_IFREG)
+    exists = true;
 
-  // Handle errors
-  while (false) {
-    NOPE: exists = false; break;
-  }
-  
+DONE:
+
   return exists;
 
 }
 
 Boolean LinuxOperatingSystem::IsDirectory(String const &dirName) {
 
+  Status       status;
   Boolean      exists;
-  Byte         buf[PATH_MAX];
-  UInt         bufl;
   struct stat  info;
-  UInt         winCount;
-  UInt         natCount;
-  Byte        *tBuf;
-  int          rc;
   
-  // Doesn't exist if it doesn't have a name
-  if (dirName.Length() == 0) goto NOPE;
-
-  // Doesn't exist if it's not a full path...
-	if (!IsFullPath(dirName)) goto NOPE;
-	
-  // Get the full name bytes
-  dirName._BufAndSize(tBuf,bufl);
-  if (!tBuf || !bufl) goto NOPE;
-  if (bufl >= PATH_MAX) goto NOPE;
-  memcpy(buf, tBuf, bufl);
-  buf[bufl] = 0x00;
-    
-  // Convert to Native format if needed
-  natCount = dirName.Count('/');
-  winCount = dirName.Count('\\');
-  if (winCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '\\') *tBuf = '/';
-  
-  // Strip off trailing '/'
-  if (bufl && buf[bufl-1] == '/')
-    buf[bufl-1] = 0x00;
-
-  // stat it...
-  rc = stat((const char *)buf, &info);
-  if (rc) goto NOPE;
-  if (info.st_mode & S_IFDIR) goto YEP;
-
-  // Handle errors...
-  while (true) {
-    NOPE: exists = false; break;
-    YEP:  exists = true;  break;
-  }
+  exists = false;
+  status = LinuxStat(dirName,info);
+  if (status) goto DONE;
+  if (info.st_mode & S_IFDIR)
+    exists = true;
  
+DONE:
+
   return exists;
 
 }
 
-Boolean LinuxOperatingSystem::IsDevice(String const &fname) {
+Boolean LinuxOperatingSystem::IsDevice(String const &dname) {
 
-  Strings devNames;
-  UInt    numNames;
-  UInt    nameIdx;
-  String  name;
+  Status       status;
+  Boolean      exists;
+  struct stat  info;
 
-  devNames = LinuxGetDeviceNames();
-  numNames = devNames.Length();
-  for (nameIdx=0; nameIdx < numNames; nameIdx++) {
-    name = devNames.Get(nameIdx);
-    if (name.CompareInsensitive(fname) == 0) break;
-  }
+  exists = false;
+  status = LinuxStat(dname,info);
+  if (status) goto DONE;
+  if (info.st_mode & (S_IFBLK + S_IFCHR))
+    exists = true;
 
-  return nameIdx < numNames;
+DONE:
+
+  return exists;
+
 
 }
 
 Boolean LinuxOperatingSystem::Exists(String const &fileOrDirName) {
 
-  Status   status;
-  Boolean  exists;
-  Byte     buf[PATH_MAX];
-  UInt     bufl;
-  UInt     attributes;
-  UInt     genCount;
-  UInt     natCount;
-  UShort  *tBuf;
-  
-  // Doesn't exist if it doesn't have a name or it's not a full path...
-  if (fileOrDirName.Length() == 0) goto NOPE;
-  if (!IsFullPath(fileOrDirName)) goto NOPE;
-	
-  // Get the full name bytes
-  status = LinuxW_FromString(fileOrDirName, buf, PATH_MAX, bufl);
-  if (status) goto NOPE;
-  if (bufl) 
-    bufl--;
-    
-  // Convert to Native format if needed
-  natCount = fileOrDirName.Count('\\');
-  genCount = fileOrDirName.Count('/');
-  if (genCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '/') *tBuf = '\\';
-  
-  // Strip off any trailing '\'
-  if (bufl && buf[bufl-1] == '\\')
-    buf[bufl-1] = 0x00;
 
-  // Try getting the file attributes
-  attributes = GetFileAttributesW((LPCWSTR)buf);
-  if (attributes == INVALID_FILE_ATTRIBUTES) goto NOPE;
+  Status       status;
+  Boolean      exists;
+  struct stat  info;
 
-  // Handle errors
+  exists = false;
+  status = LinuxStat(fileOrDirName,info);
+  if (status) goto DONE;
   exists = true;
-  while (false) {
-    NOPE: exists = false; break;
-  }
+
+DONE:
 
   return exists;
 
 }
 
-Status LinuxOperatingSystem::GetFileInfo(String const &fullName, FileInfo &info) {
+Status LinuxOperatingSystem::GetFileInfo(String const &fullName, FileInfo &finfo) {
 
-  Status           status;
-  UShort           buf[PATH_MAX];
-  UInt             bufl;
-  WIN32_FIND_DATAW findData;
-  HANDLE           findHandle;
-  UInt             genCount;
-  UInt             natCount;
-  UShort          *tBuf;
+  Status       status;
+  struct stat  info;
 
-  info.Reset();
+  status = LinuxStat(fullName,info);
+  if (status) goto DONE;
 
-  // Invalid if not full path...
-	if (!IsFullPath(fullName)) goto NOTFULL;
-	
-  // Get the name into our local buf
-  status = LinuxW_FromString(fullName, buf, PATH_MAX, bufl);
-  if (status) goto SOMEERROR;
-  if (bufl) 
-    bufl--;
-    
-  // Convert to Native format if needed
-  natCount = fullName.Count('\\');
-  genCount = fullName.Count('/');
-  if (genCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '/') *tBuf = '\\';
+  finfo.name = String(fullName);
+  finfo.size = info.st_size;
+  finfo.creationTime = LinuxTimespecToTime(info.st_ctim);
+  finfo.accessTime   = LinuxTimespecToTime(info.st_atim);
+  finfo.updateTime   = LinuxTimespecToTime(info.st_mtim);
 
-  // Try finding it
-  findHandle = FindFirstFileW((LPCWSTR)buf, &findData);
-  if (findHandle == INVALID_HANDLE_VALUE) goto NOTEXIST;
-  FindClose(findHandle);
-
-  // Make sure it's a file
-  if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) goto ISNOTFILE;
-
-  // Populate the info
-  info.name = LinuxW_ToString((UShort *)findData.cFileName);
-  info.size = (ULong)findData.nFileSizeHigh;
-  info.size <<= 32;
-  info.size += (UInt)findData.nFileSizeLow;
-  // Note: These times MAY BE WRONG according to Microsoft...
-  //       So, we may need to change it to use GetFileInformationByHandle
-  //       (see notes at http://msdn.microsoft.com/en-us/library/windows/desktop/aa364418%28v=vs.85%29.aspx)
-  info.creationTime = LinuxFileTimeToTime(findData.ftCreationTime);
-  info.accessTime   = LinuxFileTimeToTime(findData.ftLastAccessTime);
-  info.updateTime   = LinuxFileTimeToTime(findData.ftLastWriteTime);
-
-  // Handle errors
-  status = Error::None;
-  while (false) {
-		NOTFULL:   status = Error::NotFullPath;        break;
-    NOTEXIST:  status = Error::FileDoesNotExist;   break;
-    ISNOTFILE: status = Error::FilePathIsNotFile;  break;
-    SOMEERROR:                                     break;
-  }
+DONE:
 
   return status;
 

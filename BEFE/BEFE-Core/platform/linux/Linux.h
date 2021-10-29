@@ -55,6 +55,7 @@ Boolean LinuxIsValidPathName(String const &fullpath);
 Boolean LinuxIsValidPathName(String const &fullpath);
 Status  LinuxPathSplit(String const &path, Strings &parts);
 Status  LinuxPathJoin(Strings const &parts, String &full);
+Time    LinuxTimespecToTime(struct timespec spec);
 
 // Network info
 //   implemented in win32utils.cpp
