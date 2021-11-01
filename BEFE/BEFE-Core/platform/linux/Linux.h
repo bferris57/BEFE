@@ -34,11 +34,11 @@ namespace BEFE { // Namespace BEFE...
 Time    LinuxTimespecToTime(struct timespec spec);
 Status  LinuxGetProcessExecutableName(String &thestring);
 Status  LinuxGetProcessExecutablePath(String &thestring);
-Long    LinuxGetPhysicalMemory();
-UInt    LinuxGetMemoryPageSize();
+ULong   LinuxGetPhysicalMemory(void);
+UInt    LinuxGetMemoryPageSize(void);
 Boolean LinuxMemoryIsReadable(void *addr);
 Boolean LinuxMemoryIsWritable(void *addr);
-Strings LinuxGetDeviceNames();
+Strings LinuxGetDeviceNames(void);
 Status  LinuxGetLogicalDrives(Strings &drives);
 Status  LinuxGetDeviceName(Int devno,String &name);
 Int     LinuxGetDeviceByName(Byte *buf, Int bufl);

@@ -160,9 +160,9 @@ Boolean LinuxMemoryIsWritable(void *addr) {
 // Device/Volume functions
 //
 
-Status LinuxGetVolumeNames(Strings &names) {
+Strings LinuxGetVolumeNames(void) {
 
-  return Error::NotImplemented;
+  return Strings();
 
 }
 
@@ -178,9 +178,9 @@ Status LinuxGetLogicalDrives(Strings &drives) {
 
 }
 
-Strings LinuxGetDeviceNames() {
+Strings LinuxGetDeviceNames(void) {
 
-  return Error::NotImplemented;
+  return Strings();
 
 }
 

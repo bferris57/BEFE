@@ -302,8 +302,8 @@ def main(args):
   else:
     #srcdir  = expand('~/usb_src/Movies')
     #dstdir  = expand('~/usb_dst/Movies')
-    srcdir  = expand('~/usb_src/bb/_Other')
-    dstdir  = expand('~/usb_dst/bb/_Other')
+    srcdir  = expand('~/VERBATIM/bb/_Fave')
+    dstdir  = expand('~/SD1TB/bb/_Fave')
     #srcdir  = expand('~/befe')
     #dstdir  = expand('~/sd1_dst/befe')
   if os.path.exists(srcdir) and not os.path.isdir(srcdir):
@@ -311,11 +311,11 @@ def main(args):
   if os.path.exists(dstdir) and not os.path.isdir(dstdir):
     error('<dstdir> %s is not a directory'%repr(dstdir))
 
-  #print('srcdir      = %s'%repr(srcdir))
-  #print('dstdir      = %s'%repr(dstdir))
-  #print('showperdent = %s'%repr(showpercent))
-  #print('overwrite   = %s'%repr(overwrite))
-  #print('maxfiles    = %d'%maxfiles)
+  print('srcdir      = %s'%repr(srcdir))
+  print('dstdir      = %s'%repr(dstdir))
+  print('showperdent = %s'%repr(showpercent))
+  print('overwrite   = %s'%repr(overwrite))
+  print('maxfiles    = %d'%maxfiles)
 
   #
   # Do it...
@@ -336,9 +336,12 @@ def main(args):
   green('Copying...')
   print('')
 
+  print("DEBUG: len(dirs) = %d"%len(dirs))
+
   for sdir in dirs:
 
     ddir = dstdir + sdir[len(srcdir):]
+    print("DEBUG: ddir = "+ddir)
     if not os.path.exists(ddir):
       os.makedirs(ddir,mode=0o777,exist_ok=True)
     if not os.path.exists(ddir):
@@ -347,14 +350,15 @@ def main(args):
 
     for sfile in map[sdir]:
       dfile = ddir + sfile
-      if ignore and os.path.exists(dfile): continue
+      if ignore and os.path.exists(dfile) and not overwrite: continue
       fname = os.path.basename(dfile)
       dname = dfile[:-len(fname)]
       print('    '+postEllipse(fname,80,fill='.')+'..',end='')
       sys.stdout.flush()
       sfile = sdir+sfile
       open(statefile,'w').write('WRITING %s\n'%repr(dfile))
-      result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=False,
+      print("DEBUG: sfile = %s"%repr(sfile))
+      result = copyOneFile(sfile,dfile,pretend=pretend,overwrite=overwrite,
                            showpercent=showpercent)
       if isinstance(result,Exception):
         error(str(result),exit=False)

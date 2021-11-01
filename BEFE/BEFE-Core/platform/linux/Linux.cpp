@@ -40,7 +40,19 @@ Time LinuxTimespecToTIme(struct timespec &spec) {
   return Time(val);
 
 }
-  
+
+ULong LinuxGetPhysicalMemory() {
+  return ULongNaN;
+}
+
+UInt LinuxGetMemoryPageSize() {
+  return getpagesize();
+}
+
+Strings LinuxGetDeviceNames(void) {
+  return Strings();
+}
+
 //----------------------------------------------------------------------
 //
 // Various file/path functions...
@@ -366,11 +378,11 @@ Status StartUp() {
 
   // Allocate everything
   theOS        = new LinuxOperatingSystem();
-  /*theConsole   =  new LinuxConsole(); */
-  /*thePlatform  =*/ new LinuxPlatform();
-  /*theProcess   =*/ new LinuxProcess();
-  /*theProcessor =*/ new LinuxProcessor();
-  /*theNetwork   =*/ new LinuxNetwork();
+  /*theConsole   =  new LinuxConsole();  */
+  /*thePlatform  = new LinuxPlatform();  */
+  /*theProcess   = new LinuxProcess();   */
+  /*theProcessor = new LinuxProcessor(); */
+  /*theNetwork   = new LinuxNetwork();   */
   
   TheBefe->TheGlobals.longs.StartTime = theOS->GetCurrentTime();  
 
