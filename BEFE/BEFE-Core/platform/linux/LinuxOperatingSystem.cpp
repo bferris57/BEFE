@@ -140,7 +140,7 @@ Boolean LinuxOperatingSystem::IsFile(String const &fName) {
   struct stat info;
 
   exists = false;
-  status = LinuxStat(fName,info);
+  status = LinuxStat(fName, &info);
   if (status) goto DONE;
   if (info.st_mode & S_IFREG)
     exists = true;
@@ -158,7 +158,7 @@ Boolean LinuxOperatingSystem::IsDirectory(String const &dirName) {
   struct stat  info;
   
   exists = false;
-  status = LinuxStat(dirName,info);
+  status = LinuxStat(dirName, &info);
   if (status) goto DONE;
   if (info.st_mode & S_IFDIR)
     exists = true;
@@ -176,7 +176,7 @@ Boolean LinuxOperatingSystem::IsDevice(String const &dname) {
   struct stat  info;
 
   exists = false;
-  status = LinuxStat(dname,info);
+  status = LinuxStat(dname, &info);
   if (status) goto DONE;
   if (info.st_mode & (S_IFBLK + S_IFCHR))
     exists = true;
@@ -196,7 +196,7 @@ Boolean LinuxOperatingSystem::Exists(String const &fileOrDirName) {
   struct stat  info;
 
   exists = false;
-  status = LinuxStat(fileOrDirName,info);
+  status = LinuxStat(fileOrDirName, &info);
   if (status) goto DONE;
   exists = true;
 
@@ -211,7 +211,7 @@ Status LinuxOperatingSystem::GetFileInfo(String const &fullName, FileInfo &finfo
   Status       status;
   struct stat  info;
 
-  status = LinuxStat(fullName,info);
+  status = LinuxStat(fullName, &info);
   if (status) goto DONE;
 
   finfo.name = String(fullName);

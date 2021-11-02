@@ -31,7 +31,7 @@ namespace BEFE { // Namespace BEFE...
 //
 //----------------------------------------------------------------------
 
-Time LinuxTimespecToTIme(struct timespec &spec) {
+Time LinuxTimespecToTIme(timespec &spec) {
 
   Long val;
 
@@ -51,6 +51,10 @@ UInt LinuxGetMemoryPageSize() {
 
 Strings LinuxGetDeviceNames(void) {
   return Strings();
+}
+
+String LinuxGetDeviceDescription(String &name) {
+  return String("*** LinuxGetDeviceDescription not implemented ***");
 }
 
 //----------------------------------------------------------------------
