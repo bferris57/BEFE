@@ -23,6 +23,7 @@
 #include "Time.h"
 
 #include <sys/time.h> // For gettimeofday()
+#include <time.h>     // For timespec
 #include <unistd.h>   // For various stuff
 #include <sys/stat.h> // For stat etc.
 #include "limits.h"   // For PATH_MAX
@@ -32,7 +33,7 @@ namespace BEFE { // Namespace BEFE...
 
 // General purpose
 //   implemented in Linux.cpp
-Time    LinuxTimespecToTime(timespec spec);
+Time    LinuxTimespecToTime(timespec &spec);
 Status  LinuxGetProcessExecutableName(String &thestring);
 Status  LinuxGetProcessExecutablePath(String &thestring);
 ULong   LinuxGetPhysicalMemory(void);

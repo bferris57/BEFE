@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
 #  coding=utf-8
 
-DaysPerLeapYear     = 366
-DaysPerNonLeapYear  = DaysPerLeapYear-1
-DaysPerQuadYear     = DaysPerLeapYear+3*DaysPerNonLeapYear
-DaysPerCentury      = 25*DaysPerQuadYear-1
-DaysPerQuadCentury  = 4*DaysPerCentury+1
+import os
 
-# For Gregorian epoch adjustment
-EpochDaysSince1600  = DaysPerQuadCentury
-EpochDaysSince1601  = EpochDaysSince1600-DaysPerLeapYear
-EpochDaysSince1970  = 7*DaysPerQuadYear+2*DaysPerNonLeapYear
-EpochDaysSince1996  = DaysPerQuadYear
+class ctx:
+  def __enter__(self):
+    print("ctx.__enter__()")
+  def __exit__(self,etype,eval,etb):
+    print("ctx.__exit__(%s)"%repr(etype))
 
-print('EpochDaysSince 1970 = %d'%EpochDaysSince1970)
+
+if __name__ == "__main__":
+
+  with ctx() as c:
+    print("Running...")
+
+  #f = '~/.bashrc'
+  #f = os.path.expanduser(f)
+  #with open(f) as a:
+  #  contents = a.readlines()
+  #  print('%s has %d lines'%(f,len(contents)))
 

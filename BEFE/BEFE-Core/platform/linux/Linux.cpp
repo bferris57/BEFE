@@ -31,7 +31,7 @@ namespace BEFE { // Namespace BEFE...
 //
 //----------------------------------------------------------------------
 
-Time LinuxTimespecToTIme(timespec &spec) {
+Time LinuxTimespecToTime(timespec &spec) {
 
   Long val;
 
@@ -469,6 +469,29 @@ void Free(Byte *theMem) {
 
   // For debugging...
   freeCounter++;
+
+}
+
+Byte *Memmove(Byte *dst, Byte *src, Int len) {
+
+  Byte *result;
+    
+  result = dst;
+  
+  if (!IsNull(dst) && !IsNull(src) && len > 0 && dst != src) {
+
+    // If overlap, copy in reverse...
+    if (dst >= src && dst < (src+len)) {
+      dst += len-1;
+      src += len-1;
+      while (len > 0) {*dst-- = *src--; len--;};
+    }
+    else 
+      while (len > 0) {*dst++ = *src++; len--;};
+
+  }
+
+  return result;
 
 }
 
