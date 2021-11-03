@@ -18,6 +18,8 @@
 #include "File.h"
 #include "Time.h"
 
+#include <iostream>
+
 namespace BEFE { // Namespace BEFE...
 
 //----------------------------------------------------------------------
