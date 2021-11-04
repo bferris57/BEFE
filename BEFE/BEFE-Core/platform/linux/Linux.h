@@ -28,12 +28,14 @@
 #include <sys/stat.h> // For stat etc.
 #include "limits.h"   // For PATH_MAX
 #include <cstring>    // For memcpy
+#include <errno.h>    // For errno
 
 namespace BEFE { // Namespace BEFE...
 
 // General purpose
 //   implemented in Linux.cpp
 Time    LinuxTimespecToTime(timespec &spec);
+Status  LinuxBytesFromString(String const &name, Byte *buf, UInt bufmax);
 Status  LinuxGetProcessExecutableName(String &thestring);
 Status  LinuxGetProcessExecutablePath(String &thestring);
 ULong   LinuxGetPhysicalMemory(void);

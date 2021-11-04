@@ -39,7 +39,7 @@ class LinuxFile : public File { // File Class...
   protected: String   name;           // File name
   protected: UInt     access;         // Access mode
   protected: UInt     fd;             // Open Linux File description
-  protected: UInt     lastError;      // Last OS error
+  protected: int      lastError;      // Last OS error
 
   // Current Size and position (only valid when open)
   protected: UInt     size;           // Current file size (in bytes)

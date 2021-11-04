@@ -57,6 +57,34 @@ String LinuxGetDeviceDescription(String &name) {
   return String("*** LinuxGetDeviceDescription not implemented ***");
 }
 
+Status LinuxBytesFromString(String const &name, Byte *buf, UInt bufMax) {
+
+  Status  status;
+  Byte   *tBuf;
+  UInt    tBufl;
+
+  if (!buf) goto BADPARM;
+
+  // Get the full name bytes
+  name._BufAndSize(tBuf, tBufl);
+  if (!tBuf || bufMax <= 1) goto BADNAME;
+  if (tBufl >= bufMax) goto TOOLONG;
+  if (tBufl)
+    memcpy(buf, tBuf, tBufl);
+  buf[tBufl] = 0x00;
+
+  // Handle errors
+  status = Error::None;
+  while (false) {
+    BADPARM:  status = Error::InvalidParameter;    break;
+    BADNAME:  status = Error::FileInvalidPathName; break;
+    TOOLONG:  status = Error::FileNameTooLong;     break;
+  }
+
+  return status;
+
+}
+
 //----------------------------------------------------------------------
 //
 // Various file/path functions...
@@ -70,10 +98,9 @@ Status LinuxStat(String const &dirName, struct stat *retInfo) {
 
   Status       status;
   Byte         buf[PATH_MAX];
-  UInt         bufl;
+  Byte        *tBuf;
   UInt         winCount;
   UInt         natCount;
-  Byte        *tBuf;
   struct stat  info;
   int          rc;
   
@@ -84,21 +111,18 @@ Status LinuxStat(String const &dirName, struct stat *retInfo) {
 	if (!LinuxIsFullPath(dirName)) goto BADNAME;
 	
   // Get the full name bytes
-  dirName._BufAndSize(tBuf,bufl);
-  if (!tBuf || !bufl) goto BADNAME;
-  if (bufl >= PATH_MAX) goto TOOLONG;
-  memcpy(buf, tBuf, bufl);
-  buf[bufl] = 0x00;
+  status = LinuxBytesFromString(dirName, buf, sizeof(buf));
     
   // Convert to Native format if needed
-  natCount = dirName.Count('/');
+  natCount = dirName.Count('/'); 
   winCount = dirName.Count('\\');
+  tBuf = buf;
   if (winCount && !natCount)
-    for (tBuf=buf; *tBuf; tBuf++) if (*tBuf == '\\') *tBuf = '/';
+    for (; *tBuf; tBuf++) if (*tBuf == '\\') *tBuf = '/';
   
   // Strip off trailing '/'
-  if (bufl && buf[bufl-1] == '/')
-    buf[bufl-1] = 0x00;
+  if (buf[0] && *(tBuf-1) == '/')
+    *(tBuf-1) = 0x00;
 
   // stat it...
   rc = stat((const char *)buf, &info);
