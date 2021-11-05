@@ -36,8 +36,8 @@ class LinuxFile : public File { // File Class...
   // Public Instance Members
   //
 
-  protected: String   name;           // File name
-  protected: UInt     access;         // Access mode
+  protected: String   name;           // File name   - Can't change when open
+  protected: UInt     access;         // Access mode - Can't change when open
   protected: UInt     fd;             // Open Linux File description
   protected: int      lastError;      // Last OS error
 

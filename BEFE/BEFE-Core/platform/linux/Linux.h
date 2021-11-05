@@ -29,6 +29,7 @@
 #include "limits.h"   // For PATH_MAX
 #include <cstring>    // For memcpy
 #include <errno.h>    // For errno
+#include <fcntl.h>    // For open, close, fcntl, etc.
 
 namespace BEFE { // Namespace BEFE...
 
