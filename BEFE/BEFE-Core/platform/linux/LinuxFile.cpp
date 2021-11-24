@@ -269,7 +269,6 @@ Status LinuxFile::Create() {
   int    access;
   Int    saveAccess;
   int    fd;
-  int    rc;
   mode_t mode;
 
   // Error if open...
@@ -331,9 +330,11 @@ Status LinuxFile::Create() {
   while (false) {
     TOOSHORT:  status = Error::FileNoName;           break;
     TOOLONG:   status = Error::FileNameTooLong;      break;
+    ISOPEN:    status = Error::FileAlreadyOpen;      break;
     ERRNO:     status = Error::OperatingSystemError;
                  lastError = errno;
                  break;
+    SOMEERROR: break;
     OK:        status = Error::None;                 break;
   }
 
@@ -344,10 +345,10 @@ Status LinuxFile::Create() {
 Status LinuxFile::Delete() {
 
   Status  status;
+  int     rc;
   Byte    fName[PATH_MAX];
   UInt    fNameLen;
   Int     saveAccess;
-  Boolean win32ok;
 
   // If it's already open, close it (turn off "transient" if it's set)
   if (IsOpen()) {
@@ -363,14 +364,14 @@ Status LinuxFile::Delete() {
     if (!Exists()) goto NOTEXIST;
 
   // Get the file name
-  status = LinuxW_FromString(name, fName, PATH_MAX, fNameLen);
+  status = LinuxBytesFromString(name, fName, PATH_MAX);
   if (status == Error::ValueTruncated) goto TOOLONG;
   if (status) goto SOMEERROR;
-  if (fNameLen <= 1) goto TOOSHORT;
+  if (fNameLen <=1) goto TOOSHORT;
 
   // Try deleting it
-  win32ok = DeleteFileW((LPCWSTR)fName);
-  if (!win32ok) goto DELETEFAILED;
+  rc = remove((char *)fName);
+  if (rc) goto DELETEFAILED;
 
   // Handle errors...
   status = Error::None;
@@ -380,7 +381,7 @@ Status LinuxFile::Delete() {
     TOOLONG:      status = Error::FileNameTooLong;  break;
     SOMEERROR:                                      break;
     DELETEFAILED: status = Error::FileDeleteFailed;
-                  lastError = GetLastError();
+                  lastError = errno;
                   break;
   }
 
