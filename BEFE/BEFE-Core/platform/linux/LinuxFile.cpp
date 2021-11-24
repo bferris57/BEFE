@@ -264,7 +264,7 @@ Boolean LinuxFile::Exists() const {
 Status LinuxFile::Create() {
 
   Status status;
-  char   fName[PATH_MAX];
+  Byte   fName[PATH_MAX];
   UInt   fNameLen;
   int    access;
   Int    saveAccess;
@@ -311,12 +311,12 @@ Status LinuxFile::Create() {
   mode  = O_APPEND;
   mode |= O_EXCL;
   mode |= O_RDWR;
-  fd = open(fName, access, mode);
+  fd = open((char *)fName, access, mode);
   if (fd < 0) goto ERRNO;
 
   if (fd > 0) {
     // Opened, close the handle
-    CloseHandle(hFile);
+    close(fd);
     fd   = 0;
     size = UNaN;
     pos  = UNaN;
@@ -332,7 +332,7 @@ Status LinuxFile::Create() {
     TOOSHORT:  status = Error::FileNoName;           break;
     TOOLONG:   status = Error::FileNameTooLong;      break;
     ERRNO:     status = Error::OperatingSystemError;
-                 lasterror = errno;
+                 lastError = errno;
                  break;
     OK:        status = Error::None;                 break;
   }
